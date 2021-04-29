@@ -6,6 +6,7 @@ const cpt = require('crypto')
 
 const DIR_TASKS="./tasks"
 const DIR_WORKSHOP="./workshop"
+const PATH_DATABASE="./database.json"
 //Enum
 enum Status {
     SUCCESS,ERROR
@@ -24,7 +25,17 @@ class Interface {
     payload:any
     unwarp():any{
         if(this.status===Status.ERROR){
-            throw this.payload
+            let text=this.payload as string
+            let spl=text.split(":")
+            if (spl.length<2){
+                console.log("Warning:Illegal ERROR tip:"+this.payload)
+                throw this.payload
+            }
+            if(spl[0]!=="Error"){
+                console.log("Warning:Unwrapped wrong ERROR tip:"+this.payload)
+                throw this.payload
+            }
+            throw spl[1]
         }else{
             return this.payload
         }
@@ -47,9 +58,15 @@ class Task {
     author:string //打包者名称
 
     paUrl:string //PortableApps网页链接
-    versionMatchRegex:string //用于匹配版本号的正则表达式
     requirement:Array<string> //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
 
+    constructor() {
+        this.name="Null"
+        this.category="Null"
+        this.author="Null"
+        this.paUrl="Null"
+        this.requirement=["Null"]
+    }
 }
 
 //数据库相关
@@ -83,7 +100,7 @@ function parseDownloadUrl(href:string):string {
     return encodeURI(href)
 }
 function find7zip():Interface {
-    let possiblePath=["C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe",'7zz',"7z","7za",]
+    let possiblePath=["C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe",'7zz.exe',"7z.exe","7za.exe",]
     let result=null
     for (let i in possiblePath) {
         if(fs.existsSync(possiblePath[i])){
@@ -117,7 +134,7 @@ function cleanWorkshop():boolean {
     return fs.existsSync(dst)
 }
 function readDatabase():any {
-    let dst="./database.json"
+    let dst=PATH_DATABASE
     if(!fs.existsSync(dst)){
         return {}
     }else{
@@ -125,7 +142,7 @@ function readDatabase():any {
     }
 }
 function saveDatabase(json:any) {
-    let dst="./database.json"
+    let dst=PATH_DATABASE
     if(fs.existsSync(dst)){
         if(fs.existsSync(dst+".bak")) fs.rmSync(dst+".bak")
         fs.renameSync(dst,dst+".bak")
@@ -144,15 +161,36 @@ function getTasks():Array<string> {
 }
 function readTaskConfig(name:string):Interface {
     let dir=DIR_TASKS+"/"+name
+
+    //判断Task文件夹合法性
     if(!fs.existsSync(dir+"/config.json")||!fs.existsSync(dir+"/make.cmd")){
         return new Interface({
             status:Status.ERROR,
             payload:"Warning:Skipping illegal task directory "+name
         })
     }
+
+    //解析Json
+    let json=JSON.parse(fs.readFileSync(dir+"/config.json").toString())
+
+    //检查Json文件健全性
+    let miss=null
+    for (let taskKey in new Task()) {
+        if(!json[taskKey]||json[taskKey]===null){
+            miss=taskKey
+            break
+        }
+    }
+    if(miss){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Warning:Skipping illegal task config "+name+",missing \""+miss+"\""
+        })
+    }
+
     return new Interface({
         status:Status.SUCCESS,
-        payload:JSON.parse(fs.readFileSync(dir+"/config.json").toString())
+        payload:json
     })
 }
 function matchVersion(text:string):Interface {
@@ -227,7 +265,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
             break
         }
     }
-    if(miss!==null){
+    if(miss){
         console.log("Warning:Miss "+miss+" in "+name+"'s workshop,skipping...")
         return false
     }
@@ -360,4 +398,4 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-runMakeScript("Chrome1")
+console.log(readTaskConfig("Chrome1"))

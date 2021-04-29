@@ -196,7 +196,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     fs.mkdirSync(dir+"/"+"build")
 
     //通过wget下载
-    console.log("Info:Start download "+name)
+    console.log("Info:Start downloading "+name)
     cp.execSync("wget -O target.exe "+url,{cwd:dir})
 
     //校验下载
@@ -213,19 +213,19 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     }
 
     //使用7-Zip解压至release文件夹
-    console.log("Info:Start extract "+name)
+    console.log("Info:Start extracting "+name)
     cp.execSync('\"'+p7zip+'\" e target.exe -orelease -y',{cwd:dir})
 
     //检查目录是否符合规范
     let miss=null
     for(let i in req){
-        let name=req[i]
-        if(!fs.existsSync(dir+"/"+name)) {
-            miss=name
+        let n=req[i]
+        if(!fs.existsSync(dir+"/release/"+n)) {
+            miss=n
             break
         }
     }
-    if(!miss){
+    if(miss!==null){
         console.log("Warning:Miss "+miss+" in "+name+"'s workshop,skipping...")
         return false
     }
@@ -233,6 +233,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     //复制make.cmd
     fs.copyFileSync(DIR_TASKS+"/"+name+"/make.cmd",dir+"/make.cmd")
 
+    console.log("Info:Workshop for "+name+" is ready")
     return true
 }
 
@@ -330,4 +331,5 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-getWorkDirReady("Chrome1","http://down1.xinshuru.com/installer/win/PalmInput_Setup.exe","7z","59122AC56F8147D63E0A9D2E40E9ABE8",["*.ico"])
+getWorkDirReady("Chrome1","http://down1.xinshuru.com/installer/win/PalmInput_Setup.exe","7z","59122AC56F8147D63E0A9D2E40E9ABE8",["1.ico","3.ico"])
+.then(res=>console.log(res))

@@ -2,6 +2,7 @@ const axios=require("axios")
 const fs=require("fs")
 const cheerio=require("cheerio")
 const cp=require('child_process')
+const cpt = require('crypto')
 
 const DIR_TASKS="./tasks"
 const DIR_WORKSHOP="./workshop"
@@ -62,6 +63,19 @@ class DatabaseNode{
 }
 
 //utils
+async function getMD5(filePath:string):Promise<string> {
+    return new Promise(resolve => {
+        let rs = fs.createReadStream(filePath)
+        let hash = cpt.createHash('md5')
+        let hex
+        rs.on('data', hash.update.bind(hash))
+        rs.on('end', function () {
+            hex = hash.digest('hex')
+            console.log('Info:MD5 is ' + hex)
+            resolve(hex)
+        })
+    })
+}
 function parseDownloadUrl(href:string):string {
     //识别根目录字符“/”
     if(href[0]==="/") href="https://portableapps.com"+href
@@ -174,8 +188,29 @@ function versionCmp(a:string,b:string):Cmp {
 
     return result
 }
-function getWorkDirReady(name:string,url:string,p7zip:string) {
+async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string):Promise<boolean> {
+    let dir=DIR_WORKSHOP+"/"+name
 
+    //创建目录，因为程序初始化时会将workshop目录重建
+    fs.mkdirSync(dir)
+    fs.mkdirSync(dir+"/"+"build")
+
+    //通过wget下载
+    console.log("Info:Start download "+name)
+    cp.execSync("wget -O target.exe "+url,{cwd:dir})
+
+    //校验下载
+    if(!fs.existsSync(dir+"/target.exe")){
+        console.error("Warning:Downloading "+name+" failed,skipping...")
+        return false
+    }
+
+    //校验md5
+
+
+    //使用7-Zip解压至release文件夹
+
+    return true
 }
 
 //scraper:PageInfo
@@ -272,4 +307,6 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-console.log(matchVersion("Version 1.7.21419 for Windows, Multilingual\n29MB download / 88MB installed"))
+getMD5("./workshop/Chrome/target.exe").then(res=>{
+    console.log(res)
+})

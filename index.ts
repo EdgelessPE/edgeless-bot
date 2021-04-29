@@ -206,10 +206,12 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     }
 
     //校验md5
-    let md5_calc=await getMD5(dir+"/target.exe")
-    if(md5.toLowerCase()!==md5_calc.toLowerCase()){
-        console.error("Warning:Task "+name+" 's MD5 checking failed,expected +"+md5+",got "+md5_calc+",skipping...")
-        return false
+    if(md5!==""){
+        let md5_calc=await getMD5(dir+"/target.exe")
+        if(md5.toLowerCase()!==md5_calc.toLowerCase()){
+            console.error("Warning:Task "+name+" 's MD5 checking failed,expected +"+md5+",got "+md5_calc+",skipping...")
+            return false
+        }
     }
 
     //使用7-Zip解压至release文件夹

@@ -1,6 +1,7 @@
 const axios=require("axios")
 const fs=require("fs")
 const cheerio=require("cheerio")
+const cp=require('child_process')
 //Enum
 enum Status {
     SUCCESS,ERROR
@@ -46,8 +47,59 @@ function parseDownloadUrl(href:string):string {
 
     return encodeURI(href)
 }
+function find7zip():Interface {
+    let possiblePath=['7z','7za','7zz',"C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe"]
+    let result=null
+    for (let i in possiblePath) {
+        if(fs.existsSync(possiblePath[i])){
+            result=possiblePath[i]
+            break
+        }
+    }
+    if(!result){
+        return {
+            status:Status.ERROR,
+            payload:"Error:7-Zip not found,please install 7-Zip from https://www.7-zip.org"
+        }
+    }else{
+        return {
+            status:Status.SUCCESS,
+            payload:result
+        }
+    }
+}
+function cleanWorkshop():boolean {
+    let dst="workshop"
+    if(fs.existsSync(dst)){
+        cp.execSync('del /f /s /q "'+dst+'"')
+        cp.execSync('rd /s /q "'+dst+'"')
+    }
+    if(fs.existsSync(dst)){
+        console.error("Error:Can't remove workshop,kill running processes and retry")
+        return false
+    }
+    fs.mkdirSync(dst)
+    return fs.existsSync(dst)
+}
+function readDatabase():any {
+    let dst="./database.json"
+    if(!fs.existsSync(dst)){
+        return {}
+    }else{
+        return JSON.parse(fs.readFileSync(dst).toString())
+    }
+}
+function saveDatabase(json:any) {
+    let dst="./database.json"
+    if(fs.existsSync(dst)){
+        if(fs.existsSync(dst+".bak")) fs.rmSync(dst+".bak")
+        fs.renameSync(dst,dst+".bak")
+    }
 
-//scraper
+    fs.writeFileSync(dst,JSON.stringify(json))
+}
+
+//scraper:PageInfo
 async function scrapePage(url):Promise<Interface>{
     //配置可识别的类名
     let validClassName=[".download-link",".download-info"]
@@ -122,18 +174,18 @@ async function scrapePage(url):Promise<Interface>{
 }
 
 //task processor
-async function processTask(task:Task) {
-
-}
+// async function processTask(task:Task):Promise<Interface> {
+//
+// }
 
 //main
-scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
-.then((res)=>{
-    if(res.status===Status.ERROR){
-        console.log(res.payload)
-    }else{
-        let pageInfo=res.payload as PageInfo
-        console.log(pageInfo.text)
-        console.log(pageInfo.href)
-    }
-})
+// scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
+// .then((res)=>{
+//     if(res.status===Status.ERROR){
+//         console.log(res.payload)
+//     }else{
+//         let pageInfo=res.payload as PageInfo
+//         console.log(pageInfo.text)
+//         console.log(pageInfo.href)
+//     }
+// })

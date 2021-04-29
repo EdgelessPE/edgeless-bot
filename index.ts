@@ -2,6 +2,9 @@ const axios=require("axios")
 const fs=require("fs")
 const cheerio=require("cheerio")
 const cp=require('child_process')
+
+const DIR_TASKS="./tasks"
+const DIR_WORKSHOP="./workshop"
 //Enum
 enum Status {
     SUCCESS,ERROR
@@ -85,7 +88,7 @@ function find7zip():Interface {
     }
 }
 function cleanWorkshop():boolean {
-    let dst="workshop"
+    let dst=DIR_WORKSHOP
     if(fs.existsSync(dst)){
         cp.execSync('del /f /s /q "'+dst+'"')
         cp.execSync('rd /s /q "'+dst+'"')
@@ -114,7 +117,28 @@ function saveDatabase(json:any) {
 
     fs.writeFileSync(dst,JSON.stringify(json))
 }
-
+function getTasks():Array<string> {
+    let dst=DIR_TASKS
+    let fileList=fs.readdirSync(dst)
+    let result=[]
+    fileList.forEach((item)=>{
+        if(fs.statSync(dst+"/"+item).isDirectory()) result.push(item)
+    })
+    return result
+}
+function readTaskConfig(name:string):Interface {
+    let dir=DIR_TASKS+"/"+name
+    if(!fs.existsSync(dir+"/config.json")||!fs.existsSync(dir+"/make.cmd")){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Warning:Skipping illegal task directory "+name
+        })
+    }
+    return new Interface({
+        status:Status.SUCCESS,
+        payload:JSON.parse(fs.readFileSync(dir+"/config.json").toString())
+    })
+}
 
 //scraper:PageInfo
 async function scrapePage(url):Promise<Interface>{
@@ -204,9 +228,10 @@ async function scrapePage(url):Promise<Interface>{
 // }
 
 //main
-scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
-.then((res)=>{
-    let pageInfo=res.unwarp() as PageInfo
-    console.log(pageInfo.text)
-    console.log(pageInfo.href)
-})
+// scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
+// .then((res)=>{
+//     let pageInfo=res.unwarp() as PageInfo
+//     console.log(pageInfo.text)
+//     console.log(pageInfo.href)
+// })
+console.log(readTaskConfig("Firefox1").unwarp())

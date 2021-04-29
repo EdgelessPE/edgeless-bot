@@ -188,7 +188,7 @@ function versionCmp(a:string,b:string):Cmp {
 
     return result
 }
-async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string):Promise<boolean> {
+async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,req:Array<string>):Promise<boolean> {
     let dir=DIR_WORKSHOP+"/"+name
 
     //创建目录，因为程序初始化时会将workshop目录重建
@@ -206,9 +206,32 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string):P
     }
 
     //校验md5
-
+    let md5_calc=await getMD5(dir+"/target.exe")
+    if(md5.toLowerCase()!==md5_calc.toLowerCase()){
+        console.error("Warning:Task "+name+" 's MD5 checking failed,expected +"+md5+",got "+md5_calc+",skipping...")
+        return false
+    }
 
     //使用7-Zip解压至release文件夹
+    console.log("Info:Start extract "+name)
+    cp.execSync('\"'+p7zip+'\" e target.exe -orelease -y',{cwd:dir})
+
+    //检查目录是否符合规范
+    let miss=null
+    for(let i in req){
+        let name=req[i]
+        if(!fs.existsSync(dir+"/"+name)) {
+            miss=name
+            break
+        }
+    }
+    if(!miss){
+        console.log("Warning:Miss "+miss+" in "+name+"'s workshop,skipping...")
+        return false
+    }
+
+    //复制make.cmd
+    fs.copyFileSync(DIR_TASKS+"/"+name+"/make.cmd",dir+"/make.cmd")
 
     return true
 }
@@ -307,6 +330,4 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-getMD5("./workshop/Chrome/target.exe").then(res=>{
-    console.log(res)
-})
+getWorkDirReady("Chrome1","http://down1.xinshuru.com/installer/win/PalmInput_Setup.exe","7z","59122AC56F8147D63E0A9D2E40E9ABE8",["*.ico"])

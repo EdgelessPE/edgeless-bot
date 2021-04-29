@@ -236,6 +236,17 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     console.log("Info:Workshop for "+name+" is ready")
     return true
 }
+function runMakeScript(name):boolean {
+    console.log("Info:Running make for "+name)
+    try{
+        cp.execSync("make.cmd",{cwd:DIR_WORKSHOP+"/"+name+"/release"})
+    }catch (e) {
+        console.log("Warning:Make error for "+name)
+        console.log(e.output.toString())
+        return false
+    }
+    console.log("Info:Finish making "+name)
+}
 
 //scraper:PageInfo
 async function scrapePage(url):Promise<Interface>{
@@ -331,5 +342,4 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-getWorkDirReady("Chrome1","http://down1.xinshuru.com/installer/win/PalmInput_Setup.exe","7z","59122AC56F8147D63E0A9D2E40E9ABE8",["1.ico","3.ico"])
-.then(res=>console.log(res))
+runMakeScript("Chrome1")

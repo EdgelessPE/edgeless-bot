@@ -2,18 +2,41 @@ const axios=require("axios")
 const fs=require("fs")
 const cheerio=require("cheerio")
 //Enum
-enum TypeStatus {
+enum Status {
     SUCCESS,ERROR
 }
 
-//Struct
+//Class
+//函数间通讯相关
 class Interface {
-    type:TypeStatus
+    status:Status
     payload:any
 }
 class PageInfo {
     text:string
     href:string
+}
+
+//任务配置信息
+class Task {
+    name:string //软件名（也作为任务名）
+    category:string //软件分类
+    author:string //打包者名称
+
+    paUrl:string //PortableApps网页链接
+    versionMatchRegex:string //用于匹配版本号的正则表达式
+    requirement:Array<string> //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
+
+}
+
+//数据库相关
+class BuildInfo{
+    version:string
+    name:string
+}
+class DatabaseNode{
+    latestVersion:string
+    builds:Array<BuildInfo>
 }
 
 //utils
@@ -41,7 +64,7 @@ async function scrapePage(url):Promise<Interface>{
     //判断dom_box是否有效
     if(!dom_box){
         return {
-            type:TypeStatus.ERROR,
+            status:Status.ERROR,
             payload:"Error:DOM_DOWNLOAD_BOX not found,can't scrape "+url
         }
     }
@@ -56,7 +79,7 @@ async function scrapePage(url):Promise<Interface>{
     //判断dom_node是否有效
     if(!dom_node.attr("class")){
         return {
-            type:TypeStatus.ERROR,
+            status:Status.ERROR,
             payload:"Error:Valid dom node not found,can't scrape "+url
         }
     }
@@ -81,7 +104,7 @@ async function scrapePage(url):Promise<Interface>{
     //校验结果是否有效
     if(!result.text||!result.href){
         return {
-            type:TypeStatus.ERROR,
+            status:Status.ERROR,
             payload:"Error:Null value caught in result,can't scrape "+url
         }
     }
@@ -93,15 +116,20 @@ async function scrapePage(url):Promise<Interface>{
     console.log("Info:Scraped successfully")
 
     return {
-        type:TypeStatus.SUCCESS,
+        status:Status.SUCCESS,
         payload:result
     }
+}
+
+//task processor
+async function processTask(task:Task) {
+
 }
 
 //main
 scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
 .then((res)=>{
-    if(res.type===TypeStatus.ERROR){
+    if(res.status===Status.ERROR){
         console.log(res.payload)
     }else{
         let pageInfo=res.payload as PageInfo

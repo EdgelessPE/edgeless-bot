@@ -9,10 +9,26 @@ enum Status {
 
 //Class
 //函数间通讯相关
-class Interface {
+class NaiveInterface {
     status:Status
     payload:any
 }
+class Interface {
+    status:Status
+    payload:any
+    unwarp():any{
+        if(this.status===Status.ERROR){
+            throw this.payload
+        }else{
+            return this.payload
+        }
+    }
+    constructor(config:NaiveInterface){
+        this.status=config.status
+        this.payload=config.payload
+    }
+}
+
 class PageInfo {
     text:string
     href:string
@@ -48,7 +64,7 @@ function parseDownloadUrl(href:string):string {
     return encodeURI(href)
 }
 function find7zip():Interface {
-    let possiblePath=['7z','7za','7zz',"C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe"]
+    let possiblePath=["C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe",'7zz',"7z","7za",]
     let result=null
     for (let i in possiblePath) {
         if(fs.existsSync(possiblePath[i])){
@@ -57,15 +73,15 @@ function find7zip():Interface {
         }
     }
     if(!result){
-        return {
-            status:Status.ERROR,
-            payload:"Error:7-Zip not found,please install 7-Zip from https://www.7-zip.org"
-        }
+        return new Interface({
+            status: Status.ERROR,
+            payload: "Error:7-Zip not found,please install 7-Zip from https://www.7-zip.org"
+        })
     }else{
-        return {
+        return new Interface({
             status:Status.SUCCESS,
             payload:result
-        }
+        })
     }
 }
 function cleanWorkshop():boolean {
@@ -99,6 +115,7 @@ function saveDatabase(json:any) {
     fs.writeFileSync(dst,JSON.stringify(json))
 }
 
+
 //scraper:PageInfo
 async function scrapePage(url):Promise<Interface>{
     //配置可识别的类名
@@ -115,10 +132,10 @@ async function scrapePage(url):Promise<Interface>{
 
     //判断dom_box是否有效
     if(!dom_box){
-        return {
+        return new Interface({
             status:Status.ERROR,
             payload:"Error:DOM_DOWNLOAD_BOX not found,can't scrape "+url
-        }
+        })
     }
 
     //获取有效节点
@@ -130,10 +147,10 @@ async function scrapePage(url):Promise<Interface>{
 
     //判断dom_node是否有效
     if(!dom_node.attr("class")){
-        return {
+        return new Interface({
             status:Status.ERROR,
             payload:"Error:Valid dom node not found,can't scrape "+url
-        }
+        })
     }
     console.log("Info:Get valid dom node whose class is \""+dom_node.attr("class")+"\"")
 
@@ -155,10 +172,10 @@ async function scrapePage(url):Promise<Interface>{
 
     //校验结果是否有效
     if(!result.text||!result.href){
-        return {
+        return new Interface({
             status:Status.ERROR,
             payload:"Error:Null value caught in result,can't scrape "+url
-        }
+        })
     }
 
     //处理href
@@ -167,10 +184,10 @@ async function scrapePage(url):Promise<Interface>{
     //输出提示
     console.log("Info:Scraped successfully")
 
-    return {
+    return new Interface({
         status:Status.SUCCESS,
         payload:result
-    }
+    })
 }
 
 //task processor
@@ -179,13 +196,13 @@ async function scrapePage(url):Promise<Interface>{
 // }
 
 //main
-// scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
-// .then((res)=>{
-//     if(res.status===Status.ERROR){
-//         console.log(res.payload)
-//     }else{
-//         let pageInfo=res.payload as PageInfo
-//         console.log(pageInfo.text)
-//         console.log(pageInfo.href)
-//     }
-// })
+scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
+.then((res)=>{
+    if(res.status===Status.ERROR){
+        console.log(res.payload)
+    }else{
+        let pageInfo=res.payload as PageInfo
+        console.log(pageInfo.text)
+        console.log(pageInfo.href)
+    }
+})

@@ -1,0 +1,12 @@
+{
+  "name": "edgeless-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Cnotech/edgeless-bot.git",
+  "author": "Cno",
+  "license": "MPL2.0",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "xml2js": "^0.4.23"
+  }
+}

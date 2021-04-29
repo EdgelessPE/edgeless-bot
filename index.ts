@@ -246,6 +246,22 @@ function runMakeScript(name):boolean {
         return false
     }
     console.log("Info:Finish making "+name)
+
+    //校验目录可靠性
+    let dirFiles=fs.readdirSync(DIR_WORKSHOP+"/"+name+"/build")
+    let miss=true
+    for (let i in dirFiles) {
+        if(dirFiles[i].match(".wcs")||dirFiles[i].match(".cmd")){
+            miss=false
+            break
+        }
+    }
+    if(miss){
+        console.log("Warning:Illegal directory build from "+name+",skipping...")
+        return false
+    }
+
+    return true
 }
 
 //scraper:PageInfo

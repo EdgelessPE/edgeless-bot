@@ -9,7 +9,9 @@ const DIR_WORKSHOP="./workshop"
 enum Status {
     SUCCESS,ERROR
 }
-
+enum Cmp{
+    L,E,G
+}
 //Class
 //函数间通讯相关
 class NaiveInterface {
@@ -139,6 +141,41 @@ function readTaskConfig(name:string):Interface {
         payload:JSON.parse(fs.readFileSync(dir+"/config.json").toString())
     })
 }
+function matchVersion(text:string,regex:string):Interface {
+    let matchRes=text.match(regex)
+    if(!matchRes||matchRes.length===0){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Matched nothing when looking into \""+text+"\" with \""+regex+"\""
+        })
+    }else if(matchRes.length>1){
+        console.log("Warning:Matched more than 1 result when looking into \""+text+"\" with \""+regex+"\"")
+    }
+    return new Interface({
+        status:Status.SUCCESS,
+        payload:matchRes[0]
+    })
+}
+function versionCmp(a:string,b:string):Cmp {
+    let x=a.split(".")
+    let y=b.split(".")
+    let result:Cmp=Cmp.E
+
+    for (let i=0;i<Math.min(x.length,y.length);i++){
+        if(Number(x[i])<Number(y[i])){
+            result=Cmp.L
+            break
+        }else if(Number(x[i])>Number(y[i])){
+            result=Cmp.G
+            break
+        }
+    }
+
+    return result
+}
+function getWorkDirReady(name:string,url:string,p7zip:string) {
+
+}
 
 //scraper:PageInfo
 async function scrapePage(url):Promise<Interface>{
@@ -234,4 +271,4 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-console.log(readTaskConfig("Firefox1").unwarp())
+console.log(matchVersion("Edgeless_Beta_3.1.0.iso and Edgeless_Beta_3.2.0","^Edgeless.*iso$"))

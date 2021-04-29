@@ -122,7 +122,15 @@ async function scrapePage(url):Promise<Interface>{
     let validClassName=[".download-link",".download-info"]
 
     //获取HTML信息并挂载
-    let res=await axios.get(url)
+    let res
+    try {
+        res=await axios.get(url)
+    }catch (err){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Http status code abnormal,can't scrape "+url+" ,message:"+err.message
+        })
+    }
 
     //挂载HTML
     let $ = cheerio.load(res.data)
@@ -198,11 +206,7 @@ async function scrapePage(url):Promise<Interface>{
 //main
 scrapePage("https://portableapps.com/apps/music_video/potplayer-portable")
 .then((res)=>{
-    if(res.status===Status.ERROR){
-        console.log(res.payload)
-    }else{
-        let pageInfo=res.payload as PageInfo
-        console.log(pageInfo.text)
-        console.log(pageInfo.href)
-    }
+    let pageInfo=res.unwarp() as PageInfo
+    console.log(pageInfo.text)
+    console.log(pageInfo.href)
 })

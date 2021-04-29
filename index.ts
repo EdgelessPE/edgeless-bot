@@ -141,7 +141,8 @@ function readTaskConfig(name:string):Interface {
         payload:JSON.parse(fs.readFileSync(dir+"/config.json").toString())
     })
 }
-function matchVersion(text:string,regex:string):Interface {
+function matchVersion(text:string):Interface {
+    let regex=/\d+.\d+(.\d+)*/
     let matchRes=text.match(regex)
     if(!matchRes||matchRes.length===0){
         return new Interface({
@@ -271,4 +272,4 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-console.log(matchVersion("Edgeless_Beta_3.1.0.iso and Edgeless_Beta_3.2.0","^Edgeless.*iso$"))
+console.log(matchVersion("Version 1.7.21419 for Windows, Multilingual\n29MB download / 88MB installed"))

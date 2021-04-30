@@ -236,10 +236,10 @@ function beforeRunCheck():boolean{
     return true
 }
 function cleanWorkshop():boolean {
-    let dst=DIR_WORKSHOP
+    let dst=DIR_WORKSHOP.substring(2)
     if(fs.existsSync(dst)){
-        cp.execSync('del /f /s /q "'+dst+'"')
-        cp.execSync('rd /s /q "'+dst+'"')
+        cp.execSync('del /f /s /q '+dst)
+        cp.execSync('rd /s /q '+dst)
     }
     if(fs.existsSync(dst)){
         log("Error:Can't remove workshop,kill running processes and retry")
@@ -342,7 +342,12 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
 
     //通过wget下载
     log("Info:Start downloading "+name)
-    cp.execSync("wget -O target.exe "+url,{cwd:dir})
+    try{
+        cp.execSync("wget -O target.exe "+url,{cwd:dir})
+    }catch (e) {
+        log("Warning:Downloading "+name+" failed,skipping...")
+        return false
+    }
 
     //校验下载
     if(!fs.existsSync(dir+"/target.exe")){
@@ -361,7 +366,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
 
     //使用7-Zip解压至release文件夹
     log("Info:Start extracting "+name)
-    cp.execSync('\"'+p7zip+'\" e target.exe -orelease -y',{cwd:dir})
+    cp.execSync('\"'+p7zip+'\" x target.exe -orelease -y',{cwd:dir})
 
     //检查目录是否符合规范
     let miss=null
@@ -386,7 +391,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
 function runMakeScript(name:string):boolean {
     log("Info:Running make for "+name)
     try{
-        cp.execSync("make.cmd",{cwd:DIR_WORKSHOP+"/"+name+"/release"})
+        cp.execSync("make.cmd",{cwd:DIR_WORKSHOP+"/"+name})
     }catch (e) {
         log("Warning:Make error for "+name+",skipping...")
         console.log(e.output.toString())
@@ -420,9 +425,9 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
     let dir=DIR_WORKSHOP+"/"+name
     let repo=DIR_BUILDS+"/"+category
     //压缩build文件夹内容
-    cp.execSync(p7zip+" a \""+zname+"\" *",{cwd:dir})
+    cp.execSync("\""+p7zip+"\" a \""+zname+"\" *",{cwd:dir+"/build"})
     //检查压缩是否成功
-    if(!fs.existsSync(dir+"/"+zname)){
+    if(!fs.existsSync(dir+"/build/"+zname)){
         return new Interface({
             status:Status.ERROR,
             payload:"Error:Compress "+zname+" failed,skipping..."
@@ -430,7 +435,8 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
     }
     //移动至编译仓库
     if(!fs.existsSync(repo)) fs.mkdirSync(repo)
-    cp.execSync("move /y \""+dir+"/"+zname+"\" \""+repo+"/"+zname+"\"")
+    let moveCmd="move /y \""+dir+"/build/"+zname+"\" \""+repo+"/"+zname+"\""
+    cp.execSync(moveCmd.replace(/\//g,"\\"))
     //删除过旧的编译版本
     if(database.builds.length>MAX_BUILDS){
         database=removeExtraBuilds(database,repo)
@@ -585,9 +591,19 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
                 })
                 break
             }
+            let BAD_database:DatabaseNode
+            try{
+                BAD_database=buildAndDeliver(task.name,version,task.author,task.category,p7zip,database).unwarp()
+            }catch (e) {
+                ret=new Interface({
+                    status:Status.ERROR,
+                    payload:"Warning:Can't build or deliever "+task.name+",skipping..."
+                })
+                break
+            }
             ret = new Interface({
                 status:Status.SUCCESS,
-                payload:buildAndDeliver(task.name,version,task.author,task.category,p7zip,database).unwarp()
+                payload:BAD_database
             })
             break
         case Cmp.G:
@@ -649,11 +665,13 @@ async function main() {
         //执行task
         let iPT=await processTask(taskConfig,dbNode,p7zip)
         if(iPT.status===Status.ERROR){
-            log("Warning:Can't run task "+taskName+",skipping...")
+            log("Warning:Can't run task "+taskName+" for reason "+iPT.payload+",skipping...")
             failureTasks.push(taskName)
         }else{
             //task运行成功
             log("Info:Task "+taskName+" executed successfully")
+            //写入数据库
+            DB[taskName]=iPT.payload
         }
     }
 
@@ -663,6 +681,9 @@ async function main() {
     }else{
         log("Warning:"+failureTasks.length+" tasks failed:"+failureTasks.toString()+",exit")
     }
+
+    //写数据库
+    saveDatabase(DB)
 }
 
 main().catch((e)=>{

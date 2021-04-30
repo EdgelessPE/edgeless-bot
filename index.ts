@@ -191,12 +191,8 @@ function removeExtraBuilds(database:DatabaseNode,repo:string,category:string):Da
         let target=database.builds.pop()
         log("Info:Remove extra build "+repo+"/"+target.name)
         fs.unlinkSync(repo+"/"+target.name)
-        let remotePath=REMOTE_ROOT+"/"+category+"/"+target.name
-        try{
-            cp.execSync("rclone delete "+REMOTE_NAME+":"+remotePath)
-        }catch (err) {
-            console.log(err.output.toString())
-            log("Warning:Fail to delete extra build "+REMOTE_NAME+":"+remotePath)
+        if(!deleteFromRemote(target.name,category)){
+            log("Warning:Fail to delete extra build "+target.name)
         }
     }
 

@@ -502,6 +502,7 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
     let dir=DIR_WORKSHOP+"/"+name
     let repo=DIR_BUILDS+"/"+category
     //压缩build文件夹内容
+    log("Info:Start compressing")
     try{
         cp.execSync("\""+p7zip+"\" a \""+zname+"\" *",{cwd:dir+"/build"})
     }catch (err) {
@@ -784,7 +785,6 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
 } //Interface:DatabaseNode
 
 //main
-//TODO 优化打印
 async function main() {
     //初始化
     log("Info:Launching...")
@@ -834,7 +834,7 @@ async function main() {
     }
 
     //总结
-    console.log("\n")
+    console.log("==================================")
     if(failureTasks.length===0){
         log("Info:All tasks are executed successfully,exit")
     }else{
@@ -845,5 +845,4 @@ async function main() {
     saveDatabase(DB)
 }
 
-//main().catch((e)=>{throw e})
-scrapePage("https://portableapps.com/apps/internet/firefox_portable",true)
+main().catch((e)=>{throw e})

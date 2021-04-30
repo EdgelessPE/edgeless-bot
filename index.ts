@@ -5,14 +5,40 @@ const cp=require('child_process')
 const cpt = require('crypto')
 const chalk = require('chalk')
 
-//TODO 放到config.json中
-const DIR_TASKS="./tasks"
-const DIR_WORKSHOP="./workshop"
-const DIR_BUILDS="./builds"
-const PATH_DATABASE="./database.json"
-const MAX_BUILDS=3
-const REMOTE_NAME="pineapple"
-const REMOTE_ROOT="/hdisk/edgeless/插件包"
+//默认配置
+let config:Config={
+    DIR_TASKS:"./tasks",
+    DIR_WORKSHOP:"./workshop",
+    DIR_BUILDS:"./builds",
+    PATH_DATABASE:"./database.json",
+    MAX_BUILDS:3,
+    DISABLE_UPLOAD:false,
+    REMOTE_NAME:"pineapple",
+    REMOTE_ROOT:"/hdisk/edgeless/插件包",
+}
+//读取配置
+if(fs.existsSync("./config.json")){
+    let json=JSON.parse(fs.readFileSync("./config.json"))
+    for (let jsonKey in json) {
+        if(config.hasOwnProperty(jsonKey)){
+            log("Info:Load config "+jsonKey+":"+json[jsonKey])
+            config[jsonKey]=json[jsonKey]
+        }else{
+            log("Warning:Invalid config key "+jsonKey)
+        }
+    }
+}else{
+    log("Warning:config.json not found,program may won't run properly")
+}
+
+const DIR_TASKS=config.DIR_TASKS
+const DIR_WORKSHOP=config.DIR_WORKSHOP
+const DIR_BUILDS=config.DIR_BUILDS
+const PATH_DATABASE=config.PATH_DATABASE
+const MAX_BUILDS=config.MAX_BUILDS
+const DISABLE_UPLOAD=config.DISABLE_UPLOAD
+const REMOTE_NAME=config.REMOTE_NAME
+const REMOTE_ROOT=config.REMOTE_ROOT
 
 //Enum
 enum Status {
@@ -22,6 +48,18 @@ enum Cmp{
     L,E,G
 }
 //Class
+//常量配置
+class Config{
+    DIR_TASKS:string
+    DIR_WORKSHOP:string
+    DIR_BUILDS:string
+    PATH_DATABASE:string
+    MAX_BUILDS:number
+    DISABLE_UPLOAD:boolean
+    REMOTE_NAME:string
+    REMOTE_ROOT:string
+}
+
 //函数间通讯相关
 class NaiveInterface {
     status:Status
@@ -113,7 +151,7 @@ function log(text:string){
             console.log(chalk.red("Error ")+inf)
             break
         default:
-            console.log(chalk.yellow("Warning")+" Illegal message detected")
+            console.log(chalk.yellow("Warning ")+"Illegal message detected")
             console.log(text)
     }
 }
@@ -291,7 +329,7 @@ function find7zip():Interface {
     if(!result){
         return new Interface({
             status: Status.ERROR,
-            payload: "Error:7-Zip not found,please install 7-Zip from https://www.7-zip.org"
+            payload: "Error:7-Zip not found,please install 7-Zip from https://www.7-zip.org or put 7z/7zz/7za.exe in project folder"
         })
     }else{
         return new Interface({
@@ -500,11 +538,13 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
         name:zname
     })
     //上传编译版本
-    if(!uploadToRemote(zname,category)){
-        return new Interface({
-            status:Status.ERROR,
-            payload:"Error:Can't upload file "+zname
-        })
+    if(!DISABLE_UPLOAD){
+        if(!uploadToRemote(zname,category)){
+            return new Interface({
+                status:Status.ERROR,
+                payload:"Error:Can't upload file "+zname
+            })
+        }
     }
     
     return new Interface({

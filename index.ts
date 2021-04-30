@@ -153,7 +153,7 @@ function cleanWorkshop():boolean {
         cp.execSync('rd /s /q "'+dst+'"')
     }
     if(fs.existsSync(dst)){
-        console.error("Error:Can't remove workshop,kill running processes and retry")
+        log("Error:Can't remove workshop,kill running processes and retry")
         return false
     }
     fs.mkdirSync(dst)
@@ -225,7 +225,7 @@ function matchVersion(text:string):Interface {
     if(!matchRes||matchRes.length===0){
         return new Interface({
             status:Status.ERROR,
-            payload:"Error:Matched nothing when looking into \""+text+"\" with \""+regex+"\""
+            payload:"Warning:Matched nothing when looking into \""+text+"\" with \""+regex+"\",skipping..."
         })
     }else if(matchRes.length>1){
         log("Warning:Matched more than 1 result when looking into \""+text+"\" with \""+regex+"\"")
@@ -265,7 +265,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
 
     //校验下载
     if(!fs.existsSync(dir+"/target.exe")){
-        console.error("Warning:Downloading "+name+" failed,skipping...")
+        log("Warning:Downloading "+name+" failed,skipping...")
         return false
     }
 
@@ -273,7 +273,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     if(md5!==""){
         let md5_calc=await getMD5(dir+"/target.exe")
         if(md5.toLowerCase()!==md5_calc.toLowerCase()){
-            console.error("Warning:Task "+name+" 's MD5 checking failed,expected +"+md5+",got "+md5_calc+",skipping...")
+            log("Warning:Task "+name+" 's MD5 checking failed,expected +"+md5+",got "+md5_calc+",skipping...")
             return false
         }
     }
@@ -307,7 +307,7 @@ function runMakeScript(name:string):boolean {
     try{
         cp.execSync("make.cmd",{cwd:DIR_WORKSHOP+"/"+name+"/release"})
     }catch (e) {
-        log("Warning:Make error for "+name)
+        log("Warning:Make error for "+name+",skipping...")
         console.log(e.output.toString())
         return false
     }
@@ -378,6 +378,7 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
     try{
         cp.execSync("scp -p "+serverPort+" \""+zname+"\" "+serverUser+"@"+serverIP+":"+serverDir+"/"+category,{cwd:repo})
     }catch(err){
+        console.log(err.output.toString())
         return new Interface({
             status:Status.ERROR,
             payload:"Error:Uploading "+zname+" failed"
@@ -416,7 +417,7 @@ async function scrapePage(url):Promise<Interface>{
     if(!dom_box){
         return new Interface({
             status:Status.ERROR,
-            payload:"Error:DOM_DOWNLOAD_BOX not found,can't scrape "+url
+            payload:"Warning:DOM_DOWNLOAD_BOX not found,can't scrape "+url+",skipping..."
         })
     }
 
@@ -431,7 +432,7 @@ async function scrapePage(url):Promise<Interface>{
     if(!dom_node.attr("class")){
         return new Interface({
             status:Status.ERROR,
-            payload:"Error:Valid dom node not found,can't scrape "+url
+            payload:"Warning:Valid dom node not found,can't scrape "+url+",skipping..."
         })
     }
     log("Info:Get valid dom node whose class is \""+dom_node.attr("class")+"\"")
@@ -456,7 +457,7 @@ async function scrapePage(url):Promise<Interface>{
     if(!result.text||!result.href){
         return new Interface({
             status:Status.ERROR,
-            payload:"Error:Null value caught in result,can't scrape "+url
+            payload:"Warning:Null value caught in result,can't scrape "+url
         })
     }
 

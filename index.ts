@@ -12,6 +12,9 @@ const DIR_WORKSHOP="./workshop"
 const DIR_BUILDS="./builds"
 const PATH_DATABASE="./database.json"
 const MAX_BUILDS=3
+const REMOTE_NAME="pineapple"
+const REMOTE_ROOT="/hdisk/edgeless/插件包"
+
 //Enum
 enum Status {
     SUCCESS,ERROR
@@ -33,14 +36,17 @@ class Interface {
             let text=this.payload as string
             let spl=text.split(":")
             if (spl.length<2){
-                log("Warning:Illegal ERROR tip:"+this.payload)
-                throw this.payload
+                log("Warning:Caught illegal ERROR tip by unwarp()")
+                log("Error:"+text)
+                throw "EXIT"
             }
             if(spl[0]!=="Error"){
-                log("Warning:Unwrapped wrong ERROR tip:"+this.payload)
-                throw this.payload
+                log("Warning:Expected ERROR tip,got "+spl[0]+" by unwarp()")
+                log("Error:"+text.substring(spl[0].length+1))
+                throw "EXIT"
             }
-            throw text.substring(spl[0].length+1)
+            log(text)
+            throw "EXIT"
         }else{
             return this.payload
         }
@@ -139,8 +145,6 @@ function matchVersion(text:string):Interface {
             status:Status.ERROR,
             payload:"Warning:Matched nothing when looking into \""+text+"\" with \""+regex+"\",skipping..."
         })
-    }else if(matchRes.length>1){
-        log("Warning:Matched more than 1 result when looking into \""+text+"\" with \""+regex+"\"")
     }
     return new Interface({
         status:Status.SUCCESS,
@@ -177,7 +181,7 @@ function versionCmp(a:string,b:string):Cmp {
 
     return result
 }
-function removeExtraBuilds(database:DatabaseNode,repo:string):DatabaseNode{
+function removeExtraBuilds(database:DatabaseNode,repo:string,category:string):DatabaseNode{
     //builds降序排列
     database.builds.sort((a,b)=>{
         return 1-versionCmp(a.version,b.version)
@@ -187,9 +191,41 @@ function removeExtraBuilds(database:DatabaseNode,repo:string):DatabaseNode{
         let target=database.builds.pop()
         log("Info:Remove extra build "+repo+"/"+target.name)
         fs.unlinkSync(repo+"/"+target.name)
+        let remotePath=REMOTE_ROOT+"/"+category+"/"+target.name
+        try{
+            cp.execSync("rclone delete "+REMOTE_NAME+":"+remotePath)
+        }catch (err) {
+            console.log(err.output.toString())
+            log("Warning:Fail to delete extra build "+REMOTE_NAME+":"+remotePath)
+        }
     }
 
     return database
+}
+
+//remote
+function uploadToRemote(zname:string,category:string):boolean {
+    let localPath=DIR_BUILDS+"/"+category+"/"+zname
+    let remotePath=REMOTE_ROOT+"/"+category
+    
+    try{
+        cp.execSync("rclone copy \""+localPath+"\" "+REMOTE_NAME+":"+remotePath)
+    }catch (err) {
+        console.log(err.output.toString())
+        return false
+    }
+    return true
+}
+function deleteFromRemote(zname:string,category:string):boolean {
+    let remotePath=REMOTE_ROOT+"/"+category+"/"+zname
+
+    try{
+        cp.execSync("rclone delete "+REMOTE_NAME+":"+remotePath)
+    }catch (err) {
+        console.log(err.output.toString())
+        return false
+    }
+    return true
 }
 
 //init
@@ -217,8 +253,8 @@ function beforeRunCheck():boolean{
     //检查命令可用性
     let cmdList:Array<any> = [
         {
-            cmd:"scp",
-            hint:"openssh"
+            cmd:"rclone",
+            hint:"rclone"
         },
         {
             cmd:"wget",
@@ -416,16 +452,18 @@ function runMakeScript(name:string):boolean {
     return true
 }
 function buildAndDeliver(name:string,version:string,author:string,category:string,p7zip:string,database:DatabaseNode):Interface{
-    let serverIP="pineapple.edgeless.top"
-    let serverPort="1000"
-    let serverDir="/hdisk/edgeless/插件包"
-    let serverUser="root"
-
     let zname=name+"_"+version+"_"+author+"（bot）.7z"
     let dir=DIR_WORKSHOP+"/"+name
     let repo=DIR_BUILDS+"/"+category
     //压缩build文件夹内容
-    cp.execSync("\""+p7zip+"\" a \""+zname+"\" *",{cwd:dir+"/build"})
+    try{
+        cp.execSync("\""+p7zip+"\" a \""+zname+"\" *",{cwd:dir+"/build"})
+    }catch (err) {
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Compress "+zname+" failed,skipping..."
+        })
+    }
     //检查压缩是否成功
     if(!fs.existsSync(dir+"/build/"+zname)){
         return new Interface({
@@ -433,13 +471,31 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
             payload:"Error:Compress "+zname+" failed,skipping..."
         })
     }
+    log("Info:Compressed successfully")
+
     //移动至编译仓库
     if(!fs.existsSync(repo)) fs.mkdirSync(repo)
-    let moveCmd="move /y \""+dir+"/build/"+zname+"\" \""+repo+"/"+zname+"\""
-    cp.execSync(moveCmd.replace(/\//g,"\\"))
+    let moveCmd="move \""+dir+"/build/"+zname+"\" \""+repo+"/"+zname+"\""
+    moveCmd=moveCmd.replace(/\//g,"\\")
+    try{
+        cp.execSync(moveCmd)
+    }catch (err) {
+        console.log(err.output.toString())
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Can't move with command:"+moveCmd
+        })
+    }
+    if(!fs.existsSync(repo+"/"+zname)){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Can't move with command:"+moveCmd
+        })
+    }
+
     //删除过旧的编译版本
     if(database.builds.length>MAX_BUILDS){
-        database=removeExtraBuilds(database,repo)
+        database=removeExtraBuilds(database,repo,category)
     }
     //记录数据库
     database.latestVersion=version
@@ -448,13 +504,10 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
         name:zname
     })
     //上传编译版本
-    try{
-        cp.execSync("scp -p "+serverPort+" \""+zname+"\" "+serverUser+"@"+serverIP+":"+serverDir+"/"+category,{cwd:repo})
-    }catch(err){
-        console.log(err.output.toString())
+    if(!uploadToRemote(zname,category)){
         return new Interface({
             status:Status.ERROR,
-            payload:"Error:Uploading "+zname+" failed"
+            payload:"Error:Can't upload file "+zname
         })
     }
     
@@ -550,6 +603,8 @@ async function scrapePage(url):Promise<Interface>{
 //task processor
 //Interface:DatabaseNode
 async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise<Interface> {
+    log("Info:Start processing "+task.name)
+
     //抓取页面信息
     let iScrape=await scrapePage(task.paUrl)
     if(iScrape.status===Status.ERROR) {
@@ -595,9 +650,10 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
             try{
                 BAD_database=buildAndDeliver(task.name,version,task.author,task.category,p7zip,database).unwarp()
             }catch (e) {
+                console.log(JSON.stringify(e))
                 ret=new Interface({
                     status:Status.ERROR,
-                    payload:"Warning:Can't build or deliever "+task.name+",skipping..."
+                    payload:"Warning:Can't build or deliver "+task.name+",skipping..."
                 })
                 break
             }
@@ -665,7 +721,7 @@ async function main() {
         //执行task
         let iPT=await processTask(taskConfig,dbNode,p7zip)
         if(iPT.status===Status.ERROR){
-            log("Warning:Can't run task "+taskName+" for reason "+iPT.payload+",skipping...")
+            log(iPT.payload)
             failureTasks.push(taskName)
         }else{
             //task运行成功
@@ -686,6 +742,4 @@ async function main() {
     saveDatabase(DB)
 }
 
-main().catch((e)=>{
-    throw e
-})
+main().catch((e)=>{throw e})

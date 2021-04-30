@@ -97,6 +97,10 @@ class Interface {
 class PageInfo {
     text:string
     href:string
+    md5:string
+    constructor() {
+        this.md5=""
+    }
 }
 
 //任务配置信息
@@ -561,10 +565,10 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
     })
 } //Interface:DatabaseNode
 
-//scraper
-async function scrapePage(url):Promise<Interface>{
-    //从本地读取HTML选项
-    let useFS=false
+//scraper,enable useFS when debugging that the function will load page ./1.html
+async function scrapePage(url:string,useFS:boolean):Promise<Interface>{
+
+    let result=new PageInfo()
 
     //配置可识别的类名
     let validClassName=[".download-link",".download-info"]
@@ -611,8 +615,19 @@ async function scrapePage(url):Promise<Interface>{
     }
     log("Info:Get valid dom node whose class is \""+dom_node.attr("class")+"\"")
 
+    //尝试获取MD5
+    let md5TagResult=$("strong:contains('MD5')")
+    if(md5TagResult.length===0){
+        log("Warning:No MD5 tag found in this page")
+    }else{
+        try{
+            result.md5=md5TagResult.parent("li").get(0).children[1].data.substring(2)
+        }catch (err) {
+            log("Warning:Fail to get MD5 value")
+        }
+    }
+
     //分className处理，获取text和href
-    let result=new PageInfo()
     switch (dom_node.attr("class")) {
         case "download-link":
             result.text=dom_node.text()
@@ -637,8 +652,16 @@ async function scrapePage(url):Promise<Interface>{
                         //获取简体中文下载地址
                         let recordParent=table.find("td:contains('Simplified')").parent("tr")
                         if(recordParent.length>0){
+                            //获得下载地址
                             result.href=recordParent.find("a").get(0).attribs.href
-                            log("Info:Found simplified chinese version download link:"+result.href)
+                            //尝试获得md5
+                            try{
+                                result.md5=recordParent.children("td").get(3).children[0].data
+                            }catch (e) {
+                                log("Warning:Fail to got md5")
+                            }
+                            log("Info:Found simplified chinese version\nmd5:"+result.md5+"\ndownload link:"+result.href)
+
                         }else{
                             log("Warning:Simplified chinese version not found,use English version")
                         }
@@ -651,8 +674,6 @@ async function scrapePage(url):Promise<Interface>{
             }
             break
     }
-    
-    //TODO 抓取MD5
 
     //校验结果是否有效
     if(!result.text||!result.href){
@@ -662,11 +683,18 @@ async function scrapePage(url):Promise<Interface>{
         })
     }
 
+    //校验md5
+    if(result.md5!==""&&result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/)==null){
+        log("Warning:Fail to check md5,got "+result.md5)
+        result.md5=""
+    }
+
     //处理href
     result.href=parseDownloadUrl(result.href)
 
     //输出提示
     log("Info:Scraped successfully,got\ntext:"+result.text+"\ndownload link:"+result.href)
+    if(result.md5!=="") console.log("md5:"+result.md5)
 
     return new Interface({
         status:Status.SUCCESS,
@@ -679,7 +707,7 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
     log("Info:Start processing "+task.name)
 
     //抓取页面信息
-    let iScrape=await scrapePage(task.paUrl)
+    let iScrape=await scrapePage(task.paUrl,false)
     if(iScrape.status===Status.ERROR) {
         log(iScrape.payload)
         return new Interface({
@@ -818,3 +846,4 @@ async function main() {
 }
 
 //main().catch((e)=>{throw e})
+scrapePage("https://portableapps.com/apps/internet/firefox_portable",true)

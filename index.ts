@@ -106,6 +106,28 @@ function log(text:string){
             console.log(text)
     }
 }
+function beforeRunCheck():boolean{
+    //重写log
+    let l=function (text:string):boolean{
+        log("Error:Check failure:"+text)
+        return false
+    }
+
+    //检查是否在Windows中
+    if(!fs.existsSync("C:\\Windows\\System32")){
+        return l("Please run with Windows")
+    }
+    //检查文件夹是否到位
+    let c=function (path:string):boolean{
+        if(!fs.existsSync(path)){
+            fs.mkdirSync(path)
+            if(!fs.existsSync(path)){
+                return l("Can't create folder "+path)
+            }
+        }
+    }
+    
+}
 async function getMD5(filePath:string):Promise<string> {
     return new Promise(resolve => {
         let rs = fs.createReadStream(filePath)
@@ -125,7 +147,7 @@ function parseDownloadUrl(href:string):string {
 
     return encodeURI(href)
 }
-//string
+//Interface:string
 function find7zip():Interface {
     let possiblePath=["C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe",'7zz.exe',"7z.exe","7za.exe",]
     let result=null
@@ -186,7 +208,7 @@ function getTasks():Array<string> {
     })
     return result
 }
-//Task
+//Interface:Task
 function readTaskConfig(name:string):Interface {
     let dir=DIR_TASKS+"/"+name
 
@@ -221,7 +243,7 @@ function readTaskConfig(name:string):Interface {
         payload:json
     })
 }
-//string
+//Interface:string
 function matchVersion(text:string):Interface {
     let regex=/\d+.\d+(.\d+)*/
     let matchRes=text.match(regex)
@@ -346,7 +368,7 @@ function removeExtraBuilds(database:DatabaseNode,repo:string):DatabaseNode{
 
         return database
 }
-//DatabaseNode
+//Interface:DatabaseNode
 function buildAndDeliver(name:string,version:string,author:string,category:string,p7zip:string,database:DatabaseNode):Interface{
     let serverIP="pineapple.edgeless.top"
     let serverPort="1000"

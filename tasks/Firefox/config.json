@@ -1,0 +1,8 @@
+{
+    "name":"Firefox",
+    "category":"浏览器",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/de/apps/internet/firefox_portable",
+    "requirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"]
+}

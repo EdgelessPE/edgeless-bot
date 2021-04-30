@@ -1,3 +1,5 @@
+import {throws} from "assert";
+
 const axios=require("axios")
 const fs=require("fs")
 const cheerio=require("cheerio")
@@ -80,6 +82,10 @@ class BuildInfo{
 class DatabaseNode{
     latestVersion:string
     builds:Array<BuildInfo>
+    constructor() {
+        this.latestVersion="0.0.0"
+        this.builds=[]
+    }
 }
 
 //utils
@@ -229,6 +235,19 @@ function beforeRunCheck():boolean{
 
     return true
 }
+function cleanWorkshop():boolean {
+    let dst=DIR_WORKSHOP
+    if(fs.existsSync(dst)){
+        cp.execSync('del /f /s /q "'+dst+'"')
+        cp.execSync('rd /s /q "'+dst+'"')
+    }
+    if(fs.existsSync(dst)){
+        log("Error:Can't remove workshop,kill running processes and retry")
+        return false
+    }
+    fs.mkdirSync(dst)
+    return fs.existsSync(dst)
+}
 function find7zip():Interface {
     let possiblePath=["C:\\Program Files\\7-Zip\\7z.exe","C:\\Program Files (x86)\\7-Zip\\7z.exe",'7zz.exe',"7z.exe","7za.exe",]
     let result=null
@@ -250,19 +269,6 @@ function find7zip():Interface {
         })
     }
 } //Interface:string
-function cleanWorkshop():boolean {
-    let dst=DIR_WORKSHOP
-    if(fs.existsSync(dst)){
-        cp.execSync('del /f /s /q "'+dst+'"')
-        cp.execSync('rd /s /q "'+dst+'"')
-    }
-    if(fs.existsSync(dst)){
-        log("Error:Can't remove workshop,kill running processes and retry")
-        return false
-    }
-    fs.mkdirSync(dst)
-    return fs.existsSync(dst)
-}
 
 //database
 function readDatabase():any {
@@ -605,3 +611,60 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
 }
 
 //main
+async function main() {
+    //初始化
+    log("Info:Launching,please hold a second...")
+    if(!beforeRunCheck()){
+        throw "Initialization failed"
+    }
+    if(!cleanWorkshop()){
+        throw "Cleaning workshop failed"
+    }
+    let p7zip=find7zip().unwarp()
+
+    //读入数据库
+    let DB=readDatabase()
+
+    //读入Tasks
+    let tasks:Array<string> = getTasks()
+
+    //顺次执行任务
+    let failureTasks:Array<string>=[]
+    for(let i=0;i<tasks.length;i++){
+
+        let taskName=tasks[i]
+
+        //读取task配置
+        let iRT=readTaskConfig(taskName)
+        if(iRT.status===Status.ERROR){
+            log("Warning:Can't read "+taskName+"'s config,skipping...")
+            continue
+        }
+        let taskConfig=iRT.payload as Task
+
+        //读取数据库中对应节点
+        let dbNode=DB[taskName]
+        if(!dbNode) dbNode=new DatabaseNode()
+
+        //执行task
+        let iPT=await processTask(taskConfig,dbNode,p7zip)
+        if(iPT.status===Status.ERROR){
+            log("Warning:Can't run task "+taskName+",skipping...")
+            failureTasks.push(taskName)
+        }else{
+            //task运行成功
+            log("Info:Task "+taskName+" executed successfully")
+        }
+    }
+
+    //总结
+    if(failureTasks.length===0){
+        log("Info:All tasks are executed successfully,exit")
+    }else{
+        log("Warning:"+failureTasks.length+" tasks failed:"+failureTasks.toString()+",exit")
+    }
+}
+
+main().catch((e)=>{
+    throw e
+})

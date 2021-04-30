@@ -2,6 +2,7 @@
   "DIR_TASKS":"./tasks",
   "DIR_WORKSHOP":"./workshop",
   "DIR_BUILDS":"./builds",
+
   "PATH_DATABASE":"./database.json",
   "MAX_BUILDS":3,
   "DISABLE_UPLOAD":false,

@@ -242,6 +242,12 @@ function removeExtraBuilds(database:DatabaseNode,repo:string,category:string):Da
 
 //remote
 function uploadToRemote(zname:string,category:string):boolean {
+    //检查是否已经禁用上传
+    if(DISABLE_UPLOAD){
+        log("Waring:Upload has been disabled,skip upload to remote")
+        return true
+    }
+
     let localPath=DIR_BUILDS+"/"+category+"/"+zname
     let remotePath=REMOTE_ROOT+"/"+category
     
@@ -254,6 +260,12 @@ function uploadToRemote(zname:string,category:string):boolean {
     return true
 }
 function deleteFromRemote(zname:string,category:string):boolean {
+    //检查是否已经禁用上传
+    if(DISABLE_UPLOAD){
+        log("Waring:Upload has been disabled,skip delete from remote")
+        return true
+    }
+
     let remotePath=REMOTE_ROOT+"/"+category+"/"+zname
 
     try{

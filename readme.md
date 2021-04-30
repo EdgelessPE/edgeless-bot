@@ -4,11 +4,12 @@
 ## 环境
 需要Windows 10环境，可以在docker中部署
 ## 使用
-```
-//安装依赖
+```shell
+# 安装依赖
 yarn
-//运行index.ts
-node --require ts-node/register index.ts
+
+# 运行
+yarn run-server
 ```
 ## 开发
 等待完善

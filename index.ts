@@ -1,5 +1,3 @@
-import {throws} from "assert";
-
 const axios=require("axios")
 const fs=require("fs")
 const cheerio=require("cheerio")
@@ -7,6 +5,7 @@ const cp=require('child_process')
 const cpt = require('crypto')
 const chalk = require('chalk')
 
+//TODO 放到config.json中
 const DIR_TASKS="./tasks"
 const DIR_WORKSHOP="./workshop"
 const DIR_BUILDS="./builds"
@@ -346,6 +345,7 @@ function readTaskConfig(name:string):Interface {
     let json=JSON.parse(fs.readFileSync(dir+"/config.json").toString())
 
     //检查Json健全性
+    //TODO 保持json.name名称与文件名一致
     let miss=null
     for (let taskKey in new Task()) {
         if(!json[taskKey]||json[taskKey]===null){
@@ -514,7 +514,6 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
 } //Interface:DatabaseNode
 
 //scraper
-//Interface:PageInfo
 async function scrapePage(url):Promise<Interface>{
     //配置可识别的类名
     let validClassName=[".download-link",".download-info"]
@@ -575,6 +574,8 @@ async function scrapePage(url):Promise<Interface>{
             result.href=dom_btn.attr("href")
             break
     }
+    
+    //TODO 抓取MD5
 
     //校验结果是否有效
     if(!result.text||!result.href){
@@ -594,10 +595,9 @@ async function scrapePage(url):Promise<Interface>{
         status:Status.SUCCESS,
         payload:result
     })
-}
+} //Interface:PageInfo
 
 //task processor
-//Interface:DatabaseNode
 async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise<Interface> {
     log("Info:Start processing "+task.name)
 
@@ -676,9 +676,10 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
             break
     }
     return ret
-}
+} //Interface:DatabaseNode
 
 //main
+//TODO 优化打印
 async function main() {
     //初始化
     log("Info:Launching,please hold a second...")
@@ -715,6 +716,7 @@ async function main() {
         if(!dbNode) dbNode=new DatabaseNode()
 
         //执行task
+        //TODO 打印当前进度
         let iPT=await processTask(taskConfig,dbNode,p7zip)
         if(iPT.status===Status.ERROR){
             log(iPT.payload)
@@ -728,6 +730,7 @@ async function main() {
     }
 
     //总结
+    console.log("\n")
     if(failureTasks.length===0){
         log("Info:All tasks are executed successfully,exit")
     }else{

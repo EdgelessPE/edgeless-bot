@@ -383,8 +383,15 @@ function readTaskConfig(name:string):Interface {
     //解析Json
     let json=JSON.parse(fs.readFileSync(dir+"/config.json").toString())
 
+    //检查文件夹名称和json.name是否一致
+    if(name!==json.name){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Value of config's key \"name\" is not "+name
+        })
+    }
+
     //检查Json健全性
-    //TODO 保持json.name名称与文件名一致
     let miss=null
     for (let taskKey in new Task()) {
         if(!json[taskKey]||json[taskKey]===null){
@@ -556,13 +563,17 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
 
 //scraper
 async function scrapePage(url):Promise<Interface>{
+    //从本地读取HTML选项
+    let useFS=false
+
     //配置可识别的类名
     let validClassName=[".download-link",".download-info"]
 
     //获取HTML信息并挂载
+    log("Info:Start scraping page:"+url)
     let res
     try {
-        res=await axios.get(url)
+        if(!useFS) res=await axios.get(url)
     }catch (err){
         return new Interface({
             status:Status.ERROR,
@@ -571,7 +582,7 @@ async function scrapePage(url):Promise<Interface>{
     }
 
     //挂载HTML
-    let $ = cheerio.load(res.data)
+    let $ = cheerio.load(useFS? fs.readFileSync("./1.html").toString():res.data)
 
     //获取download-box DOM
     let dom_box=$(".download-box")
@@ -611,8 +622,33 @@ async function scrapePage(url):Promise<Interface>{
             //获取box的首个子节点
             let dom_btn=dom_box.children("a")
 
+            //产生两个属性
             result.text=dom_node.text()
             result.href=dom_btn.attr("href")
+
+            //查询是否为多语言
+            if(result.text.match(/Multilingual/)==null){
+                //匹配是否为英文
+                if(result.text.match(/English/)){
+                    //尝试获取多语言下载列表
+                    log("Info:English application detected,trying to match simplified chinese version")
+                    let table=$('.zebra.download-links')
+                    if(table.length>0){
+                        //获取简体中文下载地址
+                        let recordParent=table.find("td:contains('Simplified')").parent("tr")
+                        if(recordParent.length>0){
+                            result.href=recordParent.find("a").get(0).attribs.href
+                            log("Info:Found simplified chinese version download link:"+result.href)
+                        }else{
+                            log("Warning:Simplified chinese version not found,use English version")
+                        }
+                    }else{
+                        log("Warning:Localizations table not found,use English version")
+                    }
+                }else{
+                    log("Warning:Detected minority language application,check the default language of "+url)
+                }
+            }
             break
     }
     
@@ -630,7 +666,7 @@ async function scrapePage(url):Promise<Interface>{
     result.href=parseDownloadUrl(result.href)
 
     //输出提示
-    log("Info:Scraped successfully")
+    log("Info:Scraped successfully,got\ntext:"+result.text+"\ndownload link:"+result.href)
 
     return new Interface({
         status:Status.SUCCESS,
@@ -723,7 +759,7 @@ async function processTask(task:Task,database:DatabaseNode,p7zip:string):Promise
 //TODO 优化打印
 async function main() {
     //初始化
-    log("Info:Launching,please hold a second...")
+    log("Info:Launching...")
     if(!beforeRunCheck()){
         throw "Initialization failed"
     }
@@ -741,7 +777,7 @@ async function main() {
     //顺次执行任务
     let failureTasks:Array<string>=[]
     for(let i=0;i<tasks.length;i++){
-
+        log("\nInfo:Progress "+(i+1)+"/"+tasks.length)
         let taskName=tasks[i]
 
         //读取task配置
@@ -757,7 +793,6 @@ async function main() {
         if(!dbNode) dbNode=new DatabaseNode()
 
         //执行task
-        //TODO 打印当前进度
         let iPT=await processTask(taskConfig,dbNode,p7zip)
         if(iPT.status===Status.ERROR){
             log(iPT.payload)
@@ -782,4 +817,4 @@ async function main() {
     saveDatabase(DB)
 }
 
-main().catch((e)=>{throw e})
+//main().catch((e)=>{throw e})

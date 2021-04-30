@@ -4,13 +4,11 @@
   "main": "index.js",
   "repository": "git@github.com:Cnotech/edgeless-bot.git",
   "author": "Cno",
-  "license": "MPL2.0",
+  "license": "MPL",
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "cheerio": "^1.0.0-rc.6",
-    "jquery": "^3.6.0",
-    "jsdom": "^16.5.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },

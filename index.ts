@@ -7,7 +7,9 @@ const chalk = require('chalk')
 
 const DIR_TASKS="./tasks"
 const DIR_WORKSHOP="./workshop"
+const DIR_BUILDS="./builds"
 const PATH_DATABASE="./database.json"
+const MAX_BUILDS=3
 //Enum
 enum Status {
     SUCCESS,ERROR
@@ -88,15 +90,16 @@ function log(text:string){
         console.log(text)
         return
     }
+    let inf=text.substring(spl[0].length+1)
     switch(spl[0]){
         case "Info":
-            console.log(chalk.green("Info ")+text.substring(spl[0].length))
+            console.log(chalk.green("Info ")+inf)
             break
         case "Warning":
-            console.log(chalk.yellow("Warning ")+text.substring(spl[0].length))
+            console.log(chalk.yellow("Warning ")+inf)
             break
         case "Error":
-            console.log(chalk.red("Error ")+text.substring(spl[0].length))
+            console.log(chalk.red("Error ")+inf)
             break
         default:
             console.log(chalk.yellow("Warning")+" Illegal message detected")
@@ -299,7 +302,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     log("Info:Workshop for "+name+" is ready")
     return true
 }
-function runMakeScript(name):boolean {
+function runMakeScript(name:string):boolean {
     log("Info:Running make for "+name)
     try{
         cp.execSync("make.cmd",{cwd:DIR_WORKSHOP+"/"+name+"/release"})
@@ -325,6 +328,66 @@ function runMakeScript(name):boolean {
     }
 
     return true
+}
+function removeExtraBuilds(database:DatabaseNode,repo:string):DatabaseNode{
+        //builds降序排列
+        database.builds.sort((a,b)=>{
+            return 1-versionCmp(a.version,b.version)
+        })
+        //删除多余的builds
+        for(let i=0;i<database.builds.length-MAX_BUILDS;i++){
+            let target=database.builds.pop()
+            log("Info:Remove extra build "+repo+"/"+target.name)
+            fs.unlinkSync(repo+"/"+target.name)
+        }
+
+        return database
+}
+function buildAndDeliver(name:string,version:string,author:string,category:string,p7zip:string,database:DatabaseNode):Interface{
+    let serverIP="pineapple.edgeless.top"
+    let serverPort="1000"
+    let serverDir="/hdisk/edgeless/插件包"
+    let serverUser="root"
+
+    let zname=name+"_"+version+"_"+author+"（bot）.7z"
+    let dir=DIR_WORKSHOP+"/"+name
+    let repo=DIR_WORKSHOP+"/"+category
+    //压缩build文件夹内容
+    cp.execSync(p7zip+" a \""+zname+"\" *",{cwd:dir})
+    //检查压缩是否成功
+    if(!fs.existsSync(dir+"/"+zname)){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Warning:Compress "+zname+" failed,skipping..."
+        })
+    }
+    //移动至编译仓库
+    if(!fs.existsSync(repo)) fs.mkdirSync(repo)
+    cp.execSync("move /y \""+dir+"/"+zname+"\" \""+repo+"/"+zname+"\"")
+    //删除过旧的编译版本
+    if(database.builds.length>MAX_BUILDS){
+        database=removeExtraBuilds(database,repo)
+    }
+    //记录数据库
+    database.latestVersion=version
+    database.builds.push({
+        version,
+        name:zname
+    })
+    //上传编译版本
+    try{
+        cp.execSync("scp -p "+serverPort+" \""+zname+"\" "+serverUser+"@"+serverIP+":"+serverDir+"/"+category,{cwd:repo})
+    }catch(err){
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Uploading "+zname+" failed"
+        })
+    }
+    
+    return new Interface({
+        status:Status.SUCCESS,
+        payload:database
+    })
 }
 
 //scraper:PageInfo
@@ -421,3 +484,24 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
+console.log(removeExtraBuilds({
+    latestVersion:"2.3.3",
+    builds:[
+        {
+            name:"1.7z",
+            version:"1.20.3"
+        },
+        {
+            name:"3.7z",
+            version:"1.9.0"
+        },
+        {
+            name:"4.7z",
+            version:"10.3.10029"
+        },
+        {
+            name:"2.7z",
+            version:"0.01000.999"
+        }
+    ]
+},"./builds/Firefox"))

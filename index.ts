@@ -3,6 +3,7 @@ const fs=require("fs")
 const cheerio=require("cheerio")
 const cp=require('child_process')
 const cpt = require('crypto')
+const chalk = require('chalk')
 
 const DIR_TASKS="./tasks"
 const DIR_WORKSHOP="./workshop"
@@ -28,11 +29,11 @@ class Interface {
             let text=this.payload as string
             let spl=text.split(":")
             if (spl.length<2){
-                console.log("Warning:Illegal ERROR tip:"+this.payload)
+                log("Warning:Illegal ERROR tip:"+this.payload)
                 throw this.payload
             }
             if(spl[0]!=="Error"){
-                console.log("Warning:Unwrapped wrong ERROR tip:"+this.payload)
+                log("Warning:Unwrapped wrong ERROR tip:"+this.payload)
                 throw this.payload
             }
             throw spl[1]
@@ -80,6 +81,28 @@ class DatabaseNode{
 }
 
 //utils
+function log(text:string){
+    let spl=text.split(":")
+    if (spl.length<2){
+        console.log(chalk.yellow("Warning")+" Illegal message detected")
+        console.log(text)
+        return
+    }
+    switch(spl[0]){
+        case "Info":
+            console.log(chalk.green("Info ")+text.substring(spl[0].length))
+            break
+        case "Warning":
+            console.log(chalk.yellow("Warning ")+text.substring(spl[0].length))
+            break
+        case "Error":
+            console.log(chalk.red("Error ")+text.substring(spl[0].length))
+            break
+        default:
+            console.log(chalk.yellow("Warning")+" Illegal message detected")
+            console.log(text)
+    }
+}
 async function getMD5(filePath:string):Promise<string> {
     return new Promise(resolve => {
         let rs = fs.createReadStream(filePath)
@@ -88,7 +111,7 @@ async function getMD5(filePath:string):Promise<string> {
         rs.on('data', hash.update.bind(hash))
         rs.on('end', function () {
             hex = hash.digest('hex')
-            console.log('Info:MD5 is ' + hex)
+            log('Info:MD5 is ' + hex)
             resolve(hex)
         })
     })
@@ -202,7 +225,7 @@ function matchVersion(text:string):Interface {
             payload:"Error:Matched nothing when looking into \""+text+"\" with \""+regex+"\""
         })
     }else if(matchRes.length>1){
-        console.log("Warning:Matched more than 1 result when looking into \""+text+"\" with \""+regex+"\"")
+        log("Warning:Matched more than 1 result when looking into \""+text+"\" with \""+regex+"\"")
     }
     return new Interface({
         status:Status.SUCCESS,
@@ -234,7 +257,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     fs.mkdirSync(dir+"/"+"build")
 
     //通过wget下载
-    console.log("Info:Start downloading "+name)
+    log("Info:Start downloading "+name)
     cp.execSync("wget -O target.exe "+url,{cwd:dir})
 
     //校验下载
@@ -253,7 +276,7 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
     }
 
     //使用7-Zip解压至release文件夹
-    console.log("Info:Start extracting "+name)
+    log("Info:Start extracting "+name)
     cp.execSync('\"'+p7zip+'\" e target.exe -orelease -y',{cwd:dir})
 
     //检查目录是否符合规范
@@ -266,26 +289,26 @@ async function getWorkDirReady(name:string,url:string,p7zip:string,md5:string,re
         }
     }
     if(miss){
-        console.log("Warning:Miss "+miss+" in "+name+"'s workshop,skipping...")
+        log("Warning:Miss "+miss+" in "+name+"'s workshop,skipping...")
         return false
     }
 
     //复制make.cmd
     fs.copyFileSync(DIR_TASKS+"/"+name+"/make.cmd",dir+"/make.cmd")
 
-    console.log("Info:Workshop for "+name+" is ready")
+    log("Info:Workshop for "+name+" is ready")
     return true
 }
 function runMakeScript(name):boolean {
-    console.log("Info:Running make for "+name)
+    log("Info:Running make for "+name)
     try{
         cp.execSync("make.cmd",{cwd:DIR_WORKSHOP+"/"+name+"/release"})
     }catch (e) {
-        console.log("Warning:Make error for "+name)
+        log("Warning:Make error for "+name)
         console.log(e.output.toString())
         return false
     }
-    console.log("Info:Finish making "+name)
+    log("Info:Finish making "+name)
 
     //校验目录可靠性
     let dirFiles=fs.readdirSync(DIR_WORKSHOP+"/"+name+"/build")
@@ -297,7 +320,7 @@ function runMakeScript(name):boolean {
         }
     }
     if(miss){
-        console.log("Warning:Illegal directory build from "+name+",skipping...")
+        log("Warning:Illegal directory build from "+name+",skipping...")
         return false
     }
 
@@ -348,7 +371,7 @@ async function scrapePage(url):Promise<Interface>{
             payload:"Error:Valid dom node not found,can't scrape "+url
         })
     }
-    console.log("Info:Get valid dom node whose class is \""+dom_node.attr("class")+"\"")
+    log("Info:Get valid dom node whose class is \""+dom_node.attr("class")+"\"")
 
     //分className处理，获取text和href
     let result=new PageInfo()
@@ -378,7 +401,7 @@ async function scrapePage(url):Promise<Interface>{
     result.href=parseDownloadUrl(result.href)
 
     //输出提示
-    console.log("Info:Scraped successfully")
+    log("Info:Scraped successfully")
 
     return new Interface({
         status:Status.SUCCESS,
@@ -398,4 +421,3 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-console.log(readTaskConfig("Chrome1"))

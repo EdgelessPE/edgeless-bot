@@ -263,15 +263,16 @@ function deleteFromRemote(zname:string,category:string):boolean {
 
 //init
 function beforeRunCheck():boolean{
-    //预设严重错误函数
-    let l=function (text:string):boolean{
+    let result=true
+    //预设错误函数
+    let l=function (text:string){
         log("Error:Check failure:"+text)
-        return false
+        result=false
     }
 
     //检查是否在Windows中
     if(!fs.existsSync("C:\\Windows\\System32")){
-        return l("Please run inside Windows")
+        l("Please run inside Windows")
     }
     //检查目录中文件夹是否到位
     let dirList:Array<string> = [DIR_BUILDS,DIR_TASKS]
@@ -279,7 +280,7 @@ function beforeRunCheck():boolean{
         if(!fs.existsSync(path)){
             fs.mkdirSync(path)
             if(!fs.existsSync(path)){
-                return l("Can't create folder "+path)
+                l("Can't create folder "+path)
             }
         }
     })
@@ -298,11 +299,11 @@ function beforeRunCheck():boolean{
         try{
             cp.execSync("where "+item.cmd)
         }catch (err) {
-            return l("Command not found:"+item.cmd+",please install "+item.hint+"\nTry \"scoop install "+item.hint+"\" if you have scoop installed")
+            l("Command not found:"+item.cmd+",please install "+item.hint+"\nTry \"scoop install "+item.hint+"\" if you have scoop installed")
         }
     })
 
-    return true
+    return result
 }
 function cleanWorkshop():boolean {
     let dst=DIR_WORKSHOP.substring(2)

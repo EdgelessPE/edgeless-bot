@@ -107,7 +107,7 @@ function log(text:string){
     }
 }
 function beforeRunCheck():boolean{
-    //重写log
+    //预设严重错误函数
     let l=function (text:string):boolean{
         log("Error:Check failure:"+text)
         return false
@@ -115,18 +115,29 @@ function beforeRunCheck():boolean{
 
     //检查是否在Windows中
     if(!fs.existsSync("C:\\Windows\\System32")){
-        return l("Please run with Windows")
+        return l("Please run inside Windows")
     }
-    //检查文件夹是否到位
-    let c=function (path:string):boolean{
+    //检查目录中文件夹是否到位
+    let dirList:Array<string> = [DIR_BUILDS,DIR_TASKS]
+    dirList.forEach((path)=>{
         if(!fs.existsSync(path)){
             fs.mkdirSync(path)
             if(!fs.existsSync(path)){
                 return l("Can't create folder "+path)
             }
         }
-    }
-    
+    })
+    //检查命令可用性
+    let cmdList:Array<string> = ["scp","wget"]
+    cmdList.forEach((cmd)=>{
+        try{
+            cp.execSync("where "+cmd)
+        }catch (err) {
+            return l("Command not found:"+cmd)
+        }
+    })
+
+    return true
 }
 async function getMD5(filePath:string):Promise<string> {
     return new Promise(resolve => {
@@ -377,7 +388,7 @@ function buildAndDeliver(name:string,version:string,author:string,category:strin
 
     let zname=name+"_"+version+"_"+author+"（bot）.7z"
     let dir=DIR_WORKSHOP+"/"+name
-    let repo=DIR_WORKSHOP+"/"+category
+    let repo=DIR_BUILDS+"/"+category
     //压缩build文件夹内容
     cp.execSync(p7zip+" a \""+zname+"\" *",{cwd:dir})
     //检查压缩是否成功
@@ -511,24 +522,3 @@ async function scrapePage(url):Promise<Interface>{
 //     console.log(pageInfo.text)
 //     console.log(pageInfo.href)
 // })
-console.log(removeExtraBuilds({
-    latestVersion:"2.3.3",
-    builds:[
-        {
-            name:"1.7z",
-            version:"1.20.3"
-        },
-        {
-            name:"3.7z",
-            version:"1.9.0"
-        },
-        {
-            name:"4.7z",
-            version:"10.3.10029"
-        },
-        {
-            name:"2.7z",
-            version:"0.01000.999"
-        }
-    ]
-},"./builds/Firefox"))

@@ -4,31 +4,59 @@
 ## 环境
 需要Windows 10环境，可以在docker中部署
 
-安装 `wget` `rclone`，推荐使用`scoop`进行安装
+安装 `rclone`，推荐使用`scoop`进行安装
 
 ## 配置
 编辑`config.json`
 ```
 {
-  "DIR_TASKS":"./tasks", //任务根目录，默认不需要更改
-  "DIR_WORKSHOP":"./workshop", //工作临时目录，默认不需要更改
-  "DIR_BUILDS":"./builds", //构建的插件包存放目录，默认不需要更改
-
-  "PATH_DATABASE":"./database.json", //数据库文件位置，默认不需要更改
-  "MAX_BUILDS":3, //最大保留的构建插件包数量，超过此上限的插件包会被删除（包括本地的和远程的）
-  "DISABLE_UPLOAD":false, //是否禁用编译完成后上传功能，当此项值为true时可以不用填写下面两项
-  "REMOTE_NAME":"pineapple", //rclone中配置的远程存储名称
-  "REMOTE_ROOT":"/hdisk/edgeless/插件包" //远程存储的插件包存放根目录
+  // 开启远程
+  "enableRemote": false,
+  // 忽略远程警告
+  "ignoreRemote": false,
+  // 任务文件夹
+  "dirTask": "./tasks",
+  // 工作文件夹
+  "dirWorkshop": "./workshop",
+  // 构建文件夹
+  "dirBuilds": "./builds",
+  // 数据库路径
+  "pathDatabase": "./database.json",
+  // 最大构建数
+  "maxBuildsNum": 3,
+  // 远程主机名
+  "remoteName": "pineapple",
+  // 远程根路径
+  "remoteRoot": "/hdisk/edgeless/插件包",
+  // aria2 RPC 端口
+  "aria2Port": 46800,
+  // aria2 RPC 主机
+  "aria2Host": "localhost",
+  // aria2 RPC secret
+  "aria2Secret": "cnoisxie",
+  // 是否启动 aria2
+  "spawnAria2": true,
+  // aria2 启动参数
+  "aria2SpawnArgs": [
+    "--enable-rpc",
+    "--rpc-allow-origin-all=true",
+    "--rpc-listen-all=true",
+    "--rpc-listen-port=46800",
+    "--rpc-secret=cnoisxie"
+    // 配置代理 "--all-proxy=http://localhost:10089",
+  ]
 }
 ```
 ## 使用
-```
-//安装依赖
+```shell
+# 安装依赖
 yarn
-//编辑config.json
-code config.json
-//运行index.ts
-node --require ts-node/register index.ts
+
+# 编辑config.jsonc
+code config.jsonc
+
+# 运行
+yarn run-server
 ```
 
 ## 开发

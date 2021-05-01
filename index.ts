@@ -1143,14 +1143,13 @@ async function main() {
     //总结
     console.log("=========================================");
     if (failureTasks.length === 0) {
-        log("Info:All tasks are executed successfully");
+        log("Info:Everything is Okay");
     } else {
         log(
             "Warning:" +
             failureTasks.length +
             " tasks failed as follow:" +
-            failureTasks.toString() +
-            ",exit"
+            failureTasks.toString()
         );
     }
 

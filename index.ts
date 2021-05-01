@@ -11,6 +11,7 @@ import ora from "ora";
 import UserConfig from "./utils/config";
 const ini = require("ini");
 
+
 export const _userConfig = new UserConfig(
     fs.readFileSync("./config.jsonc", "utf8")
 );
@@ -360,7 +361,7 @@ function beforeRunCheck(): boolean {
 
     //检查是否在Windows中
     if (!fs.existsSync("C:\\Windows\\System32")) {
-        return l("Error:Please run inside Windows");
+        return l("Please run inside Windows");
     }
     //检查目录中文件夹是否到位
     let dirList: Array<string> = [DIR_BUILDS, DIR_TASKS];
@@ -1082,13 +1083,20 @@ async function processTask(
 
 //main
 async function main() {
-    //初始化
+
     console.clear();
+
+    //获取版本号
+    let project_ver="0.0.0"
+    if(fs.existsSync("./package.json")){
+        project_ver=JSON.parse(fs.readFileSync("./package.json").toString()).version
+    }
     console.log(
-        chalk.green("Info"),
-        chalk.cyan.bold("Edgeless Bot [Version 1.0]")
+        chalk.cyan.bold("Edgeless Bot ver."+project_ver)
     );
-    log("Info:Launching edgeless bot,please hold a second...");
+
+    //初始化
+    log("Info:Launching,please hold a second...");
     if (!beforeRunCheck()) {
         throw "Initialization failed";
     }
@@ -1104,6 +1112,8 @@ async function main() {
 
     //读入数据库
     let DB = readDatabase();
+    log("Info:Get database as follow:")
+    console.log(JSON.stringify(DB))
 
     //读入Tasks
     let tasks: Array<string> = getTasks();
@@ -1162,4 +1172,4 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 }
 
-//main().catch((e) => {throw e});
+main().catch((e) => {throw e});

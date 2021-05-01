@@ -114,13 +114,23 @@ interface BuildInfo {
     name: string;
 }
 
+interface BuildStatus {
+    time:number;
+    timeDescription:string;
+
+    success:boolean;
+    errorMessage:string;
+}
+
 class DatabaseNode {
     latestVersion: string;
     builds: Array<BuildInfo>;
+    recentStatus:Array<BuildStatus>;
 
     constructor() {
         this.latestVersion = "0.0.0";
         this.builds = [];
+        this.recentStatus=[];
     }
 }
 
@@ -1114,6 +1124,18 @@ async function main() {
     let DB = readDatabase();
     log("Info:Get database as follow:")
     console.log(JSON.stringify(DB))
+
+    //校验数据库
+    let null_db_node=new DatabaseNode()
+    for (let dbKey in DB) {
+        let node=DB[dbKey] as DatabaseNode
+        for (let nodeKey in null_db_node) {
+            if(!node.hasOwnProperty(nodeKey)){
+                log("Error:Database check failure,"+dbKey+"'s key "+nodeKey+" not defined")
+                throw "Database check failure"
+            }
+        }
+    }
 
     //读入Tasks
     let tasks: Array<string> = getTasks();

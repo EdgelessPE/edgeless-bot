@@ -260,6 +260,15 @@ function rd(dst:string):boolean {
     }
     return !fs.existsSync(dst)
 }
+function cleanBuildStatus(s:Array<BuildStatus>):Array<BuildStatus> {
+    //按照时间降序排列
+    s.sort((a,b)=>{
+        return b.time-a.time
+    })
+    console.log(s)
+
+    return s.slice(0,3)
+}
 
 //helper
 function preprocessPA(name:string):boolean {
@@ -1093,7 +1102,6 @@ async function processTask(
 
 //main
 async function main() {
-
     console.clear();
 
     //获取版本号
@@ -1157,19 +1165,46 @@ async function main() {
         let taskConfig = iRT.payload as Task;
 
         //读取数据库中对应节点
-        let dbNode = DB[taskName];
+        let dbNode = DB[taskName] as DatabaseNode;
         if (!dbNode) dbNode = new DatabaseNode();
+
+        //清理过多的构建状态信息
+        if(dbNode.recentStatus.length>3){
+            dbNode.recentStatus=cleanBuildStatus(dbNode.recentStatus)
+        }
 
         //执行task
         let iPT = await processTask(taskConfig, dbNode, p7zip);
         if (iPT.status === Status.ERROR) {
+            //打印错误
             log(iPT.payload);
+
+            //记录错误
             failureTasks.push(taskName);
+
+            //写数据库构建情况
+            let node=DB[taskName] as DatabaseNode
+            node.recentStatus.push({
+                time:Date.now(),
+                timeDescription:Date(),
+
+                success:false,
+                errorMessage:iPT.payload
+            })
+            DB[taskName]=node
         } else {
             //task运行成功
             log("Info:Task " + taskName + " executed successfully");
             //写入数据库
-            DB[taskName] = iPT.payload;
+            let node=iPT.payload as DatabaseNode
+            node.recentStatus.push({
+                time:Date.now(),
+                timeDescription:Date(),
+
+                success:true,
+                errorMessage:"Success"
+            })
+            DB[taskName]=node
         }
     }
 
@@ -1194,4 +1229,4 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 }
 
-main().catch((e) => {throw e});
+//main().catch((e) => {throw e});

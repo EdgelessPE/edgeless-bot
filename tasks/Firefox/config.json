@@ -4,5 +4,6 @@
     "author":"Cno",
 
     "paUrl":"https://portableapps.com/apps/internet/firefox_portable",
-    "requirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"]
+    "requirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"],
+    "preprocess": true
 }

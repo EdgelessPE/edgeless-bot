@@ -95,6 +95,7 @@ class Task {
 
     paUrl: string; //PortableApps网页链接
     requirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
+    preprocess:boolean; //是否启用PortableApps预处理
 
     constructor() {
         this.name = "Null";
@@ -102,6 +103,7 @@ class Task {
         this.author = "Null";
         this.paUrl = "Null";
         this.requirement = ["Null"];
+        this.preprocess=true;
     }
 }
 
@@ -238,17 +240,17 @@ function rd(dst:string):boolean {
 function preprocessPA(name:string):boolean {
     let dir=DIR_WORKSHOP+"/"+name+"/release"
     //删除$PLUGINSDIR
-    if(!fs.existsSync(dir+"/$PLUGINSDIR")||!rd(dir+"/$PLUGINSDIR")){
-        log("Error:Can't preprocess "+name+":remove $PLUGINSDIR failed")
-        return false
-    }
+    // if(!fs.existsSync(dir+"/$PLUGINSDIR")||!rd(dir+"/$PLUGINSDIR")){
+    //     log("Error:Can't preprocess "+name+":remove $PLUGINSDIR failed")
+    //     return false
+    // }
     //修改pac_installer_log.ini
     let filePath=dir+"/App/AppInfo/pac_installer_log.ini"
     if(!fs.existsSync(filePath)){
         log("Error:Can't preprocess "+name+":pac_installer_log.ini not found")
         return false
     }
-    let fileContent=ini.parse(fs.readFileSync(filePath))['PortableApps.comInstaller']
+    let fileContent=ini.parse(fs.readFileSync(filePath).toString()).PortableApps.comInstaller
     if(!fileContent){
         log("Error:Can't preprocess "+name+":[PortableApps.comInstaller] not found in pac_installer_log.ini")
         return false
@@ -266,6 +268,7 @@ function preprocessPA(name:string):boolean {
         return false
     }
 
+    log("Info:Preprocessed "+name+" successfully")
     return true
 }
 
@@ -985,6 +988,14 @@ async function processTask(
                     status: Status.ERROR,
                     payload:
                         "Warning:Can't get " + task.name + " 's workshop ready,skipping...",
+                });
+                break;
+            }
+            if(task.preprocess&&!preprocessPA(task.name)){
+                ret = new Interface({
+                    status: Status.ERROR,
+                    payload:
+                        "Warning:Can't preprocess " + task.name + ",skipping...",
                 });
                 break;
             }

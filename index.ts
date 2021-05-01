@@ -254,10 +254,10 @@ function rd(dst:string):boolean {
 function preprocessPA(name:string):boolean {
     let dir=DIR_WORKSHOP+"/"+name+"/release"
     //删除$PLUGINSDIR
-    // if(!fs.existsSync(dir+"/$PLUGINSDIR")||!rd(dir+"/$PLUGINSDIR")){
-    //     log("Error:Can't preprocess "+name+":remove $PLUGINSDIR failed")
-    //     return false
-    // }
+    if(!fs.existsSync(dir+"/$PLUGINSDIR")||!rd(dir+"/$PLUGINSDIR")){
+        log("Error:Can't preprocess "+name+":remove $PLUGINSDIR failed")
+        return false
+    }
     //修改pac_installer_log.ini
     let filePath=dir+"/App/AppInfo/pac_installer_log.ini"
     if(!fs.existsSync(filePath)){

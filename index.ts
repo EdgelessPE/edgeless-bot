@@ -857,9 +857,9 @@ async function scrapePage(
   }
 
   //校验md5
+  if (result.md5 == undefined) result.md5 = "";
   if (
     result.md5 !== "" &&
-    result.md5 != undefined &&
     result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
   ) {
     log("Warning:Fail to check md5,got " + result.md5);

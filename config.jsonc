@@ -25,7 +25,7 @@
   "aria2Secret": "cnoisxie",
   // 是否启动 aria2
   "spawnAria2": true,
-  // aria2 启动参数（合并）
+  // aria2 启动参数
   "aria2SpawnArgs": [
     "--enable-rpc",
     "--rpc-allow-origin-all=true",

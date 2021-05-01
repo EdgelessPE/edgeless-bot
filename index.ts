@@ -170,6 +170,20 @@ function parseDownloadUrl(href: string): string {
     return encodeURI(href);
 }
 
+function formatVersion(version:string):string {
+    let spl=version.split(".")
+    if(spl.length>4){
+        log("Warning:Illegal version \""+version+",\"length="+spl.length)
+        return version
+    }
+    //将版本号扩充为4位
+    for(let i=0;i<4-spl.length;i++){
+        version=version+".0"
+    }
+
+    return version
+}
+
 function matchVersion(text: string): Interface {
     let regex = /\d+.\d+(.\d+)*/;
     let matchRes = text.match(regex);
@@ -968,7 +982,7 @@ async function processTask(
                 " 's version from page,skipping...",
         });
     }
-    let version = iVersion.payload as string;
+    let version = formatVersion(iVersion.payload) as string;
 
     //与数据库进行校对
     let ret: Interface;
@@ -1148,5 +1162,4 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 }
 
-//main().catch((e) => {throw e;});
-preprocessPA("Firefox")
+//main().catch((e) => {throw e});

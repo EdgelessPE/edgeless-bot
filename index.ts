@@ -8,22 +8,28 @@ import chalk from "chalk";
 import Spawn from "./bin/spawn";
 import sleep from "./utils/sleep";
 import ora from "ora";
+import UserConfig from "./utils/config";
 
-export const DIR_TASKS = "./tasks";
-export const DIR_WORKSHOP = "./workshop";
-export const DIR_BUILDS = "./builds";
-export const PATH_DATABASE = "./database.json";
-export const MAX_BUILDS = 3;
-export const REMOTE_NAME = "pineapple";
-export const REMOTE_ROOT = "/hdisk/edgeless/插件包";
+export const _userConfig = new UserConfig(
+  fs.readFileSync("./config.jsonc", "utf8")
+);
 
 // 远程开关
-export const ENABLE_REMOTE = false;
+export const ENABLE_REMOTE = _userConfig.resolved.enableRemote;
 // 忽略远程警告
-export const IGNORE_REMOTE = true;
+export const IGNORE_REMOTE = _userConfig.resolved.ignoreRemote;
+
+export const DIR_TASKS = _userConfig.resolved.dirTask;
+export const DIR_WORKSHOP = _userConfig.resolved.dirWorkshop;
+export const DIR_BUILDS = _userConfig.resolved.dirBuilds;
+export const PATH_DATABASE = _userConfig.resolved.pathDatabase;
+export const MAX_BUILDS = _userConfig.resolved.maxBuildsNum;
+export const REMOTE_NAME = _userConfig.resolved.remoteName;
+export const REMOTE_ROOT = _userConfig.resolved.remoteRoot;
 
 let aria2: Aria2.Client;
 let _spawn: Spawn;
+
 //Enum
 enum Status {
   SUCCESS,
@@ -35,17 +41,29 @@ enum Cmp {
   G,
 }
 //Class
-//函数间通讯相关
-interface NaiveInterface {
-  status: Status;
-  payload: any;
+//常量配置
+interface Config {
+  DIR_TASKS: string;
+  DIR_WORKSHOP: string;
+  DIR_BUILDS: string;
+  PATH_DATABASE: string;
+  MAX_BUILDS: number;
+  DISABLE_UPLOAD: boolean;
+  REMOTE_NAME: string;
+  REMOTE_ROOT: string;
 }
-class Interface {
+
+//函数间通讯相关
+interface NaiveInterface<T> {
   status: Status;
-  payload: any;
+  payload: T;
+}
+class Interface<T = any> {
+  status: Status;
+  payload: T;
   unwarp(): any {
     if (this.status === Status.ERROR) {
-      let text = this.payload as string;
+      let text = (this.payload as unknown) as string;
       let spl = text.split(":");
       if (spl.length < 2) {
         log("Warning:Caught illegal ERROR tip by unwarp()");
@@ -63,15 +81,16 @@ class Interface {
       return this.payload;
     }
   }
-  constructor(config: NaiveInterface) {
+  constructor(config: NaiveInterface<T>) {
     this.status = config.status;
-    this.payload = config.payload;
+    this.payload = (config.payload as unknown) as T;
   }
 }
 
 interface PageInfo {
   text: string;
   href: string;
+  md5: string;
 }
 
 //任务配置信息
@@ -107,6 +126,7 @@ class DatabaseNode {
 }
 
 //utils
+
 function log(text: string) {
   let spl = text.split(":");
   if (spl.length < 2) {
@@ -227,6 +247,7 @@ function removeExtraBuilds(
 }
 
 //remote
+
 function uploadToRemote(zname: string, category: string): boolean {
   if (ENABLE_REMOTE) {
     let localPath = DIR_BUILDS + "/" + category + "/" + zname;
@@ -341,6 +362,7 @@ function cleanWorkshop(force: boolean = false): boolean {
   fs.mkdirSync(dst);
   return fs.existsSync(dst);
 }
+
 function find7zip(): Interface {
   let possiblePath = [
     "C:\\Program Files\\7-Zip\\7z.exe",
@@ -403,6 +425,7 @@ function getTasks(): Array<string> {
   });
   return result;
 }
+
 function readTaskConfig(name: string): Interface {
   let dir = DIR_TASKS + "/" + name;
 
@@ -419,6 +442,14 @@ function readTaskConfig(name: string): Interface {
 
   //解析Json
   let json = JSON.parse(fs.readFileSync(dir + "/config.json").toString());
+
+  //检查文件夹名称和json.name是否一致
+  if (name !== json.name) {
+    return new Interface({
+      status: Status.ERROR,
+      payload: 'Error:Value of config\'s key "name" is not ' + name,
+    });
+  }
 
   //检查Json健全性
   let miss = null;
@@ -577,6 +608,7 @@ function runMakeScript(name: string): boolean {
 
   return true;
 }
+
 function buildAndDeliver(
   name: string,
   version: string,
@@ -651,29 +683,62 @@ function buildAndDeliver(
   });
 } //Interface:DatabaseNode
 
-//scraper
-//Interface:PageInfo
-async function scrapePage(url: string): Promise<Interface> {
+async function spawnAria2() {
+  if (_userConfig.resolved.spawnAria2 == true) {
+    _spawn = new Spawn(_userConfig);
+    _spawn.all();
+    _spawn.promise().catch((e) => {
+      console.error(e);
+      throw e;
+    });
+    await sleep(1500);
+  }
+  aria2 = new Aria2.Client({
+    host: _userConfig.resolved.aria2Host,
+    port: _userConfig.resolved.aria2Port,
+    auth: {
+      secret: _userConfig.resolved.aria2Secret,
+    },
+  });
+  try {
+    let ver = await aria2.getVersion();
+    log("Info:Aria2 Ready, ver = " + ver.version);
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
+
+//scraper,enable useFS when debugging that the function will load page ./1.html
+async function scrapePage(
+  url: string,
+  useFS: boolean
+): Promise<Interface<PageInfo>> {
+  let result = ({} as unknown) as PageInfo;
+
   //配置可识别的类名
   let validClassName = [".download-link", ".download-info"];
 
   //获取HTML信息并挂载
+  log("Info:Start scraping page: " + url);
   let res;
   try {
-    res = await axios.get(url);
+    if (!useFS) res = await axios.get(url);
   } catch (err) {
     return new Interface({
       status: Status.ERROR,
-      payload:
-        "Error:Http status code abnormal,can't scrape " +
+      payload: (("Error:Http status code abnormal,can't scrape " +
         url +
         " ,message:" +
-        err.message,
+        err.message) as unknown) as PageInfo,
     });
   }
 
   //挂载HTML
-  let $ = cheerio.load(res.data);
+  let $ = cheerio.load(
+    useFS ? fs.readFileSync("./1.html").toString() : res?.data
+  );
 
   //获取download-box DOM
   let dom_box = $(".download-box");
@@ -682,71 +747,148 @@ async function scrapePage(url: string): Promise<Interface> {
   if (!dom_box) {
     return new Interface({
       status: Status.ERROR,
-      payload:
-        "Warning:DOM_DOWNLOAD_BOX not found,can't scrape " +
+      payload: (("Warning:DOM_DOWNLOAD_BOX not found,can't scrape " +
         url +
-        ",skipping...",
+        ",skipping...") as unknown) as PageInfo,
     });
   }
 
   //获取有效节点
-  let dom_node = null;
+  let dom_node: cheerio.Cheerio = ({} as unknown) as cheerio.Cheerio;
   for (let i in validClassName) {
     dom_node = dom_box.children(validClassName[i]);
     if (dom_node.attr("class")) break;
   }
 
   //判断dom_node是否有效
-  if (dom_node != undefined && !dom_node.attr("class")) {
+  if (!dom_node.attr("class")) {
     return new Interface({
       status: Status.ERROR,
-      payload:
-        "Warning:Valid dom node not found,can't scrape " + url + ",skipping...",
+      payload: (("Warning:Valid dom node not found,can't scrape " +
+        url +
+        ",skipping...") as unknown) as PageInfo,
     });
   }
   log(
-    'Info:Get valid dom node whose class is "' + dom_node?.attr("class") + '"'
+    'Info:Get valid dom node whose class is "' + dom_node.attr("class") + '"'
   );
 
-  //分className处理，获取text和href
-  let result = ({} as unknown) as PageInfo;
-  if (dom_node != undefined) {
-    switch (dom_node.attr("class")) {
-      case "download-link":
-        result.text = dom_node.text();
-        result.href = dom_node.attr("href") as string;
-        break;
-      case "download-info":
-        //获取box的首个子节点
-        let dom_btn = dom_box.children("a");
-
-        result.text = dom_node.text();
-        result.href = dom_btn.attr("href") as string;
-        break;
+  //尝试获取MD5
+  let md5TagResult = $("strong:contains('MD5')");
+  if (md5TagResult.length === 0) {
+    log("Warning:No MD5 tag found in this page");
+  } else {
+    try {
+      result.md5 = md5TagResult
+        .parent("li")
+        .get(0)
+        .children[1].data.substring(2);
+    } catch (err) {
+      log("Warning:Fail to get MD5 value");
     }
   }
+
+  //分className处理，获取text和href
+  switch (dom_node.attr("class")) {
+    case "download-link":
+      result.text = dom_node.text();
+      result.href = dom_node.attr("href") as string;
+      break;
+    case "download-info":
+      //获取box的首个子节点
+      let dom_btn = dom_box.children("a");
+
+      //产生两个属性
+      result.text = dom_node.text();
+      result.href = dom_btn.attr("href") as string;
+
+      //查询是否为多语言
+      if (result.text.match(/Multilingual/) == null) {
+        //匹配是否为英文
+        if (result.text.match(/English/)) {
+          //尝试获取多语言下载列表
+          log(
+            "Info:English application detected,trying to match simplified chinese version"
+          );
+          let table = $(".zebra.download-links");
+          if (table.length > 0) {
+            //获取简体中文下载地址
+            let recordParent = table
+              .find("td:contains('Simplified')")
+              .parent("tr");
+            if (recordParent.length > 0) {
+              //获得下载地址
+              result.href = recordParent.find("a").get(0).attribs.href;
+              //尝试获得md5
+              try {
+                result.md5 = recordParent
+                  .children("td")
+                  .get(3).children[0].data;
+              } catch (e) {
+                log("Warning:Fail to got md5");
+              }
+              log(
+                "Info:Found simplified chinese version\nmd5:" +
+                  result.md5 +
+                  "\ndownload link:" +
+                  result.href
+              );
+            } else {
+              log(
+                "Warning:Simplified chinese version not found,use English version"
+              );
+            }
+          } else {
+            log("Warning:Localizations table not found,use English version");
+          }
+        } else {
+          log(
+            "Warning:Detected minority language application,check the default language of " +
+              url
+          );
+        }
+      }
+      break;
+  }
+
   //校验结果是否有效
   if (!result.text || !result.href) {
     return new Interface({
       status: Status.ERROR,
-      payload: "Warning:Null value caught in result,can't scrape " + url,
+      payload: (("Warning:Null value caught in result,can't scrape " +
+        url) as unknown) as PageInfo,
     });
+  }
+
+  //校验md5
+  if (
+    result.md5 !== "" &&
+    result.md5 != undefined &&
+    result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
+  ) {
+    log("Warning:Fail to check md5,got " + result.md5);
+    result.md5 = "";
   }
 
   //处理href
   result.href = parseDownloadUrl(result.href);
 
   //输出提示
-  log("Info:Scraped successfully");
+  log(
+    "Info:Scraped successfully,got\ntext: " +
+      result.text +
+      "\ndownload link: " +
+      result.href
+  );
+  if (result.md5 !== "") console.log("md5: " + result.md5 ?? "none");
 
   return new Interface({
     status: Status.SUCCESS,
     payload: result,
   });
-}
+} //Interface:PageInfo
 
 //task processor
-//Interface:DatabaseNode
 async function processTask(
   task: Task,
   database: DatabaseNode,
@@ -755,12 +897,14 @@ async function processTask(
   log("Info:Start processing " + task.name);
 
   //抓取页面信息
-  let iScrape = await scrapePage(task.paUrl);
+  let iScrape = await scrapePage(task.paUrl, false);
   if (iScrape.status === Status.ERROR) {
-    log(iScrape.payload);
+    log(iScrape.payload as any);
     return new Interface({
       status: Status.ERROR,
-      payload: "Warning:Can't scrape " + task.name + " 's page,skipping...",
+      payload: (("Warning:Can't scrape " +
+        task.name +
+        " 's page,skipping...") as unknown) as PageInfo,
     });
   }
   let pageInfo = iScrape.payload as PageInfo;
@@ -789,7 +933,7 @@ async function processTask(
           task.name,
           pageInfo.href,
           p7zip,
-          "",
+          iScrape.payload.md5,
           task.requirement
         ))
       ) {
@@ -864,32 +1008,7 @@ async function processTask(
       break;
   }
   return ret;
-}
-
-async function spawnAria2() {
-  _spawn = new Spawn();
-  _spawn.all();
-  _spawn.promise().catch((e) => {
-    console.error(e);
-    throw e;
-  });
-  await sleep(1500);
-  aria2 = new Aria2.Client({
-    host: "localhost",
-    port: 7680,
-    auth: {
-      secret: "cnoisxie",
-    },
-  });
-  try {
-    let ver = await aria2.getVersion();
-    log("Info:Aria2 Ready, ver = " + ver.version);
-    return true;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
-}
+} //Interface:DatabaseNode
 
 //main
 async function main() {
@@ -951,6 +1070,7 @@ async function main() {
   }
 
   //总结
+  console.log("=========================================");
   if (failureTasks.length === 0) {
     log("Info:All tasks are executed successfully,exit");
   } else {

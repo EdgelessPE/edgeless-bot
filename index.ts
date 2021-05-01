@@ -345,11 +345,7 @@ function beforeRunCheck(): boolean {
 
   return true;
 }
-function cleanWorkshop(force: boolean = false): boolean {
-  if (!ENABLE_REMOTE && force) {
-    if (!IGNORE_REMOTE) log("Warning:[cleanWorkshop] Remote disabled");
-    return true;
-  }
+function cleanWorkshop(): boolean {
   let dst = DIR_WORKSHOP.substring(2);
   if (fs.existsSync(dst)) {
     cp.execSync("del /f /s /q " + dst);
@@ -1022,7 +1018,7 @@ async function main() {
   if (!beforeRunCheck()) {
     throw "Initialization failed";
   }
-  if (!cleanWorkshop(true)) {
+  if (!cleanWorkshop()) {
     throw "Cleaning workshop failed";
   }
 
@@ -1087,7 +1083,7 @@ async function main() {
   saveDatabase(DB);
 
   log("Info:Cleaning Workshop");
-  if (!cleanWorkshop(true)) {
+  if (!cleanWorkshop()) {
     throw "Cleaning workshop failed";
   }
 

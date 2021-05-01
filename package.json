@@ -12,7 +12,6 @@
         "chalk": "^4.1.1",
         "cheerio": "^1.0.0-rc.6",
         "execa": "^5.0.0",
-        "jsdom": "^16.5.3",
         "libaria2-ts": "^1.0.707",
         "ora": "^5.4.0",
         "strip-json-comments": "^3.1.1",

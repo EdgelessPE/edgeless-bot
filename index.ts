@@ -276,7 +276,8 @@ function preprocessPA(name:string):boolean {
         fileContent.InstallDate=fileContent.PackagingDate
         fileContent.InstallTime=fileContent.PackagingTime
 
-        fs.writeFileSync(filePath,ini.stringify(fileContent))
+        let final="[PortableApps.comInstaller]\n"+ini.stringify(fileContent)
+        fs.writeFileSync(filePath,final)
     }catch (err) {
         log("Error:Can't preprocess "+name+":can't modify pac_installer_log.ini")
         return false

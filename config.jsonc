@@ -22,16 +22,16 @@
   // aria2 RPC 主机
   "aria2Host": "localhost",
   // aria2 RPC secret
-  "aria2Secret": "cnoisxie",
+  "aria2Secret": "edgeless",
   // 是否启动 aria2
   "spawnAria2": true,
   // aria2 启动参数
   "aria2SpawnArgs": [
+    // 配置代理 "--all-proxy=http://localhost:10808",
     "--enable-rpc",
     "--rpc-allow-origin-all=true",
     "--rpc-listen-all=true",
     "--rpc-listen-port=46800",
-    "--rpc-secret=cnoisxie"
-    // 配置代理 "--all-proxy=http://localhost:10089",
+    "--rpc-secret=edgeless"
   ]
 }

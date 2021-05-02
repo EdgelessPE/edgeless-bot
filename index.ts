@@ -97,6 +97,7 @@ class Task {
     paUrl: string; //PortableApps网页链接
     requirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
     preprocess:boolean; //是否启用PortableApps预处理
+    autoMake:boolean; //是否启用自动制作
 
     constructor() {
         this.name = "Null";
@@ -105,6 +106,7 @@ class Task {
         this.paUrl = "Null";
         this.requirement = ["Null"];
         this.preprocess=true;
+        this.autoMake=true;
     }
 }
 
@@ -255,10 +257,23 @@ function rd(dst:string):boolean {
             cp.execSync("del /f /s /q \"" + dst+"\"");
             cp.execSync("rd /s /q \"" + dst+"\"");
         }catch (err) {
+            console.log(err.output.toString())
             log("Warning:Can't remove directory "+dst)
         }
     }
     return !fs.existsSync(dst)
+}
+function mv(src:string,dst:string):boolean {
+    src=src.replace(/\//g, "\\");
+    dst=dst.replace(/\//g, "\\");
+    try{
+        cp.execSync("move /y \""+src+"\" \""+dst+"\"")
+    }catch (err) {
+        console.log(err.output.toString())
+        log("Error:Can't move "+src+" to "+dst)
+        return false
+    }
+    return fs.existsSync(dst)
 }
 function cleanBuildStatus(s:Array<BuildStatus>):Array<BuildStatus> {
     //按照时间降序排列
@@ -511,8 +526,7 @@ function readTaskConfig(name: string): Interface {
 
     //判断Task文件夹合法性
     if (
-        !fs.existsSync(dir + "/config.json") ||
-        !fs.existsSync(dir + "/make.cmd")
+        !fs.existsSync(dir + "/config.json")
     ) {
         return new Interface({
             status: Status.ERROR,
@@ -656,13 +670,18 @@ async function getWorkDirReady(
     }
 
     //复制make.cmd
-    fs.copyFileSync(DIR_TASKS + "/" + name + "/make.cmd", dir + "/make.cmd");
+    if(fs.existsSync(DIR_TASKS + "/" + name + "/make.cmd")) fs.copyFileSync(DIR_TASKS + "/" + name + "/make.cmd", dir + "/make.cmd");
 
     log("Info:Workshop for " + name + " is ready");
     return true;
 }
 
 function runMakeScript(name: string): boolean {
+    //校验是否存在make.cmd
+    if(!fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.cmd")){
+        log("Error:make.cmd not found for task "+name)
+    }
+
     log("Info:Start making " + name);
     try {
         cp.execSync("make.cmd", {cwd: DIR_WORKSHOP + "/" + name});
@@ -688,6 +707,45 @@ function runMakeScript(name: string): boolean {
     }
 
     return true;
+}
+
+function autoMake(name:string):boolean {
+    log("Info:Start auto make "+name)
+    let dir=DIR_WORKSHOP+"/"+name+"/release"
+
+    //扫描exe文件
+    let files:Array<string>=fs.readdirSync(dir)
+
+    //找出可执行文件
+    let exeFileName:string=""
+    files.forEach((item)=>{
+        if(item.includes(".exe")){
+            log("Info:Got exe file:"+item)
+            exeFileName=item
+        }
+    })
+    if(exeFileName!==""){
+        //检查是否包含"Portable"
+        if(!exeFileName.includes("Portable")){
+            log("Warning:Exe file may be wrong:"+exeFileName)
+        }
+
+        //生成wcs文件
+        let cmd="LINK X:\\Users\\Default\\Desktop\\"+name+",X:\\Program Files\\Edgeless\\"+name+"_bot\\"+exeFileName
+        fs.writeFileSync(DIR_WORKSHOP+"/"+name+"/build/"+name+"_bot.wcs",cmd)
+        log("Info:Save batch with command:"+cmd)
+
+        //移动文件夹
+        if(!mv(DIR_WORKSHOP+"/"+name+"/release",DIR_WORKSHOP+"/"+name+"/build/"+name+"_bot")){
+            return false
+        }
+
+        log("Info:Auto make executed successfully")
+        return true
+    }else{
+        log("Error:Can't find exe file,auto make failed")
+        return false
+    }
 }
 
 function buildAndDeliver(
@@ -1034,13 +1092,24 @@ async function processTask(
                 });
                 break;
             }
-            if (!runMakeScript(task.name)) {
-                ret = new Interface({
-                    status: Status.ERROR,
-                    payload:
-                        "Warning:Can't run " + task.name + " 's make script,skipping...",
-                });
-                break;
+            if(task.autoMake){
+                if(!autoMake(task.name)){
+                    ret = new Interface({
+                        status: Status.ERROR,
+                        payload:
+                            "Warning:Can't make " + task.name + " automatically,skipping...",
+                    });
+                    break;
+                }
+            }else{
+                if (!runMakeScript(task.name)) {
+                    ret = new Interface({
+                        status: Status.ERROR,
+                        payload:
+                            "Warning:Can't run " + task.name + " 's make script,skipping...",
+                    });
+                    break;
+                }
             }
             let BAD_database: DatabaseNode;
             try {
@@ -1183,15 +1252,14 @@ async function main() {
             failureTasks.push(taskName);
 
             //写数据库构建情况
-            let node=DB[taskName] as DatabaseNode
-            node.recentStatus.push({
+            dbNode.recentStatus.push({
                 time:Date.now(),
                 timeDescription:Date(),
 
                 success:false,
                 errorMessage:iPT.payload
             })
-            DB[taskName]=node
+            DB[taskName]=dbNode
         } else {
             //task运行成功
             log("Info:Task " + taskName + " executed successfully");
@@ -1229,4 +1297,4 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 }
 
-//main().catch((e) => {throw e});
+main().catch((e) => {throw e});

@@ -5,5 +5,6 @@
 
     "paUrl":"https://portableapps.com/apps/internet/firefox_portable",
     "requirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"],
-    "preprocess": true
+    "preprocess": true,
+    "autoMake": true
 }

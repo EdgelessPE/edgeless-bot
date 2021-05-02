@@ -5,7 +5,7 @@
     "author": "Cno",
     "license": "MPL-2.0",
     "scripts": {
-        "run-server": "node --require ts-node/register index.ts"
+        "serve": "node --require ts-node/register index.ts"
     },
     "dependencies": {
         "axios": "^0.21.1",

@@ -38,12 +38,12 @@
   "spawnAria2": true,
   // aria2 启动参数
   "aria2SpawnArgs": [
+    // 配置代理 "--all-proxy=http://localhost:10089",
     "--enable-rpc",
     "--rpc-allow-origin-all=true",
     "--rpc-listen-all=true",
     "--rpc-listen-port=46800",
     "--rpc-secret=edgeless"
-    // 配置代理 "--all-proxy=http://localhost:10089",
   ]
 }
 ```
@@ -53,7 +53,7 @@
 yarn
 
 :: 运行
-yarn run-server
+yarn serve
 ```
 
 ## 开发

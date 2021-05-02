@@ -314,6 +314,7 @@ function preprocessPA(name:string):boolean {
         let final="[PortableApps.comInstaller]\n"+ini.stringify(fileContent)
         fs.writeFileSync(filePath,final)
     }catch (err) {
+        console.log(JSON.stringify(err))
         log("Error:Can't preprocess "+name+":can't modify pac_installer_log.ini")
         return false
     }
@@ -427,6 +428,7 @@ function beforeRunCheck(): boolean {
                 stdio: "ignore",
             });
         } catch (err) {
+            console.log(err.output.toString())
             return (
                 item.onerror(() =>
                     l(
@@ -764,6 +766,7 @@ function buildAndDeliver(
     try {
         cp.execSync('"' + p7zip + '" a "' + zname + '" *', {cwd: dir + "/build"});
     } catch (err) {
+        console.log(err.output.toString())
         return new Interface({
             status: Status.ERROR,
             payload: "Error:Compress " + zname + " failed,skipping...",
@@ -845,7 +848,7 @@ async function spawnAria2() {
         log("Info:Aria2 ready, ver = " + ver.version);
         return true;
     } catch (e) {
-        console.error(e);
+        console.log(e);
         return false;
     }
 }
@@ -866,6 +869,7 @@ async function scrapePage(
     try {
         if (!useFS) res = await axios.get(url);
     } catch (err) {
+        console.log(JSON.stringify(err))
         return new Interface({
             status: Status.ERROR,
             payload: (("Error:Http status code abnormal,can't scrape " +
@@ -924,6 +928,7 @@ async function scrapePage(
                 .get(0)
                 .children[1].data.substring(2);
         } catch (err) {
+            console.log(JSON.stringify(err))
             log("Warning:Fail to get MD5 value");
         }
     }
@@ -964,7 +969,8 @@ async function scrapePage(
                                 result.md5 = recordParent
                                     .children("td")
                                     .get(3).children[0].data;
-                            } catch (e) {
+                            } catch (err) {
+                                console.log(JSON.stringify(err))
                                 log("Warning:Fail to got md5");
                             }
                             log(

@@ -204,7 +204,7 @@ function matchVersion(text: string): Interface {
         return new Interface({
             status: Status.ERROR,
             payload:
-                'Warning:Matched nothing when looking into "' +
+                'Error:Matched nothing when looking into "' +
                 text +
                 '" with "' +
                 regex +
@@ -623,14 +623,14 @@ async function getWorkDirReady(
         }
         progress.succeed(name + " Downloaded.");
     } catch (e) {
-        log("Warning:Downloading " + name + " failed,skipping...");
+        log("Error:Downloading " + name + " failed,skipping...");
         console.error(e);
         return false;
     }
 
     //校验下载
     if (!fs.existsSync(dir + "/target.exe")) {
-        log("Warning:Downloading " + name + " failed,skipping...");
+        log("Error:Downloading " + name + " failed,skipping...");
         return false;
     }
 
@@ -639,7 +639,7 @@ async function getWorkDirReady(
         let md5_calc = await getMD5(dir + "/target.exe");
         if (md5.toLowerCase() !== md5_calc.toLowerCase()) {
             log(
-                "Warning:Task " +
+                "Error:Task " +
                 name +
                 " 's MD5 checking failed,expected +" +
                 md5 +
@@ -665,7 +665,7 @@ async function getWorkDirReady(
         }
     }
     if (miss) {
-        log("Warning:Miss " + miss + " in " + name + "'s workshop,skipping...");
+        log("Error:Miss " + miss + " in " + name + "'s workshop,skipping...");
         return false;
     }
 
@@ -686,7 +686,7 @@ function runMakeScript(name: string): boolean {
     try {
         cp.execSync("make.cmd", {cwd: DIR_WORKSHOP + "/" + name});
     } catch (e) {
-        log("Warning:Make error for " + name + ",skipping...");
+        log("Error:Make error for " + name + ",skipping...");
         console.log(e.output.toString());
         return false;
     }
@@ -702,7 +702,7 @@ function runMakeScript(name: string): boolean {
         }
     }
     if (miss) {
-        log("Warning:Illegal directory build from " + name + ",skipping...");
+        log("Error:Illegal directory build from " + name + ",skipping...");
         return false;
     }
 
@@ -887,7 +887,7 @@ async function scrapePage(
     if (!dom_box) {
         return new Interface({
             status: Status.ERROR,
-            payload: (("Warning:DOM_DOWNLOAD_BOX not found,can't scrape " +
+            payload: (("Error:DOM_DOWNLOAD_BOX not found,can't scrape " +
                 url +
                 ",skipping...") as unknown) as PageInfo,
         });
@@ -904,7 +904,7 @@ async function scrapePage(
     if (!dom_node.attr("class")) {
         return new Interface({
             status: Status.ERROR,
-            payload: (("Warning:Valid dom node not found,can't scrape " +
+            payload: (("Error:Valid dom node not found,can't scrape " +
                 url +
                 ",skipping...") as unknown) as PageInfo,
         });
@@ -995,7 +995,7 @@ async function scrapePage(
     if (!result.text || !result.href) {
         return new Interface({
             status: Status.ERROR,
-            payload: (("Warning:Null value caught in result,can't scrape " +
+            payload: (("Error:Null value caught in result,can't scrape " +
                 url) as unknown) as PageInfo,
         });
     }
@@ -1042,7 +1042,7 @@ async function processTask(
         log(iScrape.payload as any);
         return new Interface({
             status: Status.ERROR,
-            payload: (("Warning:Can't scrape " +
+            payload: (("Error:Can't scrape " +
                 task.name +
                 " 's page,skipping...") as unknown) as PageInfo,
         });
@@ -1056,7 +1056,7 @@ async function processTask(
         return new Interface({
             status: Status.ERROR,
             payload:
-                "Warning:Can't match " +
+                "Error:Can't match " +
                 task.name +
                 " 's version from page,skipping...",
         });
@@ -1080,7 +1080,7 @@ async function processTask(
                 ret = new Interface({
                     status: Status.ERROR,
                     payload:
-                        "Warning:Can't get " + task.name + " 's workshop ready,skipping...",
+                        "Error:Can't get " + task.name + " 's workshop ready,skipping...",
                 });
                 break;
             }
@@ -1088,7 +1088,7 @@ async function processTask(
                 ret = new Interface({
                     status: Status.ERROR,
                     payload:
-                        "Warning:Can't preprocess " + task.name + ",skipping...",
+                        "Error:Can't preprocess " + task.name + ",skipping...",
                 });
                 break;
             }
@@ -1097,7 +1097,7 @@ async function processTask(
                     ret = new Interface({
                         status: Status.ERROR,
                         payload:
-                            "Warning:Can't make " + task.name + " automatically,skipping...",
+                            "Error:Can't make " + task.name + " automatically,skipping...",
                     });
                     break;
                 }
@@ -1106,7 +1106,7 @@ async function processTask(
                     ret = new Interface({
                         status: Status.ERROR,
                         payload:
-                            "Warning:Can't run " + task.name + " 's make script,skipping...",
+                            "Error:Can't run " + task.name + " 's make script,skipping...",
                     });
                     break;
                 }
@@ -1126,7 +1126,7 @@ async function processTask(
                 ret = new Interface({
                     status: Status.ERROR,
                     payload:
-                        "Warning:Can't build or deliver " + task.name + ",skipping...",
+                        "Error:Can't build or deliver " + task.name + ",skipping...",
                 });
                 break;
             }
@@ -1228,7 +1228,7 @@ async function main() {
         //读取task配置
         let iRT = readTaskConfig(taskName);
         if (iRT.status === Status.ERROR) {
-            log("Warning:Can't read " + taskName + "'s config,skipping...");
+            log("Error:Can't read " + taskName + "'s config,skipping...");
             continue;
         }
         let taskConfig = iRT.payload as Task;

@@ -98,6 +98,7 @@ class Task {
     requirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
     preprocess:boolean; //是否启用PortableApps预处理
     autoMake:boolean; //是否启用自动制作
+    useWget:boolean; //是否使用wget，默认使用aria2
 
     constructor() {
         this.name = "Null";
@@ -107,6 +108,7 @@ class Task {
         this.requirement = ["Null"];
         this.preprocess=true;
         this.autoMake=true;
+        this.useWget=false;
     }
 }
 
@@ -587,60 +589,64 @@ function readTaskConfig(name: string): Interface {
     });
 } //Interface:Task
 async function getWorkDirReady(
-    name: string,
-    url: string,
-    p7zip: string,
-    md5: string,
-    req: Array<string>
+    task: Task,
+    pageInfo: PageInfo,
+    p7zip: string
 ): Promise<boolean> {
+    let name=task.name
+    let req=task.requirement
+    let url=pageInfo.href
+    let md5=pageInfo.md5
     let dir = DIR_WORKSHOP + "/" + name;
 
     //创建目录，因为程序初始化时会将workshop目录重建
     fs.mkdirSync(dir);
     fs.mkdirSync(dir + "/" + "build");
 
-    //通过aria2下载
+    //通过aria2/wget下载
     log("Info:Start downloading " + name);
     try {
-        // cp.execSync("wget -O target.exe " + url, { cwd: dir });
-        let gid = await aria2.addUri(
-            url,
-            {
-                dir: dir,
-                out: "target.exe",
-            },
-            0
-        );
+        if(task.useWget) cp.execSync("wget -O target.exe " + url, { cwd: dir });
+        else{
+            let gid = await aria2.addUri(
+                url,
+                {
+                    dir: dir,
+                    out: "target.exe",
+                },
+                0
+            );
 
-        let done = false;
-        let progress = ora({
-            text: "Downloading " + name + ", waiting...",
-            prefixText: chalk.green("Info"),
-        });
-        progress.start();
-        while (!done) {
-            await sleep(500);
-            let status = await aria2.tellStatus(gid);
-            if (status.status == "error") throw status;
-            if (status.status == "complete") done = true;
-            if (status.status == "waiting") {
-                await sleep(1000);
+            let done = false;
+            let progress = ora({
+                text: "Downloading " + name + ", waiting...",
+                prefixText: chalk.green("Info"),
+            });
+            progress.start();
+            while (!done) {
+                await sleep(500);
+                let status = await aria2.tellStatus(gid);
+                if (status.status == "error") throw status;
+                if (status.status == "complete") done = true;
+                if (status.status == "waiting") {
+                    await sleep(1000);
+                }
+                progress.text =
+                    "Download Progress: " +
+                    (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
+                        3
+                    ) +
+                    " / " +
+                    (Number(status.totalLength as bigint) / 1024 / 1024).toPrecision(3) +
+                    " MiB, Speed: " +
+                    (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3) +
+                    " MiB/s";
             }
-            progress.text =
-                "Download Progress: " +
-                (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
-                    3
-                ) +
-                " / " +
-                (Number(status.totalLength as bigint) / 1024 / 1024).toPrecision(3) +
-                " MiB, Speed: " +
-                (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3) +
-                " MiB/s";
+            progress.succeed(name + " Downloaded.");
         }
-        progress.succeed(name + " Downloaded.");
-    } catch (e) {
+    } catch (err) {
         log("Error:Downloading " + name + " failed,skipping...");
-        console.error(e);
+        console.log(err.output.toString());
         return false;
     }
 
@@ -657,7 +663,7 @@ async function getWorkDirReady(
             log(
                 "Error:Task " +
                 name +
-                " 's MD5 checking failed,expected +" +
+                " 's MD5 checking failed,expected " +
                 md5 +
                 ",got " +
                 md5_calc +
@@ -1093,11 +1099,9 @@ async function processTask(
             //需要升级
             if (
                 !(await getWorkDirReady(
-                    task.name,
-                    pageInfo.href,
-                    p7zip,
-                    pageInfo.md5,
-                    task.requirement
+                    task,
+                    pageInfo,
+                    p7zip
                 ))
             ) {
                 ret = new Interface({
@@ -1337,5 +1341,4 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 }
 
-//main().catch((e) => {throw e});
-console.log(JSON.stringify(readTaskConfig("Chrome")))
+main().catch((e) => {throw e});

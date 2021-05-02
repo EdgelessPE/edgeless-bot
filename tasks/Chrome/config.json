@@ -6,5 +6,6 @@
     "paUrl":"https://portableapps.com/apps/internet/google_chrome_portable",
     "requirement":["GoogleChromePortable.exe","App/Chrome-bin/chrome.exe"],
     "preprocess": false,
-    "autoMake": false
+    "autoMake": false,
+    "useWget": true
 }

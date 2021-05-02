@@ -275,6 +275,20 @@ function mv(src:string,dst:string):boolean {
     }
     return fs.existsSync(dst)
 }
+function xcopy(src:string,dst:string):boolean {
+    //demo:xcopy /s /r /y .\Edgeless %PA_Part%:\Edgeless\
+
+    src=src.replace(/\//g, "\\");
+    dst=dst.replace(/\//g, "\\");
+    try{
+        cp.execSync("xcopy /s /r /y \""+src+"\" \""+dst+"\"")
+    }catch (err) {
+        console.log(err.output.toString())
+        log("Error:Can't copy "+src+" to "+dst)
+        return false
+    }
+    return fs.existsSync(dst)
+}
 function cleanBuildStatus(s:Array<BuildStatus>):Array<BuildStatus> {
     //按照时间降序排列
     s.sort((a,b)=>{
@@ -673,6 +687,9 @@ async function getWorkDirReady(
 
     //复制make.cmd
     if(fs.existsSync(DIR_TASKS + "/" + name + "/make.cmd")) fs.copyFileSync(DIR_TASKS + "/" + name + "/make.cmd", dir + "/make.cmd");
+
+    //复制utils
+    if(fs.existsSync(DIR_TASKS + "/" + name + "/utils")) xcopy(DIR_TASKS + "/" + name + "utils", dir + "/utils/")
 
     log("Info:Workshop for " + name + " is ready");
     return true;

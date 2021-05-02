@@ -564,7 +564,7 @@ function readTaskConfig(name: string): Interface {
     //检查Json健全性
     let miss = null;
     for (let taskKey in new Task()) {
-        if (!json[taskKey] || json[taskKey] === null) {
+        if (!json.hasOwnProperty(taskKey)) {
             miss = taskKey;
             break;
         }
@@ -1252,6 +1252,23 @@ async function main() {
         let iRT = readTaskConfig(taskName);
         if (iRT.status === Status.ERROR) {
             log("Error:Can't read " + taskName + "'s config,skipping...");
+
+            //读取数据库中对应节点
+            let dbNode = DB[taskName] as DatabaseNode;
+            if (!dbNode) dbNode = new DatabaseNode();
+
+            //记录错误
+            failureTasks.push(taskName);
+
+            //写数据库构建情况
+            dbNode.recentStatus.push({
+                time:Date.now(),
+                timeDescription:Date(),
+
+                success:false,
+                errorMessage:"Error:Can't read " + taskName + "'s config:"+iRT.payload
+            })
+            DB[taskName]=dbNode
             continue;
         }
         let taskConfig = iRT.payload as Task;
@@ -1320,4 +1337,5 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 }
 
-main().catch((e) => {throw e});
+//main().catch((e) => {throw e});
+console.log(JSON.stringify(readTaskConfig("Chrome")))

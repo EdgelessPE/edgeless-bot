@@ -1,4 +1,5 @@
 @echo off
+if exist ".\GoogleChromePortable\Data\PortableApps.comInstaller\license.ini" del /f /q ".\GoogleChromePortable\Data\PortableApps.comInstaller\license.ini"
 
 ren target.exe Chrome_online.paf.exe
 start .\utils\pecmd.exe .\utils\press.wcs

@@ -737,7 +737,7 @@ function runMakeScript(name: string): boolean {
 
     log("Info:Start making " + name);
     try {
-        cp.execSync("make.cmd", {cwd: DIR_WORKSHOP + "/" + name});
+        cp.execSync("start /wait cmd /c \"make.cmd\"", {cwd: DIR_WORKSHOP + "/" + name});
     } catch (e) {
         log("Error:Make error for " + name + ",skipping...");
         console.log(e.output.toString());

@@ -10,6 +10,7 @@ import sleep from "./utils/sleep";
 import ora from "ora";
 import UserConfig from "./utils/config";
 const ini = require("ini");
+const iconv = require('iconv-lite');
 
 
 export const _userConfig = new UserConfig(
@@ -305,6 +306,9 @@ function cleanBuildStatus(s:Array<BuildStatus>):Array<BuildStatus> {
     })
 
     return s.slice(0,3)
+}
+function gbk(buffer:Buffer):string {
+    return iconv.decode(buffer,'GBK')
 }
 
 //helper
@@ -729,37 +733,59 @@ async function getWorkDirReady(
     })
 } //Interface:string
 
-function runMakeScript(name: string): boolean {
-    //校验是否存在make.cmd
-    if(!fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.cmd")){
-        log("Error:make.cmd not found for task "+name)
-    }
-
-    log("Info:Start making " + name);
-    try {
-        cp.execSync("start /wait cmd /c \"make.cmd\"", {cwd: DIR_WORKSHOP + "/" + name});
-    } catch (e) {
-        log("Error:Make error for " + name + ",skipping...");
-        console.log(e.output.toString());
-        return false;
-    }
-    log("Info:Finish making " + name);
-
-    //校验目录可靠性
-    let dirFiles = fs.readdirSync(DIR_WORKSHOP + "/" + name + "/build");
-    let miss = true;
-    for (let i in dirFiles) {
-        if (dirFiles[i].match(".wcs") || dirFiles[i].match(".cmd")) {
-            miss = false;
-            break;
+async function runMakeScript(name: string): Promise<Interface> {
+    return new Promise<Interface>((resolve)=>{
+        //校验是否存在make.cmd
+        if(!fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.cmd")){
+            resolve(new Interface({
+                status:Status.ERROR,
+                payload:"Error:make.cmd not found for task "+name
+            }))
         }
-    }
-    if (miss) {
-        log("Error:Illegal directory build from " + name + ",skipping...");
-        return false;
-    }
+        log("Info:Start making " + name);
+        //生成bot_start.cmd
+        fs.writeFileSync(DIR_WORKSHOP + "/" + name+"/bot_start.cmd","if exist make.log del /f /q make.log\ncmd /c make.cmd>make.log\nexit")
+        let exec=cp.exec("start /wait bot_start.cmd", {cwd: DIR_WORKSHOP + "/" + name},(err,_out,_err)=>{
+            //尝试输出make.cmd的控制台信息
+            if(fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.log")){
+                console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name+"/make.log")))
+            }else{
+                log("Warning:make.cmd has no console output")
+            }
 
-    return true;
+            //判断执行是否出错
+            if(err==null){
+                log("Info:Finish making " + name);
+
+                //校验目录可靠性
+                let dirFiles = fs.readdirSync(DIR_WORKSHOP + "/" + name + "/build");
+                let miss = true;
+                for (let i in dirFiles) {
+                    if (dirFiles[i].match(".wcs") || dirFiles[i].match(".cmd")) {
+                        miss = false;
+                        break;
+                    }
+                }
+                if (miss) {
+                    resolve(new Interface({
+                        status:Status.ERROR,
+                        payload:"Error:Illegal directory build from " + name
+                    }))
+                }
+
+                //成功
+                resolve(new Interface({
+                    status:Status.SUCCESS,
+                    payload:"Success"
+                }))
+            }else{
+                resolve(new Interface({
+                    status:Status.ERROR,
+                    payload:"Error:Make error for " + name
+                }))
+            }
+        });
+    })
 }
 
 function autoMake(name:string):boolean {
@@ -1148,12 +1174,9 @@ async function processTask(
                     break;
                 }
             }else{
-                if (!runMakeScript(task.name)) {
-                    ret = new Interface({
-                        status: Status.ERROR,
-                        payload:
-                            "Error:Can't run " + task.name + " 's make script,skipping...",
-                    });
+                let iRM=await runMakeScript(task.name)
+                if (iRM.status===Status.ERROR) {
+                    ret = iRM
                     break;
                 }
             }

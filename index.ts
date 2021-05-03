@@ -98,7 +98,7 @@ class Task {
     requirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
     preprocess:boolean; //是否启用PortableApps预处理
     autoMake:boolean; //是否启用自动制作
-    useWget:boolean; //是否使用wget，默认使用aria2
+    //useWget:boolean; //是否使用wget，默认使用aria2
 
     constructor() {
         this.name = "Null";
@@ -108,7 +108,7 @@ class Task {
         this.requirement = ["Null"];
         this.preprocess=true;
         this.autoMake=true;
-        this.useWget=false;
+        //this.useWget=false;
     }
 }
 
@@ -181,6 +181,9 @@ async function getMD5(filePath: string): Promise<string> {
 function parseDownloadUrl(href: string): string {
     //识别根目录字符“/”
     if (href[0] === "/") href = "https://portableapps.com" + href;
+
+    //识别downloading，替换为redirect
+    href.replace("portableapps.com/downloading","portableapps.com/redirect")
 
     return encodeURI(href);
 }
@@ -592,7 +595,7 @@ async function getWorkDirReady(
     task: Task,
     pageInfo: PageInfo,
     p7zip: string
-): Promise<boolean> {
+): Promise<Interface> {
     let name=task.name
     let req=task.requirement
     let url=pageInfo.href
@@ -606,70 +609,71 @@ async function getWorkDirReady(
     //通过aria2/wget下载
     log("Info:Start downloading " + name);
     try {
-        if(task.useWget) cp.execSync("wget -O target.exe " + url, { cwd: dir });
-        else{
-            let gid = await aria2.addUri(
-                url,
-                {
-                    dir: dir,
-                    out: "target.exe",
-                },
-                0
-            );
-
-            let done = false;
-            let progress = ora({
-                text: "Downloading " + name + ", waiting...",
-                prefixText: chalk.green("Info"),
-            });
-            progress.start();
-            while (!done) {
-                await sleep(500);
-                let status = await aria2.tellStatus(gid);
-                if (status.status == "error") throw status;
-                if (status.status == "complete") done = true;
-                if (status.status == "waiting") {
-                    await sleep(1000);
-                }
-                progress.text =
-                    "Download Progress: " +
-                    (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
-                        3
-                    ) +
-                    " / " +
-                    (Number(status.totalLength as bigint) / 1024 / 1024).toPrecision(3) +
-                    " MiB, Speed: " +
-                    (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3) +
-                    " MiB/s";
+        //cp.execSync("wget -O target.exe " + url, {cwd: dir});
+        let gid = await aria2.addUri(
+            url,
+            {
+                dir: dir,
+                out: "target.exe",
+            },
+            0
+        );
+        let done = false;
+        let progress = ora({
+            text: "Downloading " + name + ", waiting...",
+            prefixText: chalk.green("Info"),
+        });
+        progress.start();
+        while (!done) {
+            await sleep(500);
+            let status = await aria2.tellStatus(gid);
+            if (status.status == "error") throw status;
+            if (status.status == "complete") done = true;
+            if (status.status == "waiting") {
+                await sleep(1000);
             }
-            progress.succeed(name + " Downloaded.");
+            progress.text =
+                "Download Progress: " +
+                (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
+                    3
+                ) +
+                " / " +
+                (Number(status.totalLength as bigint) / 1024 / 1024).toPrecision(3) +
+                " MiB, Speed: " +
+                (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3) +
+                " MiB/s";
         }
+        progress.succeed(name + " Downloaded.");
     } catch (err) {
-        log("Error:Downloading " + name + " failed,skipping...");
         console.log(err.output.toString());
-        return false;
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Downloading " + name + " failed,skipping..."
+        })
     }
 
     //校验下载
     if (!fs.existsSync(dir + "/target.exe")) {
-        log("Error:Downloading " + name + " failed,skipping...");
-        return false;
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Downloading " + name + " failed,skipping..."
+        })
     }
 
     //校验md5
     if (md5&&md5 !== "") {
         let md5_calc = await getMD5(dir + "/target.exe");
         if (md5.toLowerCase() !== md5_calc.toLowerCase()) {
-            log(
-                "Error:Task " +
-                name +
-                " 's MD5 checking failed,expected " +
-                md5 +
-                ",got " +
-                md5_calc +
-                ",skipping..."
-            );
-            return false;
+            return new Interface({
+                status:Status.ERROR,
+                payload:                "Error:Task " +
+                    name +
+                    " 's MD5 checking failed,expected " +
+                    md5 +
+                    ",got " +
+                    md5_calc +
+                    ",skipping..."
+            })
         }
     }
 
@@ -687,8 +691,10 @@ async function getWorkDirReady(
         }
     }
     if (miss) {
-        log("Error:Miss " + miss + " in " + name + "'s workshop,skipping...");
-        return false;
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Miss " + miss + " in " + name + "'s workshop,skipping..."
+        })
     }
 
     //复制make.cmd
@@ -698,8 +704,11 @@ async function getWorkDirReady(
     if(fs.existsSync(DIR_TASKS + "/" + name + "/utils")) xcopy(DIR_TASKS + "/" + name + "utils", dir + "/utils/")
 
     log("Info:Workshop for " + name + " is ready");
-    return true;
-}
+    return new Interface({
+        status:Status.SUCCESS,
+        payload:"Success"
+    })
+} //Interface:string
 
 function runMakeScript(name: string): boolean {
     //校验是否存在make.cmd
@@ -1097,18 +1106,9 @@ async function processTask(
     switch (versionCmp(database.latestVersion, version)) {
         case Cmp.L:
             //需要升级
-            if (
-                !(await getWorkDirReady(
-                    task,
-                    pageInfo,
-                    p7zip
-                ))
-            ) {
-                ret = new Interface({
-                    status: Status.ERROR,
-                    payload:
-                        "Error:Can't get " + task.name + " 's workshop ready,skipping...",
-                });
+            let iGWR= await getWorkDirReady(task,pageInfo,p7zip)
+            if (iGWR.status===Status.ERROR) {
+                ret = iGWR
                 break;
             }
             if(task.preprocess&&!preprocessPA(task.name)){

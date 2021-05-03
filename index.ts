@@ -759,69 +759,25 @@ async function runMakeScript(name: string): Promise<Interface> {
 
         log("Info:Start making " + name);
 
-        //生成bot_start.cmd
-        fs.writeFileSync(DIR_WORKSHOP + "/" + name+"/bot_start.cmd","cmd /c make.cmd>make.log\nexit")
-
-        //超时检查(10min)
-        let timeLimit=600000
-        let deadline=Date.now()+timeLimit
-        let interval:NodeJS.Timeout
-        interval=setInterval(()=>{
-            if(deadline<Date.now()){
-                log("Info:Finish make,cost "+((deadline-timeLimit)/1000)+"s")
-                clearInterval(interval)
-                resolve(new Interface({
-                    status:Status.ERROR,
-                    payload:"Error:Make timeout for " + name
-                }))
-            }
-        },60000)
-
         //启动make.cmd进程
-        let exec=cp.exec("start /wait bot_start.cmd", {cwd: DIR_WORKSHOP + "/" + name},(err,_out,_err)=>{
-            //中断定时器
-            clearInterval(interval)
+        try{
+            cp.execSync("make.cmd>make.log", {cwd: DIR_WORKSHOP + "/" + name,timeout:600000})
+        }catch (err) {
+            if(fs.existsSync("./make.log")) console.log(gbk(fs.readFileSync("./make.log")));
+            else log("Warning:make.cmd has no console output")
+            resolve(new Interface({
+                status:Status.ERROR,
+                payload:"Error:Make error for " + name + ",skipping..."
+            }))
+        }
 
-            //尝试输出make.cmd的控制台信息
-            if(fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.log")){
-                console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name+"/make.log")))
-            }else{
-                log("Warning:make.cmd has no console output")
-            }
-
-            //判断执行是否出错
-            if(err==null){
-                log("Info:Finish making " + name);
-
-                //校验目录可靠性
-                let dirFiles = fs.readdirSync(DIR_WORKSHOP + "/" + name + "/build");
-                let miss = true;
-                for (let i in dirFiles) {
-                    if (dirFiles[i].match(".wcs") || dirFiles[i].match(".cmd")) {
-                        miss = false;
-                        break;
-                    }
-                }
-                if (miss) {
-                    resolve(new Interface({
-                        status:Status.ERROR,
-                        payload:"Error:Illegal directory build from " + name
-                    }))
-                }
-
-                //成功
-                resolve(new Interface({
-                    status:Status.SUCCESS,
-                    payload:"Success"
-                }))
-            }else{
-                resolve(new Interface({
-                    status:Status.ERROR,
-                    payload:"Error:Make error for " + name
-                }))
-            }
-        });
-
+        //成功
+        if(fs.existsSync("./make.log")) console.log(gbk(fs.readFileSync("./make.log")));
+        else log("Warning:make.cmd has no console output")
+        resolve(new Interface({
+            status:Status.SUCCESS,
+            payload:"Success"
+        }))
     })
 }
 
@@ -1416,7 +1372,7 @@ async function main() {
     //总结
     console.log("=========================================");
     if (failureTasks.length === 0) {
-        log("Info:Everything is Okay");
+        log("Success:Everything is Okay");
     } else {
         log(
             "Warning:" +

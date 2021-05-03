@@ -70,8 +70,7 @@ class Interface<T = any> {
                 log("Error:" + text.substring(spl[0].length + 1));
                 throw "EXIT";
             }
-            log(text);
-            throw "EXIT";
+            throw text;
         } else {
             return this.payload;
         }
@@ -96,7 +95,8 @@ class Task {
     author: string; //打包者名称
 
     paUrl: string; //PortableApps网页链接
-    requirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
+    releaseRequirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
+    buildRequirement:Array<string>; //构建成功时工作目录中应该出现的文件/文件夹，用于构建校验
     preprocess:boolean; //是否启用PortableApps预处理
     autoMake:boolean; //是否启用自动制作
     //useWget:boolean; //是否使用wget，默认使用aria2
@@ -106,7 +106,8 @@ class Task {
         this.category = "Null";
         this.author = "Null";
         this.paUrl = "Null";
-        this.requirement = ["Null"];
+        this.releaseRequirement = ["Null"];
+        this.buildRequirement = ["Null"];
         this.preprocess=true;
         this.autoMake=true;
         //this.useWget=false;
@@ -151,7 +152,10 @@ function log(text: string) {
     let inf = text.substring(spl[0].length + 1);
     switch (spl[0]) {
         case "Info":
-            console.log(chalk.green("Info ") + inf);
+            console.log(chalk.blue("Info ") + inf);
+            break;
+        case "Success":
+            console.log(chalk.greenBright("Success ") + inf);
             break;
         case "Warning":
             console.log(chalk.yellow("Warning ") + inf);
@@ -604,7 +608,7 @@ async function getWorkDirReady(
     p7zip: string
 ): Promise<Interface> {
     let name=task.name
-    let req=task.requirement
+    let req=task.releaseRequirement
     let url=pageInfo.href
     let md5=pageInfo.md5
     let dir = DIR_WORKSHOP + "/" + name;
@@ -628,7 +632,7 @@ async function getWorkDirReady(
         let done = false;
         let progress = ora({
             text: "Downloading " + name + ", waiting...",
-            prefixText: chalk.green("Info"),
+            prefixText: chalk.blue("Info"),
         });
         progress.start();
         while (!done) {
@@ -726,6 +730,16 @@ async function getWorkDirReady(
         }
     }
 
+    //复制cover
+    if(fs.existsSync(DIR_TASKS + "/" + name + "/cover")) {
+        if(!xcopy(DIR_TASKS + "/" + name + "/cover", dir + "/cover/")){
+            return new Interface({
+                status:Status.ERROR,
+                payload:"Error:Can't copy cover for task "+name
+            })
+        }
+    }
+
     log("Info:Workshop for " + name + " is ready");
     return new Interface({
         status:Status.SUCCESS,
@@ -742,10 +756,32 @@ async function runMakeScript(name: string): Promise<Interface> {
                 payload:"Error:make.cmd not found for task "+name
             }))
         }
+
         log("Info:Start making " + name);
+
         //生成bot_start.cmd
-        fs.writeFileSync(DIR_WORKSHOP + "/" + name+"/bot_start.cmd","if exist make.log del /f /q make.log\ncmd /c make.cmd>make.log\nexit")
+        fs.writeFileSync(DIR_WORKSHOP + "/" + name+"/bot_start.cmd","cmd /c make.cmd>make.log\nexit")
+
+        //超时检查(10min)
+        let timeLimit=600000
+        let deadline=Date.now()+timeLimit
+        let interval:NodeJS.Timeout
+        interval=setInterval(()=>{
+            if(deadline<Date.now()){
+                log("Info:Finish make,cost "+((deadline-timeLimit)/1000)+"s")
+                clearInterval(interval)
+                resolve(new Interface({
+                    status:Status.ERROR,
+                    payload:"Error:Make timeout for " + name
+                }))
+            }
+        },60000)
+
+        //启动make.cmd进程
         let exec=cp.exec("start /wait bot_start.cmd", {cwd: DIR_WORKSHOP + "/" + name},(err,_out,_err)=>{
+            //中断定时器
+            clearInterval(interval)
+
             //尝试输出make.cmd的控制台信息
             if(fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.log")){
                 console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name+"/make.log")))
@@ -785,6 +821,7 @@ async function runMakeScript(name: string): Promise<Interface> {
                 }))
             }
         });
+
     })
 }
 
@@ -828,16 +865,34 @@ function autoMake(name:string):boolean {
 }
 
 function buildAndDeliver(
-    name: string,
+    task: Task,
     version: string,
-    author: string,
-    category: string,
     p7zip: string,
     database: DatabaseNode
 ): Interface {
+    let name=task.name
+    let category=task.category
+    let author=task.author
+    let req=task.buildRequirement
     let zname = name + "_" + version + "_" + author + "（bot）.7z";
     let dir = DIR_WORKSHOP + "/" + name;
     let repo = DIR_BUILDS + "/" + category;
+    //检查build requirements
+    let miss = null;
+    for (let i in req) {
+        let n = req[i];
+        if (!fs.existsSync(dir + "/build/" + n)) {
+            miss = n;
+            break;
+        }
+    }
+    if (miss) {
+        return new Interface({
+            status:Status.ERROR,
+            payload:"Error:Miss " + miss + " in " + name + "'s final build,skipping..."
+        })
+    }
+
     //压缩build文件夹内容
     log("Info:Start compressing into "+zname)
     try {
@@ -1183,19 +1238,15 @@ async function processTask(
             let BAD_database: DatabaseNode;
             try {
                 BAD_database = buildAndDeliver(
-                    task.name,
+                    task,
                     version,
-                    task.author,
-                    task.category,
                     p7zip,
                     database
                 ).unwarp();
             } catch (e) {
-                console.log(JSON.stringify(e));
                 ret = new Interface({
                     status: Status.ERROR,
-                    payload:
-                        "Error:Can't build or deliver " + task.name + ",skipping...",
+                    payload:e,
                 });
                 break;
             }
@@ -1348,7 +1399,7 @@ async function main() {
             DB[taskName]=dbNode
         } else {
             //task运行成功
-            log("Info:Task " + taskName + " executed successfully");
+            log("Success:Task " + taskName + " executed successfully");
             //写入数据库
             let node=iPT.payload as DatabaseNode
             node.recentStatus.push({

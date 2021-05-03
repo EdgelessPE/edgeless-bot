@@ -4,7 +4,8 @@
     "author":"Cno",
 
     "paUrl":"https://portableapps.com/apps/internet/firefox_portable",
-    "requirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"],
+    "releaseRequirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"],
+    "buildRequirement": ["Firefox_bot.wcs","Firefox_bot/FirefoxPortable.exe"],
     "preprocess": true,
     "autoMake": true,
     "useWget": false

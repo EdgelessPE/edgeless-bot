@@ -4,7 +4,8 @@
     "author":"Cno",
 
     "paUrl":"https://portableapps.com/apps/internet/google_chrome_portable",
-    "requirement":["GoogleChromePortable.exe"],
+    "releaseRequirement":["GoogleChromePortable.exe"],
+    "buildRequirement":["google_chrome_bot.wcs","google_chrome_bot/GoogleChromePortable.exe","google_chrome_bot/App/Chrome-bin/chrome.exe"],
     "preprocess": false,
     "autoMake": false,
     "useWget": true

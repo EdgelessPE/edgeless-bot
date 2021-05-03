@@ -183,9 +183,13 @@ function parseDownloadUrl(href: string): string {
     if (href[0] === "/") href = "https://portableapps.com" + href;
 
     //识别downloading，替换为redirect
-    href.replace("portableapps.com/downloading","portableapps.com/redirect")
+    href=href.replace("downloading","redirect")
 
-    return encodeURI(href);
+    //URL编码
+    href=encodeURI(href)
+
+    log("Info:Parse download link into:"+href)
+    return href
 }
 
 function formatVersion(version:string):string {
@@ -299,7 +303,6 @@ function cleanBuildStatus(s:Array<BuildStatus>):Array<BuildStatus> {
     s.sort((a,b)=>{
         return b.time-a.time
     })
-    console.log(s)
 
     return s.slice(0,3)
 }
@@ -698,10 +701,26 @@ async function getWorkDirReady(
     }
 
     //复制make.cmd
-    if(fs.existsSync(DIR_TASKS + "/" + name + "/make.cmd")) fs.copyFileSync(DIR_TASKS + "/" + name + "/make.cmd", dir + "/make.cmd");
+    if(fs.existsSync(DIR_TASKS + "/" + name + "/make.cmd")) {
+        try{
+            fs.copyFileSync(DIR_TASKS + "/" + name + "/make.cmd", dir + "/make.cmd")
+        }catch (err) {
+            return new Interface({
+                status:Status.ERROR,
+                payload:"Error:Can't copy make.cmd for task "+name
+            })
+        }
+    }
 
     //复制utils
-    if(fs.existsSync(DIR_TASKS + "/" + name + "/utils")) xcopy(DIR_TASKS + "/" + name + "utils", dir + "/utils/")
+    if(fs.existsSync(DIR_TASKS + "/" + name + "/utils")) {
+        if(!xcopy(DIR_TASKS + "/" + name + "/utils", dir + "/utils/")){
+            return new Interface({
+                status:Status.ERROR,
+                payload:"Error:Can't copy utils for task "+name
+            })
+        }
+    }
 
     log("Info:Workshop for " + name + " is ready");
     return new Interface({

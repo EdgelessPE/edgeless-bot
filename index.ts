@@ -314,6 +314,14 @@ function cleanBuildStatus(s:Array<BuildStatus>):Array<BuildStatus> {
 function gbk(buffer:Buffer):string {
     return iconv.decode(buffer,'GBK')
 }
+function copyCover(name:string):boolean {
+    if(fs.existsSync(DIR_TASKS + "/" + name + "/cover")) {
+        if(!xcopy(DIR_TASKS + "/" + name + "/cover", DIR_WORKSHOP+name + "/release/")){
+            return false
+        }
+    }
+    return true
+}
 
 //helper
 function preprocessPA(name:string):boolean {
@@ -385,6 +393,7 @@ function uploadToRemote(zname: string, category: string): boolean {
         let remotePath = REMOTE_ROOT + "/" + category;
 
         try {
+            log("Info:Uploading "+zname)
             cp.execSync(
                 'rclone copy "' + localPath + '" ' + REMOTE_NAME + ":" + remotePath
             );
@@ -392,6 +401,7 @@ function uploadToRemote(zname: string, category: string): boolean {
             console.log(err.output.toString());
             return false;
         }
+        log("Info:Uploaded successfully")
     } else if (!IGNORE_REMOTE) log("Warning:Remote disabled,skip upload to remote");
     return true;
 }
@@ -401,11 +411,13 @@ function deleteFromRemote(zname: string, category: string): boolean {
         let remotePath = REMOTE_ROOT + "/" + category + "/" + zname;
 
         try {
+            log("Info:Removing "+zname)
             cp.execSync("rclone delete " + REMOTE_NAME + ":" + remotePath);
         } catch (err) {
             console.log(err.output.toString());
             return false;
         }
+        log("Info:Removed successfully")
     } else if (!IGNORE_REMOTE) log("Warning:Remote disabled,skip delete from remote");
     return true;
 }
@@ -726,16 +738,6 @@ async function getWorkDirReady(
             return new Interface({
                 status:Status.ERROR,
                 payload:"Error:Can't copy utils for task "+name
-            })
-        }
-    }
-
-    //复制cover
-    if(fs.existsSync(DIR_TASKS + "/" + name + "/cover")) {
-        if(!xcopy(DIR_TASKS + "/" + name + "/cover", dir + "/cover/")){
-            return new Interface({
-                status:Status.ERROR,
-                payload:"Error:Can't copy cover for task "+name
             })
         }
     }
@@ -1190,6 +1192,14 @@ async function processTask(
                     ret = iRM
                     break;
                 }
+            }
+            if(!copyCover(task.name)){
+                ret = new Interface({
+                    status: Status.ERROR,
+                    payload:
+                        "Error:Can't copy cover for " + task.name + ",skipping...",
+                });
+                break;
             }
             let BAD_database: DatabaseNode;
             try {

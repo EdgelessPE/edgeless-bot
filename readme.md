@@ -186,7 +186,7 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 
 > 更复杂一些的在线版Chrome的`make.cmd`可以 [查看此处](https://github.com/Cnotech/edgeless-bot/blob/master/tasks/Chrome/make.cmd) ，涉及了按键模拟、utils内工具调用等
 
-### 覆盖
+### 替换
 为了让使用自动制作的Task也能完成简单的文件替换操作，我们允许你建立一个`cover`文件夹来存放对`release`目录的覆盖文件
 
 例如需要替换`release`目录中的`App/readme.txt`，在`cover`文件夹中也同样建立一个`App`文件夹然后将你的`readme.txt`放在里面就行了，目录结构如下：
@@ -202,7 +202,7 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
     └─App
        │  readme.txt
 ```
-cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行前完成
+cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
 ## 贡献
 ~~你可以将自己编写的Task通过PullRequest的形式合并到此仓库，Edgeless bot会每日顺次执行所有Task~~

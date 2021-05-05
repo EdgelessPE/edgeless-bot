@@ -332,6 +332,26 @@ function preprocessPA(name:string):boolean {
         log("Error:Can't preprocess "+name+":remove $PLUGINSDIR failed")
         return false
     }
+    //删除Other
+    if(!fs.existsSync(dir+"/Other")||!rd(dir+"/Other")){
+        log("Warning::Remove Other failed for "+name)
+    }
+    //删除help.html
+    if(fs.existsSync(dir+"/help.html")){
+        try{
+            fs.unlinkSync(dir+"/help.html")
+        }catch (err) {
+            log("Warning::Remove help.html failed for "+name)
+        }
+    }
+    //删除App/readme.txt
+    if(fs.existsSync(dir+"/App/readme.txt")){
+        try{
+            fs.unlinkSync(dir+"/App/readme.txt")
+        }catch (err) {
+            log("Warning::Remove App/readme.txt failed for "+name)
+        }
+    }
     //修改pac_installer_log.ini
     let filePath=dir+"/App/AppInfo/pac_installer_log.ini"
     if(!fs.existsSync(filePath)){
@@ -367,6 +387,19 @@ function removeExtraBuilds(
     repo: string,
     category: string
 ): DatabaseNode {
+    //builds去重
+    let hashMap:any={}
+    let r:Array<BuildInfo>=[]
+    for (let i in database.builds) {
+        let buildInfo:BuildInfo=database.builds[i]
+        if(!hashMap.hasOwnProperty(buildInfo.version.toString())){
+            hashMap[buildInfo.version.toString()]=true
+            r.push(buildInfo)
+        }
+    }
+    database.builds=r
+    if(r.length<4) return database
+
     //builds降序排列
     database.builds.sort((a, b) => {
         return 1 - versionCmp(a.version, b.version);
@@ -1164,7 +1197,9 @@ async function processTask(
 
     //与数据库进行校对
     let ret: Interface;
-    switch (versionCmp(database.latestVersion, version)) {
+    let cmpResult:Cmp=versionCmp(database.latestVersion, version)
+    if(args.has("f")) cmpResult=Cmp.L
+    switch (cmpResult) {
         case Cmp.L:
             //需要升级
             let iGWR= await getWorkDirReady(task,pageInfo,p7zip)

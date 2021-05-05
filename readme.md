@@ -126,6 +126,12 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮（className=
 1. 将依赖文件夹移动至`X:\Users\PortableApps`目录内以绕过部分PortableApps应用不允许在`X:\Program Files`中运行的限制
 2. 在Edgeless桌面创建指向`release`目录的第一个可执行文件（通常为xxxPortable.exe）的快捷方式，快捷方式名称为项目名
 
+> **关于使用autoMake后如何配置`buildRequirement`**
+> 
+> 理论上使用autoMake的task不需要配置`buildRequirement`，不过为了确保安全在实际配置时还是需要带上`buildRequirement`
+>
+> autoMake完成后的`build`目录中会出现一个`taskName_bot`文件夹和一个`taskName_bot.wcs`外置批处理，`taskName_bot`文件夹为经过预处理（或未经预处理）的`release`目录移动位置而来，因此`buildRequirement`可以配置为`["taskName_bot.wcs","taskName_bot/appNamePortable.exe"]`，参考[傲游浏览器的config.json](https://github.com/Cnotech/edgeless-bot/blob/master/tasks/%E5%82%B2%E6%B8%B8%E6%B5%8F%E8%A7%88%E5%99%A8/config.json)
+
 ### 编写脚本（*如果没有启用自动制作）
 大部分的程序都可以直接使用`autoMake`选项自动制作（记得同时启用`preprocess`执行预处理），部分应用需要作者编写`make.cmd`以完成构建，例如在线版本的Chrome
 #### 流程

@@ -14,7 +14,7 @@ start Chrome_online.paf.exe
 
 ::循环判断PA安装是否结束
 :loop
-timeout 1 >nul
+ping 127.0.0.1 -n 1 >nul
 if not exist ".\GoogleChromePortable\Data\PortableApps.comInstaller\license.ini" goto loop
 echo Finish
 

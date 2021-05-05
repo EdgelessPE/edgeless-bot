@@ -1377,7 +1377,7 @@ async function main() {
             if (!dbNode) dbNode = new DatabaseNode();
 
             //清理过多的构建状态信息
-            if(dbNode.recentStatus.length>3){
+            if(dbNode.recentStatus.length>2){
                 dbNode.recentStatus=cleanBuildStatus(dbNode.recentStatus)
             }
 

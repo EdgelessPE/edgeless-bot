@@ -19,9 +19,9 @@ if not exist ".\GoogleChromePortable\Data\PortableApps.comInstaller\license.ini"
 echo Finish
 
 ::延迟结束进程
-timeout 5
+ping 127.0.0.1 -n 5 >nul
 cmd /c "taskkill /f /im Chrome_online.paf.exe"
-timeout 3
+ping 127.0.0.1 -n 3 >nul
 
 ::拷贝程序文件，不使用move的原因是此时可能文件锁未被释放导致move可能执行失败
 xcopy /s /r /y .\GoogleChromePortable\ .\build\google_chrome_bot\

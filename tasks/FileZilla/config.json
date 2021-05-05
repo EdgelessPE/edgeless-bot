@@ -1,0 +1,11 @@
+{
+    "name":"FileZilla",
+    "category":"下载上传",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/apps/internet/filezilla_portable",
+    "releaseRequirement":["FileZillaPortable.exe","App/filezilla/filezilla.exe"],
+    "buildRequirement": ["FileZilla_bot.wcs","FileZilla_bot/FileZillaPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

@@ -657,7 +657,7 @@ async function getWorkDirReady(
                 await sleep(1000);
             }
             progress.text =
-                "Download Progress: " +
+                "Download progress: " +
                 (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
                     3
                 ) +
@@ -667,7 +667,7 @@ async function getWorkDirReady(
                 (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3) +
                 " MiB/s";
         }
-        progress.succeed(name + " Downloaded.");
+        progress.succeed(name + " downloaded.");
     } catch (err) {
         console.log(err.output.toString());
         return new Interface({

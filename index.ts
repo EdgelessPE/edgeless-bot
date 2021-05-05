@@ -799,7 +799,7 @@ async function runMakeScript(name: string): Promise<Interface> {
         try{
             cp.execSync("make.cmd>make.log", {cwd: DIR_WORKSHOP + "/" + name,timeout:600000})
         }catch (err) {
-            if(fs.existsSync("./make.log")) console.log(gbk(fs.readFileSync("./make.log")));
+            if(fs.existsSync(DIR_WORKSHOP + "/" + name+"/make.log")) console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name+"/make.log")));
             else log("Warning:make.cmd has no console output")
             resolve(new Interface({
                 status:Status.ERROR,
@@ -1062,6 +1062,7 @@ async function scrapePage(
     //分className处理，获取text和href
     switch (dom_node.attr("class")) {
         case "download-link":
+            log("Warning:You may provided a short term supported application,please check the paUrl")
             result.text = dom_node.text();
             result.href = dom_node.attr("href") as string;
             break;
@@ -1493,7 +1494,7 @@ async function main() {
         }
 
         //总结
-        console.log("=========================================");
+        console.log("=================================================");
         if (failureTasks.length === 0) {
             log("Success:Everything is Okay");
         } else {

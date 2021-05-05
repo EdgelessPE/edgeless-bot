@@ -63,8 +63,8 @@ yarn
 :: 运行全部Tasks
 yarn serve
 
-:: 运行指定Task
-yarn serve -t TaskName
+:: 强制重新构建指定Task
+yarn serve -t TaskName -f
 ```
 ## 参数
 ```

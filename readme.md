@@ -112,7 +112,9 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮（className=
 1. 删除`$PLUGINSDIR`目录
 2. 修改`pac_installer_log.ini`以绕过首次运行会弹出的安全警告
 #### autoMake
-使用自动制作，如果启用此项则不需要编写`make.cmd`脚本，程序会生成一个在Edgeless桌面指向`release`目录的第一个可执行文件的快捷方式，快捷方式名称为项目名
+使用自动制作，如果启用此项则不需要编写`make.cmd`脚本，程序会生成一个完成以下动作的外置批处理：
+1. 将依赖文件夹移动至`X:\Users\PortableApps`目录内以绕过部分PortableApps应用不允许在`X:\Program Files`中运行的限制
+2. 在Edgeless桌面创建指向`release`目录的第一个可执行文件（通常为xxxPortable.exe）的快捷方式，快捷方式名称为项目名
 
 ### 编写脚本（*如果没有启用自动制作）
 大部分的程序都可以直接使用`autoMake`选项自动制作（记得同时启用`preprocess`执行预处理），部分应用需要作者编写`make.cmd`以完成构建，例如在线版本的Chrome
@@ -165,7 +167,7 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮（className=
     └─*
 ```
 #### 代码
-以Firefox任务为例编写一个自动构建的等效脚本，`make.cmd`内容如下：
+以Firefox任务为例编写一个近似自动构建的等效脚本，`make.cmd`内容如下：
 ```
 ::关闭回显以优化控制台输出
 @echo off

@@ -11,6 +11,7 @@ import ora from "ora";
 import UserConfig from "./utils/config";
 const ini = require("ini");
 const iconv = require('iconv-lite');
+const args: any = require("minimist")(process.argv.slice(2));
 
 
 export const _userConfig = new UserConfig(
@@ -805,9 +806,11 @@ function autoMake(name:string):boolean {
         }
 
         //生成wcs文件
-        let cmd="LINK X:\\Users\\Default\\Desktop\\"+name+",X:\\Program Files\\Edgeless\\"+name+"_bot\\"+exeFileName
+        let moveCmd="FILE X:\\Program Files\\Edgeless\\"+name+"_bot->X:\\Users\\PortableApps\\"+name+"_bot"
+        let linkCmd="LINK X:\\Users\\Default\\Desktop\\"+name+",X:\\Users\\PortableApps\\"+name+"_bot\\"+exeFileName
+        let cmd=moveCmd+"\n"+linkCmd
         fs.writeFileSync(DIR_WORKSHOP+"/"+name+"/build/"+name+"_bot.wcs",cmd)
-        log("Info:Save batch with command:"+cmd)
+        log("Info:Save batch with command:\n"+cmd)
 
         //移动文件夹
         if(!mv(DIR_WORKSHOP+"/"+name+"/release",DIR_WORKSHOP+"/"+name+"/build/"+name+"_bot")){
@@ -1300,96 +1303,172 @@ async function main() {
         }
     }
 
-    //读入Tasks
-    let tasks: Array<string> = getTasks();
-    log("Info:Got " + tasks.length+" tasks in queue");
+    //根据命令行参数判断任务
+    if(args.hasOwnProperty("t")){
+        //只执行单一任务
+        let taskName:string=args.t
 
-    //顺次执行任务
-    let failureTasks: Array<string> = [];
-    for (let i = 0; i < tasks.length; i++) {
-        console.log("\nProgress:"+(i+1)+"/"+tasks.length)
+        //校验任务文件夹是否存在
+        if(taskName==null||taskName==""||!fs.existsSync(DIR_TASKS+"/"+taskName)){
+            throw "Error:Task "+taskName+" not exist"
+        }else{
+            log("Info:Argument t caught,run task "+taskName)
 
-        let taskName = tasks[i];
+            //读取task配置
+            let iRT = readTaskConfig(taskName);
+            if (iRT.status === Status.ERROR) {
+                log("Error:Can't read " + taskName + "'s config,exit");
 
-        //读取task配置
-        let iRT = readTaskConfig(taskName);
-        if (iRT.status === Status.ERROR) {
-            log("Error:Can't read " + taskName + "'s config,skipping...");
+                //读取数据库中对应节点
+                let dbNode = DB[taskName] as DatabaseNode;
+                if (!dbNode) dbNode = new DatabaseNode();
+
+                //写数据库构建情况
+                dbNode.recentStatus.push({
+                    time:Date.now(),
+                    timeDescription:Date(),
+
+                    success:false,
+                    errorMessage:"Error:Can't read " + taskName + "'s config:"+iRT.payload
+                })
+                DB[taskName]=dbNode
+                return;
+            }
+            let taskConfig = iRT.payload as Task;
 
             //读取数据库中对应节点
             let dbNode = DB[taskName] as DatabaseNode;
             if (!dbNode) dbNode = new DatabaseNode();
 
-            //记录错误
-            failureTasks.push(taskName);
+            //清理过多的构建状态信息
+            if(dbNode.recentStatus.length>3){
+                dbNode.recentStatus=cleanBuildStatus(dbNode.recentStatus)
+            }
 
-            //写数据库构建情况
-            dbNode.recentStatus.push({
-                time:Date.now(),
-                timeDescription:Date(),
+            //执行task
+            let iPT = await processTask(taskConfig, dbNode, p7zip);
+            if (iPT.status === Status.ERROR) {
+                //打印错误
+                log(iPT.payload);
 
-                success:false,
-                errorMessage:"Error:Can't read " + taskName + "'s config:"+iRT.payload
-            })
-            DB[taskName]=dbNode
-            continue;
+                //写数据库构建情况
+                dbNode.recentStatus.push({
+                    time:Date.now(),
+                    timeDescription:Date(),
+
+                    success:false,
+                    errorMessage:iPT.payload
+                })
+                DB[taskName]=dbNode
+            } else {
+                //task运行成功
+                log("Success:Task " + taskName + " executed successfully");
+                //写入数据库
+                let node=iPT.payload as DatabaseNode
+                node.recentStatus.push({
+                    time:Date.now(),
+                    timeDescription:Date(),
+
+                    success:true,
+                    errorMessage:"Success"
+                })
+                DB[taskName]=node
+            }
         }
-        let taskConfig = iRT.payload as Task;
+    }else{
+        //执行全部Tasks
 
-        //读取数据库中对应节点
-        let dbNode = DB[taskName] as DatabaseNode;
-        if (!dbNode) dbNode = new DatabaseNode();
+        //读入Tasks
+        let tasks: Array<string> = getTasks();
+        log("Info:Got " + tasks.length+" tasks in queue");
 
-        //清理过多的构建状态信息
-        if(dbNode.recentStatus.length>3){
-            dbNode.recentStatus=cleanBuildStatus(dbNode.recentStatus)
+        //顺次执行Tasks
+        let failureTasks: Array<string> = [];
+        for (let i = 0; i < tasks.length; i++) {
+            console.log("\nProgress:"+(i+1)+"/"+tasks.length)
+
+            let taskName = tasks[i];
+
+            //读取task配置
+            let iRT = readTaskConfig(taskName);
+            if (iRT.status === Status.ERROR) {
+                log("Error:Can't read " + taskName + "'s config,skipping...");
+
+                //读取数据库中对应节点
+                let dbNode = DB[taskName] as DatabaseNode;
+                if (!dbNode) dbNode = new DatabaseNode();
+
+                //记录错误
+                failureTasks.push(taskName);
+
+                //写数据库构建情况
+                dbNode.recentStatus.push({
+                    time:Date.now(),
+                    timeDescription:Date(),
+
+                    success:false,
+                    errorMessage:"Error:Can't read " + taskName + "'s config:"+iRT.payload
+                })
+                DB[taskName]=dbNode
+                continue;
+            }
+            let taskConfig = iRT.payload as Task;
+
+            //读取数据库中对应节点
+            let dbNode = DB[taskName] as DatabaseNode;
+            if (!dbNode) dbNode = new DatabaseNode();
+
+            //清理过多的构建状态信息
+            if(dbNode.recentStatus.length>3){
+                dbNode.recentStatus=cleanBuildStatus(dbNode.recentStatus)
+            }
+
+            //执行task
+            let iPT = await processTask(taskConfig, dbNode, p7zip);
+            if (iPT.status === Status.ERROR) {
+                //打印错误
+                log(iPT.payload);
+
+                //记录错误
+                failureTasks.push(taskName);
+
+                //写数据库构建情况
+                dbNode.recentStatus.push({
+                    time:Date.now(),
+                    timeDescription:Date(),
+
+                    success:false,
+                    errorMessage:iPT.payload
+                })
+                DB[taskName]=dbNode
+            } else {
+                //task运行成功
+                log("Success:Task " + taskName + " executed successfully");
+                //写入数据库
+                let node=iPT.payload as DatabaseNode
+                node.recentStatus.push({
+                    time:Date.now(),
+                    timeDescription:Date(),
+
+                    success:true,
+                    errorMessage:"Success"
+                })
+                DB[taskName]=node
+            }
         }
 
-        //执行task
-        let iPT = await processTask(taskConfig, dbNode, p7zip);
-        if (iPT.status === Status.ERROR) {
-            //打印错误
-            log(iPT.payload);
-
-            //记录错误
-            failureTasks.push(taskName);
-
-            //写数据库构建情况
-            dbNode.recentStatus.push({
-                time:Date.now(),
-                timeDescription:Date(),
-
-                success:false,
-                errorMessage:iPT.payload
-            })
-            DB[taskName]=dbNode
+        //总结
+        console.log("=========================================");
+        if (failureTasks.length === 0) {
+            log("Success:Everything is Okay");
         } else {
-            //task运行成功
-            log("Success:Task " + taskName + " executed successfully");
-            //写入数据库
-            let node=iPT.payload as DatabaseNode
-            node.recentStatus.push({
-                time:Date.now(),
-                timeDescription:Date(),
-
-                success:true,
-                errorMessage:"Success"
-            })
-            DB[taskName]=node
+            log(
+                "Warning:" +
+                failureTasks.length +
+                " tasks failed as follow:" +
+                failureTasks.toString()
+            );
         }
-    }
-
-    //总结
-    console.log("=========================================");
-    if (failureTasks.length === 0) {
-        log("Success:Everything is Okay");
-    } else {
-        log(
-            "Warning:" +
-            failureTasks.length +
-            " tasks failed as follow:" +
-            failureTasks.toString()
-        );
     }
 
     //写数据库

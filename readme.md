@@ -60,8 +60,11 @@
 :: 安装依赖
 yarn
 
-:: 运行
+:: 运行全部Tasks
 yarn serve
+
+:: 运行指定Task
+yarn serve -t TaskName
 ```
 
 ## 开发

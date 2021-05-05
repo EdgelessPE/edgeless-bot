@@ -1198,7 +1198,7 @@ async function processTask(
     //与数据库进行校对
     let ret: Interface;
     let cmpResult:Cmp=versionCmp(database.latestVersion, version)
-    if(args.has("f")) cmpResult=Cmp.L
+    if(args.hasOwnProperty("f")) cmpResult=Cmp.L
     switch (cmpResult) {
         case Cmp.L:
             //需要升级

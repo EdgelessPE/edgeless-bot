@@ -1,7 +1,7 @@
 import execa from "execa";
 import process from "process";
 import path from "path";
-import UserConfig from "../utils/config";
+import UserConfig from "./config";
 
 export default class Spawn {
   public execPath = path.join(__dirname, process.platform);

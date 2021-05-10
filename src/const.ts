@@ -1,4 +1,4 @@
-import UserConfig from "../utils/config"
+import UserConfig from "./config"
 import fs from "fs"
 
 export const _userConfig = new UserConfig(

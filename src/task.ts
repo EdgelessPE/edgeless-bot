@@ -9,7 +9,7 @@ import fs from 'fs'
 import cp from 'child_process'
 import chalk from "chalk"
 import Spawn from "../bin/spawn"
-import sleep from "../utils/sleep"
+import sleep from "./sleep"
 import ora from "ora"
 import { scrapePage } from './scraper'
 import { WebSocket as Aria2 } from "libaria2-ts"

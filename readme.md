@@ -5,12 +5,12 @@
 ## 特性
 * 支持自动识别和校对MD5、自动检测简体中文版本、自动解析下载地址，甚至支持无需编写make.cmd脚本的全自动制作
 
-* 支持最近三次的构建状态记录和自动删除冗余历史构建
+* 支持最近三次的构建状态记录和自动删除冗余历史构建，支持自动输出晴雨表
 
 * 得益于使用rclone，远程上传功能支持本地存储、FTP、Onedrive、Google Drive等五十多种存储方式，详情请查看[Rclone官方介绍](https://rclone.org/#providers)
 
 ## 环境
-需要Windows 10环境
+需要Windows 10环境，在默认路径安装7-Zip
 
 如果需要启用远程上传功能请安装 [rclone](https://rclone.org/) ，推荐使用 [scoop](https://scoop.sh) 命令`scoop install rclone`进行安装
 
@@ -68,7 +68,7 @@ yarn serve -t TaskName -f
 ```
 ## 参数
 ```
-yarn serve [-t TaskName] [-f]
+yarn serve[ -t TaskName][ -f]
 ```
 ### -t
 指定运行某个Task，TaskName为任务名称
@@ -184,7 +184,7 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮（className=
 ```
 #### 代码
 以Firefox任务为例编写一个近似自动构建的等效脚本，`make.cmd`内容如下：
-```
+```Batch
 ::关闭回显以优化控制台输出
 @echo off
 ::移动release文件夹到build目录下
@@ -223,6 +223,4 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
 ## 贡献
-~~你可以将自己编写的Task通过PullRequest的形式合并到此仓库，Edgeless bot会每日顺次执行所有Task~~
-
-我们暂时还未完成CI部署和开发对接工作，你可以PR不过Task不会被实际运行
+你可以将自己编写的Task通过PullRequest的形式合并到此仓库，Edgeless bot会不定期执行所有Task

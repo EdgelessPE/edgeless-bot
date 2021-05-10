@@ -11,7 +11,7 @@ import { DIR_TASKS, DIR_WORKSHOP } from "./const"
 function log(text: string) {
     let spl = text.split(":");
     if (spl.length < 2) {
-        console.log(chalk.yellow("Warning") + " Illegal message detected");
+        console.log(chalk.yellow("Warning ") + "Illegal message detected");
         console.log(text);
         return;
     }
@@ -30,7 +30,7 @@ function log(text: string) {
             console.log(chalk.red("Error ") + inf);
             break;
         default:
-            console.log(chalk.yellow("Warning") + " Illegal message detected");
+            console.log(chalk.yellow("Warning ") + "Illegal message detected");
             console.log(text);
     }
 }

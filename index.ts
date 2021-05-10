@@ -7,6 +7,7 @@ import { readDatabase, saveDatabase } from "./src/database"
 import { beforeRunCheck, cleanWorkshop, find7zip } from "./src/init"
 import { spawnAria2, readTaskConfig, processTask, getTasks, aria2 } from './src/task'
 import { DIR_TASKS } from "./src/const"
+import { barometer } from "./src/barometer"
 const args: any = require("minimist")(process.argv.slice(2))
 
 
@@ -210,7 +211,7 @@ async function main() {
         }
 
         //总结
-        console.log("=================================================");
+        console.log("=================================================")
         if (failureTasks.length === 0) {
             log("Success:Everything is Okay");
         } else {
@@ -222,6 +223,10 @@ async function main() {
             );
         }
     }
+
+    //打印晴雨表
+    barometer(DB)
+    console.log("=================================================")
 
     //写数据库
     saveDatabase(DB);

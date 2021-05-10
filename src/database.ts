@@ -1,6 +1,6 @@
-import { PATH_DATABASE } from './const'
 import fs from "fs"
-//database
+import { PATH_DATABASE } from './const'
+
 function readDatabase(): any {
     let dst = PATH_DATABASE;
     if (!fs.existsSync(dst)) {

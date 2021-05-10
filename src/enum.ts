@@ -1,5 +1,3 @@
-
-//Enum
 enum Status {
     SUCCESS,
     ERROR,

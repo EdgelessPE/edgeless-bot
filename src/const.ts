@@ -1,5 +1,5 @@
-import UserConfig from "./config"
 import fs from "fs"
+import UserConfig from "./config"
 
 export const _userConfig = new UserConfig(
     fs.readFileSync("./config.jsonc", "utf8")

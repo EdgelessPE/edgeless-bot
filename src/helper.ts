@@ -1,10 +1,10 @@
+import fs from "fs"
 import { log, rd, versionCmp } from "./utils"
 import { DIR_WORKSHOP, MAX_BUILDS } from "./const"
 import { DatabaseNode, BuildInfo } from "./class"
 import { deleteFromRemote } from './remote'
-const fs = require('fs')
 const ini = require('ini')
-//helper
+
 function preprocessPA(name: string): boolean {
     let dir = DIR_WORKSHOP + "/" + name + "/release"
     //删除$PLUGINSDIR

@@ -1,5 +1,6 @@
-import { Cmp, Status } from "./enum"
+import { Status } from "./enum"
 import { log } from "./utils"
+
 //函数间通讯相关
 interface NaiveInterface<T> {
     status: Status;

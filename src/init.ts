@@ -1,16 +1,16 @@
+import fs from "fs"
+import cp from "child_process"
 import { log, rd } from "./utils"
 import { DIR_WORKSHOP, DIR_BUILDS, DIR_TASKS, IGNORE_REMOTE } from "./const"
 import { Interface } from "./class"
 import { Status } from "./enum"
-import fs from "fs"
-import cp from "child_process"
 
 interface RunChecker {
     cmd: string;
     hint: string;
     onerror: (displayError: () => boolean) => boolean | void;
 }
-//init
+
 function beforeRunCheck(): boolean {
     //预设严重错误函数
     let l = function (text: string): boolean {

@@ -1,6 +1,6 @@
+import cp from "child_process"
 import { ENABLE_REMOTE, IGNORE_REMOTE, REMOTE_NAME, REMOTE_ROOT, DIR_BUILDS } from "./const"
 import { log } from './utils'
-import cp from "child_process"
 
 function uploadToRemote(zname: string, category: string): boolean {
     if (ENABLE_REMOTE) {

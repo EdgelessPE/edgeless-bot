@@ -1,3 +1,9 @@
+import fs from 'fs'
+import cp from 'child_process'
+import chalk from "chalk"
+import Spawn from "../bin/spawn"
+import sleep from "./sleep"
+import ora from "ora"
 import { DIR_TASKS, DIR_WORKSHOP, _userConfig, DIR_BUILDS, MAX_BUILDS } from './const'
 import { Interface, Task, PageInfo, DatabaseNode } from './class'
 import { Status, Cmp } from './enum'
@@ -5,12 +11,6 @@ import { log, getMD5, gbk, xcopy, mv, matchVersion, formatVersion, versionCmp, c
 import { uploadToRemote } from './remote'
 import { removeExtraBuilds } from './helper'
 import { preprocessPA } from './helper'
-import fs from 'fs'
-import cp from 'child_process'
-import chalk from "chalk"
-import Spawn from "../bin/spawn"
-import sleep from "./sleep"
-import ora from "ora"
 import { scrapePage } from './scraper'
 import { WebSocket as Aria2 } from "libaria2-ts"
 const args: any = require("minimist")(process.argv.slice(2));

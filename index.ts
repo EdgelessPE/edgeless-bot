@@ -1,5 +1,6 @@
 import fs from "fs"
 import chalk from "chalk"
+import { Status } from "./src/enum"
 import { log, cleanBuildStatus } from './src/utils'
 import { DatabaseNode, Task } from "./src/class"
 import { readDatabase, saveDatabase } from "./src/database"
@@ -8,7 +9,6 @@ import { spawnAria2, readTaskConfig, processTask, getTasks, aria2 } from './src/
 import { DIR_TASKS } from "./src/const"
 const args: any = require("minimist")(process.argv.slice(2))
 
-import { Status } from "./src/enum"
 
 //main
 async function main() {

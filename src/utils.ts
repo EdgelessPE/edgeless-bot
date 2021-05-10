@@ -1,10 +1,10 @@
-import { Cmp, Status } from "./enum"
 import fs from "fs"
 import cp from "child_process"
 import chalk from "chalk"
 import cpt from "crypto"
-import { BuildStatus, Interface, NaiveInterface } from "./class"
-const iconv = require('iconv-lite')
+import iconv from 'iconv-lite'
+import { Cmp, Status } from "./enum"
+import { BuildStatus, Interface } from "./class"
 import { DIR_TASKS, DIR_WORKSHOP } from "./const"
 
 

@@ -1,9 +1,9 @@
-import { Interface, PageInfo } from './class'
-import { Status } from "./enum"
-import { log, parseDownloadUrl } from './utils'
 import axios from "axios"
 import cheerio from "cheerio"
 import fs from 'fs'
+import { Interface, PageInfo } from './class'
+import { Status } from "./enum"
+import { log, parseDownloadUrl } from './utils'
 
 //scraper,enable useFS when debugging that the function will load page ./1.html
 export async function scrapePage(

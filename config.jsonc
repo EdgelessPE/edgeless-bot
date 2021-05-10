@@ -1,6 +1,6 @@
 {
   // 开启远程
-  "enableRemote": false,
+  "enableRemote": true,
   // 忽略远程警告
   "ignoreRemote": false,
   // 任务文件夹

@@ -5,5 +5,4 @@ node_modules
 workshop
 builds
 *.bak
-database.json
 yarn-error.log

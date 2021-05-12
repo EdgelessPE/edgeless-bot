@@ -19,4 +19,4 @@ jobs:
       
       # 构建CPU-Z
       - name: build
-        run: yarn serve -t CPU-Z
+        run: yarn serve -t CPU-Z -f

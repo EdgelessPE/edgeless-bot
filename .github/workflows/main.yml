@@ -13,16 +13,12 @@ jobs:
       # 获取仓库源码
       - uses: actions/checkout@v2
 
-      # 获取rclone git@github.com:Cnotech/rclone.git
+      # 获取rclone
       - uses: actions/checkout@v2
         with:
           repository: Cnotech/rclone
           token: ${{ secrets.RCLONE_TOKEN }}
           path: rclone
-
-      # 打印当前目录树
-      - name: tree
-        run: tree
 
       # 取出rclone
       - name: copy rclone
@@ -32,6 +28,19 @@ jobs:
       - name: yarn
         run: yarn
       
-      # 构建CPU-Z
+      # 构建任务
       - name: build
-        run: yarn serve -t CPU-Z -f
+        run: yarn serve -gam -t Chrome -f
+
+      # 回传数据库
+      - name: commit database
+        run: |
+          git config --local user.email "dsyourshy@qq.com"
+          git config --local user.name "Actions bot"
+          git commit -m "Update database" -a
+
+      - name: push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

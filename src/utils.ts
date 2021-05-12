@@ -175,7 +175,7 @@ function cleanBuildStatus(s: Array<BuildStatus>): Array<BuildStatus> {
         return b.time - a.time
     })
 
-    return s.slice(0, 3)
+    return s.slice(0, 2)
 }
 function gbk(buffer: Buffer): string {
     return iconv.decode(buffer, 'GBK')

@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  schedule:
+    -cron: '5 4 * * *'
 
 jobs:
   serve:
@@ -30,7 +32,7 @@ jobs:
       
       # 构建任务
       - name: build
-        run: yarn serve -gam -t Chrome -f
+        run: yarn serve -gam
 
       # 回传数据库
       - name: commit database

@@ -14,6 +14,7 @@ const args: any = require("minimist")(process.argv.slice(2))
 //main
 async function main() {
     console.clear();
+    let failureTasks: Array<string> = [];
 
     //获取版本号
     let project_ver = "0.0.0"
@@ -137,7 +138,6 @@ async function main() {
         log("Info:Got " + tasks.length + " tasks in queue");
 
         //顺次执行Tasks
-        let failureTasks: Array<string> = [];
         for (let i = 0; i < tasks.length; i++) {
             console.log("\nProgress:" + (i + 1) + "/" + tasks.length)
 
@@ -236,6 +236,11 @@ async function main() {
     //停止aria2进程
     await aria2.forceShutdown();
     log("Info:Aria2 assassinated,exit");
+
+    //如果Actions全局执行出现问题则在此处抛出
+    if (args.hasOwnProperty("gam")&&!args.hasOwnProperty("t")&&failureTasks.length > 0){
+        throw "TASK FAILURE"
+    }
 }
 
 main().catch((e) => { throw e })

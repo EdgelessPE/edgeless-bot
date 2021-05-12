@@ -12,6 +12,10 @@ jobs:
     steps:
       # 获取仓库源码
       - uses: actions/checkout@v2
+
+      # 安装依赖
+      - name: yarn
+        run: yarn
       
       # 构建CPU-Z
       - name: build

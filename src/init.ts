@@ -84,6 +84,9 @@ function cleanWorkshop(): boolean {
 }
 
 function find7zip(): Interface {
+    let result = null;
+
+    //使用是否存在判断
     let possiblePath = [
         "C:\\Program Files\\7-Zip\\7z.exe",
         "C:\\Program Files (x86)\\7-Zip\\7z.exe",
@@ -91,17 +94,28 @@ function find7zip(): Interface {
         process.env.PROGRAMFILESW6432 + "\\7-Zip\\7z.exe",
         ...(process.env["ProgramFiles(x86)"] != undefined
             ? [process.env["ProgramFiles(x86)"] + "\\7-Zip\\7z.exe"]
-            : []),
-        "7z.exe",
-        "7za.exe",
+            : [])
     ];
-    let result = null;
     for (let i in possiblePath) {
         if (fs.existsSync(possiblePath[i])) {
             result = possiblePath[i];
             break;
         }
     }
+    //使用where判断
+    if(!result){
+        let possibleName:Array<string>=["7z","7zz","7za"]
+        for (let i in possibleName){
+            try{
+                cp.execSync("where "+possibleName[i])
+                result=possibleName[i]
+                break
+            }catch (e) {
+                continue
+            }
+        }
+    }
+
     if (!result) {
         return new Interface({
             status: Status.ERROR,

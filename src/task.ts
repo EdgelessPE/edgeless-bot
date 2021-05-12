@@ -265,7 +265,7 @@ async function runMakeScript(name: string): Promise<Interface> {
         }
 
         //执行tree
-        cp.execSync("tree /F /A")
+        console.log(gbk(cp.execSync("tree /F /A")))
 
         //成功
         if (fs.existsSync("./make.log")) console.log(gbk(fs.readFileSync("./make.log")));

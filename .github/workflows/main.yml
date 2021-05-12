@@ -13,6 +13,17 @@ jobs:
       # 获取仓库源码
       - uses: actions/checkout@v2
 
+      # 获取rclone
+      - name: rclone
+        run: git clone https://oauth2:$env:TOKEN@github.com/Cnotech/rclone
+        shell: pwsh
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 取出rclone
+      - name: copy rclone
+        run: mv .\rclone\* .\
+
       # 安装依赖
       - name: yarn
         run: yarn

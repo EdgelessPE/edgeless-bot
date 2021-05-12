@@ -5,7 +5,7 @@
 
     "paUrl":"https://portableapps.com/apps/internet/google_chrome_portable",
     "releaseRequirement":["GoogleChromePortable.exe"],
-    "buildRequirement":["google_chrome_bot.wcs","google_chrome_bot/GoogleChromePortable.exe","google_chrome_bot/App/Chrome-bin/chrome.exe"],
+    "buildRequirement":["google_chrome_bot.wcs","GoogleChromePortable/GoogleChromePortable.exe","GoogleChromePortable/App/Chrome-bin/chrome.exe"],
     "preprocess": false,
     "autoMake": false
 }

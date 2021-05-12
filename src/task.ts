@@ -269,12 +269,12 @@ async function runMakeScript(name: string): Promise<Interface> {
         }
 
         //执行tree
-        console.log(gbk(cp.execSync("tree /F /A", { cwd: DIR_WORKSHOP + "/" + name})))
+        //console.log(gbk(cp.execSync("tree /F /A", { cwd: DIR_WORKSHOP + "/" + name})))
 
         //成功
-        if (fs.existsSync("./make.log")) {
+        if (fs.existsSync(DIR_WORKSHOP + "/" + name + "/make.log")) {
             console.log("console output=======================")
-            console.log(gbk(fs.readFileSync("./make.log")));
+            console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name + "/make.log")));
             console.log("console output=======================")
         }
         else log("Warning:make.cmd has no console output")

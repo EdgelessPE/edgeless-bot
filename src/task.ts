@@ -256,7 +256,11 @@ async function runMakeScript(name: string): Promise<Interface> {
         try {
             cp.execSync("make.cmd>make.log", { cwd: DIR_WORKSHOP + "/" + name, timeout: 600000 })
         } catch (err) {
-            if (fs.existsSync(DIR_WORKSHOP + "/" + name + "/make.log")) console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name + "/make.log")));
+            if (fs.existsSync(DIR_WORKSHOP + "/" + name + "/make.log")) {
+                console.log("console output=======================")
+                console.log(gbk(fs.readFileSync(DIR_WORKSHOP + "/" + name + "/make.log")));
+                console.log("console output=======================")
+            }
             else log("Warning:make.cmd has no console output")
             resolve(new Interface({
                 status: Status.ERROR,
@@ -265,10 +269,14 @@ async function runMakeScript(name: string): Promise<Interface> {
         }
 
         //执行tree
-        console.log(gbk(cp.execSync("tree /F /A")))
+        console.log(gbk(cp.execSync("tree /F /A", { cwd: DIR_WORKSHOP + "/" + name})))
 
         //成功
-        if (fs.existsSync("./make.log")) console.log(gbk(fs.readFileSync("./make.log")));
+        if (fs.existsSync("./make.log")) {
+            console.log("console output=======================")
+            console.log(gbk(fs.readFileSync("./make.log")));
+            console.log("console output=======================")
+        }
         else log("Warning:make.cmd has no console output")
         resolve(new Interface({
             status: Status.SUCCESS,

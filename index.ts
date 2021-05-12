@@ -26,7 +26,7 @@ async function main() {
 
     //初始化
     log("Info:Launching,please hold a second...");
-    if (!beforeRunCheck()) {
+    if (!beforeRunCheck(args.hasOwnProperty("gam"))) {
         throw "Initialization failed";
     }
     if (!cleanWorkshop()) {

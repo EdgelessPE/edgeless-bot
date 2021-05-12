@@ -11,7 +11,7 @@ interface RunChecker {
     onerror: (displayError: () => boolean) => boolean | void;
 }
 
-function beforeRunCheck(): boolean {
+function beforeRunCheck(gam:boolean): boolean {
     //预设严重错误函数
     let l = function (text: string): boolean {
         log("Error:Check failure, " + text);
@@ -42,6 +42,8 @@ function beforeRunCheck(): boolean {
                     d();
                     log("Warning:Command `rclone` not found, remote disabled");
                     return true;
+                }else if(gam){
+                    return fs.existsSync("./rclone.exe")&&fs.existsSync("./rclone.conf")
                 }else{
                     return false
                 }

@@ -68,12 +68,14 @@ yarn serve -t TaskName -f
 ```
 ## 参数
 ```
-yarn serve[ -t TaskName][ -f]
+yarn serve[ -t TaskName][ -f][ -gam]
 ```
 ### -t
 指定运行某个Task，TaskName为任务名称
 ### -f
 忽略与数据库的最新版本对比结果，强制重新构建任务
+### -gam
+GitHub Actions模式，此时rclone的执行命令会稍有变化
 ## 开发
 ### 创建任务
 为了创建一个任务，你需要提供一个名为`config.json`的文件，结构如下：

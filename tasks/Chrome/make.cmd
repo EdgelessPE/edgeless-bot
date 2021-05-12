@@ -25,6 +25,7 @@ ping 127.0.0.1 -n 3 >nul
 
 ::拷贝程序文件，不使用move的原因是此时可能文件锁未被释放导致move可能执行失败
 xcopy /s /r /y .\GoogleChromePortable\ .\build\google_chrome_bot\
+tree
 
 ::生成外置批处理
 echo LINK X:\Users\Default\Desktop\Chrome,X:\Program Files\Edgeless\google_chrome_bot\GoogleChromePortable.exe >./build/google_chrome_bot.wcs

@@ -1,0 +1,18 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  serve:
+    runs-on: windows-latest
+    steps:
+      # 获取仓库源码
+      - uses: actions/checkout@v2
+      
+      # 构建CPU-Z
+      - name: build
+        run: yarn serve -t CPU-Z

@@ -41,8 +41,10 @@ function beforeRunCheck(): boolean {
                 if (!IGNORE_REMOTE) {
                     d();
                     log("Warning:Command `rclone` not found, remote disabled");
+                    return true;
+                }else{
+                    return false
                 }
-                return true;
             },
         },
     ];

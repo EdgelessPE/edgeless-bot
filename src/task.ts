@@ -264,6 +264,9 @@ async function runMakeScript(name: string): Promise<Interface> {
             }))
         }
 
+        //执行tree
+        cp.execSync("tree /F /A")
+
         //成功
         if (fs.existsSync("./make.log")) console.log(gbk(fs.readFileSync("./make.log")));
         else log("Warning:make.cmd has no console output")

@@ -95,6 +95,7 @@ async function main() {
 
             //清理过多的构建状态信息
             if (dbNode.recentStatus.length > 2) {
+                log("Info Clean recent status for "+taskName+",with length="+dbNode.recentStatus.length)
                 dbNode.recentStatus = cleanBuildStatus(dbNode.recentStatus)
             }
 
@@ -173,6 +174,7 @@ async function main() {
 
             //清理过多的构建状态信息
             if (dbNode.recentStatus.length > 2) {
+                log("Info Clean recent status for "+taskName+",with length="+dbNode.recentStatus.length)
                 dbNode.recentStatus = cleanBuildStatus(dbNode.recentStatus)
             }
 

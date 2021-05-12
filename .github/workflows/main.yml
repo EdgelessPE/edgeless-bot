@@ -13,12 +13,16 @@ jobs:
       # 获取仓库源码
       - uses: actions/checkout@v2
 
-      # 获取rclone
-      - name: rclone
-        run: git clone https://oauth2:$env:TOKEN@github.com/Cnotech/rclone
-        shell: pwsh
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # 获取rclone git@github.com:Cnotech/rclone.git
+      - uses: actions/checkout@v2
+        with:
+          repository: Cnotech/rclone
+          token: ${{ secrets.RCLONE_TOKEN }}
+          path: rclone
+
+      # 打印当前目录树
+      - name: tree
+        run: tree
 
       # 取出rclone
       - name: copy rclone

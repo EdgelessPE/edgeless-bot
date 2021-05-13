@@ -26,6 +26,9 @@ async function main() {
     );
 
     //初始化
+    if(args.hasOwnProperty("g")){
+        console.log("::group::Init")
+    }
     log("Info:Launching,please hold a second...");
     if (!beforeRunCheck(args.hasOwnProperty("g"))) {
         throw "Initialization failed";
@@ -55,6 +58,9 @@ async function main() {
                 throw "Database check failure"
             }
         }
+    }
+    if(args.hasOwnProperty("g")){
+        console.log("::endgroup::")
     }
 
     //根据命令行参数判断任务

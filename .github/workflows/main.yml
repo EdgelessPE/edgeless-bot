@@ -26,6 +26,12 @@ jobs:
       - name: copy rclone
         run: mv .\rclone\* .\
 
+      # 缓存yarn
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       # 安装依赖
       - name: yarn
         run: yarn

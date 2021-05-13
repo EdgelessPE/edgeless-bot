@@ -142,6 +142,11 @@ async function main() {
 
             let taskName = tasks[i];
 
+            //为GA输出分组
+            if(args.hasOwnProperty("g")){
+                console.log("::group::"+taskName)
+            }
+
             //读取task配置
             let iRT = readTaskConfig(taskName);
             if (iRT.status === Status.ERROR) {
@@ -207,6 +212,11 @@ async function main() {
                     errorMessage: "Success"
                 })
                 DB[taskName] = node
+            }
+
+            //为GA输出结束分组
+            if(args.hasOwnProperty("g")){
+                console.log("::endgroup::")
             }
         }
 

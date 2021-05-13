@@ -225,4 +225,4 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
 ## 贡献
-你可以将自己编写的Task通过PullRequest的形式合并到此仓库，Edgeless bot会不定期执行所有Task
+你可以将自己编写的Task通过Pull Request的形式添加到此仓库，Github Actions会每日调用Edgeless bot构建插件包

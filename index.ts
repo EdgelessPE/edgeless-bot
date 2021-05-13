@@ -8,7 +8,7 @@ import { beforeRunCheck, cleanWorkshop, find7zip } from "./src/init"
 import { spawnAria2, readTaskConfig, processTask, getTasks, aria2 } from './src/task'
 import { DIR_TASKS } from "./src/const"
 import { barometer } from "./src/barometer"
-const args: any = require("minimist")(process.argv.slice(2))
+export const args: any = require("minimist")(process.argv.slice(2))
 
 
 //main

@@ -6,6 +6,7 @@ import iconv from 'iconv-lite'
 import { Cmp, Status } from "./enum"
 import { BuildStatus, Interface } from "./class"
 import { DIR_TASKS, DIR_WORKSHOP } from "./const"
+import {args} from "../index"
 
 
 function log(text: string) {
@@ -22,12 +23,21 @@ function log(text: string) {
             break;
         case "Success":
             console.log(chalk.greenBright("Success ") + inf);
+            if(args.hasOwnProperty("gam")){
+                console.log("::debug::"+inf)
+            }
             break;
         case "Warning":
             console.log(chalk.yellow("Warning ") + inf);
+            if(args.hasOwnProperty("gam")){
+                console.log("::warning::"+inf)
+            }
             break;
         case "Error":
             console.log(chalk.red("Error ") + inf);
+            if(args.hasOwnProperty("gam")){
+                console.log("::error::"+inf)
+            }
             break;
         default:
             console.log(chalk.yellow("Warning ") + "Illegal message detected");

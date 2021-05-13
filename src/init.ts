@@ -11,7 +11,7 @@ interface RunChecker {
     onerror: (displayError: () => boolean) => boolean | void;
 }
 
-function beforeRunCheck(gam:boolean): boolean {
+function beforeRunCheck(gam: boolean): boolean {
     //预设严重错误函数
     let l = function (text: string): boolean {
         log("Error:Check failure, " + text);
@@ -42,9 +42,9 @@ function beforeRunCheck(gam:boolean): boolean {
                     d();
                     log("Warning:Command `rclone` not found, remote disabled");
                     return true;
-                }else if(gam){
-                    return fs.existsSync("./rclone.exe")&&fs.existsSync("./rclone.conf")
-                }else{
+                } else if (gam) {
+                    return fs.existsSync("./rclone.exe") && fs.existsSync("./rclone.conf")
+                } else {
                     return false
                 }
             },
@@ -107,14 +107,14 @@ function find7zip(): Interface {
         }
     }
     //使用where判断
-    if(!result){
-        let possibleName:Array<string>=["7z","7zz","7za"]
-        for (let i in possibleName){
-            try{
-                cp.execSync("where "+possibleName[i])
-                result=possibleName[i]
+    if (!result) {
+        let possibleName: Array<string> = ["7z", "7zz", "7za"]
+        for (let i in possibleName) {
+            try {
+                cp.execSync("where " + possibleName[i])
+                result = possibleName[i]
                 break
-            }catch (e) {
+            } catch (e) {
                 continue
             }
         }

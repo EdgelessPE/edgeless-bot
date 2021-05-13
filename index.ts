@@ -27,7 +27,7 @@ async function main() {
 
     //初始化
     log("Info:Launching,please hold a second...");
-    if (!beforeRunCheck(args.hasOwnProperty("gam"))) {
+    if (!beforeRunCheck(args.hasOwnProperty("g"))) {
         throw "Initialization failed";
     }
     if (!cleanWorkshop()) {
@@ -236,7 +236,7 @@ async function main() {
     log("Info:Aria2 assassinated,exit");
 
     //如果Actions全局执行出现问题则在此处抛出
-    if (args.hasOwnProperty("gam")&&!args.hasOwnProperty("t")&&failureTasks.length > 0){
+    if (args.hasOwnProperty("g") && !args.hasOwnProperty("t") && failureTasks.length > 0) {
         throw "TASK FAILURE"
     }
 }

@@ -38,7 +38,7 @@ jobs:
       
       # 构建任务
       - name: build
-        run: yarn serve -gam
+        run: yarn serve -g
 
       # 回传数据库
       - name: commit database

@@ -6,10 +6,11 @@ import iconv from 'iconv-lite'
 import { Cmp, Status } from "./enum"
 import { BuildStatus, Interface } from "./class"
 import { DIR_TASKS, DIR_WORKSHOP } from "./const"
-import {args} from "../index"
+import { args } from "../index"
 
 
 function log(text: string) {
+    console.log(args)
     let spl = text.split(":");
     if (spl.length < 2) {
         console.log(chalk.yellow("Warning ") + "Illegal message detected");
@@ -23,20 +24,20 @@ function log(text: string) {
             break;
         case "Success":
             console.log(chalk.greenBright("Success ") + inf);
-            if(args.hasOwnProperty("gam")){
-                console.log("::debug::"+inf)
+            if (args.hasOwnProperty("g")) {
+                console.log("::debug::" + inf)
             }
             break;
         case "Warning":
             console.log(chalk.yellow("Warning ") + inf);
-            if(args.hasOwnProperty("gam")){
-                console.log("::warning::"+inf)
+            if (args.hasOwnProperty("g")) {
+                console.log("::warning::" + inf)
             }
             break;
         case "Error":
             console.log(chalk.red("Error ") + inf);
-            if(args.hasOwnProperty("gam")){
-                console.log("::error::"+inf)
+            if (args.hasOwnProperty("g")) {
+                console.log("::error::" + inf)
             }
             break;
         default:

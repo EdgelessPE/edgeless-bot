@@ -11,7 +11,7 @@ function uploadToRemote(zname: string, category: string): boolean {
             log("Info:Uploading " + zname)
             cp.execSync(
                 'rclone copy "' + localPath + '" ' + REMOTE_NAME + ":" + remotePath,
-                {timeout: 600000}
+                { timeout: 600000 }
             );
         } catch (err) {
             console.log(err.output.toString());
@@ -30,7 +30,7 @@ function deleteFromRemote(zname: string, category: string): boolean {
             log("Info:Removing " + zname)
             cp.execSync(
                 "rclone delete " + REMOTE_NAME + ":" + remotePath,
-                {timeout: 60000}
+                { timeout: 60000 }
             )
         } catch (err) {
             console.log(err.output.toString());

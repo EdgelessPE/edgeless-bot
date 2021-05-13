@@ -64,7 +64,7 @@ export function barometer(DB: any) {
                 print(Weather.Overcast, taskName, successTime, failureTime)
                 break
             default:
-                log("Warning:Unknown status code:"+statusCode)
+                log("Warning:Unknown status code:" + statusCode)
                 print(Weather.Overcast, taskName, successTime, failureTime)
                 break
         }

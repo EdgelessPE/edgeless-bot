@@ -25,6 +25,11 @@ async function main() {
         chalk.cyan.bold("Edgeless Bot ver." + project_ver)
     );
 
+    //提醒debug模式
+    if(args.hasOwnProperty("d")){
+        log("Warning:Running at debug mode,remote operations and database update will be disabled")
+    }
+
     //初始化
     if(args.hasOwnProperty("g")){
         console.log("::group::Init")
@@ -245,7 +250,11 @@ async function main() {
     console.log("=================================================")
 
     //写数据库
-    saveDatabase(DB);
+    if(!args.hasOwnProperty("d")){
+        saveDatabase(DB);
+    }else{
+        log("Warning:Database not updated")
+    }
 
     //停止aria2进程
     await aria2.forceShutdown();

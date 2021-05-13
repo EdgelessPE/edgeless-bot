@@ -60,6 +60,7 @@
 ```
 :: 安装依赖
 yarn
+yarn global add ts-node typescript
 
 :: 运行全部Tasks
 yarn serve
@@ -69,12 +70,14 @@ yarn serve -t TaskName -f
 ```
 ## 参数
 ```
-yarn serve[ -t TaskName][ -f][ -g]
+yarn serve[ -t TaskName][ -f][ -d][ -g]
 ```
 ### -t
 指定运行某个Task，TaskName为任务名称
 ### -f
 忽略与数据库的最新版本对比结果，强制重新构建任务
+### -d
+debug模式，此模式下的远程操作会被自动禁用，且数据库不会被更新
 ### -g
 GitHub Actions模式
 ## 开发
@@ -225,5 +228,11 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 ```
 cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
+## 测试
+运行以下命令来测试你新增的任务：
+```
+yarn serve -d -t TaskName
+```
+
 ## 贡献
-你可以将自己编写的Task通过Pull Request的形式添加到此仓库，Github Actions会每日调用Edgeless bot构建插件包
+你可以将自己编写的Task通过Pull Request的形式添加到此仓库，Github Actions会在PR通过时构建插件包；此外Github Actions也会每日定时调用Edgeless bot构建插件包

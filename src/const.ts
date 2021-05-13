@@ -1,14 +1,15 @@
 import fs from "fs"
 import UserConfig from "./config"
+const args: any = require("minimist")(process.argv.slice(2))
 
 export const _userConfig = new UserConfig(
     fs.readFileSync("./config.jsonc", "utf8")
 );
 
 // 远程开关
-export const ENABLE_REMOTE = _userConfig.resolved.enableRemote;
+export const ENABLE_REMOTE = args.hasOwnProperty("d")?false:_userConfig.resolved.enableRemote;
 // 忽略远程警告
-export const IGNORE_REMOTE = _userConfig.resolved.ignoreRemote;
+export const IGNORE_REMOTE = args.hasOwnProperty("d")?true:_userConfig.resolved.ignoreRemote;
 
 export const DIR_TASKS = _userConfig.resolved.dirTask;
 export const DIR_WORKSHOP = _userConfig.resolved.dirWorkshop;

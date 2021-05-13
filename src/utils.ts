@@ -10,7 +10,6 @@ import { args } from "../index"
 
 
 function log(text: string) {
-    console.log(args)
     let spl = text.split(":");
     if (spl.length < 2) {
         console.log(chalk.yellow("Warning ") + "Illegal message detected");
@@ -20,29 +19,40 @@ function log(text: string) {
     let inf = text.substring(spl[0].length + 1);
     switch (spl[0]) {
         case "Info":
-            console.log(chalk.blue("Info ") + inf);
+            if (args.hasOwnProperty("g")) {
+                console.log(chalk.blue("Info: ") + inf);
+            }else{
+                console.log(chalk.blue("Info ") + inf);
+            }
             break;
         case "Success":
-            console.log(chalk.greenBright("Success ") + inf);
             if (args.hasOwnProperty("g")) {
-                console.log("::debug::" + inf)
+                console.log(chalk.greenBright("Success: ") + inf);
+            }else{
+                console.log(chalk.greenBright("Success ") + inf);
             }
             break;
         case "Warning":
-            console.log(chalk.yellow("Warning ") + inf);
             if (args.hasOwnProperty("g")) {
                 console.log("::warning::" + inf)
+            }else{
+                console.log(chalk.yellow("Warning ") + inf);
             }
             break;
         case "Error":
-            console.log(chalk.red("Error ") + inf);
             if (args.hasOwnProperty("g")) {
                 console.log("::error::" + inf)
+            }else{
+                console.log(chalk.red("Error ") + inf);
             }
             break;
         default:
-            console.log(chalk.yellow("Warning ") + "Illegal message detected");
-            console.log(text);
+            if (args.hasOwnProperty("g")) {
+                console.log("::warning::Illegal message detected:"+inf)
+            }else{
+                console.log(chalk.yellow("Warning ") + "Illegal message detected");
+                console.log(text);
+            }
     }
 }
 

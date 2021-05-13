@@ -1,4 +1,5 @@
 # Edgeless 自动插件机器人
+![workflow status](https://github.com/Cnotech/edgeless-bot/actions/workflows/main.yml/badge.svg)
 ## 简介
 用于从PortableApps网站自动抓取便携版软件更新信息，当存在更新时自动下载新版并制作成Edgeless插件包然后上传
 

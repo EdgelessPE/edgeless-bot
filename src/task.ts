@@ -70,7 +70,7 @@ function readTaskConfig(name: string): Interface {
     }
 
     //解析Json
-    let json = JSON.parse(fs.readFileSync(dir + "/config.json").toString());
+    let json = JSON.parse(fs.readFileSync(dir + "/config.json").toString()) as Task;
 
     //检查文件夹名称和json.name是否一致
     if (name !== json.name) {
@@ -97,6 +97,20 @@ function readTaskConfig(name: string): Interface {
                 ',missing "' +
                 miss +
                 '"',
+        });
+    }
+
+    //检查分类是否存在
+    let cates=["实用工具","开发辅助","配置检测","资源管理","办公编辑","输入法","录屏看图","磁盘数据","安全急救","即时通讯","安装备份","游戏娱乐","运行环境","压缩镜像","美化增强","驱动管理","下载上传","浏览器","影音播放","远程连接"]
+    if(!cates.includes(json.category)){
+        return new Interface({
+            status: Status.ERROR,
+            payload:
+                "Warning:Skipping illegal task config " +
+                name +
+                ',category "' +
+                json.category +
+                '" not exist',
         });
     }
 

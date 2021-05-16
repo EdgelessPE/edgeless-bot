@@ -12,7 +12,7 @@
   // 数据库路径
   "pathDatabase": "./database.json",
   // 最大构建数
-  "maxBuildsNum": 3,
+  "maxBuildsNum": 1,
   // 远程主机名
   "remoteName": "pineapple",
   // 远程根路径

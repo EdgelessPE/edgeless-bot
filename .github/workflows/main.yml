@@ -1,4 +1,4 @@
-name: Build
+name: Serve
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
           path: rclone
 
       # 取出rclone
-      - name: copy rclone
+      - name: Copy rclone
         run: mv .\rclone\* .\
 
       # 缓存yarn
@@ -33,21 +33,21 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 安装依赖
-      - name: yarn
+      - name: Yarn
         run: yarn
       
       # 构建任务
-      - name: build
+      - name: Serve
         run: yarn serve -g
 
       # 回传数据库
-      - name: commit database
+      - name: Commit database
         run: |
           git config --local user.email "dsyourshy@qq.com"
           git config --local user.name "Actions bot"
           git commit -m "Update database" -a
 
-      - name: push changes
+      - name: Update database
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

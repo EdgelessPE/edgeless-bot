@@ -3,8 +3,6 @@ name: Serve
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
   schedule:
     - cron: '0 16 * * *'
 
@@ -45,7 +43,7 @@ jobs:
         run: |
           git config --local user.email "dsyourshy@qq.com"
           git config --local user.name "Actions bot"
-          git commit -m "Update database" -a
+          git commit -m "Update database by bot" -a
 
       - name: Update database
         uses: ad-m/github-push-action@master

@@ -6,6 +6,6 @@
     "paUrl":"https://portableapps.com/apps/utilities/listary_portable",
     "releaseRequirement":["ListaryPortable.exe","App/Listary/X64/Listary.exe"],
     "buildRequirement": ["Listary_bot.wcs","Listary_bot/ListaryPortable.exe"],
-    "preprocess": false,
+    "preprocess": true,
     "autoMake": true
 }

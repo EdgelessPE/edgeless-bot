@@ -35,8 +35,8 @@ function preprocessPA(name: string): boolean {
     //修改pac_installer_log.ini
     let filePath = dir + "/App/AppInfo/pac_installer_log.ini"
     if (!fs.existsSync(filePath)) {
-        log("Error:Can't preprocess " + name + ":pac_installer_log.ini not found")
-        return false
+        log("Warning:pac_installer_log.ini not found,skipping modification for " + name)
+        return true
     }
     let fileContent = ini.parse(fs.readFileSync(filePath).toString()).PortableApps.comInstaller
     if (!fileContent) {

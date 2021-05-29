@@ -17,7 +17,7 @@ function saveDatabase(json: any) {
         fs.renameSync(dst, dst + ".bak");
     }
 
-    fs.writeFileSync(dst, JSON.stringify(json));
+    fs.writeFileSync(dst, JSON.stringify(json, null, 2));
 }
 export {
     readDatabase,

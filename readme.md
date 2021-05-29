@@ -57,15 +57,14 @@
 }
 ```
 ## 使用
-```
-:: 安装依赖
+```sh
+# 安装依赖
 yarn
-yarn global add ts-node typescript
 
-:: 运行全部Tasks
+# 运行全部 Tasks
 yarn serve
 
-:: 强制重新构建指定Task
+# 强制重新构建指定Task
 yarn serve -t TaskName -f
 ```
 ## 参数

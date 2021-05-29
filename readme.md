@@ -84,7 +84,7 @@ GitHub Actions模式
 ### 创建任务
 为了创建一个任务，你需要提供一个名为`config.json`的文件，结构如下：
 ```typescript
-class Task {
+interface Task {
     name: string; //软件名（也作为任务名）
     category: string; //软件分类
     author: string; //打包者名称

@@ -80,7 +80,7 @@ function parseDownloadUrl(href: string): string {
     //URL编码
     href = encodeURI(href)
 
-    log("Info:Parse download link into:" + href)
+    //log("Info:Parse download link into:" + href)
     return href
 }
 

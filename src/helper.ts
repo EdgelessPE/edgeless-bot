@@ -67,6 +67,8 @@ function removeExtraBuilds(
     repo: string,
     category: string
 ): DatabaseNode {
+    log("Info:Trying to remove extra builds")
+
     //builds去重
     let hashMap: any = {}
     let r: Array<BuildInfo> = []
@@ -78,7 +80,7 @@ function removeExtraBuilds(
         }
     }
     database.builds = r
-    if (r.length < 4) return database
+    if (r.length <= MAX_BUILDS) return database
 
     //builds降序排列
     database.builds.sort((a, b) => {

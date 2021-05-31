@@ -10,6 +10,12 @@ import { args } from "../index"
 
 
 function log(text: string) {
+    //增加字符串类型判断
+    if(typeof text!="string"){
+        console.log(chalk.yellow("Warning ") + "Illegal type detected");
+        console.log(JSON.stringify(text));
+        return;
+    }
     let spl = text.split(":");
     if (spl.length < 2) {
         console.log(chalk.yellow("Warning ") + "Illegal message detected");

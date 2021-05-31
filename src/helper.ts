@@ -3,6 +3,7 @@ import { log, rd, versionCmp } from "./utils"
 import { DIR_WORKSHOP, MAX_BUILDS } from "./const"
 import { DatabaseNode, BuildInfo } from "./class"
 import { deleteFromRemote } from './remote'
+import {args} from "../index";
 const ini = require('ini')
 
 function preprocessPA(name: string): boolean {
@@ -80,25 +81,32 @@ function removeExtraBuilds(
         }
     }
     database.builds = r
-    if (r.length <= MAX_BUILDS) return database
+    if (r.length <= MAX_BUILDS) {
+        log("Info:No needy for removal after de-weight")
+        return database
+    }
 
     //builds降序排列
     database.builds.sort((a, b) => {
-        return 1 - versionCmp(a.version, b.version);
+        return 1 - versionCmp(a.version, b.version)
     });
     //删除多余的builds
     for (let i = 0; i < database.builds.length - MAX_BUILDS; i++) {
-        let target = database.builds.pop();
+        let target = database.builds.pop()
         if (typeof target !== "undefined") {
-            log("Info:Remove extra build " + repo + "/" + target.name);
-            fs.unlinkSync(repo + "/" + target.name);
+            log("Info:Remove extra build " + repo + "/" + target.name)
+            try{
+                fs.unlinkSync(repo + "/" + target.name)
+            }catch (e) {
+                if(!args.hasOwnProperty("g")) log("Warning:Fail to delete local extra build " + target.name)
+            }
             if (!deleteFromRemote(target.name, category)) {
-                log("Warning:Fail to delete remote extra build " + target.name);
+                log("Warning:Fail to delete remote extra build " + target.name)
             }
         }
     }
 
-    return database;
+    return database
 }
 
 export {

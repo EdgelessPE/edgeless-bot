@@ -1,9 +1,32 @@
 import axios from "axios"
 import cheerio from "cheerio"
 import fs from 'fs'
-import { Interface, PageInfo } from './class'
-import { Status } from "./enum"
-import { log, parseDownloadUrl } from './utils'
+import {Interface, PageInfo} from './class'
+import {Status} from "./enum"
+import {log, parseDownloadUrl} from './utils'
+import sleep from "./sleep";
+
+async function fetchPage(url:string):Promise<Interface> {
+    log("Info:Start scraping page: " + url)
+    let res
+    try {
+        res = await axios.get(url)
+    } catch (err) {
+        console.log(JSON.stringify(err))
+        return new Interface({
+            status: Status.ERROR,
+            payload: (("Error:Http status code abnormal,can't scrape " +
+                url +
+                " ,message:" +
+                err.message) as unknown) as PageInfo,
+        });
+    }
+
+    return new Interface({
+        status:Status.SUCCESS,
+        payload:res.data
+    })
+}
 
 //scraper,enable useFS when debugging that the function will load page ./1.html
 export async function scrapePage(
@@ -16,24 +39,24 @@ export async function scrapePage(
     let validClassName = [".download-link", ".download-info"];
 
     //获取HTML信息并挂载
-    log("Info:Start scraping page: " + url);
-    let res;
-    try {
-        if (!useFS) res = await axios.get(url);
-    } catch (err) {
-        console.log(JSON.stringify(err))
-        return new Interface({
-            status: Status.ERROR,
-            payload: (("Error:Http status code abnormal,can't scrape " +
-                url +
-                " ,message:" +
-                err.message) as unknown) as PageInfo,
-        });
+    let page=""
+    if (!useFS){
+        let result:Interface=new Interface({
+            status:Status.ERROR,
+            payload:"Error:Fetch page function not ran"
+        })
+        for(let i=0;i<3;i++){
+            result=await fetchPage(url)
+            if(result.status==Status.SUCCESS) break
+            else await sleep(10000)
+        }
+        if(result.status==Status.ERROR) return result
+        else page=result.payload
     }
 
     //挂载HTML
     let $ = cheerio.load(
-        useFS ? fs.readFileSync("./1.html").toString() : res?.data
+        useFS ? fs.readFileSync("./1.html").toString() : page
     );
 
     //获取download-box DOM

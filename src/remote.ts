@@ -27,7 +27,7 @@ function deleteFromRemote(zname: string, category: string): boolean {
         let remotePath = REMOTE_ROOT + "/" + category + "/" + zname;
 
         try {
-            log("Info:Removing " + zname)
+            log("Info:Removing " + remotePath)
             cp.execSync(
                 "rclone delete " + REMOTE_NAME + ":" + remotePath,
                 { timeout: 60000 }

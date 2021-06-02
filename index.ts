@@ -50,8 +50,8 @@ async function main() {
 
     //读入数据库
     let DB = readDatabase();
-    log("Info:Get database as follow:")
-    console.log(JSON.stringify(DB))
+    //log("Info:Get database as follow:")
+    //console.log(JSON.stringify(DB))
 
     //校验数据库
     let null_db_node = new DatabaseNode()

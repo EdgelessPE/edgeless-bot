@@ -411,15 +411,9 @@ function buildAndDeliver(
     }
 
     //删除过旧的编译版本
-    if (database.builds.length > MAX_BUILDS) {
+    if (database.builds.length >= MAX_BUILDS) {
         database = removeExtraBuilds(database, repo, category);
     }
-    //记录数据库
-    database.latestVersion = version;
-    database.builds.push({
-        version,
-        name: zname,
-    });
     //上传编译版本
     if (!uploadToRemote(zname, category)) {
         return new Interface({
@@ -427,6 +421,12 @@ function buildAndDeliver(
             payload: "Error:Can't upload file " + zname,
         });
     }
+    //记录数据库
+    database.latestVersion = version;
+    database.builds.push({
+        version,
+        name: zname,
+    });
 
     return new Interface({
         status: Status.SUCCESS,

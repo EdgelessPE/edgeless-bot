@@ -3,34 +3,26 @@
     "latestVersion": "91.0.4472.77",
     "builds": [
       {
-        "version": "90.0.4430.93",
-        "name": "Chrome_90.0.4430.93_Cno（bot）.7z"
-      },
-      {
-        "version": "90.0.4430.212",
-        "name": "Chrome_90.0.4430.212_Cno（bot）.7z"
-      },
-      {
         "version": "91.0.4472.77",
         "name": "Chrome_91.0.4472.77_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1622567603279,
-        "timeDescription": "Tue Jun 01 2021 17:13:23 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484021295,
-        "timeDescription": "Mon May 31 2021 18:00:21 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662715796,
+        "timeDescription": "Thu Jun 03 2021 03:38:35 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622654998402,
         "timeDescription": "Wed Jun 02 2021 17:29:58 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663801024,
+        "timeDescription": "Thu Jun 03 2021 03:56:41 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -40,24 +32,14 @@
     "latestVersion": "89.0.0.0",
     "builds": [
       {
-        "version": "88.0.1.0",
-        "name": "Firefox_88.0.1.0_Cno（bot）.7z"
-      },
-      {
         "version": "89.0.0.0",
         "name": "Firefox_89.0.0.0_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1622567604384,
-        "timeDescription": "Tue Jun 01 2021 17:13:24 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484022547,
-        "timeDescription": "Mon May 31 2021 18:00:22 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662814245,
+        "timeDescription": "Thu Jun 03 2021 03:40:14 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
@@ -66,6 +48,12 @@
         "timeDescription": "Wed Jun 02 2021 17:42:49 GMT+0000 (Greenwich Mean Time)",
         "success": false,
         "errorMessage": "Error:Can't upload file Firefox_89.0.0.0_Cno（bot）.7z"
+      },
+      {
+        "time": 1622663842894,
+        "timeDescription": "Thu Jun 03 2021 03:57:22 GMT+0800 (中国标准时间)",
+        "success": true,
+        "errorMessage": "Success"
       }
     ]
   },
@@ -79,20 +67,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567603591,
-        "timeDescription": "Tue Jun 01 2021 17:13:23 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484021903,
-        "timeDescription": "Mon May 31 2021 18:00:21 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662717082,
+        "timeDescription": "Thu Jun 03 2021 03:38:37 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622654999395,
         "timeDescription": "Wed Jun 02 2021 17:29:59 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663825277,
+        "timeDescription": "Thu Jun 03 2021 03:57:05 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -116,20 +104,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567604292,
-        "timeDescription": "Tue Jun 01 2021 17:13:24 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484022468,
-        "timeDescription": "Mon May 31 2021 18:00:22 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662720887,
+        "timeDescription": "Thu Jun 03 2021 03:38:40 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622655013594,
         "timeDescription": "Wed Jun 02 2021 17:30:13 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663841611,
+        "timeDescription": "Thu Jun 03 2021 03:57:21 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -145,20 +133,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567604463,
-        "timeDescription": "Tue Jun 01 2021 17:13:24 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484022628,
-        "timeDescription": "Mon May 31 2021 18:00:22 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1622662816038,
+        "timeDescription": "Thu Jun 03 2021 03:40:16 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't scrape FreeDownloadManager 's page,skipping..."
       },
       {
         "time": 1622655770251,
         "timeDescription": "Wed Jun 02 2021 17:42:50 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663844527,
+        "timeDescription": "Thu Jun 03 2021 03:57:24 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -172,30 +160,26 @@
         "name": "Opera_76.0.4017.154_Cno（bot）.7z"
       },
       {
-        "version": "76.0.4017.123",
-        "name": "Opera_76.0.4017.123_Cno（bot）.7z"
-      },
-      {
         "version": "76.0.4017.175",
         "name": "Opera_76.0.4017.175_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1622567605176,
-        "timeDescription": "Tue Jun 01 2021 17:13:25 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484023730,
-        "timeDescription": "Mon May 31 2021 18:00:23 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662821204,
+        "timeDescription": "Thu Jun 03 2021 03:40:21 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622656288119,
         "timeDescription": "Wed Jun 02 2021 17:51:28 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663849218,
+        "timeDescription": "Thu Jun 03 2021 03:57:29 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -211,20 +195,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567605255,
-        "timeDescription": "Tue Jun 01 2021 17:13:25 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484024329,
-        "timeDescription": "Mon May 31 2021 18:00:24 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1622662822973,
+        "timeDescription": "Thu Jun 03 2021 03:40:22 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't scrape PotPlayer 's page,skipping..."
       },
       {
         "time": 1622656288639,
         "timeDescription": "Wed Jun 02 2021 17:51:28 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663862139,
+        "timeDescription": "Thu Jun 03 2021 03:57:42 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -244,20 +228,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567605929,
-        "timeDescription": "Tue Jun 01 2021 17:13:25 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484024955,
-        "timeDescription": "Mon May 31 2021 18:00:24 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662826434,
+        "timeDescription": "Thu Jun 03 2021 03:40:26 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622656290423,
         "timeDescription": "Wed Jun 02 2021 17:51:30 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663905824,
+        "timeDescription": "Thu Jun 03 2021 03:58:25 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -273,20 +257,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567606015,
-        "timeDescription": "Tue Jun 01 2021 17:13:26 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484025011,
-        "timeDescription": "Mon May 31 2021 18:00:25 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1622662828160,
+        "timeDescription": "Thu Jun 03 2021 03:40:28 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't scrape WinSCP 's page,skipping..."
       },
       {
         "time": 1622656290829,
         "timeDescription": "Wed Jun 02 2021 17:51:30 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663907552,
+        "timeDescription": "Thu Jun 03 2021 03:58:27 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -302,20 +286,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567606079,
-        "timeDescription": "Tue Jun 01 2021 17:13:26 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484025580,
-        "timeDescription": "Mon May 31 2021 18:00:25 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662829832,
+        "timeDescription": "Thu Jun 03 2021 03:40:29 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622656291682,
         "timeDescription": "Wed Jun 02 2021 17:51:31 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663931786,
+        "timeDescription": "Thu Jun 03 2021 03:58:51 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -331,20 +315,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567606495,
-        "timeDescription": "Tue Jun 01 2021 17:13:26 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484026155,
-        "timeDescription": "Mon May 31 2021 18:00:26 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1622662831515,
+        "timeDescription": "Thu Jun 03 2021 03:40:31 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't scrape 傲游浏览器 's page,skipping..."
       },
       {
         "time": 1622656292373,
         "timeDescription": "Wed Jun 02 2021 17:51:32 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663944319,
+        "timeDescription": "Thu Jun 03 2021 03:59:04 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -364,20 +348,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567603667,
-        "timeDescription": "Tue Jun 01 2021 17:13:23 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484021983,
-        "timeDescription": "Mon May 31 2021 18:00:21 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1622662718342,
+        "timeDescription": "Thu Jun 03 2021 03:38:38 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't scrape CrystalDiskInfo磁盘检测 's page,skipping..."
       },
       {
         "time": 1622655012810,
         "timeDescription": "Wed Jun 02 2021 17:30:12 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663838447,
+        "timeDescription": "Thu Jun 03 2021 03:57:18 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -393,20 +377,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567604211,
-        "timeDescription": "Tue Jun 01 2021 17:13:24 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484022387,
-        "timeDescription": "Mon May 31 2021 18:00:22 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662719621,
+        "timeDescription": "Thu Jun 03 2021 03:38:39 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622655013192,
         "timeDescription": "Wed Jun 02 2021 17:30:13 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663840358,
+        "timeDescription": "Thu Jun 03 2021 03:57:20 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -426,20 +410,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567604532,
-        "timeDescription": "Tue Jun 01 2021 17:13:24 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484022689,
-        "timeDescription": "Mon May 31 2021 18:00:22 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662817622,
+        "timeDescription": "Thu Jun 03 2021 03:40:17 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622655770640,
         "timeDescription": "Wed Jun 02 2021 17:42:50 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663846191,
+        "timeDescription": "Thu Jun 03 2021 03:57:26 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -455,20 +439,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567605102,
-        "timeDescription": "Tue Jun 01 2021 17:13:25 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484023221,
-        "timeDescription": "Mon May 31 2021 18:00:23 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662819367,
+        "timeDescription": "Thu Jun 03 2021 03:40:19 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
       {
         "time": 1622655771481,
         "timeDescription": "Wed Jun 02 2021 17:42:51 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1622663847918,
+        "timeDescription": "Thu Jun 03 2021 03:57:27 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -484,14 +468,8 @@
     ],
     "recentStatus": [
       {
-        "time": 1622567605817,
-        "timeDescription": "Tue Jun 01 2021 17:13:25 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1622484024888,
-        "timeDescription": "Mon May 31 2021 18:00:24 GMT+0000 (Greenwich Mean Time)",
+        "time": 1622662824789,
+        "timeDescription": "Thu Jun 03 2021 03:40:24 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
@@ -500,6 +478,12 @@
         "timeDescription": "Wed Jun 02 2021 17:51:29 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
+      },
+      {
+        "time": 1622663896563,
+        "timeDescription": "Thu Jun 03 2021 03:58:16 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't scrape ReNamer 's page,skipping..."
       }
     ]
   }

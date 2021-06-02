@@ -81,7 +81,7 @@ function removeExtraBuilds(
         }
     }
     database.builds = r
-    if (r.length <= MAX_BUILDS) {
+    if (r.length < MAX_BUILDS) {
         log("Info:No needy for removal after de-weight")
         return database
     }
@@ -91,8 +91,9 @@ function removeExtraBuilds(
         return 1 - versionCmp(a.version, b.version)
     });
     //删除多余的builds
-    for (let i = 0; i < database.builds.length - MAX_BUILDS; i++) {
-        let target = database.builds.pop()
+    let failure:Array<BuildInfo>=[]
+    for (let i = 0; i < database.builds.length - MAX_BUILDS + 1; i++) {
+        let target:BuildInfo = database.builds.pop() as BuildInfo
         if (typeof target !== "undefined") {
             log("Info:Remove extra build " + repo + "/" + target.name)
             try{
@@ -102,9 +103,11 @@ function removeExtraBuilds(
             }
             if (!deleteFromRemote(target.name, category)) {
                 log("Warning:Fail to delete remote extra build " + target.name)
+                failure.push(target)
             }
         }
     }
+    database.builds=database.builds.concat(failure)
 
     return database
 }

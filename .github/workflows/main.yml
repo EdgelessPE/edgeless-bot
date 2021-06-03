@@ -53,5 +53,6 @@ jobs:
           branch: ${{ github.ref }}
       # 如果存在构建失败标记则返回1
       - name: Passing check
+        shell: cmd
         run: |
           if exist actions_failed exit 1

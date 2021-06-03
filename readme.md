@@ -124,7 +124,7 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮（className=
 运行`make.cmd`脚本或自动构建后`build`文件夹应该出现的文件/文件夹，用于校验`make.cmd`脚本或自动构建是否执行成功
 #### preprocess
 预处理`release`目录，程序会执行两个步骤：
-1. 删除`$PLUGINSDIR`目录
+1. 删除`$PLUGINSDIR` `Other`目录和`help.html` `App/readme.txt`文件
 2. 修改`pac_installer_log.ini`以绕过首次运行会弹出的安全警告
 #### autoMake
 使用自动制作，如果启用此项则不需要编写`make.cmd`脚本，程序会生成一个完成以下动作的外置批处理：

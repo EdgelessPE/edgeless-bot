@@ -1,13 +1,14 @@
 import fs from "fs"
 import chalk from "chalk"
-import { Status } from "./src/enum"
-import { log, cleanBuildStatus } from './src/utils'
-import { DatabaseNode, Task } from "./src/class"
-import { readDatabase, saveDatabase } from "./src/database"
-import { beforeRunCheck, cleanWorkshop, find7zip } from "./src/init"
-import { spawnAria2, readTaskConfig, processTask, getTasks, aria2 } from './src/task'
-import { DIR_TASKS } from "./src/const"
-import { barometer } from "./src/barometer"
+import {Status} from "./src/enum"
+import {cleanBuildStatus, log} from './src/utils'
+import {DatabaseNode, Task} from "./src/class"
+import {readDatabase, saveDatabase} from "./src/database"
+import {beforeRunCheck, cleanWorkshop, find7zip} from "./src/init"
+import {aria2, getTasks, processTask, readTaskConfig, spawnAria2} from './src/task'
+import {DIR_TASKS} from "./src/const"
+import {barometer} from "./src/barometer"
+
 export const args: any = require("minimist")(process.argv.slice(2))
 
 
@@ -194,6 +195,7 @@ async function main() {
             }
 
             //执行task
+            let beforeVersion=dbNode.latestVersion
             let iPT = await processTask(taskConfig, dbNode, p7zip);
             if (iPT.status === Status.ERROR) {
                 //打印错误
@@ -226,9 +228,15 @@ async function main() {
                 DB[taskName] = node
             }
 
-            //为GA输出结束分组
             if(args.hasOwnProperty("g")){
+                //为GA输出结束分组
                 console.log("::endgroup::")
+
+                //如果被更新则显示更新情况
+                let node = iPT.payload as DatabaseNode
+                if(iPT.status==Status.SUCCESS&&node.latestVersion!=beforeVersion){
+                    console.log("Updated from "+beforeVersion+" to "+node.latestVersion)
+                }
             }
         }
 

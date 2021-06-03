@@ -15,6 +15,7 @@ export const args: any = require("minimist")(process.argv.slice(2))
 async function main() {
     console.clear();
     let failureTasks: Array<string> = [];
+    if(fs.existsSync("./actions_failed")) fs.unlinkSync("./actions_failed")
 
     //获取版本号
     let project_ver = "0.0.0"
@@ -262,7 +263,7 @@ async function main() {
 
     //如果Actions全局执行出现问题则在此处抛出
     if (args.hasOwnProperty("g") && !args.hasOwnProperty("t") && failureTasks.length > 0) {
-        throw "TASK FAILURE"
+        fs.writeFileSync("./actions_failed",failureTasks.length.toString())
     }
 }
 

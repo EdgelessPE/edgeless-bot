@@ -1,0 +1,11 @@
+{
+    "name":"HWiNFO系统信息",
+    "category":"配置检测",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/apps/utilities/hwinfo-portable",
+    "releaseRequirement":["HWiNFOPortable.exe","App/HWiNFO/HWiNFO64.exe"],
+    "buildRequirement": ["HWiNFO_bot.wcs","HWiNFO_bot/HWiNFOPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

@@ -5,7 +5,7 @@
 
     "paUrl":"https://portableapps.com/apps/utilities/hwinfo-portable",
     "releaseRequirement":["HWiNFOPortable.exe","App/HWiNFO/HWiNFO64.exe"],
-    "buildRequirement": ["HWiNFO_bot.wcs","HWiNFO_bot/HWiNFOPortable.exe"],
+    "buildRequirement": ["HWiNFO系统信息_bot.wcs","HWiNFO系统信息_bot/HWiNFOPortable.exe"],
     "preprocess": true,
     "autoMake": true
 }

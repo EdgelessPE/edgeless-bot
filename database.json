@@ -9,20 +9,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687031024,
+        "timeDescription": "Mon Jun 14 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600604124,
         "timeDescription": "Sun Jun 13 2021 16:10:04 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514196869,
-        "timeDescription": "Sat Jun 12 2021 16:09:56 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687031024,
-        "timeDescription": "Mon Jun 14 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773427326,
+        "timeDescription": "Tue Jun 15 2021 16:10:27 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -38,20 +38,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687032847,
+        "timeDescription": "Mon Jun 14 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600627300,
         "timeDescription": "Sun Jun 13 2021 16:10:27 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514199811,
-        "timeDescription": "Sat Jun 12 2021 16:09:59 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687032847,
-        "timeDescription": "Mon Jun 14 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773429676,
+        "timeDescription": "Tue Jun 15 2021 16:10:29 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -67,20 +67,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687031396,
+        "timeDescription": "Mon Jun 14 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600604829,
         "timeDescription": "Sun Jun 13 2021 16:10:04 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514197741,
-        "timeDescription": "Sat Jun 12 2021 16:09:57 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687031396,
-        "timeDescription": "Mon Jun 14 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773428077,
+        "timeDescription": "Tue Jun 15 2021 16:10:28 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -104,20 +104,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687032460,
+        "timeDescription": "Mon Jun 14 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600626849,
         "timeDescription": "Sun Jun 13 2021 16:10:26 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514199356,
-        "timeDescription": "Sat Jun 12 2021 16:09:59 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687032460,
-        "timeDescription": "Mon Jun 14 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773429220,
+        "timeDescription": "Tue Jun 15 2021 16:10:29 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -133,38 +133,48 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687033223,
+        "timeDescription": "Mon Jun 14 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600628085,
         "timeDescription": "Sun Jun 13 2021 16:10:28 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514200210,
-        "timeDescription": "Sat Jun 12 2021 16:10:00 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687033223,
-        "timeDescription": "Mon Jun 14 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773430045,
+        "timeDescription": "Tue Jun 15 2021 16:10:30 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "Opera": {
-    "latestVersion": "77.0.4054.60",
+    "latestVersion": "77.0.4054.64",
     "builds": [
+      {
+        "version": "77.0.4054.60",
+        "name": "Opera_77.0.4054.60_Cno（bot）.7z"
+      },
       {
         "version": "76.0.4017.177",
         "name": "Opera_76.0.4017.177_Cno（bot）.7z"
       },
       {
-        "version": "77.0.4054.60",
-        "name": "Opera_77.0.4054.60_Cno（bot）.7z"
+        "version": "77.0.4054.64",
+        "name": "Opera_77.0.4054.64_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
+      {
+        "time": 1623687035146,
+        "timeDescription": "Mon Jun 14 2021 16:10:35 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
       {
         "time": 1623600630974,
         "timeDescription": "Sun Jun 13 2021 16:10:30 GMT+0000 (Greenwich Mean Time)",
@@ -172,14 +182,8 @@
         "errorMessage": "Success"
       },
       {
-        "time": 1623514202609,
-        "timeDescription": "Sat Jun 12 2021 16:10:02 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687035146,
-        "timeDescription": "Mon Jun 14 2021 16:10:35 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773954668,
+        "timeDescription": "Tue Jun 15 2021 16:19:14 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -195,20 +199,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687036483,
+        "timeDescription": "Mon Jun 14 2021 16:10:36 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600632693,
         "timeDescription": "Sun Jun 13 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514203864,
-        "timeDescription": "Sat Jun 12 2021 16:10:03 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687036483,
-        "timeDescription": "Mon Jun 14 2021 16:10:36 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773956027,
+        "timeDescription": "Tue Jun 15 2021 16:19:16 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -232,20 +236,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687037892,
+        "timeDescription": "Mon Jun 14 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600634431,
         "timeDescription": "Sun Jun 13 2021 16:10:34 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514205359,
-        "timeDescription": "Sat Jun 12 2021 16:10:05 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687037892,
-        "timeDescription": "Mon Jun 14 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773957142,
+        "timeDescription": "Tue Jun 15 2021 16:19:17 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -261,20 +265,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687038290,
+        "timeDescription": "Mon Jun 14 2021 16:10:38 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600635358,
         "timeDescription": "Sun Jun 13 2021 16:10:35 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514206217,
-        "timeDescription": "Sat Jun 12 2021 16:10:06 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687038290,
-        "timeDescription": "Mon Jun 14 2021 16:10:38 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773957523,
+        "timeDescription": "Tue Jun 15 2021 16:19:17 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -290,20 +294,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687038671,
+        "timeDescription": "Mon Jun 14 2021 16:10:38 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600636120,
         "timeDescription": "Sun Jun 13 2021 16:10:36 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514206631,
-        "timeDescription": "Sat Jun 12 2021 16:10:06 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687038671,
-        "timeDescription": "Mon Jun 14 2021 16:10:38 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773957903,
+        "timeDescription": "Tue Jun 15 2021 16:19:17 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -319,20 +323,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687039041,
+        "timeDescription": "Mon Jun 14 2021 16:10:39 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600636865,
         "timeDescription": "Sun Jun 13 2021 16:10:36 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514207031,
-        "timeDescription": "Sat Jun 12 2021 16:10:07 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687039041,
-        "timeDescription": "Mon Jun 14 2021 16:10:39 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773958326,
+        "timeDescription": "Tue Jun 15 2021 16:19:18 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -356,20 +360,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687031754,
+        "timeDescription": "Mon Jun 14 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600625455,
         "timeDescription": "Sun Jun 13 2021 16:10:25 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514198092,
-        "timeDescription": "Sat Jun 12 2021 16:09:58 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687031754,
-        "timeDescription": "Mon Jun 14 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773428463,
+        "timeDescription": "Tue Jun 15 2021 16:10:28 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -385,20 +389,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687032099,
+        "timeDescription": "Mon Jun 14 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600626163,
         "timeDescription": "Sun Jun 13 2021 16:10:26 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514198989,
-        "timeDescription": "Sat Jun 12 2021 16:09:58 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687032099,
-        "timeDescription": "Mon Jun 14 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773428852,
+        "timeDescription": "Tue Jun 15 2021 16:10:28 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -418,20 +422,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687033607,
+        "timeDescription": "Mon Jun 14 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600628845,
         "timeDescription": "Sun Jun 13 2021 16:10:28 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514200583,
-        "timeDescription": "Sat Jun 12 2021 16:10:00 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687033607,
-        "timeDescription": "Mon Jun 14 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773430409,
+        "timeDescription": "Tue Jun 15 2021 16:10:30 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -447,20 +451,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687034768,
+        "timeDescription": "Mon Jun 14 2021 16:10:34 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600630284,
         "timeDescription": "Sun Jun 13 2021 16:10:30 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514202254,
-        "timeDescription": "Sat Jun 12 2021 16:10:02 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687034768,
-        "timeDescription": "Mon Jun 14 2021 16:10:34 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773432013,
+        "timeDescription": "Tue Jun 15 2021 16:10:32 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -476,20 +480,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687037159,
+        "timeDescription": "Mon Jun 14 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600633386,
         "timeDescription": "Sun Jun 13 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514204223,
-        "timeDescription": "Sat Jun 12 2021 16:10:04 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687037159,
-        "timeDescription": "Mon Jun 14 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773956393,
+        "timeDescription": "Tue Jun 15 2021 16:19:16 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -505,20 +509,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687030477,
+        "timeDescription": "Mon Jun 14 2021 16:10:30 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600602944,
         "timeDescription": "Sun Jun 13 2021 16:10:02 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514196294,
-        "timeDescription": "Sat Jun 12 2021 16:09:56 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687030477,
-        "timeDescription": "Mon Jun 14 2021 16:10:30 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773426793,
+        "timeDescription": "Tue Jun 15 2021 16:10:26 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -534,20 +538,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687033987,
+        "timeDescription": "Mon Jun 14 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600629598,
         "timeDescription": "Sun Jun 13 2021 16:10:29 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514201318,
-        "timeDescription": "Sat Jun 12 2021 16:10:01 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687033987,
-        "timeDescription": "Mon Jun 14 2021 16:10:33 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773431213,
+        "timeDescription": "Tue Jun 15 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -563,20 +567,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687036083,
+        "timeDescription": "Mon Jun 14 2021 16:10:36 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600631960,
         "timeDescription": "Sun Jun 13 2021 16:10:31 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514203503,
-        "timeDescription": "Sat Jun 12 2021 16:10:03 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687036083,
-        "timeDescription": "Mon Jun 14 2021 16:10:36 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773955625,
+        "timeDescription": "Tue Jun 15 2021 16:19:15 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -592,20 +596,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687037518,
+        "timeDescription": "Mon Jun 14 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600634057,
         "timeDescription": "Sun Jun 13 2021 16:10:34 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514205001,
-        "timeDescription": "Sat Jun 12 2021 16:10:05 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687037518,
-        "timeDescription": "Mon Jun 14 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773956773,
+        "timeDescription": "Tue Jun 15 2021 16:19:16 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -621,20 +625,20 @@
     ],
     "recentStatus": [
       {
+        "time": 1623687039420,
+        "timeDescription": "Mon Jun 14 2021 16:10:39 GMT+0000 (Greenwich Mean Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
         "time": 1623600637708,
         "timeDescription": "Sun Jun 13 2021 16:10:37 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1623514207852,
-        "timeDescription": "Sat Jun 12 2021 16:10:07 GMT+0000 (Greenwich Mean Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1623687039420,
-        "timeDescription": "Mon Jun 14 2021 16:10:39 GMT+0000 (Greenwich Mean Time)",
+        "time": 1623773958696,
+        "timeDescription": "Tue Jun 15 2021 16:19:18 GMT+0000 (Greenwich Mean Time)",
         "success": true,
         "errorMessage": "Success"
       }

@@ -11,10 +11,14 @@ function uploadToRemote(zname: string, category: string): boolean {
             log("Info:Uploading " + zname)
             cp.execSync(
                 'rclone copy "' + localPath + '" ' + REMOTE_NAME + ":" + remotePath,
-                { timeout: 600000 }
+                { timeout: 1200000 }
             );
         } catch (err) {
             console.log(err.output.toString());
+            //尝试删除传了一半的文件
+            if(!deleteFromRemote(zname,category)){
+                log("Warning:Fali to delete broken uploaded file")
+            }
             return false;
         }
         log("Info:Uploaded successfully")
@@ -30,7 +34,7 @@ function deleteFromRemote(zname: string, category: string): boolean {
             log("Info:Removing " + remotePath)
             cp.execSync(
                 "rclone delete " + REMOTE_NAME + ":" + remotePath,
-                { timeout: 60000 }
+                { timeout: 10000 }
             )
         } catch (err) {
             console.log(err.output.toString());

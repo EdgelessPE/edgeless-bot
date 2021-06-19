@@ -90,14 +90,6 @@
     "latestVersion": "3.54.1.0",
     "builds": [
       {
-        "version": "3.53.1.0",
-        "name": "FileZilla_3.53.1.0_Cno（bot）.7z"
-      },
-      {
-        "version": "3.54.0.0",
-        "name": "FileZilla_3.54.0.0_Cno（bot）.7z"
-      },
-      {
         "version": "3.54.1.0",
         "name": "FileZilla_3.54.1.0_Cno（bot）.7z"
       }
@@ -213,14 +205,6 @@
   "VLC": {
     "latestVersion": "3.0.15.0",
     "builds": [
-      {
-        "version": "3.0.14.0",
-        "name": "VLC_3.0.14.0_Cno（bot）.7z"
-      },
-      {
-        "version": "3.0.12.0",
-        "name": "VLC_3.0.12.0_Cno（bot）.7z"
-      },
       {
         "version": "3.0.15.0",
         "name": "VLC_3.0.15.0_Cno（bot）.7z"
@@ -338,14 +322,6 @@
     "latestVersion": "8.12.2.0",
     "builds": [
       {
-        "version": "8.12.1.0",
-        "name": "CrystalDiskInfo磁盘检测_8.12.1.0_Cno（bot）.7z"
-      },
-      {
-        "version": "8.12.0.0",
-        "name": "CrystalDiskInfo磁盘检测_8.12.0.0_Cno（bot）.7z"
-      },
-      {
         "version": "8.12.2.0",
         "name": "CrystalDiskInfo磁盘检测_8.12.2.0_Cno（bot）.7z"
       }
@@ -403,10 +379,6 @@
   "GPU-Z": {
     "latestVersion": "2.40.0.0",
     "builds": [
-      {
-        "version": "2.40.0.0",
-        "name": "GPU-Z_2.40.0.0_Cno（bot）.7z"
-      },
       {
         "version": "2.40.0.0",
         "name": "GPU-Z_2.40.0.0_Cno（bot）.7z"

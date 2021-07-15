@@ -1,0 +1,37 @@
+{
+  // 开启远程
+  "enableRemote": true,
+  // 忽略远程警告
+  "ignoreRemote": false,
+  // 任务文件夹
+  "dirTask": "./tasks",
+  // 工作文件夹
+  "dirWorkshop": "./workshop",
+  // 构建文件夹
+  "dirBuilds": "./builds",
+  // 数据库路径
+  "pathDatabase": "./database.json",
+  // 最大构建数
+  "maxBuildsNum": 1,
+  // 远程主机名
+  "remoteName": "pineapple",
+  // 远程根路径
+  "remoteRoot": "/hdisk/edgeless/插件包",
+  // aria2 RPC 端口
+  "aria2Port": 46800,
+  // aria2 RPC 主机
+  "aria2Host": "localhost",
+  // aria2 RPC secret
+  "aria2Secret": "edgeless",
+  // 是否启动 aria2
+  "spawnAria2": true,
+  // aria2 启动参数
+  "aria2SpawnArgs": [
+    // 配置代理 "--all-proxy=http://localhost:10808",
+    "--enable-rpc",
+    "--rpc-allow-origin-all=true",
+    "--rpc-listen-all=true",
+    "--rpc-listen-port=46800",
+    "--rpc-secret=edgeless"
+  ]
+}

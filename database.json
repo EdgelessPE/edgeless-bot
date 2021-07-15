@@ -1,0 +1,614 @@
+{
+  "Chrome": {
+    "latestVersion": "91.0.4472.124",
+    "builds": [
+      {
+        "version": "91.0.4472.124",
+        "name": "Chrome_91.0.4472.124_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626278822021,
+        "timeDescription": "Wed Jul 14 2021 16:07:02 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192402221,
+        "timeDescription": "Tue Jul 13 2021 16:06:42 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312178337,
+        "timeDescription": "Thu Jul 15 2021 01:22:58 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "Firefox": {
+    "latestVersion": "89.0.2.0",
+    "builds": [],
+    "recentStatus": [
+      {
+        "time": 1626280207274,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": false,
+        "errorMessage": "Error:Can't upload file Firefox_90.0.0.0_Cno（bot）.7z"
+      },
+      {
+        "time": 1626192468408,
+        "timeDescription": "Tue Jul 13 2021 16:07:48 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312181376,
+        "timeDescription": "Thu Jul 15 2021 01:23:01 GMT+0000 (Coordinated Universal Time)",
+        "success": false,
+        "errorMessage": "Error:Task Firefox 's MD5 checking failed,expected f875e60751c187051a370ddd95b4ec65,got afd33cb888461aae3bfd05b80c9e42a8,skipping..."
+      }
+    ]
+  },
+  "CPU-Z": {
+    "latestVersion": "1.96.0.0",
+    "builds": [
+      {
+        "version": "1.96.0.0",
+        "name": "CPU-Z_1.96.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626278822083,
+        "timeDescription": "Wed Jul 14 2021 16:07:02 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192402607,
+        "timeDescription": "Tue Jul 13 2021 16:06:42 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312178724,
+        "timeDescription": "Thu Jul 15 2021 01:22:58 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "FileZilla": {
+    "latestVersion": "3.55.0.0",
+    "builds": [
+      {
+        "version": "3.55.0.0",
+        "name": "FileZilla_3.55.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626278822838,
+        "timeDescription": "Wed Jul 14 2021 16:07:02 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192467951,
+        "timeDescription": "Tue Jul 13 2021 16:07:47 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312179889,
+        "timeDescription": "Thu Jul 15 2021 01:22:59 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "FreeDownloadManager": {
+    "latestVersion": "3.9.7.1641",
+    "builds": [
+      {
+        "version": "3.9.7.1641",
+        "name": "FreeDownloadManager_3.9.7.1641_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207372,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192468810,
+        "timeDescription": "Tue Jul 13 2021 16:07:48 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312181753,
+        "timeDescription": "Thu Jul 15 2021 01:23:01 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "Opera": {
+    "latestVersion": "77.0.4054.203",
+    "builds": [
+      {
+        "version": "77.0.4054.203",
+        "name": "Opera_77.0.4054.203_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207699,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192470785,
+        "timeDescription": "Tue Jul 13 2021 16:07:50 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312184740,
+        "timeDescription": "Thu Jul 15 2021 01:23:04 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "PotPlayer": {
+    "latestVersion": "1.7.21486.0",
+    "builds": [
+      {
+        "version": "1.7.21486.0",
+        "name": "PotPlayer_1.7.21486.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207857,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192471920,
+        "timeDescription": "Tue Jul 13 2021 16:07:51 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312185946,
+        "timeDescription": "Thu Jul 15 2021 01:23:05 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "VLC": {
+    "latestVersion": "3.0.16.0",
+    "builds": [
+      {
+        "version": "3.0.16.0",
+        "name": "VLC_3.0.16.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280208148,
+        "timeDescription": "Wed Jul 14 2021 16:30:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192473363,
+        "timeDescription": "Tue Jul 13 2021 16:07:53 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312187024,
+        "timeDescription": "Thu Jul 15 2021 01:23:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "WinSCP": {
+    "latestVersion": "5.19.1.0",
+    "builds": [
+      {
+        "version": "5.19.1.0",
+        "name": "WinSCP_5.19.1.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280208205,
+        "timeDescription": "Wed Jul 14 2021 16:30:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192474235,
+        "timeDescription": "Tue Jul 13 2021 16:07:54 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312187400,
+        "timeDescription": "Thu Jul 15 2021 01:23:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "XnView": {
+    "latestVersion": "2.50.0.0",
+    "builds": [
+      {
+        "version": "2.50.0.0",
+        "name": "XnView_2.50.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280208315,
+        "timeDescription": "Wed Jul 14 2021 16:30:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192474618,
+        "timeDescription": "Tue Jul 13 2021 16:07:54 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312188078,
+        "timeDescription": "Thu Jul 15 2021 01:23:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "傲游浏览器": {
+    "latestVersion": "4.9.5.1000",
+    "builds": [
+      {
+        "version": "4.9.5.1000",
+        "name": "傲游浏览器_4.9.5.1000_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280208378,
+        "timeDescription": "Wed Jul 14 2021 16:30:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192475432,
+        "timeDescription": "Tue Jul 13 2021 16:07:55 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312188912,
+        "timeDescription": "Thu Jul 15 2021 01:23:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "CrystalDiskInfo磁盘检测": {
+    "latestVersion": "8.12.4.0",
+    "builds": [
+      {
+        "version": "8.12.3.0",
+        "name": "CrystalDiskInfo磁盘检测_8.12.3.0_Cno（bot）.7z"
+      },
+      {
+        "version": "8.12.4.0",
+        "name": "CrystalDiskInfo磁盘检测_8.12.4.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626278822148,
+        "timeDescription": "Wed Jul 14 2021 16:07:02 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192433257,
+        "timeDescription": "Tue Jul 13 2021 16:07:13 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312179135,
+        "timeDescription": "Thu Jul 15 2021 01:22:59 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "FastCopy": {
+    "latestVersion": "3.63.0.0",
+    "builds": [
+      {
+        "version": "3.63.0.0",
+        "name": "FastCopy_3.63.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626278822770,
+        "timeDescription": "Wed Jul 14 2021 16:07:02 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192434152,
+        "timeDescription": "Tue Jul 13 2021 16:07:14 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312179497,
+        "timeDescription": "Thu Jul 15 2021 01:22:59 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "GPU-Z": {
+    "latestVersion": "2.40.0.0",
+    "builds": [
+      {
+        "version": "2.40.0.0",
+        "name": "GPU-Z_2.40.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207477,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192469182,
+        "timeDescription": "Tue Jul 13 2021 16:07:49 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312182562,
+        "timeDescription": "Thu Jul 15 2021 01:23:02 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "Listary": {
+    "latestVersion": "3.51.858.0",
+    "builds": [
+      {
+        "version": "3.51.858.0",
+        "name": "Listary_3.51.858.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207630,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192470420,
+        "timeDescription": "Tue Jul 13 2021 16:07:50 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312184378,
+        "timeDescription": "Thu Jul 15 2021 01:23:04 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "ReNamer": {
+    "latestVersion": "7.3.0.0",
+    "builds": [
+      {
+        "version": "7.3.0.0",
+        "name": "ReNamer_7.3.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207938,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192472622,
+        "timeDescription": "Tue Jul 13 2021 16:07:52 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312186308,
+        "timeDescription": "Thu Jul 15 2021 01:23:06 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "2XClient": {
+    "latestVersion": "12.0.0.0",
+    "builds": [
+      {
+        "version": "12.0.0.0",
+        "name": "2XClient_12.0.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626278821694,
+        "timeDescription": "Wed Jul 14 2021 16:07:01 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192401610,
+        "timeDescription": "Tue Jul 13 2021 16:06:41 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312177831,
+        "timeDescription": "Thu Jul 15 2021 01:22:57 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "HWiNFO系统信息": {
+    "latestVersion": "7.06.4500.0",
+    "builds": [
+      {
+        "version": "7.06.4500.0",
+        "name": "HWiNFO系统信息_7.06.4500.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207553,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192469581,
+        "timeDescription": "Tue Jul 13 2021 16:07:49 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312183396,
+        "timeDescription": "Thu Jul 15 2021 01:23:03 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "PCI-Z": {
+    "latestVersion": "2.0.0.0",
+    "builds": [
+      {
+        "version": "2.0.0.0",
+        "name": "PCI-Z_2.0.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280207777,
+        "timeDescription": "Wed Jul 14 2021 16:30:07 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192471561,
+        "timeDescription": "Tue Jul 13 2021 16:07:51 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312185534,
+        "timeDescription": "Thu Jul 15 2021 01:23:05 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "Sumatra PDF": {
+    "latestVersion": "3.3.0.0",
+    "builds": [
+      {
+        "version": "3.2.0.0",
+        "name": "Sumatra PDF_3.2.0.0_Cno（bot）.7z"
+      },
+      {
+        "version": "3.3.0.0",
+        "name": "Sumatra PDF_3.3.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280208056,
+        "timeDescription": "Wed Jul 14 2021 16:30:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192472983,
+        "timeDescription": "Tue Jul 13 2021 16:07:52 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312186668,
+        "timeDescription": "Thu Jul 15 2021 01:23:06 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  },
+  "福昕阅读器": {
+    "latestVersion": "11.0.0.0",
+    "builds": [
+      {
+        "version": "11.0.0.0",
+        "name": "福昕阅读器_11.0.0.0_Cno（bot）.7z"
+      }
+    ],
+    "recentStatus": [
+      {
+        "time": 1626280208468,
+        "timeDescription": "Wed Jul 14 2021 16:30:08 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626192475843,
+        "timeDescription": "Tue Jul 13 2021 16:07:55 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1626312189282,
+        "timeDescription": "Thu Jul 15 2021 01:23:09 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      }
+    ]
+  }
+}

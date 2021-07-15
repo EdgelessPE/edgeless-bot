@@ -5,3 +5,7 @@ workshop
 builds
 *.bak
 yarn-error.log
+yarn.lock
+package-lock.json
+config.jsonc
+database.jsonc

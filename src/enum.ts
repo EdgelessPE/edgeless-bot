@@ -10,6 +10,6 @@ enum Cmp {
 }
 
 export {
-    Status,
-    Cmp
-}
+	Status,
+	Cmp,
+};

@@ -8,21 +8,21 @@
         "serve": "ts-node index.ts"
     },
     "dependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/cheerio": "^0.22.28",
+        "@types/jsdom": "^16.2.10",
+        "@types/node": "^15.0.1",
         "axios": "^0.21.1",
         "chalk": "^4.1.1",
         "cheerio": "^1.0.0-rc.6",
         "execa": "^5.0.0",
         "iconv-lite": "^0.6.2",
         "ini": "^2.0.0",
-        "libaria2-ts": "^1.0.707",
+        "libaria2-ts": "^1.0.8",
         "minimist": "^1.2.5",
         "ora": "^5.4.0",
         "strip-json-comments": "^3.1.1",
         "ts-node": "^9.1.1",
-        "@types/axios": "^0.14.0",
-        "@types/cheerio": "^0.22.28",
-        "@types/jsdom": "^16.2.10",
-        "@types/node": "^15.0.1",
         "typescript": "^4.2.4"
    }
 }

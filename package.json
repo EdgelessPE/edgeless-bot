@@ -11,10 +11,11 @@
         "edgeless-bot": "./cli.js"
     },
     "scripts": {
-        "serve": "ts-node src/index.ts",
+        "dev": "ts-node src/index.ts",
+        "serve": "node ./cli.js",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
-        "build": "webpack -c webpack.config.js "
+        "build": "webpack -c webpack.config.js"
     },
     "dependencies": {
         "@edge-less/bot-prebuilt": "^1.0.1",

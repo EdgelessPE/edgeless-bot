@@ -1,0 +1,63 @@
+name: Serve
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: '0 16 * * *'
+
+jobs:
+  serve:
+    runs-on: windows-latest
+    steps:
+      # 获取仓库源码
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      # 获取rclone
+      - uses: actions/checkout@v2
+        with:
+          repository: Cnotech/rclone
+          token: ${{ secrets.RCLONE_TOKEN }}
+          path: rclone
+
+      # 取出rclone
+      - name: Copy rclone
+        run: mv .\rclone\* .\
+
+      # 缓存yarn
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      # 安装依赖
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Scripts
+        run: yarn build
+      
+      # 构建任务
+      - name: Run Scripts
+        run: yarn serve -g
+
+      # 回传数据库
+      - name: Commit database
+        run: |
+          git config --local user.email "dsyourshy@qq.com"
+          git config --local user.name "Actions bot"
+          git add database.json
+          git commit -m "Update database by bot"
+
+      - name: Update database
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+      # 如果存在构建失败标记则返回1
+      - name: Passing check
+        shell: cmd
+        run: |
+          if exist actions_failed exit 1

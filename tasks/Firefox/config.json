@@ -1,0 +1,11 @@
+{
+    "name":"Firefox",
+    "category":"浏览器",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/apps/internet/firefox_portable",
+    "releaseRequirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"],
+    "buildRequirement": ["Firefox_bot.wcs","Firefox_bot/FirefoxPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

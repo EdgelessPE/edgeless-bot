@@ -1,0 +1,11 @@
+{
+    "name":"Sumatra PDF",
+    "category":"办公编辑",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/apps/office/sumatra_pdf_portable",
+    "releaseRequirement":["SumatraPDFPortable.exe","App/sumatrapdf/SumatraPDF.exe"],
+    "buildRequirement": ["Sumatra PDF_bot.wcs","Sumatra PDF_bot/SumatraPDFPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

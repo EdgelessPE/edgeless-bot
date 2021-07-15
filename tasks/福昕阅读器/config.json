@@ -1,0 +1,11 @@
+{
+    "name":"福昕阅读器",
+    "category":"办公编辑",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/apps/office/foxit_reader_portable",
+    "releaseRequirement":["FoxitReaderPortable.exe","App/Foxit Reader/FoxitPDFReader.exe"],
+    "buildRequirement": ["福昕阅读器_bot.wcs","福昕阅读器_bot/FoxitReaderPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

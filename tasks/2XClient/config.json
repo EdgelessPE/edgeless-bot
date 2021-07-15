@@ -1,0 +1,11 @@
+{
+    "name":"2XClient",
+    "category":"远程连接",
+    "author":"Cno",
+
+    "paUrl":"https://portableapps.com/apps/utilities/2x_client_portable",
+    "releaseRequirement":["2XClient.exe","App/2XClient/AppServerClient.exe"],
+    "buildRequirement": ["2XClient_bot.wcs","2XClient_bot/2XClient.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

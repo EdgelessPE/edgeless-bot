@@ -12,6 +12,8 @@ jobs:
     steps:
       # 获取仓库源码
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       # 获取rclone
       - uses: actions/checkout@v2
@@ -31,11 +33,14 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 安装依赖
-      - name: Yarn
+      - name: Install Dependencies
         run: yarn
+
+      - name: Build Scripts
+        run: yarn build
       
       # 构建任务
-      - name: Serve
+      - name: Run Scripts
         run: yarn serve -g
 
       # 回传数据库

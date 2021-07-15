@@ -1,0 +1,14 @@
+.vscode
+.github
+bin
+builds
+src
+tasks
+workshop
+yarn.lock
+yarn-error.log
+config.jsonc
+database.json
+database.json.bak
+webpack.config.js
+tsconfig.json

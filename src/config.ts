@@ -1,4 +1,4 @@
-import stripJson from "strip-json-comments";
+import stripJson from 'strip-json-comments';
 
 export interface OriginalUserConfig {
   // 开启远程
@@ -19,21 +19,21 @@ export interface OriginalUserConfig {
   remoteName: string;
   // 远程根路径
   remoteRoot: string;
-  // aria2 RPC 端口
+  // Aria2 RPC 端口
   aria2Port: number;
-  // aria2 RPC 主机
+  // Aria2 RPC 主机
   aria2Host: string;
-  // aria2 RPC secret
+  // Aria2 RPC secret
   aria2Secret: string;
   // 是否启动 aria2
   spawnAria2: boolean;
-  // aria2 启动参数
+  // Aria2 启动参数
   aria2SpawnArgs: string[];
 }
 
 export default class UserConfig {
   public resolved: OriginalUserConfig;
   constructor(private _source: string) {
-    this.resolved = JSON.parse(stripJson(this._source));
+  	this.resolved = JSON.parse(stripJson(this._source));
   }
 }

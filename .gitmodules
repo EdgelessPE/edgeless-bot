@@ -1,4 +1,0 @@
-[submodule "tasks"]
-	path = tasks
-	url = https://github.com/EdgelessPE/edgeless-bot
-	branch = tasks

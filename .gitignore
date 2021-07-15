@@ -7,5 +7,3 @@ builds
 yarn-error.log
 yarn.lock
 package-lock.json
-config.jsonc
-database.jsonc

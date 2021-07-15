@@ -1,9 +1,11 @@
 .idea
 .vscode
-yarn.lock
 node_modules
 workshop
 builds
 *.bak
-database.json
 yarn-error.log
+yarn.lock
+package-lock.json
+config.jsonc
+database.jsonc

@@ -1,6 +1,6 @@
 import cp from 'child_process';
 import {ENABLE_REMOTE, IGNORE_REMOTE, REMOTE_NAME, REMOTE_ROOT, DIR_BUILDS} from './const';
-import {log} from './utils';
+import {log,gbk} from './utils';
 
 function uploadToRemote(zname: string, category: string): boolean {
 	if (ENABLE_REMOTE) {
@@ -17,7 +17,7 @@ function uploadToRemote(zname: string, category: string): boolean {
 			console.log(err.output.toString());
 			// 尝试删除传了一半的文件
 			if (!deleteFromRemote(zname, category)) {
-				log('Warning:Fali to delete broken uploaded file');
+				log('Warning:Fail to delete broken uploaded file');
 			}
 
 			return false;
@@ -34,11 +34,28 @@ function uploadToRemote(zname: string, category: string): boolean {
 function deleteFromRemote(zname: string, category: string): boolean {
 	if (ENABLE_REMOTE) {
 		const remotePath = REMOTE_ROOT + '/' + category + '/' + zname;
+		//读取远程目录查看是否存在
+		let buf
+		try{
+			buf=cp.execSync(
+				'rclone ls ' + REMOTE_NAME + ':' + REMOTE_ROOT + '/' + category,
+				{timeout: 10000},
+			)
+		}catch (err) {
+			console.log(err.output.toString());
+			log('Error:Remote directory not exist:' + REMOTE_NAME + ':' + REMOTE_ROOT + '/' + category)
+			return false;
+		}
+		if(!gbk(buf).includes(zname)){
+			log('Warning:Remote not exist file:'+zname+',ignore')
+			return true
+		}
 
+		//尝试删除
 		try {
 			log('Info:Removing ' + remotePath);
 			cp.execSync(
-				'rclone delete ' + REMOTE_NAME + ':' + remotePath,
+				'rclone delete \"' + REMOTE_NAME + ':' + remotePath+'\"',
 				{timeout: 10000},
 			);
 		} catch (err) {

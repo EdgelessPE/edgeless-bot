@@ -558,19 +558,17 @@
     "latestVersion": "3.3.1.0",
     "builds": [
       {
-        "version": "3.3.0.0",
-        "name": "Sumatra PDF_3.3.0.0_Cno（bot）.7z"
-      },
-      {
-        "version": "3.2.0.0",
-        "name": "Sumatra PDF_3.2.0.0_Cno（bot）.7z"
-      },
-      {
         "version": "3.3.1.0",
         "name": "Sumatra PDF_3.3.1.0_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
+      {
+        "time": 1626451767073,
+        "timeDescription": "Fri Jul 16 2021 16:09:27 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
       {
         "time": 1626365866571,
         "timeDescription": "Thu Jul 15 2021 16:17:46 GMT+0000 (Coordinated Universal Time)",
@@ -578,14 +576,8 @@
         "errorMessage": "Success"
       },
       {
-        "time": 1626337872736,
-        "timeDescription": "Thu Jul 15 2021 08:31:12 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1626451767073,
-        "timeDescription": "Fri Jul 16 2021 16:09:27 GMT+0000 (Coordinated Universal Time)",
+        "time": 1626508138348,
+        "timeDescription": "Sat Jul 17 2021 15:48:58 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }

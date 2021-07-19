@@ -195,7 +195,7 @@ async function getWorkDirReady(
 
 		progress.succeed(name + ' downloaded.');
 	} catch (err: any) {
-		console.log(err.output.toString());
+		console.log(JSON.stringify(err));
 		return new Interface({
 			status: Status.ERROR,
 			payload: 'Error:Downloading ' + name + ' failed,skipping...',
@@ -402,7 +402,7 @@ function buildAndDeliver(
 	try {
 		cp.execSync('"' + p7zip + '" a "' + zname + '" *', {cwd: dir + '/build'});
 	} catch (err: any) {
-		console.log(err.output.toString());
+		console.log(JSON.stringify(err));
 		return new Interface({
 			status: Status.ERROR,
 			payload: 'Error:Compress ' + zname + ' failed,skipping...',
@@ -430,7 +430,7 @@ function buildAndDeliver(
 	try {
 		cp.execSync(moveCmd);
 	} catch (err: any) {
-		console.log(err.output.toString());
+		console.log(JSON.stringify(err));
 		return new Interface({
 			status: Status.ERROR,
 			payload: 'Error:Can\'t move with command:' + moveCmd,

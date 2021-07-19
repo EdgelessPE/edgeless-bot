@@ -446,7 +446,7 @@ function buildAndDeliver(
 
 	// 删除过旧的编译版本
 	if (database.builds.length >= MAX_BUILDS) {
-		database = removeExtraBuilds(database, repo, category);
+		database = removeExtraBuilds(database, repo, category,version);
 	}
 
 	// 上传编译版本

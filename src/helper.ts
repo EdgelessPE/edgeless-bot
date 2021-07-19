@@ -75,11 +75,13 @@ function removeExtraBuilds(
 	database: DatabaseNode,
 	repo: string,
 	category: string,
+	currentVersion:string
 ): DatabaseNode {
 	log('Info:Trying to remove extra builds');
 
 	// Builds去重
 	const hashMap: any = {};
+	hashMap[currentVersion]=true;
 	const r: Array<BuildInfo> = [];
 	for (const i in database.builds) {
 		const buildInfo: BuildInfo = database.builds[i];

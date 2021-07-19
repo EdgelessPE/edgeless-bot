@@ -62,14 +62,14 @@
 yarn
 
 # 运行全部 Tasks
-yarn serve
+yarn dev
 
 # 强制重新构建指定Task
-yarn serve -t TaskName -f
+yarn dev -t TaskName -f
 ```
 ## 参数
 ```
-yarn serve[ -t TaskName][ -f][ -d][ -g]
+yarn dev[ -t TaskName][ -f][ -d][ -g]
 ```
 ### -t
 指定运行某个Task，TaskName为任务名称
@@ -230,7 +230,7 @@ cover目录中的所有内容会被覆盖复制到release文件夹，这项工�
 ## 测试
 运行以下命令来测试你新增的任务：
 ```
-yarn serve -d -t TaskName
+yarn dev -d -t TaskName
 ```
 
 ## 贡献

@@ -1,22 +1,22 @@
 # Edgeless 自动插件机器人
 ![workflow status](https://github.com/Cnotech/edgeless-bot/actions/workflows/main.yml/badge.svg)
 ## 简介
-用于从 PortableApps 网站自动抓取便携版软件更新信息，当存在更新时自动下载新版并制作成 Edgeless 插件包然后上传
+用于从PortableApps网站自动抓取便携版软件更新信息，当存在更新时自动下载新版并制作成Edgeless插件包然后上传
 
 ## 特性
-* 支持自动识别和校对 MD5、自动检测简体中文版本、自动解析下载地址，甚至支持无需编写 `make.cmd` 脚本的全自动制作
+* 支持自动识别和校对MD5、自动检测简体中文版本、自动解析下载地址，甚至支持无需编写make.cmd脚本的全自动制作
 
 * 支持最近三次的构建状态记录和自动删除冗余历史构建，支持自动输出晴雨表
 
-* 得益于使用 rclone，远程上传功能支持本地存储、FTP、Onedrive、Google Drive等五十多种存储方式，详情请查看 [rclone 官方介绍](https://rclone.org/#providers)
+* 得益于使用rclone，远程上传功能支持本地存储、FTP、Onedrive、Google Drive等五十多种存储方式，详情请查看[Rclone官方介绍](https://rclone.org/#providers)
 
 ## 环境
-需要 Windows 10 环境，在默认路径安装 7-Zip 并添加到 `PATH` 中
+需要Windows 10环境，在默认路径安装7-Zip
 
 如果需要启用远程上传功能请安装 [rclone](https://rclone.org/) ，推荐使用 [scoop](https://scoop.sh) 命令`scoop install rclone`进行安装
 
 ## 配置
-创建并编辑 `config.jsonc`
+编辑`config.jsonc`
 ```
 {
   // 开启远程，使用rclone将构建成功的插件包上传至服务器
@@ -58,32 +58,30 @@
 ```
 ## 使用
 ```sh
-# 安装
-npm i -g edgeless-bot
+# 安装依赖
+yarn
 
 # 运行全部 Tasks
+yarn serve
 
-# elbot 或 edgeless-bot 都可以
-elbot
-
-# 强制重新构建指定 Task
-elbot -t <Task name> -f
+# 强制重新构建指定Task
+yarn serve -t TaskName -f
 ```
 ## 参数
-```sh
-elbot[ -t TaskName][ -f][ -d][ -g]
+```
+yarn serve[ -t TaskName][ -f][ -d][ -g]
 ```
 ### -t
-指定运行某个 Task，`TaskName` 为任务名称
+指定运行某个Task，TaskName为任务名称
 ### -f
 忽略与数据库的最新版本对比结果，强制重新构建任务
 ### -d
 debug模式，此模式下的远程操作会被自动禁用，且数据库不会被更新
 ### -g
-GitHub Actions 模式
+GitHub Actions模式
 ## 开发
 ### 创建任务
-为了创建一个任务，你需要提供一个名为 `config.json` 的文件，结构如下：
+为了创建一个任务，你需要提供一个名为`config.json`的文件，结构如下：
 ```typescript
 interface Task {
     name: string; //软件名（也作为任务名）
@@ -92,7 +90,7 @@ interface Task {
 
     paUrl: string; //PortableApps网页链接
     releaseRequirement: Array<string>; //解压下载的exe后工作目录中应该出现的文件/文件夹，用于包校验
-    buildRequirement: Array<string>; //构建成功时工作目录中应该出现的文件/文件夹，用于构建校验
+    buildRequirement:Array<string>; //构建成功时工作目录中应该出现的文件/文件夹，用于构建校验
     preprocess:boolean; //是否启用PortableApps预处理
     autoMake:boolean; //是否启用自动制作
 }
@@ -112,42 +110,35 @@ interface Task {
 }
 ```
 释义：
-#### `name`
-软件名称，会体现在构建生成文件的文件名中。
-
-#### `category`
-软件分类，必须是Edgeless下载站现有分类中的一种，如果觉得需要新建分类请建立issue。
-
-#### `author`
-打包者名暨Task配置作者名，会体现在构建生成文件的文件名中；最终的构建文件名会在打包者后加上`（bot）`表示此插件包由Edgeless bot构建，未经过人工测试。
-
-#### `paUrl`
-PortableApps URL，页面中必须包含一个绿色的下载按钮 `className="download-box"`。
-
-#### `releaseRequirement`
-将从PortableApps下载得到的.paf.exe文件直接使用7-Zip解压后得到的文件夹中需要包含的文件/文件夹，用于校验下载到的软件是否正确和适用此Task。
-
-#### `buildRequirement`
-运行`make.cmd`脚本或自动构建后`build`文件夹应该出现的文件/文件夹，用于校验`make.cmd`脚本或自动构建是否执行成功/
-
-#### `preprocess`
+#### name
+软件名称，会体现在构建生成文件的文件名中
+#### category
+软件分类，必须是Edgeless下载站现有分类中的一种，如果觉得需要新建分类请建立issue
+#### author
+打包者名暨Task配置作者名，会体现在构建生成文件的文件名中；最终的构建文件名会在打包者后加上（bot）表示此插件包由Edgeless bot构建，未经过人工测试
+#### paUrl
+PortableApps URL，页面中必须包含一个绿色的下载按钮（className="download-box"）
+#### releaseRequirement
+将从PortableApps下载得到的.paf.exe文件直接使用7-Zip解压后得到的文件夹中需要包含的文件/文件夹，用于校验下载到的软件是否正确和适用此Task
+#### buildRequirement
+运行`make.cmd`脚本或自动构建后`build`文件夹应该出现的文件/文件夹，用于校验`make.cmd`脚本或自动构建是否执行成功
+#### preprocess
 预处理`release`目录，程序会执行两个步骤：
-1. 删除`$PLUGINSDIR` `Other`目录和`help.html` `App/readme.txt`文件。
-2. 修改`pac_installer_log.ini`以绕过首次运行会弹出的安全警告。
-
-#### `autoMake`
+1. 删除`$PLUGINSDIR` `Other`目录和`help.html` `App/readme.txt`文件
+2. 修改`pac_installer_log.ini`以绕过首次运行会弹出的安全警告
+#### autoMake
 使用自动制作，如果启用此项则不需要编写`make.cmd`脚本，程序会生成一个完成以下动作的外置批处理：
-1. 将依赖文件夹移动至`X:\Users\PortableApps`目录内以绕过部分PortableApps应用不允许在`X:\Program Files`中运行的限制。
-2. 在Edgeless桌面创建指向`release`目录的第一个可执行文件（通常为xxxPortable.exe）的快捷方式，快捷方式名称为项目名。
+1. 将依赖文件夹移动至`X:\Users\PortableApps`目录内以绕过部分PortableApps应用不允许在`X:\Program Files`中运行的限制
+2. 在Edgeless桌面创建指向`release`目录的第一个可执行文件（通常为xxxPortable.exe）的快捷方式，快捷方式名称为项目名
 
-> **关于使用autoMake后如何配置 `buildRequirement`**
+> **关于使用autoMake后如何配置`buildRequirement`**
 > 
-> 理论上使用autoMake的task不需要配置 `buildRequirement`，不过为了确保安全在实际配置时还是需要带上 `buildRequirement`
+> 理论上使用autoMake的task不需要配置`buildRequirement`，不过为了确保安全在实际配置时还是需要带上`buildRequirement`
 >
-> autoMake完成后的 `build` 目录中会出现一个 `taskName_bot` 文件夹和一个 `taskName_bot.wcs` 外置批处理，`taskName_bot` 文件夹为经过预处理（或未经预处理）的 `release` 目录移动位置而来，因此 `buildRequirement` 可以配置为 `["taskName_bot.wcs","taskName_bot/appNamePortable.exe"]` ，参考 [傲游浏览器的config.json](https://github.com/EdgelessPE/edgeless-bot/blob/master/tasks/%E5%82%B2%E6%B8%B8%E6%B5%8F%E8%A7%88%E5%99%A8/config.json)
+> autoMake完成后的`build`目录中会出现一个`taskName_bot`文件夹和一个`taskName_bot.wcs`外置批处理，`taskName_bot`文件夹为经过预处理（或未经预处理）的`release`目录移动位置而来，因此`buildRequirement`可以配置为`["taskName_bot.wcs","taskName_bot/appNamePortable.exe"]`，参考[傲游浏览器的config.json](https://github.com/Cnotech/edgeless-bot/blob/master/tasks/%E5%82%B2%E6%B8%B8%E6%B5%8F%E8%A7%88%E5%99%A8/config.json)
 
 ### 编写脚本（*如果没有启用自动制作）
-大部分的程序都可以直接使用`autoMake`选项自动制作（记得同时启用`preprocess`执行预处理），部分应用需要作者编写`make.cmd`以完成构建，例如在线版本的Chrome.
+大部分的程序都可以直接使用`autoMake`选项自动制作（记得同时启用`preprocess`执行预处理），部分应用需要作者编写`make.cmd`以完成构建，例如在线版本的Chrome
 #### 流程
 和Edgeless插件包类似，`make.cmd`会在一个特定的目录中执行，称之为"Workshop"。Workshop的起始目录结构如下：
 ```
@@ -158,9 +149,9 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮 `className="
 ```
 其中：
 
-`target.exe`是PortableApps网站上下载得到的 `*.paf.exe` 文件.
+`target.exe`是PortableApps网站上下载得到的.paf.exe文件
 
-`build`是一个空白目录，你编写的 `make.cmd` 脚本需要将插件包 **压缩前** 的内容提供在这个目录中.
+`build`是一个空白目录，你编写的`make.cmd`脚本需要将插件包 **压缩前** 的内容提供在这个目录中
 
 `release`目录则是`target.exe`解压后得到的文件，例如：
 
@@ -185,8 +176,8 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮 `className="
             │  └─Release
             └─Languages
 ```
-在执行 `make.cmd` 时，你可能需要一些外部工具。我们允许你建立一个 `utils` 文件夹存放你需要的工具，因此在 `make.cmd` 运行时的Workshop 就会是这样：
-> 如果你不需要外部工具，不要建立这个文件夹就行了.
+在执行`make.cmd`时，你可能需要一些外部工具。我们允许你建立一个`utils`文件夹存放你需要的工具，因此在`make.cmd`运行时的Workshop就会是这样：
+> 如果你不需要外部工具，不要建立这个文件夹就行了
 ```
 │  target.exe
 │  make.cmd
@@ -197,7 +188,7 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮 `className="
     └─*
 ```
 #### 代码
-以Firefox任务为例编写一个近似自动构建的等效脚本，`make.cmd` 内容如下：
+以Firefox任务为例编写一个近似自动构建的等效脚本，`make.cmd`内容如下：
 ```Batch
 ::关闭回显以优化控制台输出
 @echo off
@@ -214,12 +205,12 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
    └─Firefox_bot
        └─*
 ```
-显然将此目录中的所有内容压缩成 `.7z` 压缩包即可完成插件包的制作，而 `make.cmd` 不需要完成压缩这一步，Edgeless bot会在验收完成之后将其压缩并完成后续工作.
+显然将此目录中的所有内容压缩成.7z压缩包即可完成插件包的制作，而`make.cmd`不需要完成压缩这一步，Edgeless bot会在验收完成之后将其压缩并完成后续工作
 
-> 更复杂一些的在线版Chrome的`make.cmd`可以 [查看此处](https://github.com/Cnotech/edgeless-bot/blob/master/tasks/Chrome/make.cmd) ，涉及了按键模拟、utils内工具调用等.
+> 更复杂一些的在线版Chrome的`make.cmd`可以 [查看此处](https://github.com/Cnotech/edgeless-bot/blob/master/tasks/Chrome/make.cmd) ，涉及了按键模拟、utils内工具调用等
 
 ### 替换
-为了让使用自动制作的Task也能完成简单的文件替换操作，我们允许你建立一个`cover`文件夹来存放对`release`目录的覆盖文件.
+为了让使用自动制作的Task也能完成简单的文件替换操作，我们允许你建立一个`cover`文件夹来存放对`release`目录的覆盖文件
 
 例如需要替换`release`目录中的`App/readme.txt`，在`cover`文件夹中也同样建立一个`App`文件夹然后将你的`readme.txt`放在里面就行了，目录结构如下：
 ```
@@ -234,13 +225,13 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
     └─App
        │  readme.txt
 ```
-`cover` 目录中的所有内容会被覆盖复制到 `release` 文件夹，这项工作会在 `make.cmd` 或自动构建运行后完成.
+cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
 ## 测试
 运行以下命令来测试你新增的任务：
-```sh
-elbot -d -t <Task Name>
+```
+yarn serve -d -t TaskName
 ```
 
 ## 贡献
-你可以将自己编写的Task通过 `Pull Request` 的形式添加到自动构建仓库，`Github Actions` 会在PR通过时构建插件包；此外, `Github Actions` 也会每日定时调用 `Edgeless Bot` 构建插件包.
+你可以将自己编写的Task通过Pull Request的形式添加到此仓库，Github Actions会在PR通过时构建插件包；此外Github Actions也会每日定时调用Edgeless bot构建插件包

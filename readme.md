@@ -62,10 +62,10 @@
 yarn
 
 # 运行全部 Tasks
-yarn dev
+yarn serve
 
 # 强制重新构建指定Task
-yarn dev -t TaskName -f
+yarn serve -t TaskName -f
 ```
 ## 参数
 ```

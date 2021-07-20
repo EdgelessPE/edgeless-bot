@@ -1,18 +1,19 @@
 {
     "name": "edgeless-bot",
-    "version": "1.0.51",
+    "version": "1.0.52",
     "description": "Edgeless 自动插件机器人",
     "repository": "git@github.com:EdgelessPE/edgeless-bot.git",
     "homepage": "https://github.com/EdgelessPE/edgeless-bot",
     "author": "Cno",
+    "private": true,
     "license": "MPL-2.0",
     "bin": {
         "elbot": "./cli.js",
         "edgeless-bot": "./cli.js"
     },
     "scripts": {
-        "dev": "ts-node src/index.ts",
-        "serve": "node ./cli.js",
+        "dev": "ts-node src/index.ts"
+        "serve": "webpack -c webpack.config.js && node ./cli.js",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
         "build": "webpack -c webpack.config.js"

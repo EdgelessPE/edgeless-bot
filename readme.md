@@ -69,7 +69,7 @@ yarn serve -t TaskName -f
 ```
 ## 参数
 ```
-yarn dev[ -t TaskName][ -f][ -d][ -g]
+yarn serve[ -t TaskName][ -f][ -d][ -g]
 ```
 ### -t
 指定运行某个Task，TaskName为任务名称

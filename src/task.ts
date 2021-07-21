@@ -195,7 +195,7 @@ async function getWorkDirReady(
 
 		progress.succeed(name + ' downloaded.');
 	} catch (err: any) {
-		console.log(JSON.stringify(err));
+		console.log(err);
 		return new Interface({
 			status: Status.ERROR,
 			payload: 'Error:Downloading ' + name + ' failed,skipping...',

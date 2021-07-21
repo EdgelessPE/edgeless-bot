@@ -38,20 +38,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1626710816081,
-        "timeDescription": "Mon Jul 19 2021 16:06:56 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1626880773187,
+        "timeDescription": "Wed Jul 21 2021 23:19:33 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Can't upload file Firefox_90.0.1.0_Cno（bot）.7z"
       },
       {
-        "time": 1626696720047,
-        "timeDescription": "Mon Jul 19 2021 12:12:00 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1626880624328,
+        "timeDescription": "Wed Jul 21 2021 23:17:04 GMT+0800 (中国标准时间)",
+        "success": false,
+        "errorMessage": "Error:Downloading Firefox failed,skipping..."
       },
       {
-        "time": 1626865574015,
-        "timeDescription": "Wed Jul 21 2021 11:06:14 GMT+0000 (Coordinated Universal Time)",
+        "time": 1626881042798,
+        "timeDescription": "Wed Jul 21 2021 23:24:02 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }

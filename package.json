@@ -12,7 +12,7 @@
         "edgeless-bot": "./cli.js"
     },
     "scripts": {
-        "dev": "ts-node src/index.ts"
+        "dev": "ts-node src/index.ts",
         "serve": "webpack -c webpack.config.js && node ./cli.js",
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",

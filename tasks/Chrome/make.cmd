@@ -32,4 +32,4 @@ del /f /q .\build\Chrome_online.paf.exe
 ::xcopy /s /r /y .\GoogleChromePortable\ .\build\google_chrome_bot\
 
 ::生成外置批处理
-echo LINK X:\Users\Default\Desktop\Chrome,X:\Program Files\Edgeless\GoogleChromePortable\GoogleChromePortable.exe >./build/google_chrome_bot.wcs
+echo LINK X:\Users\Default\Desktop\Chrome,X:\Program Files\Edgeless\GoogleChromePortable\GoogleChromePortable.exe,https://www.baidu.com >./build/google_chrome_bot.wcs

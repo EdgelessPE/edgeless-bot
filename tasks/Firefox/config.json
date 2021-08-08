@@ -7,5 +7,6 @@
     "releaseRequirement":["FirefoxPortable.exe","App/Firefox64/firefox.exe"],
     "buildRequirement": ["Firefox_bot.wcs","Firefox_bot/FirefoxPortable.exe"],
     "preprocess": true,
-    "autoMake": true
+    "autoMake": true,
+    "launchArgs": "https://www.baidu.com"
 }

@@ -7,5 +7,6 @@
     "releaseRequirement":["OperaPortable.exe","App/Opera/launcher.exe"],
     "buildRequirement": ["Opera_bot.wcs","Opera_bot/OperaPortable.exe"],
     "preprocess": true,
-    "autoMake": true
+    "autoMake": true,
+    "launchArgs": "https://www.baidu.com"
 }

@@ -326,7 +326,7 @@ async function runMakeScript(name: string): Promise<Interface> {
 	});
 }
 
-function autoMake(name: string): boolean {
+function autoMake(name: string,task:Task): boolean {
 	log('Info:Start auto make ' + name);
 	const dir = DIR_WORKSHOP + '/' + name + '/release';
 
@@ -349,7 +349,12 @@ function autoMake(name: string): boolean {
 
 		// 生成wcs文件
 		const moveCmd = 'FILE X:\\Program Files\\Edgeless\\' + name + '_bot->X:\\Users\\PortableApps\\' + name + '_bot';
-		const linkCmd = 'LINK X:\\Users\\Default\\Desktop\\' + name + ',X:\\Users\\PortableApps\\' + name + '_bot\\' + exeFileName;
+		let linkCmd = 'LINK X:\\Users\\Default\\Desktop\\' + name + ',X:\\Users\\PortableApps\\' + name + '_bot\\' + exeFileName;
+
+		//可选添加参数
+		if(task.hasOwnProperty("launchArgs")) linkCmd=linkCmd.concat(','+task.launchArgs)
+
+		//写外置批处理
 		const cmd = moveCmd + '\n' + linkCmd;
 		fs.writeFileSync(DIR_WORKSHOP + '/' + name + '/build/' + name + '_bot.wcs', cmd);
 		log('Info:Save batch with command:\n' + cmd);
@@ -533,7 +538,7 @@ async function processTask(
 			}
 
 			if (task.autoMake) {
-				if (!autoMake(task.name)) {
+				if (!autoMake(task.name,task)) {
 					ret = new Interface({
 						status: Status.ERROR,
 						payload:
@@ -565,7 +570,7 @@ async function processTask(
 					version,
 					p7zip,
 					database,
-				).unwarp();
+				).unwrap();
 			} catch (e) {
 				ret = new Interface({
 					status: Status.ERROR,

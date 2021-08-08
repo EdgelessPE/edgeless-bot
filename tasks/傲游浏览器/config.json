@@ -7,5 +7,6 @@
     "releaseRequirement":["MaxthonPortable.exe","App/Maxthon/Bin/Maxthon.exe"],
     "buildRequirement": ["傲游浏览器_bot.wcs","傲游浏览器_bot/MaxthonPortable.exe"],
     "preprocess": true,
-    "autoMake": true
+    "autoMake": true,
+    "launchArgs": "https://www.baidu.com"
 }

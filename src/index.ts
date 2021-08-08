@@ -63,7 +63,7 @@ async function main() {
 		throw 'Spawn Aria2 failed';
 	}
 
-	const p7zip = find7zip().unwarp();
+	const p7zip = find7zip().unwrap();
 
 	// 读入数据库
 	const DB = readDatabase();

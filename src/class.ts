@@ -13,7 +13,7 @@ class Interface<T = any> {
     status: Status;
     payload: T;
 
-    unwarp(): any {
+    unwrap(): any {
     	if (this.status === Status.ERROR) {
     		const text = (this.payload as unknown) as string;
     		const spl = text.split(':');
@@ -59,6 +59,7 @@ class Task {
     preprocess: boolean; // 是否启用PortableApps预处理
     autoMake: boolean; // 是否启用自动制作
     // useWget:boolean; //是否使用wget，默认使用aria2
+	launchArgs: string | undefined;
 
     constructor() {
     	this.name = 'Null';

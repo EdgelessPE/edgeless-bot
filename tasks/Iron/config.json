@@ -1,0 +1,12 @@
+{
+    "name":"Iron",
+    "category":"浏览器",
+    "author":"Horatio Shaw",
+
+    "paUrl":"https://portableapps.com/apps/internet/iron_portable",
+    "releaseRequirement":["IronPortable.exe","App/Iron/iron.exe"],
+    "buildRequirement": ["Iron_bot.wcs","Iron_bot/IronPortable.exe"],
+    "preprocess": true,
+    "autoMake": true,
+    "launchArgs": "https://www.baidu.com"
+}

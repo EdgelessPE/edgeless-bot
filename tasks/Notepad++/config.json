@@ -1,0 +1,11 @@
+{
+    "name":"Notepad++",
+    "category":"办公编辑",
+    "author":"Horatio Shaw",
+
+    "paUrl":"https://portableapps.com/apps/development/notepadpp_portable",
+    "releaseRequirement":["Notepad++Portable.exe","App/Notepad++64/notepad++.exe"],
+    "buildRequirement": ["Notepad++_bot.wcs","Notepad++_bot/Notepad++Portable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

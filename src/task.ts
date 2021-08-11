@@ -539,16 +539,16 @@ async function processTask(
 				break;
 			}
 
-			if (!copyCover(task.name)) {
-				ret = new Interface({
-					status: Status.ERROR,
-					payload:
-                        'Error:Can\'t copy cover for ' + task.name + ',skipping...',
-				});
-				break;
-			}
-
 			if (task.autoMake) {
+				if (!copyCover(task.name)) {
+					ret = new Interface({
+						status: Status.ERROR,
+						payload:
+							'Error:Can\'t copy cover for ' + task.name + ',skipping...',
+					});
+					break;
+				}
+
 				if (!autoMake(task.name, task)) {
 					ret = new Interface({
 						status: Status.ERROR,
@@ -561,6 +561,15 @@ async function processTask(
 				const iRM = await runMakeScript(task.name);
 				if (iRM.status === Status.ERROR) {
 					ret = iRM;
+					break;
+				}
+
+				if (!copyCover(task.name)) {
+					ret = new Interface({
+						status: Status.ERROR,
+						payload:
+							'Error:Can\'t copy cover for ' + task.name + ',skipping...',
+					});
 					break;
 				}
 			}

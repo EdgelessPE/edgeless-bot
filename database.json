@@ -467,35 +467,6 @@
       }
     ]
   },
-  "2XClient": {
-    "latestVersion": "12.0.0.0",
-    "builds": [
-      {
-        "version": "12.0.0.0",
-        "name": "2XClient_12.0.0.0_Cno（bot）.7z"
-      }
-    ],
-    "recentStatus": [
-      {
-        "time": 1628679003641,
-        "timeDescription": "Wed Aug 11 2021 10:50:03 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1628668992858,
-        "timeDescription": "Wed Aug 11 2021 08:03:12 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      },
-      {
-        "time": 1628679592933,
-        "timeDescription": "Wed Aug 11 2021 10:59:52 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      }
-    ]
-  },
   "HWiNFO系统信息": {
     "latestVersion": "7.06.4500.0",
     "builds": [
@@ -728,23 +699,6 @@
       }
     ]
   },
-  "TeamViewer": {
-    "latestVersion": "15.20.6.0",
-    "builds": [
-      {
-        "version": "15.20.6.0",
-        "name": "TeamViewer_15.20.6.0_Horatio Shaw（bot）.7z"
-      }
-    ],
-    "recentStatus": [
-      {
-        "time": 1628657888505,
-        "timeDescription": "Wed Aug 11 2021 04:58:08 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      }
-    ]
-  },
   "CrystalDiskMark": {
     "latestVersion": "8.0.4.0",
     "builds": [
@@ -800,30 +754,6 @@
         "timeDescription": "Wed Aug 11 2021 11:00:01 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
-      }
-    ]
-  },
-  "Windows Error Lookup Tool": {
-    "latestVersion": "0.0.0",
-    "builds": [],
-    "recentStatus": [
-      {
-        "time": 1628667335259,
-        "timeDescription": "Wed Aug 11 2021 07:35:35 GMT+0000 (Coordinated Universal Time)",
-        "success": false,
-        "errorMessage": "Error:Can't read Windows Error Lookup Tool's config:Error:Value of config's key \"name\" is not Windows Error Lookup Tool"
-      },
-      {
-        "time": 1628669004161,
-        "timeDescription": "Wed Aug 11 2021 08:03:24 GMT+0000 (Coordinated Universal Time)",
-        "success": false,
-        "errorMessage": "Error:Can't read Windows Error Lookup Tool's config:Error:Value of config's key \"name\" is not Windows Error Lookup Tool"
-      },
-      {
-        "time": 1628679026633,
-        "timeDescription": "Wed Aug 11 2021 10:50:26 GMT+0000 (Coordinated Universal Time)",
-        "success": false,
-        "errorMessage": "Error:Can't read Windows Error Lookup Tool's config:Error:Value of config's key \"name\" is not Windows Error Lookup Tool"
       }
     ]
   },

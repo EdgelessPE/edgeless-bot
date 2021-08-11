@@ -1,7 +1,7 @@
 {
     "name":"WinSCP",
     "category":"下载上传",
-    "author":"Cno",
+    "author":"Horatio Shaw",
 
     "paUrl":"https://portableapps.com/apps/internet/winscp_portable",
     "releaseRequirement":["WinSCPPortable.exe","App/winscp/WinSCP.exe"],

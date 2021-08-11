@@ -1,0 +1,11 @@
+{
+    "name":"Rufus",
+    "category":"压缩镜像",
+    "author":"Horatio Shaw",
+
+    "paUrl":"https://portableapps.com/apps/utilities/rufus-portable",
+    "releaseRequirement":["RufusPortable.exe","App/Rufus/rufusp.exe"],
+    "buildRequirement": ["Rufus_bot.wcs","Rufus_bot/RufusPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

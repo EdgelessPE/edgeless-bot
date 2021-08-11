@@ -326,7 +326,7 @@ async function runMakeScript(name: string): Promise<Interface> {
 	});
 }
 
-function autoMake(name: string,task:Task): boolean {
+function autoMake(name: string, task:Task): boolean {
 	log('Info:Start auto make ' + name);
 	const dir = DIR_WORKSHOP + '/' + name + '/release';
 
@@ -351,10 +351,12 @@ function autoMake(name: string,task:Task): boolean {
 		const moveCmd = 'FILE X:\\Program Files\\Edgeless\\' + name + '_bot->X:\\Users\\PortableApps\\' + name + '_bot';
 		let linkCmd = 'LINK X:\\Users\\Default\\Desktop\\' + name + ',X:\\Users\\PortableApps\\' + name + '_bot\\' + exeFileName;
 
-		//可选添加参数
-		if(task.hasOwnProperty("launchArgs")) linkCmd=linkCmd.concat(','+task.launchArgs)
+		// 可选添加参数
+		if (task.hasOwnProperty('launchArgs')) {
+			linkCmd = linkCmd.concat(',' + task.launchArgs);
+		}
 
-		//写外置批处理
+		// 写外置批处理
 		const cmd = moveCmd + '\n' + linkCmd;
 		fs.writeFileSync(DIR_WORKSHOP + '/' + name + '/build/' + name + '_bot.wcs', cmd);
 		log('Info:Save batch with command:\n' + cmd);
@@ -451,7 +453,7 @@ function buildAndDeliver(
 
 	// 删除过旧的编译版本
 	if (database.builds.length >= MAX_BUILDS) {
-		database = removeExtraBuilds(database, repo, category,version);
+		database = removeExtraBuilds(database, repo, category, version);
 	}
 
 	// 上传编译版本
@@ -537,8 +539,17 @@ async function processTask(
 				break;
 			}
 
+			if (!copyCover(task.name)) {
+				ret = new Interface({
+					status: Status.ERROR,
+					payload:
+                        'Error:Can\'t copy cover for ' + task.name + ',skipping...',
+				});
+				break;
+			}
+
 			if (task.autoMake) {
-				if (!autoMake(task.name,task)) {
+				if (!autoMake(task.name, task)) {
 					ret = new Interface({
 						status: Status.ERROR,
 						payload:
@@ -552,15 +563,6 @@ async function processTask(
 					ret = iRM;
 					break;
 				}
-			}
-
-			if (!copyCover(task.name)) {
-				ret = new Interface({
-					status: Status.ERROR,
-					payload:
-                        'Error:Can\'t copy cover for ' + task.name + ',skipping...',
-				});
-				break;
 			}
 
 			let BAD_database: DatabaseNode;

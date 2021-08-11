@@ -218,14 +218,14 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 
 例如需要替换`release`目录中的`App/readme.txt`，在`cover`文件夹中也同样建立一个`App`文件夹然后将你的`readme.txt`放在里面就行了，目录结构如下：
 ```
-├─release
-│   │  GoogleChromePortable.exe
-│   ├─App
-│   │  │  readme.txt
-│   │  └─*
-│   └─*
-│   
-└─cover
+──release
+    │  GoogleChromePortable.exe
+    ├─App
+    │  │  readme.txt
+    │  └─*
+    └─*
+    
+──cover
     └─App
        │  readme.txt
 ```

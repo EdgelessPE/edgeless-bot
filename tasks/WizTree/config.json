@@ -1,0 +1,11 @@
+{
+    "name":"WizTree",
+    "category":"磁盘数据",
+    "author":"Horatio Shaw",
+
+    "paUrl":"https://portableapps.com/apps/utilities/wiztree-portable",
+    "releaseRequirement":["WizTreePortable.exe","App/WizTree/WizTree64.exe"],
+    "buildRequirement": ["WizTree_bot.wcs","WizTree_bot/WizTreePortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

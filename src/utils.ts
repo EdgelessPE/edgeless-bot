@@ -229,7 +229,7 @@ function gbk(buffer: Buffer): string {
 
 function copyCover(name: string): boolean {
 	if (fs.existsSync(DIR_TASKS + '/' + name + '/cover')) {
-		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + name + '/release/')) {
+		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + '/' + name + '/release/')) {
 			return false;
 		}
 	}

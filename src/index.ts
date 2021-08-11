@@ -43,7 +43,7 @@ async function main() {
 	// 提醒debug模式
 	if (args.hasOwnProperty('d')) {
 		log('Warning:Running at debug mode, remote operations and database update will be disabled');
-	} 
+	}
 
 	// 初始化
 	if (args.hasOwnProperty('g')) {
@@ -100,6 +100,7 @@ async function main() {
 			// 读取task配置
 			const iRT = readTaskConfig(taskName);
 			if (iRT.status === Status.ERROR) {
+				log(iRT.payload);
 				log('Error:Can\'t read ' + taskName + '\'s config,exit');
 
 				// 读取数据库中对应节点
@@ -184,6 +185,7 @@ async function main() {
 			// 读取task配置
 			const iRT = readTaskConfig(taskName);
 			if (iRT.status === Status.ERROR) {
+				log(iRT.payload);
 				log('Error:Can\'t read ' + taskName + '\'s config,skipping...');
 
 				// 读取数据库中对应节点

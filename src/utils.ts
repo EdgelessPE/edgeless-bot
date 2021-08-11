@@ -227,6 +227,10 @@ function gbk(buffer: Buffer): string {
 	return iconv.decode(buffer, 'GBK');
 }
 
+function toGbk(text:string):Buffer {
+	return iconv.encode(text,'GBK');
+}
+
 function copyCover(name: string): boolean {
 	if (fs.existsSync(DIR_TASKS + '/' + name + '/cover')) {
 		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + '/' + name + '/release/')) {
@@ -249,5 +253,6 @@ export {
 	xcopy,
 	cleanBuildStatus,
 	gbk,
+	toGbk,
 	copyCover,
 };

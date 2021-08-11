@@ -467,14 +467,6 @@
       }
     ]
   },
-  "HWiNFO系统信息": {
-    "latestVersion": "7.06.4500.0",
-    "builds": [
-      {
-        "version": "7.06.4500.0",
-        "name": "HWiNFO系统信息_7.06.4500.0_Cno（bot）.7z"
-      }
-    ],
     "recentStatus": [
       {
         "time": 1628679597319,

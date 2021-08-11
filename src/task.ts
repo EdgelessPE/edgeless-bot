@@ -16,7 +16,7 @@ import ora from 'ora';
 import {DIR_TASKS, DIR_WORKSHOP, _userConfig, DIR_BUILDS, MAX_BUILDS} from './const';
 import {Interface, Task, PageInfo, DatabaseNode} from './class';
 import {Status, Cmp} from './enum';
-import {log, getMD5, gbk, xcopy, mv, matchVersion, formatVersion, versionCmp, copyCover} from './utils';
+import {log, getMD5, gbk, toGbk, xcopy, mv, matchVersion, formatVersion, versionCmp, copyCover} from './utils';
 import {uploadToRemote} from './remote';
 import {removeExtraBuilds} from './helper';
 import {preprocessPA} from './helper';
@@ -357,9 +357,9 @@ function autoMake(name: string, task:Task): boolean {
 		}
 
 		// 写外置批处理
-		const cmd = moveCmd + '\n' + linkCmd;
+		const cmd = toGbk(moveCmd + '\n' + linkCmd);
 		fs.writeFileSync(DIR_WORKSHOP + '/' + name + '/build/' + name + '_bot.wcs', cmd);
-		log('Info:Save batch with command:\n' + cmd);
+		log('Info:Save batch with command:\n' + gbk(cmd));
 
 		// 移动文件夹
 		if (!mv(DIR_WORKSHOP + '/' + name + '/release', DIR_WORKSHOP + '/' + name + '/build/' + name + '_bot')) {

@@ -60,6 +60,7 @@ class Task {
     autoMake: boolean; // 是否启用自动制作
     // useWget:boolean; //是否使用wget，默认使用aria2
 	launchArgs: string | undefined;
+	externalScraper:boolean |undefined; //是否外置爬虫脚本
 
     constructor() {
     	this.name = 'Null';

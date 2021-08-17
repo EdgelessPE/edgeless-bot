@@ -94,10 +94,16 @@ function readTaskConfig(name: string): Interface {
 
 	// 检查Json健全性
 	let miss = null;
+	let externalScraperIgnoreList=["paUrl","releaseRequirement","buildRequirement","preprocess"]
 	for (const taskKey in new Task()) {
 		if (!json.hasOwnProperty(taskKey)) {
-			miss = taskKey;
-			break;
+			if(json.hasOwnProperty("externalScraper")&&json.externalScraper&&externalScraperIgnoreList.includes(taskKey)){
+				//当外挂爬虫脚本时不需要警告提示部分键
+				log("Info:Ignore missing key due to external scraper:"+taskKey)
+			}else{
+				miss = taskKey;
+				break;
+			}
 		}
 	}
 
@@ -113,13 +119,25 @@ function readTaskConfig(name: string): Interface {
 		});
 	}
 
+	//对外置爬虫的任务检查爬虫脚本接口
+	if(json.hasOwnProperty("externalScraper")&&json.externalScraper){
+		//检查文件存在
+		if (!fs.existsSync(dir + '/scraper.ts')) {
+			return new Interface({
+				status: Status.ERROR,
+				payload: 'Warning:Skipping illegal task directory ' + name+',missing scraper.ts as external scraper task',
+			});
+		}
+		//TODO:检查接口
+	}
+
 	// 检查分类是否存在
-	const cates = ['实用工具', '开发辅助', '配置检测', '资源管理', '办公编辑', '输入法', '录屏看图', '磁盘数据', '安全急救', '即时通讯', '安装备份', '游戏娱乐', '运行环境', '压缩镜像', '美化增强', '驱动管理', '下载上传', '浏览器', '影音播放', '远程连接', '集成开发'];
-	if (!cates.includes(json.category)) {
+	const categories = ["实用工具","开发辅助","配置检测","资源管理","办公编辑","输入法","集成开发","录屏看图","磁盘数据","安全急救","网课会议","即时通讯","安装备份","游戏娱乐","运行环境","压缩镜像","美化增强","驱动管理","下载上传","浏览器","影音播放","远程连接"];
+	if (!categories.includes(json.category)) {
 		return new Interface({
 			status: Status.ERROR,
 			payload:
-                'Warning:Skipping illegal task config '
+                'Error:Skipping illegal task config '
                 + name
                 + ',category "'
                 + json.category

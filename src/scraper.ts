@@ -1,9 +1,9 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import fs from 'fs';
-import {Interface, PageInfo} from './class';
+import {Interface, PageInfo, ScrapedInfo, Task} from './class';
 import {Status} from './enum';
-import {log, parseDownloadUrl} from './utils';
+import {formatVersion, log, matchVersion, parseDownloadUrl} from './utils';
 import sleep from './sleep';
 
 async function fetchPage(url:string):Promise<Interface> {
@@ -29,7 +29,7 @@ async function fetchPage(url:string):Promise<Interface> {
 }
 
 // Scraper,enable useFS when debugging that the function will load page ./1.html
-export async function scrapePage(
+async function scrapePage(
 	url: string,
 	useFS: boolean,
 ): Promise<Interface<PageInfo>> {
@@ -226,3 +226,41 @@ export async function scrapePage(
 		payload: result,
 	});
 } // Interface:PageInfo
+
+export async function paScraper(task: Task): Promise<Interface<ScrapedInfo | string>> {
+	// 抓取页面信息
+	const iScrape = await scrapePage(task.paUrl, false);
+	if (iScrape.status === Status.ERROR) {
+		log(iScrape.payload as any);
+		return new Interface({
+			status: Status.ERROR,
+			payload: ('Error:Can\'t scrape '
+				+ task.name
+				+ ' \'s page,skipping...'),
+		});
+	}
+	const pageInfo = iScrape.payload as PageInfo;
+
+	// 匹配版本号
+	const iVersion = matchVersion(pageInfo.text);
+	if (iVersion.status === Status.ERROR) {
+		log(iVersion.payload);
+		return new Interface({
+			status: Status.ERROR,
+			payload:
+				'Error:Can\'t match '
+				+ task.name
+				+ ' \'s version from page,skipping...',
+		});
+	}
+	const version = formatVersion(iVersion.payload);
+
+	return new Interface<ScrapedInfo>({
+		status: Status.SUCCESS,
+		payload: {
+			version,
+			url: pageInfo.href,
+			md5: pageInfo.md5
+		}
+	})
+}

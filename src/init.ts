@@ -1,7 +1,7 @@
 import fs from 'fs';
 import cp from 'child_process';
 import {log, rd} from './utils';
-import {DIR_WORKSHOP, DIR_BUILDS, DIR_TASKS, IGNORE_REMOTE} from './const';
+import {DIR_BUILDS, DIR_TASKS, DIR_WORKSHOP, IGNORE_REMOTE} from './const';
 import {Interface} from './class';
 import {Status} from './enum';
 
@@ -119,8 +119,8 @@ function find7zip(): Interface {
 				cp.execSync('where ' + possibleName[i]);
 				result = possibleName[i];
 				break;
-			} catch (e) {
-				continue;
+			} catch (_) {
+
 			}
 		}
 	}

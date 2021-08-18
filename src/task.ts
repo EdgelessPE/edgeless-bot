@@ -13,15 +13,16 @@ import chalk from 'chalk';
 import Spawn from './spawn';
 import sleep from './sleep';
 import ora from 'ora';
-import {DIR_TASKS, DIR_WORKSHOP, _userConfig, DIR_BUILDS, MAX_BUILDS} from './const';
-import {Interface, Task, PageInfo, DatabaseNode} from './class';
-import {Status, Cmp} from './enum';
-import {log, getMD5, gbk, toGbk, xcopy, mv, matchVersion, formatVersion, versionCmp, copyCover} from './utils';
+import {_userConfig, DIR_BUILDS, DIR_TASKS, DIR_WORKSHOP, MAX_BUILDS} from './const';
+import {DatabaseNode, Interface, ScrapedInfo, Script, Task} from './class';
+import {Cmp, Status} from './enum';
+import {copyCover, gbk, getMD5, log, mv, toGbk, versionCmp, xcopy} from './utils';
 import {uploadToRemote} from './remote';
-import {removeExtraBuilds} from './helper';
-import {preprocessPA} from './helper';
-import {scrapePage} from './scraper';
+import {preprocessPA, removeExtraBuilds} from './helper';
+import {paScraper} from './scraper';
 import {WebSocket as Aria2} from 'libaria2-ts';
+import {executor, loadScript} from "./externalScraperProcesser";
+
 export const args = minimist(process.argv.slice(2));
 
 let aria2: Aria2.Client;
@@ -119,7 +120,7 @@ function readTaskConfig(name: string): Interface {
 		});
 	}
 
-	//对外置爬虫的任务检查爬虫脚本接口
+	//对外置爬虫的任务检查爬虫脚本是否存在
 	if(json.hasOwnProperty("externalScraper")&&json.externalScraper){
 		//检查文件存在
 		if (!fs.existsSync(dir + '/scraper.ts')) {
@@ -128,7 +129,6 @@ function readTaskConfig(name: string): Interface {
 				payload: 'Warning:Skipping illegal task directory ' + name+',missing scraper.ts as external scraper task',
 			});
 		}
-		//TODO:检查接口
 	}
 
 	// 检查分类是否存在
@@ -153,13 +153,13 @@ function readTaskConfig(name: string): Interface {
 
 async function getWorkDirReady(
 	task: Task,
-	pageInfo: PageInfo,
+	info: ScrapedInfo,
 	p7zip: string,
 ): Promise<Interface> {
 	const {name} = task;
 	const req = task.releaseRequirement;
-	const url = pageInfo.href;
-	const {md5} = pageInfo;
+	const url = info.url;
+	const md5 = info.md5;
 	const dir = DIR_WORKSHOP + '/' + name;
 
 	// 创建目录，因为程序初始化时会将workshop目录重建
@@ -503,34 +503,26 @@ async function processTask(
 ): Promise<Interface> {
 	log('Info:Start processing ' + task.name);
 
-	// 抓取页面信息
-	const iScrape = await scrapePage(task.paUrl, false);
-	if (iScrape.status === Status.ERROR) {
-		log(iScrape.payload as any);
-		return new Interface({
-			status: Status.ERROR,
-			payload: (('Error:Can\'t scrape '
-                + task.name
-                + ' \'s page,skipping...') as unknown) as PageInfo,
-		});
+	//使用PortableApps爬虫或自定义爬虫
+	let info: ScrapedInfo
+	if (!task.hasOwnProperty("externalScraper") || task.externalScraper == false) {
+		//PA任务
+		let SI = await paScraper(task)
+		if (SI.status == Status.ERROR) return SI
+		else info = SI.payload as ScrapedInfo
+	} else {
+		//自定义爬虫任务
+		//加载爬虫模块
+		let iModule = await loadScript(task), module: Script
+		if (iModule.status == Status.ERROR) return iModule
+		else module = iModule.payload as Script
+
+		//调用执行器
+		let SI = await executor(module)
+		if (SI.status == Status.ERROR) return SI
+		else info = SI.payload as ScrapedInfo
 	}
-
-	const pageInfo = iScrape.payload as PageInfo;
-
-	// 匹配版本号
-	const iVersion = matchVersion(pageInfo.text);
-	if (iVersion.status === Status.ERROR) {
-		log(iVersion.payload);
-		return new Interface({
-			status: Status.ERROR,
-			payload:
-                'Error:Can\'t match '
-                + task.name
-                + ' \'s version from page,skipping...',
-		});
-	}
-
-	const version = formatVersion(iVersion.payload) as string;
+	const version = info.version
 
 	// 与数据库进行校对
 	let ret: Interface;
@@ -542,7 +534,7 @@ async function processTask(
 	switch (cmpResult) {
 		case Cmp.L:
 			// 需要升级
-			const iGWR = await getWorkDirReady(task, pageInfo, p7zip);
+			const iGWR = await getWorkDirReady(task, info, p7zip);
 			if (iGWR.status === Status.ERROR) {
 				ret = iGWR;
 				break;

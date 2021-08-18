@@ -235,12 +235,12 @@ async function getWorkDirReady(
 			return new Interface({
 				status: Status.ERROR,
 				payload: 'Error:Task '
-                    + name
-                    + ' \'s MD5 checking failed,expected '
-                    + md5
-                    + ',got '
-                    + md5_calc
-                    + ',skipping...',
+					+ name
+					+ ' \'s MD5 checking failed,expected '
+					+ md5
+					+ ',got '
+					+ md5_calc
+					+ ',skipping...',
 			});
 		}
 	}
@@ -250,20 +250,22 @@ async function getWorkDirReady(
 	cp.execSync('"' + p7zip + '" x target.exe -orelease -y', {cwd: dir});
 
 	// 检查目录是否符合规范
-	let miss = null;
-	for (const i in req) {
-		const n = req[i];
-		if (!fs.existsSync(dir + '/release/' + n)) {
-			miss = n;
-			break;
+	if (req != undefined) {
+		let miss = null;
+		for (const i in req) {
+			const n = req[i];
+			if (!fs.existsSync(dir + '/release/' + n)) {
+				miss = n;
+				break;
+			}
 		}
-	}
 
-	if (miss) {
-		return new Interface({
-			status: Status.ERROR,
-			payload: 'Error:Miss ' + miss + ' in ' + name + '\'s workshop,skipping...',
-		});
+		if (miss) {
+			return new Interface({
+				status: Status.ERROR,
+				payload: 'Error:Miss ' + miss + ' in ' + name + '\'s workshop,skipping...',
+			});
+		}
 	}
 
 	// 复制make.cmd
@@ -406,20 +408,22 @@ function buildAndDeliver(
 	const dir = DIR_WORKSHOP + '/' + name;
 	const repo = DIR_BUILDS + '/' + category;
 	// 检查build requirements
-	let miss = null;
-	for (const i in req) {
-		const n = req[i];
-		if (!fs.existsSync(dir + '/build/' + n)) {
-			miss = n;
-			break;
+	if (req != undefined) {
+		let miss = null;
+		for (const i in req) {
+			const n = req[i];
+			if (!fs.existsSync(dir + '/build/' + n)) {
+				miss = n;
+				break;
+			}
 		}
-	}
 
-	if (miss) {
-		return new Interface({
-			status: Status.ERROR,
-			payload: 'Error:Miss ' + miss + ' in ' + name + '\'s final build,skipping...',
-		});
+		if (miss) {
+			return new Interface({
+				status: Status.ERROR,
+				payload: 'Error:Miss ' + miss + ' in ' + name + '\'s final build,skipping...',
+			});
+		}
 	}
 
 	// 压缩build文件夹内容

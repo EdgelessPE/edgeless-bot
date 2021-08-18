@@ -6,7 +6,7 @@ import UserConfig from './config';
 import BinPath from '@edge-less/bot-prebuilt';
 
 export default class Spawn {
-  public process = <execa.ExecaChildProcess<string>[]>[];
+  public process = <execa.ExecaChildProcess[]>[];
   constructor(protected _config: UserConfig) {}
   all() {
   	this.process.push(

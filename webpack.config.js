@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const package = require('./package.json');
 const nodeModules = {};
 Object.keys(package.dependencies).forEach(mod => {

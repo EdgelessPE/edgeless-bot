@@ -229,6 +229,12 @@ async function scrapePage(
 
 export async function paScraper(task: Task): Promise<Interface<ScrapedInfo | string>> {
 	// 抓取页面信息
+	if (task.paUrl == undefined) {
+		return new Interface({
+			status: Status.ERROR,
+			payload: 'Error:Unexpected internal error:task.paUrl undefined',
+		});
+	}
 	const iScrape = await scrapePage(task.paUrl, false);
 	if (iScrape.status === Status.ERROR) {
 		log(iScrape.payload as any);

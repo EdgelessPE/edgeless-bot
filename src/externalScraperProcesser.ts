@@ -67,7 +67,7 @@ async function loadScript(task: Task): Promise<Interface<Script | string>> {
     if (!checked) {
         return new Interface<string>({
             status: Status.ERROR,
-            payload: "Scraper module for " + task.name + " invalid"
+            payload: "Error:Scraper module for " + task.name + " invalid"
         })
     } else {
         return new Interface<Script>({

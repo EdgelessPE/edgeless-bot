@@ -108,7 +108,7 @@ function readTaskConfig(name: string): Interface {
 		if (!json.hasOwnProperty(taskKey)) {
 			if(json.hasOwnProperty("externalScraper")&&json.externalScraper&&externalScraperIgnoreList.includes(taskKey)){
 				//当外挂爬虫脚本时不需要警告提示部分键
-				log("Info:Ignore missing key due to external scraper:"+taskKey)
+				//log("Info:Ignore missing key due to external scraper:"+taskKey)
 			}else{
 				miss = taskKey;
 				break;

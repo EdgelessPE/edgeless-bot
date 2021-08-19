@@ -3,7 +3,7 @@ import cheerio from 'cheerio';
 import fs from 'fs';
 import {Interface, PageInfo, ScrapedInfo, Task} from './class';
 import {Status} from './enum';
-import {formatVersion, isURL, log, matchVersion, parseDownloadUrl} from './utils';
+import {formatVersion, log, matchVersion, parseDownloadUrl} from './utils';
 import sleep from './sleep';
 
 async function fetchPage(url:string):Promise<Interface> {
@@ -195,13 +195,13 @@ async function scrapePage(
 	}
 
 	//正则检查链接
-	if (!isURL(result.href)) {
-		return new Interface({
-			status: Status.ERROR,
-			payload: (('Error:Illegal download link got:' + result.href + ',can\'t scrape '
-				+ url) as unknown) as PageInfo,
-		});
-	}
+	// if (!isURL(result.href)) {
+	// 	return new Interface({
+	// 		status: Status.ERROR,
+	// 		payload: (('Error:Illegal download link got:' + result.href + ',can\'t scrape '
+	// 			+ url) as unknown) as PageInfo,
+	// 	});
+	// }
 
 	// 校验md5
 	if (result.md5 == undefined) {

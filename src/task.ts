@@ -436,10 +436,20 @@ function buildAndDeliver(
 	}
 
 	//计算压缩等级
-	let compressLevel = task.externalScraperOptions?.compressLevel
-	if (compressLevel == undefined) {
+	let compressLevel: any = task.externalScraperOptions?.compressLevel
+	if (compressLevel == undefined || typeof compressLevel != "number") {
+		if (typeof compressLevel != "number" && !compressLevel == undefined) {
+			log("Warning:Type of compressLevel isn't number,use default value")
+		}
 		if (task.externalScraper) compressLevel = 1
 		else compressLevel = 5
+	}
+	if (compressLevel > 9) {
+		log("Warning:Given compressLevel exceed 9,use 9")
+		compressLevel = 9
+	} else if (compressLevel < 1) {
+		log("Warning:Given compressLevel less than 1,use 1")
+		compressLevel = 1
 	}
 
 	// 压缩build文件夹内容

@@ -20,6 +20,21 @@
 * `silent`，此时的外置批处理策略为追加静默安装参数安装，然后删除安装包；可以通过`externalScraperOptions.silentArg`指定静默安装参数，缺省值为`/S`
 * `manual`，此时的外置批处理策略为在桌面生成"安装TaskName"的快捷方式
 
+### 选项
+
+```typescript
+interface ExternalScraperOptions {
+	//配置策略,可为silent,manual
+	policy: string
+	//是否需要解压安装包
+	releaseInstaller?: boolean
+	//更改静默安装参数，前面不需要留空格
+	silentArg?: string
+	//压缩等级，1-9，1为仅存储，9为极限压缩
+	compressLevel?: number
+}
+```
+
 ## 爬虫接口脚本
 
 任务的爬虫接口脚本名为`scraper.ts`，放置于任务文件夹根目录中
@@ -72,4 +87,4 @@ interface ExternalScraperOptions {
 
 ## 示例
 
-请查看QQ官方版的`scraper.ts`
+请查看“QQ官方版”任务

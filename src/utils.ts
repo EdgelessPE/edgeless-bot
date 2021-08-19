@@ -121,11 +121,11 @@ function matchVersion(text: string): Interface {
 		return new Interface({
 			status: Status.ERROR,
 			payload:
-                'Error:Matched nothing when looking into "'
-                + text
-                + '" with "'
-                + regex
-                + '",skipping...',
+				'Error:Matched nothing when looking into "'
+				+ text
+				+ '" with "'
+				+ regex
+				+ '",skipping...',
 		});
 	}
 
@@ -134,6 +134,10 @@ function matchVersion(text: string): Interface {
 		payload: matchRes[0],
 	});
 } // Interface:string
+
+function isURL(str_url: string): boolean {
+	return str_url.slice(0, 4) == "http" && str_url.includes(".exe")
+}
 
 function versionCmp(a: string, b: string): Cmp {
 	const x = a.split('.');
@@ -255,4 +259,5 @@ export {
 	gbk,
 	toGbk,
 	copyCover,
+	isURL
 };

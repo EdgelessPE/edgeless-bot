@@ -1,6 +1,6 @@
 import {Interface, ScrapedInfo, Script, Task} from "./class";
 import {Status} from "./enum";
-import {log, toGbk} from "./utils"
+import {formatVersion, isURL, log, matchVersion, toGbk} from "./utils"
 import fs from "fs";
 import {DIR_TASKS, DIR_WORKSHOP} from "./const";
 
@@ -81,7 +81,7 @@ async function loadScript(task: Task): Promise<Interface<Script | string>> {
 async function executor(module: Script): Promise<Interface<ScrapedInfo | string>> {
     //初始化
     try {
-        module.init()
+        await module.init()
     } catch (e) {
         return new Interface<string>({
             status: Status.ERROR,
@@ -99,12 +99,20 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
             payload: "Error:Function getVersion() throw:" + JSON.stringify(e)
         })
     }
+    //类型检查
     if (typeof version != "string") {
         return new Interface<string>({
             status: Status.ERROR,
             payload: "Error:Function getVersion() returned error type,expected string,got:" + typeof version + ",value:" + JSON.stringify(version)
         })
     }
+    //正则提取
+    let iMatchVersion = matchVersion(version)
+    if (iMatchVersion.status == Status.ERROR) {
+        return iMatchVersion
+    }
+    //美化版本号
+    version = formatVersion(iMatchVersion.payload)
 
     //获取链接
     let url
@@ -116,10 +124,18 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
             payload: "Error:Function getDownloadLink() throw:" + JSON.stringify(e)
         })
     }
+    //类型检查
     if (typeof url != "string") {
         return new Interface<string>({
             status: Status.ERROR,
             payload: "Error:Function getDownloadLink() returned error type,expected string,got:" + typeof url + ",value:" + JSON.stringify(url)
+        })
+    }
+    //正则校验
+    if (!isURL(url)) {
+        return new Interface<string>({
+            status: Status.ERROR,
+            payload: "Error:Function getDownloadLink() returned error url,got:" + url
         })
     }
 
@@ -142,6 +158,7 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
     }
 
     //返回
+    log("Info:Got version=" + version + ",url=" + url + ",md5=" + md5)
     return new Interface<ScrapedInfo>({
         status: Status.SUCCESS,
         payload: {
@@ -159,7 +176,7 @@ function esAutoMake(task: Task): boolean {
 
     //复制安装包
     try {
-        fs.copyFileSync(workshop + '/target.exe', workshop + '/build/' + task.name + '.exe');
+        fs.copyFileSync(workshop + '/target.exe', workshop + '/build/' + task.name + '_bot.exe');
     } catch (e) {
         log('Error:Can\'t copy target.exe:' + JSON.stringify(e))
         return false
@@ -173,12 +190,12 @@ function esAutoMake(task: Task): boolean {
             let arg = task.externalScraperOptions?.silentArg
             if (arg == undefined) arg = "/S"
             if (arg[0] == " ") arg = arg.slice(1, 0)
-            let execCommand = "EXEC =!X:\\Program Files\\Edgeless\\" + task.name + ".exe " + arg
-            let delCommand = "FILE X:\\Program Files\\Edgeless\\" + task.name + ".exe"
+            let execCommand = "EXEC =!X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe " + arg
+            let delCommand = "FILE X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe"
             finalScript = execCommand + '\n' + delCommand
             break
         case "manual":
-            finalScript = "LINK X:\\Users\\Default\\Desktop\\安装" + task.name + ",X:\\Program Files\\Edgeless\\" + task.name + ".exe"
+            finalScript = "LINK X:\\Users\\Default\\Desktop\\安装" + task.name + ",X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe"
             break
         default:
             log("Error:Internal error,meet unknown policy:" + task.externalScraperOptions?.policy)

@@ -3,7 +3,7 @@ import cheerio from 'cheerio';
 import fs from 'fs';
 import {Interface, PageInfo, ScrapedInfo, Task} from './class';
 import {Status} from './enum';
-import {formatVersion, log, matchVersion, parseDownloadUrl} from './utils';
+import {formatVersion, isURL, log, matchVersion, parseDownloadUrl} from './utils';
 import sleep from './sleep';
 
 async function fetchPage(url:string):Promise<Interface> {
@@ -190,7 +190,16 @@ async function scrapePage(
 		return new Interface({
 			status: Status.ERROR,
 			payload: (('Error:Null value caught in result,can\'t scrape '
-                + url) as unknown) as PageInfo,
+				+ url) as unknown) as PageInfo,
+		});
+	}
+
+	//正则检查链接
+	if (!isURL(result.href)) {
+		return new Interface({
+			status: Status.ERROR,
+			payload: (('Error:Illegal download link got:' + result.href + ',can\'t scrape '
+				+ url) as unknown) as PageInfo,
 		});
 	}
 
@@ -201,7 +210,7 @@ async function scrapePage(
 
 	if (
 		result.md5 !== ''
-        && result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
+		&& result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
 	) {
 		log('Warning:Fail to check md5,got ' + result.md5);
 		result.md5 = '';

@@ -100,6 +100,8 @@ interface ExternalScraperOptions {
 	releaseInstaller?: boolean
 	//更改静默安装参数，前面不需要留空格
 	silentArg?: string
+	//压缩等级，1-9
+	compressLevel?: number
 }
 
 // 数据库相关

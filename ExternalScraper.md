@@ -26,9 +26,11 @@
 
 ### 实现
 
-此脚本需要实现三个方法：`init()` `getVersion():string`和`getDownloadLink():string`，分别用于初始化、获取最新版本号、获取下载链接；
+此脚本需要实现三个方法：`await init()` `getVersion():string`和`getDownloadLink():string`，分别用于初始化、获取最新版本号、获取下载链接；
 
-我们推荐在`init()`中完成爬取工作并将结果或中间数据缓存
+我们推荐在`await init()`中完成爬取工作并将结果或中间数据缓存，并将`getXXX()`方法的逻辑改为直接返回缓存
+
+`getVersion():string`允许返回包含版本号的文本，例如`QQ PC版9.4.9`，Bot会自动匹配其中的版本号
 
 如果可以爬取到MD5，我们推荐增加一个可选方法`getMD5():string`用于获得下载到安装包的MD5
 
@@ -47,7 +49,7 @@ import cheerio from 'cheerio';
 import sleep from '../../src/sleep';
 
 //格式化输出控制台，用法log("Info:This is a demo info message")，仅允许"Info"、"Warning"、"Error"三种开头
-import log from '../../src/utils';
+import {log} from '../../src/utils';
 ```
 
 ## 自动制作

@@ -435,10 +435,17 @@ function buildAndDeliver(
 		}
 	}
 
+	//计算压缩等级
+	let compressLevel = task.externalScraperOptions?.compressLevel
+	if (compressLevel == undefined) {
+		if (task.externalScraper) compressLevel = 1
+		else compressLevel = 5
+	}
+
 	// 压缩build文件夹内容
-	log('Info:Start compressing into ' + zname);
+	log('Info:Start compressing into ' + zname + ',with compress level=' + compressLevel);
 	try {
-		cp.execSync('"' + p7zip + '" a "' + zname + '" *', {cwd: dir + '/build'});
+		cp.execSync('"' + p7zip + '" a -mx' + compressLevel + ' "' + zname + '" *', {cwd: dir + '/build'});
 	} catch (err: any) {
 		console.log(JSON.stringify(err));
 		return new Interface({

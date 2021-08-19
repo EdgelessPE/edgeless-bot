@@ -4,10 +4,21 @@
 
 ## 任务配置
 
-这类任务的`config.json`需要将`externalScraper`键设置为`true`，不需要提供`["paUrl","releaseRequirement","buildRequirement","preprocess"]`
+### 通用
+
+这类任务的`config.json`需要将`externalScraper`键设置为`true`，并提供`externalScraperOptions`
+对象配置相应参数；不需要提供`["paUrl","releaseRequirement","buildRequirement","preprocess"]`
 这几个无效键
 
-此时，Bot默认不会尝试解压下载得到的文件；如果需要，请将`releaseInstaller`键设置为`true`，则Bot会将文件解压至工作目录的`release`子目录中；此方法可帮助验证无MD5信息的源文件正确性
+此时，Bot默认不会尝试解压下载得到的文件；如果需要，请将`externalScraperOptions.releaseInstaller`键设置为`true`，则Bot会将文件解压至工作目录的`release`
+子目录中；此方法可帮助验证无MD5信息的源文件正确性
+
+### 自动制作
+
+当`autoMake`的值为`true`时（让Bot自动制作），必须指定`externalScraperOptions.policy`键用于配置策略，合法的值如下：
+
+* `silent`，此时的外置批处理策略为追加静默安装参数安装，然后删除安装包；可以通过`externalScraperOptions.silentArg`指定静默安装参数，缺省值为`/S`
+* `manual`，此时的外置批处理策略为在桌面生成"安装TaskName"的快捷方式
 
 ## 爬虫接口脚本
 
@@ -17,9 +28,9 @@
 
 此脚本需要实现三个方法：`init()` `getVersion():string`和`getDownloadLink():string`，分别用于初始化、获取最新版本号、获取下载链接；
 
-如果可以爬取到MD5，我们推荐增加一个可选方法`getMD5():string`用于获得下载到安装包的MD5
-
 我们推荐在`init()`中完成爬取工作并将结果或中间数据缓存
+
+如果可以爬取到MD5，我们推荐增加一个可选方法`getMD5():string`用于获得下载到安装包的MD5
 
 ### 引用
 

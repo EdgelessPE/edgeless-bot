@@ -78,26 +78,28 @@ class Task {
 
 //爬虫接口相关
 interface ScrapedInfo {
-	version: string,
-	url: string,
+	version: string
+	url: string
 	md5: string
 }
 
 interface Script {
-	init(): void;
+	init(): void
 
-	getVersion(): string;
+	getVersion(): string
 
-	getDownloadLink(): string;
+	getDownloadLink(): string
 
-	getMD5?(): string;
+	getMD5?(): string
 }
 
 interface ExternalScraperOptions {
+	//配置策略,可为silent,manual
+	policy: string
+	//是否需要解压安装包
+	releaseInstaller?: boolean
 	//更改静默安装参数，前面不需要留空格
-	silentArg: string,
-	//手动安装，如果启用此项则会在桌面上生成"安装TaskName"的快捷方式
-	manual: boolean
+	silentArg?: string
 }
 
 // 数据库相关

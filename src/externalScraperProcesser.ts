@@ -1,8 +1,46 @@
 import {Interface, ScrapedInfo, Script, Task} from "./class";
 import {Status} from "./enum";
-import {log} from "./utils"
+import {log, toGbk} from "./utils"
+import fs from "fs";
+import {DIR_TASKS, DIR_WORKSHOP} from "./const";
 
-//载入脚本并负责校验
+//配置校验
+function esConfigChecker(task: Task): boolean {
+    const dir = DIR_TASKS + '/' + task.name;
+    const options = task.externalScraperOptions
+
+    //检查options
+    if (options == undefined) {
+        log("Error:Missing key 'externalScraperOptions' as external scraper task")
+        return false
+    }
+
+    //检查文件存在
+    if (!fs.existsSync(dir + '/scraper.ts')) {
+        log("Error:Missing scraper.ts as external scraper task")
+        return false
+    }
+
+    //自动制作校验
+    if (task.autoMake) {
+        //检查policy是否提供
+        if (options.policy == undefined) {
+            log("Error:Should provide externalScraperOptions.policy as external scraper task")
+            return false
+        }
+        //校验policy正确性
+        let allowedPolicies = ["silent", "manual"]
+        if (!allowedPolicies.includes(options.policy)) {
+            log("Error:Unknown policy:" + options.policy)
+            return false
+        }
+    }
+
+    //结束校验
+    return true
+}
+
+//载入脚本并负责模块校验
 async function loadScript(task: Task): Promise<Interface<Script | string>> {
     let module = await import("../tasks/" + task.name + "/scraper.ts") as Script
     //校验
@@ -13,19 +51,19 @@ async function loadScript(task: Task): Promise<Interface<Script | string>> {
             checked = false
             log("Error:Missing function:" + name)
         }
-        if (typeof module.init != "function") {
-            checked = false
-            log("Error:Module property 'init' isn't a function")
-        }
-        if (typeof module.getVersion != "function") {
-            checked = false
-            log("Error:Module property 'getVersion' isn't a function")
-        }
-        if (typeof module.getDownloadLink != "function") {
-            checked = false
-            log("Error:Module property 'getDownloadLink' isn't a function")
-        }
     })
+    if (typeof module.init != "function") {
+        checked = false
+        log("Error:Module property 'init' isn't a function")
+    }
+    if (typeof module.getVersion != "function") {
+        checked = false
+        log("Error:Module property 'getVersion' isn't a function")
+    }
+    if (typeof module.getDownloadLink != "function") {
+        checked = false
+        log("Error:Module property 'getDownloadLink' isn't a function")
+    }
     if (!checked) {
         return new Interface<string>({
             status: Status.ERROR,
@@ -114,7 +152,56 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
     })
 }
 
+//自动制作控制器
+function esAutoMake(task: Task): boolean {
+    log('Info:Start auto make ' + task.name);
+    const workshop = DIR_WORKSHOP + '/' + task.name;
+
+    //复制安装包
+    try {
+        fs.copyFileSync(workshop + '/target.exe', workshop + '/build/' + task.name + '.exe');
+    } catch (e) {
+        log('Error:Can\'t copy target.exe:' + JSON.stringify(e))
+        return false
+    }
+
+    //根据策略生成对应的外置批处理
+    let makeStatus = true
+    let finalScript = ""
+    switch (task.externalScraperOptions?.policy) {
+        case "silent":
+            let arg = task.externalScraperOptions?.silentArg
+            if (arg == undefined) arg = "/S"
+            if (arg[0] == " ") arg = arg.slice(1, 0)
+            let execCommand = "EXEC =!X:\\Program Files\\Edgeless\\" + task.name + ".exe " + arg
+            let delCommand = "FILE X:\\Program Files\\Edgeless\\" + task.name + ".exe"
+            finalScript = execCommand + '\n' + delCommand
+            break
+        case "manual":
+            finalScript = "LINK X:\\Users\\Default\\Desktop\\安装" + task.name + ",X:\\Program Files\\Edgeless\\" + task.name + ".exe"
+            break
+        default:
+            log("Error:Internal error,meet unknown policy:" + task.externalScraperOptions?.policy)
+            makeStatus = false
+    }
+    if (!makeStatus) {
+        log("Error:Can't create external batch")
+        return false
+    } else {
+        // 写外置批处理
+        const cmd = toGbk(finalScript);
+        fs.writeFileSync(DIR_WORKSHOP + '/' + task.name + '/build/' + task.name + '_bot.wcs', cmd);
+        log('Info:Save batch with command:\n' + finalScript);
+    }
+
+    //结束自动制作
+    log('Info:Auto make executed successfully');
+    return true;
+}
+
 export {
+    esConfigChecker,
     loadScript,
-    executor
+    executor,
+    esAutoMake,
 }

@@ -21,7 +21,7 @@ import {uploadToRemote} from './remote';
 import {preprocessPA, removeExtraBuilds} from './helper';
 import {paScraper} from './scraper';
 import {WebSocket as Aria2} from 'libaria2-ts';
-import {executor, loadScript} from "./externalScraperProcesser";
+import {esAutoMake, esConfigChecker, executor, loadScript} from "./externalScraperProcesser";
 
 export const args = minimist(process.argv.slice(2));
 
@@ -83,7 +83,15 @@ function readTaskConfig(name: string): Interface {
 	}
 
 	// 解析Json
-	const json = JSON.parse(fs.readFileSync(dir + '/config.json').toString()) as Task;
+	let json
+	try {
+		json = JSON.parse(fs.readFileSync(dir + '/config.json').toString()) as Task;
+	} catch (e) {
+		return new Interface({
+			status: Status.ERROR,
+			payload: "Error:Can't parse config.json for " + name,
+		});
+	}
 
 	// 检查文件夹名称和json.name是否一致
 	if (name !== json.name) {
@@ -107,38 +115,36 @@ function readTaskConfig(name: string): Interface {
 			}
 		}
 	}
-
 	if (miss) {
 		return new Interface({
 			status: Status.ERROR,
 			payload:
-                'Warning:Skipping illegal task config '
-                + name
-                + ',missing "'
-                + miss
-                + '"',
+				'Warning:Skipping illegal task config '
+				+ name
+				+ ',missing "'
+				+ miss
+				+ '"',
 		});
 	}
 
-	//对外置爬虫的任务检查爬虫脚本是否存在
-	if(json.hasOwnProperty("externalScraper")&&json.externalScraper){
-		//检查文件存在
-		if (!fs.existsSync(dir + '/scraper.ts')) {
-			return new Interface({
-				status: Status.ERROR,
-				payload: 'Warning:Skipping illegal task directory ' + name+',missing scraper.ts as external scraper task',
-			});
-		}
+	//TODO:检查多余键
+
+	//对外置爬虫任务执行配置检测
+	if (json.hasOwnProperty("externalScraper") && json.externalScraper && !esConfigChecker(json)) {
+		return new Interface({
+			status: Status.ERROR,
+			payload: "Error:Config check for external scraper task failed",
+		});
 	}
 
 	// 检查分类是否存在
-	const categories = ["实用工具","开发辅助","配置检测","资源管理","办公编辑","输入法","集成开发","录屏看图","磁盘数据","安全急救","网课会议","即时通讯","安装备份","游戏娱乐","运行环境","压缩镜像","美化增强","驱动管理","下载上传","浏览器","影音播放","远程连接"];
+	const categories = ["实用工具", "开发辅助", "配置检测", "资源管理", "办公编辑", "输入法", "集成开发", "录屏看图", "磁盘数据", "安全急救", "网课会议", "即时通讯", "安装备份", "游戏娱乐", "运行环境", "压缩镜像", "美化增强", "驱动管理", "下载上传", "浏览器", "影音播放", "远程连接"];
 	if (!categories.includes(json.category)) {
 		return new Interface({
 			status: Status.ERROR,
 			payload:
-                'Error:Skipping illegal task config '
-                + name
+				'Error:Skipping illegal task config '
+				+ name
                 + ',category "'
                 + json.category
                 + '" not exist',
@@ -166,7 +172,7 @@ async function getWorkDirReady(
 	fs.mkdirSync(dir);
 	fs.mkdirSync(dir + '/' + 'build');
 
-	// 通过aria2/wget下载
+	// 通过aria2下载
 	log('Info:Start downloading ' + name);
 	try {
 		// Cp.execSync("wget -O target.exe " + url, {cwd: dir});
@@ -246,8 +252,10 @@ async function getWorkDirReady(
 	}
 
 	// 使用7-Zip解压至release文件夹
-	log('Info:Start extracting ' + name);
-	cp.execSync('"' + p7zip + '" x target.exe -orelease -y', {cwd: dir});
+	if (!(task.externalScraper && (task.externalScraperOptions?.releaseInstaller == undefined || !task.externalScraperOptions?.releaseInstaller))) {
+		log('Info:Start extracting ' + name);
+		cp.execSync('"' + p7zip + '" x target.exe -orelease -y', {cwd: dir});
+	}
 
 	// 检查目录是否符合规范
 	if (req != undefined) {
@@ -346,7 +354,8 @@ async function runMakeScript(name: string): Promise<Interface> {
 	});
 }
 
-function autoMake(name: string, task:Task): boolean {
+function autoMake(task: Task): boolean {
+	const name = task.name
 	log('Info:Start auto make ' + name);
 	const dir = DIR_WORKSHOP + '/' + name + '/release';
 
@@ -563,11 +572,19 @@ async function processTask(
 					break;
 				}
 
-				if (!autoMake(task.name, task)) {
+				//自动制作分流
+				let autoMakeRes: boolean
+				if (task.externalScraper) {
+					autoMakeRes = esAutoMake(task)
+				} else {
+					autoMakeRes = autoMake(task)
+				}
+
+				if (!autoMakeRes) {
 					ret = new Interface({
 						status: Status.ERROR,
 						payload:
-                            'Error:Can\'t make ' + task.name + ' automatically,skipping...',
+							'Error:Can\'t make ' + task.name + ' automatically,skipping...',
 					});
 					break;
 				}

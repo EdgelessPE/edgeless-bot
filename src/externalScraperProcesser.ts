@@ -158,7 +158,7 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
     }
 
     //返回
-    log("Info:Got version=" + version + ",url=" + url + ",md5=" + md5)
+    log("Info:Got version=" + version + ",url=" + url + " ,md5=" + md5)
     return new Interface<ScrapedInfo>({
         status: Status.SUCCESS,
         payload: {

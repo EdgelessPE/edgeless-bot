@@ -16,7 +16,7 @@ import ora from 'ora';
 import {_userConfig, DIR_BUILDS, DIR_TASKS, DIR_WORKSHOP, MAX_BUILDS} from './const';
 import {DatabaseNode, Interface, ScrapedInfo, Script, Task} from './class';
 import {Cmp, Status} from './enum';
-import {copyCover, gbk, getMD5, log, mv, toGbk, versionCmp, xcopy} from './utils';
+import {copyCover, gbk, getMD5, getSizeString, log, mv, toGbk, versionCmp, xcopy} from './utils';
 import {uploadToRemote} from './remote';
 import {preprocessPA, removeExtraBuilds} from './helper';
 import {paScraper} from './scraper';
@@ -416,10 +416,19 @@ function buildAndDeliver(
 	const zname = name + '_' + version + '_' + author + '（bot）.7z';
 	const dir = DIR_WORKSHOP + '/' + name;
 	const repo = DIR_BUILDS + '/' + category;
+	const FILE_SIZE_REQ = 512000
 
 	//对外置爬虫的自动制作填充build requirements
 	if (task.externalScraper && task.autoMake) {
 		task.buildRequirement = [task.name + '_bot.exe', task.name + '_bot.wcs']
+		//检查exe大小是否大于500KB
+		let size = fs.statSync(dir + "/" + task.name + '_bot.exe').size
+		if (size < FILE_SIZE_REQ) {
+			return new Interface({
+				status: Status.ERROR,
+				payload: 'Error:Exe file size abnormal:' + getSizeString(size),
+			});
+		}
 	}
 	//检查build requirements
 	if (req != undefined) {

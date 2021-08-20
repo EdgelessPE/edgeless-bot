@@ -136,7 +136,7 @@ function matchVersion(text: string): Interface {
 } // Interface:string
 
 function isURL(str_url: string): boolean {
-	return str_url.slice(0, 4) == "http" && str_url.includes(".exe")
+	return str_url.slice(0, 4) == "http"
 }
 
 function versionCmp(a: string, b: string): Cmp {

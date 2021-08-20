@@ -416,7 +416,12 @@ function buildAndDeliver(
 	const zname = name + '_' + version + '_' + author + '（bot）.7z';
 	const dir = DIR_WORKSHOP + '/' + name;
 	const repo = DIR_BUILDS + '/' + category;
-	// 检查build requirements
+
+	//对外置爬虫的自动制作填充build requirements
+	if (task.externalScraper && task.autoMake) {
+		task.buildRequirement = [task.name + '_bot.exe', task.name + '_bot.wcs']
+	}
+	//检查build requirements
 	if (req != undefined) {
 		let miss = null;
 		for (const i in req) {

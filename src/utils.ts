@@ -243,8 +243,7 @@ function toGbk(text:string):Buffer {
 }
 
 function copyCover(task: Task): boolean {
-	let target = "build"
-	const name = task.name
+	const name = task.name, target = "build"
 	if (fs.existsSync(DIR_TASKS + '/' + name + '/cover')) {
 		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + '/' + name + '/' + target + '/')) {
 			return false;

@@ -10,7 +10,7 @@ function esConfigChecker(task: Task): boolean {
     const options = task.externalScraperOptions
 
     //检查options
-    if (options == undefined) {
+    if (options == undefined && task.autoMake) {
         log("Error:Missing key 'externalScraperOptions' as external scraper task")
         return false
     }
@@ -24,7 +24,7 @@ function esConfigChecker(task: Task): boolean {
     //自动制作校验
     if (task.autoMake) {
         //检查policy是否提供
-        if (options.policy == undefined) {
+        if (options?.policy == undefined) {
             log("Error:Should provide externalScraperOptions.policy as external scraper task")
             return false
         }

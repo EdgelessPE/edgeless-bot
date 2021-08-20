@@ -2,9 +2,10 @@
   "name": "Wechat",
   "category": "即时通讯",
   "author": "Cno",
-  "autoMake": true,
-  "externalScraper": true,
-  "externalScraperOptions": {
-    "policy": "silent"
-  }
+  "autoMake": false,
+  "buildRequirement": [
+    "Wechat_bot.wcs",
+    "WeChatSetup.exe"
+  ],
+  "externalScraper": true
 }

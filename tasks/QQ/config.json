@@ -5,6 +5,7 @@
   "autoMake": true,
   "externalScraper": true,
   "externalScraperOptions": {
-    "policy": "silent"
+    "policy": "silent",
+    "silentDelete": false
   }
 }

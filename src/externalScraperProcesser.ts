@@ -190,8 +190,9 @@ function esAutoMake(task: Task): boolean {
             let arg = task.externalScraperOptions?.silentArg
             if (arg == undefined) arg = "/S"
             if (arg[0] == " ") arg = arg.slice(1, 0)
-            let execCommand = "EXEC =!X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe " + arg
+            let execCommand = "EXEC X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe " + arg
             let delCommand = "FILE X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe"
+            if (task.externalScraperOptions?.silentDelete == false) delCommand = ""
             finalScript = execCommand + '\n' + delCommand
             break
         case "manual":

@@ -102,6 +102,8 @@ interface ExternalScraperOptions {
 	silentArg?: string
 	//压缩等级，1-9
 	compressLevel?: number
+	//静默安装结束后是否删除安装包，默认删除
+	silentDelete?: boolean
 }
 
 // 数据库相关

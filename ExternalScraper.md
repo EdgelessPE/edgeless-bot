@@ -24,14 +24,16 @@
 
 ```typescript
 interface ExternalScraperOptions {
-	//配置策略,可为silent,manual
-	policy: string
-	//是否需要解压安装包
-	releaseInstaller?: boolean
-	//更改静默安装参数，前面不需要留空格
-	silentArg?: string
-	//压缩等级，1-9，1为仅存储，9为极限压缩
-	compressLevel?: number
+    //配置策略,可为silent,manual
+    policy: string
+    //是否需要解压安装包
+    releaseInstaller?: boolean
+    //更改静默安装参数，前面不需要留空格
+    silentArg?: string
+    //压缩等级，1-9，1为仅存储，9为极限压缩
+    compressLevel?: number
+    //静默安装结束后是否删除安装包，默认删除
+    silentDelete?: boolean
 }
 ```
 

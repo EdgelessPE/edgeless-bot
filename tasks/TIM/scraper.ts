@@ -1,36 +1,21 @@
 import axios from "axios";
-import cheerio from "cheerio";
-import {log} from '../../src/utils';
 
 let version: string, url: string
 
 async function init() {
-    //获得TIM下载页面
-    let axiosResponse = await axios.get("https://tim.qq.com/download.html")
-    let html = axiosResponse.data as string
+    //请求TIM动态配置接口
+    let axiosResponse = await axios.get("https://qzonestyle.gtimg.cn/qzone/qzactStatics/configSystem/data/1605/config1.js")
+    let text = axiosResponse.data as string
 
-    //挂载页面
-    const $ = cheerio.load(html)
+    //匹配"pcVersion"
+    let match = text.match(/"pcVersion":"\d+.\d+(.\d+)*"/)
+    if (match == null) throw "Match error:Can't match pcVersion"
+    else version = match[0]
 
-    //获取下载页面的版本号DOM
-    let version_box = $('#versionWin');
-    if (!version_box) {
-        log("Error:Can't got valid dom node #versionWin")
-        throw "Scraping failed:DOM changed"
-    }
-    //获取版本号文本
-    version = version_box.text()
-    console.log(version)
-
-    //获取下载按钮DOM
-    let download_box = $('.down-btn').children("a");
-    if (!download_box) {
-        log("Error:Can't got valid dom node down-btn")
-        throw "Scraping failed:DOM changed"
-    }
-    //获取下载链接
-    url = download_box.attr('href') as string
-    console.log(url)
+    //匹配"pcLink"
+    match = text.match(/"pcLink":"\S*.exe"/)
+    if (match == null) throw "Match error:Can't match pcLink"
+    else url = match[0].split('"')[3]
 }
 
 function getVersion(): string {

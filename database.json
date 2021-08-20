@@ -867,40 +867,6 @@
       }
     ]
   },
-  "TIM": {
-    "latestVersion": "2.3.2.0",
-    "builds": [
-      {
-        "version": "2.3.2.0",
-        "name": "TIM_2.3.2.0_Cno（bot）.7z"
-      }
-    ],
-    "recentStatus": [
-      {
-        "time": 1629438642196,
-        "timeDescription": "Fri Aug 20 2021 05:50:42 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      }
-    ]
-  },
-  "Wechat": {
-    "latestVersion": "3.3.5.0",
-    "builds": [
-      {
-        "version": "3.3.5.0",
-        "name": "Wechat_3.3.5.0_Cno（bot）.7z"
-      }
-    ],
-    "recentStatus": [
-      {
-        "time": 1629438790761,
-        "timeDescription": "Fri Aug 20 2021 05:53:10 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      }
-    ]
-  },
   "火绒安全": {
     "latestVersion": "5.0.63.1",
     "builds": [

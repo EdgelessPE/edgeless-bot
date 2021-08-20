@@ -1,0 +1,10 @@
+{
+  "name": "Wechat",
+  "category": "即时通讯",
+  "author": "Cno",
+  "autoMake": true,
+  "externalScraper": true,
+  "externalScraperOptions": {
+    "policy": "silent"
+  }
+}

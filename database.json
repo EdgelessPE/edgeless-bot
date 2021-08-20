@@ -844,12 +844,12 @@
       }
     ]
   },
-  "QQ官方版": {
+  "QQ": {
     "latestVersion": "9.4.9.0",
     "builds": [
       {
         "version": "9.4.9.0",
-        "name": "QQ官方版_9.4.9.0_Cno（bot）.7z"
+        "name": "QQ_9.4.9.0_Cno（bot）.7z"
       }
     ],
     "recentStatus": [

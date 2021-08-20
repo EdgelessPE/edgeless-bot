@@ -127,8 +127,6 @@ function readTaskConfig(name: string): Interface {
 		});
 	}
 
-	//TODO:检查多余键
-
 	//对外置爬虫任务执行配置检测
 	if (json.hasOwnProperty("externalScraper") && json.externalScraper && !esConfigChecker(json)) {
 		return new Interface({

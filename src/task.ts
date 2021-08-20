@@ -422,7 +422,7 @@ function buildAndDeliver(
 	if (task.externalScraper && task.autoMake) {
 		task.buildRequirement = [task.name + '_bot.exe', task.name + '_bot.wcs']
 		//检查exe大小是否大于500KB
-		let size = fs.statSync(dir + "/" + task.name + '_bot.exe').size
+		let size = fs.statSync(dir + "/build/" + task.name + '_bot.exe').size
 		if (size < FILE_SIZE_REQ) {
 			return new Interface({
 				status: Status.ERROR,

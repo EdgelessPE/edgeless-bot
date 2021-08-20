@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import cpt from 'crypto';
 import iconv from 'iconv-lite';
 import {Cmp, Status} from './enum';
-import {BuildStatus, Interface} from './class';
+import {BuildStatus, Interface, Task} from './class';
 import {DIR_TASKS, DIR_WORKSHOP} from './const';
 import {args} from './index';
 
@@ -242,9 +242,11 @@ function toGbk(text:string):Buffer {
 	return iconv.encode(text,'GBK');
 }
 
-function copyCover(name: string): boolean {
+function copyCover(task: Task): boolean {
+	let target = "build"
+	const name = task.name
 	if (fs.existsSync(DIR_TASKS + '/' + name + '/cover')) {
-		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + '/' + name + '/release/')) {
+		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + '/' + name + '/' + target + '/')) {
 			return false;
 		}
 	}

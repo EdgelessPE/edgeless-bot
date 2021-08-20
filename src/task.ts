@@ -592,15 +592,6 @@ async function processTask(
 			}
 
 			if (task.autoMake) {
-				if (!copyCover(task.name)) {
-					ret = new Interface({
-						status: Status.ERROR,
-						payload:
-							'Error:Can\'t copy cover for ' + task.name + ',skipping...',
-					});
-					break;
-				}
-
 				//自动制作分流
 				let autoMakeRes: boolean
 				if (task.externalScraper) {
@@ -623,15 +614,16 @@ async function processTask(
 					ret = iRM;
 					break;
 				}
+			}
 
-				if (!copyCover(task.name)) {
-					ret = new Interface({
-						status: Status.ERROR,
-						payload:
-							'Error:Can\'t copy cover for ' + task.name + ',skipping...',
-					});
-					break;
-				}
+			//复制Cover
+			if (!copyCover(task)) {
+				ret = new Interface({
+					status: Status.ERROR,
+					payload:
+						'Error:Can\'t copy cover for ' + task.name + ',skipping...',
+				});
+				break;
 			}
 
 			let BAD_database: DatabaseNode;

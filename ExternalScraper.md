@@ -25,7 +25,7 @@
 ```typescript
 interface ExternalScraperOptions {
     //配置策略,可为silent,manual
-    policy: string
+    policy?: string
     //是否需要解压安装包
     releaseInstaller?: boolean
     //更改静默安装参数，前面不需要留空格
@@ -55,7 +55,7 @@ interface ExternalScraperOptions {
 
 脚本需要自行引用需要的npm包或方法，我们提供了一些常用的引用示例
 
-```javascript
+```typescript
 //axios
 import axios from 'axios';
 
@@ -67,24 +67,6 @@ import sleep from '../../src/sleep';
 
 //格式化输出控制台，用法log("Info:This is a demo info message")，仅允许"Info"、"Warning"、"Error"三种开头
 import {log} from '../../src/utils';
-```
-
-## 自动制作
-
-自定义爬虫脚本的任务同样支持自动制作，默认生成的外置批处理会完成以下操作：
-
-1. 添加静默参数`/S`运行安装包
-2. 删除安装包
-
-你可以指定`externalScraperOptions`键来自定义自动制作的过程，值是一个Json对象：
-
-```typescript
-interface ExternalScraperOptions {
-    //更改静默安装参数，前面不需要留空格
-    silentArg: string,
-    //手动安装，如果启用此项则会在桌面上生成"安装TaskName"的快捷方式
-    manual: boolean
-}
 ```
 
 ## 示例

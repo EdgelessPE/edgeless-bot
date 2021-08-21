@@ -95,7 +95,7 @@ interface Script {
 
 interface ExternalScraperOptions {
 	//配置策略,可为silent,manual
-	policy: string
+	policy?: string
 	//是否需要解压安装包
 	releaseInstaller?: boolean
 	//更改静默安装参数，前面不需要留空格

@@ -1,0 +1,11 @@
+{
+    "name":"ChromeBeta",
+    "category":"浏览器",
+    "author":"Horatio Shaw",
+
+    "paUrl":"https://portableapps.com/apps/internet/google-chrome-portable-beta",
+    "releaseRequirement":["GoogleChromePortable.exe"],
+    "buildRequirement":["google_chromebeta_bot.wcs","GoogleChromePortableBeta/GoogleChromePortable.exe","GoogleChromePortableBeta/App/Chrome-bin/chrome.exe"],
+    "preprocess": false,
+    "autoMake": false
+}

@@ -34,6 +34,18 @@ function esConfigChecker(task: Task): boolean {
             log("Error:Unknown policy:" + options.policy)
             return false
         }
+    } else {
+        //脚本制作需要提供buildRequirements
+        if (task.buildRequirement == undefined) {
+            log("Error:Should provide buildRequirement as external scraper task with make.cmd")
+            return false
+        }
+    }
+
+    //如果需要释放则检查
+    if (options?.releaseInstaller && task.releaseRequirement == undefined) {
+        log("Error:Should provide releaseRequirement as external scraper task enabled release installer")
+        return false
     }
 
     //结束校验

@@ -7,11 +7,13 @@
 ### 通用
 
 这类任务的`config.json`需要将`externalScraper`键设置为`true`，并提供`externalScraperOptions`
-对象配置相应参数；不需要提供`["paUrl","releaseRequirement","buildRequirement","preprocess"]`
-这几个无效键
+对象配置相应参数；不需要提供`["paUrl","preprocess"]`这几个无效键
 
 此时，Bot默认不会尝试解压下载得到的文件；如果需要，请将`externalScraperOptions.releaseInstaller`键设置为`true`，则Bot会将文件解压至工作目录的`release`
 子目录中；此方法可帮助验证无MD5信息的源文件正确性
+
+如果不启用自动制作（`autoMake`），则需要提供`buildRequirement`键；如果启用了解压安装包（`externalScraperOptions.releaseInstaller`
+），则需要提供`releaseRequirement`键；否则这两个键可以省略
 
 ### 自动制作
 

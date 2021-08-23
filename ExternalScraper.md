@@ -71,4 +71,4 @@ import {log} from '../../src/utils';
 
 ## 示例
 
-请查看“QQ官方版”任务
+请查看“QQ” "TIM" "Wechat" "火绒安全"等任务

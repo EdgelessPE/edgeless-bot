@@ -104,6 +104,8 @@ interface ExternalScraperOptions {
 	compressLevel?: number
 	//静默安装结束后是否删除安装包，默认删除
 	silentDelete?: boolean
+	//手动安装时使用的快捷方式名
+	manualShortcutName?: string
 }
 
 // 数据库相关

@@ -208,7 +208,9 @@ function esAutoMake(task: Task): boolean {
             finalScript = execCommand + '\n' + delCommand
             break
         case "manual":
-            finalScript = "LINK X:\\Users\\Default\\Desktop\\安装" + task.name + ",X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe"
+            let scName = "安装" + task.name
+            if (task.externalScraperOptions?.manualShortcutName) scName = task.externalScraperOptions.manualShortcutName
+            finalScript = "LINK X:\\Users\\Default\\Desktop\\" + scName + ",X:\\Program Files\\Edgeless\\" + task.name + "_bot.exe"
             break
         default:
             log("Error:Internal error,meet unknown policy:" + task.externalScraperOptions?.policy)

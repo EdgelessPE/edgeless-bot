@@ -1,11 +1,12 @@
 {
-  "name": "火绒安全",
-  "category": "安全急救",
+  "name": "AnyDesk",
+  "category": "远程连接",
   "author": "Cno",
   "autoMake": true,
   "externalScraper": true,
   "externalScraperOptions": {
     "policy": "manual",
-    "manualShortcutName": "安装火绒"
+    "silentDelete": false,
+    "manualShortcutName": "AnyDesk"
   }
 }

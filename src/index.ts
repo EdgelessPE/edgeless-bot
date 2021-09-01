@@ -283,7 +283,7 @@ async function main() {
 	}
 
 	// 打印晴雨表
-	barometer(DB);
+	if (!args.hasOwnProperty("d")) barometer(DB);
 	console.log('=================================================');
 
 	// 写数据库

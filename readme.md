@@ -142,7 +142,7 @@ PortableApps URL，页面中必须包含一个绿色的下载按钮（className=
 #### launchArgs（可选）
 启动主程序时的参数
 
-### 编写脚本（*如果没有启用自动制作）
+### 编写脚本（*启用自动制作则不需要此环节）
 大部分的程序都可以直接使用`autoMake`选项自动制作（记得同时启用`preprocess`执行预处理），部分应用需要作者编写`make.cmd`以完成构建，例如在线版本的Chrome
 #### 流程
 和Edgeless插件包类似，`make.cmd`会在一个特定的目录中执行，称之为"Workshop"。Workshop的起始目录结构如下：
@@ -218,7 +218,7 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 为了让使用自动制作的Task也能完成简单的文件替换操作，我们允许你建立一个`cover`文件夹来存放对`release`目录的覆盖文件
 
 `cover`文件夹内的文件会在`make.cmd`或自动制作后覆盖至`build`文件夹
-```
+
 cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
 ## 测试

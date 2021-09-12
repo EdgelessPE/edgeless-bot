@@ -20,7 +20,7 @@
 当`autoMake`的值为`true`时（让Bot自动制作），必须指定`externalScraperOptions.policy`键用于配置策略，合法的值如下：
 
 * `silent`，此时的外置批处理策略为追加静默安装参数安装，然后删除安装包；可以通过`externalScraperOptions.silentArg`指定静默安装参数，缺省值为`/S`
-* `manual`，此时的外置批处理策略为在桌面生成"安装TaskName"的快捷方式
+* `manual`，此时的外置批处理策略为在桌面生成运行安装包的快捷方式；可以通过`externalScraperOptions.manualShortcutName`指定生成的快捷方式名称，缺省值为`安装TaskName`
 
 ### 选项
 
@@ -36,6 +36,8 @@ interface ExternalScraperOptions {
     compressLevel?: number
     //静默安装结束后是否删除安装包，默认删除
     silentDelete?: boolean
+    //手动安装时使用的快捷方式名
+    manualShortcutName?: string
 }
 ```
 

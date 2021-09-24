@@ -1,6 +1,6 @@
 import cp from 'child_process';
-import {ENABLE_REMOTE, IGNORE_REMOTE, REMOTE_NAME, REMOTE_ROOT, DIR_BUILDS} from './const';
-import {log,gbk} from './utils';
+import {DIR_BUILDS, ENABLE_REMOTE, IGNORE_REMOTE, REMOTE_NAME, REMOTE_ROOT} from './const';
+import {gbk, log} from './utils';
 
 function uploadToRemote(zname: string, category: string): boolean {
 	if (ENABLE_REMOTE) {
@@ -46,6 +46,7 @@ function deleteFromRemote(zname: string, category: string): boolean {
 			log('Error:Remote directory not exist:' + REMOTE_NAME + ':' + REMOTE_ROOT + '/' + category)
 			return false;
 		}
+		log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};gbk(buf)=${gbk(buf)},buf.toString()=${buf.toString()}`)
 		if(!gbk(buf).includes(zname)&&!buf.toString().includes(zname)){
 			log('Warning:Remote not exist file:'+zname+',ignore')
 			return true

@@ -14,12 +14,15 @@ async function init() {
     const $ = cheerio.load(html)
 
     //遍历下载页面的版本号Tags，找出最大的
-    let tags = $('.version-tag')
-    version = tags.first().text()
-    tags.toArray().forEach((e) => {
-        let ver = e.data
-        if (ver && ver > version) version = ver
-    })
+    // let tags = $('.version-tag')
+    // version = tags.first().text()
+    // tags.toArray().forEach((e) => {
+    //     let ver = e.data
+    //     if (ver && ver > version) version = ver
+    // })
+
+    //获取版本号
+    version = $('.download-version').text()
     console.log(version)
 
     //获取下载按钮DOM

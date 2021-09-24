@@ -263,6 +263,15 @@ async function awaitWithTimeout(closure: () => any, timeout: number): Promise<an
 	}))
 }
 
+function printMS(ms: number): string {
+	const s = ms / 1000
+	if (s < 60) {
+		return `${s} s`
+	} else {
+		return `${s / 60} min`
+	}
+}
+
 export {
 	log,
 	getMD5,
@@ -279,5 +288,6 @@ export {
 	copyCover,
 	isURL,
 	getSizeString,
-	awaitWithTimeout
+	awaitWithTimeout,
+	printMS
 };

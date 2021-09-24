@@ -29,18 +29,17 @@
     ]
   },
   "Firefox": {
-    "latestVersion": "92.0.0.0",
-    "builds": [],
+    "latestVersion": "92.0.1.0",
+    "builds": [
+      {
+        "version": "92.0.1.0",
+        "name": "Firefox_92.0.1.0_Cno（bot）.7z"
+      }
+    ],
     "recentStatus": [
       {
-        "time": 1632483211646,
-        "timeDescription": "Fri Sep 24 2021 11:33:31 GMT+0000 (Coordinated Universal Time)",
-        "success": false,
-        "errorMessage": "Error:Can't upload file Firefox_92.0.1.0_Cno（bot）.7z"
-      },
-      {
-        "time": 1632414054488,
-        "timeDescription": "Thu Sep 23 2021 16:20:54 GMT+0000 (Coordinated Universal Time)",
+        "time": 1632506033036,
+        "timeDescription": "Sat Sep 25 2021 01:53:53 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       },
@@ -49,6 +48,12 @@
         "timeDescription": "Fri Sep 24 2021 16:30:09 GMT+0000 (Coordinated Universal Time)",
         "success": false,
         "errorMessage": "Error:Can't upload file Firefox_92.0.1.0_Cno（bot）.7z"
+      },
+      {
+        "time": 1632506196988,
+        "timeDescription": "Sat Sep 25 2021 01:56:36 GMT+0800 (中国标准时间)",
+        "success": true,
+        "errorMessage": "Success"
       }
     ]
   },

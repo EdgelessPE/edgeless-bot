@@ -17,6 +17,7 @@ function uploadToRemote(zname: string, category: string): boolean {
 			);
 		} catch (err) {
 			console.log(err.output.toString());
+			date = new Date()
 			log(`Info:Cost ${printMS(date.getTime() - startTime)} before error occurred`)
 			// 尝试删除传了一半的文件
 			log('Info:Trying to delete broken uploaded file');
@@ -28,7 +29,7 @@ function uploadToRemote(zname: string, category: string): boolean {
 
 			return false;
 		}
-
+		date = new Date()
 		log(`Info:Uploaded successfully,cost ${printMS(date.getTime() - startTime)}`);
 	} else if (!IGNORE_REMOTE) {
 		log('Warning:Remote disabled,skip upload to remote');

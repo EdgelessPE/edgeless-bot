@@ -253,6 +253,16 @@ function copyCover(task: Task): boolean {
 	return true;
 }
 
+async function awaitWithTimeout(closure: () => any, timeout: number): Promise<any> {
+	return new Promise((async (resolve, reject) => {
+		setTimeout(() => {
+			reject("Error:External scraper init() timeout")
+		}, timeout)
+		let res = await closure()
+		resolve(res)
+	}))
+}
+
 export {
 	log,
 	getMD5,
@@ -268,5 +278,6 @@ export {
 	toGbk,
 	copyCover,
 	isURL,
-	getSizeString
+	getSizeString,
+	awaitWithTimeout
 };

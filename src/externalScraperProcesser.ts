@@ -1,6 +1,6 @@
 import {Interface, ScrapedInfo, Script, Task} from "./class";
 import {Status} from "./enum";
-import {formatVersion, isURL, log, matchVersion, toGbk} from "./utils"
+import {awaitWithTimeout, formatVersion, isURL, log, matchVersion, toGbk} from "./utils"
 import fs from "fs";
 import {DIR_TASKS, DIR_WORKSHOP} from "./const";
 
@@ -93,7 +93,8 @@ async function loadScript(task: Task): Promise<Interface<Script | string>> {
 async function executor(module: Script): Promise<Interface<ScrapedInfo | string>> {
     //初始化
     try {
-        await module.init()
+        //配置超时
+        await awaitWithTimeout(module.init, 6000)
     } catch (e) {
         return new Interface<string>({
             status: Status.ERROR,

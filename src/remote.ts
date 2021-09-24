@@ -46,7 +46,7 @@ function deleteFromRemote(zname: string, category: string): boolean {
 			log('Error:Remote directory not exist:' + REMOTE_NAME + ':' + REMOTE_ROOT + '/' + category)
 			return false;
 		}
-		log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};gbk(buf)=${gbk(buf)},buf.toString()=${buf.toString()}`)
+		log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};\n gbk(buf)=${gbk(buf)},\n buf.toString()=${buf.toString()}`)
 		if(!gbk(buf).includes(zname)&&!buf.toString().includes(zname)){
 			log('Warning:Remote not exist file:'+zname+',ignore')
 			return true

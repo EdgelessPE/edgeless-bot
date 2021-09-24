@@ -112,7 +112,7 @@ async function main() {
 				// 写数据库构建情况
 				dbNode.recentStatus.push({
 					time: Date.now(),
-					timeDescription: Date(),
+					timeDescription: Date().toString(),
 
 					success: false,
 					errorMessage: 'Error:Can\'t read ' + taskName + '\'s config:' + iRT.payload,

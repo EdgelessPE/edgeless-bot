@@ -5,6 +5,7 @@ import {Interface, PageInfo, ScrapedInfo, Task} from './class';
 import {Status} from './enum';
 import {formatVersion, log, matchVersion, parseDownloadUrl} from './utils';
 import sleep from './sleep';
+import {args} from "./index";
 
 async function fetchPage(url:string):Promise<Interface> {
 	log('Info:Start scraping page: ' + url);
@@ -167,16 +168,16 @@ async function scrapePage(
                                 + result.href,
 							);
 						} else {
-							log(
+							if (!args.hasOwnProperty("g")) log(
 								'Warning:Simplified chinese version not found,use English version',
 							);
 						}
 					} else {
-						log('Warning:Localizations table not found,use English version');
+						if (!args.hasOwnProperty("g")) log('Warning:Localizations table not found,use English version');
 					}
 				} else {
 					log(
-						'Warning:Detected minority language application,check the default language of '
+						'Warning:Minority language application detected,check the default language of '
                         + url,
 					);
 				}

@@ -266,9 +266,9 @@ async function awaitWithTimeout(closure: () => any, timeout: number): Promise<an
 function printMS(ms: number): string {
 	const s = ms / 1000
 	if (s < 60) {
-		return `${s} s`
+		return `${s.toFixed(1)} s`
 	} else {
-		return `${s / 60} min`
+		return `${(s / 60).toFixed(1)} min`
 	}
 }
 

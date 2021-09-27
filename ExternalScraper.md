@@ -49,7 +49,7 @@ interface ExternalScraperOptions {
 
 此脚本需要实现三个方法：`await init()` `getVersion():string`和`getDownloadLink():string`，分别用于初始化、获取最新版本号、获取下载链接；
 
-我们推荐在`await init()`中完成爬取工作并将结果或中间数据缓存，并将`getXXX()`方法的逻辑改为直接返回缓存
+你需要在`await init()`中完成爬取工作并将结果或中间数据缓存，并将`getXXX()`方法的逻辑改为直接返回缓存
 
 `getVersion():string`允许返回包含版本号的文本，例如`QQ PC版9.4.9`，Bot会自动匹配其中的版本号
 
@@ -66,7 +66,7 @@ import axios from 'axios';
 //cheerio，jQurey的DOM部分实现
 import cheerio from 'cheerio';
 
-//延时函数，用法sleep(1000)
+//延时函数，用法await sleep(1000)
 import sleep from '../../src/sleep';
 
 //格式化输出控制台，用法log("Info:This is a demo info message")，仅允许"Info"、"Warning"、"Error"三种开头

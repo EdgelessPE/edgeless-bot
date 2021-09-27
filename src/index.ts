@@ -313,5 +313,6 @@ main().catch(e => {
 	})
 	sleep(1000).then(() => {
 		cp.execSync('TASKKILL /F /IM aria2c.exe /T')
+		process.exit(0)
 	})
 });

@@ -19,6 +19,8 @@ import {beforeRunCheck, cleanWorkshop, find7zip} from './init';
 import {aria2, getTasks, processTask, readTaskConfig, spawnAria2} from './task';
 import {DIR_TASKS} from './const';
 import {barometer} from './barometer';
+import cp from "child_process";
+import sleep from "./sleep";
 
 export const args = minimist(process.argv.slice(2));
 
@@ -295,7 +297,8 @@ async function main() {
 
 	// 停止aria2进程
 	await aria2.forceShutdown();
-	log('Info:Aria2 assassinated,exit');
+	cp.execSync('TASKKILL /F /IM aria2c.exe /T')
+	log('Info:Aria2 assassinated,exit')
 
 	// 如果Actions全局执行出现问题则在此处抛出
 	if (args.hasOwnProperty('g') && !args.hasOwnProperty('t') && failureTasks.length > 0) {
@@ -304,5 +307,11 @@ async function main() {
 }
 
 main().catch(e => {
-	throw e;
+	console.log(e)
+	aria2.forceShutdown().then(() => {
+		cp.execSync('TASKKILL /F /IM aria2c.exe /T')
+	})
+	sleep(1000).then(() => {
+		cp.execSync('TASKKILL /F /IM aria2c.exe /T')
+	})
 });

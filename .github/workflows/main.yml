@@ -33,14 +33,11 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 安装依赖
-      - name: Install Dependencies
+      - name: Install dependencies
         run: yarn
-
-      - name: Build Scripts
-        run: yarn build
       
-      # 构建任务
-      - name: Run Scripts
+      # 运行构建任务
+      - name: Run scripts
         run: yarn serve -g
 
       # 回传数据库

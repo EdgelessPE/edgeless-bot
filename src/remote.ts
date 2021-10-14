@@ -13,7 +13,7 @@ function uploadToRemote(zname: string, category: string): boolean {
 			log('Info:Uploading ' + zname);
 			cp.execSync(
 				'rclone copy "' + localPath + '" ' + REMOTE_NAME + ':' + remotePath,
-				{timeout: 1200000},
+				{timeout: 3600000},
 			);
 		} catch (err) {
 			console.log(err.output.toString());

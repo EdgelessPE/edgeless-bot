@@ -17,10 +17,10 @@ async function init() {
     console.log(version)
 
     //获取下载按钮DOM
-    let download_box = $('#download-button')
-    console.log(download_box.contents())
+    // let download_box = $('#download-button')
     //获取下载链接
-    url = download_box.attr('href') as string
+    // url = download_box.attr('href') as string
+    url = "https://download.anydesk.com/AnyDesk.exe"
     console.log(url)
 }
 

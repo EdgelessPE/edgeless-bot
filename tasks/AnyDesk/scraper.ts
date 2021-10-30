@@ -18,6 +18,7 @@ async function init() {
 
     //获取下载按钮DOM
     let download_box = $('#download-button')
+    console.log(download_box.contents())
     //获取下载链接
     url = download_box.attr('href') as string
     console.log(url)

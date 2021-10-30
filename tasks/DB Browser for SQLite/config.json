@@ -1,0 +1,11 @@
+{
+    "name":"DB Browser for SQLite",
+    "category":"办公编辑",
+    "author":"Horatio Shaw",
+
+    "paUrl":"https://portableapps.com/apps/development/sqlite_database_browser_portable",
+    "releaseRequirement":["SQLiteDatabaseBrowserPortable.exe","App/SQLiteDatabaseBrowser64/DB Browser for SQLite.exe"],
+    "buildRequirement": ["DB Browser for SQLite_bot.wcs","DB Browser for SQLite_bot/SQLiteDatabaseBrowserPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

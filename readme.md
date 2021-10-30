@@ -57,13 +57,55 @@
   ]
 }
 ```
-## 使用
+## 提交Pull requests
 ```sh
 # 安装依赖
 yarn nodejs git 
 ```
 ### 将仓库Fork至你的账户中
 <img src="https://p.443.fyi/images/2021/10/30/2021-10-30-18.41.27.png" alt="2021-10-30-18.41.27.png" border="0" />
+
+### 找到刚刚Fork的仓库
+<img src="https://p.443.fyi/images/2021/10/30/2021-10-30-19.02.04.png" alt="2021-10-30-19.02.04.png" border="0" />
+
+### 复制链接
+<img src="https://p.443.fyi/images/2021/10/30/2021-10-30-19.03.43.png" alt="2021-10-30-19.03.43.png" border="0" />
+
+### 打开PowerShell输入
+```sh
+git clone 刚刚复制的链接
+```
+
+### cd 至项目目录
+
+### 修改内容后将这些变更加入到分支
+```sh
+git add .
+```
+
+### 使用  git commit  提交这些变更:
+```sh
+git commit -m "描述"
+```
+
+### 把变更内容推送给到GitHub
+#### 在推送变更之前先确认远程库的名称。
+```sh
+git remote
+```
+<img src="https://p.443.fyi/images/2021/10/30/2021-10-30-19.16.15.png" alt="2021-10-30-19.16.15.png" border="0" />
+
+### 确认了远程库的名称之后，把变更推送到GitHub。
+```sh
+git push 远程库名称
+```
+
+### 在你Fork的仓库中进入Pull requests点击“Compare pull request”按钮
+
+## 使用
+```sh
+# 安装依赖
+yarn
 
 # 运行全部 Tasks
 yarn serve

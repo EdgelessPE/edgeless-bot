@@ -62,7 +62,7 @@
 # 安装依赖
 yarn nodejs git 
 ```
-# 将仓库Fock至你的账户中
+### 将仓库Fork至你的账户中
 <img src="https://p.443.fyi/images/2021/10/30/2021-10-30-18.41.27.png" alt="2021-10-30-18.41.27.png" border="0" />
 
 # 运行全部 Tasks

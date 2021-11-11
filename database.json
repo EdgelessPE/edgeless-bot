@@ -9,49 +9,49 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783044540,
-        "timeDescription": "Mon Nov 01 2021 16:10:44 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474177010,
+        "timeDescription": "Tue Nov 09 2021 16:09:37 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696439070,
-        "timeDescription": "Sun Oct 31 2021 16:07:19 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387665751,
+        "timeDescription": "Mon Nov 08 2021 16:07:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869266088,
-        "timeDescription": "Tue Nov 02 2021 16:07:46 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560474636,
+        "timeDescription": "Wed Nov 10 2021 16:07:54 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "Firefox": {
-    "latestVersion": "93.0.0.0",
+    "latestVersion": "94.0.1.0",
     "builds": [
       {
-        "version": "93.0.0.0",
-        "name": "Firefox_93.0.0.0_Cno（bot）.7z"
+        "version": "94.0.1.0",
+        "name": "Firefox_94.0.1.0_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1635783047955,
-        "timeDescription": "Mon Nov 01 2021 16:10:47 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179439,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696446554,
-        "timeDescription": "Sun Oct 31 2021 16:07:26 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387672351,
+        "timeDescription": "Mon Nov 08 2021 16:07:52 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869271306,
-        "timeDescription": "Tue Nov 02 2021 16:07:51 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560480908,
+        "timeDescription": "Wed Nov 10 2021 16:08:00 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -67,20 +67,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783046316,
-        "timeDescription": "Mon Nov 01 2021 16:10:46 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474178398,
+        "timeDescription": "Tue Nov 09 2021 16:09:38 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696442005,
-        "timeDescription": "Sun Oct 31 2021 16:07:22 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387668263,
+        "timeDescription": "Mon Nov 08 2021 16:07:48 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869268815,
-        "timeDescription": "Tue Nov 02 2021 16:07:48 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560477983,
+        "timeDescription": "Wed Nov 10 2021 16:07:57 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -96,20 +96,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783047872,
-        "timeDescription": "Mon Nov 01 2021 16:10:47 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179374,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696446125,
-        "timeDescription": "Sun Oct 31 2021 16:07:26 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387671887,
+        "timeDescription": "Mon Nov 08 2021 16:07:51 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869270887,
-        "timeDescription": "Tue Nov 02 2021 16:07:50 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560480483,
+        "timeDescription": "Wed Nov 10 2021 16:08:00 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -125,20 +125,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783048490,
-        "timeDescription": "Mon Nov 01 2021 16:10:48 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179503,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696446974,
-        "timeDescription": "Sun Oct 31 2021 16:07:26 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387672788,
+        "timeDescription": "Mon Nov 08 2021 16:07:52 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869271729,
-        "timeDescription": "Tue Nov 02 2021 16:07:51 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560481710,
+        "timeDescription": "Wed Nov 10 2021 16:08:01 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -154,20 +154,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783052227,
-        "timeDescription": "Mon Nov 01 2021 16:10:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179951,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696451363,
-        "timeDescription": "Sun Oct 31 2021 16:07:31 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387676973,
+        "timeDescription": "Mon Nov 08 2021 16:07:56 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869295030,
-        "timeDescription": "Tue Nov 02 2021 16:08:15 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560484222,
+        "timeDescription": "Wed Nov 10 2021 16:08:04 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -183,20 +183,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783053519,
-        "timeDescription": "Mon Nov 01 2021 16:10:53 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474180724,
+        "timeDescription": "Tue Nov 09 2021 16:09:40 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696453149,
-        "timeDescription": "Sun Oct 31 2021 16:07:33 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387678815,
+        "timeDescription": "Mon Nov 08 2021 16:07:58 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869296975,
-        "timeDescription": "Tue Nov 02 2021 16:08:16 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560485900,
+        "timeDescription": "Wed Nov 10 2021 16:08:05 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -212,20 +212,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783295429,
-        "timeDescription": "Mon Nov 01 2021 16:14:55 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474184814,
+        "timeDescription": "Tue Nov 09 2021 16:09:44 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696460363,
-        "timeDescription": "Sun Oct 31 2021 16:07:40 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387685586,
+        "timeDescription": "Mon Nov 08 2021 16:08:05 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869301441,
-        "timeDescription": "Tue Nov 02 2021 16:08:21 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560491747,
+        "timeDescription": "Wed Nov 10 2021 16:08:11 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -241,20 +241,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783297625,
-        "timeDescription": "Mon Nov 01 2021 16:14:57 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474185843,
+        "timeDescription": "Tue Nov 09 2021 16:09:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696462666,
-        "timeDescription": "Sun Oct 31 2021 16:07:42 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387688148,
+        "timeDescription": "Mon Nov 08 2021 16:08:08 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869303357,
-        "timeDescription": "Tue Nov 02 2021 16:08:23 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560494296,
+        "timeDescription": "Wed Nov 10 2021 16:08:14 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -270,20 +270,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783298748,
-        "timeDescription": "Mon Nov 01 2021 16:14:58 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474185948,
+        "timeDescription": "Tue Nov 09 2021 16:09:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696463478,
-        "timeDescription": "Sun Oct 31 2021 16:07:43 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387689367,
+        "timeDescription": "Mon Nov 08 2021 16:08:09 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869304126,
-        "timeDescription": "Tue Nov 02 2021 16:08:24 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560496042,
+        "timeDescription": "Wed Nov 10 2021 16:08:16 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -299,20 +299,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783299491,
-        "timeDescription": "Mon Nov 01 2021 16:14:59 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474186006,
+        "timeDescription": "Tue Nov 09 2021 16:09:46 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696464363,
-        "timeDescription": "Sun Oct 31 2021 16:07:44 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387689773,
+        "timeDescription": "Mon Nov 08 2021 16:08:09 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869305058,
-        "timeDescription": "Tue Nov 02 2021 16:08:25 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560496434,
+        "timeDescription": "Wed Nov 10 2021 16:08:16 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -332,20 +332,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783046373,
-        "timeDescription": "Mon Nov 01 2021 16:10:46 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474178487,
+        "timeDescription": "Tue Nov 09 2021 16:09:38 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696442779,
-        "timeDescription": "Sun Oct 31 2021 16:07:22 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387669143,
+        "timeDescription": "Mon Nov 08 2021 16:07:49 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869269194,
-        "timeDescription": "Tue Nov 02 2021 16:07:49 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560478400,
+        "timeDescription": "Wed Nov 10 2021 16:07:58 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -361,20 +361,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783047804,
-        "timeDescription": "Mon Nov 01 2021 16:10:47 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179295,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696445719,
-        "timeDescription": "Sun Oct 31 2021 16:07:25 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387671468,
+        "timeDescription": "Mon Nov 08 2021 16:07:51 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869270481,
-        "timeDescription": "Tue Nov 02 2021 16:07:50 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560480111,
+        "timeDescription": "Wed Nov 10 2021 16:08:00 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -390,20 +390,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783049075,
-        "timeDescription": "Mon Nov 01 2021 16:10:49 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179561,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696447387,
-        "timeDescription": "Sun Oct 31 2021 16:07:27 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387673227,
+        "timeDescription": "Mon Nov 08 2021 16:07:53 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869272104,
-        "timeDescription": "Tue Nov 02 2021 16:07:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560482102,
+        "timeDescription": "Wed Nov 10 2021 16:08:02 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -448,20 +448,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783292146,
-        "timeDescription": "Mon Nov 01 2021 16:14:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474182005,
+        "timeDescription": "Tue Nov 09 2021 16:09:42 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696455448,
-        "timeDescription": "Sun Oct 31 2021 16:07:35 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387681340,
+        "timeDescription": "Mon Nov 08 2021 16:08:01 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869299004,
-        "timeDescription": "Tue Nov 02 2021 16:08:19 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560487425,
+        "timeDescription": "Wed Nov 10 2021 16:08:07 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -477,20 +477,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783052891,
-        "timeDescription": "Mon Nov 01 2021 16:10:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474180651,
+        "timeDescription": "Tue Nov 09 2021 16:09:40 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696452198,
-        "timeDescription": "Sun Oct 31 2021 16:07:32 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387677883,
+        "timeDescription": "Mon Nov 08 2021 16:07:57 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869296026,
-        "timeDescription": "Tue Nov 02 2021 16:08:16 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560485083,
+        "timeDescription": "Wed Nov 10 2021 16:08:05 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -506,20 +506,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783292915,
-        "timeDescription": "Mon Nov 01 2021 16:14:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474182566,
+        "timeDescription": "Tue Nov 09 2021 16:09:42 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696457140,
-        "timeDescription": "Sun Oct 31 2021 16:07:37 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387682669,
+        "timeDescription": "Mon Nov 08 2021 16:08:02 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869299866,
-        "timeDescription": "Tue Nov 02 2021 16:08:19 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560488572,
+        "timeDescription": "Wed Nov 10 2021 16:08:08 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -535,20 +535,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783300879,
-        "timeDescription": "Mon Nov 01 2021 16:15:00 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474187286,
+        "timeDescription": "Tue Nov 09 2021 16:09:47 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696465635,
-        "timeDescription": "Sun Oct 31 2021 16:07:45 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387691101,
+        "timeDescription": "Mon Nov 08 2021 16:08:11 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869306438,
-        "timeDescription": "Tue Nov 02 2021 16:08:26 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560533844,
+        "timeDescription": "Wed Nov 10 2021 16:08:53 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -564,20 +564,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783050257,
-        "timeDescription": "Mon Nov 01 2021 16:10:50 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179677,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696448838,
-        "timeDescription": "Sun Oct 31 2021 16:07:28 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387674694,
+        "timeDescription": "Mon Nov 08 2021 16:07:54 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869293635,
-        "timeDescription": "Tue Nov 02 2021 16:08:13 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560482974,
+        "timeDescription": "Wed Nov 10 2021 16:08:02 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -593,20 +593,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783051713,
-        "timeDescription": "Mon Nov 01 2021 16:10:51 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179855,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696450954,
-        "timeDescription": "Sun Oct 31 2021 16:07:30 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387676574,
+        "timeDescription": "Mon Nov 08 2021 16:07:56 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869294557,
-        "timeDescription": "Tue Nov 02 2021 16:08:14 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560483828,
+        "timeDescription": "Wed Nov 10 2021 16:08:03 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -622,20 +622,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783290798,
-        "timeDescription": "Mon Nov 01 2021 16:14:50 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474180802,
+        "timeDescription": "Tue Nov 09 2021 16:09:40 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696453558,
-        "timeDescription": "Sun Oct 31 2021 16:07:33 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387679718,
+        "timeDescription": "Mon Nov 08 2021 16:07:59 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869297394,
-        "timeDescription": "Tue Nov 02 2021 16:08:17 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560486304,
+        "timeDescription": "Wed Nov 10 2021 16:08:06 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -651,20 +651,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783046884,
-        "timeDescription": "Mon Nov 01 2021 16:10:46 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474178568,
+        "timeDescription": "Tue Nov 09 2021 16:09:38 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696443759,
-        "timeDescription": "Sun Oct 31 2021 16:07:23 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387669538,
+        "timeDescription": "Mon Nov 08 2021 16:07:49 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869269631,
-        "timeDescription": "Tue Nov 02 2021 16:07:49 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560478831,
+        "timeDescription": "Wed Nov 10 2021 16:07:58 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -680,49 +680,49 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783292254,
-        "timeDescription": "Mon Nov 01 2021 16:14:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474182057,
+        "timeDescription": "Tue Nov 09 2021 16:09:42 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696456242,
-        "timeDescription": "Sun Oct 31 2021 16:07:36 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387681763,
+        "timeDescription": "Mon Nov 08 2021 16:08:01 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869299435,
-        "timeDescription": "Tue Nov 02 2021 16:08:19 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560487810,
+        "timeDescription": "Wed Nov 10 2021 16:08:07 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "WizTree": {
-    "latestVersion": "4.03.0.0",
+    "latestVersion": "4.04.0.0",
     "builds": [
       {
-        "version": "4.03.0.0",
-        "name": "WizTree_4.03.0.0_Horatio Shaw（bot）.7z"
+        "version": "4.04.0.0",
+        "name": "WizTree_4.04.0.0_Horatio Shaw（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1635783298196,
-        "timeDescription": "Mon Nov 01 2021 16:14:58 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474185893,
+        "timeDescription": "Tue Nov 09 2021 16:09:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696463083,
-        "timeDescription": "Sun Oct 31 2021 16:07:43 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387688539,
+        "timeDescription": "Mon Nov 08 2021 16:08:08 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869303742,
-        "timeDescription": "Tue Nov 02 2021 16:08:23 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560495168,
+        "timeDescription": "Wed Nov 10 2021 16:08:15 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -738,20 +738,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783297030,
-        "timeDescription": "Mon Nov 01 2021 16:14:57 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474185786,
+        "timeDescription": "Tue Nov 09 2021 16:09:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696461850,
-        "timeDescription": "Sun Oct 31 2021 16:07:41 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387687219,
+        "timeDescription": "Mon Nov 08 2021 16:08:07 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869302946,
-        "timeDescription": "Tue Nov 02 2021 16:08:22 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560493205,
+        "timeDescription": "Wed Nov 10 2021 16:08:13 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -767,20 +767,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783044104,
-        "timeDescription": "Mon Nov 01 2021 16:10:44 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474061634,
+        "timeDescription": "Tue Nov 09 2021 16:07:41 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696437734,
-        "timeDescription": "Sun Oct 31 2021 16:07:17 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387664003,
+        "timeDescription": "Mon Nov 08 2021 16:07:44 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869264419,
-        "timeDescription": "Tue Nov 02 2021 16:07:44 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560472923,
+        "timeDescription": "Wed Nov 10 2021 16:07:52 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -796,78 +796,78 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783049591,
-        "timeDescription": "Mon Nov 01 2021 16:10:49 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179622,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696448412,
-        "timeDescription": "Sun Oct 31 2021 16:07:28 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387674259,
+        "timeDescription": "Mon Nov 08 2021 16:07:54 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869293178,
-        "timeDescription": "Tue Nov 02 2021 16:08:13 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560482528,
+        "timeDescription": "Wed Nov 10 2021 16:08:02 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "火绒安全": {
-    "latestVersion": "5.0.64.2",
+    "latestVersion": "5.0.64.3",
     "builds": [
       {
-        "version": "5.0.64.2",
-        "name": "火绒安全_5.0.64.2_Cno（bot）.7z"
+        "version": "5.0.64.3",
+        "name": "火绒安全_5.0.64.3_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1635783300818,
-        "timeDescription": "Mon Nov 01 2021 16:15:00 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474187233,
+        "timeDescription": "Tue Nov 09 2021 16:09:47 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696465254,
-        "timeDescription": "Sun Oct 31 2021 16:07:45 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387690708,
+        "timeDescription": "Mon Nov 08 2021 16:08:10 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869306033,
-        "timeDescription": "Tue Nov 02 2021 16:08:26 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560533446,
+        "timeDescription": "Wed Nov 10 2021 16:08:53 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "QQ": {
-    "latestVersion": "9.5.1.0",
+    "latestVersion": "9.5.2.0",
     "builds": [
       {
-        "version": "9.5.1.0",
-        "name": "QQ_9.5.1.0_Cno（bot）.7z"
+        "version": "9.5.2.0",
+        "name": "QQ_9.5.2.0_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1635783292009,
-        "timeDescription": "Mon Nov 01 2021 16:14:52 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474181924,
+        "timeDescription": "Tue Nov 09 2021 16:09:41 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696454418,
-        "timeDescription": "Sun Oct 31 2021 16:07:34 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387680458,
+        "timeDescription": "Mon Nov 08 2021 16:08:00 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869298103,
-        "timeDescription": "Tue Nov 02 2021 16:08:18 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560487023,
+        "timeDescription": "Wed Nov 10 2021 16:08:07 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -883,20 +883,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783294630,
-        "timeDescription": "Mon Nov 01 2021 16:14:54 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474184329,
+        "timeDescription": "Tue Nov 09 2021 16:09:44 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696459410,
-        "timeDescription": "Sun Oct 31 2021 16:07:39 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387684224,
+        "timeDescription": "Mon Nov 08 2021 16:08:04 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869300580,
-        "timeDescription": "Tue Nov 02 2021 16:08:20 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560489606,
+        "timeDescription": "Wed Nov 10 2021 16:08:09 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -912,20 +912,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783296439,
-        "timeDescription": "Mon Nov 01 2021 16:14:56 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474185734,
+        "timeDescription": "Tue Nov 09 2021 16:09:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696461036,
-        "timeDescription": "Sun Oct 31 2021 16:07:41 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387686279,
+        "timeDescription": "Mon Nov 08 2021 16:08:06 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869302132,
-        "timeDescription": "Tue Nov 02 2021 16:08:22 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560492434,
+        "timeDescription": "Wed Nov 10 2021 16:08:12 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -941,51 +941,51 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783050930,
-        "timeDescription": "Mon Nov 01 2021 16:10:50 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179767,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696450031,
-        "timeDescription": "Sun Oct 31 2021 16:07:30 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387675592,
+        "timeDescription": "Mon Nov 08 2021 16:07:55 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869294131,
-        "timeDescription": "Tue Nov 02 2021 16:08:14 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560483401,
+        "timeDescription": "Wed Nov 10 2021 16:08:03 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "ChromeBeta": {
-    "latestVersion": "96.0.4664.27",
+    "latestVersion": "96.0.4664.35",
     "builds": [
       {
-        "version": "96.0.4664.27",
-        "name": "ChromeBeta_96.0.4664.27_Horatio Shaw（bot）.7z"
+        "version": "96.0.4664.35",
+        "name": "ChromeBeta_96.0.4664.35_Horatio Shaw（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1635783045152,
-        "timeDescription": "Mon Nov 01 2021 16:10:45 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474177685,
+        "timeDescription": "Tue Nov 09 2021 16:09:37 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696440063,
-        "timeDescription": "Sun Oct 31 2021 16:07:20 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387666794,
+        "timeDescription": "Mon Nov 08 2021 16:07:46 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869267081,
-        "timeDescription": "Tue Nov 02 2021 16:07:47 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1636560476036,
+        "timeDescription": "Wed Nov 10 2021 16:07:56 GMT+0000 (Coordinated Universal Time)",
+        "success": false,
+        "errorMessage": "Error:Downloading ChromeBeta failed,skipping..."
       }
     ]
   },
@@ -999,49 +999,49 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783045775,
-        "timeDescription": "Mon Nov 01 2021 16:10:45 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474178327,
+        "timeDescription": "Tue Nov 09 2021 16:09:38 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696441050,
-        "timeDescription": "Sun Oct 31 2021 16:07:21 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387667827,
+        "timeDescription": "Mon Nov 08 2021 16:07:47 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869267983,
-        "timeDescription": "Tue Nov 02 2021 16:07:47 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560477052,
+        "timeDescription": "Wed Nov 10 2021 16:07:57 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
     ]
   },
   "AnyDesk": {
-    "latestVersion": "6.3.3.0",
+    "latestVersion": "6.3.5.0",
     "builds": [
       {
-        "version": "6.3.3.0",
-        "name": "AnyDesk_6.3.3.0_Cno（bot）.7z"
+        "version": "6.3.5.0",
+        "name": "AnyDesk_6.3.5.0_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
       {
-        "time": 1635783044388,
-        "timeDescription": "Mon Nov 01 2021 16:10:44 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474176920,
+        "timeDescription": "Tue Nov 09 2021 16:09:36 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696438651,
-        "timeDescription": "Sun Oct 31 2021 16:07:18 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387665301,
+        "timeDescription": "Mon Nov 08 2021 16:07:45 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869265670,
-        "timeDescription": "Tue Nov 02 2021 16:07:45 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560474230,
+        "timeDescription": "Wed Nov 10 2021 16:07:54 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }
@@ -1057,22 +1057,22 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783295339,
-        "timeDescription": "Mon Nov 01 2021 16:14:55 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474184759,
+        "timeDescription": "Tue Nov 09 2021 16:09:44 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696459962,
-        "timeDescription": "Sun Oct 31 2021 16:07:39 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387684701,
+        "timeDescription": "Mon Nov 08 2021 16:08:04 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869301014,
-        "timeDescription": "Tue Nov 02 2021 16:08:21 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
+        "time": 1636560491364,
+        "timeDescription": "Wed Nov 10 2021 16:08:11 GMT+0000 (Coordinated Universal Time)",
+        "success": false,
+        "errorMessage": "Error:Function getDownloadLink() returned error type,expected string,got:undefined,value:undefined"
       }
     ]
   },
@@ -1086,20 +1086,20 @@
     ],
     "recentStatus": [
       {
-        "time": 1635783047342,
-        "timeDescription": "Mon Nov 01 2021 16:10:47 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636474179237,
+        "timeDescription": "Tue Nov 09 2021 16:09:39 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635696444787,
-        "timeDescription": "Sun Oct 31 2021 16:07:24 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636387670538,
+        "timeDescription": "Mon Nov 08 2021 16:07:50 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       },
       {
-        "time": 1635869270086,
-        "timeDescription": "Tue Nov 02 2021 16:07:50 GMT+0000 (Coordinated Universal Time)",
+        "time": 1636560479195,
+        "timeDescription": "Wed Nov 10 2021 16:07:59 GMT+0000 (Coordinated Universal Time)",
         "success": true,
         "errorMessage": "Success"
       }

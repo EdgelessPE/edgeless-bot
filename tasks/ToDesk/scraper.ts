@@ -16,15 +16,8 @@ async function init() {
     version = tags.first().text()
     console.log(version)
 
-    //获得下载页面
-    axiosResponse = await axios.get("https://www.todesk.com/download.html")
-    html = axiosResponse.data as string
-    //挂载页面
-    $ = cheerio.load(html)
-    //获取下载按钮DOM
-    let download_box = $('.simple').prev("a")
     //获取下载链接
-    url = download_box.attr('href') as string
+    url = "https://dl.todesk.com/windows/ToDesk_Setup.exe"
     console.log(url)
 }
 

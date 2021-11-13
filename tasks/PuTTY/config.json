@@ -1,7 +1,7 @@
 {
     "name": "PuTTY",
     "category": "远程连接",
-    "author": "Undefined",
+    "author": "undefined",
 
     "paUrl": "https://portableapps.com/apps/internet/putty_portable",
     "releaseRequirement": ["PuTTYPortable.exe", "App/putty/PAGEANT.EXE", "App/putty/PLINK.EXE", "App/putty/PSCP.EXE","App/putty/PSFTP.EXE", "App/putty/PUTTY.EXE", "App/putty/PUTTYGEN.EXE"],

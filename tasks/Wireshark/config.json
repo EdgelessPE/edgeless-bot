@@ -1,7 +1,7 @@
 {
     "name": "Wireshark",
     "category": "开发辅助",
-    "author": "Undefined",
+    "author": "undefined",
 
     "externalScraper": true,
     "externalScraperOptions":{

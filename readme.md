@@ -82,7 +82,7 @@ debug模式，此模式下的远程操作会被自动禁用，且数据库不会
 GitHub Actions模式
 ## 开发
 ### 创建任务
-为了创建一个任务，你需要提供一个名为`config.json`的文件，结构如下：
+为了创建一个任务，你需要在`tasks`目录下的软件名文件夹中提供一个名为`config.json`的文件，结构如下：
 ```typescript
 interface Task {
     name: string; //软件名（也作为任务名）
@@ -113,7 +113,7 @@ interface Task {
 ```
 释义：
 #### name
-软件名称，会体现在构建生成文件的文件名中
+软件名称，会体现在构建生成文件的文件名中，**这个名称必须与文件夹名称一致**
 #### category
 软件分类，必须是Edgeless下载站现有分类中的一种，如果觉得需要新建分类请建立issue
 #### author

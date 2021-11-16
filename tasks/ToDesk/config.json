@@ -2,10 +2,17 @@
   "name": "ToDesk",
   "category": "远程连接",
   "author": "Cno",
-  "autoMake": true,
+  "autoMake": false,
   "externalScraper": true,
+  "buildRequirement": [
+    "ToDesk_bot/ToDesk.exe",
+    "ToDesk_bot.wcs"
+  ],
+  "releaseRequirement": [
+    "app.7z"
+  ],
   "externalScraperOptions": {
-    "policy": "silent",
-    "silentDelete": false
+    "releaseInstaller": true,
+    "compressLevel": 5
   }
 }

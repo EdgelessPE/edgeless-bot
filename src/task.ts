@@ -310,7 +310,7 @@ async function getWorkDirReady(
 	});
 } // Interface:string
 
-async function runMakeScript(name: string): Promise<Interface> {
+async function runMakeScript(name: string, p7zip: string): Promise<Interface> {
 	return new Promise<Interface>(resolve => {
 		// 校验是否存在make.cmd
 		if (!fs.existsSync(DIR_WORKSHOP + '/' + name + '/make.cmd')) {
@@ -324,7 +324,13 @@ async function runMakeScript(name: string): Promise<Interface> {
 
 		// 启动make.cmd进程
 		try {
-			cp.execSync('make.cmd>make.log', {cwd: DIR_WORKSHOP + '/' + name, timeout: 600000});
+			cp.execSync('make.cmd>make.log', {
+				cwd: DIR_WORKSHOP + '/' + name,
+				timeout: 600000,
+				env: {
+					"p7zip": p7zip
+				}
+			});
 		} catch {
 			if (fs.existsSync(DIR_WORKSHOP + '/' + name + '/make.log')) {
 				console.log('console output=======================');
@@ -616,7 +622,7 @@ async function processTask(
 					break;
 				}
 			} else {
-				const iRM = await runMakeScript(task.name);
+				const iRM = await runMakeScript(task.name, p7zip);
 				if (iRM.status === Status.ERROR) {
 					ret = iRM;
 					break;

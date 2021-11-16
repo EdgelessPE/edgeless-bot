@@ -210,11 +210,19 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
    └─Firefox_bot
        └─*
 ```
+
 显然将此目录中的所有内容压缩成.7z压缩包即可完成插件包的制作，而`make.cmd`不需要完成压缩这一步，Edgeless bot会在验收完成之后将其压缩并完成后续工作
 
 > 更复杂一些的在线版Chrome的`make.cmd`可以 [查看此处](https://github.com/Cnotech/edgeless-bot/blob/master/tasks/Chrome/make.cmd) ，涉及了按键模拟、utils内工具调用等
 
+#### 环境变量
+
+执行 `make.cmd` 时我们会提供一些可用的环境变量以帮助运行你的脚本：
+
+- p7zip ：7-Zip可执行文件路径，调用前注意用双引号包裹，示例：`C:\Program Files\7-Zip\7z.exe`
+
 ### 替换
+
 为了让使用自动制作的Task也能完成简单的文件替换操作，我们允许你建立一个`cover`文件夹来存放对`release`目录的覆盖文件
 
 `cover`文件夹内的文件会在`make.cmd`或自动制作后覆盖至`build`文件夹
@@ -222,6 +230,7 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 
 ## 测试
+
 运行以下命令来测试你新增的任务：
 ```
 yarn dev -d -t TaskName

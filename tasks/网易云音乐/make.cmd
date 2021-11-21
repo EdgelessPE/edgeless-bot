@@ -1,11 +1,11 @@
 @echo off
 
-::É¾³ýÀ¬»ø
+::åˆ é™¤åžƒåœ¾
 del /f /s /q .\release\$PLUGINSDIR
 rd /s /q .\release\$PLUGINSDIR
 
-::ÒÆ¶¯
+::ç§»åŠ¨
 move /y .\release .\build\NetEaseCloud_bot
 
-::Éú³ÉÍâÖÃÅú´¦Àí
-echo LINK X:\Users\Default\Desktop\ÍøÒ×ÔÆÒôÀÖ,X:\Program Files\Edgeless\NetEaseCloud_bot\cloudmusic.exe >./build/NetEaseCloud_bot.wcs
+::ç”Ÿæˆå¤–ç½®æ‰¹å¤„ç†
+echo LINK X:\Users\Default\Desktop\ç½‘æ˜“äº‘éŸ³ä¹,X:\Program Files\Edgeless\NetEaseCloud_bot\cloudmusic.exe >./build/NetEaseCloud_bot.wcs

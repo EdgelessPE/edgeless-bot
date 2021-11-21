@@ -1162,22 +1162,5 @@
         "errorMessage": "Success"
       }
     ]
-  },
-  "网易云音乐": {
-    "latestVersion": "2.9.5.199424",
-    "builds": [
-      {
-        "version": "2.9.5.199424",
-        "name": "网易云音乐_2.9.5.199424_Cno（bot）.7z"
-      }
-    ],
-    "recentStatus": [
-      {
-        "time": 1637511165447,
-        "timeDescription": "Sun Nov 21 2021 16:12:45 GMT+0000 (Coordinated Universal Time)",
-        "success": true,
-        "errorMessage": "Success"
-      }
-    ]
   }
 }

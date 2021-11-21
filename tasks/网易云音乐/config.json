@@ -1,0 +1,18 @@
+{
+  "name": "网易云音乐",
+  "category": "影音播放",
+  "author": "Cno",
+  "autoMake": false,
+  "externalScraper": true,
+  "buildRequirement": [
+    "NetEaseCloud_bot/cloudmusic.exe",
+    "NetEaseCloud_bot.wcs"
+  ],
+  "releaseRequirement": [
+    "cloudmusic.exe"
+  ],
+  "externalScraperOptions": {
+    "releaseInstaller": true,
+    "compressLevel": 5
+  }
+}

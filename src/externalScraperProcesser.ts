@@ -145,7 +145,7 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
         })
     }
     //正则校验
-    if (!isURL(url) || (url.slice(-3) != "exe" && url.slice(-3) != "msi")) {
+    if (!isURL(url) || (url.slice(-3) != "exe" && url.slice(-3) != "msi" && url.slice(-3) != "zip")) {
         return new Interface<string>({
             status: Status.ERROR,
             payload: "Error:Function getDownloadLink() returned error url,got:" + url

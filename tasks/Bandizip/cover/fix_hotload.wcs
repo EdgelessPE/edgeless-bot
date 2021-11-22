@@ -1,0 +1,5 @@
+wait 10000
+REGI $HKCR\Bandizip.7z\shell\LoadAsPlugin\\=作为插件包加载
+REGI $HKCR\Bandizip.7z\shell\LoadAsPlugin\\Icon=X:\Users\Icon\type\plugin.ico
+REGI $HKCR\Bandizip.7z\shell\LoadAsPlugin\Command\\=pecmd EXEC !"X:\Program Files\Edgeless\plugin_loader\process7zf.cmd" "%%1"
+REGI $HKCR\Bandizip.7z\shell\LoadAsPlugin\DefaultIcon\\=X:\Users\Icon\type\plugin.ico

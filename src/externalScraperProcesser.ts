@@ -3,6 +3,7 @@ import {Status} from "./enum";
 import {awaitWithTimeout, formatVersion, isURL, log, matchVersion, toGbk} from "./utils"
 import fs from "fs";
 import {DIR_TASKS, DIR_WORKSHOP} from "./const";
+import {args} from "./index";
 
 //配置校验
 function esConfigChecker(task: Task): boolean {
@@ -145,11 +146,15 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
         })
     }
     //正则校验
-    if (!isURL(url) || (url.slice(-3) != "exe" && url.slice(-3) != "msi" && url.slice(-3) != "zip")) {
+    if (!isURL(url)) {
         return new Interface<string>({
             status: Status.ERROR,
             payload: "Error:Function getDownloadLink() returned error url,got:" + url
         })
+    }
+    let ext = url.slice(-3).toLowerCase()
+    if (!args.hasOwnProperty("g") && ext != "exe" && ext != "msi" && ext != "zip") {
+        log("Warning:Function getDownloadLink() may returned error url due to abnormal extension name,got:" + url)
     }
 
     //获取MD5

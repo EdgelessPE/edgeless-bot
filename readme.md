@@ -225,7 +225,7 @@ echo LINK X:\Users\Default\Desktop\Firefox,X:\Program Files\Edgeless\FireFox_bot
 
 为了让使用自动制作的Task也能完成简单的文件替换操作，我们允许你建立一个`cover`文件夹来存放对`release`目录的覆盖文件
 
-`cover`文件夹内的文件会在`make.cmd`或自动制作后覆盖至`build`文件夹
+`cover`文件夹内的文件会在`make.cmd`或自动制作后覆盖至`build`文件夹。如果你需要覆盖的内容比较多，也可以将其打包为压缩文件然后在配置文件中指定`cover`键，参考VSCode任务
 
 cover目录中的所有内容会被覆盖复制到release文件夹，这项工作会在`make.cmd`或自动构建运行后完成
 

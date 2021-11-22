@@ -1,0 +1,12 @@
+{
+  "name": "Bandizip",
+  "category": "压缩镜像",
+  "author": "Cno",
+  "autoMake": true,
+  "externalScraper": true,
+  "externalScraperOptions": {
+    "policy": "silent",
+    "silentDelete": false,
+    "compressLevel": 5
+  }
+}

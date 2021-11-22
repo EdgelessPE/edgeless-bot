@@ -9,6 +9,7 @@ import {Cmp, Status} from './enum';
 import {BuildStatus, Interface, Task} from './class';
 import {DIR_TASKS, DIR_WORKSHOP} from './const';
 import {args} from './index';
+import path from "path";
 
 function log(text: string) {
 	// 增加字符串类型判断
@@ -242,12 +243,21 @@ function toGbk(text:string):Buffer {
 	return iconv.encode(text,'GBK');
 }
 
-function copyCover(task: Task): boolean {
+function copyCover(task: Task, p7zip: string): boolean {
 	const name = task.name, target = "build"
+
+	//从文件夹复制
 	if (fs.existsSync(DIR_TASKS + '/' + name + '/cover')) {
 		if (!xcopy(DIR_TASKS + '/' + name + '/cover', DIR_WORKSHOP + '/' + name + '/' + target + '/')) {
 			return false;
 		}
+	}
+
+	if (task.cover) {
+		//从压缩包复制
+		let zip = path.resolve(DIR_TASKS + '/' + name, task.cover)
+		cp.execSync(`"${p7zip}" x ${zip} -o${DIR_WORKSHOP + '/' + name + '/' + target + '/'} -y`)
+
 	}
 
 	return true;

@@ -63,6 +63,8 @@ class Task {
 	externalScraper?: boolean; //是否外置爬虫脚本
 	externalScraperOptions?: ExternalScraperOptions; //外置爬虫选项
 
+	cover?: string; //用于增加内容的7z压缩包
+
 	constructor() {
 		this.name = 'Null';
 		this.category = 'Null';

@@ -630,7 +630,7 @@ async function processTask(
 			}
 
 			//复制Cover
-			if (!copyCover(task)) {
+			if (!copyCover(task, p7zip)) {
 				ret = new Interface({
 					status: Status.ERROR,
 					payload:

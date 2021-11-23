@@ -1,0 +1,11 @@
+{
+  "name": "搜狗拼音",
+  "category": "输入法",
+  "author": "Cno",
+  "autoMake": false,
+  "externalScraper": true,
+  "buildRequirement": [
+    "sogou_pinyin.exe",
+    "sogou.wcs"
+  ]
+}

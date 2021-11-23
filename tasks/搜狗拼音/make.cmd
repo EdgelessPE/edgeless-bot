@@ -1,0 +1,1 @@
+move .\target.exe .\build\sogou_pinyin.exe

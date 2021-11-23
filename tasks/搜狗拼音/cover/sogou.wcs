@@ -1,0 +1,3 @@
+//file "X:\Program Files\Edgeless\sogou_killer.ini"->"X:\Program Files\Edgeless\system_hooks\onDesktopShown\sogou_killer.wcs"
+exec ="X:\Program Files\Edgeless\sogou_pinyin.exe" /S
+file "X:\Program Files\Edgeless\sogou_pinyin.exe"

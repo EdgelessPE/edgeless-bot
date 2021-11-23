@@ -239,8 +239,12 @@ function gbk(buffer: Buffer): string {
 	return iconv.decode(buffer, 'GBK');
 }
 
-function toGbk(text:string):Buffer {
-	return iconv.encode(text,'GBK');
+function gb2312(buffer: Buffer): string {
+	return iconv.decode(buffer, 'GB2312');
+}
+
+function toGbk(text: string): Buffer {
+	return iconv.encode(text, 'GBK');
 }
 
 function copyCover(task: Task, p7zip: string): boolean {
@@ -294,6 +298,7 @@ export {
 	xcopy,
 	cleanBuildStatus,
 	gbk,
+	gb2312,
 	toGbk,
 	copyCover,
 	isURL,

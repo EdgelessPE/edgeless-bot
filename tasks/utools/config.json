@@ -1,0 +1,19 @@
+{
+  "name": "uTools",
+  "category": "实用工具",
+  "author": "Cno",
+  "autoMake": false,
+  "externalScraper": true,
+  "buildRequirement": [
+    "uTools/uTools.exe",
+    "uTools.wcs",
+    "uTools/settings"
+  ],
+  "releaseRequirement": [
+    "$PLUGINSDIR/app-64.7z"
+  ],
+  "externalScraperOptions": {
+    "releaseInstaller": true,
+    "compressLevel": 5
+  }
+}

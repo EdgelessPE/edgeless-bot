@@ -15,6 +15,7 @@ export default class Spawn {
   			this._config.resolved.aria2SpawnArgs,
   			{
   				cwd: process.cwd(),
+				stdio: "ignore"
   			},
   		),
   	);

@@ -33,15 +33,16 @@ async function spawnAria2() {
 		_spawn = new Spawn(_userConfig);
 		_spawn.all();
 		_spawn.promise().catch(e => {
-			if (args.hasOwnProperty('g')) {
-				console.log('::group::Aria2c force exit throw');
-			}
-			console.error(e);
-			if (args.hasOwnProperty('g')) {
-				console.log('::endgroup::');
-			}else{
-				throw e;
-			}
+			// if (args.hasOwnProperty('g')) {
+			// 	console.log('::group::Aria2c force exit throw');
+			// }
+			// console.error(e);
+			// if (args.hasOwnProperty('g')) {
+			// 	console.log('::endgroup::');
+			// }else{
+			// 	throw e;
+			// }
+			log("Info:Aria2c force exit")
 		});
 		await sleep(1500);
 	}

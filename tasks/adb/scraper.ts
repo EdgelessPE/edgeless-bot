@@ -5,10 +5,12 @@ let version: string, url: string
 async function init() {
     //请求PC客户端最新版
     url = await fetchURL()
-    let vMatch = url.match(/\d*\.\d*\.\d*\.\d*\.exe$/)
+    console.log(url)
+    let vMatch = url.match(/\d*\.\d*\.\d*/)
     if (vMatch) {
-        version = vMatch[0].slice(0, -4)
+        version = vMatch[0]
     }
+    console.log(version)
 }
 
 function getVersion(): string {
@@ -21,7 +23,7 @@ function getDownloadLink(): string {
 
 async function fetchURL(): Promise<string> {
     return new Promise((resolve) => {
-        axios.get("https://music.163.com/api/pc/package/download/latest", {maxRedirects: 0,})
+        axios.get("https://dl.google.com/android/repository/platform-tools-latest-windows.zip", {maxRedirects: 0,})
             .catch((e) => {
                 resolve(e.response.headers.location)
             })

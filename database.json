@@ -1337,15 +1337,20 @@
       }
     ]
   },
-  "utools": {
-    "latestVersion": "0.0.0",
-    "builds": [],
+  "adb": {
+    "latestVersion": "31.0.3.0",
+    "builds": [
+      {
+        "version": "31.0.3.0",
+        "name": "adb_31.0.3.0_Cno（bot）.7z"
+      }
+    ],
     "recentStatus": [
       {
-        "time": 1637760003181,
-        "timeDescription": "Wed Nov 24 2021 13:20:03 GMT+0000 (Coordinated Universal Time)",
-        "success": false,
-        "errorMessage": "Error:Can't read utools's config:Error:Value of config's key \"name\" is not utools"
+        "time": 1637849835309,
+        "timeDescription": "Thu Nov 25 2021 22:17:15 GMT+0800 (中国标准时间)",
+        "success": true,
+        "errorMessage": "Success"
       }
     ]
   }

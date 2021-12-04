@@ -95,7 +95,7 @@ async function executor(module: Script): Promise<Interface<ScrapedInfo | string>
     //初始化
     try {
         //配置超时
-        await awaitWithTimeout(module.init, 6000)
+        await awaitWithTimeout(module.init, 60000)
     } catch (e) {
         return new Interface<string>({
             status: Status.ERROR,

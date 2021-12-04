@@ -1,0 +1,10 @@
+{
+    "name": "balenaEtcher",
+    "category": "压缩镜像",
+    "author": "Hydrogen",
+    "autoMake": true,
+    "externalScraper": true,
+    "externalScraperOptions": {
+        "releaseInstaller": true
+    }
+}

@@ -2,7 +2,14 @@
     "name": "balenaEtcher",
     "category": "压缩镜像",
     "author": "Hydrogen",
-    "autoMake": true,
+    "autoMake": false,
+    "buildRequirement": [
+        "balenaEtcher/balenaEtcher.exe",
+        "link_etcher.wcs"
+    ],
+    "releaseRequirement": [
+        "$PLUGINSDIR/app-64.7z"
+    ],
     "externalScraper": true,
     "externalScraperOptions": {
         "releaseInstaller": true

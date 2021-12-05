@@ -59,7 +59,7 @@ function beforeRunCheck(gam: boolean): boolean {
 			cp.execSync('where ' + item.cmd, {
 				stdio: 'ignore',
 			});
-		} catch (err) {
+		} catch (err: any) {
 			console.log(err.output.toString());
 			return (
 				item.onerror(() =>

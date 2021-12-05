@@ -1321,12 +1321,12 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libaria2-ts@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/libaria2-ts/-/libaria2-ts-1.0.8.tgz#661bf1a2b3213143f2362f35fc1e3cef83e15fff"
-  integrity sha512-V9uMd0YQ2k6GwVTvCcHyeyECjL0puv0s7s/YeWSj/mvhHbqTAEyYo5l0RY8V5PBWq1ZwRxF58j7OfwZjCeS8Ug==
+libaria2-ts@^1.0.91:
+  version "1.0.91"
+  resolved "https://registry.npmmirror.com/libaria2-ts/download/libaria2-ts-1.0.91.tgz#984fcc2de69d657084828c4755ab0f2ba31f8fbe"
+  integrity sha512-dRgfW5TuIhc3cKhWZFnLrkok1xyGe7a27a2skHbgbWYyvGEMG53ahaASNsD3TfAEpN/5M0bXw8efGaL1Cs/e7g==
   dependencies:
-    ws "^7.4.2"
+    ws "^8.2.3"
 
 loader-runner@^4.2.0:
   version "4.2.0"
@@ -2056,10 +2056,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-ws@^7.4.2:
-  version "7.4.5"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.5.tgz#a484dd851e9beb6fdb420027e3885e8ce48986c1"
-  integrity sha512-xzyu3hFvomRfXKH8vOFMU3OguG6oOvhXMo3xsGy3xWExqaM2dxBbVxuD99O7m3ZUFMvvscsZDqxfgMaRr/Nr1g==
+ws@^8.2.3:
+  version "8.3.0"
+  resolved "https://registry.npmmirror.com/ws/download/ws-8.3.0.tgz#7185e252c8973a60d57170175ff55fdbd116070d"
+  integrity sha512-Gs5EZtpqZzLvmIM59w4igITU57lrtYVFneaa434VROv4thzJyV6UjIL3D42lslWlI+D4KzLYnxSwtfuiO79sNw==
 
 yallist@^4.0.0:
   version "4.0.0"

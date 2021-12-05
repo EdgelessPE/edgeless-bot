@@ -4,6 +4,7 @@ import {log, rd} from './utils';
 import {DIR_BUILDS, DIR_TASKS, DIR_WORKSHOP, IGNORE_REMOTE} from './const';
 import {Interface} from './class';
 import {Status} from './enum';
+import path from 'path';
 
 interface RunChecker {
     cmd: string;
@@ -58,7 +59,7 @@ function beforeRunCheck(gam: boolean): boolean {
 			cp.execSync('where ' + item.cmd, {
 				stdio: 'ignore',
 			});
-		} catch (err) {
+		} catch (err: any) {
 			console.log(err.output.toString());
 			return (
 				item.onerror(() =>
@@ -96,6 +97,7 @@ function find7zip(): Interface {
 
 	// 使用是否存在判断
 	const possiblePath = [
+		path.resolve(process.cwd(), '7z.exe'),
 		'C:\\Program Files\\7-Zip\\7z.exe',
 		'C:\\Program Files (x86)\\7-Zip\\7z.exe',
 		process.env.WINDIR + '\\system32\\7z.exe',
@@ -132,6 +134,11 @@ function find7zip(): Interface {
                 'Error:7-Zip not found,please install 7-Zip from https://www.7-zip.org',
 		});
 	}
+
+	if (!path.isAbsolute(result)) {
+		result = path.resolve(process.cwd(), result + ".exe")
+	}
+
 
 	return new Interface({
 		status: Status.SUCCESS,

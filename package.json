@@ -26,7 +26,7 @@
         "execa": "^5.0.0",
         "iconv-lite": "^0.6.2",
         "ini": "^2.0.0",
-        "libaria2-ts": "^1.0.8",
+        "libaria2-ts": "^1.0.91",
         "minimist": "^1.2.5",
         "ora": "^5.4.0",
         "strip-json-comments": "^3.1.1"

@@ -12,6 +12,7 @@
     ],
     "externalScraper": true,
     "externalScraperOptions": {
-        "releaseInstaller": true
+        "releaseInstaller": true,
+        "compressLevel": 5
     }
 }

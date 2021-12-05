@@ -8,3 +8,6 @@ yarn-error.log
 yarn.lock
 package-lock.json
 dist
+
+7z*.exe
+7z*.dll

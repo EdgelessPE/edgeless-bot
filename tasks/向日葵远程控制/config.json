@@ -1,0 +1,11 @@
+{
+  "name": "向日葵远程控制",
+  "category": "远程连接",
+  "author": "Cno",
+  "autoMake": true,
+  "externalScraper": true,
+  "externalScraperOptions": {
+    "policy": "manual",
+    "manualShortcutName": "向日葵"
+  }
+}

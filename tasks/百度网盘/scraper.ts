@@ -13,7 +13,8 @@ async function init() {
     //console.log(data.guanjia);
 
     //获取版本号与下载地址
-    version = data.guanjia.version
+    let sr=data.guanjia.url.split('/')
+    version = sr[sr.length-1]
     url = data.guanjia.url
 }
 

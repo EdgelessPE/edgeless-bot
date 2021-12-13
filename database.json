@@ -1425,11 +1425,11 @@
     ]
   },
   "百度网盘": {
-    "latestVersion": "7.10.1.0",
+    "latestVersion": "7.10.1.2",
     "builds": [
       {
-        "version": "7.10.1.0",
-        "name": "百度网盘_7.10.1.0_Cno（bot）.7z"
+        "version": "7.10.1.2",
+        "name": "百度网盘_7.10.1.2_Cno（bot）.7z"
       }
     ],
     "recentStatus": [
@@ -1442,6 +1442,12 @@
       {
         "time": 1639415067463,
         "timeDescription": "Mon Dec 13 2021 17:04:27 GMT+0000 (Coordinated Universal Time)",
+        "success": true,
+        "errorMessage": "Success"
+      },
+      {
+        "time": 1639419472538,
+        "timeDescription": "Tue Dec 14 2021 02:17:52 GMT+0800 (中国标准时间)",
         "success": true,
         "errorMessage": "Success"
       }

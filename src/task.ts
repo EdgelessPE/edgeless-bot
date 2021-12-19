@@ -334,27 +334,24 @@ async function runMakeScript(name: string, p7zip: string): Promise<Interface> {
 			});
 		} catch {
 			if (fs.existsSync(DIR_WORKSHOP + '/' + name + '/make.log')) {
-				console.log('console output=======================');
+				console.log('=======================console output=======================');
 				console.log(gbk(fs.readFileSync(DIR_WORKSHOP + '/' + name + '/make.log')));
-				console.log('console output=======================');
+				console.log('=======================console output=======================');
 			} else {
 				log('Warning:make.cmd has no console output');
 			}
 
 			resolve(new Interface({
 				status: Status.ERROR,
-				payload: 'Error:Make error for ' + name + ',skipping...',
+				payload: 'Error:Make error for ' + name + ' due to timeout or script error,skipping...',
 			}));
 		}
 
-		// 执行tree
-		// console.log(gbk(cp.execSync("tree /F /A", { cwd: DIR_WORKSHOP + "/" + name})))
-
 		// 成功
 		if (fs.existsSync(DIR_WORKSHOP + '/' + name + '/make.log')) {
-			console.log('console output=======================');
+			console.log('=======================console output=======================');
 			console.log(gbk(fs.readFileSync(DIR_WORKSHOP + '/' + name + '/make.log')));
-			console.log('console output=======================');
+			console.log('=======================console output=======================');
 		} else {
 			log('Warning:make.cmd has no console output');
 		}

@@ -1,10 +1,5 @@
 .idea
 .vscode
 node_modules
-workshop
-builds
-*.bak
-yarn-error.log
 yarn.lock
-package-lock.json
-dist
+*.xmind

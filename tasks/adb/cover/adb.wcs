@@ -1,1 +1,0 @@
-exec =!setx.exe Path "%Path%;%ProgramFiles%\Edgeless\adb"

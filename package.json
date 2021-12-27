@@ -4,6 +4,7 @@
     "ajv": "^8.8.2",
     "chalk": "4.1.1",
     "crypto": "^1.0.1",
+    "minimist": "^1.2.5",
     "toml": "^3.0.0",
     "ts-results": "^3.3.0",
     "typescript": "^4.5.4"
@@ -12,6 +13,7 @@
     "dev": "ts-node src/index.ts"
   },
   "devDependencies": {
+    "@types/minimist": "^1.2.2",
     "ts-node": "^10.4.0"
   }
 }

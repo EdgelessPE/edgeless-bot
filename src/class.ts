@@ -89,7 +89,7 @@ interface TaskInstance {
   cover: string; //允许使用压缩包或文件夹
 }
 
-//程序行为控制参数
+//程序配置
 interface CONFIG {
   DATABASE_UPDATE: boolean;
   DATABASE_PATH: string;

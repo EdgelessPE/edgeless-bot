@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "properties": {
+    "DATABASE_UPDATE": {
+      "type": "boolean"
+    },
+    "DATABASE_PATH": {
+      "type": "string"
+    },
+    "REMOTE_ENABLE": {
+      "type": "boolean"
+    },
+    "REMOTE_NAME": {
+      "type": "string"
+    },
+    "REMOTE_PATH": {
+      "type": "string"
+    },
+    "DIR_TASKS": {
+      "type": "string"
+    },
+    "DIR_WORKSHOP": {
+      "type": "string"
+    },
+    "DIR_BUILDS": {
+      "type": "string"
+    },
+    "MAX_BUILDS": {
+      "type": "integer",
+      "maximum": 5,
+      "minimum": 1
+    },
+    "MAX_RETRY_SCRAPER": {
+      "type": "integer",
+      "maximum": 5,
+      "minimum": 1
+    },
+    "MAX_RETRY_RESOLVER": {
+      "type": "integer",
+      "maximum": 5,
+      "minimum": 1
+    },
+    "MAX_RETRY_PRODUCER": {
+      "type": "integer",
+      "maximum": 5,
+      "minimum": 1
+    },
+    "ARIA2_SPAWN": {
+      "type": "boolean"
+    },
+    "ARIA2_PORT": {
+      "type": "integer",
+      "maximum": 65535,
+      "minimum": 6800
+    },
+    "ARIA2_SECRET": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "DATABASE_UPDATE",
+    "DATABASE_PATH",
+    "REMOTE_ENABLE",
+    "REMOTE_NAME",
+    "REMOTE_PATH",
+    "DIR_TASKS",
+    "DIR_WORKSHOP",
+    "DIR_BUILDS",
+    "MAX_BUILDS",
+    "MAX_RETRY_SCRAPER",
+    "MAX_RETRY_RESOLVER",
+    "MAX_RETRY_PRODUCER",
+    "ARIA2_SPAWN",
+    "ARIA2_PORT",
+    "ARIA2_SECRET"
+  ]
+}

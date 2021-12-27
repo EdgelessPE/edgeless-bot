@@ -1,7 +1,9 @@
 import chalk from 'chalk';
 import fs from 'fs';
+import path from "path";
 import cpt from 'crypto'
 import {Err, Ok, Result} from 'ts-results';
+import Ajv from 'ajv'
 
 enum Cmp {
     L, E, G
@@ -181,6 +183,25 @@ async function sleep(ms: number): Promise<void> {
     return new Promise(r => setTimeout(r, ms));
 }
 
+function schemaValidator(obj:any,schema:string):Result<boolean, string> {
+    //读取schema文件
+    const schemaFilePath=path.join("./schema",schema+".json")
+    if(!fs.existsSync(schemaFilePath)){
+        return new Err(`Error:Specified schema not found : ${schemaFilePath}`)
+    }
+    let schemaJson=JSON.parse(fs.readFileSync(schemaFilePath).toString())
+
+
+    const ajv=new Ajv()
+    const validate=ajv.compile(schemaJson)
+    if(validate(obj)){
+        return new Ok(true)
+    }else {
+        console.log(JSON.stringify(validate.errors))
+        return new Ok(false)
+    }
+}
+
 export {
     log,
     getMD5,
@@ -191,5 +212,6 @@ export {
     getTimeString,
     versionCmp,
     awaitWithTimeout,
-    sleep
+    sleep,
+    schemaValidator
 }

@@ -23,7 +23,9 @@ const CATEGORIES = [
   "远程连接",
 ];
 
+const PATH_CONFIG="./config.toml"
 
 export{
-    CATEGORIES
+    CATEGORIES,
+    PATH_CONFIG
 }

@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@types/node": "^17.0.5",
+    "chalk": "4.1.1",
+    "crypto": "^1.0.1",
     "ts-results": "^3.3.0"
   }
 }

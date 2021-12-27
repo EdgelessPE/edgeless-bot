@@ -90,7 +90,7 @@ interface TaskInstance {
 }
 
 //程序行为控制参数
-interface BehaviorController {
+interface CONFIG {
   DATABASE_UPDATE: boolean;
   DATABASE_PATH: string;
 
@@ -128,5 +128,5 @@ export {
   ProducerRegister,
   DatabaseNode,
   TaskInstance,
-  BehaviorController,
+  CONFIG,
 };

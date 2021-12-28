@@ -7,7 +7,8 @@ import chalk from "chalk";
 import ora from "ora";
 
 
-let aria2c_process: cp.ChildProcessWithoutNullStreams, aria2c_alive = false, aria2c_handler: Aria2WebSocket.Client;
+let aria2c_process: cp.ChildProcessWithoutNullStreams, aria2c_alive = false, sent_kill = false,
+    aria2c_handler: Aria2WebSocket.Client;
 
 //启动和管理aria2c进程
 async function spawnAria2c(binPath: string): Promise<boolean> {
@@ -31,7 +32,11 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
         aria2c_process = cp.spawn(binPath, args)
         aria2c_process.on('exit', _ => {
             aria2c_alive = false
-            log("Info:Aria2c exit")
+            if (sent_kill) {
+                log("Info:Aria2c exit")
+            } else {
+                log("Error:Aria2c exit")
+            }
             resolve(false)
         })
         const waitSpawned = async function (p: cp.ChildProcessWithoutNullStreams): Promise<void> {
@@ -51,6 +56,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
 async function stopAria2c(): Promise<void> {
     return new Promise((resolve => {
         if (aria2c_alive) {
+            sent_kill = true
             if (getOS() == OS.Windows) aria2c_process.kill()
             else aria2c_process.kill('SIGHUP')
             aria2c_process.on('exit', _ => {

@@ -10,7 +10,7 @@ async function main() {
 
 async function test() {
     await initAria2c()
-    await download("Test", "https://pineapple.edgeless.top/api/v2/info/ventoy_addr", "./test", "1.exe")
+    await download("Test", "https://pineapple.edgeless.top/api/v2/info/ventoy_plugin_addr", "./test", "1.exe")
     await stopAria2c()
 }
 

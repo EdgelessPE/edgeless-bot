@@ -1,11 +1,14 @@
-import config from './config'
+import configGenerator from './config'
+import {CONFIG} from "./class";
+
+export const config:CONFIG=configGenerator().unwrap()
 
 async function main(){
 
 }
 
 async function test() {
-    console.log(config().unwrap())
+    console.log()
 }
 
 test().then(_=>{})

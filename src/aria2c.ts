@@ -2,12 +2,12 @@ import {WebSocket as Aria2WebSocket} from 'libaria2-ts';
 import cp from 'child_process';
 import {config} from './index';
 import {log, sleep} from "./utils";
-import {where} from "./platform";
+import {getOS, OS, where} from "./platform";
 import chalk from "chalk";
 import ora from "ora";
 
 
-let aria2c_process, aria2c_alive = false, aria2c_handler: Aria2WebSocket.Client;
+let aria2c_process: cp.ChildProcessWithoutNullStreams, aria2c_alive = false, aria2c_handler: Aria2WebSocket.Client;
 
 //启动和管理aria2c进程
 async function spawnAria2c(binPath: string): Promise<boolean> {
@@ -45,6 +45,18 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
         log("Info:Aria2c spawned")
         aria2c_alive = true
         resolve(true)
+    }))
+}
+
+async function stopAria2c(): Promise<void> {
+    return new Promise((resolve => {
+        if (aria2c_alive) {
+            if (getOS() == OS.Windows) aria2c_process.kill()
+            else aria2c_process.kill('SIGHUP')
+            aria2c_process.on('exit', _ => {
+                resolve()
+            })
+        } else resolve()
     }))
 }
 
@@ -143,5 +155,7 @@ async function download(taskName: string, url: string, dir: string, fileName: st
 
 export {
     initAria2c,
-    download
+    download,
+    aria2c_alive,
+    stopAria2c
 }

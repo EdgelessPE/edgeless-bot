@@ -2,7 +2,7 @@ import os from 'os'
 import {Err, Ok, Result} from "ts-results";
 import path from "path";
 import fs from "fs";
-import cp from  'child_process'
+import cp from 'child_process'
 
 enum OS {
     Windows,
@@ -111,5 +111,6 @@ function where(command: string): Result<string, string> {
 
 export {
     getOS,
-    where
+    where,
+    OS
 }

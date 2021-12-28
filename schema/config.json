@@ -55,6 +55,9 @@
     },
     "ARIA2_SECRET": {
       "type": "string"
+    },
+    "ARIA2_PROXY": {
+      "type": "string"
     }
   },
   "required": [

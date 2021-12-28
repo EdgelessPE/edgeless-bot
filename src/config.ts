@@ -1,6 +1,5 @@
 import {CONFIG} from "./class";
 import fs from "fs";
-import path from "path";
 import toml from 'toml'
 import {Err, Ok, Result} from "ts-results";
 import {schemaValidator} from "./utils";

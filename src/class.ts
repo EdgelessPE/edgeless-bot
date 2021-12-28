@@ -108,8 +108,9 @@ interface CONFIG {
   MAX_RETRY_PRODUCER: number;
 
   ARIA2_SPAWN: boolean;
-  ARIA2_PORT: string;
+  ARIA2_PORT: number;
   ARIA2_SECRET: string;
+  ARIA2_PROXY: string;
 
   SPECIFY_TASK: string;
   MODE_FORCED: boolean;

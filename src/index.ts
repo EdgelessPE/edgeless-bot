@@ -1,6 +1,6 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
-import {initAria2c} from "./aria2";
+import {download, initAria2c} from "./aria2c";
 
 export const config:CONFIG=configGenerator().unwrap()
 
@@ -9,8 +9,8 @@ async function main(){
 }
 
 async function test() {
-    //console.log()
     await initAria2c()
+    await download("Test","https://pineapple.edgeless.top/api/v2/info/ventoy_addr","./test","1.exe")
 }
 
-test().then(_=>{})
+test().then(_=>{process.exit(0)})

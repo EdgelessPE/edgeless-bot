@@ -6,6 +6,7 @@
     "crypto": "^1.0.1",
     "libaria2-ts": "^1.0.91",
     "minimist": "^1.2.5",
+    "ora": "5.4.0",
     "shelljs": "^0.8.4",
     "toml": "^3.0.0",
     "ts-results": "^3.3.0",

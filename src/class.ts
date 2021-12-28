@@ -111,6 +111,7 @@ interface CONFIG {
   ARIA2_PORT: number;
   ARIA2_SECRET: string;
   ARIA2_PROXY: string;
+  ARIA2_THREAD: number;
 
   SPECIFY_TASK: string;
   MODE_FORCED: boolean;

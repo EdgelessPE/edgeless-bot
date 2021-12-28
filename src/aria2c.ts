@@ -17,10 +17,16 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
             "--rpc-allow-origin-all=true",
             "--rpc-listen-all=true",
             `--rpc-listen-port=${config.ARIA2_PORT}`,
-            `--rpc-secret=${config.ARIA2_SECRET}`
         ]
         if (config["ARIA2_PROXY"]) {
             args.push(`--all-proxy=${config.ARIA2_PROXY}`)
+        }
+        if (config["ARIA2_SECRET"]) {
+            args.push(`--rpc-secret=${config.ARIA2_SECRET}`)
+        }
+        if (config["ARIA2_THREAD"]) {
+            args.push(`--max-connection-per-server=${config.ARIA2_THREAD}`)
+            args.push(`--split=${config.ARIA2_THREAD}`)
         }
         aria2c_process = cp.spawn(binPath, args)
         aria2c_process.on('exit', _ => {

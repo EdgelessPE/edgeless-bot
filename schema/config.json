@@ -58,6 +58,11 @@
     },
     "ARIA2_PROXY": {
       "type": "string"
+    },
+    "ARIA2_THREAD": {
+      "type": "integer",
+      "maximum": 16,
+      "minimum": 1
     }
   },
   "required": [
@@ -74,7 +79,6 @@
     "MAX_RETRY_RESOLVER",
     "MAX_RETRY_PRODUCER",
     "ARIA2_SPAWN",
-    "ARIA2_PORT",
-    "ARIA2_SECRET"
+    "ARIA2_PORT"
   ]
 }

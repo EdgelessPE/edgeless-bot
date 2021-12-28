@@ -13,4 +13,5 @@ async function test() {
     await download("Test","https://pineapple.edgeless.top/api/v2/info/ventoy_addr","./test","1.exe")
 }
 
-test().then(_=>{process.exit(0)})
+test().then(_ => {
+})

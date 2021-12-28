@@ -1,6 +1,7 @@
 import {ResolverParameters, ResolverReturned} from "../../class";
 import {Err, Ok, Result} from "ts-results";
 import {robustGet} from "../../network";
+import {log} from "../../utils";
 
 export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
     const {downloadLink, fileMatchRegex} = p
@@ -17,11 +18,15 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
     let regex = new RegExp(fileMatchRegex)
     let assets = json[0].assets
     let result = "", node
-    for (let i = 0; i < assets.length; i++) {
-        node = assets[i]
+    for (node of assets) {
+        if (node == undefined) break
         if ((node.name as string).match(regex) != null) {
-            result = node.browser_download_url
-            break
+            if (result == "") {
+                result = node.browser_download_url
+                log(`Info:Matched ${node.name}`)
+            } else {
+                log(`Warning:Ambiguous fileMatchRegex,matched more than one file : ${node.name}`)
+            }
         }
     }
     if (result == "") {

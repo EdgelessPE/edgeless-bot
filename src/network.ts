@@ -10,7 +10,7 @@ async function robustGet(url: string, axiosConfig?: AxiosRequestConfig<any>): Pr
         try {
             res = await axios.get(url, axiosConfig ?? {});
         } catch (err) {
-            console.log(JSON.stringify(err));
+            //console.log(JSON.stringify(err));
             return new Err("Warning:Single fetch failed")
         }
         return new Ok(res.data)
@@ -24,7 +24,7 @@ async function robustGet(url: string, axiosConfig?: AxiosRequestConfig<any>): Pr
             break
         } else {
             log(r.val)
-            await sleep(3000)
+            if (i != config.MAX_RETRY_SCRAPER - 1) await sleep(3000)
         }
     }
 
@@ -43,7 +43,7 @@ async function robustParseRedirect(url: string): Promise<Result<string, string>>
                     if (e.response && (e.response.status == 302 || e.response.status == 301)) {
                         resolve(new Ok(e.response.headers.location))
                     } else {
-                        console.log(e.response?.status)
+                        //console.log(e.response?.status)
                         resolve(new Err("Warning:Single fetch failed"))
                     }
                 })
@@ -58,7 +58,7 @@ async function robustParseRedirect(url: string): Promise<Result<string, string>>
             break
         } else {
             log(r.val)
-            await sleep(3000)
+            if (i != config.MAX_RETRY_SCRAPER - 1) await sleep(3000)
         }
     }
 

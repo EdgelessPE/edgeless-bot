@@ -79,7 +79,7 @@ async function initAria2c(): Promise<boolean> {
 }
 
 //下载和等待完成函数
-async function download(taskName: string, url: string, dir: string,fileName:string): Promise<boolean> {
+async function download(taskName: string, url: string, dir: string, fileName: string): Promise<boolean> {
     return new Promise((async resolve => {
         try {
             // Cp.execSync("wget -O target.exe " + url, {cwd: dir});
@@ -124,8 +124,8 @@ async function download(taskName: string, url: string, dir: string,fileName:stri
                     + (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3)
                     + ' MB/s';
             }
-
             progress.succeed(taskName + ' downloaded');
+            progress.stop()
             resolve(true)
         } catch (err: any) {
             console.log(err);
@@ -133,10 +133,9 @@ async function download(taskName: string, url: string, dir: string,fileName:stri
         }
         resolve(true)
     }))
-
 }
 
 export {
     initAria2c,
-	download
+    download
 }

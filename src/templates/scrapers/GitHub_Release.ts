@@ -1,6 +1,6 @@
 import {ScraperParameters, ScraperReturned} from "../../class";
-import axios from "axios";
 import {Err, Ok, Result} from "ts-results";
+import {robustGet} from "../../network";
 
 function parseRepo(url: string): { owner: string, repo: string } {
     let splitRes = url.split("github.com/")[1].split("/")
@@ -21,7 +21,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
     //获取Json
     let json
     try {
-        json = (await axios.get(downloadLink)).data
+        json = (await robustGet(downloadLink)).unwrap()
     } catch (e) {
         console.log(JSON.stringify(e))
         return new Err(`Error:Can't fetch ${downloadLink}`)

@@ -6,7 +6,7 @@ enum ValidationType {
 }
 interface ScraperParameters {
   url: string;
-  downloadLinkRegex: string;
+  downloadLinkRegex?: string;
   versionMatchRegex?: string;
 }
 interface ScraperReturned {

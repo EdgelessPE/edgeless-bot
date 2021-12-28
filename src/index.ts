@@ -1,6 +1,6 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
-import {download, initAria2c, stopAria2c} from "./aria2c";
+import {robustParseRedirect} from "./utils";
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -9,9 +9,16 @@ async function main() {
 }
 
 async function test() {
-    await initAria2c()
-    await download("Test", "https://pineapple.edgeless.top/api/v2/info/ventoy_plugin_addr", "./test", "1.exe")
-    await stopAria2c()
+    // let sRes= (await GitHub_Release_Scraper({
+    //     url: "https://github.com/balena-io/etcher"
+    // })).unwrap()
+    // console.log(sRes.version)
+    // let rRes=(await GitHub_Release_Resolver({
+    //     downloadLink:sRes.downloadLink,
+    //     fileMatchRegex:"/balenaEtcher-Portable-.+\\.exe/"
+    // }))
+    // console.log(rRes)
+    console.log((await robustParseRedirect("https://github.com/EdgelessPE/wimiso/releases/download/v1.1/ventoy_wimboot.img")).unwrap())
 }
 
 test().then(_ => {

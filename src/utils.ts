@@ -4,6 +4,8 @@ import path from "path";
 import cpt from 'crypto'
 import {Err, Ok, Result} from 'ts-results';
 import Ajv from 'ajv'
+import axios, {AxiosRequestConfig} from "axios";
+import {config} from "./index";
 
 enum Cmp {
     L, E, G
@@ -183,13 +185,76 @@ async function sleep(ms: number): Promise<void> {
     return new Promise(r => setTimeout(r, ms));
 }
 
-function schemaValidator(obj:any,schema:string):Result<boolean, string> {
+async function robustGet(url: string, axiosConfig?: AxiosRequestConfig<any>): Promise<Result<any, string>> {
+    const singleFetch = async function (): Promise<Result<any, string>> {
+        let res;
+        try {
+            res = await axios.get(url, axiosConfig ?? {});
+        } catch (err) {
+            console.log(JSON.stringify(err));
+            return new Err("Warning:Single fetch failed")
+        }
+        return new Ok(res.data)
+    }
+
+    let result = null, r
+    for (let i = 0; i < config.MAX_RETRY_SCRAPER; i++) {
+        r = await singleFetch()
+        if (r.ok) {
+            result = r.unwrap()
+            break
+        } else {
+            log(r.val)
+        }
+    }
+
+    if (result == null) {
+        return new Err(`Error:Robust get failed : ${url}`)
+    } else {
+        return new Ok(result)
+    }
+}
+
+async function robustParseRedirect(url: string): Promise<Result<string, string>> {
+    async function fetchURL(): Promise<Result<string, string>> {
+        return new Promise((resolve) => {
+            axios.get(url, {maxRedirects: 0,})
+                .catch((e) => {
+                    if (e.response && (e.response.status == 302 || e.response.status == 301)) {
+                        resolve(new Ok(e.response.headers.location))
+                    } else {
+                        console.log(e.response.status)
+                        resolve(new Err("Warning:Single fetch failed"))
+                    }
+                })
+        })
+    }
+
+    let result = null, r
+    for (let i = 0; i < config.MAX_RETRY_SCRAPER; i++) {
+        r = await fetchURL()
+        if (r.ok) {
+            result = r.unwrap()
+            break
+        } else {
+            log(r.val)
+        }
+    }
+
+    if (result == null) {
+        return new Err(`Error:Robust get failed : ${url}`)
+    } else {
+        return new Ok(result)
+    }
+}
+
+function schemaValidator(obj: any, schema: string): Result<boolean, string> {
     //读取schema文件
-    const schemaFilePath=path.join("./schema",schema+".json")
-    if(!fs.existsSync(schemaFilePath)){
+    const schemaFilePath = path.join("./schema", schema + ".json")
+    if (!fs.existsSync(schemaFilePath)) {
         return new Err(`Error:Specified schema not found : ${schemaFilePath}`)
     }
-    let schemaJson=JSON.parse(fs.readFileSync(schemaFilePath).toString())
+    let schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString())
 
 
     const ajv=new Ajv()
@@ -213,5 +278,7 @@ export {
     versionCmp,
     awaitWithTimeout,
     sleep,
-    schemaValidator
+    schemaValidator,
+    robustGet,
+    robustParseRedirect
 }

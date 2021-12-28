@@ -18,7 +18,7 @@ async function test() {
         downloadLink: sRes.downloadLink,
         fileMatchRegex: "balenaEtcher\\-Portable\\-.+\\.exe"
     }))
-    console.log(rRes)
+    console.log(rRes.unwrap())
     //console.log((await robustParseRedirect("https://github.com/EdgelessPE/wimiso/releases/download/v1.1/ventoy_wimboot.img")).unwrap())
 }
 

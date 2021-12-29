@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 import {awaitWithTimeout, log, objectValidator} from "../../utils";
 
-export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
+export default async function (p: ScraperParameters, badge: string): Promise<Result<ScraperReturned, string>> {
     const {taskName} = p
 
     //载入脚本
@@ -26,7 +26,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
         return new Err("Error:External scraper script throw:\n" + JSON.stringify(e))
     }
     if (dirtyRes.err) {
-        log(dirtyRes.val)
+        log(dirtyRes.val, badge)
         return new Err("Error:External scraper script resolved error")
     }
     let dirty = dirtyRes.unwrap()

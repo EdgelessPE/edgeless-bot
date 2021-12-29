@@ -26,7 +26,7 @@ interface ScraperReturned {
 interface ScraperRegister {
     name: string;
     urlRegex: string;
-    entrance: (p: ScraperParameters) => Promise<Result<ScraperReturned, string>>;
+    entrance: (p: ScraperParameters, badge: string) => Promise<Result<ScraperReturned, string>>;
     requiredKeys: Array<string>;
 }
 

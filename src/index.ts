@@ -1,6 +1,7 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
 import External_Scraper from "./templates/scrapers/External_Scraper";
+import chalk from "chalk/index";
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -36,8 +37,8 @@ async function test() {
 
     console.log((await External_Scraper({
         taskName: "火绒安全",
-        url: ""
-    })).unwrap())
+        url: "external_scraper://www.huorong.cn/5.0.version.json",
+    }, chalk.bgWhite("Worker 0"))).unwrap())
 
 }
 

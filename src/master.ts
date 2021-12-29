@@ -22,6 +22,6 @@ async function master(
     return results
 }
 
-export default async (obj: any) => {
+export default async (obj: any): Promise<Array<Result<ScraperReturned, string>>> => {
     return await master(obj.tasks, obj.entrance, obj.badge)
 }

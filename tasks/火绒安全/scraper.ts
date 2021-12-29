@@ -1,6 +1,6 @@
 import axios from "axios";
-import {Err, Ok, Result} from "ts-results";
-import {ScraperReturned} from "../../src/class";
+import {Err, Ok} from "ts-results";
+import {parentPort} from "worker_threads";
 
 let version: string, url: string
 
@@ -20,15 +20,15 @@ function getDownloadLink(): string {
 }
 
 
-export default async function (): Promise<Result<ScraperReturned, string>> {
+(async () => {
     try {
         await init()
     } catch (e) {
-        console.log(JSON.stringify(e))
-        return new Err("Error:Function init() thrown error")
+        parentPort?.postMessage(new Err("Error:Function init() thrown error\n" + JSON.stringify(e)))
+        return
     }
-    return new Ok({
+    parentPort?.postMessage(new Ok({
         version: getVersion(),
         downloadLink: getDownloadLink()
-    })
-}
+    }))
+})()

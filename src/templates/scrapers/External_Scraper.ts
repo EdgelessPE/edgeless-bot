@@ -4,24 +4,39 @@ import {config} from "../../index";
 import path from "path";
 import fs from "fs";
 import {awaitWithTimeout, log, objectValidator} from "../../utils";
+import {Worker} from "worker_threads";
+
+let scriptPath = ""
+
+async function work(): Promise<Result<ScraperReturned, string>> {
+    return new Promise((resolve) => {
+        //检查文件是否存在
+        if (!fs.existsSync(scriptPath)) {
+            return new Err("Error:Can't find external scraper script : " + scriptPath)
+        }
+        //创建Worker
+        let worker = new Worker(scriptPath)
+        //监听worker完成的信息
+        worker.on("message", (res) => {
+            worker.terminate()
+            resolve(res)
+        })
+    })
+}
 
 export default async function (p: ScraperParameters, badge: string): Promise<Result<ScraperReturned, string>> {
     const {taskName} = p
 
     //载入脚本
-    const scriptPath = path.join(process.cwd(), config.DIR_TASKS, taskName, "scraper.ts")
+    scriptPath = path.join(process.cwd(), "dist", config.DIR_TASKS, taskName, "scraper.js")
     if (!fs.existsSync(scriptPath)) {
         return new Err("Error:Can't find external scraper script : " + scriptPath)
-    }
-    const script = (await import(scriptPath)).default
-    if (script == null || typeof script != 'function') {
-        return new Err("Error:External scraper script didn't export a function")
     }
 
     //执行脚本
     let dirtyRes
     try {
-        dirtyRes = await awaitWithTimeout(script, 30000) as Result<ScraperReturned, string>
+        dirtyRes = await awaitWithTimeout(work, 30000) as Result<ScraperReturned, string>
     } catch (e) {
         return new Err("Error:External scraper script throw:\n" + JSON.stringify(e))
     }
@@ -29,7 +44,7 @@ export default async function (p: ScraperParameters, badge: string): Promise<Res
         log(dirtyRes.val, badge)
         return new Err("Error:External scraper script resolved error")
     }
-    let dirty = dirtyRes.unwrap()
+    let dirty = dirtyRes.val
 
     //校验脏结果
     const checkList: Array<ObjectValidationNode> = [

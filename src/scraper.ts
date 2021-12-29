@@ -115,7 +115,8 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         //分别spawn hash中得到的数个任务池
         //任务完成后会将结果追加到collection
         let collection: Array<ResultNode> = []
-        for (let node of classifyHash) {
+        for (let key in classifyHash) {
+            let node = classifyHash[key]
             let badge = getBadge()
             piscina.run({
                 tasks: node.pool,

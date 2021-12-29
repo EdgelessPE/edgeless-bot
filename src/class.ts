@@ -88,23 +88,23 @@ interface TaskInstance {
     author: string;
     category: string;
     pageUrl: string;
-    options: {
-        requireWindows: boolean;
-        missingVersionTask: boolean;
+    options?: {
+        requireWindows?: boolean;
+        missingVersionTask?: boolean;
     };
     template: {
         scraper?: string;
         resolver?: string;
         producer: string;
     };
-    downloadLinkRegex: string;
+    downloadLinkRegex?: string;
     versionMatchRegex?: string;
-    fileMatchRegex: string;
+    fileMatchRegex?: string;
     cd?: Array<string>;
     producerRequiredObject: any;
     buildManifest: Array<string>;
     compressLevel?: number;
-    cover: string; //允许使用压缩包或文件夹
+    cover?: string; //允许使用压缩包或文件夹
 }
 
 //程序配置

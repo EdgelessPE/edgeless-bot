@@ -1,7 +1,6 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
-import External_Scraper from "./templates/scrapers/External_Scraper";
-import chalk from "chalk/index";
+import scrapersSpawner from './scraper'
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -35,10 +34,21 @@ async function test() {
     //     shortcutName: "安装火绒"
     // }, "producer_templates/Click2Install").unwrap())
 
-    console.log((await External_Scraper({
-        taskName: "火绒安全",
-        url: "external_scraper://www.huorong.cn/5.0.version.json",
-    }, chalk.bgWhite("Worker 0"))).unwrap())
+    console.log((await scrapersSpawner(
+        [
+            {
+                name: "火绒安全",
+                author: "Cno",
+                category: "安全急救",
+                pageUrl: "external_scraper://www.huorong.cn/5.0.version.json",
+                template: {
+                    producer: "Click2Install"
+                },
+                producerRequiredObject: {},
+                buildManifest: [""]
+            }
+        ]
+    ))[0].result.unwrap())
 
 }
 

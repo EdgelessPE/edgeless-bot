@@ -1,6 +1,7 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
 import scrapersSpawner from './scraper'
+import {sleep} from "./utils";
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -46,11 +47,24 @@ async function test() {
                 },
                 producerRequiredObject: {},
                 buildManifest: [""]
+            },
+            {
+                name: "balenaEtcher",
+                author: "Cno",
+                category: "压缩镜像",
+                pageUrl: "https://github.com/balena-io/etcher",
+                template: {
+                    producer: "Click2Install"
+                },
+                producerRequiredObject: {},
+                buildManifest: [""]
             }
         ]
     ))[0].result.unwrap())
 
 }
 
-test().then(_ => {
+test().then(async _ => {
+    await sleep(1000)
+    process.exit(0)
 })

@@ -14,21 +14,11 @@ async function master(
         let worker = new Worker(scriptPath, {workerData: tasks})
         //监听完成
         worker.on("message", (outcome: Array<Result<ScraperReturned, string>>) => {
-            console.log(JSON.stringify(outcome))
+            //console.log(JSON.stringify(outcome))
             worker.terminate()
             resolve(outcome)
         })
     }))
-
-
-    // for (let task of tasks) {
-    //     results.push(await script({
-    //         taskName: task.name,
-    //         url: task.pageUrl,
-    //         downloadLinkRegex: task.downloadLinkRegex,
-    //         versionMatchRegex: task.versionMatchRegex
-    //     }))
-    // }
 }
 
 async function main() {

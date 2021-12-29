@@ -108,15 +108,11 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         if (!success) {
             reject("Error:Fatal error occurred when classifying tasks")
         }
+
         //分别spawn hash中得到的数个任务池
         //任务完成后会将结果追加到collection
         let collection: Array<ResultNode> = []
-
-        //console.log(JSON.stringify(classifyHash))
-
-
         for (let key in classifyHash) {
-            //console.log(key)
             let node = classifyHash[key]
             const taskParameter = {
                 tasks: node.pool,

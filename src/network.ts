@@ -4,7 +4,7 @@ import {config} from "./index";
 import {log, sleep} from "./utils";
 
 
-async function robustGet(url: string, axiosConfig?: AxiosRequestConfig<any>): Promise<Result<any, string>> {
+async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise<Result<any, string>> {
     const singleFetch = async function (): Promise<Result<any, string>> {
         let res;
         try {

@@ -15,7 +15,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
     let version: string, downloadLink: string
     let repoInfo = parseRepo(url)
 
-    //将API界面直接作为下载地址返回，后续会由GitHub Release下载模板解析
+    //将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
     downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`
 
     //获取Json

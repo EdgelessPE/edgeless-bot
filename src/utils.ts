@@ -4,6 +4,7 @@ import path from "path";
 import cpt from 'crypto'
 import {Err, Ok, Result} from 'ts-results';
 import Ajv from 'ajv'
+import iconv from 'iconv-lite';
 
 enum Cmp {
     L, E, G
@@ -192,14 +193,18 @@ function schemaValidator(obj: any, schema: string): Result<boolean, string> {
     let schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString())
 
 
-    const ajv=new Ajv()
-    const validate=ajv.compile(schemaJson)
-    if(validate(obj)){
+    const ajv = new Ajv()
+    const validate = ajv.compile(schemaJson)
+    if (validate(obj)) {
         return new Ok(true)
-    }else {
+    } else {
         console.log(JSON.stringify(validate.errors))
         return new Ok(false)
     }
+}
+
+function toGB2312(text: string): Buffer {
+    return iconv.encode(text, 'GB2312');
 }
 
 export {
@@ -214,4 +219,5 @@ export {
     awaitWithTimeout,
     sleep,
     schemaValidator,
+    toGB2312
 }

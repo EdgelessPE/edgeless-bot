@@ -1,7 +1,6 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
-import GitHub_Release_Scraper from "./templates/scrapers/GitHub_Release"
-import GitHub_Release_Resolver from "./templates/resolvers/GitHub_Release"
+import Click2Install from "./templates/producers/Click2Install";
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -10,16 +9,26 @@ async function main() {
 }
 
 async function test() {
-    let sRes = (await GitHub_Release_Scraper({
-        url: "https://github.com/balena-io/etcher"
-    })).unwrap()
-    console.log(sRes.version)
-    let rRes = (await GitHub_Release_Resolver({
-        downloadLink: sRes.downloadLink,
-        fileMatchRegex: "balenaEtcher\\-Portable\\-.+\\.exe"
-    }))
-    console.log(rRes.unwrap())
     //console.log((await robustParseRedirect("https://github.com/EdgelessPE/wimiso/releases/download/v1.1/ventoy_wimboot.img")).unwrap())
+
+    // let sRes = (await GitHub_Release_Scraper({
+    //     url: "https://github.com/balena-io/etcher"
+    // })).unwrap()
+    // console.log(sRes.version)
+    // let rRes = (await GitHub_Release_Resolver({
+    //     downloadLink: sRes.downloadLink,
+    //     fileMatchRegex: "balenaEtcher\\-Portable\\-.+\\.exe"
+    // }))
+    // console.log(rRes.unwrap())
+
+    (await Click2Install({
+        taskName: "火绒安全",
+        workshop: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",
+        downloadedFile: "sysdiag-full-5.0.65.0-2021.12.28.1.exe",
+        requiredObject: {
+            shortcutName: "安装火绒"
+        }
+    })).unwrap()
 }
 
 test().then(_ => {

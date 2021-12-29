@@ -1,6 +1,6 @@
 import configGenerator from './config'
 import {CONFIG} from "./class";
-import Click2Install from "./templates/producers/Click2Install";
+import {schemaValidator} from "./utils";
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -21,14 +21,18 @@ async function test() {
     // }))
     // console.log(rRes.unwrap())
 
-    (await Click2Install({
-        taskName: "火绒安全",
-        workshop: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",
-        downloadedFile: "sysdiag-full-5.0.65.0-2021.12.28.1.exe",
-        requiredObject: {
-            shortcutName: "安装火绒"
-        }
-    })).unwrap()
+    // (await Click2Install({
+    //     taskName: "火绒安全",
+    //     workshop: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",
+    //     downloadedFile: "sysdiag-full-5.0.65.0-2021.12.28.1.exe",
+    //     requiredObject: {
+    //         shortcutName: "安装火绒"
+    //     }
+    // })).unwrap()
+
+    console.log(schemaValidator({
+        shortcutName: "安装火绒"
+    }, "producer_templates/Click2Install").unwrap())
 }
 
 test().then(_ => {

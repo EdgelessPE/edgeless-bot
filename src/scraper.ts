@@ -8,7 +8,7 @@ import chalk from "chalk";
 const Piscina = require('piscina');
 
 const piscina = new Piscina({
-    filename: path.resolve(__dirname, 'worker.js')
+    filename: path.resolve(__dirname, 'master.js')
 });
 
 interface ResultNode {

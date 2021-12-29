@@ -3,7 +3,7 @@ import {Result} from "ts-results";
 import path from "path";
 
 //输入一个同域任务数组然后同步顺次执行的Worker
-async function worker(
+async function master(
     tasks: Array<TaskInstance>,
     entrance: string,
     badge: string
@@ -23,5 +23,5 @@ async function worker(
 }
 
 export default async (obj: any) => {
-    return await worker(obj.tasks, obj.entrance, obj.badge)
+    return await master(obj.tasks, obj.entrance, obj.badge)
 }

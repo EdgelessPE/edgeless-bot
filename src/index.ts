@@ -2,6 +2,7 @@ import configGenerator from './config'
 import {CONFIG} from "./class";
 import scrapersSpawner from './scraper'
 import {sleep} from "./utils";
+import {isMainThread} from 'worker_threads'
 
 export const config: CONFIG = configGenerator().unwrap()
 
@@ -34,7 +35,7 @@ async function test() {
     // console.log(schemaValidator({
     //     shortcutName: "安装火绒"
     // }, "producer_templates/Click2Install").unwrap())
-
+    console.log('main')
     console.log((await scrapersSpawner(
         [
             {
@@ -60,11 +61,11 @@ async function test() {
                 buildManifest: [""]
             }
         ]
-    ))[0].result.unwrap())
+    ))[0].result.val)
 
 }
 
-test().then(async _ => {
+if (isMainThread) test().then(async _ => {
     await sleep(1000)
     process.exit(0)
 })

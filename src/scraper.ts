@@ -4,12 +4,7 @@ import {Err, Ok, Result} from "ts-results";
 import scraperRegister from './templates/scrapers/_register'
 import {log} from "./utils";
 import chalk from "chalk";
-
-const Piscina = require('piscina');
-
-const piscina = new Piscina({
-    filename: path.resolve(__dirname, 'master.js')
-});
+import {Worker} from "worker_threads";
 
 interface ResultNode {
     taskName: string,
@@ -90,7 +85,7 @@ function getBadge(): string {
 export default async function (tasks: Array<TaskInstance>): Promise<Array<ResultNode>> {
     return new Promise(((resolve, reject) => {
         //按同域任务分类
-        let classifyHash: any = {}, success = true
+        let classifyHash: any = {}, success = true, masterSum = 0
         for (let task of tasks) {
             let mRes = searchTemplate(task.pageUrl)
             if (mRes.err) {
@@ -106,6 +101,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                         entrance: m.entrance,
                         pool: [task]
                     }
+                    masterSum++
                 }
             }
         }
@@ -115,29 +111,32 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         //分别spawn hash中得到的数个任务池
         //任务完成后会将结果追加到collection
         let collection: Array<ResultNode> = []
+
+        //console.log(JSON.stringify(classifyHash))
+
+
         for (let key in classifyHash) {
+            //console.log(key)
             let node = classifyHash[key]
             const taskParameter = {
                 tasks: node.pool,
-                entrance: node.entrance,
-                badge: getBadge()
+                entrance: node.entrance
             }
-
-            piscina.run(taskParameter).then((outcome: Array<Result<ScraperReturned, string>>) => {
+            let worker = new Worker(path.resolve(__dirname, 'master.js'), {workerData: taskParameter})
+            worker.on("message", (outcome: Array<Result<ScraperReturned, string>>) => {
+                //将返回的结果推入collection内
                 node.pool.forEach((poolNode: TaskInstance, index: number) => {
                     collection.push({
                         taskName: poolNode.name,
                         result: outcome[index]
                     })
                 })
+                worker.terminate()
+                //如果结束则resolve
+                if (collection.length == masterSum) {
+                    resolve(collection)
+                }
             })
         }
-        //监听任务池事件
-        piscina.on('drain', (_: any) => {
-            resolve(collection)
-        })
-        piscina.on('error', (_: any) => {
-            reject("Error:Fatal error occurred executing worker")
-        })
     }))
 }

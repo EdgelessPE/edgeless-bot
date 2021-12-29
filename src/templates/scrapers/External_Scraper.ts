@@ -4,7 +4,7 @@ import {config} from "../../index";
 import path from "path";
 import fs from "fs";
 import {awaitWithTimeout, log, objectValidator} from "../../utils";
-import {Worker} from "worker_threads";
+import {parentPort, Worker, workerData} from "worker_threads";
 
 let scriptPath = ""
 
@@ -24,7 +24,7 @@ async function work(): Promise<Result<ScraperReturned, string>> {
     })
 }
 
-export default async function (p: ScraperParameters, badge: string): Promise<Result<ScraperReturned, string>> {
+async function single(p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
     const {taskName} = p
 
     //载入脚本
@@ -41,7 +41,7 @@ export default async function (p: ScraperParameters, badge: string): Promise<Res
         return new Err("Error:External scraper script throw:\n" + JSON.stringify(e))
     }
     if (dirtyRes.err) {
-        log(dirtyRes.val, badge)
+        log(dirtyRes.val)
         return new Err("Error:External scraper script resolved error")
     }
     let dirty = dirtyRes.val
@@ -82,3 +82,16 @@ export default async function (p: ScraperParameters, badge: string): Promise<Res
         return new Err("Error:Returned result validation failed")
     }
 }
+
+(async () => {
+    let results: Array<Result<ScraperReturned, string>> = []
+    for (const task of workerData) {
+        results.push((await single({
+            taskName: task.name,
+            url: task.pageUrl,
+            downloadLinkRegex: task.downloadLinkRegex,
+            versionMatchRegex: task.versionMatchRegex
+        })))
+    }
+    parentPort?.postMessage(results)
+})()

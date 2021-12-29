@@ -8,6 +8,7 @@ enum ValidationType {
 }
 
 interface ScraperParameters {
+    taskName: string;
     url: string;
     downloadLinkRegex?: string;
     versionMatchRegex?: string;
@@ -135,7 +136,26 @@ interface CONFIG {
     GITHUB_ACTIONS: boolean;
 }
 
+//对象检验表节点
+enum JsObjectType {
+    "numberOrEnum",
+    "string",
+    "object",
+    "boolean",
+    "function",
+    "invalid"
+}
+
+interface ObjectValidationNode {
+    key: string;
+    type: JsObjectType;
+    required: boolean;
+    properties?: Array<ObjectValidationNode>;
+}
+
 export {
+    ValidationType,
+    JsObjectType,
     ScraperParameters,
     ScraperReturned,
     ScraperRegister,
@@ -148,4 +168,5 @@ export {
     DatabaseNode,
     TaskInstance,
     CONFIG,
+    ObjectValidationNode,
 };

@@ -1,0 +1,64 @@
+import {JsObjectType, ObjectValidationNode, ScraperParameters, ScraperReturned} from "../../class";
+import {Err, Ok, Result} from "ts-results";
+import {config} from "../../index";
+import path from "path";
+import fs from "fs";
+import {awaitWithTimeout, objectValidator} from "../../utils";
+
+export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
+    const {taskName} = p
+
+    //载入脚本
+    const scriptPath = path.join(config.DIR_TASKS, taskName, "Scraper.ts")
+    if (!fs.existsSync(scriptPath)) {
+        return new Err("Error:Can't find external scraper script : " + scriptPath)
+    }
+    const script = await import(scriptPath)
+    if (script == null || typeof script != 'function') {
+        return new Err("Error:External scraper script didn't export a function")
+    }
+
+    //执行脚本
+    let dirtyRes
+    try {
+        dirtyRes = await awaitWithTimeout(script, 30000)
+    } catch (e) {
+        return new Err("Error:Function init() throw:\n" + JSON.stringify(e))
+    }
+
+    //校验脏结果
+    const checkList: Array<ObjectValidationNode> = [
+        {
+            key: "version",
+            type: JsObjectType.string,
+            required: true
+        },
+        {
+            key: "downloadLink",
+            type: JsObjectType.string,
+            required: true
+        },
+        {
+            key: "validation",
+            type: JsObjectType.object,
+            required: false,
+            properties: [
+                {
+                    key: "type",
+                    type: JsObjectType.numberOrEnum,
+                    required: true
+                },
+                {
+                    key: "value",
+                    type: JsObjectType.string,
+                    required: true
+                }
+            ]
+        }
+    ]
+    if (objectValidator(dirtyRes, checkList)) {
+        return new Ok(dirtyRes)
+    } else {
+        return new Err("Error:Returned result validation failed")
+    }
+}

@@ -4,6 +4,7 @@ import path from "path";
 import {Err, Ok, Result} from 'ts-results';
 import Ajv from 'ajv'
 import iconv from 'iconv-lite';
+import {JsObjectType, ObjectValidationNode} from "./class";
 
 enum Cmp {
     L, E, G
@@ -188,11 +189,83 @@ function schemaValidator(obj: any, schema: string): Result<boolean, string> {
     }
 }
 
+function objectValidator(object: any, checkList: Array<ObjectValidationNode>, cd?: string): boolean {
+    let valid = true
+    for (let node of checkList) {
+        //检验必须但缺失
+        if (node.required && !object.hasOwnProperty(node.key)) {
+            log(`Error:Missing required key : ${node.key}`)
+            valid = false
+            continue
+        }
+        //检验类型错误
+        const getType = function (a: any): JsObjectType {
+            let res
+            switch (typeof a) {
+                case "number":
+                    res = JsObjectType.numberOrEnum
+                    break
+                case "string":
+                    res = JsObjectType.string
+                    break
+                case "boolean":
+                    res = JsObjectType.boolean
+                    break
+                case "object":
+                    res = JsObjectType.object
+                    break
+                case "function":
+                    res = JsObjectType.function
+                    break
+                default:
+                    res = JsObjectType.invalid
+                    break
+            }
+            return res
+        }
+        const explainType = function (b: JsObjectType): string {
+            let res
+            switch (b) {
+                case JsObjectType.numberOrEnum:
+                    res = "numberOrEnum"
+                    break
+                case JsObjectType.string:
+                    res = "string"
+                    break
+                case JsObjectType.boolean:
+                    res = "boolean"
+                    break
+                case JsObjectType.object:
+                    res = "object"
+                    break
+                case JsObjectType.function:
+                    res = "function"
+                    break
+                default:
+                    res = "invalid"
+                    break
+            }
+            return res
+        }
+        if (object.hasOwnProperty(node.key) && getType(object[node.key]) != node.type) {
+            log(`Error:Expect typeof ${cd ?? ""}${node.key} to be ${explainType(node.type)},got ${typeof object[node.key]}`)
+            valid = false
+            continue
+        }
+        //递归检验对象
+        if (node.type == JsObjectType.object && object.hasOwnProperty(node.key) && node.properties) {
+            valid = objectValidator(object[node.key], node.properties, `${cd ?? ""}${node.key}.`)
+        }
+    }
+    return valid
+}
+
 function toGB2312(text: string): Buffer {
     return iconv.encode(text, 'GB2312');
 }
 
 export {
+    Cmp,
     log,
     formatVersion,
     matchVersion,
@@ -200,9 +273,9 @@ export {
     getSizeString,
     getTimeString,
     versionCmp,
-    Cmp,
     awaitWithTimeout,
     sleep,
     schemaValidator,
-    toGB2312
+    toGB2312,
+    objectValidator,
 }

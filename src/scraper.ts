@@ -8,7 +8,7 @@ import chalk from "chalk";
 const Piscina = require('piscina');
 
 const piscina = new Piscina({
-    filename: path.join(__dirname, "worker.ts")
+    filename: path.resolve(__dirname, 'worker.js')
 });
 
 interface ResultNode {
@@ -117,12 +117,13 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         let collection: Array<ResultNode> = []
         for (let key in classifyHash) {
             let node = classifyHash[key]
-            let badge = getBadge()
-            piscina.run({
+            const taskParameter = {
                 tasks: node.pool,
                 entrance: node.entrance,
-                badge
-            }).then((outcome: Array<Result<ScraperReturned, string>>) => {
+                badge: getBadge()
+            }
+
+            piscina.run(taskParameter).then((outcome: Array<Result<ScraperReturned, string>>) => {
                 node.pool.forEach((poolNode: TaskInstance, index: number) => {
                     collection.push({
                         taskName: poolNode.name,

@@ -1,5 +1,4 @@
 //爬虫模板
-import {Result} from "ts-results";
 
 enum ValidationType {
     "MD5",
@@ -26,7 +25,7 @@ interface ScraperReturned {
 interface ScraperRegister {
     name: string;
     urlRegex: string;
-    entrance: (p: ScraperParameters, badge: string) => Promise<Result<ScraperReturned, string>>;
+    entrance: string;
     requiredKeys: Array<string>;
 }
 
@@ -44,7 +43,7 @@ interface ResolverReturned {
 interface ResolverRegister {
     name: string;
     downloadLinkRegex: string;
-    entrance: (p: ResolverParameters) => Promise<Result<ResolverReturned, string>>;
+    entrance: string;
     requiredKeys: Array<string>;
 }
 
@@ -63,7 +62,7 @@ interface ProducerReturned {
 interface ProducerRegister {
     name: string;
     description: string;
-    entrance: (p: ProducerParameters) => Promise<Result<ProducerReturned, string>>;
+    entrance: string;
 }
 
 //数据库

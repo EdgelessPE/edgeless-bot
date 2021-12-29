@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from "path";
-import cpt from 'crypto'
 import {Err, Ok, Result} from 'ts-results';
 import Ajv from 'ajv'
 import iconv from 'iconv-lite';
@@ -71,20 +70,6 @@ function print(text: string, ga_mode: boolean) {
 
 function log(text: string) {
     print(text, false)
-}
-
-async function getMD5(filePath: string): Promise<string> {
-    return new Promise(resolve => {
-        const rs = fs.createReadStream(filePath);
-        const hash = cpt.createHash('md5');
-        let hex;
-        rs.on('data', hash.update.bind(hash));
-        rs.on('end', () => {
-            hex = hash.digest('hex');
-            log('Info:MD5 is ' + hex);
-            resolve(hex);
-        });
-    });
 }
 
 function formatVersion(version: string): Result<string, string> {
@@ -209,13 +194,13 @@ function toGB2312(text: string): Buffer {
 
 export {
     log,
-    getMD5,
     formatVersion,
     matchVersion,
     isURL,
     getSizeString,
     getTimeString,
     versionCmp,
+    Cmp,
     awaitWithTimeout,
     sleep,
     schemaValidator,

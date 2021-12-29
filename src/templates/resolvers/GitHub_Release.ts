@@ -19,7 +19,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
     let assets = json[0].assets
     let result = "", node
     for (node of assets) {
-        if (node == undefined) break
+        if (node == null) continue
         if ((node.name as string).match(regex) != null) {
             if (result == "") {
                 result = node.browser_download_url

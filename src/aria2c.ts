@@ -19,8 +19,8 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
             "--rpc-listen-all=true",
             `--rpc-listen-port=${config.ARIA2_PORT}`,
         ]
-        if (config["ARIA2_PROXY"]) {
-            args.push(`--all-proxy=${config.ARIA2_PROXY}`)
+        if (config["GLOBAL_PROXY"]) {
+            args.push(`--all-proxy=${config.GLOBAL_PROXY}`)
         }
         if (config["ARIA2_SECRET"]) {
             args.push(`--rpc-secret=${config.ARIA2_SECRET}`)

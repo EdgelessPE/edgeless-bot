@@ -35,7 +35,7 @@ async function test() {
     // console.log(schemaValidator({
     //     shortcutName: "安装火绒"
     // }, "producer_templates/Click2Install").unwrap())
-    console.log('main')
+
     console.log((await scrapersSpawner(
         [
             {

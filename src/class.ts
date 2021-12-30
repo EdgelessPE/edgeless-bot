@@ -124,15 +124,16 @@ interface CONFIG {
     MAX_RETRY_RESOLVER: number;
     MAX_RETRY_PRODUCER: number;
 
+    GLOBAL_PROXY: string;
     ARIA2_SPAWN: boolean;
     ARIA2_PORT: number;
     ARIA2_SECRET: string;
-    ARIA2_PROXY: string;
     ARIA2_THREAD: number;
 
     SPECIFY_TASK: string;
     MODE_FORCED: boolean;
     GITHUB_ACTIONS: boolean;
+
 }
 
 //对象检验表节点

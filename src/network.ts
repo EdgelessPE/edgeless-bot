@@ -3,12 +3,29 @@ import {Err, Ok, Result} from "ts-results";
 import {config} from "./index";
 import {log, sleep} from "./utils";
 
+function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
+    let result: AxiosRequestConfig = axiosConfig ?? {}
+    if (config.GLOBAL_PROXY) {
+        //http://localhost:10808
+        let url = config.GLOBAL_PROXY
+        let sp1 = url.split(":")
+        const protocol = sp1[0], port = Number(sp1[2])
+        const host = sp1[1].split("//")[1]
+
+        result["proxy"] = {
+            protocol,
+            host,
+            port
+        }
+    }
+    return result
+}
 
 async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise<Result<any, string>> {
     const singleFetch = async function (): Promise<Result<any, string>> {
         let res;
         try {
-            res = await axios.get(url, axiosConfig ?? {});
+            res = await axios.get(url, getConfig(axiosConfig));
         } catch (err) {
             //console.log(JSON.stringify(err));
             return new Err("Warning:Single fetch failed")
@@ -38,7 +55,7 @@ async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise
 async function robustParseRedirect(url: string): Promise<Result<string, string>> {
     async function fetchURL(): Promise<Result<string, string>> {
         return new Promise((resolve) => {
-            axios.get(url, {maxRedirects: 0,})
+            axios.get(url, getConfig({maxRedirects: 0}))
                 .catch((e) => {
                     if (e.response && (e.response.status == 302 || e.response.status == 301)) {
                         resolve(new Ok(e.response.headers.location))
@@ -71,5 +88,6 @@ async function robustParseRedirect(url: string): Promise<Result<string, string>>
 
 export {
     robustGet,
-    robustParseRedirect
+    robustParseRedirect,
+    getConfig
 }

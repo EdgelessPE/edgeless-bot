@@ -56,7 +56,7 @@
     "ARIA2_SECRET": {
       "type": "string"
     },
-    "ARIA2_PROXY": {
+    "GLOBAL_PROXY": {
       "type": "string"
     },
     "ARIA2_THREAD": {

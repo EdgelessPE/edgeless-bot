@@ -260,8 +260,12 @@ function objectValidator(object: any, checkList: Array<ObjectValidationNode>, cd
     return valid
 }
 
-function toGB2312(text: string): Buffer {
-    return iconv.encode(text, 'GB2312');
+function toGBK(text: string): Buffer {
+    return iconv.encode(text, 'GBK');
+}
+
+function fromGBK(b: Buffer): string {
+    return iconv.decode(b, 'GBK');
 }
 
 export {
@@ -276,6 +280,7 @@ export {
     awaitWithTimeout,
     sleep,
     schemaValidator,
-    toGB2312,
+    toGBK,
+    fromGBK,
     objectValidator,
 }

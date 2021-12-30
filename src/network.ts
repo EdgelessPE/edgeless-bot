@@ -6,7 +6,6 @@ import {log, sleep} from "./utils";
 function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
     let result: AxiosRequestConfig = axiosConfig ?? {}
     if (config.GLOBAL_PROXY) {
-        //http://localhost:10808
         let url = config.GLOBAL_PROXY
         let sp1 = url.split(":")
         const protocol = sp1[0], port = Number(sp1[2])
@@ -28,7 +27,7 @@ async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise
             res = await axios.get(url, getConfig(axiosConfig));
         } catch (err) {
             //console.log(JSON.stringify(err));
-            return new Err("Warning:Single fetch failed")
+            return new Err("Warning:Single fetch failed for " + url + " :\n" + JSON.stringify(err))
         }
         return new Ok(res.data)
     }
@@ -61,7 +60,7 @@ async function robustParseRedirect(url: string): Promise<Result<string, string>>
                         resolve(new Ok(e.response.headers.location))
                     } else {
                         //console.log(e.response?.status)
-                        resolve(new Err("Warning:Single fetch failed"))
+                        resolve(new Err("Warning:Single fetch failed for " + url + " :\n" + JSON.stringify(e)))
                     }
                 })
         })
@@ -88,6 +87,5 @@ async function robustParseRedirect(url: string): Promise<Result<string, string>>
 
 export {
     robustGet,
-    robustParseRedirect,
-    getConfig
+    robustParseRedirect
 }

@@ -28,7 +28,7 @@ async function single(p: ScraperParameters): Promise<Result<ScraperReturned, str
     const {taskName} = p
 
     //载入脚本
-    scriptPath = path.join(process.cwd(), "dist", config.DIR_TASKS, taskName, "scraper.js")
+    scriptPath = path.join(__dirname, "..", "..", "..", config.DIR_TASKS, taskName, "scraper.js")
     if (!fs.existsSync(scriptPath)) {
         return new Err("Error:Can't find external scraper script : " + scriptPath)
     }

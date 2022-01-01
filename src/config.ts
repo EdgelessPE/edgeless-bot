@@ -3,19 +3,19 @@ import fs from "fs";
 import toml from 'toml'
 import {Err, Ok, Result} from "ts-results";
 import {schemaValidator} from "./utils";
-import { PATH_CONFIG } from "./const";
+import {PATH_CONFIG} from "./const";
 import minimist from 'minimist';
 
-export default function ():Result<CONFIG, string> {
-    if(!fs.existsSync(PATH_CONFIG)){
+function configGenerator(): Result<CONFIG, string> {
+    if (!fs.existsSync(PATH_CONFIG)) {
         return new Err("Error:Can't find config.toml")
-    }else {
+    } else {
         //读取和解析配置
-        const text=fs.readFileSync(PATH_CONFIG).toString()
+        const text = fs.readFileSync(PATH_CONFIG).toString()
         let json
-        try{
-            json=toml.parse(text) as any
-        }catch (e) {
+        try {
+            json = toml.parse(text) as any
+        } catch (e) {
             console.log(JSON.stringify(e))
             return new Err("Error:Can't parse config.toml")
         }
@@ -46,10 +46,12 @@ export default function ():Result<CONFIG, string> {
             if(args.hasOwnProperty(coverNode.arg)) json[coverNode.key]=args[coverNode.arg]
         }
         //特殊处理-d参数
-        if(args.hasOwnProperty("d")) {
-            json["DATABASE_UPDATE"]=false
-            json["REMOTE_ENABLE"]=false
+        if (args.hasOwnProperty("d")) {
+            json["DATABASE_UPDATE"] = false
+            json["REMOTE_ENABLE"] = false
         }
         return new Ok(json)
     }
 }
+
+export const config = configGenerator().unwrap()

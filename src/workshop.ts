@@ -1,5 +1,5 @@
-import {config} from "./index";
 import fs from "fs";
+import {config} from "./config";
 
 const shell = require("shelljs")
 const DIR_WORKSHOP=config.DIR_WORKSHOP

@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 import {Err, Ok, Result} from "ts-results";
-import {config} from "./index";
 import {log, sleep} from "./utils";
+import {config} from "./config";
 
 function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
     let result: AxiosRequestConfig = axiosConfig ?? {}

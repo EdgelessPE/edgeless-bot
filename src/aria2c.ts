@@ -1,10 +1,12 @@
 import {WebSocket as Aria2WebSocket} from 'libaria2-ts';
 import cp from 'child_process';
-import {config} from './index';
 import {log, sleep} from "./utils";
 import {getOS, OS, where} from "./platform";
 import chalk from "chalk";
 import ora from "ora";
+import path from "path";
+import fs from "fs";
+import {config} from "./config";
 
 
 let aria2c_process: cp.ChildProcessWithoutNullStreams, aria2c_alive = false, sent_kill = false,
@@ -155,7 +157,7 @@ async function download(taskName: string, url: string, dir: string, fileName: st
             console.log(err);
             resolve(false)
         }
-        resolve(true)
+        resolve(fs.existsSync(path.join(dir, fileName)))
     }))
 }
 

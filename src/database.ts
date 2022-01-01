@@ -1,7 +1,7 @@
 import fs from 'fs'
-import {config} from "./index";
 import {DatabaseNode} from "./class";
 import {log} from "./utils";
+import {config} from "./config";
 
 let database:any=null
 

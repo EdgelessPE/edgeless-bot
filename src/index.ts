@@ -1,9 +1,6 @@
-import configGenerator from './config'
 import {sleep} from "./utils";
 import {isMainThread} from 'worker_threads'
 import scrapersSpawner from "./scraper";
-
-export const config = configGenerator().unwrap()
 
 async function main() {
 

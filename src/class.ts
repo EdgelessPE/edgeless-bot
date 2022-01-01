@@ -87,23 +87,27 @@ interface TaskInstance {
     author: string;
     category: string;
     pageUrl: string;
-    options?: {
-        requireWindows?: boolean;
-        missingVersionTask?: boolean;
-    };
     template: {
         scraper?: string;
         resolver?: string;
         producer: string;
     };
-    downloadLinkRegex?: string;
-    versionMatchRegex?: string;
-    fileMatchRegex?: string;
-    cd?: Array<string>;
-    producerRequiredObject: any;
-    buildManifest: Array<string>;
-    compressLevel?: number;
-    cover?: string; //允许使用压缩包或文件夹
+    regex?: {
+        download_link?: string;
+        download_name?: string;
+        scraper_version?: string;
+    };
+    parameter: {
+        build_manifest: Array<string>
+        build_cover?: string;
+        resolver_cd?: Array<string>;
+        compress_level?: number;
+    };
+    producer_required: any;
+    extra?: {
+        require_windows?: boolean;
+        missing_version?: boolean;
+    };
 }
 
 //程序配置

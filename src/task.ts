@@ -1,12 +1,16 @@
 import fs from "fs";
 import path from "path";
 import {Err, Ok, Result} from "ts-results";
-import {ScraperReturned, TaskInstance} from "./class";
+import {ExecuteParameter, ScraperReturned, TaskInstance} from "./class";
 import {config} from "./config";
 import toml from "toml";
 import {Cmp, log, matchVersion, schemaValidator, versionCmp} from "./utils";
 import {getDatabaseNode, setDatabaseNodeFailure} from "./database";
 import {ResultNode} from "./scraper";
+import resolver from "./resolver";
+import {download} from "./aria2c";
+
+const shell = require("shelljs")
 
 interface TaskConfig {
     task: {
@@ -163,13 +167,36 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     return makeList
 }
 
-function executeTasks(tasks: Array<{
-    task: TaskInstance,
-    info: ScraperReturned
-}>): boolean {
-    console.log("Run these:")
-    console.log(tasks)
-    return true
+async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
+    //解析直链
+    let dRes = await resolver({
+        downloadLink: t.info.downloadLink,
+        fileMatchRegex: t.task.regex.download_name,
+        cd: t.task.parameter.resolver_cd
+    })
+    if (dRes.err) {
+        return dRes
+    }
+    //下载文件
+    const workshop = path.join(process.cwd(), config.DIR_WORKSHOP, t.task.name)
+    shell.mkdir(workshop)
+    let downloadFile
+    try {
+        downloadFile = await download(t.task.name, dRes.val.directLink, workshop)
+    } catch (e) {
+        console.log(JSON.stringify(e))
+        return new Err("Error:Can't download link" + dRes.val.directLink)
+    }
+    return new Ok(true)
+}
+
+async function executeTasks(ts: Array<ExecuteParameter>): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+        console.log("Run these:")
+        console.log(ts)
+
+        resolve(true)
+    })
 }
 
 export {

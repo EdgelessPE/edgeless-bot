@@ -12,9 +12,9 @@ url = "https://github.com/balena-io/etcher"
 producer = "Click2Install"
 
 # 使用到的正则
-#[regex]
+[regex]
 # download_link = ""
-# download_name = ""
+download_name = ".exe"
 # scraper_version = ""
 
 # 通用参数

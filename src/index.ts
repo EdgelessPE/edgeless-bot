@@ -6,10 +6,9 @@ import {config} from "./config";
 import {ensurePlatform, getOS, OS} from "./platform";
 import os from "os";
 import {clearWorkshop} from "./workshop";
-import {initAria2c, stopAria2c} from "./aria2c";
+import {download, initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, writeDatabase} from "./database";
 import fs from "fs";
-import resolver from "./resolver";
 
 async function main() {
     //平台校验
@@ -55,11 +54,9 @@ async function main() {
 }
 
 async function test() {
-    let res = await resolver({
-        downloadLink: "https://api.github.com/repos/balena-io/etcher/releases",
-        fileMatchRegex: "balenaEtcher\\-Portable\\-.+\\.exe"
-    })
-    console.log(res.unwrap())
+    await initAria2c()
+    let res = await download("手心输入法", "http://down1.xinshuru.com/installer/win/PalmInput_Setup.exe", "./test")
+    console.log(res)
 }
 
 if (!Piscina.isWorkerThread) test().then(async _ => {

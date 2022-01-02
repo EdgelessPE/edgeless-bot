@@ -78,7 +78,10 @@
           "type": "string"
         }
       },
-      "type": "object"
+      "type": "object",
+      "required": [
+        "download_name"
+      ]
     },
     "template": {
       "properties": {
@@ -102,7 +105,8 @@
     "parameter",
     "producer_required",
     "template",
-    "task"
+    "task",
+    "regex"
   ],
   "type": "object"
 }

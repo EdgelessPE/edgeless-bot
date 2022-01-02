@@ -105,20 +105,20 @@ async function initAria2c(): Promise<boolean> {
 }
 
 //下载和等待完成函数
-async function download(taskName: string, url: string, dir: string, fileName: string): Promise<boolean> {
-    return new Promise((async resolve => {
+async function download(taskName: string, url: string, dir: string): Promise<string> {
+    return new Promise((async (resolve, reject) => {
+        let filename = ""
         try {
             // Cp.execSync("wget -O target.exe " + url, {cwd: dir});
             log('Info:Start downloading ' + taskName);
             const gid = await aria2c_handler.addUri(
                 url,
                 {
-                    dir,
-                    out: fileName,
+                    dir
                 },
                 0,
             );
-            let done = false;
+            let done = false, status
             const progress = ora({
                 text: 'Downloading ' + taskName + '...',
                 prefixText: chalk.blue('Info'),
@@ -126,13 +126,14 @@ async function download(taskName: string, url: string, dir: string, fileName: st
             progress.start();
             while (!done) {
                 await sleep(500);
-                const status = await aria2c_handler.tellStatus(gid);
+                status = await aria2c_handler.tellStatus(gid);
                 if (status.status == 'error') {
                     throw status;
                 }
 
                 if (status.status == 'complete') {
                     done = true;
+                    filename = path.parse(status.files[0].path).base
                 }
 
                 if (status.status == 'waiting') {
@@ -152,12 +153,15 @@ async function download(taskName: string, url: string, dir: string, fileName: st
             }
             progress.succeed(taskName + ' downloaded');
             progress.stop()
-            resolve(true)
         } catch (err: any) {
             console.log(err);
-            resolve(false)
+            reject("Error:Download progress thrown")
         }
-        resolve(fs.existsSync(path.join(dir, fileName)))
+        if (fs.existsSync(path.join(dir, filename))) {
+            resolve(filename)
+        } else {
+            reject("Error:Can't find file after download")
+        }
     }))
 }
 

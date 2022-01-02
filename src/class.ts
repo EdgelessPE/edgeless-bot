@@ -93,9 +93,9 @@ interface TaskInstance {
         resolver?: string;
         producer: string;
     };
-    regex?: {
+    regex: {
         download_link?: string;
-        download_name?: string;
+        download_name: string;
         scraper_version?: string;
     };
     parameter: {
@@ -174,6 +174,12 @@ interface WorkerDataResolver {
     cd?: Array<string>;
 }
 
+//制作所需信息
+interface ExecuteParameter {
+    task: TaskInstance;
+    info: ScraperReturned;
+}
+
 export {
     ValidationType,
     JsObjectType,
@@ -191,5 +197,6 @@ export {
     CONFIG,
     ObjectValidationNode,
     WorkerDataScraper,
-    WorkerDataResolver
+    WorkerDataResolver,
+    ExecuteParameter
 };

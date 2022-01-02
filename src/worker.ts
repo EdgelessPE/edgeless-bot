@@ -3,15 +3,7 @@ import {Err, Ok, Result} from "ts-results";
 import {awaitWithTimeout} from "./utils";
 import {TIMEOUT} from "./const";
 
-function expandResult(r: Result<any, any>): Result<any, any> {
-    if (r.ok) {
-        return expandResult(r.val)
-    } else {
-        return r
-    }
-}
-
-export default async function (workerData: WorkerData): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
+async function scraper(workerData: WorkerData): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
     const dirtyScript = await import(workerData.scriptPath)
     if (dirtyScript == null || dirtyScript.default == null) {
         return new Err(`Error:${workerData.badge} imported null script : ${workerData.scriptPath}`)
@@ -47,4 +39,8 @@ export default async function (workerData: WorkerData): Promise<Result<Array<Res
             return new Ok(results)
         }
     }
+}
+
+export {
+    scraper
 }

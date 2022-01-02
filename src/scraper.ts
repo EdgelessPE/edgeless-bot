@@ -162,7 +162,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                     isExternal: true,
                     tasks: node.pool
                 }
-                piscina.run(wd)
+                piscina.run(wd, {name: "scraper"})
                     .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                         if (res.err) {
                             node.pool.forEach((item) => {
@@ -199,7 +199,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                     isExternal: false,
                     tasks: node.pool
                 }
-                piscina.run(wd)
+                piscina.run(wd, {name: "scraper"})
                     .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                         if (res.err) {
                             node.pool.forEach((item) => {

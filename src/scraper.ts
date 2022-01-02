@@ -105,7 +105,7 @@ function getBadge(): string {
 export default async function (tasks: Array<TaskInstance>): Promise<Array<ResultNode>> {
     return new Promise(((resolve, reject) => {
         //按同域任务分类
-        let classifyHash: any = {}, success = true, masterSum = 0
+        let classifyHash: any = {}, success = true, workerSum = 0
         for (let task of tasks) {
             let mRes = searchTemplate(task.pageUrl)
             if (mRes.err) {
@@ -121,12 +121,14 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                         entrance: m.entrance,
                         pool: [task]
                     }
-                    masterSum++
+                    workerSum++
                 }
             }
         }
         if (!success) {
             reject("Error:Fatal error occurred when classifying tasks")
+        } else {
+            log(`Info:Need ${workerSum} workers to scrape`)
         }
 
         //分别spawn hash中得到的数个任务池
@@ -134,11 +136,19 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         const piscina = new Piscina({
             filename: path.resolve(__dirname, 'worker.js')
         });
-        piscina.on("drain", () => {
-            log("Info:Piscina drain")
-            resolve(collection)
+        piscina.on("error", (e) => {
+            console.log(JSON.stringify(e))
+            log("Error:Received error from worker")
         })
-        let wd: WorkerData, p
+        let wd: WorkerData, p, jobSum = 0
+        const checkResolve = function (badge: string) {
+            if (piscina.completed == jobSum) {
+                log(`Info:Scrapers all done`)
+                resolve(collection)
+            } else {
+                log(`Info:${badge} finished tasks`)
+            }
+        }
         for (let key in classifyHash) {
             let node = classifyHash[key] as {
                 entrance: string,
@@ -146,9 +156,9 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
             }
             if (node.entrance == "External") {
                 //启动外置脚本任务
-                let taskName = node.pool[0].name
+                let taskName = node.pool[0].name, badge = getBadge()
                 wd = {
-                    badge: getBadge(),
+                    badge,
                     scriptPath: path.join(__dirname, "..", config.DIR_TASKS, taskName, "scraper.js"),
                     isExternal: true,
                     tasks: node.pool
@@ -166,11 +176,13 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                             node.pool.forEach((item, index) => {
                                 collection.push({
                                     taskName: item.name,
-                                    result: new Ok(res.unwrap()[index])
+                                    result: new Ok(res.val[index])
                                 })
                             })
                         }
+                        checkResolve(badge)
                     })
+                jobSum++
             } else {
                 //启动模板任务
                 p = parsePath(node.entrance)
@@ -181,8 +193,9 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                     })
                     continue
                 }
+                let badge = getBadge()
                 wd = {
-                    badge: getBadge(),
+                    badge,
                     scriptPath: p.unwrap(),
                     isExternal: false,
                     tasks: node.pool
@@ -200,12 +213,21 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                             node.pool.forEach((item, index) => {
                                 collection.push({
                                     taskName: item.name,
-                                    result: new Ok(res.unwrap()[index])
+                                    result: new Ok(res.val[index])
                                 })
                             })
                         }
+                        checkResolve(badge)
                     })
+                jobSum++
             }
+        }
+        //如果piscina未在运行中则直接返回
+        if (jobSum == 0) {
+            log("Warning:No jobs scheduled!")
+            resolve(collection)
+        } else {
+            log(`Info:Scheduled ${jobSum} jobs`)
         }
     }))
 }

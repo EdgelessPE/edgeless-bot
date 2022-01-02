@@ -1,7 +1,7 @@
 import path from "path";
 import {ScraperRegister, ScraperReturned, TaskInstance} from "./class";
 import {Err, Ok, Result} from "ts-results";
-import scraperRegister from './templates/scrapers/_register'
+import scraperRegister from '../templates/scrapers/_register'
 import {log} from "./utils";
 import chalk from "chalk";
 import {Worker} from "worker_threads";

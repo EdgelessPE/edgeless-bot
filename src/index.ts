@@ -67,9 +67,23 @@ async function test() {
     });
     const wd: WorkerData = {
         id: 1,
-        scriptPath: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\templates\\scrapers\\GitHub_Release.ts",
+        scriptPath: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\dist\\src\\templates\\scrapers\\GitHub_Release.js",
         isExternal: false,
-        tasks: []
+        tasks: [
+            {
+                name: "balenaEtcher",
+                author: "Cno",
+                category: "压缩镜像",
+                pageUrl: "https://github.com/balena-io/etcher",
+                template: {
+                    producer: "Click2Install"
+                },
+                producer_required: {},
+                parameter: {
+                    build_manifest: [""]
+                }
+            }
+        ]
     }
     const result = await piscina.run(wd);
     console.log(JSON.stringify(result.val))

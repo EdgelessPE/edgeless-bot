@@ -159,7 +159,7 @@ interface ObjectValidationNode {
 
 //工人数据对象
 interface WorkerData {
-    id: number;
+    badge: string;
     scriptPath: string;
     isExternal: boolean;
     tasks: Array<TaskInstance>;

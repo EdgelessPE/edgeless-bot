@@ -66,7 +66,7 @@ async function test() {
         filename: path.resolve(__dirname, 'worker.js')
     });
     const wd: WorkerData = {
-        id: 1,
+        badge: "1",
         scriptPath: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\dist\\src\\templates\\scrapers\\GitHub_Release.js",
         isExternal: false,
         tasks: [

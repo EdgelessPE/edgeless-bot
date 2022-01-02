@@ -6,7 +6,7 @@ import {TIMEOUT} from "./const";
 export default async function (workerData: WorkerData): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
     const dirtyScript = await import(workerData.scriptPath)
     if (dirtyScript == null || dirtyScript.default == null) {
-        return new Err(`Error:Worker ${workerData.id} imported null script : ${workerData.scriptPath}`)
+        return new Err(`Error:${workerData.badge} imported null script : ${workerData.scriptPath}`)
     } else {
         if (workerData.isExternal) {
             //作为外置脚本处理
@@ -16,7 +16,7 @@ export default async function (workerData: WorkerData): Promise<Result<Array<Res
                 res = (await awaitWithTimeout(script, TIMEOUT)) as Result<ScraperReturned, string>
                 return new Ok([res])
             } catch (e) {
-                return new Err(`Error:Worker ${workerData.id} executed script failed : \n${JSON.stringify(e)}`)
+                return new Err(`Error:${workerData.badge} executed script failed : \n${JSON.stringify(e)}`)
             }
         } else {
             //作为模板处理
@@ -33,7 +33,7 @@ export default async function (workerData: WorkerData): Promise<Result<Array<Res
                     })) as Result<ScraperReturned, string>
                     results.push(res)
                 } catch (e) {
-                    results.push(new Err(`Error:Worker ${workerData.id} executed script failed : \n${JSON.stringify(e)}`))
+                    results.push(new Err(`Error:${workerData.badge} executed script failed : \n${JSON.stringify(e)}`))
                 }
             }
             return new Ok(results)

@@ -9,6 +9,7 @@ import {clearWorkshop} from "./workshop";
 import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, writeDatabase} from "./database";
 import fs from "fs";
+import resolver from "./resolver";
 
 async function main() {
     //平台校验
@@ -54,12 +55,14 @@ async function main() {
 }
 
 async function test() {
-    const tasks = (await getAllTasks()).unwrap()
-    let results = await scraper(tasks)
-    console.log(JSON.stringify(results, null, 2))
+    let res = await resolver({
+        downloadLink: "https://api.github.com/repos/balena-io/etcher/releases",
+        fileMatchRegex: "balenaEtcher\\-Portable\\-.+\\.exe"
+    })
+    console.log(res.unwrap())
 }
 
-if (!Piscina.isWorkerThread) main().then(async _ => {
+if (!Piscina.isWorkerThread) test().then(async _ => {
     await sleep(1000)
     process.exit(0)
 })

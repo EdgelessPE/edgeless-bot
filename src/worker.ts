@@ -1,9 +1,16 @@
-import {ScraperParameters, ScraperReturned, WorkerData} from "./class";
+import {
+    ResolverParameters,
+    ResolverReturned,
+    ScraperParameters,
+    ScraperReturned,
+    WorkerDataResolver,
+    WorkerDataScraper
+} from "./class";
 import {Err, Ok, Result} from "ts-results";
 import {awaitWithTimeout} from "./utils";
-import {TIMEOUT} from "./const";
+import {LIGHT_TIMEOUT} from "./const";
 
-async function scraper(workerData: WorkerData): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
+async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
     const dirtyScript = await import(workerData.scriptPath)
     if (dirtyScript == null || dirtyScript.default == null) {
         return new Err(`Error:${workerData.badge} imported null script : ${workerData.scriptPath}`)
@@ -13,7 +20,7 @@ async function scraper(workerData: WorkerData): Promise<Result<Array<Result<Scra
             const script = dirtyScript.default as () => Promise<Result<ScraperReturned, string>>
             let res
             try {
-                res = (await awaitWithTimeout(script, TIMEOUT)) as Result<ScraperReturned, string>
+                res = (await awaitWithTimeout(script, LIGHT_TIMEOUT)) as Result<ScraperReturned, string>
                 return new Ok([res])
             } catch (e) {
                 return new Err(`Error:${workerData.badge} executed script failed : \n${JSON.stringify(e)}`)
@@ -25,7 +32,7 @@ async function scraper(workerData: WorkerData): Promise<Result<Array<Result<Scra
             let res
             for (let task of workerData.tasks) {
                 try {
-                    res = (await awaitWithTimeout(script, TIMEOUT, {
+                    res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, {
                         taskName: task.name,
                         url: task.pageUrl,
                         downloadLinkRegex: task.regex?.download_link,
@@ -41,6 +48,27 @@ async function scraper(workerData: WorkerData): Promise<Result<Array<Result<Scra
     }
 }
 
+async function resolver(workerData: WorkerDataResolver): Promise<Result<ResolverReturned, string>> {
+    const dirtyScript = await import(workerData.scriptPath)
+    if (dirtyScript == null || dirtyScript.default == null) {
+        return new Err(`Error:${workerData.badge} imported null script : ${workerData.scriptPath}`)
+    } else {
+        const script = dirtyScript.default as (p: ResolverParameters) => Promise<Result<ResolverReturned, string>>
+        let res, url = workerData.url
+        try {
+            res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, {
+                downloadLink: url,
+                fileMatchRegex: workerData.fileMatchRegex,
+                cd: workerData.cd
+            })) as Result<ResolverReturned, string>
+        } catch (e) {
+            return new Err(`Error:${workerData.badge} executed script failed : \n${JSON.stringify(e)}`)
+        }
+        return res
+    }
+}
+
 export {
-    scraper
+    scraper,
+    resolver
 }

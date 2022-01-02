@@ -1,12 +1,12 @@
 import path from "path";
-import {ScraperRegister, ScraperReturned, TaskInstance, WorkerData} from "./class";
+import {ScraperRegister, ScraperReturned, TaskInstance, WorkerDataScraper} from "./class";
 import {Err, Ok, Result} from "ts-results";
 import scraperRegister from '../templates/scrapers/_register'
 import {log} from "./utils";
-import chalk from "chalk";
 import fs from "fs";
 import {config} from "./config";
 import {piscina} from "./piscina";
+import {getBadge} from "./badge";
 
 export interface ResultNode {
     taskName: string,
@@ -44,61 +44,6 @@ function parsePath(entrance: string): Result<string, string> {
     } else {
         return new Err("Error:Can't find " + p)
     }
-}
-const base = Math.floor(Math.random() * 14)
-let count = 0
-
-function getBadge(): string {
-    let res
-    switch ((base + count) % 14) {
-        case 0:
-            res = chalk.bgRed("Worker " + count)
-            break
-        case 1:
-            res = chalk.bgGreen("Worker " + count)
-            break
-        case 2:
-            res = chalk.bgYellow("Worker " + count)
-            break
-        case 3:
-            res = chalk.bgBlue("Worker " + count)
-            break
-        case 4:
-            res = chalk.bgMagenta("Worker " + count)
-            break
-        case 5:
-            res = chalk.bgCyan("Worker " + count)
-            break
-        case 6:
-            res = chalk.bgWhite("Worker " + count)
-            break
-        case 7:
-            res = chalk.bgGray("Worker " + count)
-            break
-        case 8:
-            res = chalk.bgRedBright("Worker " + count)
-            break
-        case 9:
-            res = chalk.bgGreenBright("Worker " + count)
-            break
-        case 10:
-            res = chalk.bgYellowBright("Worker " + count)
-            break
-        case 11:
-            res = chalk.bgBlueBright("Worker " + count)
-            break
-        case 12:
-            res = chalk.bgMagentaBright("Worker " + count)
-            break
-        case 13:
-            res = chalk.bgCyanBright("Worker " + count)
-            break
-        default:
-            res = chalk.bgWhiteBright("Worker " + count)
-            break
-    }
-    count++
-    return res
 }
 
 //输入一个乱序tasks数组，按同域任务分类后使用线程池执行全部完成
@@ -138,7 +83,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
             console.log(JSON.stringify(e))
             log("Error:Received error from worker")
         })
-        let wd: WorkerData, p, jobSum = 0
+        let wd: WorkerDataScraper, p, jobSum = 0
         const checkResolve = function (badge: string, template: string) {
             log(`Info:${badge} finished tasks for ${template}`)
             if (piscina.completed == jobSum) {
@@ -153,7 +98,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
             }
             if (node.entrance == "External") {
                 //启动外置脚本任务
-                let taskName = node.pool[0].name, badge = getBadge()
+                let taskName = node.pool[0].name, badge = getBadge("Scraper")
                 wd = {
                     badge,
                     scriptPath: path.join(__dirname, "..", config.DIR_TASKS, taskName, "scraper.js"),
@@ -190,7 +135,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                     })
                     continue
                 }
-                let badge = getBadge()
+                let badge = getBadge("Scraper")
                 wd = {
                     badge,
                     scriptPath: p.unwrap(),

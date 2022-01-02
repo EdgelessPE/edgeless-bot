@@ -159,11 +159,19 @@ interface ObjectValidationNode {
 }
 
 //工人数据对象
-interface WorkerData {
+interface WorkerDataScraper {
     badge: string;
     scriptPath: string;
     isExternal: boolean;
     tasks: Array<TaskInstance>;
+}
+
+interface WorkerDataResolver {
+    badge: string;
+    scriptPath: string;
+    url: string;
+    fileMatchRegex: string;
+    cd?: Array<string>;
 }
 
 export {
@@ -182,5 +190,6 @@ export {
     TaskInstance,
     CONFIG,
     ObjectValidationNode,
-    WorkerData,
+    WorkerDataScraper,
+    WorkerDataResolver
 };

@@ -31,13 +31,15 @@ function parsePath(entrance: string): Result<string, string> {
     }
 }
 
-export default async function (p: ResolverParameters): Promise<Result<string, string>> {
+export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
     const url = p.downloadLink
     //搜索模板
     let tRes = searchTemplate(url)
     if (tRes.err) {
         log(tRes.val)
-        return new Ok(url)
+        return new Ok({
+            directLink: url
+        })
     }
     //解析模板位置
     let pRes = parsePath(tRes.val.entrance)
@@ -52,10 +54,5 @@ export default async function (p: ResolverParameters): Promise<Result<string, st
         fileMatchRegex: p.fileMatchRegex,
         cd: p.cd
     }
-    let res = (await piscina.run(wd, {name: "resolver"})) as Result<ResolverReturned, string>
-    if (res.err) {
-        return res
-    } else {
-        return new Ok(res.val.directLink)
-    }
+    return await piscina.run(wd, {name: "resolver"})
 }

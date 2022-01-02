@@ -67,8 +67,8 @@ async function test() {
     });
     const wd: WorkerData = {
         id: 1,
-        scriptPath: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\dist\\tasks\\火绒安全\\scraper.js",
-        isExternal: true,
+        scriptPath: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\templates\\scrapers\\GitHub_Release.ts",
+        isExternal: false,
         tasks: []
     }
     const result = await piscina.run(wd);

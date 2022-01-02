@@ -159,7 +159,7 @@ function versionCmp(a: string, b: string): Cmp {
 async function awaitWithTimeout(closure: (payload?: any) => any, timeout: number, payload?: any): Promise<any> {
     return new Promise((async (resolve, reject) => {
         setTimeout(() => {
-            reject("Error:Await failed due to timeout")
+            reject("Await failed due to timeout")
         }, timeout)
         let res = await closure(payload)
         resolve(res)

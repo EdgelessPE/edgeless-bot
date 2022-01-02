@@ -1,6 +1,6 @@
-import {ScraperParameters, ScraperReturned} from "../../class";
+import {ScraperParameters, ScraperReturned} from "../../src/class";
 import {Err, Ok, Result} from "ts-results";
-import {robustGet} from "../../network";
+import {robustGet} from "../../src/network";
 
 function parseRepo(url: string): { owner: string, repo: string } {
     let splitRes = url.split("github.com/")[1].split("/")

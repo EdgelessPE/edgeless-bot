@@ -1,4 +1,4 @@
-import {ScraperRegister} from "../../class";
+import {ScraperRegister} from "../../src/class";
 
 const regArray: Array<ScraperRegister> = [
     {

@@ -1,10 +1,10 @@
-import {JsObjectType, ObjectValidationNode, ScraperParameters, ScraperReturned} from "../../class";
+import {JsObjectType, ObjectValidationNode, ScraperParameters, ScraperReturned} from "../../src/class";
 import {Err, Ok, Result} from "ts-results";
 import path from "path";
 import fs from "fs";
-import {awaitWithTimeout, log, objectValidator} from "../../utils";
+import {awaitWithTimeout, log, objectValidator} from "../../src/utils";
 import {parentPort, Worker, workerData} from "worker_threads";
-import {config} from "../../config";
+import {config} from "../../src/config";
 
 let scriptPath = ""
 

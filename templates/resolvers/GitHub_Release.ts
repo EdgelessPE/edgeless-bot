@@ -1,7 +1,7 @@
-import {ResolverParameters, ResolverReturned} from "../../class";
+import {ResolverParameters, ResolverReturned} from "../../src/class";
 import {Err, Ok, Result} from "ts-results";
-import {robustGet} from "../../network";
-import {log} from "../../utils";
+import {robustGet} from "../../src/network";
+import {log} from "../../src/utils";
 
 export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
     const {downloadLink, fileMatchRegex} = p

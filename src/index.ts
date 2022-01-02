@@ -1,5 +1,6 @@
 import {sleep} from "./utils";
 import {isMainThread} from 'worker_threads'
+import {getAllTasks} from "./task";
 
 async function main() {
 
@@ -57,6 +58,8 @@ async function test() {
     //         }
     //     ]
     // ))[0].result.val)
+
+    console.log(getAllTasks().unwrap())
 
 }
 

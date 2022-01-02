@@ -184,7 +184,9 @@ function schemaValidator(obj: any, schema: string): Result<boolean, string> {
     if (validate(obj)) {
         return new Ok(true)
     } else {
-        console.log(JSON.stringify(validate.errors))
+        validate.errors?.forEach((item) => {
+            log(`Error:At ${item.instancePath} : ${item.message}`)
+        })
         return new Ok(false)
     }
 }

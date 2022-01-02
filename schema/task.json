@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "task": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "author",
+        "category",
+        "name",
+        "url"
+      ]
+    },
+    "extra": {
+      "properties": {
+        "missing_version": {
+          "type": "boolean"
+        },
+        "require_windows": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "parameter": {
+      "properties": {
+        "build_cover": {
+          "type": "string"
+        },
+        "build_manifest": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "compress_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "resolver_cd": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "build_manifest"
+      ],
+      "type": "object"
+    },
+    "producer_required": {
+      "type": "object"
+    },
+    "regex": {
+      "properties": {
+        "download_link": {
+          "type": "string"
+        },
+        "download_name": {
+          "type": "string"
+        },
+        "scraper_version": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "template": {
+      "properties": {
+        "producer": {
+          "type": "string"
+        },
+        "resolver": {
+          "type": "string"
+        },
+        "scraper": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "producer"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "parameter",
+    "producer_required",
+    "template",
+    "task"
+  ],
+  "type": "object"
+}
+

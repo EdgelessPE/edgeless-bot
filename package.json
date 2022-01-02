@@ -24,6 +24,7 @@
     "@types/minimist": "^1.2.2",
     "@types/node": "^17.0.5",
     "@types/shelljs": "^0.8.10",
-    "ts-node": "^10.4.0"
+    "ts-node": "^10.4.0",
+    "typescript-json-schema": "^0.52.0"
   }
 }

@@ -76,6 +76,7 @@ interface DatabaseNode {
     taskName: string;
     recent: {
         health: number; //健康度，0-3
+        latestVersion: string;
         errorMessage: string;
         builds: Array<BuildStatus>;
     };

@@ -1,10 +1,12 @@
 import fs from "fs";
 import path from "path";
 import {Err, Ok, Result} from "ts-results";
-import {TaskInstance} from "./class";
+import {ScraperReturned, TaskInstance} from "./class";
 import {config} from "./config";
 import toml from "toml";
-import {log, schemaValidator} from "./utils";
+import {Cmp, log, matchVersion, schemaValidator, versionCmp} from "./utils";
+import {getDatabaseNode, setDatabaseNodeFailure} from "./database";
+import {ResultNode} from "./scraper";
 
 interface TaskConfig {
     task: {
@@ -90,7 +92,89 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
     }
 }
 
+function getTasksToBeExecuted(results: ResultNode[]): Array<{
+    task: TaskInstance,
+    info: ScraperReturned
+}> {
+    //逐个判断是否需要执行制作
+    let makeList: Array<{
+        task: TaskInstance,
+        info: ScraperReturned
+    }> = []
+    let db, newNode: ScraperReturned, matchRes, res, onlineVersion
+    for (let result of results) {
+        db = getDatabaseNode(result.taskName)
+        //处理爬虫出错
+        if (result.result.err) {
+            setDatabaseNodeFailure(result.taskName, result.result.val)
+            continue
+        }
+        //进行版本号比较
+        newNode = result.result.val as ScraperReturned
+        matchRes = matchVersion(newNode.version)
+        if (matchRes.err) {
+            setDatabaseNodeFailure(result.taskName, "Error:Can't parse version returned by scraper")
+            continue
+        }
+        onlineVersion = matchRes.val
+        res = getSingleTask(result.taskName)
+        switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
+            case Cmp.L:
+                //需要更新
+                if (res.err) {
+                    log(res.val)
+                    break
+                }
+                makeList.push({
+                    task: res.val,
+                    info: newNode
+                })
+                break
+            case Cmp.G:
+                //警告
+                log(`Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`)
+                if (res.err) {
+                    log(res.val)
+                    break
+                }
+                if (config.MODE_FORCED) {
+                    log("Warning:Forced rebuild " + result.taskName)
+                    makeList.push({
+                        task: res.val,
+                        info: newNode
+                    })
+                }
+                break
+            default:
+                if (res.err) {
+                    log(res.val)
+                    break
+                }
+                if (config.MODE_FORCED) {
+                    log("Warning:Forced rebuild " + result.taskName)
+                    makeList.push({
+                        task: res.val,
+                        info: newNode
+                    })
+                }
+                break
+        }
+    }
+    return makeList
+}
+
+function executeTasks(tasks: Array<{
+    task: TaskInstance,
+    info: ScraperReturned
+}>): boolean {
+    console.log("Run these:")
+    console.log(tasks)
+    return true
+}
+
 export {
     getAllTasks,
-    getSingleTask
+    getSingleTask,
+    executeTasks,
+    getTasksToBeExecuted
 }

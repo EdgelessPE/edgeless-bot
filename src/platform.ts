@@ -3,6 +3,8 @@ import {Err, Ok, Result} from "ts-results";
 import path from "path";
 import fs from "fs";
 import cp from 'child_process'
+import {config} from "./config";
+import {log} from "./utils";
 
 enum OS {
     Windows,
@@ -98,19 +100,34 @@ function where(command: string): Result<string, string> {
     }
     if(result!="") return new Ok(result)
     //根据possiblePositions查找
-    for (let i=0;i<possiblePositions.length;i++){
-        node=possiblePositions[i]
-        if(fs.existsSync(node)){
-            result='"'+node+'"'
+    for (let i = 0; i < possiblePositions.length; i++) {
+        node = possiblePositions[i]
+        if (fs.existsSync(node)) {
+            result = '"' + node + '"'
             break
         }
     }
-    if(result!="") return new Ok(result)
+    if (result != "") return new Ok(result)
     else return new Err(`Error:Can't find command : ${command}`)
+}
+
+function ensurePlatform(): boolean {
+    let list = ["aria2c", "p7zip"], suc = true
+    if (config.REMOTE_ENABLE) {
+        list.push("rclone")
+    }
+    for (let cmd of list) {
+        if (where(cmd).err) {
+            suc = false
+            log(`Error:Command ${cmd} not found`)
+        }
+    }
+    return suc
 }
 
 export {
     getOS,
     where,
-    OS
+    OS,
+    ensurePlatform
 }

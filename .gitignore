@@ -7,3 +7,4 @@ workshop
 builds
 *.js
 dist
+database.json

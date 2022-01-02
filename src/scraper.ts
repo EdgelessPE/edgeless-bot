@@ -8,7 +8,7 @@ import fs from "fs";
 import Piscina from 'piscina';
 import {config} from "./config";
 
-interface ResultNode {
+export interface ResultNode {
     taskName: string,
     result: Result<ScraperReturned, string>
 }
@@ -144,7 +144,6 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         const checkResolve = function (badge: string) {
             if (piscina.completed == jobSum) {
                 log(`Info:Scrapers all done`)
-                console.log(JSON.stringify(collection))
                 resolve(collection)
             } else {
                 log(`Info:${badge} finished tasks`)
@@ -203,7 +202,6 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                 }
                 piscina.run(wd)
                     .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
-                        console.log(JSON.stringify(res))
                         if (res.err) {
                             node.pool.forEach((item) => {
                                 collection.push({

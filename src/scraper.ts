@@ -45,12 +45,12 @@ function parsePath(entrance: string): Result<string, string> {
         return new Err("Error:Can't find " + p)
     }
 }
-
+const base = Math.floor(Math.random() * 14)
 let count = 0
 
 function getBadge(): string {
     let res
-    switch (count % 14) {
+    switch ((base + count) % 14) {
         case 0:
             res = chalk.bgRed("Worker " + count)
             break
@@ -142,11 +142,10 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         })
         let wd: WorkerData, p, jobSum = 0
         const checkResolve = function (badge: string) {
+            log(`Info:${badge} finished tasks`)
             if (piscina.completed == jobSum) {
-                log(`Info:Scrapers all done`)
+                log(`Info:Workers all done`)
                 resolve(collection)
-            } else {
-                log(`Info:${badge} finished tasks`)
             }
         }
         for (let key in classifyHash) {

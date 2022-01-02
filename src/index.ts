@@ -7,7 +7,7 @@ async function main() {
 }
 
 async function test() {
-    console.log(JSON.stringify(await scraper([
+    await scraper([
         {
             name: "balenaEtcher",
             author: "Cno",
@@ -21,7 +21,7 @@ async function test() {
                 build_manifest: [""]
             }
         }
-    ])))
+    ])
 
 }
 

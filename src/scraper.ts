@@ -144,6 +144,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         const checkResolve = function (badge: string) {
             if (piscina.completed == jobSum) {
                 log(`Info:Scrapers all done`)
+                console.log(JSON.stringify(collection))
                 resolve(collection)
             } else {
                 log(`Info:${badge} finished tasks`)
@@ -164,7 +165,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                     tasks: node.pool
                 }
                 piscina.run(wd)
-                    .then((res: Result<Array<ScraperReturned>, string>) => {
+                    .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                         if (res.err) {
                             node.pool.forEach((item) => {
                                 collection.push({
@@ -176,7 +177,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                             node.pool.forEach((item, index) => {
                                 collection.push({
                                     taskName: item.name,
-                                    result: new Ok(res.val[index])
+                                    result: res.val[index]
                                 })
                             })
                         }
@@ -201,7 +202,8 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                     tasks: node.pool
                 }
                 piscina.run(wd)
-                    .then((res: Result<Array<ScraperReturned>, string>) => {
+                    .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
+                        console.log(JSON.stringify(res))
                         if (res.err) {
                             node.pool.forEach((item) => {
                                 collection.push({
@@ -213,7 +215,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                             node.pool.forEach((item, index) => {
                                 collection.push({
                                     taskName: item.name,
-                                    result: new Ok(res.val[index])
+                                    result: res.val[index]
                                 })
                             })
                         }

@@ -1,7 +1,6 @@
 import {ScraperParameters, ScraperReturned} from "../../class";
 import {Err, Ok, Result} from "ts-results";
 import {robustGet} from "../../network";
-import {parentPort, workerData} from "worker_threads";
 
 function parseRepo(url: string): { owner: string, repo: string } {
     let splitRes = url.split("github.com/")[1].split("/")
@@ -11,7 +10,7 @@ function parseRepo(url: string): { owner: string, repo: string } {
     }
 }
 
-async function single(p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
+export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
     const {url} = p
     let version: string, downloadLink: string
     let repoInfo = parseRepo(url)
@@ -33,16 +32,3 @@ async function single(p: ScraperParameters): Promise<Result<ScraperReturned, str
         downloadLink
     })
 }
-
-(async () => {
-    let results: Array<Result<ScraperReturned, string>> = []
-    for (const task of workerData) {
-        results.push((await single({
-            taskName: task.name,
-            url: task.pageUrl,
-            downloadLinkRegex: task.downloadLinkRegex,
-            versionMatchRegex: task.versionMatchRegex
-        })))
-    }
-    parentPort?.postMessage(results)
-})()

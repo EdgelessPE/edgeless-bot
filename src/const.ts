@@ -23,9 +23,10 @@ const CATEGORIES = [
   "远程连接",
 ];
 
-const PATH_CONFIG="./config.toml"
+const PATH_CONFIG = "./config.toml", TIMEOUT = 30000
 
-export{
-    CATEGORIES,
-    PATH_CONFIG
+export {
+  CATEGORIES,
+  PATH_CONFIG,
+  TIMEOUT
 }

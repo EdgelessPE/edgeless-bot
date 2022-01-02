@@ -3,7 +3,7 @@
 name = "火绒安全"
 category = "安全急救"
 author = "Cno"
-url = "https://www.huorong.cn"
+url = "external://www.huorong.cn"
 
 # 指定使用的模板
 [template]

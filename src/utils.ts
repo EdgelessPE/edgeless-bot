@@ -156,12 +156,12 @@ function versionCmp(a: string, b: string): Cmp {
     return result;
 }
 
-async function awaitWithTimeout(closure: () => any, timeout: number): Promise<any> {
+async function awaitWithTimeout(closure: (payload?: any) => any, timeout: number, payload?: any): Promise<any> {
     return new Promise((async (resolve, reject) => {
         setTimeout(() => {
             reject("Error:Await failed due to timeout")
         }, timeout)
-        let res = await closure()
+        let res = await closure(payload)
         resolve(res)
     }))
 }

@@ -157,6 +157,14 @@ interface ObjectValidationNode {
     properties?: Array<ObjectValidationNode>;
 }
 
+//工人数据对象
+interface WorkerData {
+    id: number;
+    scriptPath: string;
+    isExternal: boolean;
+    tasks: Array<TaskInstance>;
+}
+
 export {
     ValidationType,
     JsObjectType,
@@ -173,4 +181,5 @@ export {
     TaskInstance,
     CONFIG,
     ObjectValidationNode,
+    WorkerData,
 };

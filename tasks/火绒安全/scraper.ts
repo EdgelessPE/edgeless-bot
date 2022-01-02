@@ -1,6 +1,6 @@
 import {robustGet} from "../../src/network";
-import {Err, Ok} from "ts-results";
-import {parentPort} from "worker_threads";
+import {Ok, Result} from "ts-results";
+import {ScraperReturned} from "../../src/class";
 
 let version: string, url: string
 
@@ -19,16 +19,10 @@ function getDownloadLink(): string {
     return url
 }
 
-
-(async () => {
-    try {
-        await init()
-    } catch (e) {
-        parentPort?.postMessage(new Err("Error:Function init() thrown error\n" + JSON.stringify(e)))
-        return
-    }
-    parentPort?.postMessage(new Ok({
+export default async function (): Promise<Result<ScraperReturned, string>> {
+    await init()
+    return new Ok({
         version: getVersion(),
         downloadLink: getDownloadLink()
-    }))
-})()
+    })
+}

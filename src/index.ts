@@ -1,6 +1,8 @@
 import {sleep} from "./utils";
 import {isMainThread} from 'worker_threads'
-import {getAllTasks} from "./task";
+import Piscina from 'piscina';
+import {WorkerData} from "./class";
+import path from "path";
 
 async function main() {
 
@@ -59,7 +61,18 @@ async function test() {
     //     ]
     // ))[0].result.val)
 
-    console.log(getAllTasks().unwrap())
+    const piscina = new Piscina({
+        // The URL must be a file:// URL
+        filename: path.resolve(__dirname, 'worker.js')
+    });
+    const wd: WorkerData = {
+        id: 1,
+        scriptPath: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\dist\\tasks\\火绒安全\\scraper.js",
+        isExternal: true,
+        tasks: []
+    }
+    const result = await piscina.run(wd);
+    console.log(JSON.stringify(result.val))
 
 }
 

@@ -5,15 +5,26 @@ import {config} from "./config";
 
 let database: any = null, modified = false
 
+//记录执行成功/失败的操作列表
+let successList: Array<{
+    taskName: string,
+    from: string,
+    to: string
+}> = []
+let failedList: Array<{
+    taskName: string,
+    errorMessage: string
+}> = []
+
 //初始化时调用
 function readDatabase() {
-    if(!fs.existsSync(config.DATABASE_PATH)) {
+    if (!fs.existsSync(config.DATABASE_PATH)) {
         log("Warning:Database file not found,create new one")
-        database={}
+        database = {}
         return
     }
-    let text=fs.readFileSync(config.DATABASE_PATH).toString()
-    database=JSON.parse(text)
+    let text = fs.readFileSync(config.DATABASE_PATH).toString()
+    database = JSON.parse(text)
 }
 
 //保存数据库
@@ -53,19 +64,28 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
             builds: old.recent.builds
         }
     }
+    failedList.push({
+        taskName,
+        errorMessage
+    })
     modified = true
 }
 
 function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<string>) {
-    let old = database[taskName] as DatabaseNode
+    let old = database[taskName] as DatabaseNode, newVersion = getVersion(newBuilds[0])
     database[taskName] = {
         recent: {
             health: (old.recent.health == 3) ? 3 : (old.recent.health++),
-            latestVersion: getVersion(newBuilds[0]),
+            latestVersion: newVersion,
             errorMessage: old.recent.errorMessage,
             builds: newBuilds
         }
     }
+    successList.push({
+        taskName,
+        from: old.recent.latestVersion,
+        to: newVersion
+    })
     modified = true
 }
 

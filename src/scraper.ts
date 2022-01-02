@@ -5,8 +5,8 @@ import scraperRegister from '../templates/scrapers/_register'
 import {log} from "./utils";
 import chalk from "chalk";
 import fs from "fs";
-import Piscina from 'piscina';
 import {config} from "./config";
+import {piscina} from "./piscina";
 
 export interface ResultNode {
     taskName: string,
@@ -133,9 +133,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 
         //分别spawn hash中得到的数个任务池
         let collection: Array<ResultNode> = []
-        const piscina = new Piscina({
-            filename: path.resolve(__dirname, 'worker.js')
-        });
+
         piscina.on("error", (e) => {
             console.log(JSON.stringify(e))
             log("Error:Received error from worker")

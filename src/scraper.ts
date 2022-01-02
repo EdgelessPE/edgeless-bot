@@ -141,8 +141,8 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
             log("Error:Received error from worker")
         })
         let wd: WorkerData, p, jobSum = 0
-        const checkResolve = function (badge: string) {
-            log(`Info:${badge} finished tasks`)
+        const checkResolve = function (badge: string, template: string) {
+            log(`Info:${badge} finished tasks for ${template}`)
             if (piscina.completed == jobSum) {
                 log(`Info:Workers all done`)
                 resolve(collection)
@@ -179,7 +179,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                                 })
                             })
                         }
-                        checkResolve(badge)
+                        checkResolve(badge, taskName)
                     })
                 jobSum++
             } else {
@@ -216,7 +216,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                                 })
                             })
                         }
-                        checkResolve(badge)
+                        checkResolve(badge, node.entrance)
                     })
                 jobSum++
             }

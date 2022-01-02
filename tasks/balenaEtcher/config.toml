@@ -1,21 +1,21 @@
 # 任务基本信息
 [task]
-name = "火绒安全"
-category = "安全急救"
+name = "balenaEtcher"
+category = "压缩镜像"
 author = "Cno"
-url = "external://www.huorong.cn"
+url = "https://github.com/balena-io/etcher"
 
 # 指定使用的模板
 [template]
-scraper = "External"
+# scraper = "External"
 # resolver = ""
 producer = "Click2Install"
 
 # 使用到的正则
 #[regex]
-#download_link = ""
-#download_name = ""
-#scraper_version = ""
+# download_link = ""
+# download_name = ""
+# scraper_version = ""
 
 # 通用参数
 [parameter]
@@ -28,6 +28,6 @@ build_manifest = [""]
 [producer_required]
 
 # 额外备注
-#[extra]
+[extra]
 # require_windows = false
 # missing_version = false

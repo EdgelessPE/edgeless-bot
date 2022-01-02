@@ -2,8 +2,7 @@
 
 enum ValidationType {
     "MD5",
-    "CRC32",
-    "SHA-1",
+    "SHA1",
 }
 
 interface ScraperParameters {

@@ -9,6 +9,7 @@ import {getDatabaseNode, setDatabaseNodeFailure} from "./database";
 import {ResultNode} from "./scraper";
 import resolver from "./resolver";
 import {download} from "./aria2c";
+import checksum from "./checksum";
 
 const shell = require("shelljs")
 
@@ -187,6 +188,13 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         console.log(JSON.stringify(e))
         return new Err("Error:Can't download link" + dRes.val.directLink)
     }
+    const absolutePath = path.join(workshop, downloadFile)
+    //校验文件
+    if (t.info.validation && !(await checksum(absolutePath, t.info.validation.type, t.info.validation.value))) {
+        return new Err(`Error:Can't validate downloaded file,expect ${t.info.validation.value}`)
+    }
+    //制作
+
     return new Ok(true)
 }
 

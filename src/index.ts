@@ -6,7 +6,7 @@ import {config} from "./config";
 import {ensurePlatform, getOS, OS} from "./platform";
 import os from "os";
 import {clearWorkshop} from "./workshop";
-import {download, initAria2c, stopAria2c} from "./aria2c";
+import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, writeDatabase} from "./database";
 import fs from "fs";
 
@@ -40,6 +40,7 @@ async function main() {
 
     //得到需要真正执行的任务数组
     let toExecTasks = getTasksToBeExecuted(results)
+    //TODO:检查checksum信息是否有效
 
     //执行所有需要执行的任务
     if (!executeTasks(toExecTasks)) {
@@ -54,9 +55,6 @@ async function main() {
 }
 
 async function test() {
-    await initAria2c()
-    let res = await download("手心输入法", "http://down1.xinshuru.com/installer/win/PalmInput_Setup.exe", "./test")
-    console.log(res)
 }
 
 if (!Piscina.isWorkerThread) test().then(async _ => {

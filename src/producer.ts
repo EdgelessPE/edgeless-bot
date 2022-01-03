@@ -44,7 +44,7 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
         scriptPath,
         task: {
             taskName: task.name,
-            workshop: path.join(process.cwd(), config.DIR_WORKSHOP, task.name),
+            workshop: path.join(__dirname, "..", "..", config.DIR_WORKSHOP, task.name),
             downloadedFile,
             requiredObject: task.producer_required
         }

@@ -2,7 +2,7 @@ import {ProducerParameters, ProducerReturned} from "../../src/class";
 import fs from "fs";
 import {Err, Ok, Result} from "ts-results";
 import path from "path";
-import {toGBK} from "../../src/utils";
+import {log, toGBK} from "../../src/utils";
 
 const shell = require("shelljs")
 
@@ -11,12 +11,16 @@ interface RequiredObject {
 }
 
 export default async function (p: ProducerParameters): Promise<Result<ProducerReturned, string>> {
-    const {workshop, downloadedFile, requiredObject, taskName} = p
-    const {shortcutName} = (requiredObject as RequiredObject)
-    const ready = path.join(workshop, "ready")
+    let {workshop, downloadedFile, requiredObject, taskName} = p
+    let {shortcutName} = (requiredObject as RequiredObject)
+    let ready = path.join(workshop, "ready")
+    let aDF = path.join(workshop, downloadedFile), rD = `${workshop}/ready/${taskName}`
+    log("Info:" + workshop)
+    log("Info:" + aDF)
+    log("Info:" + rD)
 
-    shell.mkdir('-p', `${workshop}/ready/${taskName}`)
-    shell.mv(path.join(workshop, downloadedFile), `${workshop}/ready/${taskName}/`)
+    shell.mkdir('-p', rD)
+    shell.mv(aDF, rD)
     fs.writeFileSync(path.join(ready, taskName + ".wcs"), toGBK(`LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`))
 
     const exist = function (p: string): boolean {

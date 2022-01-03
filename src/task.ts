@@ -4,7 +4,7 @@ import {Err, Ok, Result} from "ts-results";
 import {ExecuteParameter, ScraperReturned, TaskInstance} from "./class";
 import {config} from "./config";
 import toml from "toml";
-import {Cmp, log, matchVersion, schemaValidator, shuffle, versionCmp} from "./utils";
+import {Cmp, formatVersion, log, matchVersion, schemaValidator, shuffle, versionCmp} from "./utils";
 import {getDatabaseNode, setDatabaseNodeFailure} from "./database";
 import {ResultNode} from "./scraper";
 import resolver from "./resolver";
@@ -149,7 +149,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
             setDatabaseNodeFailure(result.taskName, "Error:Can't parse version returned by scraper")
             continue
         }
-        onlineVersion = matchRes.val
+        onlineVersion = formatVersion(matchRes.val).unwrap()
         res = getSingleTask(result.taskName)
         switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
             case Cmp.L:
@@ -207,7 +207,7 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return dRes
     }
     //下载文件
-    const workshop = path.join(process.cwd(), config.DIR_WORKSHOP, t.task.name)
+    const workshop = path.join(__dirname, "..", "..", config.DIR_WORKSHOP, t.task.name)
     shell.mkdir(workshop)
     let downloadedFile: string
     try {

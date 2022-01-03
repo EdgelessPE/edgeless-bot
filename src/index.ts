@@ -10,6 +10,7 @@ import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, writeDatabase} from "./database";
 
 async function main() {
+    console.clear()
     //平台校验
     //TODO:支持其他平台
     if (getOS() != OS.Windows) {

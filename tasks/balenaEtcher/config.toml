@@ -14,14 +14,14 @@ producer = "Click2Install"
 # 使用到的正则
 [regex]
 # download_link = ""
-download_name = ".exe"
+download_name = "balenaEtcher-Portable-[\\d\\.]+.exe"
 # scraper_version = ""
 
 # 通用参数
 [parameter]
 # resolver_cd = ["",""]
 compress_level = 1
-build_manifest = [""]
+build_manifest = []
 # build_cover = "cover.7z"
 
 # 自动制作模板要求的参数

@@ -231,7 +231,7 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return new Err(`Error:Can't produce task ${t.task.name}`)
     }
     //验收
-    const target = path.join(config.DIR_WORKSHOP, t.task.name, p.unwrap().readyRelativePath)
+    const target = path.join(config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath)
     const getBuildManifest = (): Array<string> => {
         let origin = t.task.parameter.build_manifest, final: Array<string> = []
         for (let cmd of t.task.parameter.build_manifest) {
@@ -250,7 +250,7 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return new Err(`Error:Can't produce task ${t.task.name} due to build missing`)
     }
     //压缩
-    let c = await compress(p.unwrap().readyRelativePath, `${t.task.name}_${matchVersion(t.info.version).unwrap()}_${t.task.author}.7z`, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
+    let c = await compress(p.val.readyRelativePath, `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}.7z`, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
     return new Ok(true)
 }
 

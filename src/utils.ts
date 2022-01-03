@@ -167,8 +167,12 @@ async function awaitWithTimeout(closure: (payload?: any) => any, timeout: number
         setTimeout(() => {
             reject("Await failed due to timeout")
         }, timeout)
-        let res = await closure(payload)
-        resolve(res)
+        try {
+            let res = await closure(payload)
+            resolve(res)
+        } catch (e) {
+            reject(JSON.stringify(e))
+        }
     }))
 }
 

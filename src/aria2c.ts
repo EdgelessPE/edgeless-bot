@@ -2,8 +2,6 @@ import {WebSocket as Aria2WebSocket} from 'libaria2-ts';
 import cp from 'child_process';
 import {log, sleep} from "./utils";
 import {getOS, OS, where} from "./platform";
-import chalk from "chalk";
-import ora from "ora";
 import path from "path";
 import fs from "fs";
 import {config} from "./config";
@@ -110,7 +108,7 @@ async function download(taskName: string, url: string, dir: string): Promise<str
         let filename = ""
         try {
             // Cp.execSync("wget -O target.exe " + url, {cwd: dir});
-            log('Info:Start downloading ' + taskName);
+            log(`Info:Start downloading ${taskName}...`);
             const gid = await aria2c_handler.addUri(
                 url,
                 {
@@ -119,11 +117,11 @@ async function download(taskName: string, url: string, dir: string): Promise<str
                 0,
             );
             let done = false, status
-            const progress = ora({
-                text: 'Downloading ' + taskName + '...',
-                prefixText: chalk.blue('Info'),
-            });
-            progress.start();
+            // const progress = ora({
+            //     text: 'Downloading ' + taskName + '...',
+            //     prefixText: chalk.blue('Info'),
+            // });
+            //progress.start();
             while (!done) {
                 await sleep(500);
                 status = await aria2c_handler.tellStatus(gid);
@@ -134,25 +132,26 @@ async function download(taskName: string, url: string, dir: string): Promise<str
                 if (status.status == 'complete') {
                     done = true;
                     filename = path.parse(status.files[0].path).base
+                    log(`Info:${filename} downloaded successfully`)
                 }
 
                 if (status.status == 'waiting') {
                     await sleep(1000);
                 }
 
-                progress.text
-                    = 'Download progress: '
-                    + (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
-                        3,
-                    )
-                    + ' / '
-                    + (Number(status.totalLength as bigint) / 1024 / 1024).toPrecision(3)
-                    + ' MB, Speed: '
-                    + (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3)
-                    + ' MB/s';
+                // progress.text
+                //     = 'Download progress: '
+                //     + (Number(status.completedLength as bigint) / 1024 / 1024).toPrecision(
+                //         3,
+                //     )
+                //     + ' / '
+                //     + (Number(status.totalLength as bigint) / 1024 / 1024).toPrecision(3)
+                //     + ' MB, Speed: '
+                //     + (Number(status.downloadSpeed as bigint) / 1024 / 1024).toPrecision(3)
+                //     + ' MB/s';
             }
-            progress.succeed(taskName + ' downloaded');
-            progress.stop()
+            // progress.succeed(taskName + ' downloaded');
+            // progress.stop()
         } catch (err: any) {
             console.log(err);
             reject("Error:Download progress thrown")

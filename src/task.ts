@@ -10,6 +10,7 @@ import {ResultNode} from "./scraper";
 import resolver from "./resolver";
 import {download} from "./aria2c";
 import checksum from "./checksum";
+import producerRegister from "../templates/producers/_register"
 
 const shell = require("shelljs")
 
@@ -44,7 +45,27 @@ interface TaskConfig {
 }
 
 function validateConfig(task: any): boolean {
-    return schemaValidator(task, "task").unwrap()
+    //基础校验
+    if (!schemaValidator(task, "task").unwrap()) {
+        return false
+    }
+    //Producer模板配置正确性检查
+    let suc = false
+    for (let node of producerRegister) {
+        if (node.entrance == task.template.producer) {
+            suc = true
+        }
+    }
+    if (!suc) {
+        log(`Error:Producer template ${task.template.producer} not found`)
+        return false
+    }
+    if (!fs.existsSync(path.join("./schema", task.template.producer + ".json"))) {
+        log(`Error:Producer template schema file ${task.template.producer} not found`)
+        return false
+    }
+    //producer_required检查
+    return schemaValidator(task.producer_required, "producer_templates" + task.template.producer).unwrap();
 }
 
 function getSingleTask(taskName: string): Result<TaskInstance, string> {
@@ -202,7 +223,7 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
         console.log("Run these:")
         console.log(ts)
-
+        //TODO:根据请求域名乱序spawn任务
         resolve(true)
     })
 }

@@ -12,6 +12,7 @@ import fs from "fs";
 
 async function main() {
     //平台校验
+    //TODO:支持其他平台
     if (getOS() != OS.Windows) {
         log("Error:Unsupported platform : " + os.platform())
         return
@@ -40,7 +41,7 @@ async function main() {
 
     //得到需要真正执行的任务数组
     let toExecTasks = getTasksToBeExecuted(results)
-    //TODO:检查checksum信息是否有效
+    //TODO:检查爬虫提供的checksum信息是否有效
 
     //执行所有需要执行的任务
     if (!await executeTasks(toExecTasks)) {

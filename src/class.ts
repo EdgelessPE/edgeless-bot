@@ -173,6 +173,13 @@ interface WorkerDataResolver {
     cd?: Array<string>;
 }
 
+interface WorkerDataProducer {
+    badge: string;
+    scriptPath: string;
+    isExternal: boolean;
+    task: ProducerParameters;
+}
+
 //制作所需信息
 interface ExecuteParameter {
     task: TaskInstance;
@@ -197,5 +204,6 @@ export {
     ObjectValidationNode,
     WorkerDataScraper,
     WorkerDataResolver,
-    ExecuteParameter
+    WorkerDataProducer,
+    ExecuteParameter,
 };

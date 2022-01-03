@@ -1,8 +1,11 @@
 import {
+    ProducerParameters,
+    ProducerReturned,
     ResolverParameters,
     ResolverReturned,
     ScraperParameters,
     ScraperReturned,
+    WorkerDataProducer,
     WorkerDataResolver,
     WorkerDataScraper
 } from "./class";
@@ -76,7 +79,40 @@ async function resolver(workerData: WorkerDataResolver): Promise<Result<Resolver
     }
 }
 
+async function producer(workerData: WorkerDataProducer): Promise<Result<ProducerReturned, string>> {
+    //修改工作牌
+    badge = workerData.badge
+    //执行脚本
+    const dirtyScript = await import(workerData.scriptPath)
+    if (dirtyScript == null || dirtyScript.default == null) {
+        return new Err(`Error:Worker imported null script : ${workerData.scriptPath}`)
+    } else {
+        if (workerData.isExternal) {
+            //作为外置脚本处理
+            const script = dirtyScript.default as () => Promise<Result<ProducerReturned, string>>
+            let res
+            try {
+                res = (await awaitWithTimeout(script, LIGHT_TIMEOUT)) as Result<ProducerReturned, string>
+                return res
+            } catch (e) {
+                return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`)
+            }
+        } else {
+            //作为模板处理
+            const script = dirtyScript.default as (p: ProducerParameters) => Promise<Result<ProducerReturned, string>>
+            let res
+            try {
+                res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>
+            } catch (e) {
+                return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`)
+            }
+            return res
+        }
+    }
+}
+
 export {
     scraper,
-    resolver
+    resolver,
+    producer
 }

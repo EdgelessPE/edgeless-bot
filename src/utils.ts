@@ -92,7 +92,6 @@ function formatVersion(version: string): Result<string, string> {
     for (let i = 0; i < 4 - spl.length; i++) {
         version += '.0';
     }
-
     return new Ok(version);
 }
 

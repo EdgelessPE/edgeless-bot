@@ -2,7 +2,7 @@ import {ProducerParameters, ProducerReturned} from "../../src/class";
 import fs from "fs";
 import {Err, Ok, Result} from "ts-results";
 import path from "path";
-import {log, toGBK} from "../../src/utils";
+import {toGBK} from "../../src/utils";
 
 const shell = require("shelljs")
 
@@ -15,9 +15,6 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
     let {shortcutName} = (requiredObject as RequiredObject)
     let ready = path.join(workshop, "ready")
     let aDF = path.join(workshop, downloadedFile), rD = `${workshop}/ready/${taskName}`
-    log("Info:" + workshop)
-    log("Info:" + aDF)
-    log("Info:" + rD)
 
     shell.mkdir('-p', rD)
     shell.mv(aDF, rD)

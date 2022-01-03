@@ -150,6 +150,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
             continue
         }
         onlineVersion = formatVersion(matchRes.val).unwrap()
+        newNode.version = onlineVersion
         res = getSingleTask(result.taskName)
         switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
             case Cmp.L:
@@ -250,7 +251,9 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return new Err(`Error:Can't produce task ${t.task.name} due to build missing`)
     }
     //压缩
-    let c = await compress(p.val.readyRelativePath, `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}.7z`, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
+    let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}.7z`
+    let c = await compress(p.val.readyRelativePath, fileName, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
+    shell.mv(path.join(workshop, fileName), path.join(__dirname, "..", "..", config.DIR_BUILDS, t.task.category + "/"))
     return new Ok(true)
 }
 

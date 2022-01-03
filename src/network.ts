@@ -27,7 +27,7 @@ async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise
             res = await axios.get(url, getConfig(axiosConfig));
         } catch (err) {
             //console.log(JSON.stringify(err));
-            return new Err("Warning:Single fetch failed for " + url + " :\n" + JSON.stringify(err))
+            return new Err("Warning:Single fetch failed for " + url)
         }
         return new Ok(res.data)
     }

@@ -11,6 +11,7 @@ import resolver from "./resolver";
 import {download} from "./aria2c";
 import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register"
+import producer from "./producer";
 
 const shell = require("shelljs")
 
@@ -202,19 +203,47 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
     //下载文件
     const workshop = path.join(process.cwd(), config.DIR_WORKSHOP, t.task.name)
     shell.mkdir(workshop)
-    let downloadFile
+    let downloadedFile: string
     try {
-        downloadFile = await download(t.task.name, dRes.val.directLink, workshop)
+        downloadedFile = await download(t.task.name, dRes.val.directLink, workshop)
     } catch (e) {
         console.log(JSON.stringify(e))
         return new Err("Error:Can't download link" + dRes.val.directLink)
     }
-    const absolutePath = path.join(workshop, downloadFile)
+    const absolutePath = path.join(workshop, downloadedFile)
     //校验文件
     if (t.info.validation && !(await checksum(absolutePath, t.info.validation.type, t.info.validation.value))) {
         return new Err(`Error:Can't validate downloaded file,expect ${t.info.validation.value}`)
     }
     //制作
+    let p = await producer({
+        task: t.task,
+        downloadedFile
+    })
+    if (p.err) {
+        log(p.val)
+        return new Err(`Error:Can't produce task ${t.task.name}`)
+    }
+    //验收
+    const target = path.join(config.DIR_WORKSHOP, t.task.name, p.unwrap().readyRelativePath)
+    const getBuildManifest = (): Array<string> => {
+        let origin = t.task.parameter.build_manifest, final: Array<string> = []
+        for (let cmd of t.task.parameter.build_manifest) {
+            final.push(cmd.replace("${taskName}", t.task.name).replace("${downloadedFile}", downloadedFile))
+        }
+        return final
+    }
+    let pass = true
+    for (let file of getBuildManifest()) {
+        if (!fs.existsSync(path.join(target, file))) {
+            pass = false
+            log(`Error:Check manifest failed for ${t.task.name},missing ${file}`)
+        }
+    }
+    if (!pass) {
+        return new Err(`Error:Can't produce task ${t.task.name} due to build missing`)
+    }
+    //压缩
 
     return new Ok(true)
 }

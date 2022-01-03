@@ -9,6 +9,7 @@ import {clearWorkshop} from "./workshop";
 import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, writeDatabase} from "./database";
 import fs from "fs";
+import {release} from "./p7zip";
 
 async function main() {
     //平台校验
@@ -56,9 +57,11 @@ async function main() {
 }
 
 async function test() {
+    //await compress("111","test.7z","D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",5)
+    await release("test.7z", "111", "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test", true)
 }
 
-if (!Piscina.isWorkerThread) main().then(async _ => {
+if (!Piscina.isWorkerThread) test().then(async _ => {
     await sleep(1000)
     process.exit(0)
 })

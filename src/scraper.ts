@@ -108,6 +108,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                 piscina.run(wd, {name: "scraper"})
                     .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                         if (res.err) {
+                            log("Error:Scraper resolved error", badge)
                             node.pool.forEach((item) => {
                                 collection.push({
                                     taskName: item.name,
@@ -145,6 +146,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                 piscina.run(wd, {name: "scraper"})
                     .then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                         if (res.err) {
+                            log("Error:Scraper resolved error", badge)
                             node.pool.forEach((item) => {
                                 collection.push({
                                     taskName: item.name,

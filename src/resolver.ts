@@ -54,5 +54,9 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
         fileMatchRegex: p.fileMatchRegex,
         cd: p.cd
     }
-    return await piscina.run(wd, {name: "resolver"})
+    let r = await piscina.run(wd, {name: "resolver"})
+    if (r.err) {
+        log("Error:Resolver resolved error", badge)
+    }
+    return r
 }

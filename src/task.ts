@@ -64,15 +64,15 @@ function validateConfig(task: any): boolean {
         }
     }
     if (!suc) {
-        log(`Error:Producer template ${task.template.producer} not found`)
+        log(`Error:Producer template ${task.template.producer} not registered`)
         return false
     }
-    if (!fs.existsSync(path.join("./schema", task.template.producer + ".json"))) {
+    if (!fs.existsSync(path.join("./schema", "producer_templates", task.template.producer + ".json"))) {
         log(`Error:Producer template schema file ${task.template.producer} not found`)
         return false
     }
     //producer_required检查
-    return schemaValidator(task.producer_required, "producer_templates" + task.template.producer).unwrap();
+    return schemaValidator(task.producer_required, "producer_templates/" + task.template.producer, "/producer_required").unwrap();
 }
 
 function getSingleTask(taskName: string): Result<TaskInstance, string> {

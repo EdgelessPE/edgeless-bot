@@ -176,7 +176,7 @@ async function sleep(ms: number): Promise<void> {
     return new Promise(r => setTimeout(r, ms));
 }
 
-function schemaValidator(obj: any, schema: string): Result<boolean, string> {
+function schemaValidator(obj: any, schema: string, root?: string): Result<boolean, string> {
     //读取schema文件
     const schemaFilePath = path.join("./schema", schema + ".json")
     if (!fs.existsSync(schemaFilePath)) {
@@ -191,7 +191,7 @@ function schemaValidator(obj: any, schema: string): Result<boolean, string> {
         return new Ok(true)
     } else {
         validate.errors?.forEach((item) => {
-            log(`Error:At ${item.instancePath} : ${item.message}`)
+            log(`Error:At ${root ?? "" + item.instancePath} : ${item.message}`)
         })
         return new Ok(false)
     }

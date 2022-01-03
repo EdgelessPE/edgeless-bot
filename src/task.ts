@@ -251,8 +251,9 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return new Err(`Error:Can't produce task ${t.task.name} due to build missing`)
     }
     //压缩
-    let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}.7z`
+    let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}（bot）.7z`
     let c = await compress(p.val.readyRelativePath, fileName, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
+    shell.mkdir("-p", path.join(__dirname, "..", "..", config.DIR_BUILDS, t.task.category))
     shell.mv(path.join(workshop, fileName), path.join(__dirname, "..", "..", config.DIR_BUILDS, t.task.category + "/"))
     return new Ok(true)
 }

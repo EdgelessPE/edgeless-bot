@@ -276,6 +276,15 @@ function fromGBK(b: Buffer): string {
     return iconv.decode(b, 'GBK');
 }
 
+function shuffle<T>(arr: Array<T>): Array<T> {
+    let n = arr.length, random;
+    while (0 != n) {
+        random = (Math.random() * n--) >>> 0;
+        [arr[n], arr[random]] = [arr[random], arr[n]]
+    }
+    return arr;
+}
+
 export {
     Cmp,
     log,
@@ -291,4 +300,5 @@ export {
     toGBK,
     fromGBK,
     objectValidator,
+    shuffle,
 }

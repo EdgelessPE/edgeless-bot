@@ -8,8 +8,6 @@ import os from "os";
 import {clearWorkshop} from "./workshop";
 import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, writeDatabase} from "./database";
-import fs from "fs";
-import {release} from "./p7zip";
 
 async function main() {
     //平台校验
@@ -45,10 +43,13 @@ async function main() {
     //TODO:检查爬虫提供的checksum信息是否有效
 
     //执行所有需要执行的任务
-    if (!await executeTasks(toExecTasks)) {
-        log("Error:Error occurred during executing tasks")
-        if (config.GITHUB_ACTIONS) fs.writeFileSync("actions_failed", "Error")
-    }
+    let e = await executeTasks(toExecTasks)
+    // if (e) {
+    //     log("Error:Error occurred during executing tasks")
+    //     if (config.GITHUB_ACTIONS) fs.writeFileSync("actions_failed", "Error")
+    // }
+
+    //去重，上传
 
     //写数据库
     writeDatabase()
@@ -58,10 +59,10 @@ async function main() {
 
 async function test() {
     //await compress("111","test.7z","D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",5)
-    await release("test.7z", "111", "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test", true)
+    //await release("test.7z", "111", "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test", true)
 }
 
-if (!Piscina.isWorkerThread) test().then(async _ => {
+if (!Piscina.isWorkerThread) main().then(async _ => {
     await sleep(1000)
     process.exit(0)
 })

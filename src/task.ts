@@ -4,7 +4,7 @@ import {Err, Ok, Result} from "ts-results";
 import {ExecuteParameter, ScraperReturned, TaskInstance} from "./class";
 import {config} from "./config";
 import toml from "toml";
-import {Cmp, log, matchVersion, schemaValidator, versionCmp} from "./utils";
+import {Cmp, log, matchVersion, schemaValidator, shuffle, versionCmp} from "./utils";
 import {getDatabaseNode, setDatabaseNodeFailure} from "./database";
 import {ResultNode} from "./scraper";
 import resolver from "./resolver";
@@ -44,6 +44,11 @@ interface TaskConfig {
         require_windows?: boolean;
         missing_version?: boolean;
     };
+}
+
+interface ResultReport {
+    taskName: string;
+    result: Result<string, string> //成功时返回新构建的名称，失败返回错误消息
 }
 
 function validateConfig(task: any): boolean {
@@ -260,12 +265,38 @@ function getDefaultCompressLevel(templateName: string): number {
     return 5
 }
 
-async function executeTasks(ts: Array<ExecuteParameter>): Promise<boolean> {
+async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultReport>> {
     return new Promise(async (resolve, reject) => {
-        console.log("Run these:")
-        console.log(ts)
-        //TODO:根据请求域名乱序spawn任务
-        resolve(true)
+        console.log("Info:Starting executing tasks")
+        const total = ts.length
+        let done = 0, collection: Array<ResultReport> = []
+        for (let t of shuffle(ts)) {
+            execute(t).then((res) => {
+                if (res.err) {
+                    log(res.val)
+                    collection.push({
+                        taskName: t.task.name,
+                        result: res
+                    })
+                } else if (!res.val) {
+                    log(`Error:Task ${t.task.name} executed failed`)
+                    collection.push({
+                        taskName: t.task.name,
+                        result: new Err("Error:Task executed failed")
+                    })
+                } else {
+                    log(`Success:Task ${t.task.name} executed successfully`)
+                    collection.push({
+                        taskName: t.task.name,
+                        result: new Ok(`${t.task.name}_${matchVersion(t.info.version).unwrap()}_${t.task.author}.7z`)
+                    })
+                }
+                done++
+                if (done == total) {
+                    resolve(collection)
+                }
+            })
+        }
     })
 }
 

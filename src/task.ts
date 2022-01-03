@@ -292,7 +292,7 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
                     log(`Success:Task ${t.task.name} executed successfully`)
                     collection.push({
                         taskName: t.task.name,
-                        result: new Ok(`${t.task.name}_${matchVersion(t.info.version).unwrap()}_${t.task.author}.7z`)
+                        result: new Ok(`${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}（bot）.7z`)
                     })
                 }
                 done++

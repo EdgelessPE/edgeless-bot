@@ -62,6 +62,7 @@ interface ProducerRegister {
     name: string;
     description: string;
     entrance: string;
+    defaultCompressLevel: number;
 }
 
 //数据库

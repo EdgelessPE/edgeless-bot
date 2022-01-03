@@ -12,6 +12,7 @@ import {download} from "./aria2c";
 import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register"
 import producer from "./producer";
+import {compress} from "./p7zip";
 
 const shell = require("shelljs")
 
@@ -244,8 +245,19 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return new Err(`Error:Can't produce task ${t.task.name} due to build missing`)
     }
     //压缩
-
+    let c = await compress(p.unwrap().readyRelativePath, `${t.task.name}_${matchVersion(t.info.version).unwrap()}_${t.task.author}.7z`, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
     return new Ok(true)
+}
+
+function getDefaultCompressLevel(templateName: string): number {
+    let level = 5
+    for (let node of producerRegister) {
+        if (node.entrance == templateName) {
+            level = node.defaultCompressLevel
+            break
+        }
+    }
+    return 5
 }
 
 async function executeTasks(ts: Array<ExecuteParameter>): Promise<boolean> {

@@ -43,9 +43,9 @@ async function main() {
     //TODO:检查checksum信息是否有效
 
     //执行所有需要执行的任务
-    if (!executeTasks(toExecTasks)) {
+    if (!await executeTasks(toExecTasks)) {
         log("Error:Error occurred during executing tasks")
-        fs.writeFileSync("actions_failed", "Error")
+        if (config.GITHUB_ACTIONS) fs.writeFileSync("actions_failed", "Error")
     }
 
     //写数据库
@@ -57,7 +57,7 @@ async function main() {
 async function test() {
 }
 
-if (!Piscina.isWorkerThread) test().then(async _ => {
+if (!Piscina.isWorkerThread) main().then(async _ => {
     await sleep(1000)
     process.exit(0)
 })

@@ -5,6 +5,8 @@ import {Err, Ok, Result} from 'ts-results';
 import Ajv from 'ajv'
 import iconv from 'iconv-lite';
 import {JsObjectType, ObjectValidationNode} from "./class";
+import {badge} from "./worker";
+import Piscina from "piscina";
 
 enum Cmp {
     L, E, G
@@ -13,14 +15,14 @@ enum Cmp {
 function print(text: string, ga_mode: boolean, badge?: string) {
     // 增加字符串类型判断
     if (typeof text !== 'string') {
-        console.log(badge ?? "" + chalk.yellow('Warning ') + 'Illegal type detected');
+        console.log((badge ? (badge + " ") : "") + chalk.yellow('Warning ') + 'Illegal type detected');
         console.log(JSON.stringify(text));
         return;
     }
 
     const spl = text.split(':');
     if (spl.length < 2) {
-        console.log(badge ?? "" + chalk.yellow('Warning ') + 'Illegal message detected');
+        console.log((badge ? (badge + " ") : "") + chalk.yellow('Warning ') + 'Illegal message detected');
         console.log(text);
         return;
     }
@@ -29,17 +31,17 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     switch (spl[0]) {
         case 'Info':
             if (ga_mode) {
-                console.log(badge ?? "" + chalk.blue('Info: ') + inf);
+                console.log((badge ? (badge + " ") : "") + chalk.blue('Info: ') + inf);
             } else {
-                console.log(badge ?? "" + chalk.blue('Info ') + inf);
+                console.log((badge ? (badge + " ") : "") + chalk.blue('Info ') + inf);
             }
 
             break;
         case 'Success':
             if (ga_mode) {
-                console.log(badge ?? "" + chalk.greenBright('Success: ') + inf);
+                console.log((badge ? (badge + " ") : "") + chalk.greenBright('Success: ') + inf);
             } else {
-                console.log(badge ?? "" + chalk.greenBright('Success ') + inf);
+                console.log((badge ? (badge + " ") : "") + chalk.greenBright('Success ') + inf);
             }
 
             break;
@@ -47,7 +49,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
             if (ga_mode) {
                 console.log('::warning::' + inf);
             } else {
-                console.log(badge ?? "" + chalk.yellow('Warning ') + inf);
+                console.log((badge ? (badge + " ") : "") + chalk.yellow('Warning ') + inf);
             }
 
             break;
@@ -55,7 +57,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
             if (ga_mode) {
                 console.log('::error::' + inf);
             } else {
-                console.log(badge ?? "" + chalk.red('Error ') + inf);
+                console.log((badge ? (badge + " ") : "") + chalk.red('Error ') + inf);
             }
 
             break;
@@ -63,14 +65,18 @@ function print(text: string, ga_mode: boolean, badge?: string) {
             if (ga_mode) {
                 console.log('::warning::Illegal message detected:' + inf);
             } else {
-                console.log(badge ?? "" + chalk.yellow('Warning ') + 'Illegal message detected');
+                console.log((badge ? (badge + " ") : "") + chalk.yellow('Warning ') + 'Illegal message detected');
                 console.log(text);
             }
     }
 }
 
-function log(text: string, badge?: string) {
-    print(text, false, badge)
+function log(text: string, b?: string) {
+    let d = b
+    if (b == null && Piscina.isWorkerThread) {
+        d = badge
+    }
+    print(text, false, d)
 }
 
 function formatVersion(version: string): Result<string, string> {

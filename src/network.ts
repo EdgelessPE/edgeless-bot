@@ -21,6 +21,7 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
 }
 
 async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise<Result<any, string>> {
+    log("Info:" + url)
     const singleFetch = async function (): Promise<Result<any, string>> {
         let res;
         try {

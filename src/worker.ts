@@ -10,7 +10,12 @@ import {Err, Ok, Result} from "ts-results";
 import {awaitWithTimeout} from "./utils";
 import {LIGHT_TIMEOUT} from "./const";
 
+export let badge = "Worker"
+
 async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
+    //修改工作牌
+    badge = workerData.badge
+    //执行脚本
     const dirtyScript = await import(workerData.scriptPath)
     if (dirtyScript == null || dirtyScript.default == null) {
         return new Err(`Error:${workerData.badge} imported null script : ${workerData.scriptPath}`)

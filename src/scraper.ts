@@ -85,7 +85,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         })
         let wd: WorkerDataScraper, p, jobSum = 0
         const checkResolve = function (badge: string, template: string) {
-            log(`Info:${badge} finished tasks for ${template}`)
+            log(`Info:Finished tasks for ${template}`, badge)
             if (piscina.completed == jobSum) {
                 log(`Info:Workers all done`)
                 resolve(collection)

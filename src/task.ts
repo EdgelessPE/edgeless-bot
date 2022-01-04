@@ -334,13 +334,12 @@ function removeExtraBuilds(taskName: string, category: string, newBuild: string)
     const repo = path.join(PROJECT_ROOT, config.DIR_BUILDS, category)
     let times = buildList.length - config.MAX_BUILDS
     for (let i = 0; i < times; i++) {
-        console.log(i)
         let target = buildList.pop()
         if (typeof target != 'undefined') {
             let absolutePath = path.join(repo, target.fileName)
             log('Info:Remove extra build ' + absolutePath);
             try {
-                //shell.rm(absolutePath)
+                shell.rm(absolutePath)
                 if (fs.existsSync(absolutePath) && !config.GITHUB_ACTIONS) {
                     log('Warning:Fail to delete local extra build ' + target.fileName);
                 }

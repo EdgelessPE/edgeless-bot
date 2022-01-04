@@ -8,6 +8,7 @@ import os from "os";
 import {clearWorkshop} from "./workshop";
 import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from "./database";
+import {uploadToRemote} from "./rclone";
 
 async function main(): Promise<boolean> {
     console.clear()
@@ -48,16 +49,22 @@ async function main(): Promise<boolean> {
     let failure = []
     for (let node of eRes) {
         if (node.result.ok) {
-            setDatabaseNodeSuccess(node.taskName, removeExtraBuilds(node.taskName, getSingleTask(node.taskName).unwrap().category, node.result.val))
+            //去重
+            let task = getSingleTask(node.taskName).unwrap()
+            let newBuilds = removeExtraBuilds(node.taskName, task.category, node.result.val)
+            //上传
+            if (uploadToRemote(node.result.val, task.category)) {
+                setDatabaseNodeSuccess(node.taskName, newBuilds)
+            } else {
+                setDatabaseNodeFailure(node.taskName, "Error:Can't upload target file")
+            }
         } else {
             failure.push(node)
             setDatabaseNodeFailure(node.taskName, node.result.val)
         }
     }
 
-    //去重，上传
-
-    //写数据库
+    //保存数据库
     writeDatabase()
     //停止aria2c
     await stopAria2c()
@@ -67,10 +74,11 @@ async function main(): Promise<boolean> {
 async function test(): Promise<boolean> {
     readDatabase()
     console.log(JSON.stringify(removeExtraBuilds("火绒安全", "安全急救", "火绒安全_5.0.65.1_Cno（bot）.7z"), null, 2))
+    writeDatabase()
     return true
 }
 
-if (!Piscina.isWorkerThread) test().then(async result => {
+if (!Piscina.isWorkerThread) main().then(async result => {
     await sleep(1000)
     process.exit(result ? 0 : 1)
 })

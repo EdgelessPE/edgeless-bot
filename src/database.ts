@@ -29,7 +29,7 @@ function readDatabase() {
 
 //保存数据库
 function writeDatabase() {
-    if (config.DATABASE_UPDATE) {
+    if (!config.DATABASE_UPDATE) {
         log("Warning:Database not updated")
         return
     }

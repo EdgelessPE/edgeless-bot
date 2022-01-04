@@ -1,35 +1,35 @@
 import {log, sleep} from "./utils";
 import scraper from "./scraper";
 import Piscina from "piscina";
-import {executeTasks, getAllTasks, getSingleTask, getTasksToBeExecuted} from "./task";
+import {executeTasks, getAllTasks, getSingleTask, getTasksToBeExecuted, removeExtraBuilds} from "./task";
 import {config} from "./config";
 import {ensurePlatform, getOS, OS} from "./platform";
 import os from "os";
 import {clearWorkshop} from "./workshop";
 import {initAria2c, stopAria2c} from "./aria2c";
-import {readDatabase, writeDatabase} from "./database";
+import {readDatabase, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from "./database";
 
-async function main() {
+async function main(): Promise<boolean> {
     console.clear()
     //平台校验
     //TODO:支持其他平台
     if (getOS() != OS.Windows) {
         log("Error:Unsupported platform : " + os.platform())
-        return
+        return false
     }
     //命令校验
     if (!ensurePlatform()) {
-        return
+        return false
     }
     //重建工作目录
     if (!clearWorkshop()) {
         log("Error:Can't keep workshop clear : " + config.DIR_WORKSHOP)
-        return
+        return false
     }
     //启动aria2c
     if (!(await initAria2c())) {
         log("Error:Can't initiate aria2c")
-        return
+        return false
     }
     //读取数据库
     readDatabase()
@@ -44,11 +44,16 @@ async function main() {
     //TODO:检查爬虫提供的checksum信息是否有效
 
     //执行所有需要执行的任务
-    let e = await executeTasks(toExecTasks)
-    // if (e) {
-    //     log("Error:Error occurred during executing tasks")
-    //     if (config.GITHUB_ACTIONS) fs.writeFileSync("actions_failed", "Error")
-    // }
+    let eRes = await executeTasks(toExecTasks)
+    let failure = []
+    for (let node of eRes) {
+        if (node.result.ok) {
+            setDatabaseNodeSuccess(node.taskName, removeExtraBuilds(node.taskName, getSingleTask(node.taskName).unwrap().category, node.result.val))
+        } else {
+            failure.push(node)
+            setDatabaseNodeFailure(node.taskName, node.result.val)
+        }
+    }
 
     //去重，上传
 
@@ -56,14 +61,16 @@ async function main() {
     writeDatabase()
     //停止aria2c
     await stopAria2c()
+    return true
 }
 
-async function test() {
-    //await compress("111","test.7z","D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",5)
-    //await release("test.7z", "111", "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test", true)
+async function test(): Promise<boolean> {
+    readDatabase()
+    console.log(JSON.stringify(removeExtraBuilds("火绒安全", "安全急救", "火绒安全_5.0.65.1_Cno（bot）.7z"), null, 2))
+    return true
 }
 
-if (!Piscina.isWorkerThread) main().then(async _ => {
+if (!Piscina.isWorkerThread) test().then(async result => {
     await sleep(1000)
-    process.exit(0)
+    process.exit(result ? 0 : 1)
 })

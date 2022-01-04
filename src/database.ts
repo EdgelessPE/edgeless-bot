@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {DatabaseNode} from "./class";
+import {BuildStatus, DatabaseNode} from "./class";
 import {log} from "./utils";
 import {config} from "./config";
 
@@ -29,8 +29,13 @@ function readDatabase() {
 
 //保存数据库
 function writeDatabase() {
+    if (config.DATABASE_UPDATE) {
+        log("Warning:Database not updated")
+        return
+    }
     if (modified) {
         fs.writeFileSync(config.DATABASE_PATH, JSON.stringify(database, null, 2))
+        log("Info:Database updated")
     }
 }
 
@@ -71,8 +76,8 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
     modified = true
 }
 
-function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<string>) {
-    let old = database[taskName] as DatabaseNode, newVersion = getVersion(newBuilds[0])
+function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>) {
+    let old = database[taskName] as DatabaseNode, newVersion = newBuilds[newBuilds.length - 1].version
     database[taskName] = {
         recent: {
             health: (old.recent.health == 3) ? 3 : (old.recent.health++),
@@ -87,10 +92,6 @@ function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<string>) {
         to: newVersion
     })
     modified = true
-}
-
-function getVersion(fullName: string): string {
-    return fullName.split("_")[1]
 }
 
 export {

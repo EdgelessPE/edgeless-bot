@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {Err, Ok, Result} from "ts-results";
-import {ExecuteParameter, ScraperReturned, TaskInstance} from "./class";
+import {BuildStatus, ExecuteParameter, ScraperReturned, TaskInstance} from "./class";
 import {config} from "./config";
 import toml from "toml";
 import {Cmp, formatVersion, log, matchVersion, schemaValidator, shuffle, versionCmp} from "./utils";
@@ -13,6 +13,8 @@ import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register"
 import producer from "./producer";
 import {compress} from "./p7zip";
+import {PROJECT_ROOT} from "./const";
+import {deleteFromRemote} from "./rclone";
 
 const shell = require("shelljs")
 
@@ -197,7 +199,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     return makeList
 }
 
-async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
+async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     //解析直链
     let dRes = await resolver({
         downloadLink: t.info.downloadLink,
@@ -208,7 +210,7 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
         return dRes
     }
     //下载文件
-    const workshop = path.join(__dirname, "..", "..", config.DIR_WORKSHOP, t.task.name)
+    const workshop = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name)
     shell.mkdir(workshop)
     let downloadedFile: string
     try {
@@ -235,7 +237,7 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
     const target = path.join(config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath)
     const getBuildManifest = (): Array<string> => {
         let origin = t.task.parameter.build_manifest, final: Array<string> = []
-        for (let cmd of t.task.parameter.build_manifest) {
+        for (let cmd of origin) {
             final.push(cmd.replace("${taskName}", t.task.name).replace("${downloadedFile}", downloadedFile))
         }
         return final
@@ -252,10 +254,15 @@ async function execute(t: ExecuteParameter): Promise<Result<boolean, string>> {
     }
     //压缩
     let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}（bot）.7z`
-    let c = await compress(p.val.readyRelativePath, fileName, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))
-    shell.mkdir("-p", path.join(__dirname, "..", "..", config.DIR_BUILDS, t.task.category))
-    shell.mv(path.join(workshop, fileName), path.join(__dirname, "..", "..", config.DIR_BUILDS, t.task.category + "/"))
-    return new Ok(true)
+    if (!await compress(p.val.readyRelativePath, fileName, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))) {
+        return new Err("Error:Compress failed")
+    }
+    shell.mkdir("-p", path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category))
+    shell.mv(path.join(workshop, fileName), path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category + "/"))
+    if (!fs.existsSync(path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName))) {
+        return new Err("Error:Moving compressed file to builds folder failed")
+    }
+    return new Ok(fileName)
 }
 
 function getDefaultCompressLevel(templateName: string): number {
@@ -270,8 +277,8 @@ function getDefaultCompressLevel(templateName: string): number {
 }
 
 async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultReport>> {
-    return new Promise(async (resolve, reject) => {
-        console.log("Info:Starting executing tasks")
+    return new Promise(async (resolve) => {
+        log("Info:Starting executing tasks")
         const total = ts.length
         let done = 0, collection: Array<ResultReport> = []
         for (let t of shuffle(ts)) {
@@ -282,17 +289,11 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
                         taskName: t.task.name,
                         result: res
                     })
-                } else if (!res.val) {
-                    log(`Error:Task ${t.task.name} executed failed`)
-                    collection.push({
-                        taskName: t.task.name,
-                        result: new Err("Error:Task executed failed")
-                    })
                 } else {
                     log(`Success:Task ${t.task.name} executed successfully`)
                     collection.push({
                         taskName: t.task.name,
-                        result: new Ok(`${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}（bot）.7z`)
+                        result: res
                     })
                 }
                 done++
@@ -304,9 +305,65 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
     })
 }
 
+function removeExtraBuilds(taskName: string, category: string, newBuild: string): Array<BuildStatus> {
+    let allBuilds = getDatabaseNode(taskName).recent.builds
+    allBuilds.push({
+        fileName: newBuild,
+        version: newBuild.split("_")[1],
+        timestamp: (new Date()).toString()
+    })
+    log('Info:Trying to remove extra builds');
+    // Builds去重
+    let hashMap: any = {};
+    let buildList: Array<BuildStatus> = [];
+    for (let build of allBuilds) {
+        if (!hashMap.hasOwnProperty(build.version)) {
+            hashMap[build.version] = true;
+            buildList.push(build);
+        }
+    }
+    if (buildList.length <= config.MAX_BUILDS) {
+        log('Info:No needy for removal after de-weight');
+        return buildList;
+    }
+
+    // Builds降序排列（从列尾弹出元素删除）
+    buildList.sort((a, b) => 1 - versionCmp(a.version, b.version));
+    // 删除多余的builds
+    let failure: Array<BuildStatus> = [];
+    const repo = path.join(PROJECT_ROOT, config.DIR_BUILDS, category)
+    let times = buildList.length - config.MAX_BUILDS
+    for (let i = 0; i < times; i++) {
+        console.log(i)
+        let target = buildList.pop()
+        if (typeof target != 'undefined') {
+            let absolutePath = path.join(repo, target.fileName)
+            log('Info:Remove extra build ' + absolutePath);
+            try {
+                //shell.rm(absolutePath)
+                if (fs.existsSync(absolutePath) && !config.GITHUB_ACTIONS) {
+                    log('Warning:Fail to delete local extra build ' + target.fileName);
+                }
+            } catch {
+                if (!config.GITHUB_ACTIONS) {
+                    log('Warning:Fail to delete local extra build ' + target.fileName);
+                }
+            }
+            if (!deleteFromRemote(target.fileName, category)) {
+                log('Warning:Fail to delete remote extra build ' + target.fileName);
+                failure.push(target);
+            }
+        }
+    }
+    buildList = buildList.concat(failure);
+
+    return buildList;
+}
+
 export {
     getAllTasks,
     getSingleTask,
     executeTasks,
-    getTasksToBeExecuted
+    getTasksToBeExecuted,
+    removeExtraBuilds
 }

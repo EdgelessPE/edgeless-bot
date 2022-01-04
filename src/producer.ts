@@ -6,6 +6,7 @@ import {piscina} from "./piscina";
 import {config} from "./config";
 import {getBadge} from "./badge";
 import {log} from "./utils";
+import {PROJECT_ROOT} from "./const";
 
 interface ProducerSpawn {
     task: TaskInstance;
@@ -44,7 +45,7 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
         scriptPath,
         task: {
             taskName: task.name,
-            workshop: path.join(__dirname, "..", "..", config.DIR_WORKSHOP, task.name),
+            workshop: path.join(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
             downloadedFile,
             requiredObject: task.producer_required
         }

@@ -12,19 +12,19 @@ function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
             http_proxy: config.GLOBAL_PROXY
         }
     }
-    console.log(result)
+    //console.log(result)
     return result
 }
 
-function uploadToRemote(zname: string, category: string): boolean {
+function uploadToRemote(fileName: string, category: string): boolean {
     if (config.REMOTE_ENABLE) {
-        const localPath = config.DIR_BUILDS + '/' + category + '/' + zname;
+        const localPath = config.DIR_BUILDS + '/' + category + '/' + fileName;
         const remotePath = config.REMOTE_PATH + '/' + category;
         let date = new Date()
         let startTime = date.getTime()
 
         try {
-            log('Info:Uploading ' + zname);
+            log('Info:Uploading ' + fileName);
             cp.execSync(
                 'rclone copy "' + localPath + '" ' + config.REMOTE_NAME + ':' + remotePath,
                 getOptions(3600000)
@@ -35,7 +35,7 @@ function uploadToRemote(zname: string, category: string): boolean {
             log(`Info:Cost ${getTimeString(date.getTime() - startTime)} before error occurred`)
             // 尝试删除传了一半的文件
             log('Info:Trying to delete broken uploaded file');
-            if (!deleteFromRemote(zname, category, true)) {
+            if (!deleteFromRemote(fileName, category, true)) {
                 log('Warning:Fail to delete broken uploaded file');
             } else {
                 log('Info:Deleted broken uploaded file');
@@ -52,9 +52,9 @@ function uploadToRemote(zname: string, category: string): boolean {
     return true;
 }
 
-function deleteFromRemote(zname: string, category: string, ignoreNotExist?: boolean): boolean {
+function deleteFromRemote(fileName: string, category: string, ignoreNotExist?: boolean): boolean {
     if (config.REMOTE_ENABLE) {
-        const remotePath = config.REMOTE_PATH + '/' + category + '/' + zname;
+        const remotePath = config.REMOTE_PATH + '/' + category + '/' + fileName;
         //读取远程目录查看是否存在
         let buf
         try {
@@ -68,8 +68,8 @@ function deleteFromRemote(zname: string, category: string, ignoreNotExist?: bool
             return false;
         }
         //log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};\n gbk(buf)=${gbk(buf)},\n buf.toString()=${buf.toString()}`)
-        if (!fromGBK(buf).includes(zname) && !buf.toString().includes(zname) && (ignoreNotExist == undefined || !ignoreNotExist)) {
-            log('Warning:Remote not exist file : ' + config.REMOTE_NAME + ':' + config.REMOTE_PATH + '/' + category + "/" + zname + ' ,ignore')
+        if (!fromGBK(buf).includes(fileName) && !buf.toString().includes(fileName) && (ignoreNotExist == undefined || !ignoreNotExist)) {
+            log('Warning:Remote not exist file : ' + config.REMOTE_NAME + ':' + config.REMOTE_PATH + '/' + category + "/" + fileName + ' ,ignore')
             return true
         }
 

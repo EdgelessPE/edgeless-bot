@@ -207,4 +207,5 @@ export {
     WorkerDataResolver,
     WorkerDataProducer,
     ExecuteParameter,
+    BuildStatus
 };

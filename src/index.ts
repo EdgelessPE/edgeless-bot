@@ -9,11 +9,14 @@ import {clearWorkshop} from "./workshop";
 import {initAria2c, stopAria2c} from "./aria2c";
 import {readDatabase, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from "./database";
 import {uploadToRemote} from "./rclone";
+import Recursive_Unzip from "../templates/producers/Recursive_Unzip";
+import art from "./art";
 
 async function main(): Promise<boolean> {
-    console.clear()
+    //打印艺术字
+    art()
     //平台校验
-    //TODO:支持其他平台
+    //TODO:支持其他平台，实现require_windows
     if (getOS() != OS.Windows) {
         log("Error:Unsupported platform : " + os.platform())
         return false
@@ -72,13 +75,22 @@ async function main(): Promise<boolean> {
 }
 
 async function test(): Promise<boolean> {
-    readDatabase()
-    console.log(JSON.stringify(removeExtraBuilds("火绒安全", "安全急救", "火绒安全_5.0.65.1_Cno（bot）.7z"), null, 2))
-    writeDatabase()
+    art()
+    let res = await Recursive_Unzip({
+        taskName: "test",
+        workshop: "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test",
+        downloadedFile: "test_2.7z",
+        requiredObject: {
+            recursiveUnzipList: ["test.7z"],
+            sourceFile: "新建文本文档.txt",
+            shortcutName: "Test it"
+        }
+    })
+    console.log(res.unwrap())
     return true
 }
 
-if (!Piscina.isWorkerThread) main().then(async result => {
+if (!Piscina.isWorkerThread) test().then(async result => {
     await sleep(1000)
     process.exit(result ? 0 : 1)
 })

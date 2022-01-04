@@ -72,6 +72,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
         }
         if (!success) {
             reject("Error:Fatal error occurred when classifying tasks")
+            return
         } else {
             log(`Info:Need ${workerSum} workers to scrape`)
         }

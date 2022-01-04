@@ -73,6 +73,7 @@ async function initAria2c(): Promise<boolean> {
         let binRes = where("aria2c")
         if (binRes.err) {
             resolve(false)
+            return
         }
         //启动进程
         let sRes
@@ -94,6 +95,7 @@ async function initAria2c(): Promise<boolean> {
             } catch (e) {
                 console.log(JSON.stringify(e))
                 resolve(false)
+                return
             }
             resolve(true)
         } else {
@@ -155,6 +157,7 @@ async function download(taskName: string, url: string, dir: string): Promise<str
         } catch (err: any) {
             console.log(err);
             reject("Error:Download progress thrown")
+            return
         }
         if (fs.existsSync(path.join(dir, filename))) {
             resolve(filename)

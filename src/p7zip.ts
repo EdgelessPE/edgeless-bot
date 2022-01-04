@@ -19,6 +19,7 @@ async function release(file: string, intoDir: string, cwd: string, overwrite?: b
         } catch (e) {
             log("Error:Release command failed\n" + e)
             resolve(false)
+            return
         }
         resolve(fs.existsSync(path.join(cwd, intoDir)))
     }))
@@ -34,6 +35,7 @@ async function compress(choosePlainDir: string, file: string, cwd: string, compr
         } catch (e) {
             log("Error:Compress command failed\n" + e)
             resolve(false)
+            return
         }
         resolve(fs.existsSync(path.join(cwd, file)))
     }))

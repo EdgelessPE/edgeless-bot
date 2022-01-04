@@ -278,8 +278,17 @@ function getDefaultCompressLevel(templateName: string): number {
 
 async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultReport>> {
     return new Promise(async (resolve) => {
-        log("Info:Starting executing tasks")
+        if (ts.length == 0) {
+            log("Info:No tasks to be executed")
+            resolve([])
+            return
+        }
         const total = ts.length
+        let r = ""
+        ts.forEach((item) => {
+            r = r + ` ${item.task.name}`
+        })
+        log(`Info:Starting executing ${total} tasks :${r}`)
         let done = 0, collection: Array<ResultReport> = []
         for (let t of shuffle(ts)) {
             execute(t).then((res) => {

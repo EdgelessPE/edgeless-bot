@@ -132,7 +132,7 @@ interface CONFIG {
     GLOBAL_PROXY: string;
     ARIA2_SPAWN: boolean;
     ARIA2_PORT: number;
-    ARIA2_SECRET: string;
+    ARIA2_SECRET?: string;
     ARIA2_THREAD: number;
 
     SPECIFY_TASK: string;

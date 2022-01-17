@@ -97,6 +97,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
                 entrance: string,
                 pool: Array<TaskInstance>
             }
+            //TODO:处理无版本号任务
             if (node.entrance == "External") {
                 //启动外置脚本任务
                 let taskName = node.pool[0].name, badge = getBadge("Scraper")

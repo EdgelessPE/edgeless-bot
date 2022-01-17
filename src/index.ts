@@ -45,7 +45,6 @@ async function main(): Promise<boolean> {
 
     //得到需要真正执行的任务数组
     let toExecTasks = getTasksToBeExecuted(results)
-    //TODO:检查爬虫提供的checksum信息是否有效
 
     //执行所有需要执行的任务
     let eRes = await executeTasks(toExecTasks)

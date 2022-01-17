@@ -138,7 +138,6 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     }> = []
     let db, newNode: ScraperReturned, matchRes, res, onlineVersion
     for (let result of results) {
-        db = getDatabaseNode(result.taskName)
         //处理爬虫出错
         if (result.result.err) {
             setDatabaseNodeFailure(result.taskName, result.result.val)
@@ -154,6 +153,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
         onlineVersion = formatVersion(matchRes.val).unwrap()
         newNode.version = onlineVersion
         res = getSingleTask(result.taskName)
+        db = getDatabaseNode(result.taskName)
         switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
             case Cmp.L:
                 //需要更新
@@ -233,6 +233,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         log(p.val)
         return new Err(`Error:Can't produce task ${t.task.name}`)
     }
+    //TODO:实现cover
     //验收
     const target = path.join(config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath)
     const getBuildManifest = (): Array<string> => {

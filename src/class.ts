@@ -107,6 +107,7 @@ interface TaskInstance {
     producer_required: any;
     extra?: {
         require_windows?: boolean;
+        //TODO:实现对无版本号任务通过读取本地文件版本号获得爬虫版本号
         missing_version?: boolean;
     };
 }

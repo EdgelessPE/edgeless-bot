@@ -50,17 +50,24 @@ function parsePath(entrance: string): Result<string, string> {
 export default async function (tasks: Array<TaskInstance>): Promise<Array<ResultNode>> {
     return new Promise(((resolve, reject) => {
         //按同域任务分类
-        let classifyHash: any = {}, success = true, workerSum = 0
+        let classifyHash: {
+                [key: string]: {
+                    entrance: string,
+                    pool: Array<TaskInstance>
+                }
+            } = {},
+            success = true,
+            workerSum = 0;
         for (let task of tasks) {
-            let mRes = searchTemplate(task.pageUrl)
+            let mRes = searchTemplate(task.pageUrl);
             if (mRes.err) {
-                log(mRes.val)
-                success = false
-                break
+                log(mRes.val);
+                success = false;
+                break;
             } else {
-                let m = mRes.unwrap()
+                let m = mRes.unwrap();
                 if (classifyHash.hasOwnProperty(m.name)) {
-                    (classifyHash[m.name].pool as Array<TaskInstance>).push(task)
+                    classifyHash[m.name].pool.push(task);
                 } else {
                     classifyHash[m.name] = {
                         entrance: m.entrance,
@@ -93,10 +100,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
             }
         }
         for (let key in classifyHash) {
-            let node = classifyHash[key] as {
-                entrance: string,
-                pool: Array<TaskInstance>
-            }
+            let node = classifyHash[key];
             //TODO:处理无版本号任务
             if (node.entrance == "External") {
                 //启动外置脚本任务

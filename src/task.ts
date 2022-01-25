@@ -144,8 +144,8 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
             continue
         }
         //进行版本号比较
-        newNode = result.result.val as ScraperReturned
-        matchRes = matchVersion(newNode.version)
+        newNode = result.result.val;
+        matchRes = matchVersion(newNode.version);
         if (matchRes.err) {
             setDatabaseNodeFailure(result.taskName, "Error:Can't parse version returned by scraper")
             continue

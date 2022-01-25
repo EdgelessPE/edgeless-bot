@@ -3,7 +3,12 @@ import {BuildStatus, DatabaseNode} from "./class";
 import {log} from "./utils";
 import {config} from "./config";
 
-let database: any = null, modified = false
+let database: {
+        [key: string]: {
+            recent: DatabaseNode['recent']
+        }
+    } = {},
+    modified = false;
 
 //记录执行成功/失败的操作列表
 let successList: Array<{
@@ -42,7 +47,7 @@ function writeDatabase() {
 //需要在read后调用
 function getDatabaseNode(taskName:string):DatabaseNode{
     if(database.hasOwnProperty(taskName)) {
-        let node = database[taskName]
+        let node = database[taskName] as DatabaseNode;
         node["taskName"] = taskName
         return node
     }else {
@@ -60,7 +65,7 @@ function getDatabaseNode(taskName:string):DatabaseNode{
 
 //需要在read后调用
 function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
-    let old = database[taskName] as DatabaseNode
+    let old = database[taskName];
     database[taskName] = {
         recent: {
             health: (old.recent.health > 0) ? (old.recent.health--) : 0,
@@ -77,7 +82,8 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 }
 
 function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>) {
-    let old = database[taskName] as DatabaseNode, newVersion = newBuilds[newBuilds.length - 1].version
+    let old = database[taskName],
+        newVersion = newBuilds[newBuilds.length - 1].version;
     database[taskName] = {
         recent: {
             health: (old.recent.health == 3) ? 3 : (old.recent.health++),

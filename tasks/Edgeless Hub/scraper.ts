@@ -9,9 +9,7 @@ interface ReleaseEntry {
 
 let entry: ReleaseEntry;
 export async function init() {
-    const resp = await axios.get<any>(FETCH_URL,{
-        proxy: false
-    })
+    const resp = await axios.get<any>(FETCH_URL)
 
     if (resp.status != 200) {
         throw new Error('fetch releases error!')

@@ -1,11 +1,12 @@
 name: Serve
 
 on:
+  workflow_dispatch: # debug
   push:
     branches: [ master ]
   schedule:
     - cron: '0 16 * * *'
-  workflow_dispatch: # debug
+  
 
 
 jobs:

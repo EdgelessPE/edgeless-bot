@@ -56,6 +56,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
     }
     let r = await piscina.run(wd, {name: "resolver"}) as Result<ResolverReturned, string>
     if (r.err) {
+        //TODO:实现RETRY
         log("Error:Resolver resolved error", badge)
     }
     return r

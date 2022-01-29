@@ -4,11 +4,12 @@
     "author": "Hydrogen",
     "autoMake": false,
     "buildRequirement": [
-        "Deno",
-        "link_etcher.wcs"
+        "deno",
+        "_deno_env.cmd",
+        "_deno_link.wcs"
     ],
     "releaseRequirement": [
-        "$PLUGINSDIR/app-64.7z"
+        "deno.exe"
     ],
     "externalScraper": true,
     "externalScraperOptions": {

@@ -1,7 +1,6 @@
 name: Serve
 
 on:
-  workflow_dispatch: # debug
   push:
     branches: [ master ]
   schedule:

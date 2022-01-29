@@ -9,69 +9,73 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
         let url = config.GLOBAL_PROXY
         let sp1 = url.split(":")
         const protocol = sp1[0], port = Number(sp1[2])
-        const host = sp1[1].split("//")[1]
+        const host = sp1[1].split('//')[1];
 
-        result["proxy"] = {
+        result['proxy'] = {
             protocol,
             host,
-            port
-        }
+            port,
+        };
     }
-    return result
+    return result;
+}
+
+async function singleFetch(url: string, axiosConfig?: AxiosRequestConfig): Promise<Result<any, string>> {
+    let res;
+    try {
+        res = await axios.get(url, getConfig(axiosConfig));
+    } catch (err) {
+        //console.log(JSON.stringify(err));
+        return new Err('Warning:Single fetch failed for ' + url);
+    }
+    return new Ok(res.data);
 }
 
 async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise<Result<any, string>> {
-    const singleFetch = async function (): Promise<Result<any, string>> {
-        let res;
-        try {
-            res = await axios.get(url, getConfig(axiosConfig));
-        } catch (err) {
-            //console.log(JSON.stringify(err));
-            return new Err("Warning:Single fetch failed for " + url)
-        }
-        return new Ok(res.data)
-    }
-
-    let result = null, r
+    let result = null,
+        r;
     for (let i = 0; i < config.MAX_RETRY_SCRAPER; i++) {
-        r = await singleFetch()
+        r = await singleFetch(url, axiosConfig);
         if (r.ok) {
-            result = r.unwrap()
-            break
+            result = r.unwrap();
+            break;
         } else {
             log(r.val)
-            if (i != config.MAX_RETRY_SCRAPER - 1) await sleep(3000)
+            if (i != config.MAX_RETRY_SCRAPER - 1) {
+                await sleep(3000);
+            }
         }
     }
 
     if (result == null) {
-        return new Err(`Error:Robust get failed : ${url}`)
+        return new Err(`Error:Robust get failed : ${url}`);
     } else {
-        return new Ok(result)
+        return new Ok(result);
     }
 }
 
-async function robustParseRedirect(url: string): Promise<Result<string, string>> {
-    async function fetchURL(): Promise<Result<string, string>> {
-        return new Promise((resolve) => {
-            axios.get(url, getConfig({maxRedirects: 0}))
-                .catch((e) => {
-                    if (e.response && (e.response.status == 302 || e.response.status == 301)) {
-                        resolve(new Ok(e.response.headers.location))
-                    } else {
-                        //console.log(e.response?.status)
-                        resolve(new Err("Warning:Single fetch failed for " + url + " :\n" + JSON.stringify(e)))
-                    }
-                })
-        })
-    }
+async function fetchURL(url: string): Promise<Result<string, string>> {
+    return new Promise((resolve) => {
+        axios.get(url, getConfig({maxRedirects: 0}))
+            .catch((e) => {
+                if (e.response && (e.response.status == 302 || e.response.status == 301)) {
+                    resolve(new Ok(e.response.headers.location));
+                } else {
+                    //console.log(e.response?.status)
+                    resolve(new Err('Warning:Single fetch failed for ' + url + ' :\n' + JSON.stringify(e)));
+                }
+            });
+    });
+}
 
-    let result = null, r
+async function robustParseRedirect(url: string): Promise<Result<string, string>> {
+    let result = null,
+        r;
     for (let i = 0; i < config.MAX_RETRY_SCRAPER; i++) {
-        r = await fetchURL()
+        r = await fetchURL(url);
         if (r.ok) {
-            result = r.unwrap()
-            break
+            result = r.unwrap();
+            break;
         } else {
             log(r.val)
             if (i != config.MAX_RETRY_SCRAPER - 1) await sleep(3000)

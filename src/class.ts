@@ -128,7 +128,6 @@ interface CONFIG {
     MAX_BUILDS: number;
     MAX_RETRY_SCRAPER: number;
     MAX_RETRY_RESOLVER: number;
-    MAX_RETRY_PRODUCER: number;
 
     GLOBAL_PROXY: string;
     ARIA2_SPAWN: boolean;

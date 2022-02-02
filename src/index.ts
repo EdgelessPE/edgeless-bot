@@ -90,8 +90,8 @@ async function test(): Promise<boolean> {
 }
 
 if (!Piscina.isWorkerThread) {
-	test().then(async result => {
+	main().then(async result => {
 		await sleep(1000);
 		process.exit(result ? 0 : 1);
-	})
+	});
 }

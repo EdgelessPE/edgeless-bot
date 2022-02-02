@@ -1,13 +1,13 @@
-import {ProducerRegister} from "../../src/class";
+import {ProducerRegister} from '../../src/class';
 
 const regArray: Array<ProducerRegister> = [
-    {
-        name: "Click to Install",
-        entrance: "Click2Install",
-        description: "Create a shortcut on the desktop to allow user's manually install or click to run;" +
-            "\nSuggested buildManifest : ['${taskName}.wcs','${taskName}/${downloadedFile}']",
-        defaultCompressLevel: 1
-    }
-]
+	{
+		name: 'Click to Install',
+		entrance: 'Click2Install',
+		description: 'Create a shortcut on the desktop to allow user\'s manually install or click to run;' +
+			'\nSuggested buildManifest : [\'${taskName}.wcs\',\'${taskName}/${downloadedFile}\']',
+		defaultCompressLevel: 1,
+	},
+];
 
-export default regArray
+export default regArray;

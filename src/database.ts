@@ -65,7 +65,7 @@ function getDatabaseNode(taskName: string): DatabaseNode {
 
 //需要在read后调用
 function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
-	let old = database[taskName];
+	let old = getDatabaseNode(taskName);
 	database[taskName] = {
 		recent: {
 			health: (old.recent.health > 0) ? (old.recent.health--) : 0,
@@ -82,7 +82,7 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 }
 
 function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>) {
-	let old = database[taskName],
+	let old = getDatabaseNode(taskName),
 		newVersion = newBuilds[newBuilds.length - 1].version;
 	database[taskName] = {
 		recent: {

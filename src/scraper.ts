@@ -13,9 +13,9 @@ export interface ResultNode {
 	result: Result<ScraperReturned, string>
 }
 
-function searchTemplate(url: string): Result<ScraperRegister, string> {
+function searchTemplate(url: string, scraperName?: string): Result<ScraperRegister, string> {
 	//内部实现外置脚本模板
-	if (url.match(/external:\/\//) != null) {
+	if (scraperName && scraperName == 'External') {
 		return new Ok({
 			name: 'External',
 			entrance: 'External',
@@ -59,7 +59,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 			success = true,
 			workerSum = 0;
 		for (let task of tasks) {
-			let mRes = searchTemplate(task.pageUrl);
+			let mRes = searchTemplate(task.pageUrl, task.template.scraper);
 			if (mRes.err) {
 				log(mRes.val);
 				success = false;

@@ -15,42 +15,44 @@ import producer from './producer';
 import {compress} from './p7zip';
 import {PROJECT_ROOT} from './const';
 import {deleteFromRemote} from './rclone';
-
+const rcInfo = require('rcinfo');
 const shell = require('shelljs');
 
 interface TaskConfig {
 	task: {
-		name: string;
-		author: string;
-		category: string;
-		url: string;
+		name: TaskInstance['name'];
+		author: TaskInstance['author'];
+		category: TaskInstance['category'];
+		url: TaskInstance['pageUrl'];
 	};
-	template: {
-		scraper?: string;
-		resolver?: string;
-		producer: string;
-	};
-	regex?: {
-		download_link?: string;
-		download_name?: string;
-		scraper_version?: string;
-	};
-	parameter: {
-		build_manifest: Array<string>
-		build_cover?: string;
-		resolver_cd?: Array<string>;
-		compress_level?: number;
-	};
-	producer_required: any;
-	extra?: {
-		require_windows?: boolean;
-		missing_version?: boolean;
-	};
+	template: TaskInstance['template'];
+	regex?: TaskInstance['regex'];
+	parameter: TaskInstance['parameter'];
+	producer_required: TaskInstance['producer_required'];
+	extra?: TaskInstance['extra'];
 }
 
 interface ResultReport {
 	taskName: string;
 	result: Result<string, string>; //成功时返回新构建的名称，失败返回错误消息
+}
+
+async function getExeVersion(file: string, cd: string): Promise<string> {
+	return new Promise(((resolve, reject) => {
+		if (!fs.existsSync(path.join(cd, file))) {
+			reject('Error:Can\'t find ' + path.join(cd, file));
+		}
+		rcInfo(path.join(cd, file), (error: any, info: {
+			FileVersion: string
+		}) => {
+			if (error) {
+				console.log(JSON.stringify(error, null, 2));
+				reject('Error:Can\'t get file version of ' + path.join(cd, file));
+			} else {
+				resolve(info.FileVersion);
+			}
+		});
+	}));
 }
 
 function validateConfig(task: any): boolean {
@@ -101,7 +103,6 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
 			return new Ok(res);
 		}
 	}
-
 }
 
 function getAllTasks(): Result<Array<TaskInstance>, string> {
@@ -142,7 +143,8 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 		newNode: ScraperReturned,
 		matchRes,
 		res,
-		onlineVersion;
+		onlineVersion,
+		date = new Date();
 	for (let result of results) {
 		//处理爬虫出错
 		if (result.result.err) {
@@ -160,6 +162,16 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 		newNode.version = onlineVersion;
 		res = getSingleTask(result.taskName);
 		db = getDatabaseNode(result.taskName);
+		//处理无版本号任务
+		if (res.ok && res.val.extra?.missing_version) {
+			//在星期天检查更新
+			if (date.getDay() == 0) {
+				onlineVersion = '9999999';
+			} else {
+				//其他时间将爬虫的版本号改为数据库版本号
+				onlineVersion = db.recent.latestVersion;
+			}
+		}
 		switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
 			case Cmp.L:
 				//需要更新
@@ -259,6 +271,17 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	}
 	if (!pass) {
 		return new Err(`Error:Can't produce task ${t.task.name} due to build missing`);
+	}
+	//处理无版本号任务：读取本地文件获得版本号
+	if (t.task.extra?.missing_version) {
+		let version;
+		try {
+			version = await getExeVersion(t.task.extra.missing_version, target);
+		} catch (e) {
+			console.log(e);
+			return new Err('Error:Fetch execute file version failed');
+		}
+		t.info.version = version;
 	}
 	//压缩
 	let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}（bot）.7z`;

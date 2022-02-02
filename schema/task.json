@@ -51,7 +51,7 @@
     "extra": {
       "properties": {
         "missing_version": {
-          "type": "boolean"
+          "type": "string"
         },
         "require_windows": {
           "type": "boolean"

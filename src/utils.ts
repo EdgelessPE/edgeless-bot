@@ -293,6 +293,15 @@ function shuffle<T>(arr: Array<T>): Array<T> {
 	return arr;
 }
 
+function parseBuiltInValue(source: string, v: {
+	taskName: string,
+	downloadedFile: string
+}): string {
+	return source
+		.replace('${taskName}', v.taskName)
+		.replace('${downloadedFile}', v.downloadedFile);
+}
+
 export {
 	Cmp,
 	log,
@@ -309,4 +318,5 @@ export {
 	fromGBK,
 	objectValidator,
 	shuffle,
-}
+	parseBuiltInValue,
+};

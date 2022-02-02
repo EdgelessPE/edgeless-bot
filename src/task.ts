@@ -4,7 +4,7 @@ import {Err, Ok, Result} from 'ts-results';
 import {BuildStatus, ExecuteParameter, ScraperReturned, TaskInstance} from './class';
 import {config} from './config';
 import toml from 'toml';
-import {Cmp, formatVersion, log, matchVersion, schemaValidator, shuffle, versionCmp} from './utils';
+import {Cmp, formatVersion, log, matchVersion, parseBuiltInValue, schemaValidator, shuffle, versionCmp} from './utils';
 import {getDatabaseNode, setDatabaseNodeFailure} from './database';
 import {ResultNode} from './scraper';
 import resolver from './resolver';
@@ -258,7 +258,10 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		let origin = t.task.parameter.build_manifest,
 			final: Array<string> = [];
 		for (let cmd of origin) {
-			final.push(cmd.replace('${taskName}', t.task.name).replace('${downloadedFile}', downloadedFile));
+			final.push(parseBuiltInValue(cmd, {
+				downloadedFile,
+				taskName: t.task.name,
+			}));
 		}
 		return final;
 	};

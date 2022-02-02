@@ -8,3 +8,4 @@ builds
 *.js
 dist
 database.json
+*.exe

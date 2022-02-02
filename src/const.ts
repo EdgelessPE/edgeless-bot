@@ -1,6 +1,7 @@
 const PATH_CONFIG = './config.toml',
 	LIGHT_TIMEOUT = 30000,
-	HEAVY_TIMEOUT = 300000;
+	HEAVY_TIMEOUT = 300000,
+	MISSING_VERSION_TRY_DAY = 4;
 const PROJECT_ROOT = process.cwd();
 
 export {
@@ -8,4 +9,5 @@ export {
 	LIGHT_TIMEOUT,
 	HEAVY_TIMEOUT,
 	PROJECT_ROOT,
+	MISSING_VERSION_TRY_DAY,
 };

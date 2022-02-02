@@ -162,16 +162,6 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 		newNode.version = onlineVersion;
 		res = getSingleTask(result.taskName);
 		db = getDatabaseNode(result.taskName);
-		//处理无版本号任务
-		if (res.ok && res.val.extra?.missing_version) {
-			//在星期天检查更新
-			if (date.getDay() == 0) {
-				onlineVersion = '9999999';
-			} else {
-				//其他时间将爬虫的版本号改为数据库版本号
-				onlineVersion = db.recent.latestVersion;
-			}
-		}
 		switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
 			case Cmp.L:
 				//需要更新
@@ -253,7 +243,8 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	}
 	//TODO:实现cover
 	//验收
-	const target = path.join(config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath);
+	const target = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath);
+	log('Info:Receive ready directory ' + target);
 	const getBuildManifest = (): Array<string> => {
 		let origin = t.task.parameter.build_manifest,
 			final: Array<string> = [];

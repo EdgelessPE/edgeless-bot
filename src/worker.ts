@@ -11,7 +11,7 @@ import {
 } from './class';
 import {Err, Ok, Result} from 'ts-results';
 import {awaitWithTimeout} from './utils';
-import {LIGHT_TIMEOUT} from './const';
+import {LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY} from './const';
 
 export let badge = 'Worker';
 
@@ -26,9 +26,20 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 		if (workerData.isExternal) {
 			//作为外置脚本处理
 			const script = dirtyScript.default as () => Promise<Result<ScraperReturned, string>>;
-			let res;
+			let res: Result<ScraperReturned, string>;
 			try {
-				res = (await awaitWithTimeout(script, LIGHT_TIMEOUT)) as Result<ScraperReturned, string>;
+				res = await awaitWithTimeout(script, LIGHT_TIMEOUT);
+				//处理无版本号任务
+				if (workerData.tasks[0].extra?.missing_version && res.ok) {
+					//在指定的星期检查更新
+					let date = new Date();
+					if (date.getDay() == MISSING_VERSION_TRY_DAY) {
+						res.val.version = '999999';
+					} else {
+						//其他时间将爬虫的版本号改为 0
+						res.val.version = '0';
+					}
+				}
 				return new Ok([res]);
 			} catch (e) {
 				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);

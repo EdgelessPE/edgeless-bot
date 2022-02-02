@@ -56,7 +56,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	};
 	if (exist(p.taskName + '.wcs') && exist(p.taskName + '/' + obj.sourceFile)) {
 		return new Ok({
-			readyRelativePath: final,
+			readyRelativePath: '_ready',
 		});
 	} else {
 		return new Err('Error:Recursive_Unzip self check failed due to file missing in ready folder');

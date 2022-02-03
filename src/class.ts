@@ -101,6 +101,7 @@ interface TaskInstance {
 	parameter: {
 		build_manifest: Array<string>
 		build_cover?: string;
+		build_delete?: Array<string>;
 		resolver_cd?: Array<string>;
 		compress_level?: number;
 	};

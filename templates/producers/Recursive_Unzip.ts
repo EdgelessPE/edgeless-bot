@@ -28,7 +28,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 			break;
 		}
 		//尝试解压
-		success = await release(file, level.toString(), cwd);
+		success = await release(file, level.toString(), true, cwd);
 		if (!success) {
 			reason = `Error:Can't unzip file ${file} at ${cwd} during the ${level} recursion`;
 			success = false;

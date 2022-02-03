@@ -12,9 +12,10 @@ import {download} from './aria2c';
 import checksum from './checksum';
 import producerRegister from '../templates/producers/_register';
 import producer from './producer';
-import {compress} from './p7zip';
+import {compress, release} from './p7zip';
 import {PROJECT_ROOT} from './const';
 import {deleteFromRemote} from './rclone';
+
 const rcInfo = require('rcinfo');
 const shell = require('shelljs');
 
@@ -207,6 +208,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 	return makeList;
 }
 
+//返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 missing_version
 async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	//解析直链
 	let dRes = await resolver({
@@ -241,10 +243,37 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		log(p.val);
 		return new Err(`Error:Can't produce task ${t.task.name}`);
 	}
-	//TODO:实现cover
-	//验收
+	//获得即将验收的绝对路径
 	const target = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath);
 	log('Info:Receive ready directory ' + target);
+	//实现delete 与 cover
+	let f;
+	if (t.task.parameter.build_delete) {
+		for (let file of t.task.parameter.build_delete) {
+			f = path.join(target, parseBuiltInValue(file, {taskName: t.task.name, downloadedFile}));
+			if (!fs.existsSync(f)) {
+				log(`Warning:Delete list include not existed file ${file}, consider update "build_delete"`);
+			} else {
+				shell.rm('-rf', f);
+			}
+		}
+	}
+	if (t.task.parameter.build_cover) {
+		f = path.join(config.DIR_TASKS, t.task.name, t.task.parameter.build_cover);
+		if (!fs.existsSync(f)) {
+			return new Err(`Error:Given cover not exist : ${f}`);
+		} else {
+			//允许是文件夹或是压缩包
+			if (fs.statSync(f).isDirectory()) {
+				shell.cp('-r', f + '/*', target);
+			} else {
+				if (!(await release(f, target, false))) {
+					return new Err('Error:Can\'t cover given compressed file');
+				}
+			}
+		}
+	}
+	//验收
 	const getBuildManifest = (): Array<string> => {
 		let origin = t.task.parameter.build_manifest,
 			final: Array<string> = [];
@@ -270,16 +299,49 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	if (t.task.extra?.missing_version) {
 		let version;
 		try {
-			version = await getExeVersion(t.task.extra.missing_version, target);
+			version = await getExeVersion(parseBuiltInValue(t.task.extra.missing_version, {
+				taskName: t.task.name,
+				downloadedFile,
+			}), target);
 		} catch (e) {
 			console.log(e);
 			return new Err('Error:Fetch execute file version failed');
 		}
 		t.info.version = version;
+		//如果版本号和数据库中一样说明没有更新
+		let ctn = true,
+			db = getDatabaseNode(t.task.name);
+		switch (versionCmp(version, db.recent.latestVersion)) {
+			case Cmp.E:
+				//与数据库一致，没有更新
+				log(`Info:Missing version task ${t.task.name} has no upstream updated release`);
+				if (config.MODE_FORCED) {
+					log('Warning:Forced rebuild ' + t.task.name);
+				} else {
+					//阻止继续，直接返回成功
+					ctn = false;
+				}
+				break;
+			case Cmp.G:
+				//存在更新，继续
+				break;
+			case Cmp.L:
+				//异常情况，上游版本号低于数据库版本号
+				log(`Warning:Missing version task ${t.task.name}'s local version(${db.recent.latestVersion}) greater than online version(${version})`);
+				if (config.MODE_FORCED) {
+					log('Warning:Forced rebuild ' + t.task.name);
+				} else {
+					ctn = false;
+				}
+				break;
+		}
+		if (!ctn) {
+			return new Ok('missing_version');
+		}
 	}
 	//压缩
 	let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author}（bot）.7z`;
-	if (!await compress(p.val.readyRelativePath, fileName, workshop, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer))) {
+	if (!await compress(p.val.readyRelativePath, fileName, t.task.parameter.compress_level ?? getDefaultCompressLevel(t.task.template.producer), workshop)) {
 		return new Err('Error:Compress failed');
 	}
 	shell.mkdir('-p', path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category));
@@ -308,7 +370,7 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
 			resolve([]);
 			return;
 		}
-		const total = ts.length;
+		let total = ts.length;
 		let r = '';
 		ts.forEach((item) => {
 			r = r + ` ${item.task.name}`;
@@ -318,19 +380,27 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
 			collection: Array<ResultReport> = [];
 		for (let t of shuffle(ts)) {
 			execute(t).then((res) => {
-				if (res.err) {
-					log(res.val);
-					collection.push({
-						taskName: t.task.name,
-						result: res,
-					});
+				//处理缺失版本号但是无更新的情况
+				if (res.ok && res.val == 'missing_version') {
+					log(`Success:Missing version task ${t.task.name} executed successfully`);
 				} else {
-					log(`Success:Task ${t.task.name} executed successfully`);
-					collection.push({
-						taskName: t.task.name,
-						result: res,
-					});
+					//处理正常情况
+					if (res.err) {
+						log(res.val);
+						collection.push({
+							taskName: t.task.name,
+							result: res,
+						});
+					} else {
+						log(`Success:Task ${t.task.name} executed successfully`);
+						collection.push({
+							taskName: t.task.name,
+							result: res,
+						});
+					}
 				}
+
+				//已完成任务自增，并检查是否需要resolve
 				done++;
 				if (done == total) {
 					resolve(collection);

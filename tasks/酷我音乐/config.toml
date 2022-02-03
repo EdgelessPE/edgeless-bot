@@ -22,7 +22,8 @@ download_name = ".exe"
 # resolver_cd = ["",""]
 #compress_level = 1
 build_manifest = ['${taskName}.wcs', '${taskName}/KwMusic.exe']
-# build_cover = "cover.7z"
+#build_cover = "cover.zip"
+build_delete = ["${taskName}/$WINDIR", "${taskName}/$TEMP", "${taskName}/$PLUGINSDIR", "${taskName}/$APPDATA", "${taskName}/readme.txt", "${taskName}/Uninstall.exe", "${taskName}/Uninstall.exe.nsis"]
 
 # 自动制作模板要求的参数
 [producer_required]
@@ -33,4 +34,4 @@ recursiveUnzipList = []
 # 额外备注
 [extra]
 # require_windows = false
-missing_version = "酷我音乐/KwMusic.exe"
+missing_version = "${taskName}/KwMusic.exe"

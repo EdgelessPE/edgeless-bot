@@ -64,6 +64,12 @@
         "build_cover": {
           "type": "string"
         },
+        "build_delete": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "build_manifest": {
           "items": {
             "type": "string"

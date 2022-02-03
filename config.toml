@@ -1,7 +1,7 @@
 DATABASE_UPDATE = true
 DATABASE_PATH = "./database.json"
 
-REMOTE_ENABLE = true
+REMOTE_ENABLE = false
 REMOTE_NAME = "pineapple"
 REMOTE_PATH = "/hdisk/edgeless/插件包"
 

@@ -26,7 +26,6 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
 	const {task, downloadedFile} = s;
 	let scriptPath,
 		isExternal = false;
-	//TODO:实现deleteList
 	if (task.template.producer == 'External') {
 		//处理外置脚本
 		scriptPath = path.join(config.DIR_TASKS, task.name, 'producer.js');

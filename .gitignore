@@ -9,3 +9,4 @@ builds
 dist
 database.json
 *.exe
+docs/docs-dist

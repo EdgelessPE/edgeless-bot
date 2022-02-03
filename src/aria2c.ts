@@ -1,7 +1,7 @@
 import {WebSocket as Aria2WebSocket} from 'libaria2-ts';
 import cp from 'child_process';
 import {log, sleep} from './utils';
-import {getOS, OS, where} from './platform';
+import {getOS, where} from './platform';
 import path from 'path';
 import fs from 'fs';
 import {config} from './config';

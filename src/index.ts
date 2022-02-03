@@ -3,7 +3,7 @@ import scraper from './scraper';
 import Piscina from 'piscina';
 import {executeTasks, getAllTasks, getSingleTask, getTasksToBeExecuted, removeExtraBuilds} from './task';
 import {config} from './config';
-import {ensurePlatform, getOS, OS} from './platform';
+import {ensurePlatform, getOS} from './platform';
 import os from 'os';
 import {clearWorkshop} from './workshop';
 import {initAria2c, stopAria2c} from './aria2c';

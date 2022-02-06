@@ -7,15 +7,15 @@ url = "${task.url}"
 
 # 指定使用的模板
 [template]
-# scraper = ""
+${template.scraper}
 # resolver = ""
 producer = "${template.producer}"
 
 # 使用到的正则
 [regex]
-#download_link = ""
+# download_link = ""
 download_name = "${regex.download_name}"
-#scraper_version = ""
+# scraper_version = ""
 
 # 通用参数
 [parameter]

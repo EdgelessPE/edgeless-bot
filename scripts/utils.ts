@@ -79,7 +79,6 @@ async function select(tip: string, options: string[], defaultIndex?: number): Pr
 }
 
 async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
-	console.log(tip);
 	let r = await ask(tip + ` (${defaultVal === true ? chalk.yellowBright('default ') : ''}y/${defaultVal === false ? chalk.yellowBright('default ') : ''}n)`);
 
 	//处理使用默认值

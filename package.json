@@ -2,7 +2,7 @@
   "dependencies": {
     "ajv": "^8.8.2",
     "axios": "^0.24.0",
-    "chalk": "4.1.1",
+    "chalk": "^4.1.1",
     "checksum": "^1.0.0",
     "cheerio": "^1.0.0-rc.10",
     "crypto": "^1.0.1",
@@ -21,7 +21,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
-    "serve": "tsc && node dist/src/index.js"
+    "serve": "tsc && node dist/src/index.js",
+    "new": "ts-node scripts/new.ts"
   },
   "devDependencies": {
     "@types/checksum": "^0.1.33",

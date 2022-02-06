@@ -21,7 +21,7 @@ download_name = "${regex.download_name}"
 [parameter]
 # resolver_cd = []
 # compress_level = 1
-build_manifest = [${parameter.build_manifest}]
+build_manifest = ${parameter.build_manifest}
 # build_cover = ""
 # build_delete = []
 

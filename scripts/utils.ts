@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import {PROJECT_ROOT} from '../src/const';
 import {log} from '../src/utils';
 import {Err, Ok, Result} from 'ts-results';
+import {TaskInput} from './new';
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -104,9 +105,10 @@ function applyInput(toml: string, input: any, base: string): Result<string, stri
 		suc = true,
 		reason = 'Success',
 		searchString;
+	//应用用户输入
 	for (let key in input) {
 		val = input[key];
-		if (typeof val == 'object') {
+		if (typeof val == 'object' && !(val instanceof Array)) {
 			toml = applyInput(toml, val, base + key + '.').unwrap();
 		} else {
 			searchString = '${' + base + key + '}';
@@ -115,7 +117,12 @@ function applyInput(toml: string, input: any, base: string): Result<string, stri
 				reason = `Error:Can't find ${searchString} to replace with ${val}`;
 				break;
 			}
-			toml = toml.replace(searchString, val);
+			//单独处理数组
+			if (val instanceof Array) {
+				toml = toml.replace(searchString, JSON.stringify(val));
+			} else {
+				toml = toml.replace(searchString, val);
+			}
 		}
 	}
 	if (!suc) {

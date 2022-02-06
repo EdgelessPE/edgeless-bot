@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@iarna/toml": "^2.2.5",
     "ajv": "^8.8.2",
     "axios": "^0.24.0",
     "chalk": "^4.1.1",

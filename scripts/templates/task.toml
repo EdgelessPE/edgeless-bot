@@ -21,13 +21,13 @@ download_name = "${regex.download_name}"
 [parameter]
 # resolver_cd = []
 # compress_level = 1
-build_manifest = [${ parameter.build_manifest }]
+build_manifest = [${parameter.build_manifest}]
 # build_cover = ""
 # build_delete = []
 
 # 自动制作模板要求的参数
 [producer_required]
-${ producer_required }
+${producer_required}
 
 # 额外备注
 # [extra]

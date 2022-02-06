@@ -3,6 +3,8 @@ import path from 'path';
 import readline from 'readline';
 import chalk from 'chalk';
 import {PROJECT_ROOT} from '../src/const';
+import {log} from '../src/utils';
+import {Err, Ok, Result} from 'ts-results';
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -18,20 +20,26 @@ async function ask(tip: string, head?: string): Promise<string> {
 	}));
 }
 
-async function input(tip: string, defaultVal?: string): Promise<string> {
+async function input(tip: string, defaultVal?: string, regex?: RegExp): Promise<string> {
 	let r = await ask(tip + (defaultVal ? chalk.yellowBright(`(${defaultVal})`) : ''));
 	if (r == '') {
-		if (defaultVal) {
-			r = defaultVal;
-		} else {
+		//允许缺省
+		//空值且未定义缺省值，或是未通过正则校验
+		if (defaultVal == undefined) {
 			console.log(chalk.red('Error ') + 'Please input value');
-			r = await input(tip, defaultVal);
+			r = await input(tip, defaultVal, regex);
+		} else {
+			r = defaultVal;
 		}
+	}
+	if (regex != undefined && r.match(regex) == null) {
+		console.log(chalk.red('Error ') + `Please input valid value matching ${regex}`);
+		r = await input(tip, defaultVal, regex);
 	}
 	return r;
 }
 
-async function select(tip: string, options: string[], defaultIndex?: number): Promise<string> {
+async function select(tip: string, options: string[], defaultIndex?: number): Promise<number> {
 	return new Promise((async (resolve, reject) => {
 		if (defaultIndex != undefined && (defaultIndex < 1 || defaultIndex > options.length)) {
 			reject(`Error:Given default index (${defaultIndex}) out of range (1-${options.length})`);
@@ -46,7 +54,7 @@ async function select(tip: string, options: string[], defaultIndex?: number): Pr
 		//处理空输入
 		if (r == '') {
 			if (defaultIndex) {
-				resolve(options[defaultIndex - 1]);
+				resolve(defaultIndex - 1);
 				return;
 			} else {
 				console.log(chalk.red('Error ') + 'Please input index');
@@ -64,7 +72,7 @@ async function select(tip: string, options: string[], defaultIndex?: number): Pr
 			resolve(await select(tip, options, defaultIndex));
 			return;
 		} else {
-			resolve(options[Number(r) - 1]);
+			resolve(Number(r) - 1);
 			return;
 		}
 	}));
@@ -92,8 +100,35 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
 	return bool(tip, defaultVal);
 }
 
+function applyInput(toml: string, input: any, base: string): Result<string, string> {
+	let val,
+		suc = true,
+		reason = 'Success',
+		searchString;
+	for (let key in input) {
+		val = input[key];
+		if (typeof val == 'object') {
+			toml = applyInput(toml, val, base + key + '.').unwrap();
+		} else {
+			searchString = '${' + base + key + '}';
+			if (!toml.includes(searchString)) {
+				suc = false;
+				reason = `Error:Can't find ${searchString} to replace with ${val}`;
+				break;
+			}
+			toml = toml.replace(searchString, val);
+		}
+	}
+	if (!suc) {
+		return new Err(reason);
+	} else {
+		return new Ok(toml);
+	}
+}
+
 export {
 	input,
 	select,
 	bool,
+	applyInput,
 };

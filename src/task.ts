@@ -19,7 +19,7 @@ import {deleteFromRemote} from './rclone';
 const rcInfo = require('rcinfo');
 const shell = require('shelljs');
 
-interface TaskConfig {
+export interface TaskConfig {
 	task: {
 		name: TaskInstance['name'];
 		author: TaskInstance['author'];
@@ -27,7 +27,7 @@ interface TaskConfig {
 		url: TaskInstance['pageUrl'];
 	};
 	template: TaskInstance['template'];
-	regex?: TaskInstance['regex'];
+	regex: TaskInstance['regex'];
 	parameter: TaskInstance['parameter'];
 	producer_required: TaskInstance['producer_required'];
 	extra?: TaskInstance['extra'];

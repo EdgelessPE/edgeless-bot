@@ -1,4 +1,4 @@
-import {bool, select, input, applyInput} from './utils';
+import {bool, select, input, applyInput, stringArray} from './utils';
 import {log} from '../src/utils';
 import {TaskConfig} from '../src/task';
 import chalk from 'chalk';
@@ -7,6 +7,8 @@ import fs from 'fs';
 import producerRegister from '../templates/producers/_register';
 import path from 'path';
 import {config} from '../src/config';
+import {init} from '../i18n/i18n';
+import {_} from '../i18n/i18n';
 
 const TOML = require('@iarna/toml');
 const shell = require('shelljs');
@@ -46,13 +48,9 @@ function printHelp() {
 	console.log('');
 }
 
-function string2Array(tmp: string): string[] {
-	return tmp.replace(/'/g, '').split(',');
-}
-
 async function createTask() {
 	let producerEntrance = '',
-		taskName = await input('任务名称');
+		taskName = await input(_('Task name'));
 	//创建任务文件夹
 	const taskDir = path.join(PROJECT_ROOT, config.DIR_TASKS, taskName),
 		configPath = path.join(taskDir, 'config.toml');
@@ -60,13 +58,13 @@ async function createTask() {
 
 	//用于输入template.producer
 	const inputProducer = async () => {
-		let index = await select('制作器模板', (() => {
+		let index = await select(_('Producer template'), (() => {
 			let r: string[] = [];
 			producerRegister.forEach((item) => {
-				r.push(item.name + '\n' + item.description,
+				r.push(_(item.name) + '\n' + _(item.description),
 				);
 			});
-			r.push('External\nUse your own \'producer.ts\' script to produce');
+			r.push(_("External")+"\n"+_("Use your own 'producer.ts' script to produce"));
 			return r;
 		})());
 		//处理选择External的情况
@@ -95,17 +93,16 @@ async function createTask() {
 			t = schemaJson.properties[key].type;
 			switch (t) {
 				case 'array':
-					tmp = await input(`自动制作模板要求的${chalk.cyan('数组')}参数：${key},使用 ' 包裹单个元素,使用 , 分割,不需要加中括号`, '', /('[^',]+'\s*,)*\s*('[^',]+')+/);
-					resJson[key] = string2Array(tmp);
+					resJson[key] = await stringArray(`${_("Producer required ")}${chalk.cyan(_('array'))}${_(" parameter")}：${key}, ${_("split with ,")}`)
 					break;
 				case 'integer':
-					resJson[key] = Number(await input(`自动制作模板要求的${chalk.cyan('整数')}参数：${key}`, undefined, /^[0-9]+$/));
+					resJson[key] = Number(await input(`${_("Producer required ")}${chalk.cyan(_('integer'))}${_(" parameter")}：${key}`, undefined, /^[0-9]+$/));
 					break;
 				case 'object':
 					if (resJson['producer_required'] == undefined) {
 						resJson['producer_required'] = {};
 					}
-					tmp = await input(`自动制作模板要求的${chalk.cyan('对象')}参数：${key},需要加花括号`, undefined, /{.*}/);
+					tmp = await input(`${_("Producer required ")}${chalk.cyan(_('object'))}${_(" parameter")}：${key},${_("input Json string contained by {}")}`, undefined, /{.*}/);
 					try {
 						resJson['producer_required'][key] = JSON.parse(tmp);
 					} catch (e) {
@@ -115,7 +112,7 @@ async function createTask() {
 					}
 					break;
 				case 'string':
-					resJson[key] = await input(`自动制作模板要求的${chalk.cyan('字符串')}参数：${key}`);
+					resJson[key] = await input(`${_("Producer required ")}${chalk.cyan(_('string'))}${_(" parameter")}：${key}`);
 					break;
 				default:
 					log(`Error:Unimplemented type ${t}, please modify toml config later manually`);
@@ -130,24 +127,24 @@ async function createTask() {
 	let json: TaskInput = {
 		task: {
 			name: taskName,
-			category: CATEGORIES[await select('任务分类', CATEGORIES)],
-			author: await input('作者'),
-			url: await input('上游URL', undefined, /^https?:\/\//),
+			category: CATEGORIES[await select(_('Task category'), CATEGORIES)],
+			author: await input(_('Author')),
+			url: await input(_('Upstream URL'), undefined, /^https?:\/\//),
 		},
 		template: {
 			producer: await inputProducer(),
 		},
 		regex: {
-			download_name: await input('下载文件校验正则', '/.exe/', /^\/.+\/$/),
+			download_name: await input(_('Regex for downloaded file'), '/.exe/', /^\/.+\/$/),
 		},
 		parameter: {
-			build_manifest: string2Array(await input('构建装箱单,使用 \' 包裹单个文件,使用 , 分割,不需要加中括号', '\'${taskName}.wcs\',\'${taskName}\'', /('[^',]+'\s*,)*\s*('[^',]+')+/)),
+			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs','${taskName}']),
 		},
 		producer_required: await generateProducerRequired(),
 	};
 
 	//询问是否需要外置scraper
-	if (await bool('是否需要使用外置爬虫（scraper.ts）', false)) {
+	if (await bool(_('是否需要使用外置爬虫（scraper.ts）'), false)) {
 		shell.cp('./scripts/templates/taskScraper.ts', path.join(taskDir, 'scraper.ts'));
 		json.template['scraper'] = 'scraper = "External"';
 	} else {
@@ -158,7 +155,7 @@ async function createTask() {
 	//console.log(JSON.stringify(json,null,2));
 	let taskToml = fs.readFileSync('./scripts/templates/task.toml').toString();
 	fs.writeFileSync(configPath, applyInput(taskToml, json, '').unwrap());
-	log(`Success:Task config saved at ${chalk.cyanBright(configPath)}, you may need to modify it manually later`);
+	console.log(chalk.green(_("Success "))+_("Task config saved at ")+chalk.cyanBright(configPath)+", "+_("you may need to modify it manually later"));
 }
 
 async function createTemplate() {
@@ -170,6 +167,8 @@ async function main() {
 		printHelp();
 		return;
 	}
+	//初始化i18n
+	init()
 	switch (process.argv[2]) {
 		case 'task':
 			await createTask();

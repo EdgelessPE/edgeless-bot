@@ -72,7 +72,8 @@
   "include": [
     "src/**/*",
     "tasks/**/*.ts",
-    "templates/**/*.ts"
+    "templates/**/*.ts",
+    "scripts/*.ts"
   ],
   "exclude": [
     "node_modules/**/*"

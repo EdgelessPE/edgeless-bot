@@ -11,7 +11,7 @@ const regArray: Array<ProducerRegister> = [
 	{
 		name: 'Recursive Unzip',
 		entrance: 'Recursive_Unzip',
-		description: 'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile"' +
+		description: 'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile";' +
 			'\nSuggested buildManifest : [\'${taskName}.wcs\',"sourceFile"]',
 		defaultCompressLevel: 1,
 	},

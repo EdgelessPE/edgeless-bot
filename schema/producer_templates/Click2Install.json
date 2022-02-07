@@ -3,7 +3,8 @@
   "type": "object",
   "properties": {
     "shortcutName": {
-      "type": "string"
+      "type": "string",
+      "description": "Shortcut name for the downloaded file"
     }
   },
   "required": [

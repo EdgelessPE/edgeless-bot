@@ -1,0 +1,13 @@
+{
+  "name": "Atom",
+  "category": "集成开发",
+  "author": "undefined",
+  "autoMake": false,
+  "externalScraper": true,
+  "buildRequirement":[],
+  "releaseRequirement":[],
+  "externalScraperOptions": {
+    "releaseInstaller": true,
+    "compressLevel": 5
+  }
+}

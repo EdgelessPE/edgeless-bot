@@ -16,7 +16,7 @@ interface RequiredObject {
 function matchFile(cwd: string, regex: string): Result<string, string> {
 	let dir = fs.readdirSync(cwd);
 	let m = undefined,
-		r = new RegExp(regex);
+		r = new RegExp(regex.slice(1,-1));
 	for (let name of dir) {
 		if (name.match(r) != null) {
 			m = name;
@@ -53,6 +53,10 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		} else {
 			file = reg;
 		}
+		//判断是文件夹还是文件
+		if(fs.statSync(path.join(cwd,file)).isDirectory()){
+			cwd=cwd+"/"+file
+		}else{
 		//尝试解压
 		success = await release(file, level.toString(), true, cwd);
 		if (!success) {
@@ -63,6 +67,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		//准备下次递归
 		cwd = cwd + '/' + level.toString();
 		level++;
+		}
 	}
 	if (!success) {
 		return new Err(reason);

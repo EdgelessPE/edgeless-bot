@@ -12,6 +12,7 @@ import scraperRegister from '../templates/scrapers/_register';
 
 const TOML = require('@iarna/toml');
 const shell = require('shelljs');
+const TEST_URL = 'https://github.com/balena-io/etcher';
 
 export interface TaskInput {
 	task: TaskConfig['task'],
@@ -127,12 +128,20 @@ async function createTask() {
 	let externalScraper=true
 	const inputUpstreamUrl=async ():Promise<string>=>{
 		//要求输入上游URL
-		let url=await input(_('Upstream URL'), taskName=="1"?"https://github.com/balena-io/etcher":undefined, /^https?:\/\/\S+/)
+		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
 		//检索对应的模板
 		for(let node of scraperRegister){
-			if(url.match(node.urlRegex)!=null){
-				console.log(chalk.blueBright(_("Info "))+_("Matched scraper template ")+chalk.cyanBright(_(node.name)));
-				externalScraper=false
+			if(url.match(node.urlRegex)!=null) {
+				console.log(chalk.blueBright(_('Info ')) + _('Matched scraper template ') + chalk.cyanBright(_(node.name)));
+				//如果有required keys 则提示
+				if (node.requiredKeys.length > 0) {
+					let s = '';
+					for (let key of node.requiredKeys) {
+						s += key + ',';
+					}
+					console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + s.slice(0, -1));
+				}
+				externalScraper = false;
 				break;
 			}
 		}

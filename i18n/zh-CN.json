@@ -4,6 +4,7 @@
   "Question ": "问题 ",
   "Error ": "错误 ",
   "Info ": "提示 ",
+  "Warning ": "警告 ",
   "Success ": "成功 ",
   "Usage ": "使用方式 ",
   "Create new task or template for Edgeless Bot": "为 Edgeless Bot 创建新任务或模板",
@@ -39,5 +40,6 @@
   "Task config saved at ": "任务配置保存在 ",
   "you may need to modify it manually later": "稍后您可能需要手动更改它",
   "Matched scraper template ": "匹配到爬虫模板 ",
-  "No scraper template matched, use external scraper?": "未匹配到爬虫模板,是否使用外置爬虫脚本?"
+  "No scraper template matched, use external scraper?": "未匹配到爬虫模板,是否使用外置爬虫脚本?",
+  "Remember to add these keys manually later : ": "记得稍后手动添加这些键 : "
 }

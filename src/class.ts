@@ -43,6 +43,7 @@ interface ResolverRegister {
 	name: string;
 	downloadLinkRegex: string;
 	entrance: string;
+	//TODO:实现校验
 	requiredKeys: Array<string>;
 }
 

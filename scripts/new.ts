@@ -222,7 +222,7 @@ async function createTemplate() {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space')),
 				urlRegex: (await input('Matching URL Regex', undefined, /\/https?:\/\/\w+\//)).slice(1, -1),
-				requiredKeys: await stringArray('Required keys in task config, e.g. regex.scraper_version , split different objects with ,', []),
+				requiredKeys: await stringArray(_('Required keys in task config, e.g. regex.scraper_version , split different objects with ,'), []),
 			};
 			//注册
 			registerTemplate(json, 'scrapers');

@@ -13,20 +13,42 @@ interface RequiredObject {
 	shortcutName: string;
 }
 
+function matchFile(cwd: string, regex: string): Result<string, string> {
+	let dir = fs.readdirSync(cwd);
+	let m = undefined,
+		r = new RegExp(regex);
+	for (let name of dir) {
+		if (name.match(r) != null) {
+			m = name;
+			break;
+		}
+	}
+	if (m == undefined) {
+		return new Err('');
+	} else {
+		return new Ok(m);
+	}
+}
+
 export default async function (p: ProducerParameters): Promise<Result<ProducerReturned, string>> {
 	//递归解压
 	let cwd = p.workshop,
 		obj = p.requiredObject as RequiredObject,
 		level = 1,
 		success = true,
-		reason = '';
-	for (let file of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
+		reason = '',
+		m,
+		file: string
+	;
+	for (let reg of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
 		//校验文件是否存在
-		if (!fs.existsSync(path.join(cwd, file))) {
-			reason = `Error:Can't find file ${file} at ${cwd} during the ${level} recursion`;
+		m = matchFile(cwd, reg);
+		if (m.err) {
+			reason = `Error:Can't find file matching ${reg} at ${cwd} during the ${level} recursion`;
 			success = false;
 			break;
 		}
+		file = m.val;
 		//尝试解压
 		success = await release(file, level.toString(), true, cwd);
 		if (!success) {

@@ -15,7 +15,7 @@
       "items": {
         "type": "string"
       },
-      "description": "Compressed files chain inside downloaded file (keep it a empty array if only downloaded file is needed to unzip)"
+      "description": "Compressed files chain inside downloaded file, support regex (keep it a empty array if only downloaded file is needed to unzip)"
     }
   },
   "required": [

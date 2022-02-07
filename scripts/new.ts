@@ -34,6 +34,7 @@ type SchemaType = 'string' | 'array' | 'integer' | 'object'
 interface Schema {
 	properties: {
 		[key: string]: {
+			description?: string;
 			type: SchemaType
 		}
 	},
@@ -89,15 +90,23 @@ async function createTask() {
 		const schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString()) as Schema;
 		let t: SchemaType,
 			resJson: any = {},
-			tmp: string;
+			tmp: string,
+			d: string | undefined
+		;
 		for (let key of schemaJson.required) {
+			//打印description
+			d = schemaJson.properties[key].description;
+			if (d != undefined) {
+				console.log('');
+				console.log(chalk.bgGray(_('Key description for ') + key) + ' : ' + _(d));
+			}
 			t = schemaJson.properties[key].type;
 			switch (t) {
 				case 'array':
-					resJson[key] = await stringArray(`${_("Producer required ")}${chalk.cyan(_('array'))}${_(" parameter")}：${key}, ${_("split with ,")}`)
+					resJson[key] = await stringArray(`${_('Producer required ')}${chalk.cyan(_('array'))}${_(' parameter')}：${key}, ${_('split with ,')}`, []);
 					break;
 				case 'integer':
-					resJson[key] = Number(await input(`${_("Producer required ")}${chalk.cyan(_('integer'))}${_(" parameter")}：${key}`, undefined, /^[0-9]+$/));
+					resJson[key] = Number(await input(`${_('Producer required ')}${chalk.cyan(_('integer'))}${_(' parameter')}：${key}`, undefined, /^[0-9]+$/));
 					break;
 				case 'object':
 					if (resJson['producer_required'] == undefined) {

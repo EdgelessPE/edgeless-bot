@@ -18,7 +18,7 @@ async function ask(tip: string, head?: string): Promise<string> {
 }
 
 async function input(tip: string, defaultVal?: string, regex?: RegExp): Promise<string> {
-	let r = await ask(tip + (defaultVal ? chalk.yellowBright(`(${defaultVal})`) : ''));
+	let r = await ask(tip + (defaultVal != undefined ? chalk.yellowBright(`(${defaultVal})`) : ''));
 	if (r == '') {
 		//允许缺省
 		//空值且未定义缺省值，或是未通过正则校验
@@ -97,18 +97,32 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
 }
 
 async function stringArray(tip:string,defaultVal?: string[],regex?: RegExp):Promise<string[]> {
+	let df = undefined,
+		allowEmpty = defaultVal != undefined && defaultVal.length == 0;
+
 	//生成字符串型默认值
-	let df=undefined
-	if(defaultVal!=undefined){
-		df=""
-		for(let node of defaultVal){
-			df=df+node+","
+	if (defaultVal != undefined) {
+		df = '';
+		if (!allowEmpty) {
+			for (let node of defaultVal) {
+				df = df + node + ',';
+			}
+			df = df.slice(0, -1);
 		}
-		df=df.slice(0,-1)
 	}
+
 	//生成默认正则
-	if(regex==undefined) regex=/([^,]+\s*,)*\s*([^,]+)+/
-	return (await input(tip,df,regex)).split(",")
+	if (regex == undefined && !allowEmpty) {
+		regex = /([^,]+\s*,)*\s*([^,]+)+/;
+	}
+
+	//调用input
+	let r = await input(tip, df, regex);
+	if (r == '') {
+		return [];
+	} else {
+		return r.split(',');
+	}
 }
 
 function applyInput(toml: string, input: any, base: string): Result<string, string> {

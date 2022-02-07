@@ -3,16 +3,19 @@
   "type": "object",
   "properties": {
     "shortcutName": {
-      "type": "string"
+      "type": "string",
+      "description": "Shortcut name for the source file"
     },
     "sourceFile": {
-      "type": "string"
+      "type": "string",
+      "description": "The file shortcut points to after recursive unzip"
     },
     "recursiveUnzipList": {
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "description": "Compressed files chain inside downloaded file (keep it a empty array if only downloaded file is needed to unzip)"
     }
   },
   "required": [

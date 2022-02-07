@@ -1,6 +1,5 @@
 {
   "test": "测试",
-  "Shortcut name for the downloaded file": "为下载的文件创建的快捷方式名称",
   "Question ": "问题 ",
   "Error ": "错误 ",
   "Info ": "提示 ",
@@ -41,5 +40,10 @@
   "you may need to modify it manually later": "稍后您可能需要手动更改它",
   "Matched scraper template ": "匹配到爬虫模板 ",
   "No scraper template matched, use external scraper?": "未匹配到爬虫模板,是否使用外置爬虫脚本?",
-  "Remember to add these keys manually later : ": "记得稍后手动添加这些键 : "
+  "Remember to add these keys manually later : ": "记得稍后手动添加这些键 : ",
+  "Key description for ": "键释义 ",
+  "Shortcut name for the downloaded file": "为下载的文件创建的快捷方式名称",
+  "Shortcut name for the source file": "为指定文件(sourceFile)创建的快捷方式名称",
+  "The file shortcut points to after recursive unzip": "递归解压后得到的目录内需要创建快捷方式的文件名称",
+  "Compressed files chain inside downloaded file (keep it a empty array if only downloaded file is needed to unzip)": "在下载到的文件内递归解压文件的文件名链(如果只需要解压下载到的文件则将其置为空数组)"
 }

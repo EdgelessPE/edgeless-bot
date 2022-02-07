@@ -14,21 +14,21 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ""
-download_name = "balenaEtcher-Portable-[\\d\\.]+.exe"
+download_name = 'balenaEtcher-Portable-[\d\.]+.exe'
 # scraper_version = ""
 
 # 通用参数
 [parameter]
 # resolver_cd = ["",""]
 # compress_level = 1
-build_manifest = []
+build_manifest = ["${taskName}.wcs", "${taskName}/balenaEtcher.exe"]
 # build_cover = "cover.7z"
 
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "balenaEtcher"
 sourceFile = "balenaEtcher.exe"
-recursiveUnzipList = ['$PLUGINSDIR', '/\S+64\S+/']
+recursiveUnzipList = ["$PLUGINSDIR", "app-64.7z"]
 
 # 额外备注
 [extra]

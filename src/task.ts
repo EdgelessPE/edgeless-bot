@@ -79,7 +79,11 @@ function validateConfig(task: TaskConfig): boolean {
 			if (task.task.url.match(node.urlRegex) != null) {
 				//对scraper执行requiredKeys检查
 				suc = requiredKeysValidator(task, node.requiredKeys);
-				break;
+				if (!suc) {
+					log(`Warning:Skip scraper template ${node.name} due to missing required keys`);
+				} else {
+					break;
+				}
 			}
 		}
 		if (!suc) {

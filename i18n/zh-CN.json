@@ -54,6 +54,9 @@
   "Template id, should be brief and without space": "模板唯一标识符,尽量简短且不能有空格",
   "Matching URL Regex": "适用URL的正则表达式",
   "Required keys in task config, e.g. regex.scraper_version , split different objects with ,": "任务配置需要包含的键,示例 regex.scraper_version ,使用 , 分割不同的对象",
+  "Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,": "任务配置需要包含的键,示例 parameter.resolver_cd ,使用 , 分割不同的对象",
   "Template saved at ": "模板保存在 ",
-  "Template register information saved to \"_register.ts\" in the same directory": "模板注册信息保存在同目录下的 \"_register.ts\""
+  "Template register information saved to \"_register.ts\" in the same directory": "模板注册信息保存在同目录下的 \"_register.ts\"",
+  "Template description": "模板详细描述",
+  "Default compress level, range from 1 to 10": "默认压缩等级，可接受范围 1-10"
 }

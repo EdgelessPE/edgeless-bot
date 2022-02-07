@@ -9,7 +9,7 @@ import path from 'path';
 import {config} from '../src/config';
 import {_, init} from '../i18n/i18n';
 import scraperRegister from '../templates/scrapers/_register';
-import {ScraperRegister} from '../src/class';
+import {ProducerRegister, ResolverRegister, ScraperRegister} from '../src/class';
 
 const TOML = require('@iarna/toml');
 const shell = require('shelljs');
@@ -210,6 +210,7 @@ function registerTemplate(node: any, dir: string) {
 }
 
 async function createTemplate() {
+	let templatePath;
 	switch (await select(_('Template type'), [
 		_('Scraper'),
 		_('Resolver'),
@@ -218,25 +219,53 @@ async function createTemplate() {
 		//创建scraper
 		case 0:
 			//输入一个ScraperRegister
-			let json: ScraperRegister = {
+			let jsonS: ScraperRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space')),
-				urlRegex: (await input('Matching URL Regex', undefined, /\/https?:\/\/\w+\//)).slice(1, -1),
+				urlRegex: (await input(_('Matching URL Regex'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. regex.scraper_version , split different objects with ,'), []),
 			};
 			//注册
-			registerTemplate(json, 'scrapers');
+			registerTemplate(jsonS, 'scrapers');
 			//复制生成模板
-			const templatePath = `./templates/scrapers/${json.name}.ts`;
+			templatePath = `./templates/scrapers/${jsonS.name}.ts`;
 			shell.cp('./scripts/templates/scraper.ts', templatePath);
 			//报告
 			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建resolver
 		case 1:
+			//输入一个ResolverRegister
+			let jsonR: ResolverRegister = {
+				name: await input(_('Template title')),
+				entrance: await input(_('Template id, should be brief and without space')),
+				downloadLinkRegex: (await input(_('Matching URL Regex'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
+				requiredKeys: await stringArray(_('Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,'), []),
+			};
+			//注册
+			registerTemplate(jsonR, 'resolvers');
+			//复制生成模板
+			templatePath = `./templates/resolvers/${jsonR.name}.ts`;
+			shell.cp('./scripts/templates/resolver.ts', templatePath);
+			//报告
+			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建producer
 		case 2:
+			//输入一个ProducerRegister
+			let jsonP: ProducerRegister = {
+				name: await input(_('Template title')),
+				entrance: await input(_('Template id, should be brief and without space')),
+				description: await input(_('Template description')),
+				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), undefined, /^([1-9]|10)$/)),
+			};
+			//注册
+			registerTemplate(jsonP, 'producers');
+			//复制生成模板
+			templatePath = `./templates/producers/${jsonP.name}.ts`;
+			shell.cp('./scripts/templates/producer.ts', templatePath);
+			//报告
+			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
 			break;
 	}
 }

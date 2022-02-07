@@ -4,7 +4,7 @@ let version: string, url: string
 
 
 async function init() {
-    let resp = await axios.get("http://api.github.com/repos/agalwood/Motrix/releases/latest",{proxy:false})
+    let resp = await axios.get("http://api.github.com/repos/agalwood/Motrix/releases/latest")
     let respData = resp.data
     version = respData.tag_name.replace("v","")
     for(let asset of respData['assets']){

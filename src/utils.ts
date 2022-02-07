@@ -204,6 +204,32 @@ function schemaValidator(obj: any, schema: string, root?: string): Result<boolea
 	}
 }
 
+function objChainValidator(obj: any, chain: string[]): boolean {
+	if (!(chain[0] in obj)) {
+		return false;
+	}
+	//当chain数组大于1时进行递归
+	if (chain.length > 1) {
+		return objChainValidator(obj[chain[0]], chain.slice(1));
+	} else {
+		return true;
+	}
+}
+
+function requiredKeysValidator(obj: any, requiredKeys: string[]): boolean {
+	let suc = true,
+		keys = [];
+	for (let originalString of requiredKeys) {
+		keys = originalString.split('.');
+		if (!objChainValidator(obj, keys)) {
+			log(`Error:Missing ${originalString} in task config`);
+			suc = false;
+			break;
+		}
+	}
+	return suc;
+}
+
 function objectValidator(object: any, checkList: Array<ObjectValidationNode>, cd?: string): boolean {
 	let valid = true;
 	for (let node of checkList) {
@@ -319,4 +345,5 @@ export {
 	objectValidator,
 	shuffle,
 	parseBuiltInValue,
+	requiredKeysValidator,
 };

@@ -1,4 +1,4 @@
-import {bool, select, input, applyInput, stringArray} from './utils';
+import {applyInput, bool, input, select, stringArray} from './utils';
 import {log} from '../src/utils';
 import {TaskConfig} from '../src/task';
 import chalk from 'chalk';
@@ -7,8 +7,7 @@ import fs from 'fs';
 import producerRegister from '../templates/producers/_register';
 import path from 'path';
 import {config} from '../src/config';
-import {init} from '../i18n/i18n';
-import {_} from '../i18n/i18n';
+import {_, init} from '../i18n/i18n';
 import scraperRegister from '../templates/scrapers/_register';
 
 const TOML = require('@iarna/toml');
@@ -134,6 +133,7 @@ async function createTask() {
 			if(url.match(node.urlRegex)!=null){
 				console.log(chalk.blueBright(_("Info "))+_("Matched scraper template ")+chalk.cyanBright(_(node.name)));
 				externalScraper=false
+				break;
 			}
 		}
 		//处理未找到爬虫模板，可能需要外置的情况

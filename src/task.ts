@@ -4,7 +4,17 @@ import {Err, Ok, Result} from 'ts-results';
 import {BuildStatus, ExecuteParameter, ScraperReturned, TaskInstance} from './class';
 import {config} from './config';
 import toml from 'toml';
-import {Cmp, formatVersion, log, matchVersion, parseBuiltInValue, schemaValidator, shuffle, versionCmp} from './utils';
+import {
+	Cmp,
+	formatVersion,
+	log,
+	matchVersion,
+	parseBuiltInValue,
+	requiredKeysValidator,
+	schemaValidator,
+	shuffle,
+	versionCmp,
+} from './utils';
 import {getDatabaseNode, setDatabaseNodeFailure} from './database';
 import {ResultNode} from './scraper';
 import resolver from './resolver';
@@ -15,6 +25,7 @@ import producer from './producer';
 import {compress, release} from './p7zip';
 import {PROJECT_ROOT} from './const';
 import {deleteFromRemote} from './rclone';
+import scraperRegister from '../templates/scrapers/_register';
 
 const rcInfo = require('rcinfo');
 const shell = require('shelljs');
@@ -56,28 +67,47 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
 	}));
 }
 
-function validateConfig(task: any): boolean {
+function validateConfig(task: TaskConfig): boolean {
 	//基础校验
 	if (!schemaValidator(task, 'task').unwrap()) {
 		return false;
 	}
-	//Producer模板配置正确性检查
 	let suc = false;
-	for (let node of producerRegister) {
-		if (node.entrance == task.template.producer) {
-			suc = true;
+	//尝试匹配Scraper
+	if (task.template.scraper == undefined) {
+		for (let node of scraperRegister) {
+			if (task.task.url.match(node.urlRegex) != null) {
+				//对scraper执行requiredKeys检查
+				suc = requiredKeysValidator(task, node.requiredKeys);
+				break;
+			}
+		}
+		if (!suc) {
+			log(`Error:Can't match scraper template for ${task.task.url}`);
+			return false;
 		}
 	}
-	if (!suc) {
-		log(`Error:Producer template ${task.template.producer} not registered`);
-		return false;
+	//Producer模板配置正确性检查
+	if (task.template.producer != 'External') {
+		suc = false;
+		for (let node of producerRegister) {
+			if (node.entrance == task.template.producer) {
+				suc = true;
+				break;
+			}
+		}
+		if (!suc) {
+			log(`Error:Producer template ${task.template.producer} not registered`);
+			return false;
+		}
+		if (!fs.existsSync(path.join('./schema', 'producer_templates', task.template.producer + '.json'))) {
+			log(`Error:Producer template schema file ${task.template.producer} not found`);
+			return false;
+		}
+		//producer_required检查
+		suc = schemaValidator(task.producer_required, 'producer_templates/' + task.template.producer, '/producer_required').unwrap();
 	}
-	if (!fs.existsSync(path.join('./schema', 'producer_templates', task.template.producer + '.json'))) {
-		log(`Error:Producer template schema file ${task.template.producer} not found`);
-		return false;
-	}
-	//producer_required检查
-	return schemaValidator(task.producer_required, 'producer_templates/' + task.template.producer, '/producer_required').unwrap();
+	return suc;
 }
 
 function getSingleTask(taskName: string): Result<TaskInstance, string> {

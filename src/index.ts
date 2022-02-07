@@ -1,4 +1,4 @@
-import {log, sleep} from './utils';
+import {log, requiredKeysValidator, sleep} from './utils';
 import scraper from './scraper';
 import Piscina from 'piscina';
 import {executeTasks, getAllTasks, getSingleTask, getTasksToBeExecuted, removeExtraBuilds} from './task';
@@ -9,7 +9,6 @@ import {clearWorkshop} from './workshop';
 import {initAria2c, stopAria2c} from './aria2c';
 import {readDatabase, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from './database';
 import {uploadToRemote} from './rclone';
-import Recursive_Unzip from '../templates/producers/Recursive_Unzip';
 import art from './art';
 
 async function main(): Promise<boolean> {
@@ -74,18 +73,13 @@ async function main(): Promise<boolean> {
 }
 
 async function test(): Promise<boolean> {
-	art();
-	let res = await Recursive_Unzip({
-		taskName: 'test',
-		workshop: 'D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\test',
-		downloadedFile: 'test_2.7z',
-		requiredObject: {
-			recursiveUnzipList: ['test.7z'],
-			sourceFile: '新建文本文档.txt',
-			shortcutName: 'Test it',
+	console.log(requiredKeysValidator({
+		a: {
+			b: {
+				c: '114',
+			},
 		},
-	});
-	console.log(res.unwrap());
+	}, ['a.b.d']));
 	return true;
 }
 

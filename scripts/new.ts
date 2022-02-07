@@ -42,9 +42,9 @@ interface Schema {
 function printHelp() {
 	//展示帮助信息
 	console.log('');
-	console.log(chalk.blue('Usage	') + 'yarn new [task/template]');
+	console.log(chalk.blue(_('Usage ')) + 'yarn new [task/template]');
 	console.log('');
-	console.log('Create new task or template for Edgeless Bot');
+	console.log(_('Create new task or template for Edgeless Bot'));
 	console.log('');
 }
 
@@ -155,7 +155,7 @@ async function createTask() {
 	//console.log(JSON.stringify(json,null,2));
 	let taskToml = fs.readFileSync('./scripts/templates/task.toml').toString();
 	fs.writeFileSync(configPath, applyInput(taskToml, json, '').unwrap());
-	console.log(chalk.green(_("Success "))+_("Task config saved at ")+chalk.cyanBright(configPath)+", "+_("you may need to modify it manually later"));
+	console.log(chalk.green(_("Success "))+_("Task config saved at ")+chalk.cyanBright(configPath)+", "+_('you may need to modify it manually later'));
 }
 
 async function createTemplate() {
@@ -163,12 +163,13 @@ async function createTemplate() {
 }
 
 async function main() {
+	//初始化i18n
+	init()
+	//处理参数过少
 	if (process.argv.length < 3) {
 		printHelp();
 		return;
 	}
-	//初始化i18n
-	init()
 	switch (process.argv[2]) {
 		case 'task':
 			await createTask();

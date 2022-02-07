@@ -4,6 +4,8 @@
   "Question ": "问题 ",
   "Error ": "错误 ",
   "Success ": "成功 ",
+  "Usage ": "使用方式 ",
+  "Create new task or template for Edgeless Bot": "为 Edgeless Bot 创建新任务或模板",
   "Please input value": "请输入内容",
   "Please input valid value matching ": "请输入匹配此正则表达式的内容：",
   "default": "默认",

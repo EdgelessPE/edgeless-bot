@@ -1,0 +1,13 @@
+{
+    "name": "Listen1",
+    "category": "影音播放",
+    "author": "undefined",
+    "autoMake": false,
+    "externalScraper": true,
+    "buildRequirement":[],
+    "releaseRequirement":[],
+    "externalScraperOptions": {
+        "releaseInstaller": true,
+        "compressLevel": 5
+    }
+}

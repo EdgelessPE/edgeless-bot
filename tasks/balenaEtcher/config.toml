@@ -28,7 +28,7 @@ build_manifest = []
 [producer_required]
 shortcutName = "balenaEtcher"
 sourceFile = "balenaEtcher.exe"
-recursiveUnzipList = ["$PLUGINSDIR\\app-64.7z", ""]
+recursiveUnzipList = ['/$PLUGINSDIR\\\S+64.7z/', ""]
 
 # 额外备注
 [extra]

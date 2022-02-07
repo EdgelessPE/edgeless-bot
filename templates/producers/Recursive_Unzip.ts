@@ -42,13 +42,17 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	;
 	for (let reg of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
 		//校验文件是否存在
-		m = matchFile(cwd, reg);
-		if (m.err) {
-			reason = `Error:Can't find file matching ${reg} at ${cwd} during the ${level} recursion`;
-			success = false;
-			break;
+		if (reg[0] == '/') {
+			m = matchFile(cwd, reg);
+			if (m.err) {
+				reason = `Error:Can't find file matching ${reg} at ${cwd} during the ${level} recursion`;
+				success = false;
+				break;
+			}
+			file = m.val;
+		} else {
+			file = reg;
 		}
-		file = m.val;
 		//尝试解压
 		success = await release(file, level.toString(), true, cwd);
 		if (!success) {

@@ -4,8 +4,8 @@
   "author": "undefined",
   "autoMake": false,
   "externalScraper": true,
-  "buildRequirement":[],
-  "releaseRequirement":[],
+  "buildRequirement":["Atom_bot/atom.exe"],
+  "releaseRequirement":["Atom x64/atom.exe"],
   "externalScraperOptions": {
     "releaseInstaller": true,
     "compressLevel": 5

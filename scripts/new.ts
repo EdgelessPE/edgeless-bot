@@ -181,7 +181,7 @@ async function createTask() {
 			scraper: externalScraper ? 'scraper = "External"' : '# scraper = ""',
 		},
 		regex: {
-			download_name: await input(_('Regex for downloaded file'), '/.exe/', /^\/.+\/$/),
+			download_name: await input(_('Regex for downloaded file, contained by //'), '/.exe/', /^\/.+\/$/),
 		},
 		parameter: {
 			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs', '${taskName}']),
@@ -221,8 +221,8 @@ async function createTemplate() {
 			//输入一个ScraperRegister
 			let jsonS: ScraperRegister = {
 				name: await input(_('Template title')),
-				entrance: await input(_('Template id, should be brief and without space')),
-				urlRegex: (await input(_('Matching URL Regex'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
+				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
+				urlRegex: (await input(_('Matching URL Regex, contained by //'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. regex.scraper_version , split different objects with ,'), []),
 			};
 			//注册
@@ -238,8 +238,8 @@ async function createTemplate() {
 			//输入一个ResolverRegister
 			let jsonR: ResolverRegister = {
 				name: await input(_('Template title')),
-				entrance: await input(_('Template id, should be brief and without space')),
-				downloadLinkRegex: (await input(_('Matching URL Regex'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
+				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
+				downloadLinkRegex: (await input(_('Matching URL Regex, contained by //'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,'), []),
 			};
 			//注册
@@ -255,9 +255,9 @@ async function createTemplate() {
 			//输入一个ProducerRegister
 			let jsonP: ProducerRegister = {
 				name: await input(_('Template title')),
-				entrance: await input(_('Template id, should be brief and without space')),
+				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
 				description: await input(_('Template description')),
-				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), undefined, /^([1-9]|10)$/)),
+				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), '5', /^([1-9]|10)$/)),
 			};
 			//注册
 			registerTemplate(jsonP, 'producers');

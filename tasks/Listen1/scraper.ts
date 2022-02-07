@@ -5,11 +5,7 @@ let version: string, url: string
 
 
 async function init() {
-    let resp = await axios.get("https://listen1.github.io/listen1/",
-    {
-        proxy:false
-    }
-    )
+    let resp = await axios.get("https://listen1.github.io/listen1/")
     let html = resp.data
     const $ = cheerio.load(html)
     const downloadButtonElement = $("body > section.page-header > a:nth-child(13)")

@@ -1,0 +1,2 @@
+exec !setx Path "%PATH%;X:\Program Files\Edgeless\Git_bot\bin"
+link "X:\Users\Default\Desktop\Git Bash","X:\Program Files\Edgeless\Git_bot\git-bash.exe"

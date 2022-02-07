@@ -9,9 +9,11 @@ import path from 'path';
 import {config} from '../src/config';
 import {_, init} from '../i18n/i18n';
 import scraperRegister from '../templates/scrapers/_register';
+import {ScraperRegister} from '../src/class';
 
 const TOML = require('@iarna/toml');
 const shell = require('shelljs');
+const prettier = require('prettier');
 const TEST_URL = 'https://github.com/balena-io/etcher';
 
 export interface TaskInput {
@@ -66,7 +68,7 @@ async function createTask() {
 				r.push(_(item.name) + '\n' + _(item.description),
 				);
 			});
-			r.push(_("External")+"\n"+_("Use your own 'producer.ts' script to produce"));
+			r.push(_('External') + '\n' + _('Use your own \'producer.ts\' script to produce'));
 			return r;
 		})());
 		//处理选择External的情况
@@ -112,7 +114,7 @@ async function createTask() {
 					if (resJson['producer_required'] == undefined) {
 						resJson['producer_required'] = {};
 					}
-					tmp = await input(`${_("Producer required ")}${chalk.cyan(_('object'))}${_(" parameter")}：${key},${_("input Json string contained by {}")}`, undefined, /{.*}/);
+					tmp = await input(`${_('Producer required ')}${chalk.cyan(_('object'))}${_(' parameter')}：${key},${_('input Json string contained by {}')}`, undefined, /{.*}/);
 					try {
 						resJson['producer_required'][key] = JSON.parse(tmp);
 					} catch (e) {
@@ -122,7 +124,7 @@ async function createTask() {
 					}
 					break;
 				case 'string':
-					resJson[key] = await input(`${_("Producer required ")}${chalk.cyan(_('string'))}${_(" parameter")}：${key}`);
+					resJson[key] = await input(`${_('Producer required ')}${chalk.cyan(_('string'))}${_(' parameter')}：${key}`);
 					break;
 				default:
 					log(`Error:Unimplemented type ${t}, please modify toml config later manually`);
@@ -134,13 +136,13 @@ async function createTask() {
 	};
 
 	//用于输入上游URL并进行校验
-	let externalScraper=true
-	const inputUpstreamUrl=async ():Promise<string>=>{
+	let externalScraper = true;
+	const inputUpstreamUrl = async (): Promise<string> => {
 		//要求输入上游URL
 		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
 		//检索对应的模板
-		for(let node of scraperRegister){
-			if(url.match(node.urlRegex)!=null) {
+		for (let node of scraperRegister) {
+			if (url.match(node.urlRegex) != null) {
 				console.log(chalk.blueBright(_('Info ')) + _('Matched scraper template ') + chalk.cyanBright(_(node.name)));
 				//如果有required keys 则提示
 				if (node.requiredKeys.length > 0) {
@@ -155,16 +157,16 @@ async function createTask() {
 			}
 		}
 		//处理未找到爬虫模板，可能需要外置的情况
-		if(externalScraper){
+		if (externalScraper) {
 			//询问是否需要外置scraper
 			if (await bool(_('No scraper template matched, use external scraper?'), true)) {
 				shell.cp('./scripts/templates/taskScraper.ts', path.join(taskDir, 'scraper.ts'));
 			} else {
-				externalScraper=false
+				externalScraper = false;
 			}
 		}
-		return url
-	}
+		return url;
+	};
 
 	//构成基础json
 	let json: TaskInput = {
@@ -172,17 +174,17 @@ async function createTask() {
 			name: taskName,
 			category: CATEGORIES[await select(_('Task category'), CATEGORIES)],
 			author: await input(_('Author')),
-			url:await inputUpstreamUrl(),
+			url: await inputUpstreamUrl(),
 		},
 		template: {
 			producer: await inputProducer(),
-			scraper:externalScraper?'scraper = "External"':'# scraper = ""'
+			scraper: externalScraper ? 'scraper = "External"' : '# scraper = ""',
 		},
 		regex: {
 			download_name: await input(_('Regex for downloaded file'), '/.exe/', /^\/.+\/$/),
 		},
 		parameter: {
-			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs','${taskName}']),
+			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs', '${taskName}']),
 		},
 		producer_required: await generateProducerRequired(),
 	};
@@ -191,16 +193,54 @@ async function createTask() {
 	//console.log(JSON.stringify(json,null,2));
 	let taskToml = fs.readFileSync('./scripts/templates/task.toml').toString();
 	fs.writeFileSync(configPath, applyInput(taskToml, json, '').unwrap());
-	console.log(chalk.green(_("Success "))+_("Task config saved at ")+chalk.cyanBright(configPath)+", "+_('you may need to modify it manually later'));
+	console.log(chalk.green(_('Success ')) + _('Task config saved at ') + chalk.cyanBright(configPath) + ', ' + _('you may need to modify it manually later'));
+}
+
+function registerTemplate(node: any, dir: string) {
+	//读取文本
+	const filePath = `./templates/${dir}/_register.ts`;
+	let text = fs.readFileSync(filePath).toString();
+	//生成数组内容
+	let newNode = `${JSON.stringify(node, null, 2)},\n];`;
+	//替换文本
+	text = prettier.format(text.replace('];', newNode), {parser: 'babel'});
+	//写回
+	fs.writeFileSync(filePath, text);
+	// console.log(text);
 }
 
 async function createTemplate() {
-
+	switch (await select(_('Template type'), [
+		_('Scraper'),
+		_('Resolver'),
+		_('Producer'),
+	])) {
+		//创建scraper
+		case 0:
+			//输入一个ScraperRegister
+			let json: ScraperRegister = {
+				name: await input(_('Template title')),
+				entrance: await input(_('Template id, should be brief and without space')),
+				urlRegex: (await input('Matching URL Regex', undefined, /\/.+\//)).slice(1, -1),
+				requiredKeys: await stringArray('Required keys in task config, e.g. regex.scraper_version , split different objects with ,', []),
+			};
+			//注册
+			registerTemplate(json, 'scrapers');
+			//复制生成模板
+			shell.cp('./scripts/templates/scraper.ts', `./templates/scrapers/${json.name}.ts`);
+			break;
+		//创建resolver
+		case 1:
+			break;
+		//创建producer
+		case 2:
+			break;
+	}
 }
 
 async function main() {
 	//初始化i18n
-	init()
+	init();
 	//处理参数过少
 	if (process.argv.length < 3) {
 		printHelp();

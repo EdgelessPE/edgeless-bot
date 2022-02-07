@@ -45,5 +45,13 @@
   "Shortcut name for the downloaded file": "为下载的文件创建的快捷方式名称",
   "Shortcut name for the source file": "为指定文件(sourceFile)创建的快捷方式名称",
   "The file shortcut points to after recursive unzip": "递归解压后得到的目录内需要创建快捷方式的文件名称",
-  "Directory or compressed files chain inside downloaded file, support regex contained by // (keep it a empty array if only downloaded file is needed to unzip)": "在下载到的文件内文件夹或递归解压文件的文件名链,支持被 // 包裹的正则表达式(如果只需要解压下载到的文件则将其置为空数组)"
+  "Directory or compressed files chain inside downloaded file, support regex contained by // (keep it a empty array if only downloaded file is needed to unzip)": "在下载到的文件内文件夹或递归解压文件的文件名链,支持被 // 包裹的正则表达式(如果只需要解压下载到的文件则将其置为空数组)",
+  "Template type": "模板类型",
+  "Scraper": "爬虫",
+  "Resolver": "解析器",
+  "Producer": "制作器",
+  "Template title": "模板标题",
+  "Template id, should be brief and without space": "模板唯一标识符,尽量简短且不能有空格",
+  "Matching URL Regex": "适用URL的正则表达式",
+  "Required keys in task config, e.g. regex.scraper_version , split different objects with ,": "任务配置需要包含的键,示例 regex.scraper_version ,使用 , 分割不同的对象"
 }

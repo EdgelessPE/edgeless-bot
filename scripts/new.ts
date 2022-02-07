@@ -221,13 +221,16 @@ async function createTemplate() {
 			let json: ScraperRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space')),
-				urlRegex: (await input('Matching URL Regex', undefined, /\/.+\//)).slice(1, -1),
+				urlRegex: (await input('Matching URL Regex', undefined, /\/https?:\/\/\w+\//)).slice(1, -1),
 				requiredKeys: await stringArray('Required keys in task config, e.g. regex.scraper_version , split different objects with ,', []),
 			};
 			//注册
 			registerTemplate(json, 'scrapers');
 			//复制生成模板
-			shell.cp('./scripts/templates/scraper.ts', `./templates/scrapers/${json.name}.ts`);
+			const templatePath = `./templates/scrapers/${json.name}.ts`;
+			shell.cp('./scripts/templates/scraper.ts', templatePath);
+			//报告
+			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建resolver
 		case 1:

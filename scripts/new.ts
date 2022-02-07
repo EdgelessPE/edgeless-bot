@@ -9,6 +9,7 @@ import path from 'path';
 import {config} from '../src/config';
 import {init} from '../i18n/i18n';
 import {_} from '../i18n/i18n';
+import scraperRegister from '../templates/scrapers/_register';
 
 const TOML = require('@iarna/toml');
 const shell = require('shelljs');
@@ -123,16 +124,41 @@ async function createTask() {
 		return TOML.stringify(resJson);
 	};
 
+	//用于输入上游URL并进行校验
+	let externalScraper=true
+	const inputUpstreamUrl=async ():Promise<string>=>{
+		//要求输入上游URL
+		let url=await input(_('Upstream URL'), taskName=="1"?"https://github.com/balena-io/etcher":undefined, /^https?:\/\/\S+/)
+		//检索对应的模板
+		for(let node of scraperRegister){
+			if(url.match(node.urlRegex)!=null){
+				console.log(chalk.blueBright(_("Info "))+_("Matched scraper template ")+chalk.cyanBright(_(node.name)));
+				externalScraper=false
+			}
+		}
+		//处理未找到爬虫模板，可能需要外置的情况
+		if(externalScraper){
+			//询问是否需要外置scraper
+			if (await bool(_('No scraper template matched, use external scraper?'), true)) {
+				shell.cp('./scripts/templates/taskScraper.ts', path.join(taskDir, 'scraper.ts'));
+			} else {
+				externalScraper=false
+			}
+		}
+		return url
+	}
+
 	//构成基础json
 	let json: TaskInput = {
 		task: {
 			name: taskName,
 			category: CATEGORIES[await select(_('Task category'), CATEGORIES)],
 			author: await input(_('Author')),
-			url: await input(_('Upstream URL'), undefined, /^https?:\/\//),
+			url:await inputUpstreamUrl(),
 		},
 		template: {
 			producer: await inputProducer(),
+			scraper:externalScraper?'scraper = "External"':'# scraper = ""'
 		},
 		regex: {
 			download_name: await input(_('Regex for downloaded file'), '/.exe/', /^\/.+\/$/),
@@ -142,14 +168,6 @@ async function createTask() {
 		},
 		producer_required: await generateProducerRequired(),
 	};
-
-	//询问是否需要外置scraper
-	if (await bool(_('是否需要使用外置爬虫（scraper.ts）'), false)) {
-		shell.cp('./scripts/templates/taskScraper.ts', path.join(taskDir, 'scraper.ts'));
-		json.template['scraper'] = 'scraper = "External"';
-	} else {
-		json.template['scraper'] = '# scraper = ""';
-	}
 
 	//修改toml并写入配置
 	//console.log(JSON.stringify(json,null,2));

@@ -1,0 +1,36 @@
+# 任务基本信息
+[task]
+name = "AnyDesk"
+category = "远程连接"
+author = "Cno"
+url = "https://anydesk.com"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Click2Install"
+
+# 使用到的正则
+[regex]
+download_link = 'https:\/\/download\.anydesk\.com\/AnyDesk\.exe'
+download_name = 'AnyDesk\.exe'
+scraper_version = '"id":"win_exe","version":"[0-9.]+"'
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 1
+build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "AnyDesk"
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

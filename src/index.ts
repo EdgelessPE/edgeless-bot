@@ -7,7 +7,7 @@ import {ensurePlatform, getOS} from './platform';
 import os from 'os';
 import {clearWorkshop} from './workshop';
 import {initAria2c, stopAria2c} from './aria2c';
-import {readDatabase, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from './database';
+import {readDatabase, report, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from './database';
 import {uploadToRemote} from './rclone';
 import art from './art';
 
@@ -47,7 +47,6 @@ async function main(): Promise<boolean> {
 
 	//执行所有需要执行的任务
 	let eRes = await executeTasks(toExecTasks);
-	let failure = [];
 	for (let node of eRes) {
 		if (node.result.ok) {
 			//去重
@@ -60,7 +59,6 @@ async function main(): Promise<boolean> {
 				setDatabaseNodeFailure(node.taskName, 'Error:Can\'t upload target file');
 			}
 		} else {
-			failure.push(node);
 			setDatabaseNodeFailure(node.taskName, node.result.val);
 		}
 	}
@@ -69,7 +67,8 @@ async function main(): Promise<boolean> {
 	writeDatabase();
 	//停止aria2c
 	await stopAria2c();
-	return true;
+	//打印报告
+	return report();
 }
 
 async function test(): Promise<boolean> {

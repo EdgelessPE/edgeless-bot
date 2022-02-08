@@ -1,5 +1,7 @@
 //爬虫模板
 
+import {Result} from 'ts-results';
+
 type ValidationType = 'MD5' | 'SHA1'
 
 interface ScraperParameters {
@@ -185,6 +187,12 @@ interface ExecuteParameter {
 	info: ScraperReturned;
 }
 
+//状态报告
+interface ResultReport {
+	taskName: string;
+	result: Result<string, string>; //成功时返回新构建的名称，失败返回错误消息
+}
+
 export {
 	ValidationType,
 	JsObjectType,
@@ -206,4 +214,5 @@ export {
 	WorkerDataProducer,
 	ExecuteParameter,
 	BuildStatus,
+	ResultReport,
 };

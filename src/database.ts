@@ -2,6 +2,7 @@ import fs from 'fs';
 import {BuildStatus, DatabaseNode} from './class';
 import {log} from './utils';
 import {config} from './config';
+import chalk from 'chalk';
 
 let database: {
 		[key: string]: {
@@ -100,10 +101,44 @@ function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>)
 	modified = true;
 }
 
+//输出日志
+
+function generateSuccessTip(): string {
+	let tip = '';
+	for (let i of successList) {
+		tip += `\n\t${chalk.cyan(i.taskName)} updated from ${i.from} to ${i.to}`;
+	}
+	return tip;
+}
+
+function generateFailureTip(): string {
+	let tip = '';
+	for (let i of failedList) {
+		tip += `\n\t${chalk.yellowBright(i.taskName)} : ${i.errorMessage.replace('\n', '')}`;
+	}
+	return tip;
+}
+
+//返回是否存在失败
+function report(): boolean {
+	if (failedList.length == 0) {
+		//全部成功
+		log(`Success:Executed ${successList.length} tasks :${generateSuccessTip()}`);
+	} else {
+		//存在失败
+		log(`Error:${failedList.length} tasks failed :${generateFailureTip()}`);
+		if (successList.length > 0) {
+			log(`Info:Successful tasks :${generateSuccessTip()}`);
+		}
+	}
+	return failedList.length == 0;
+}
+
 export {
 	readDatabase,
 	writeDatabase,
 	getDatabaseNode,
 	setDatabaseNodeSuccess,
 	setDatabaseNodeFailure,
+	report,
 };

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import {Err, Ok, Result} from 'ts-results';
-import {BuildStatus, ExecuteParameter, ScraperReturned, TaskInstance} from './class';
+import {BuildStatus, ExecuteParameter, ResultReport, ScraperReturned, TaskInstance} from './class';
 import {config} from './config';
 import toml from 'toml';
 import {
@@ -42,11 +42,6 @@ export interface TaskConfig {
 	parameter: TaskInstance['parameter'];
 	producer_required: TaskInstance['producer_required'];
 	extra?: TaskInstance['extra'];
-}
-
-interface ResultReport {
-	taskName: string;
-	result: Result<string, string>; //成功时返回新构建的名称，失败返回错误消息
 }
 
 async function getExeVersion(file: string, cd: string): Promise<string> {

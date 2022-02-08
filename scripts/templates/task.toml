@@ -13,9 +13,9 @@ producer = "${template.producer}"
 
 # 使用到的正则
 [regex]
-# download_link = ""
-download_name = "${regex.download_name}"
-# scraper_version = ""
+# download_link = ''
+download_name = '${regex.download_name}'
+# scraper_version = ''
 
 # 通用参数
 [parameter]

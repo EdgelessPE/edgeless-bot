@@ -25,7 +25,7 @@ function searchTemplate(url: string, scraperName?: string): Result<ScraperRegist
 	}
 	let result = null;
 	for (let node of scraperRegister) {
-		if (url.match(node.urlRegex)) {
+		if (url.match(node.urlRegex) || scraperName==node.entrance) {
 			result = node;
 			break;
 		}

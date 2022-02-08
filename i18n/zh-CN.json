@@ -52,7 +52,7 @@
   "Producer": "制作器",
   "Template title": "模板标题",
   "Template id, should be brief and without space": "模板唯一标识符,尽量简短且不能有空格",
-  "Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+": "适用URL的正则表达式,示例 https?://github.com/[^/]+/[^/]+",
+  "Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template": "适用URL的正则表达式,示例 https?://github.com/[^/]+/[^/]+,缺省表示这是一个通用模板",
   "Required keys in task config, e.g. regex.scraper_version , split different objects with ,": "任务配置需要包含的键,示例 regex.scraper_version ,使用 , 分割不同的对象",
   "Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,": "任务配置需要包含的键,示例 parameter.resolver_cd ,使用 , 分割不同的对象",
   "Template saved at ": "模板保存在 ",

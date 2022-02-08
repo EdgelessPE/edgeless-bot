@@ -181,7 +181,7 @@ async function createTask() {
 			scraper: externalScraper ? 'scraper = "External"' : '# scraper = ""',
 		},
 		regex: {
-			download_name: await input(_('Regex for downloaded file, contained by //'), '/.exe/', /^\/.+\/$/),
+			download_name: await input(_('Regex for downloaded file'), '\\.exe'),
 		},
 		parameter: {
 			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs', '${taskName}']),

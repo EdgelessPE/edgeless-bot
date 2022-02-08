@@ -34,7 +34,7 @@
   "Task category": "任务分类",
   "Author": "作者",
   "Upstream URL": "上游URL",
-  "Regex for downloaded file, contained by //": "下载文件校验正则,使用 // 包裹",
+  "Regex for downloaded file": "下载文件校验正则",
   "Build manifest, split file name with ,": "构建装箱单,使用 , 分割文件名",
   "Task config saved at ": "任务配置保存在 ",
   "you may need to modify it manually later": "稍后您可能需要手动更改它",

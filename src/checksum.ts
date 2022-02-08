@@ -31,10 +31,10 @@ async function getSHA1(filePath: string): Promise<string> {
 export default async function (filePath: string, method: ValidationType, targetValue: string): Promise<boolean> {
 	let sum = '';
 	switch (method) {
-		case ValidationType.MD5:
+		case 'MD5':
 			sum = await getMD5(filePath);
 			break;
-		case ValidationType.SHA1:
+		case 'SHA1':
 			sum = await getSHA1(filePath);
 			break;
 		default:

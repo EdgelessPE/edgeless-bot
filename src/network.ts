@@ -32,6 +32,7 @@ async function singleFetch(url: string, axiosConfig?: AxiosRequestConfig): Promi
 	return new Ok(res.data);
 }
 
+//返回axios中的res.data
 async function robustGet(url: string, axiosConfig?: AxiosRequestConfig): Promise<Result<any, string>> {
 	let result = null,
 		r;

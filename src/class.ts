@@ -1,9 +1,6 @@
 //爬虫模板
 
-enum ValidationType {
-	'MD5',
-	'SHA1',
-}
+type ValidationType = 'MD5' | 'SHA1'
 
 interface ScraperParameters {
 	taskName: string;

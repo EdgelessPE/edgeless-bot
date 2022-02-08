@@ -222,7 +222,7 @@ async function createTemplate() {
 			let jsonS: ScraperRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
-				urlRegex: (await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+'))).slice(1, -1),
+				urlRegex: (await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template'), 'universal://')),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. regex.scraper_version , split different objects with ,'), []),
 			};
 			//注册
@@ -239,7 +239,7 @@ async function createTemplate() {
 			let jsonR: ResolverRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
-				downloadLinkRegex: await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+')),
+				downloadLinkRegex: await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template'), 'universal://'),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,'), []),
 			};
 			//注册

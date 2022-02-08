@@ -1,0 +1,38 @@
+# 任务基本信息
+[task]
+name = "FastCopy"
+category = "资源管理"
+author = "Cno"
+url = "https://portableapps.com/apps/utilities/fastcopy-portable"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ""
+download_name = "/.paf.exe/"
+# scraper_version = ""
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 1
+build_manifest = ["${taskName}.wcs", "${taskName}/FastCopy64.exe"]
+# build_cover = ""
+build_delete = ["${taskName}/doc", "${taskName}/FastCopy.exe"]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "FastCopy"
+sourceFile = "FastCopy64.exe"
+recursiveUnzipList = ["App", "FastCopy"]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

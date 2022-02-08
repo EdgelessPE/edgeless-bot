@@ -1,0 +1,13 @@
+{
+    "name": "Motrix",
+    "category": "下载上传",
+    "author": "undefined",
+    "autoMake": false,
+    "externalScraper": true,
+    "buildRequirement":["Motrix.exe"],
+    "externalScraperOptions": {
+      "releaseInstaller": false,
+      "compressLevel": 5
+    }
+  }
+  

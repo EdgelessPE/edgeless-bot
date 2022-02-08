@@ -1,0 +1,13 @@
+{
+    "name": "Notepad3",
+    "category": "办公编辑",
+    "author": "undefined",
+    "autoMake": false,
+    "externalScraper": true,
+    "buildRequirement":["Notepad3_bot/Notepad3.exe"],
+    "releaseRequirement":["Notepad3.exe"],
+    "externalScraperOptions": {
+        "releaseInstaller": true,
+        "compressLevel": 5
+    }
+}

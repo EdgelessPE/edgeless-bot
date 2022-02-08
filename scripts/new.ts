@@ -228,7 +228,7 @@ async function createTemplate() {
 			//注册
 			registerTemplate(jsonS, 'scrapers');
 			//复制生成模板
-			templatePath = `./templates/scrapers/${jsonS.name}.ts`;
+			templatePath = `./templates/scrapers/${jsonS.entrance}.ts`;
 			shell.cp('./scripts/templates/scraper.ts', templatePath);
 			//报告
 			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
@@ -245,7 +245,7 @@ async function createTemplate() {
 			//注册
 			registerTemplate(jsonR, 'resolvers');
 			//复制生成模板
-			templatePath = `./templates/resolvers/${jsonR.name}.ts`;
+			templatePath = `./templates/resolvers/${jsonR.entrance}.ts`;
 			shell.cp('./scripts/templates/resolver.ts', templatePath);
 			//报告
 			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
@@ -262,7 +262,7 @@ async function createTemplate() {
 			//注册
 			registerTemplate(jsonP, 'producers');
 			//复制生成模板
-			templatePath = `./templates/producers/${jsonP.name}.ts`;
+			templatePath = `./templates/producers/${jsonP.entrance}.ts`;
 			shell.cp('./scripts/templates/producer.ts', templatePath);
 			//报告
 			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));

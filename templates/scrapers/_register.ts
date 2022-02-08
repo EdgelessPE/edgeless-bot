@@ -13,6 +13,12 @@ const regArray: Array<ScraperRegister> = [
     urlRegex: 'https?://portableapps.com/apps/\\S+',
     requiredKeys: [],
   },
+  {
+    name: 'Global Page Match',
+    entrance: 'Global_Page_Match',
+    urlRegex: 'universal://',
+    requiredKeys: ['regex.scraper_version', 'regex.download_link'],
+  },
 ];
 
 export default regArray;

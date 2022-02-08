@@ -222,7 +222,7 @@ async function createTemplate() {
 			let jsonS: ScraperRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
-				urlRegex: (await input(_('Matching URL Regex, contained by //'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
+				urlRegex: (await input(_('Matching URL Regex, contained by //'), undefined, /\/http\S+\//)).slice(1, -1),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. regex.scraper_version , split different objects with ,'), []),
 			};
 			//注册
@@ -239,7 +239,7 @@ async function createTemplate() {
 			let jsonR: ResolverRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
-				downloadLinkRegex: (await input(_('Matching URL Regex, contained by //'), undefined, /\/https?:\/\/\S+\//)).slice(1, -1),
+				downloadLinkRegex: (await input(_('Matching URL Regex, contained by //'), undefined, /\/http\S+\//)).slice(1, -1),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,'), []),
 			};
 			//注册

@@ -32,6 +32,9 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		//尝试读取json
 		versionReadRes = objChainReader(json, temp.version_path.split('.')),
 		linkReadRes = objChainReader(json, temp.download_path.split('.'));
+	if(typeof json=="string"){
+		json=JSON.parse(json)
+	}
 	if (versionReadRes.err) {
 		return new Err(`Error:Can't find key ${temp.version_path} in this json :\n${JSON.stringify(json, null, 2)}`);
 	}

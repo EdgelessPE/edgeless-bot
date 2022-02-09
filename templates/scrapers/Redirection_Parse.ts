@@ -12,7 +12,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	//解析直链
 	let downloadLink = (await robustParseRedirect(temp.redirection_url)).unwrap();
 	//匹配版本号
-	let m = downloadLink.match(p.versionMatchRegex ?? /\d+.\d+(.\d+)*/);
+	let m = downloadLink.match(p.versionMatchRegex ?? /\d+\.\d+(\.\d+)*/g);
 	if (m == null) {
 		return new Err('Error:Can\'t match version with ' + downloadLink);
 	}

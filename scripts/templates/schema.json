@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "KEY_NAME": {
+      "type": "string",
+      "description": "Add english description here, then add simplified chinese translation to /i18n/zh-CN.json"
+    }
+  },
+  "required": [
+    "KEY_NAME"
+  ]
+}

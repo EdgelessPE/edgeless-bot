@@ -193,7 +193,7 @@ async function createTask() {
 	//console.log(JSON.stringify(json,null,2));
 	let taskToml = fs.readFileSync('./scripts/templates/task.toml').toString();
 	fs.writeFileSync(configPath, applyInput(taskToml, json, '').unwrap());
-	console.log(chalk.green(_('Success ')) + _('Task config saved at ') + chalk.cyanBright(configPath) + ', ' + _('you may need to modify it manually later'));
+	console.log(chalk.green(_('Success ')) + _('Task config saved to ') + chalk.cyanBright(configPath) + ', ' + _('you may need to modify it manually later'));
 }
 
 function registerTemplate(node: any, dir: string) {
@@ -231,7 +231,7 @@ async function createTemplate() {
 			templatePath = `./templates/scrapers/${jsonS.entrance}.ts`;
 			shell.cp('./scripts/templates/scraper.ts', templatePath);
 			//报告
-			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
+			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建resolver
 		case 1:
@@ -248,7 +248,7 @@ async function createTemplate() {
 			templatePath = `./templates/resolvers/${jsonR.entrance}.ts`;
 			shell.cp('./scripts/templates/resolver.ts', templatePath);
 			//报告
-			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
+			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建producer
 		case 2:
@@ -264,8 +264,11 @@ async function createTemplate() {
 			//复制生成模板
 			templatePath = `./templates/producers/${jsonP.entrance}.ts`;
 			shell.cp('./scripts/templates/producer.ts', templatePath);
+			//复制生成schema.json
+			let schemaPath=`./schema/producer_templates/${jsonP.entrance}.json`
+			shell.cp('./scripts/templates/schema.json',schemaPath)
 			//报告
-			console.log(chalk.green(_('Success ')) + _('Template saved at ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
+			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + _(', schema for "producer_required" object saved to ')+ chalk.cyanBright(schemaPath) + _(', template register information saved to \"_register.ts\" in the same directory'));
 			break;
 	}
 }

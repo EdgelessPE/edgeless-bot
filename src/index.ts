@@ -11,6 +11,8 @@ import {readDatabase, report, setDatabaseNodeFailure, setDatabaseNodeSuccess, wr
 import {uploadToRemote} from './rclone';
 import art from './art';
 
+require('source-map-support').install();
+
 async function main(): Promise<boolean> {
 	//打印艺术字
 	art();

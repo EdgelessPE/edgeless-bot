@@ -3,13 +3,19 @@ import {ScraperParameters, ScraperReturned} from '../../src/class';
 import {robustGet} from '../../src/network';
 import {Cmp, log, matchVersion, versionCmp} from '../../src/utils';
 
+interface Temp {
+	version_page_url?: string;
+	download_page_url?: string;
+}
+
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
+	const temp: Temp = p.scraper_temp;
 	//处理regex为空异常
 	if (p.versionMatchRegex == undefined || p.downloadLinkRegex == undefined) {
 		return new Err('Error:Regex undefined for global page match');
 	}
 	//获取页面
-	let page = (await robustGet(p.url)).unwrap() as string;
+	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string;
 	//全局匹配版本号
 	let m = page.match(p.versionMatchRegex);
 	if (m == null) {
@@ -32,6 +38,9 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	}
 
 	//全局匹配下载地址
+	if (temp.download_page_url != undefined) {
+		page = (await robustGet(temp.download_page_url)).unwrap() as string;
+	}
 	m = page.match(p.downloadLinkRegex);
 	if (m == null) {
 		return new Err('Error:Given download link match regex matched nothing');

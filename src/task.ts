@@ -278,7 +278,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	}
 	//获得即将验收的绝对路径
 	const target = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath);
-	log('Info:Receive ready directory ' + target);
+	if(!config.GITHUB_ACTIONS) log('Info:Receive ready directory ' + target);
 	//实现delete 与 cover
 	let f;
 	if (t.task.parameter.build_delete) {

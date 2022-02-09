@@ -231,7 +231,7 @@ async function createTemplate() {
 			templatePath = `./templates/scrapers/${jsonS.entrance}.ts`;
 			shell.cp('./scripts/templates/scraper.ts', templatePath);
 			//报告
-			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
+			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + _(', template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建resolver
 		case 1:
@@ -248,7 +248,7 @@ async function createTemplate() {
 			templatePath = `./templates/resolvers/${jsonR.entrance}.ts`;
 			shell.cp('./scripts/templates/resolver.ts', templatePath);
 			//报告
-			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + ', ' + _('Template register information saved to \"_register.ts\" in the same directory'));
+			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + _(', template register information saved to \"_register.ts\" in the same directory'));
 			break;
 		//创建producer
 		case 2:

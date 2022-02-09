@@ -59,5 +59,9 @@
   ", template register information saved to \"_register.ts\" in the same directory": ",模板注册信息保存在同目录下的 \"_register.ts\"",
   "Template description": "模板详细描述",
   "Default compress level, range from 1 to 10": "默认压缩等级，可接受范围 1-10",
-  ", schema for \"producer_required\" object saved to ": ",用于\"producer_required\"对象的规则校验文件保存在 "
+  ", schema for \"producer_required\" object saved to ": ",用于\"producer_required\"对象的规则校验文件保存在 ",
+  "Specify Json REST api url by \"scraper_temp.api_url\", and specify object path by \"scraper_temp.version_path\" \"scraper_temp.download_path\"": "通过\"scraper_temp.api_url\"指定Json REST api的url,并通过\"scraper_temp.version_path\" \"scraper_temp.download_path\"指定对象路径",
+  "Use given regex to match text in html file": "使用给定的正则表达式匹配html文件中的文本内容",
+  "No universal scraper template found, consider modify task config manually later": "没有找到通用爬虫模板,请考虑稍后手动更改任务配置",
+  "Universal scraper template": "通用爬虫模板"
 }

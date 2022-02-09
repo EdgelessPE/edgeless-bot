@@ -26,6 +26,7 @@ interface ScraperRegister {
 	urlRegex: string;
 	entrance: string;
 	requiredKeys: Array<string>;
+	description?: string;
 }
 
 //云盘下载模板

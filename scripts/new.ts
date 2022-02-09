@@ -136,7 +136,7 @@ async function createTask() {
 	};
 
 	//用于输入上游URL并进行校验
-	let externalScraper = true;
+	let externalScraper = true,scraperEntrance:string|undefined=undefined
 	const inputUpstreamUrl = async (): Promise<string> => {
 		//要求输入上游URL
 		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
@@ -150,7 +150,7 @@ async function createTask() {
 					for (let key of node.requiredKeys) {
 						s += key + ',';
 					}
-					console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + s.slice(0, -1));
+					console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(s.slice(0, -1)));
 				}
 				externalScraper = false;
 				break;
@@ -163,10 +163,48 @@ async function createTask() {
 				shell.cp('./scripts/templates/taskScraper.ts', path.join(taskDir, 'scraper.ts'));
 			} else {
 				externalScraper = false;
+				//指定通用爬虫模板
+				let universalList: ScraperRegister[]=[]
+				for(let i of scraperRegister){
+					if(i.urlRegex=="universal://"){
+						universalList.push(i)
+					}
+				}
+				if(universalList.length>0){
+					//生成用户界面选择文本
+					let choiceArray=[]
+					for(let i of universalList){
+						choiceArray.push(_(i.name)+(i.description?"\n"+_(i.description):""))
+					}
+					//让用户选择
+					let index=await select(_("Universal scraper template"),choiceArray)
+					scraperEntrance=universalList[index].entrance
+					//提示可能的requiredKeys
+					if(universalList[index].requiredKeys.length>0){
+						let tip=""
+						for(let key of universalList[index].requiredKeys){
+							tip+=key+","
+						}
+						console.log(chalk.yellow(_("Warning "))+_("Remember to add these keys manually later : ")+chalk.cyan(tip.slice(0,-1)));
+					}
+				}else{
+					console.log(_("Warning ")+_("No universal scraper template found, consider modify task config manually later"));
+				}
 			}
 		}
 		return url;
 	};
+	const getScraper=function ():string{
+		if(externalScraper){
+			return 'scraper = "External"'
+		}else {
+			if(scraperEntrance==undefined){
+				return '# scraper = ""'
+			}else {
+				return scraperEntrance
+			}
+		}
+	}
 
 	//构成基础json
 	let json: TaskInput = {
@@ -178,7 +216,7 @@ async function createTask() {
 		},
 		template: {
 			producer: await inputProducer(),
-			scraper: externalScraper ? 'scraper = "External"' : '# scraper = ""',
+			scraper: getScraper()
 		},
 		regex: {
 			download_name: await input(_('Regex for downloaded file'), '\\.exe'),

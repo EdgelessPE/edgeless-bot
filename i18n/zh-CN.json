@@ -64,5 +64,9 @@
   "Use given regex to match text in html file": "使用给定的正则表达式匹配html文件中的文本内容",
   "No universal scraper template found, consider modify task config manually later": "没有找到通用爬虫模板,请考虑稍后手动更改任务配置",
   "Universal scraper template": "通用爬虫模板",
-  "If you want to show i18n version of your description, add key-value pair to \"./i18n/LOCALE.json\"": "如果你希望显示这条描述的中文版本,请在 \"./i18n/zh-CN.json\" 中增加键值对"
+  "If you want to show i18n version of your description, add key-value pair to \"./i18n/LOCALE.json\"": "如果你希望显示这条描述的中文版本,请在 \"./i18n/zh-CN.json\" 中增加键值对",
+  "Parse redirection url to resolve version and direct download link, specify url by \"scraper_temp.redirection_url\"": "解析一个重定向的永久链接来获得版本号和下载直链,通过\"scraper_temp.redirection_url\"指定URL",
+  "Global Page Match": "页面全局匹配",
+  "Redirection Parse": "重定向解析",
+  "Task already exist, overwrite?": "任务已存在,覆盖?"
 }

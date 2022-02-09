@@ -58,6 +58,9 @@ async function createTask() {
 	//创建任务文件夹
 	const taskDir = path.join(PROJECT_ROOT, config.DIR_TASKS, taskName),
 		configPath = path.join(taskDir, 'config.toml');
+	if (fs.existsSync(configPath) && !(await bool(_('Task already exist, overwrite?'), false))) {
+		return;
+	}
 	shell.mkdir('-p', taskDir);
 
 	//用于输入template.producer
@@ -83,7 +86,7 @@ async function createTask() {
 	};
 
 	//用于输入producer_required
-	const generateProducerRequired = async (): Promise<string> => {
+	const generateProducerRequired = async (taskName: string): Promise<string> => {
 		//处理External情况
 		if (producerEntrance == 'External') {
 			return '';
@@ -124,7 +127,7 @@ async function createTask() {
 					}
 					break;
 				case 'string':
-					resJson[key] = await input(`${_('Producer required ')}${chalk.cyan(_('string'))}${_(' parameter')}：${key}`);
+					resJson[key] = await input(`${_('Producer required ')}${chalk.cyan(_('string'))}${_(' parameter')}：${key}`, key == 'shortcutName' ? taskName : undefined);
 					break;
 				default:
 					log(`Error:Unimplemented type ${t}, please modify toml config later manually`);
@@ -159,15 +162,15 @@ async function createTask() {
 		//处理未找到爬虫模板，可能需要外置的情况
 		if (externalScraper) {
 			//询问是否需要外置scraper
-			if (await bool(_('No scraper template matched, use external scraper?'), true)) {
+			if (await bool(_('No scraper template matched, use external scraper?'), false)) {
 				shell.cp('./scripts/templates/taskScraper.ts', path.join(taskDir, 'scraper.ts'));
 			} else {
 				externalScraper = false;
 				//指定通用爬虫模板
-				let universalList: ScraperRegister[]=[]
-				for(let i of scraperRegister){
-					if(i.urlRegex=="universal://"){
-						universalList.push(i)
+				let universalList: ScraperRegister[] = [];
+				for (let i of scraperRegister) {
+					if (i.urlRegex == 'universal://') {
+						universalList.push(i);
 					}
 				}
 				if(universalList.length>0){
@@ -201,7 +204,7 @@ async function createTask() {
 			if(scraperEntrance==undefined){
 				return '# scraper = ""'
 			}else {
-				return scraperEntrance
+				return `scraper = "${scraperEntrance}"`;
 			}
 		}
 	}
@@ -216,7 +219,7 @@ async function createTask() {
 		},
 		template: {
 			producer: await inputProducer(),
-			scraper: getScraper()
+			scraper: getScraper(),
 		},
 		regex: {
 			download_name: await input(_('Regex for downloaded file'), '\\.exe'),
@@ -224,7 +227,7 @@ async function createTask() {
 		parameter: {
 			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs', '${taskName}']),
 		},
-		producer_required: await generateProducerRequired(),
+		producer_required: await generateProducerRequired(taskName),
 	};
 
 	//修改toml并写入配置

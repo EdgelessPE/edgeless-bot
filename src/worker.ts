@@ -56,6 +56,7 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 						url: task.pageUrl,
 						downloadLinkRegex: task.regex?.download_link,
 						versionMatchRegex: task.regex?.scraper_version,
+						scraper_temp: task.scraper_temp,
 					})) as Result<ScraperReturned, string>;
 					results.push(res);
 				} catch (e) {

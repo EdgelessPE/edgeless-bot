@@ -9,6 +9,7 @@ interface ScraperParameters {
 	url: string;
 	downloadLinkRegex?: string;
 	versionMatchRegex?: string;
+	scraper_temp?: any;
 }
 
 interface ScraperReturned {
@@ -106,6 +107,7 @@ interface TaskInstance {
 		compress_level?: number;
 	};
 	producer_required: any;
+	scraper_temp?: any;
 	extra?: {
 		require_windows?: boolean;
 		missing_version?: string;

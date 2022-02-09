@@ -96,6 +96,9 @@
     "producer_required": {
       "type": "object"
     },
+    "scraper_temp": {
+      "type": "object"
+    },
     "regex": {
       "properties": {
         "download_link": {

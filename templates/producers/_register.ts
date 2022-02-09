@@ -17,18 +17,6 @@ const regArray: Array<ProducerRegister> = [
       '\nSuggested buildManifest : ${taskName}.wcs,"sourceFile"',
     defaultCompressLevel: 5,
   },
-  {
-    name: "1",
-    entrance: "1",
-    description: "1",
-    defaultCompressLevel: 5,
-  },
-  {
-    name: "1",
-    entrance: "1",
-    description: "1",
-    defaultCompressLevel: 5,
-  },
 ];
 
 export default regArray;

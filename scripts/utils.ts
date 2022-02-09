@@ -136,7 +136,7 @@ function applyInput(toml: string, input: any, base: string): Result<string, stri
 		if (typeof val == 'object' && !(val instanceof Array)) {
 			toml = applyInput(toml, val, base + key + '.').unwrap();
 		} else {
-			searchString = '${' + base + key + '}';
+			searchString = '${ ' + base + key + ' }';
 			if (!toml.includes(searchString)) {
 				suc = false;
 				reason = `Error:Can't find ${searchString} to replace with ${val}`;

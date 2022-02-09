@@ -14,22 +14,31 @@ const regArray: Array<ScraperRegister> = [
     requiredKeys: [],
   },
   {
-    name: "Global Page Match",
-    entrance: "Global_Page_Match",
-    urlRegex: "universal://",
-    requiredKeys: ["regex.scraper_version", "regex.download_link"],
-    description: "Use given regex to match text in html file"
+    name: 'Global Page Match',
+    entrance: 'Global_Page_Match',
+    urlRegex: 'universal://',
+    requiredKeys: ['regex.scraper_version', 'regex.download_link'],
+    description: 'Use given regex to match text in html file',
   },
   {
-    name: "REST API",
-    entrance: "REST_API",
-    urlRegex: "universal://",
+    name: 'REST API',
+    entrance: 'REST_API',
+    urlRegex: 'universal://',
     requiredKeys: [
-      "scraper_temp.api_url",
-      "scraper_temp.version_path",
-      "scraper_temp.download_path",
+      'scraper_temp.api_url',
+      'scraper_temp.version_path',
+      'scraper_temp.download_path',
     ],
-    description: "Specify Json REST api url by \"scraper_temp.api_url\", and specify object path by \"scraper_temp.version_path\" \"scraper_temp.download_path\""
+    description:
+        'Specify Json REST api url by "scraper_temp.api_url", and specify object path by "scraper_temp.version_path" "scraper_temp.download_path"',
+  },
+  {
+    name: 'Redirection Parse',
+    entrance: 'Redirection_Parse',
+    urlRegex: 'universal://',
+    requiredKeys: ['scraper_temp.redirection_url'],
+    description:
+        'Parse redirection url to resolve version and direct download link',
   },
 ];
 

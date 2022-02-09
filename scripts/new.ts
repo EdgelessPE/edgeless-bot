@@ -247,6 +247,12 @@ function registerTemplate(node: any, dir: string) {
 	// console.log(text);
 }
 
+async function inputDescription(): Promise<string> {
+	let r = await input(_('Template description(use English)'));
+	console.log(chalk.blueBright(_('Info ')) + _('If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'));
+	return r;
+}
+
 async function createTemplate() {
 	let templatePath;
 	switch (await select(_('Template type'), [
@@ -263,6 +269,10 @@ async function createTemplate() {
 				urlRegex: (await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template'), 'universal://')),
 				requiredKeys: await stringArray(_('Required keys in task config, e.g. regex.scraper_version , split different objects with ,'), []),
 			};
+			//对通用爬虫增加description
+			if (jsonS.urlRegex == 'universal://') {
+				jsonS['description'] = await inputDescription();
+			}
 			//注册
 			registerTemplate(jsonS, 'scrapers');
 			//复制生成模板
@@ -294,9 +304,10 @@ async function createTemplate() {
 			let jsonP: ProducerRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
-				description: await input(_('Template description')),
+				description: await inputDescription(),
 				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), '5', /^([1-9]|10)$/)),
 			};
+			console.log(chalk.blueBright(_('Info ')) + _('If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'));
 			//注册
 			registerTemplate(jsonP, 'producers');
 			//复制生成模板

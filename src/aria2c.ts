@@ -1,6 +1,6 @@
 import {WebSocket as Aria2WebSocket} from 'libaria2-ts';
 import cp from 'child_process';
-import {log, sleep} from './utils';
+import {getSizeString, getTimeString, log, sleep} from './utils';
 import {getOS, where} from './platform';
 import path from 'path';
 import fs from 'fs';
@@ -115,7 +115,7 @@ async function initAria2c(): Promise<boolean> {
 //下载和等待完成函数
 async function download(taskName: string, url: string, dir: string): Promise<string> {
 	return new Promise((async (resolve, reject) => {
-		let filename = '';
+		let filename = '',startTime=(new Date()).getTime()
 		try {
 			// Cp.execSync("wget -O target.exe " + url, {cwd: dir});
 			log(`Info:Start downloading ${taskName}...`);
@@ -127,7 +127,10 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 				0,
 			);
 			let done = false,
-				status;
+				checked = false,
+				status,
+				percent,
+				speed;
 			// const progress = ora({
 			//     text: 'Downloading ' + taskName + '...',
 			//     prefixText: chalk.blue('Info'),
@@ -148,6 +151,19 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 
 				if (status.status == 'waiting') {
 					await sleep(1000);
+				}
+
+				//在下到10%时检查平均速度，对<512KB/s(524,288B/1000ms)的打印警告，其他情况打印预估剩余时间
+				percent=Number(status.completedLength) / Number(status.totalLength)
+				if(!checked && percent >= 0.1){
+					checked=true
+					let avgSpeed=Number(status.completedLength) / ((new Date()).getTime()-startTime),
+						etc=getTimeString(Number(status.totalLength)/avgSpeed)
+					if(avgSpeed<524){
+						log(`Warning:${taskName} downloading slowly @ ${getSizeString(avgSpeed*1024)}/s, etc ${etc}`)
+					}else{
+						log(`Info:Task ${taskName} downloading @ ${getSizeString(avgSpeed*1024)}/s, etc ${etc}`)
+					}
 				}
 
 				// progress.text

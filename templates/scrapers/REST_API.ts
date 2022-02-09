@@ -6,6 +6,7 @@ interface Temp {
 	api_url: string;
 	version_path: string;
 	download_path: string;
+	referer?: string;
 }
 
 function objChainReader(obj: any, chain: string[]): Result<any, string> {
@@ -23,7 +24,11 @@ function objChainReader(obj: any, chain: string[]): Result<any, string> {
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
 	//发送请求
 	const temp = p.scraper_temp as Temp;
-	let json = (await robustGet(temp.api_url)).unwrap(),
+	let json = (await robustGet(temp.api_url, temp.referer == undefined ? undefined : {
+			headers: {
+				Referer: temp.referer,
+			},
+		})).unwrap(),
 		//尝试读取json
 		versionReadRes = objChainReader(json, temp.version_path.split('.')),
 		linkReadRes = objChainReader(json, temp.download_path.split('.'));

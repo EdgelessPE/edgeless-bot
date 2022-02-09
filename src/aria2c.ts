@@ -115,7 +115,7 @@ async function initAria2c(): Promise<boolean> {
 //下载和等待完成函数
 async function download(taskName: string, url: string, dir: string): Promise<string> {
 	return new Promise((async (resolve, reject) => {
-		let filename = '',startTime=(new Date()).getTime()
+		let filename = '',startTime=Date.now()
 		try {
 			// Cp.execSync("wget -O target.exe " + url, {cwd: dir});
 			log(`Info:Start downloading ${taskName}...`);
@@ -157,12 +157,15 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 				percent=Number(status.completedLength) / Number(status.totalLength)
 				if(!checked && percent >= 0.1){
 					checked=true
-					let avgSpeed=Number(status.completedLength) / ((new Date()).getTime()-startTime),
-						etc=getTimeString(Number(status.totalLength)/avgSpeed)
+					let avgSpeed=Number(status.completedLength) / (Date.now()-startTime), //单位B/ms
+						etc=(Number(status.totalLength)/avgSpeed), //单位ms
+						etcString=getTimeString(etc);
+					let d=new Date(startTime+etc),
+						endString=d.getHours()+":"+d.getMinutes()
 					if(avgSpeed<524){
-						log(`Warning:${taskName} downloading slowly @ ${getSizeString(avgSpeed*1024)}/s, etc ${etc}`)
+						log(`Warning:${taskName} downloading slowly @ ${getSizeString(avgSpeed*1024)}/s, etc ${etcString} (${endString})`)
 					}else{
-						log(`Info:Task ${taskName} downloading @ ${getSizeString(avgSpeed*1024)}/s, etc ${etc}`)
+						log(`Info:Task ${taskName} downloading @ ${getSizeString(avgSpeed*1024)}/s, etc ${etcString} (${endString})`)
 					}
 				}
 

@@ -181,8 +181,12 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 			setDatabaseNodeFailure(result.taskName, result.result.val);
 			continue;
 		}
-		//进行版本号比较
 		newNode = result.result.val;
+		if(newNode.version==null || newNode.downloadLink==null){
+			setDatabaseNodeFailure(result.taskName, "Error:Scraper returned null value");
+			continue;
+		}
+		//进行版本号比较
 		matchRes = matchVersion(newNode.version);
 		if (matchRes.err) {
 			setDatabaseNodeFailure(result.taskName, 'Error:Can\'t parse version returned by scraper');

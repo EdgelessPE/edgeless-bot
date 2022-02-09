@@ -48,7 +48,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
 			}));
 		};
 		await waitSpawned(aria2c_process);
-		log('Info:Aria2c spawned');
+		log(`Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`);
 		aria2c_alive = true;
 		resolve(true);
 	}));

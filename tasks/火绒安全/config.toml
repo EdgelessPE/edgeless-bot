@@ -3,32 +3,40 @@
 name = "火绒安全"
 category = "安全急救"
 author = "Cno"
-url = "external://www.huorong.cn"
+url = "https://www.huorong.cn"
 
 # 指定使用的模板
 [template]
-scraper = "External"
+scraper = "REST_API"
 # resolver = ""
 producer = "Click2Install"
 
 # 使用到的正则
 [regex]
-#download_link = ""
-download_name = ".exe"
-#scraper_version = ""
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
 
 # 通用参数
 [parameter]
-# resolver_cd = ["",""]
-#compress_level = 1
-build_manifest = ['${taskName}.wcs', '${taskName}/${downloadedFile}']
-# build_cover = "cover.7z"
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+api_url = "https://www.huorong.cn/5.0.version.json"
+version_path = "version"
+download_path = "urlFull"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "安装火绒"
+shortcutName = "火绒安全"
+
 
 # 额外备注
-#[extra]
+# [extra]
 # require_windows = false
-# missing_version = false
+# missing_version = ""

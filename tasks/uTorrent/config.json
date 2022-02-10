@@ -1,0 +1,10 @@
+{
+    "name":"uTorrent",
+    "category":"下载上传",
+    "author":"undefined",
+    "paUrl":"https://portableapps.com/apps/internet/utorrent_portable",
+    "releaseRequirement":["uTorrentPortable.exe"],
+    "buildRequirement": ["uTorrent_bot.wcs","uTorrent_bot/uTorrentPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

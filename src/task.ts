@@ -280,15 +280,21 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	const target = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name, p.val.readyRelativePath);
 	if(!config.GITHUB_ACTIONS) log('Info:Receive ready directory ' + target);
 	//实现delete 与 cover
-	let f;
+	let f,
+		v;
 	if (t.task.parameter.build_delete) {
 		for (let file of t.task.parameter.build_delete) {
-			f = path.join(target, parseBuiltInValue(file, {taskName: t.task.name, downloadedFile}));
+			v = parseBuiltInValue(file, {taskName: t.task.name, downloadedFile});
+			f = path.join(target, v);
 			if (!fs.existsSync(f)) {
-				log(`Warning:Delete list include not existed file ${file}, consider update "build_delete"`);
-			} else {
-				shell.rm('-rf', f);
+				//尝试增加 ${taskName}/ 前缀
+				f = path.join(target, t.task.name, v);
+				if (!fs.existsSync(f)) {
+					log(`Warning:Delete list include not existed file ${file}, consider update "build_delete"`);
+					continue;
+				}
 			}
+			shell.rm('-rf', f);
 		}
 	}
 	if (t.task.parameter.build_cover) {

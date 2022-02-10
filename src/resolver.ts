@@ -32,12 +32,12 @@ function parsePath(entrance: string): Result<string, string> {
 	}
 }
 
-export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
+export default async function (p: ResolverParameters, specifyEntrance?: string): Promise<Result<ResolverReturned, string>> {
 	const url = p.downloadLink;
 	let entrance;
-	if (p.entrance != undefined) {
+	if (specifyEntrance != undefined) {
 		//使用钦定模板
-		entrance = p.entrance;
+		entrance = specifyEntrance;
 	} else {
 		//搜索模板
 		let tRes = searchTemplate(url);

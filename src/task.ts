@@ -249,8 +249,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		fileMatchRegex: t.task.regex.download_name,
 		cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
 		password: t.info.resolverParameter?.password,
-		entrance: t.info.resolverParameter?.entrance ?? (t.task.template.resolver ?? undefined),
-	});
+	}, t.info.resolverParameter?.entrance ?? (t.task.template.resolver ?? undefined));
 	if (dRes.err) {
 		return dRes;
 	}

@@ -40,7 +40,6 @@ interface ResolverParameters {
 	fileMatchRegex: string;
 	cd?: Array<string>;
 	password?: string;
-	entrance?: string;
 }
 
 interface ResolverReturned {

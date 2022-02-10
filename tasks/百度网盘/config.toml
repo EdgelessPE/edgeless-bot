@@ -23,7 +23,7 @@ download_name = '\.exe'
 # compress_level = 5
 build_manifest = ["${taskName}.wcs","${taskName}/BaiduNetdisk.exe"]
 build_cover = "cover"
-build_delete = ["${taskName}/$PLUGINSDIR","${taskName}/$TEMP"]
+build_delete = ["$PLUGINSDIR", "$TEMP"]
 
 # 爬虫模板临时参数
 [scraper_temp]

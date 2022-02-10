@@ -23,7 +23,7 @@ download_name = "/.paf.exe/"
 # compress_level = 1
 build_manifest = ["${taskName}.wcs", "${taskName}/FastCopy64.exe"]
 # build_cover = ""
-build_delete = ["${taskName}/doc", "${taskName}/FastCopy.exe"]
+build_delete = ["doc", "FastCopy.exe"]
 
 # 自动制作模板要求的参数
 [producer_required]

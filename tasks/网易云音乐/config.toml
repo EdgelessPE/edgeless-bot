@@ -23,7 +23,7 @@ download_name = '\.exe'
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}/cloudmusic.exe"]
 # build_cover = ""
-# build_delete = []
+build_delete = ["$PLUGINSDIR"]
 
 # 爬虫模板临时参数
 [scraper_temp]

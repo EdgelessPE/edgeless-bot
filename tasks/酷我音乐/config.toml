@@ -23,7 +23,7 @@ download_name = ".exe"
 #compress_level = 1
 build_manifest = ['${taskName}.wcs', '${taskName}/KwMusic.exe']
 #build_cover = "cover.zip"
-build_delete = ["${taskName}/$WINDIR", "${taskName}/$TEMP", "${taskName}/$PLUGINSDIR", "${taskName}/$APPDATA", "${taskName}/readme.txt", "${taskName}/Uninstall.exe", "${taskName}/Uninstall.exe.nsis"]
+build_delete = ["$WINDIR", "$TEMP", "$PLUGINSDIR", "$APPDATA", "readme.txt", "Uninstall.exe", "Uninstall.exe.nsis"]
 
 # 自动制作模板要求的参数
 [producer_required]

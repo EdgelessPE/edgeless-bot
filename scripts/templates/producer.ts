@@ -1,5 +1,5 @@
 import {ProducerParameters, ProducerReturned} from '../../src/class';
-import {Err, Ok, Result} from 'ts-results';
+import {Ok, Result} from 'ts-results';
 
 const shell = require('shelljs');
 

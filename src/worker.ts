@@ -84,6 +84,7 @@ async function resolver(workerData: WorkerDataResolver): Promise<Result<Resolver
 				downloadLink: url,
 				fileMatchRegex: workerData.fileMatchRegex,
 				cd: workerData.cd,
+				password: workerData.password,
 			})) as Result<ResolverReturned, string>;
 		} catch (e) {
 			return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);

@@ -64,6 +64,7 @@ export default async function (p: ResolverParameters, specifyEntrance?: string):
 		url,
 		fileMatchRegex: p.fileMatchRegex,
 		cd: p.cd,
+		password: p.password,
 	};
 	let r = await piscina.run(wd, {name: 'resolver'}) as Result<ResolverReturned, string>;
 	if (r.err) {

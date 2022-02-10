@@ -181,6 +181,7 @@ interface WorkerDataResolver {
 	url: string;
 	fileMatchRegex: string;
 	cd?: Array<string>;
+	password?: string;
 }
 
 interface WorkerDataProducer {

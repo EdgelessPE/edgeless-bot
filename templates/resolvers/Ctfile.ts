@@ -3,7 +3,6 @@ import {Err, Ok, Result} from 'ts-results';
 import {robustGet} from '../../src/network';
 
 async function f(url: string, referer: string): Promise<Result<any, string>> {
-	new URL(referer);
 	return robustGet(url, {
 		headers: {
 			origin: (new URL(referer)).origin,

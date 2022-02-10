@@ -1,0 +1,10 @@
+{
+    "name":"gVim",
+    "category":"办公编辑",
+    "author":"undefined",
+    "paUrl":"https://portableapps.com/apps/development/gvim_portable",
+    "releaseRequirement":["gVimPortable.exe"],
+    "buildRequirement": ["gVim_bot.wcs","gVim_bot/gVimPortable.exe"],
+    "preprocess": true,
+    "autoMake": true
+}

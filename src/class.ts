@@ -19,6 +19,11 @@ interface ScraperReturned {
 		type: ValidationType;
 		value: string;
 	};
+	resolverParameter?: {
+		entrance?: string; //由scraper钦定resolver，会覆盖任务配置中的template.resolver
+		password?: string;
+		cd?: string[]; //此cd会覆盖任务配置中的resolver_cd
+	};
 }
 
 interface ScraperRegister {
@@ -34,6 +39,8 @@ interface ResolverParameters {
 	downloadLink: string;
 	fileMatchRegex: string;
 	cd?: Array<string>;
+	password?: string;
+	entrance?: string;
 }
 
 interface ResolverReturned {

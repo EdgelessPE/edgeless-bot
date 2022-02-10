@@ -34,16 +34,26 @@ function parsePath(entrance: string): Result<string, string> {
 
 export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
 	const url = p.downloadLink;
-	//搜索模板
-	let tRes = searchTemplate(url);
-	if (tRes.err) {
-		log(tRes.val);
-		return new Ok({
-			directLink: url,
-		});
+	let entrance;
+	if (p.entrance != undefined) {
+		//使用钦定模板
+		entrance = p.entrance;
+	} else {
+		//搜索模板
+		let tRes = searchTemplate(url);
+		if (tRes.err) {
+			//未找到模板，说明是直链，直接返回
+			log(tRes.val);
+			return new Ok({
+				directLink: url,
+			});
+		} else {
+			//找到模板，配置模板入口
+			entrance = tRes.val.entrance;
+		}
 	}
 	//解析模板位置
-	let pRes = parsePath(tRes.val.entrance);
+	let pRes = parsePath(entrance);
 	if (pRes.err) {
 		return pRes;
 	}

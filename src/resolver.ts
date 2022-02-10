@@ -67,7 +67,7 @@ export default async function (p: ResolverParameters, specifyEntrance?: string):
 		password: p.password,
 	};
 	let r = await piscina.run(wd, {name: 'resolver'}) as Result<ResolverReturned, string>;
-	if (r.err) {
+	if (r.err || r.val == null) {
 		if (config.MAX_RETRY_RESOLVER > 1) {
 			for (let i = 1; i < config.MAX_RETRY_RESOLVER; i++) {
 				r = await piscina.run(wd, {name: 'resolver'}) as Result<ResolverReturned, string>;
@@ -76,7 +76,7 @@ export default async function (p: ResolverParameters, specifyEntrance?: string):
 				}
 			}
 		} else {
-			log('Error:Resolver resolved error', badge);
+			log('Error:Resolver resolved error : ' + r.val, badge);
 		}
 	}
 	return r;

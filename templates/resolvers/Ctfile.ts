@@ -1,6 +1,7 @@
 import {ResolverParameters, ResolverReturned} from '../../src/class';
 import {Err, Ok, Result} from 'ts-results';
 import {robustGet} from '../../src/network';
+import {log} from '../../src/utils';
 
 interface Node {
 	type: 'File' | 'Folder';
@@ -32,17 +33,17 @@ async function getFileLink(fileID: string, password: string, referer: string): P
 		return getFileUrlJsonRes;
 	}
 	let getFileUrlJson = getFileUrlJsonRes.val;
+	if (getFileUrlJson.downurl == null) {
+		return new Err('Error:Can\'t fetch download url :\n' + JSON.stringify(getFileUrlJson, null, 2));
+	}
 	return new Ok(getFileUrlJson.downurl);
 }
 
-async function getDirectoryList(dirID: string, password: string, referer: string, subDir?: string): Promise<Result<Node[], string>> {
+async function getDirectoryList(dirID: string, password: string, referer: string, pathType: 'd' | 'dir', subDir?: string): Promise<Result<Node[], string>> {
 	//发送getDir请求
-	let getDirJsonRes = await f(`http://webapi.ctfile.com/getdir.php?path=d&d=${dirID}&folder_id=${subDir ?? ''}&passcode=${password}&r=${Math.random()}&ref=${referer}`, referer);
+	let getDirJsonRes = await f(`http://webapi.ctfile.com/getdir.php?path=${pathType}&d=${dirID}&folder_id=${subDir ?? ''}&passcode=${password}&r=${Math.random()}&ref=${referer}`, referer);
 	if (getDirJsonRes.err || getDirJsonRes.val.code != '200') {
-		getDirJsonRes = await f(`http://webapi.ctfile.com/getdir.php?path=dir&d=${dirID}&folder_id=${subDir ?? ''}&passcode=${password}&r=${Math.random()}&ref=${referer}`, referer);
-		if (getDirJsonRes.err || getDirJsonRes.val.code != '200') {
-			return getDirJsonRes;
-		}
+		return getDirJsonRes;
 	}
 	//发送获取文件列表请求
 	let getDirListJsonRes = await f('http://webapi.ctfile.com' + getDirJsonRes.val.url, referer);
@@ -100,7 +101,7 @@ async function getDirectoryList(dirID: string, password: string, referer: string
 			}
 			name = temp[0].slice(0, -4);
 			//获取子文件夹内容
-			let childrenRes = await getDirectoryList(dirID, password, referer, subDirID);
+			let childrenRes = await getDirectoryList(dirID, password, referer, pathType, subDirID);
 			if (childrenRes.err) {
 				return new Err('Error:Can\'t read sub directory ' + name);
 			}
@@ -122,26 +123,88 @@ async function getDirectoryList(dirID: string, password: string, referer: string
 
 export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
 	let {downloadLink, password, cd, fileMatchRegex} = p;
-	//TODO:实现对城通文件夹的访问
-	let list = await getDirectoryList('7369060-21548259-bbf644', '3519', 'http://ct.ghpym.com/d/7369060-41512272-c60399');
-	console.log(JSON.stringify(list.val, null, 2));
-	return new Err('Info:Test');
-	//
-	// let fileLink = downloadLink;
-	//
-	// //匹配链接中的文件id
-	// let match = fileLink.match(/\/f\/[\w-]+/);
-	// if (match == null) {
-	// 	return new Err('Error:Can\'t match file id in file link url : ' + fileLink);
-	// }
-	// let fileID = match[0].slice(3);
-	// //解析
-	// let r = await getFileLink(fileID, password ?? '', fileLink);
-	// if (r.err) {
-	// 	return r;
-	// }
-	//
-	// return new Ok({
-	// 	directLink: r.val,
-	// });
+	let fileID;
+	//尝试匹配路径类型
+	let m = downloadLink.match(/\/(d|dir|f)\/[\w-]+/);
+	if (m == null) {
+		return new Err('Error:Can\'t treat download link as ctfile url : ' + downloadLink);
+	}
+	//获取路径类型
+	let s = m[0].split('/'),
+		pathType = s[1] as 'd' | 'dir' | 'f';
+	if (pathType == 'f') {
+		//说明是文件
+		//匹配链接中的文件id
+		let match = downloadLink.match(/\/f\/[\w-]+/);
+		if (match == null) {
+			return new Err('Error:Can\'t match file id in file link url : ' + downloadLink);
+		}
+		fileID = match[0].slice(3);
+	} else {
+		//说明是文件夹，获取文件夹目录结构
+		let list = await getDirectoryList(s[2], password ?? '', downloadLink, pathType);
+		//console.log(JSON.stringify(list.val, null, 2));
+		//处理cd，确定查找范围
+		let checkList: Node[] = [];
+		if (cd != undefined && cd.length <= 1) {
+			if (cd.length == 1) {
+				//查询是否存在一级子文件夹
+				let isIn = false;
+				for (let n of list) {
+					if (n.type == 'Folder' && n.name == cd[0]) {
+						checkList = n.children as Node[];
+						isIn = true;
+						break;
+					}
+				}
+				if (!isIn) {
+					return new Err('Error:Can\'t cd to sub directory ' + cd[0]);
+				}
+			} else {
+				//length==0,仅在根目录查找
+				for (let n of list) {
+					if (n.type == 'File') {
+						checkList.push(n);
+					}
+				}
+			}
+		} else {
+			if (cd != undefined) {
+				log('Warning:Given cd array out of length, ignore (this can be caused by either task config or scraper template) : ' + cd.toString());
+			}
+			//查找全部文件
+			for (let n of list) {
+				if (n.type == 'File') {
+					checkList.push(n);
+				} else {
+					checkList = checkList.concat(n.children as Node[]);
+				}
+			}
+		}
+		let matchedResults: Node[] = [],
+			regex = new RegExp(fileMatchRegex);
+		for (let n of checkList) {
+			if (n.name.match(regex) != null) {
+				log(`Info:Matched file ${n.name}`);
+				matchedResults.push(n);
+			}
+		}
+		if (matchedResults.length > 1) {
+			log('Warning:Matched more than one result, use the first match, consider modify regex.download_name');
+		} else if (matchedResults.length == 0) {
+			return new Err('Error:Can\'t match any file with regex ' + regex);
+		}
+
+		fileID = matchedResults[0].id;
+	}
+
+	//解析
+	let r = await getFileLink(fileID, password ?? '', downloadLink);
+	if (r.err) {
+		return r;
+	}
+
+	return new Ok({
+		directLink: r.val,
+	});
 }

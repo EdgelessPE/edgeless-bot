@@ -13,6 +13,8 @@ import {Err, Ok, Result} from 'ts-results';
 import {awaitWithTimeout} from './utils';
 import {LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY} from './const';
 
+require('source-map-support').install();
+
 export let badge = 'Worker';
 
 async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {

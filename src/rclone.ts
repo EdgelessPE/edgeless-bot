@@ -44,9 +44,9 @@ function uploadToRemote(fileName: string, category: string): boolean {
 			return false;
 		}
 		date = new Date();
-		log(`Info:Uploaded successfully,cost ${getTimeString(date.getTime() - startTime)}`);
+		log(`Info:Uploaded successfully, cost ${getTimeString(date.getTime() - startTime)}`);
 	} else {
-		log('Warning:Remote disabled,skip upload to remote');
+		log('Warning:Remote disabled, skip upload to remote');
 	}
 
 	return true;
@@ -87,7 +87,7 @@ function deleteFromRemote(fileName: string, category: string, ignoreNotExist?: b
 
 		log('Info:Removed successfully');
 	} else {
-		log('Warning:Remote disabled,skip delete from remote');
+		log('Warning:Remote disabled, skip delete from remote');
 	}
 
 	return true;

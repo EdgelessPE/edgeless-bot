@@ -40,7 +40,7 @@ interface Schema {
 			type: SchemaType
 		}
 	},
-	required: string[]
+	required?: string[]
 }
 
 function printHelp() {
@@ -98,41 +98,43 @@ async function createTask() {
 			tmp: string,
 			d: string | undefined
 		;
-		for (let key of schemaJson.required) {
-			//打印description
-			d = schemaJson.properties[key].description;
-			if (d != undefined) {
-				console.log('');
-				console.log(chalk.bgGray(_('Key description for ') + key) + ' : ' + _(d));
-			}
-			t = schemaJson.properties[key].type;
-			switch (t) {
-				case 'array':
-					resJson[key] = await stringArray(`${_('Producer required ')}${chalk.cyan(_('array'))}${_(' parameter')}：${key}, ${_('split with ,')}`, []);
-					break;
-				case 'integer':
-					resJson[key] = Number(await input(`${_('Producer required ')}${chalk.cyan(_('integer'))}${_(' parameter')}：${key}`, undefined, /^[0-9]+$/));
-					break;
-				case 'object':
-					if (resJson['producer_required'] == undefined) {
-						resJson['producer_required'] = {};
-					}
-					tmp = await input(`${_('Producer required ')}${chalk.cyan(_('object'))}${_(' parameter')}：${key},${_('input Json string contained by {}')}`, undefined, /{.*}/);
-					try {
-						resJson['producer_required'][key] = JSON.parse(tmp);
-					} catch (e) {
-						console.log(JSON.stringify(e, null, 2));
-						log('Error:Can\'t parse input as object, please modify toml config later manually');
-						resJson['producer_required'][key] = {};
-					}
-					break;
-				case 'string':
-					resJson[key] = await input(`${_('Producer required ')}${chalk.cyan(_('string'))}${_(' parameter')}：${key}`, key == 'shortcutName' ? taskName : undefined);
-					break;
-				default:
-					log(`Error:Unimplemented type ${t}, please modify toml config later manually`);
-					resJson[key] = '';
+		if (schemaJson.required) {
+			for (let key of schemaJson.required) {
+				//打印description
+				d = schemaJson.properties[key].description;
+				if (d != undefined) {
+					console.log('');
+					console.log(chalk.bgGray(_('Key description for ') + key) + ' : ' + _(d));
+				}
+				t = schemaJson.properties[key].type;
+				switch (t) {
+					case 'array':
+						resJson[key] = await stringArray(`${_('Producer required ')}${chalk.cyan(_('array'))}${_(' parameter')}：${key}, ${_('split with ,')}`, []);
+						break;
+					case 'integer':
+						resJson[key] = Number(await input(`${_('Producer required ')}${chalk.cyan(_('integer'))}${_(' parameter')}：${key}`, undefined, /^[0-9]+$/));
+						break;
+					case 'object':
+						if (resJson['producer_required'] == undefined) {
+							resJson['producer_required'] = {};
+						}
+						tmp = await input(`${_('Producer required ')}${chalk.cyan(_('object'))}${_(' parameter')}：${key},${_('input Json string contained by {}')}`, undefined, /{.*}/);
+						try {
+							resJson['producer_required'][key] = JSON.parse(tmp);
+						} catch (e) {
+							console.log(JSON.stringify(e, null, 2));
+							log('Error:Can\'t parse input as object, please modify toml config later manually');
+							resJson['producer_required'][key] = {};
+						}
+						break;
+					case 'string':
+						resJson[key] = await input(`${_('Producer required ')}${chalk.cyan(_('string'))}${_(' parameter')}：${key}`, key == 'shortcutName' ? taskName : undefined);
+						break;
+					default:
+						log(`Error:Unimplemented type ${t}, please modify toml config later manually`);
+						resJson[key] = '';
 
+				}
 			}
 		}
 		return TOML.stringify(resJson);

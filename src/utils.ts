@@ -327,7 +327,7 @@ function parseBuiltInValue(source: string, v: {
 	return source
 		.replace('${taskName}', v.taskName)
 		.replace('${downloadedFile}', v.downloadedFile)
-		.replace('${latestVersion}', v.latestVersion.replace('.0', '').replace('.', '\\.'));
+		.replace('${latestVersion}', v.latestVersion.replace('.0', '(.0)*').replace('.', '\\.'));
 }
 
 export {

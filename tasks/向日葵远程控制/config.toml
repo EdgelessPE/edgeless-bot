@@ -1,0 +1,42 @@
+# 任务基本信息
+[task]
+name = "向日葵远程控制"
+category = "远程连接"
+author = "Cno"
+url = "https://sunlogin.oray.com/download"
+
+# 指定使用的模板
+[template]
+scraper = "REST_API"
+# resolver = ""
+producer = "Click2Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'x64\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+api_url = "https://client-api.oray.com/softwares/SUNLOGIN_X_WINDOWS?x64=1&_t=1639239993"
+version_path = "versionno"
+download_path = "downloadurl"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "向日葵"
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

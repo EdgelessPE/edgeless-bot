@@ -22,9 +22,14 @@ const regArray: Array<ProducerRegister> = [
     entrance: 'Silent_Install',
     description:
         'Execute downloaded file with argument (default "/S", can be specified by "producer_required.argument");' +
-        '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/${downloadedFile}'
-    ,
+        '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/${downloadedFile}',
     defaultCompressLevel: 1,
+  },
+  {
+    name: 'PortableApps',
+    entrance: 'PortableApps',
+    description: 'Special designed for PortableApps',
+    defaultCompressLevel: 5,
   },
 ];
 

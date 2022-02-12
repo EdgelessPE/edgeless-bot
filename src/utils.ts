@@ -321,11 +321,13 @@ function shuffle<T>(arr: Array<T>): Array<T> {
 
 function parseBuiltInValue(source: string, v: {
 	taskName: string,
-	downloadedFile: string
+	downloadedFile: string,
+	latestVersion: string
 }): string {
 	return source
 		.replace('${taskName}', v.taskName)
-		.replace('${downloadedFile}', v.downloadedFile);
+		.replace('${downloadedFile}', v.downloadedFile)
+		.replace('${latestVersion}', v.latestVersion);
 }
 
 export {

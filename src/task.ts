@@ -285,7 +285,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		v;
 	if (t.task.parameter.build_delete) {
 		for (let file of t.task.parameter.build_delete) {
-			v = parseBuiltInValue(file, {taskName: t.task.name, downloadedFile});
+			v = parseBuiltInValue(file, {taskName: t.task.name, downloadedFile, latestVersion: t.info.version});
 			f = path.join(target, v);
 			if (!fs.existsSync(f)) {
 				//尝试增加 ${taskName}/ 前缀
@@ -321,6 +321,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 			final.push(parseBuiltInValue(cmd, {
 				downloadedFile,
 				taskName: t.task.name,
+				latestVersion: t.info.version,
 			}));
 		}
 		return final;
@@ -342,6 +343,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 			version = await getExeVersion(parseBuiltInValue(t.task.extra.missing_version, {
 				taskName: t.task.name,
 				downloadedFile,
+				latestVersion: t.info.version,
 			}), target);
 		} catch (e) {
 			console.log(e);

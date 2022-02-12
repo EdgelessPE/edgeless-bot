@@ -2,7 +2,7 @@ import {ProducerParameters, ProducerReturned} from '../../src/class';
 import fs from 'fs';
 import {Err, Ok, Result} from 'ts-results';
 import path from 'path';
-import {toGBK} from '../../src/utils';
+import {writeGBK} from '../../src/utils';
 import {release} from '../../src/p7zip';
 
 const shell = require('shelljs');
@@ -80,7 +80,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	let final = path.join(p.workshop, '_ready');
 	shell.mkdir(final);
 	shell.mv(cwd, final + '/' + p.taskName);
-	fs.writeFileSync(path.join(final, p.taskName + '.wcs'), toGBK(`LINK X:\\Users\\Default\\Desktop\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}`));
+	writeGBK(path.join(final, p.taskName + '.wcs'), `LINK X:\\Users\\Default\\Desktop\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}`);
 	//自检
 	const exist = function (p: string): boolean {
 		return fs.existsSync(path.join(final, p));

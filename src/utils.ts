@@ -330,6 +330,10 @@ function parseBuiltInValue(source: string, v: {
 		.replace('${latestVersion}', v.latestVersion.replace('.0', '(.0)*').replace('.', '\\.'));
 }
 
+function writeGBK(file: string, text: string) {
+	fs.writeFileSync(file, toGBK(text));
+}
+
 export {
 	Cmp,
 	log,
@@ -348,4 +352,5 @@ export {
 	shuffle,
 	parseBuiltInValue,
 	requiredKeysValidator,
+	writeGBK,
 };

@@ -2,6 +2,7 @@ import {ProducerParameters, ProducerReturned} from '../../src/class';
 import {Err, Ok, Result} from 'ts-results';
 import path from 'path';
 import fs from 'fs';
+import {writeGBK} from '../../src/utils';
 
 const shell = require('shelljs');
 
@@ -26,7 +27,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	if (del) {
 		text += `\nFILE %ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`;
 	}
-	fs.writeFileSync(wcsPath, text);
+	writeGBK(wcsPath, text);
 
 	if (fs.existsSync(wcsPath) && fs.existsSync(path.join(fileDir, downloadedFile))) {
 		return new Ok({

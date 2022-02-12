@@ -2,7 +2,7 @@ import {ProducerParameters, ProducerReturned} from '../../src/class';
 import fs from 'fs';
 import {Err, Ok, Result} from 'ts-results';
 import path from 'path';
-import {toGBK} from '../../src/utils';
+import {writeGBK} from '../../src/utils';
 
 const shell = require('shelljs');
 
@@ -19,7 +19,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 
 	shell.mkdir('-p', rD);
 	shell.mv(aDF, rD);
-	fs.writeFileSync(path.join(ready, taskName + '.wcs'), toGBK(`LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`));
+	writeGBK(path.join(ready, taskName + '.wcs'), `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`);
 
 	const exist = function (p: string): boolean {
 		return fs.existsSync(path.join(ready, p));

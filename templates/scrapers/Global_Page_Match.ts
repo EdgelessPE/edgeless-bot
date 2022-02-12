@@ -25,7 +25,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	if (temp.version_selector != undefined) {
 		const $ = cheerio.load(page);
 		scope = $(temp.version_selector).text();
-		log('Info:Narrow version match scope by selector : ' + page);
+		log('Info:Narrow version match scope by selector : ' + scope);
 	} else {
 		scope = page;
 	}
@@ -56,8 +56,8 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	//处理定义的选择器
 	if (temp.download_selector != undefined) {
 		const $ = cheerio.load(page);
-		scope = $(temp.download_selector).text();
-		log('Info:Narrow download match scope by selector : ' + page);
+		scope = ($(temp.download_selector).html()) ?? '';
+		log('Info:Narrow download match scope by selector : ' + scope);
 	} else {
 		scope = page;
 	}

@@ -13,8 +13,13 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	const {taskName, downloadedFile, workshop} = p;
 	const obj = p.requiredObject as RequiredObject;
 
+	//Create ready directory
+	const readyDir = path.join(workshop, '_ready', taskName);
+	shell.mkdir('-p', readyDir);
+
 	//YOUR CODE HERE
 
+	//Return ready directory
 	return new Ok({
 		readyRelativePath: '_ready',
 	});

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "argument": {
+      "type": "string",
+      "description": "Silent installing argument"
+    },
+    "deleteInstaller": {
+      "type": "boolean",
+      "description": "Delete installer after installing"
+    }
+  }
+}

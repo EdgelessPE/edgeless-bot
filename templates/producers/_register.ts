@@ -10,12 +10,21 @@ const regArray: Array<ProducerRegister> = [
     defaultCompressLevel: 1,
   },
   {
-    name: "Recursive Unzip",
-    entrance: "Recursive_Unzip",
+    name: 'Recursive Unzip',
+    entrance: 'Recursive_Unzip',
     description:
-      'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile";' +
-      '\nSuggested buildManifest : ${taskName}.wcs,"sourceFile"',
+        'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile";' +
+        '\nSuggested buildManifest : ${taskName}.wcs,"sourceFile"',
     defaultCompressLevel: 5,
+  },
+  {
+    name: 'Silent Install',
+    entrance: 'Silent_Install',
+    description:
+        'Execute downloaded file with argument (default "/S", can be specified by "producer_required.argument");' +
+        '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/${downloadedFile}'
+    ,
+    defaultCompressLevel: 1,
   },
 ];
 

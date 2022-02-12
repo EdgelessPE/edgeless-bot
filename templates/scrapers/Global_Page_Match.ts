@@ -13,9 +13,12 @@ interface Temp {
 
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
 	const temp: Temp = p.scraper_temp;
-	//处理regex为空异常
-	if (p.versionMatchRegex == undefined || p.downloadLinkRegex == undefined) {
-		return new Err('Error:Regex undefined for global page match');
+	//处理regex为空
+	if (p.versionMatchRegex == undefined) {
+		p.versionMatchRegex = '(\\d+\\.)+\\d+';
+	}
+	if (p.downloadLinkRegex == undefined) {
+		p.downloadLinkRegex = '(https?:)*\\/\\/[\\w.-/]+.exe';
 	}
 	//获取页面
 	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string,
@@ -24,7 +27,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	//处理定义的选择器
 	if (temp.version_selector != undefined) {
 		const $ = cheerio.load(page);
-		scope = $(temp.version_selector).text();
+		scope = ($(temp.version_selector).html()) ?? '';
 		log('Info:Narrow version match scope by selector : ' + scope);
 	} else {
 		scope = page;
@@ -68,9 +71,15 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	if (m.length > 1) {
 		log(`Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`);
 	}
+	let downloadLink = m[0];
+
+	//处理以 // 开头的链接
+	if (downloadLink.slice(0, 2) == '//') {
+		downloadLink = (new URL(temp.download_page_url ?? p.url)).protocol + downloadLink;
+	}
 
 	return new Ok({
 		version,
-		downloadLink: m[0],
+		downloadLink,
 	});
 }

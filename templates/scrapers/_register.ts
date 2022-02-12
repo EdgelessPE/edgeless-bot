@@ -17,7 +17,7 @@ const regArray: Array<ScraperRegister> = [
     name: 'Global Page Match',
     entrance: 'Global_Page_Match',
     urlRegex: 'universal://',
-    requiredKeys: ['regex.scraper_version', 'regex.download_link'],
+    requiredKeys: [],
     description: 'Use given regex to match text in html file, narrow the scope by specify jQuery selector in "scraper_temp.download_selector" "scraper_temp.version_selector"',
   },
   {

@@ -1,0 +1,5 @@
+wait 10000
+REGI $HKCR\360zip.7Z\shell\LoadAsPlugin\\=作为插件包加载
+REGI $HKCR\360zip.7Z\shell\LoadAsPlugin\\Icon=X:\Users\Icon\type\plugin.ico
+REGI $HKCR\360zip.7Z\shell\LoadAsPlugin\Command\\=pecmd EXEC !"X:\Program Files\Edgeless\plugin_loader\process7zf.cmd" "%%1"
+REGI $HKCR\360zip.7Z\shell\LoadAsPlugin\DefaultIcon\\=X:\Users\Icon\type\plugin.ico

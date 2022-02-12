@@ -1,5 +1,8 @@
 import {ProducerParameters, ProducerReturned} from '../../src/class';
 import {Ok, Result} from 'ts-results';
+import {log, writeGBK} from '../../src/utils';
+import path from 'path';
+import fs from 'fs';
 
 const shell = require('shelljs');
 

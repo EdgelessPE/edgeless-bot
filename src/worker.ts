@@ -36,10 +36,10 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 					//在指定的星期检查更新
 					let date = new Date();
 					if (date.getDay() == MISSING_VERSION_TRY_DAY) {
-						res.val.version = '999999';
+						res.val.version = '999999.99.99';
 					} else {
 						//其他时间将爬虫的版本号改为 0
-						res.val.version = '0';
+						res.val.version = '0.0.0';
 					}
 				}
 				return new Ok([res]);

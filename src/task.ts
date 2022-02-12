@@ -189,7 +189,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 		//进行版本号比较
 		matchRes = matchVersion(newNode.version);
 		if (matchRes.err) {
-			setDatabaseNodeFailure(result.taskName, 'Error:Can\'t parse version returned by scraper');
+			setDatabaseNodeFailure(result.taskName, 'Error:Can\'t parse version returned by scraper : ' + newNode.version);
 			continue;
 		}
 		onlineVersion = formatVersion(matchRes.val).unwrap();

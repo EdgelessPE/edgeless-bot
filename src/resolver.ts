@@ -36,6 +36,12 @@ export default async function (p: ResolverParameters, specifyEntrance?: string):
 	const url = p.downloadLink;
 	let entrance;
 	if (specifyEntrance != undefined) {
+		//禁用模板
+		if (specifyEntrance == 'None') {
+			return new Ok({
+				directLink: url,
+			});
+		}
 		//使用钦定模板
 		entrance = specifyEntrance;
 	} else {

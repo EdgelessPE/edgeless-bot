@@ -2,10 +2,12 @@ import {Err, Ok, Result} from 'ts-results';
 import {ScraperParameters, ScraperReturned} from '../../src/class';
 import {robustGet} from '../../src/network';
 import {Cmp, log, matchVersion, versionCmp} from '../../src/utils';
+import cheerio from 'cheerio';
 
 interface Temp {
 	version_page_url?: string;
 	download_page_url?: string;
+	selector?: string;
 }
 
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
@@ -16,6 +18,12 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	}
 	//获取页面
 	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string;
+	//处理定义的选择器
+	if (temp.selector != undefined) {
+		const $ = cheerio.load(page);
+		page = $(temp.selector).text();
+		log('Info:Narrow scope by selector : ' + page);
+	}
 	//全局匹配版本号
 	let m = page.match(p.versionMatchRegex);
 	if (m == null) {

@@ -246,7 +246,11 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	//解析直链
 	let dRes = await resolver({
 		downloadLink: t.info.downloadLink,
-		fileMatchRegex: t.task.regex.download_name,
+		fileMatchRegex: parseBuiltInValue(t.task.regex.download_name, {
+			taskName: t.task.name,
+			downloadedFile: '"ERROR:Downloading not started yet"',
+			latestVersion: t.info.version,
+		}),
 		cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
 		password: t.info.resolverParameter?.password,
 	}, t.info.resolverParameter?.entrance ?? (t.task.template.resolver ?? undefined));

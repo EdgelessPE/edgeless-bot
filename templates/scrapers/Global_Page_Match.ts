@@ -7,7 +7,8 @@ import cheerio from 'cheerio';
 interface Temp {
 	version_page_url?: string;
 	download_page_url?: string;
-	selector?: string;
+	version_selector?: string;
+	download_selector?: string;
 }
 
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
@@ -17,15 +18,18 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		return new Err('Error:Regex undefined for global page match');
 	}
 	//获取页面
-	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string;
-	//处理定义的选择器
-	if (temp.selector != undefined) {
-		const $ = cheerio.load(page);
-		page = $(temp.selector).text();
-		log('Info:Narrow scope by selector : ' + page);
-	}
+	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string,
+		scope;
 	//全局匹配版本号
-	let m = page.match(p.versionMatchRegex);
+	//处理定义的选择器
+	if (temp.version_selector != undefined) {
+		const $ = cheerio.load(page);
+		scope = $(temp.version_selector).text();
+		log('Info:Narrow version match scope by selector : ' + page);
+	} else {
+		scope = page;
+	}
+	let m = scope.match(p.versionMatchRegex);
 	if (m == null) {
 		return new Err('Error:Given version match regex matched nothing');
 	}
@@ -49,7 +53,15 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	if (temp.download_page_url != undefined) {
 		page = (await robustGet(temp.download_page_url)).unwrap() as string;
 	}
-	m = page.match(p.downloadLinkRegex);
+	//处理定义的选择器
+	if (temp.download_selector != undefined) {
+		const $ = cheerio.load(page);
+		scope = $(temp.download_selector).text();
+		log('Info:Narrow download match scope by selector : ' + page);
+	} else {
+		scope = page;
+	}
+	m = scope.match(p.downloadLinkRegex);
 	if (m == null) {
 		return new Err('Error:Given download link match regex matched nothing');
 	}

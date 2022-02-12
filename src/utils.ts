@@ -96,7 +96,7 @@ function formatVersion(version: string): Result<string, string> {
 }
 
 function matchVersion(text: string): Result<string, string> {
-	const regex = /\d+\.\d+(\.\d+)*/;
+	const regex = /(\d+\.)+\d+/;
 	const matchRes = text.match(regex);
 	if (!matchRes || matchRes.length === 0) {
 		return new Err(`Error:Matched no version with ${text}"`);

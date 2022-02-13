@@ -1,5 +1,5 @@
 import {ResolverParameters, ResolverReturned} from '../../src/class';
-import {Ok, Result} from 'ts-results';
+import {Ok, Err, Result} from 'ts-results';
 import {robustGet} from '../../src/network';
 import {log} from '../../src/utils';
 

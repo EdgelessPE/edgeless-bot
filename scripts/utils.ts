@@ -176,19 +176,15 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 	}
 	//匹配键
 	let m2 = toml.match(genRegExpForToml(p[1]));
-	console.log(genRegExpForToml(p[1]));
 	if (m2 == null) {
 		//增加新键
 		replaceTitleWith += `\n${p[1]} = "${value}"`;
-		console.log('replaceTitleWith:');
-		console.log(replaceTitleWith);
 	} else {
 		//激活键
 		toml = toml.replace(m2[0], `${p[1]} = "${value}"`);
 	}
 	//替换标题
 	toml = toml.replace(m[0], replaceTitleWith);
-	console.log(toml);
 	return new Ok(toml);
 }
 

@@ -151,7 +151,7 @@ async function createTask() {
 			//获取对象路径
 			p = key.split('.');
 			if (p.length == 2) {
-				inputRequiredKey(key, taskToml, await input(_('Scraper required parameter：') + key));
+				taskToml = inputRequiredKey(key, taskToml, await input(_('Scraper required parameter：') + key)).unwrapOr(taskToml);
 			} else {
 				//生成提示语
 				s += key + ',';

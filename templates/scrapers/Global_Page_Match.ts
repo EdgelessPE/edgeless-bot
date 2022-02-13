@@ -73,11 +73,6 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	}
 	let downloadLink = m[0];
 
-	//处理以 // 开头的链接
-	if (downloadLink.slice(0, 2) == '//') {
-		downloadLink = (new URL(temp.download_page_url ?? p.url)).protocol + downloadLink;
-	}
-
 	return new Ok({
 		version,
 		downloadLink,

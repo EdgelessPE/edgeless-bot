@@ -115,7 +115,12 @@ async function initAria2c(): Promise<boolean> {
 //下载和等待完成函数
 async function download(taskName: string, url: string, dir: string): Promise<string> {
 	return new Promise((async (resolve, reject) => {
-		let filename = '',startTime=Date.now()
+		//处理以 // 开头的链接
+		if (url.slice(0, 2) == '//') {
+			url = 'https:' + url;
+		}
+		let filename = '',
+			startTime = Date.now();
 		try {
 			// Cp.execSync("wget -O target.exe " + url, {cwd: dir});
 			log(`Info:Start downloading ${taskName}...`);

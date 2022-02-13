@@ -28,7 +28,7 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
 		isExternal = false;
 	if (task.template.producer == 'External') {
 		//处理外置脚本
-		scriptPath = path.join(config.DIR_TASKS, task.name, 'producer.js');
+		scriptPath = path.join(__dirname, '..', config.DIR_TASKS, task.name, 'producer.js');
 		isExternal = true;
 	} else {
 		//处理模板

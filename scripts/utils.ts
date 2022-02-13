@@ -159,7 +159,7 @@ function applyInput(toml: string, input: any, base: string): Result<string, stri
 }
 
 function genRegExpForToml(key: string): RegExp {
-	return new RegExp(`#?\s*\[\s*${key}\s*\]`);
+	return new RegExp(`#?\\s*\\[\\s*${key}\\s*\\]`);
 }
 
 //只能激活被注释的表头，不允许自行添加
@@ -172,19 +172,24 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 		return new Err(`Error:Toml title ${p[0]} undefined`);
 	} else {
 		//激活表头
-		replaceTitleWith = toml.replace(m[0], `[${p[0]}]`);
+		replaceTitleWith = `[${p[0]}]`;
 	}
 	//匹配键
 	let m2 = toml.match(genRegExpForToml(p[1]));
+	console.log(genRegExpForToml(p[1]));
 	if (m2 == null) {
 		//增加新键
 		replaceTitleWith += `\n${p[1]} = "${value}"`;
+		console.log('replaceTitleWith:');
+		console.log(replaceTitleWith);
 	} else {
 		//激活键
 		toml = toml.replace(m2[0], `${p[1]} = "${value}"`);
 	}
 	//替换标题
-	return new Ok(toml.replace(m[0], replaceTitleWith));
+	toml = toml.replace(m[0], replaceTitleWith);
+	console.log(toml);
+	return new Ok(toml);
 }
 
 export {

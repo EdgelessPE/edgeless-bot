@@ -105,10 +105,10 @@ async function producer(workerData: WorkerDataProducer): Promise<Result<Producer
 	} else {
 		if (workerData.isExternal) {
 			//作为外置脚本处理
-			const script = dirtyScript.default as () => Promise<Result<ProducerReturned, string>>;
+			const script = dirtyScript.default as (p: ProducerParameters) => Promise<Result<ProducerReturned, string>>;
 			let res;
 			try {
-				res = (await awaitWithTimeout(script, LIGHT_TIMEOUT)) as Result<ProducerReturned, string>;
+				res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
 				return res;
 			} catch (e) {
 				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);

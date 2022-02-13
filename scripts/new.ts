@@ -1,4 +1,4 @@
-import {applyInput, bool, input, select, stringArray} from './utils';
+import {applyInput, bool, input, inputRequiredKey, select, stringArray} from './utils';
 import {log} from '../src/utils';
 import {TaskConfig} from '../src/task';
 import chalk from 'chalk';
@@ -54,7 +54,8 @@ function printHelp() {
 
 async function createTask() {
 	let producerEntrance = '',
-		taskName = await input(_('Task name'));
+		taskName = await input(_('Task name')),
+		taskToml = fs.readFileSync('./scripts/templates/task.toml').toString();
 	//创建任务文件夹
 	const taskDir = path.join(PROJECT_ROOT, config.DIR_TASKS, taskName),
 		configPath = path.join(taskDir, 'config.toml');
@@ -141,7 +142,23 @@ async function createTask() {
 	};
 
 	//用于输入上游URL并进行校验
-	let externalScraper = true,scraperEntrance:string|undefined=undefined
+	let externalScraper = true,
+		scraperEntrance: string | undefined = undefined;
+	const inputRequiredKeys = async (requiredKeys: string[]): Promise<string> => {
+		let s = '',
+			p;
+		for (let key of requiredKeys) {
+			//获取对象路径
+			p = key.split('.');
+			if (p.length == 2) {
+				inputRequiredKey(key, taskToml, await input(_('Scraper required parameter：') + key));
+			} else {
+				//生成提示语
+				s += key + ',';
+			}
+		}
+		return s;
+	};
 	const inputUpstreamUrl = async (): Promise<string> => {
 		//要求输入上游URL
 		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
@@ -151,11 +168,10 @@ async function createTask() {
 				console.log(chalk.blueBright(_('Info ')) + _('Matched scraper template ') + chalk.cyanBright(_(node.name)));
 				//如果有required keys 则提示
 				if (node.requiredKeys.length > 0) {
-					let s = '';
-					for (let key of node.requiredKeys) {
-						s += key + ',';
+					let s = await inputRequiredKeys(node.requiredKeys);
+					if (s != '') {
+						console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(s.slice(0, -1)));
 					}
-					console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(s.slice(0, -1)));
 				}
 				externalScraper = false;
 				break;
@@ -185,12 +201,11 @@ async function createTask() {
 					let index=await select(_("Universal scraper template"),choiceArray)
 					scraperEntrance=universalList[index].entrance
 					//提示可能的requiredKeys
-					if(universalList[index].requiredKeys.length>0){
-						let tip=""
-						for(let key of universalList[index].requiredKeys){
-							tip+=key+","
+					if(universalList[index].requiredKeys.length>0) {
+						let tip = await inputRequiredKeys(universalList[index].requiredKeys);
+						if (tip != '') {
+							console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(tip.slice(0, -1)));
 						}
-						console.log(chalk.yellow(_("Warning "))+_("Remember to add these keys manually later : ")+chalk.cyan(tip.slice(0,-1)));
 					}
 				}else{
 					console.log(_("Warning ")+_("No universal scraper template found, consider modify task config manually later"));
@@ -234,7 +249,6 @@ async function createTask() {
 
 	//修改toml并写入配置
 	//console.log(JSON.stringify(json,null,2));
-	let taskToml = fs.readFileSync('./scripts/templates/task.toml').toString();
 	fs.writeFileSync(configPath, applyInput(taskToml, json, '').unwrap());
 	console.log(chalk.green(_('Success ')) + _('Task config saved to ') + chalk.cyanBright(configPath) + ', ' + _('you may need to modify it manually later'));
 }

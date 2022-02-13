@@ -2,6 +2,7 @@ import readline from 'readline';
 import chalk from 'chalk';
 import {Err, Ok, Result} from 'ts-results';
 import {_} from '../i18n/i18n';
+import {log} from '../src/utils';
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -157,10 +158,40 @@ function applyInput(toml: string, input: any, base: string): Result<string, stri
 	}
 }
 
+function genRegExpForToml(key: string): RegExp {
+	return new RegExp(`#?\s*\[\s*${key}\s*\]`);
+}
+
+//只能激活被注释的表头，不允许自行添加
+function inputRequiredKey(keyChain: string, toml: string, value: string): Result<string, string> {
+	let p = keyChain.split('.'),
+		replaceTitleWith = '';
+	//匹配表头
+	let m = toml.match(genRegExpForToml(p[0]));
+	if (m == null) {
+		return new Err(`Error:Toml title ${p[0]} undefined`);
+	} else {
+		//激活表头
+		replaceTitleWith = toml.replace(m[0], `[${p[0]}]`);
+	}
+	//匹配键
+	let m2 = toml.match(genRegExpForToml(p[1]));
+	if (m2 == null) {
+		//增加新键
+		replaceTitleWith += `\n${p[1]} = "${value}"`;
+	} else {
+		//激活键
+		toml = toml.replace(m2[0], `${p[1]} = "${value}"`);
+	}
+	//替换标题
+	return new Ok(toml.replace(m[0], replaceTitleWith));
+}
+
 export {
 	input,
 	select,
 	bool,
 	stringArray,
 	applyInput,
+	inputRequiredKey,
 };

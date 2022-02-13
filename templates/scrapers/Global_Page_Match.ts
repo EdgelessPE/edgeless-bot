@@ -18,7 +18,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		p.versionMatchRegex = '(\\d+\\.)+\\d+';
 	}
 	if (p.downloadLinkRegex == undefined) {
-		p.downloadLinkRegex = '(https?:)*\\/\\/[\\w.-/]+.exe';
+		p.downloadLinkRegex = '(https?:)*\\/?\\/[\\w.-/]+.exe';
 	}
 	//获取页面
 	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string,
@@ -56,6 +56,9 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	if (temp.download_page_url != undefined) {
 		page = (await robustGet(temp.download_page_url)).unwrap() as string;
 	}
+	if (temp.download_page_url == undefined && temp.version_page_url != undefined) {
+		page = (await robustGet(p.url)).unwrap() as string;
+	}
 	//处理定义的选择器
 	if (temp.download_selector != undefined) {
 		const $ = cheerio.load(page);
@@ -72,6 +75,11 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		log(`Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`);
 	}
 	let downloadLink = m[0];
+
+	//处理以 / 开头的下载地址
+	if (downloadLink[0] == '/' && downloadLink[1] != '/') {
+		downloadLink = (new URL(temp.download_page_url ?? p.url)).origin + downloadLink;
+	}
 
 	return new Ok({
 		version,

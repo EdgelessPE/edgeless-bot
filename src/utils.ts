@@ -216,13 +216,13 @@ function objChainValidator(obj: any, chain: string[]): boolean {
 	}
 }
 
-function requiredKeysValidator(obj: any, requiredKeys: string[]): boolean {
+function requiredKeysValidator(obj: any, requiredKeys: string[], disableAlert?: boolean): boolean {
 	let suc = true,
 		keys = [];
 	for (let originalString of requiredKeys) {
 		keys = originalString.split('.');
 		if (!objChainValidator(obj, keys)) {
-			log(`Error:Missing ${originalString} in task config`);
+			log(`${disableAlert ? 'Warning' : 'Error'}:Missing ${originalString} in task config`);
 			suc = false;
 			break;
 		}

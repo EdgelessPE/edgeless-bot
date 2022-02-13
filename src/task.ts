@@ -73,7 +73,7 @@ function validateConfig(task: TaskConfig): boolean {
 		for (let node of scraperRegister) {
 			if (task.task.url.match(node.urlRegex) != null) {
 				//对scraper执行requiredKeys检查
-				suc = requiredKeysValidator(task, node.requiredKeys);
+				suc = requiredKeysValidator(task, node.requiredKeys, true);
 				if (!suc) {
 					log(`Warning:Skip scraper template ${node.name} due to missing required keys`);
 				} else {
@@ -83,6 +83,17 @@ function validateConfig(task: TaskConfig): boolean {
 		}
 		if (!suc) {
 			log(`Error:Can't match scraper template for ${task.task.url}`);
+			return false;
+		}
+	} else {
+		for (let node of scraperRegister) {
+			if (node.entrance == task.template.scraper) {
+				//对scraper执行requiredKeys检查
+				suc = requiredKeysValidator(task, node.requiredKeys);
+				break;
+			}
+		}
+		if (!suc) {
 			return false;
 		}
 	}

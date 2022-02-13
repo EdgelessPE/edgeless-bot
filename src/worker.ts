@@ -11,7 +11,7 @@ import {
 } from './class';
 import {Err, Ok, Result} from 'ts-results';
 import {awaitWithTimeout} from './utils';
-import {LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY} from './const';
+import {HEAVY_TIMEOUT, LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY} from './const';
 
 require('source-map-support').install();
 
@@ -108,7 +108,7 @@ async function producer(workerData: WorkerDataProducer): Promise<Result<Producer
 			const script = dirtyScript.default as (p: ProducerParameters) => Promise<Result<ProducerReturned, string>>;
 			let res;
 			try {
-				res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
+				res = (await awaitWithTimeout(script, HEAVY_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
 				return res;
 			} catch (e) {
 				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);
@@ -118,7 +118,7 @@ async function producer(workerData: WorkerDataProducer): Promise<Result<Producer
 			const script = dirtyScript.default as (p: ProducerParameters) => Promise<Result<ProducerReturned, string>>;
 			let res;
 			try {
-				res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
+				res = (await awaitWithTimeout(script, HEAVY_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
 			} catch (e) {
 				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);
 			}

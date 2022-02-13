@@ -37,6 +37,7 @@ function where(command: string): Result<string, string> {
 			possiblePositions =
 				[
 					'./7z.exe',
+					'./bin/7z.exe',
 					'C:/Program Files/7-Zip/7z.exe',
 					'C:/Program Files (x86)/7-Zip/7z.exe',
 					process.env.PROGRAMFILESW6432 + '/7-Zip/7z.exe',
@@ -49,6 +50,7 @@ function where(command: string): Result<string, string> {
 				];
 			possiblePositions = [
 				'./aria2c.exe',
+				'./bin/aria2c.exe',
 				path.join(os.homedir(), 'scoop/apps/aria2/current/aria2c.exe'),
 			];
 			break;
@@ -59,6 +61,7 @@ function where(command: string): Result<string, string> {
 				];
 			possiblePositions = [
 				'./rclone.exe',
+				'./bin/rclone.exe',
 				path.join(os.homedir(), 'scoop/apps/rclone/current/rclone.exe'),
 			];
 			break;

@@ -11,3 +11,4 @@ database.json
 *.exe
 docs/docs-dist
 tasks/1
+bin

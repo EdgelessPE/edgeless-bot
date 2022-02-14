@@ -24,7 +24,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	let s = await release(path.join(workshop, downloadedFile), '_ready/' + taskName, false, workshop);
 
 	//清理
-	if (!!obj.autoClean) {
+	if (obj.autoClean == undefined || obj.autoClean) {
 		const deleteList = ['$PLUGINSDIR', 'Other', 'help.html', 'App/readme.txt', 'App/AppInfo/*.ico', 'App/AppInfo/*.png'];
 		for (let f of deleteList) {
 			shell.rm('-rf', path.join(readyDir, f));

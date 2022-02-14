@@ -1,0 +1,41 @@
+# 任务基本信息
+[task]
+name = "ToDesk"
+category = "远程连接"
+author = "Cno"
+url = "https://update.todesk.com/windows/uplog.html"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/ToDesk.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "ToDesk"
+sourceFile = "ToDesk.exe"
+recursiveUnzipList = ["app.7z"]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

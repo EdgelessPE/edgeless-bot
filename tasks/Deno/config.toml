@@ -1,0 +1,41 @@
+# 任务基本信息
+[task]
+name = "Deno"
+category = "运行环境"
+author = "Hydrogen"
+url = "https://github.com/denoland/deno"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '^deno-x86_64-pc-windows-msvc.*\.zip$'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/deno.exe"]
+build_cover = "cover"
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Deno"
+sourceFile = "deno.exe"
+recursiveUnzipList = []
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

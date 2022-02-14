@@ -14,9 +14,7 @@ interface Temp {
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
 	const temp: Temp = p.scraper_temp;
 	let vm = p.versionMatchRegex ? (new RegExp(p.versionMatchRegex, 'g')) : /(\d+\.)+\d+/g,
-		dm = p.downloadLinkRegex ? (new RegExp(p.downloadLinkRegex, 'g')) : /(https?:)*\/?\/[\w.-/]+.exe/g;
-	console.log(vm);
-	console.log(dm);
+		dm = p.downloadLinkRegex ? (new RegExp(p.downloadLinkRegex, 'g')) : /(https?:)*\/?\/[\w.-/]+\.exe/g;
 	//获取页面
 	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string,
 		scope;

@@ -65,6 +65,7 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
 function validateConfig(task: TaskConfig): boolean {
 	//基础校验
 	if (!schemaValidator(task, 'task').unwrap()) {
+		log(`Error:Schema validation failed`);
 		return false;
 	}
 	let suc = false;
@@ -85,7 +86,7 @@ function validateConfig(task: TaskConfig): boolean {
 			log(`Error:Can't match scraper template for ${task.task.url}`);
 			return false;
 		}
-	} else {
+	} else if (task.template.scraper != 'External') {
 		for (let node of scraperRegister) {
 			if (node.entrance == task.template.scraper) {
 				//对scraper执行requiredKeys检查
@@ -94,6 +95,7 @@ function validateConfig(task: TaskConfig): boolean {
 			}
 		}
 		if (!suc) {
+			log(`Error:requiredKeys for scraper not satisfied`);
 			return false;
 		}
 	}

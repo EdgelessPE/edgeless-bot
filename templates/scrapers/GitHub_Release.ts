@@ -27,7 +27,16 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		console.log(JSON.stringify(e));
 		return new Err(`Error:Can't fetch ${downloadLink}`);
 	}
-	version = json[0].tag_name;
+	let i = 0;
+	//过滤预发布
+	while (json[i].prerelease && i < json.length) {
+		i++;
+	}
+	//防止越界
+	if (i == json.length) {
+		i = 0;
+	}
+	version = json[i].tag_name;
 	return new Ok({
 		version,
 		downloadLink,

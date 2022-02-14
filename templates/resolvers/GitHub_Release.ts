@@ -15,8 +15,17 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 		return new Err(`Error:Can't fetch ${downloadLink}`);
 	}
 	//匹配assets数组
-	let regex = new RegExp(fileMatchRegex);
-	let assets = json[0].assets;
+	let regex = new RegExp(fileMatchRegex),
+		i = 0;
+	//过滤预发布
+	while (json[i].prerelease && i < json.length) {
+		i++;
+	}
+	//防止越界
+	if (i == json.length) {
+		i = 0;
+	}
+	let assets = json[i].assets;
 	let result = '',
 		node;
 	for (node of assets) {

@@ -56,8 +56,13 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	}
 	//处理定义的选择器
 	if (temp.download_selector != undefined) {
-		const $ = cheerio.load(page);
-		scope = ($(temp.download_selector).html()) ?? '';
+		const $ = cheerio.load(page),
+			href = $(temp.download_selector).attr('href');
+		if (href) {
+			scope = href;
+		} else {
+			scope = ($(temp.download_selector).html()) ?? '';
+		}
 		log('Info:Narrow download match scope by selector : ' + scope);
 	} else {
 		scope = page;

@@ -119,6 +119,7 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 		if (url.slice(0, 2) == '//') {
 			url = 'https:' + url;
 		}
+		log(`Get download address : ${url}`);
 		let filename = '',
 			startTime = Date.now();
 		try {

@@ -133,6 +133,9 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
 			console.log(JSON.stringify(e));
 			return new Err('Error:Can\'t parse config.toml for ' + taskName);
 		}
+		if (taskName != json.task.name) {
+			return new Err(`Error:Please keep the folder name (${taskName}) same with task name (${json.task.name})`);
+		}
 		if (!validateConfig(json)) {
 			return new Err('Error:Can\'t validate config.toml for ' + taskName);
 		} else {

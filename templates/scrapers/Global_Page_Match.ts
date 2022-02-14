@@ -13,13 +13,10 @@ interface Temp {
 
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
 	const temp: Temp = p.scraper_temp;
-	//处理regex为空
-	if (p.versionMatchRegex == undefined) {
-		p.versionMatchRegex = '(\\d+\\.)+\\d+';
-	}
-	if (p.downloadLinkRegex == undefined) {
-		p.downloadLinkRegex = '(https?:)*\\/?\\/[\\w.-/]+.exe';
-	}
+	let vm = p.versionMatchRegex ? (new RegExp(p.versionMatchRegex, 'g')) : /(\d+\.)+\d+/g,
+		dm = p.downloadLinkRegex ? (new RegExp(p.downloadLinkRegex, 'g')) : /(https?:)*\/?\/[\w.-/]+.exe/g;
+	console.log(vm);
+	console.log(dm);
 	//获取页面
 	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string,
 		scope;
@@ -32,7 +29,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	} else {
 		scope = page;
 	}
-	let m = scope.match(p.versionMatchRegex);
+	let m = scope.match(vm);
 	if (m == null) {
 		return new Err('Error:Given version match regex matched nothing');
 	}
@@ -67,7 +64,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	} else {
 		scope = page;
 	}
-	m = scope.match(p.downloadLinkRegex);
+	m = scope.match(dm);
 	if (m == null) {
 		return new Err('Error:Given download link match regex matched nothing');
 	}
@@ -75,6 +72,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		log(`Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`);
 	}
 	let downloadLink = m[0];
+	log('Info:Download link match result : ' + downloadLink);
 
 	//处理以 / 开头的下载地址
 	if (downloadLink[0] == '/' && downloadLink[1] != '/') {

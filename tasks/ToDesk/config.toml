@@ -3,7 +3,7 @@
 name = "ToDesk"
 category = "远程连接"
 author = "Cno"
-url = "https://update.todesk.com/windows/uplog.html"
+url = "https://www.todesk.com/download.html"
 
 # 指定使用的模板
 [template]
@@ -13,7 +13,7 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-# download_link = ''
+download_link = '(https?:)*\/?\/[\w.-/]+.*Setup.*\.exe'
 download_name = '\.exe'
 # scraper_version = ''
 
@@ -26,7 +26,10 @@ build_manifest = ["${taskName}.wcs", "${taskName}/ToDesk.exe"]
 # build_delete = []
 
 # 爬虫模板临时参数
-# [scraper_temp]
+[scraper_temp]
+version_page_url = "https://update.todesk.com/windows/uplog.html"
+version_selector = ".text"
+download_page_url = "https://www.todesk.com/js/common.js"
 
 # 自动制作模板要求的参数
 [producer_required]

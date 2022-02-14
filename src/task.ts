@@ -192,14 +192,17 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 		onlineVersion,
 		date = new Date();
 	for (let result of results) {
+		if (result == null) {
+			continue;
+		}
 		//处理爬虫出错
-		if (result.result.err) {
-			setDatabaseNodeFailure(result.taskName, result.result.val);
+		if (result.result == null || result.result.err) {
+			setDatabaseNodeFailure(result.taskName, result.result?.val ?? 'Error:Scraper returned null');
 			continue;
 		}
 		newNode = result.result.val;
-		if(newNode.version==null || newNode.downloadLink==null){
-			setDatabaseNodeFailure(result.taskName, "Error:Scraper returned null value");
+		if (newNode.version == null || newNode.downloadLink == null) {
+			setDatabaseNodeFailure(result.taskName, 'Error:Scraper returned null value');
 			continue;
 		}
 		//进行版本号比较

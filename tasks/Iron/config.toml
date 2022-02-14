@@ -26,7 +26,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}"]
 # build_delete = []
 
 # 爬虫模板临时参数
-[producer_required]
+[scraper_temp]
 launchArg = "https://www.baidu.com"
 
 # 自动制作模板要求的参数

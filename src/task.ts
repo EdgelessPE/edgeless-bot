@@ -332,6 +332,12 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 				}
 			}
 		}
+	} else {
+		//检查是否可能忘加了
+		let p = path.join(config.DIR_TASKS, t.task.name, 'cover');
+		if (fs.existsSync(p) || fs.existsSync(p + '.7z')) {
+			log('Warning:Exist cover folder/file but parameter.build_cover not specified');
+		}
 	}
 	//验收
 	const getBuildManifest = (): Array<string> => {

@@ -217,20 +217,23 @@ async function createTask() {
 	const getScraper=function ():string{
 		if(externalScraper){
 			return 'scraper = "External"'
-		}else {
-			if(scraperEntrance==undefined){
-				return '# scraper = ""'
-			}else {
+		} else {
+			if (scraperEntrance == undefined) {
+				return '# scraper = ""';
+			} else {
 				return `scraper = "${scraperEntrance}"`;
 			}
 		}
 	}
 
 	//构成基础json
+	const Categories = CATEGORIES.sort((a, b) => {
+		return a.localeCompare(b, 'zh');
+	});
 	let json: TaskInput = {
 		task: {
 			name: taskName,
-			category: CATEGORIES[await select(_('Task category'), CATEGORIES)],
+			category: Categories[await select(_('Task category'), Categories)],
 			author: await input(_('Author')),
 			url: await inputUpstreamUrl(),
 		},

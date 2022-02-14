@@ -405,7 +405,11 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		return new Err('Error:Compress failed');
 	}
 	shell.mkdir('-p', path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category));
-	shell.mv(path.join(workshop, fileName), path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category + '/'));
+	const storagePath = path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName);
+	if (fs.existsSync(storagePath)) {
+		shell.rm('-f', storagePath);
+	}
+	shell.mv(path.join(workshop, fileName), storagePath);
 	if (!fs.existsSync(path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName))) {
 		return new Err('Error:Moving compressed file to builds folder failed');
 	}

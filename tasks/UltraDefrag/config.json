@@ -1,0 +1,14 @@
+{
+  "name": "UltraDefrag",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/ultradefrag-portable",
+  "releaseRequirement": ["UltraDefragPortable.exe"],
+  "buildRequirement": [
+    "UltraDefrag_bot.wcs",
+    "UltraDefrag_bot/UltraDefragPortable.exe"
+  ],
+  "preprocess": true,
+  "autoMake": true
+}

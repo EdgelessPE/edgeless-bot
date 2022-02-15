@@ -1,0 +1,11 @@
+{
+  "name": "7Zip",
+  "category": "压缩镜像",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/7-zip_portable",
+  "releaseRequirement": ["7-ZipPortable.exe"],
+  "buildRequirement": ["7Zip_bot.wcs", "7Zip_bot/7-ZipPortable.exe"],
+  "preprocess": true,
+  "autoMake": true
+}

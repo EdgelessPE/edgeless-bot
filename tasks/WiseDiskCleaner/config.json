@@ -1,0 +1,14 @@
+{
+  "name": "WiseDiskCleaner",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/wise-disk-cleaner-portable",
+  "releaseRequirement": ["WiseDiskCleanerPortable.exe"],
+  "buildRequirement": [
+    "WiseDiskCleaner_bot.wcs",
+    "WiseDiskCleaner_bot/WiseDiskCleanerPortable.exe"
+  ],
+  "preprocess": true,
+  "autoMake": true
+}

@@ -1,0 +1,11 @@
+{
+  "name": "uGet",
+  "category": "下载上传",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/internet/uget-portable",
+  "releaseRequirement": ["uGetPortable.exe"],
+  "buildRequirement": ["uGet_bot.wcs", "uGet_bot/uGetPortable.exe"],
+  "preprocess": true,
+  "autoMake": true
+}

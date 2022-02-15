@@ -1,0 +1,11 @@
+{
+  "name": "Diffpdf",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/diffpdf_portable",
+  "releaseRequirement": ["DiffpdfPortable.exe"],
+  "buildRequirement": ["Diffpdf_bot.wcs", "Diffpdf_bot/DiffpdfPortable.exe"],
+  "preprocess": true,
+  "autoMake": true
+}

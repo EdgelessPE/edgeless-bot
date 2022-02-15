@@ -1,0 +1,14 @@
+{
+  "name": "SmartDefrag",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/smart_defrag_portable",
+  "releaseRequirement": ["SmartDefragPortable.exe"],
+  "buildRequirement": [
+    "SmartDefrag_bot.wcs",
+    "SmartDefrag_bot/SmartDefragPortable.exe"
+  ],
+  "preprocess": true,
+  "autoMake": true
+}

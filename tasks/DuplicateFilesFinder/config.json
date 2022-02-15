@@ -1,0 +1,14 @@
+{
+  "name": "DuplicateFilesFinder",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/duplicate-files-finder-portable",
+  "releaseRequirement": ["DuplicateFilesFinderPortable.exe"],
+  "buildRequirement": [
+    "DuplicateFilesFinder_bot.wcs",
+    "DuplicateFilesFinder_bot/DuplicateFilesFinderPortable.exe"
+  ],
+  "preprocess": true,
+  "autoMake": true
+}

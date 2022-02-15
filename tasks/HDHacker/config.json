@@ -1,14 +1,11 @@
 {
-  "name": "SmartDefrag",
+  "name": "HDHacker",
   "category": "实用工具",
   "author": "undefined",
 
-  "paUrl": "https://portableapps.com/apps/utilities/smart_defrag_portable",
-  "releaseRequirement": ["SmartDefragPortable.exe"],
-  "buildRequirement": [
-    "SmartDefrag_bot.wcs",
-    "SmartDefrag_bot/SmartDefragPortable.exe"
-  ],
+  "paUrl": "https://portableapps.com/apps/utilities/hdhacker_portable",
+  "releaseRequirement": ["HDHackerPortable.exe"],
+  "buildRequirement": ["HDHacker_bot.wcs", "HDHacker_bot/HDHackerPortable.exe"],
   "preprocess": true,
   "autoMake": true
 }

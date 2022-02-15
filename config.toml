@@ -1,20 +1,36 @@
+# 是否启用数据库更新
 DATABASE_UPDATE = true
+# 数据库存储路径
 DATABASE_PATH = "./database.json"
 
+# 是否启用远程功能
 REMOTE_ENABLE = false
+# 远程存储的rclone名称
 REMOTE_NAME = "pineapple"
+# 远程存储路径
 REMOTE_PATH = "/hdisk/edgeless/插件包"
 
+# 任务存储路径
 DIR_TASKS = "./tasks"
+# 临时工作目录路径
 DIR_WORKSHOP = "./workshop"
+# 构建存储路径
 DIR_BUILDS = "./builds"
 
+# 允许同时存在的最大构建数量
 MAX_BUILDS = 1
+# 允许的最大爬虫重试次数
 MAX_RETRY_SCRAPER = 3
+# 允许的最大解析器重试次数
 MAX_RETRY_RESOLVER = 1
 
+# 是否启动aria2c
 ARIA2_SPAWN = true
+# aria2c rpc监听端口
 ARIA2_PORT = 16800
+# aria2c密钥
 #ARIA2_SECRET = "edgeless"
+# 最大下载线程数
 ARIA2_THREAD = 4
-# GLOBAL_PROXY = "http://localhost:8888"
+# 全局网络代理（可能存在问题）
+#GLOBAL_PROXY = "http://localhost:8888"

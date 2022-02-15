@@ -3,20 +3,10 @@ import {Err, Ok, Result} from 'ts-results';
 import {log, writeGBK} from '../../src/utils';
 import path from 'path';
 import fs from 'fs';
-import robot from 'robotjs';
-import {release} from '../../src/p7zip';
-import {sleep} from '../../src/utils';
+import {sleep, pressEnter} from '../../src/utils';
 import cp from 'child_process';
-import {getOS} from '../../src/platform';
 
 const shell = require('shelljs');
-
-async function press(s: number[]) {
-	for (let t of s) {
-		await sleep(t * 1000);
-		robot.keyTap('enter');
-	}
-}
 
 export default async function (p: ProducerParameters): Promise<Result<ProducerReturned, string>> {
 	const {taskName, downloadedFile, workshop} = p;
@@ -33,7 +23,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	}));
 
 	//发送回车
-	await press([5, 5, 2, 2]);
+	await pressEnter([5, 5, 2, 2]);
 
 	//循环判断安装完成
 	const finishFilePath = path.join(readyDir, 'GoogleChromePortable/Data/PortableApps.comInstaller/license.ini');
@@ -42,7 +32,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	}
 
 	//退出安装进程
-	await press([3]);
+	await pressEnter([3]);
 	await sleep(1000);
 
 	//删除安装包

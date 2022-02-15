@@ -7,6 +7,8 @@ import iconv from 'iconv-lite';
 import {JsObjectType, ObjectValidationNode} from './class';
 import {badge} from './worker';
 import Piscina from 'piscina';
+import cp from 'child_process';
+import {PROJECT_ROOT} from './const';
 
 enum Cmp {
 	L, E, G
@@ -334,6 +336,21 @@ function writeGBK(file: string, text: string) {
 	fs.writeFileSync(file, toGBK(text));
 }
 
+async function pressEnter(interval: number[]) {
+	//生成pecmd脚本
+	let script = '';
+	for (let i of interval) {
+		script += `WAIT ${i}000\nSEND VK_RETURN\n`;
+	}
+	//写脚本
+	const p = PROJECT_ROOT + '/_press.wcs';
+	fs.writeFileSync(p, script);
+	//执行
+	cp.execSync(`.\\pecmd.exe _press.wcs`, {cwd: PROJECT_ROOT});
+	//删除脚本
+	fs.unlinkSync(p);
+}
+
 export {
 	Cmp,
 	log,
@@ -353,4 +370,5 @@ export {
 	parseBuiltInValue,
 	requiredKeysValidator,
 	writeGBK,
+	pressEnter,
 };

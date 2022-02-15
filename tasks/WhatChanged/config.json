@@ -1,0 +1,14 @@
+{
+  "name": "WhatChanged",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/whatchanged-portable",
+  "releaseRequirement": ["WhatChangedPortable.exe"],
+  "buildRequirement": [
+    "WhatChanged_bot.wcs",
+    "WhatChanged_bot/WhatChangedPortable.exe"
+  ],
+  "preprocess": true,
+  "autoMake": true
+}

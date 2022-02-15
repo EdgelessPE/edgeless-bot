@@ -33,6 +33,6 @@ build_cover = "cover"
 
 
 # 额外备注
-# [extra]
+[extra]
 require_windows = true
 # missing_version = ""

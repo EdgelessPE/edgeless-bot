@@ -70,7 +70,7 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 	let old = getDatabaseNode(taskName);
 	database[taskName] = {
 		recent: {
-			health: (old.recent.health > 0) ? (old.recent.health--) : 0,
+			health: (old.recent.health > 0) ? (old.recent.health - 1) : 0,
 			latestVersion: old.recent.latestVersion,
 			errorMessage,
 			builds: old.recent.builds,
@@ -88,7 +88,7 @@ function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>)
 		newVersion = newBuilds[newBuilds.length - 1].version;
 	database[taskName] = {
 		recent: {
-			health: (old.recent.health == 3) ? 3 : (old.recent.health++),
+			health: (old.recent.health == 3) ? 3 : (old.recent.health + 1),
 			latestVersion: newVersion,
 			errorMessage: old.recent.errorMessage,
 			builds: newBuilds,

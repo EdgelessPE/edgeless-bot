@@ -74,7 +74,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	}
 	//写外置批处理
 	const cmd = `FILE X:\\Program Files\\Edgeless\\${taskName}->X:\\Users\\PortableApps\\${taskName}` +
-		`\nLINK X:\\Users\\Default\\Desktop\\${obj.shortcutName ?? taskName},X:\\Users\\PortableApps\\${taskName}\\${exe},${obj.launchArg ?? ''}`;
+		`\nLINK X:\\Users\\Default\\Desktop\\${obj.shortcutName ?? taskName},X:\\Users\\PortableApps\\${taskName}\\${exe}${obj.launchArg ? ','+obj.launchArg : ''}`;
 	writeGBK(path.join(readyDir, '..', taskName + '.wcs'), cmd);
 
 	return new Ok({

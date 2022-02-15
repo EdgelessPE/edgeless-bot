@@ -10,11 +10,11 @@ yarn & yarn serve -d
 
 ## 二进制
 
-Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖解决问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如 Windows 平台的 [scoop](https://scoop.sh) 或是 Linux 平台的 apt/dnf/pacman/zypper 等。
+Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如 Windows 平台的 [scoop](https://scoop.sh) 或是 Linux 平台的 apt/dnf/pacman/zypper 等。如果无法使用包管理器，你可以将二进制文件放在项目根目录的 `bin` 目录下，或是项目根目录内(不推荐)。
 
 ### Aria2
 
-官方网站 https://aria2.github.io/ ，可以使用如下命令：
+官方网站 https://aria2.github.io/ ，可以使用如下命令安装：
 
 ```shell
 # Windows
@@ -26,7 +26,7 @@ sudo apt install aria2
 
 ### 7-Zip
 
-官方网站 https://www.7-zip.org/ ，可以使用如下命令：
+官方网站 https://www.7-zip.org/ ，可以使用如下命令安装：
 
 ```shell
 # Windows
@@ -37,7 +37,7 @@ sudo apt install p7zip-full
 
 ### Rclone (选装)
 
-官方网站 https://rclone.org ，如果需要启用远程功能则需要安装，可以使用如下命令：
+官方网站 https://rclone.org ，如果需要启用远程功能则需要安装，可以使用如下命令安装：
 
 ```shell
 # Windows
@@ -46,7 +46,8 @@ scoop install rclone
 sudo apt install rclone
 ```
 
-
+### PECMD (选装)
+在执行仅 Windows 平台任务时需要使用，可以从 Edgeless 中提取。
 
 ## 配置
 
@@ -100,7 +101,7 @@ Edgeless Bot 支持以下参数的组合使用：
 
 ### -d
 
-Debug ，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。
+Debug，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。
 
 示例：`yarn serve -d`
 

@@ -1,0 +1,11 @@
+{
+  "name": "DOSBox",
+  "category": "远程连接",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/games/dosbox_portable",
+  "releaseRequirement": ["DOSBoxPortable.exe"],
+  "buildRequirement": ["DOSBox_bot.wcs", "DOSBox_bot/DOSBoxPortable.exe"],
+  "preprocess": true,
+  "autoMake": true
+}

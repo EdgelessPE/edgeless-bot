@@ -20,7 +20,7 @@ async function main(): Promise<boolean> {
 	//打印艺术字
 	art();
 	//平台校验
-	//TODO:支持其他平台，实现require_windows
+	//TODO:支持其他平台，实现require_windows，检查pecmd是否存在
 	if (getOS() != 'Windows') {
 		log('Error:Unsupported platform : ' + os.platform());
 		return false;

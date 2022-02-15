@@ -5,7 +5,6 @@ yarn.lock
 test
 workshop
 builds
-*.js
 dist
 *.exe
 docs/docs-dist

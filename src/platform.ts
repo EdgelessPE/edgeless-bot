@@ -65,6 +65,16 @@ function where(command: string): Result<string, string> {
 				path.join(os.homedir(), 'scoop/apps/rclone/current/rclone.exe'),
 			];
 			break;
+		case 'pecmd':
+			possibleCommands =
+				[
+					'pecmd',
+				];
+			possiblePositions = [
+				'./pecmd.exe',
+				'./bin/pecmd.exe',
+			];
+			break;
 		default:
 			return new Err(`Error:Undefined command argument : ${command}`);
 	}

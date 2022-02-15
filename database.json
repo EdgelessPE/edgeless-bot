@@ -1,0 +1,814 @@
+{
+  "搜狗拼音": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "11.7.0.0",
+      "errorMessage": "Error:Scraper returned null",
+      "builds": [
+        {
+          "fileName": "搜狗拼音_11.7.0.0_Cno（bot）.7z",
+          "version": "11.7.0.0",
+          "timestamp": "Tue Feb 15 2022 15:53:34 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "酷我音乐": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "5.0.0.0",
+      "errorMessage": "Error:Scraper returned null",
+      "builds": [
+        {
+          "fileName": "酷我音乐_5.0.0.0_Cno（bot）.7z",
+          "version": "5.0.0.0",
+          "timestamp": "Tue Feb 15 2022 16:07:40 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "AnyDesk": {
+    "recent": {
+      "health": 1,
+      "latestVersion": "7.0.4.0",
+      "errorMessage": "Error:Given version match regex matched nothing",
+      "builds": [
+        {
+          "fileName": "AnyDesk_7.0.4.0_Cno（bot）.7z",
+          "version": "7.0.4.0",
+          "timestamp": "Tue Feb 15 2022 16:16:27 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "qBittorrent": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "4.4.0.0",
+      "errorMessage": "Error:Worker executed script failed : \n\"{}\"",
+      "builds": [
+        {
+          "fileName": "qBittorrent_4.4.0.0_Horatio Shaw（bot）.7z",
+          "version": "4.4.0.0",
+          "timestamp": "Tue Feb 15 2022 15:53:34 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "CrystalDiskMark": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "8.0.4.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "CrystalDiskMark_8.0.4.0_Horatio Shaw（bot）.7z",
+          "version": "8.0.4.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "XnView": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.50.4.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "XnView_2.50.4.0_Cno（bot）.7z",
+          "version": "2.50.4.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "HWiNFO": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "7.16.4650.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "HWiNFO_7.16.4650.0_Cno（bot）.7z",
+          "version": "7.16.4650.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Wireshark": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.6.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Wireshark_3.6.2.0_undefined（bot）.7z",
+          "version": "3.6.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Deno": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.18.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Deno_1.18.2.0_Hydrogen（bot）.7z",
+          "version": "1.18.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Motrix": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.6.11.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Motrix_1.6.11.0_undefined（bot）.7z",
+          "version": "1.6.11.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Listen1": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.21.7.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Listen1_2.21.7.0_undefined（bot）.7z",
+          "version": "2.21.7.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Atom": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.59.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Atom_1.59.0.0_undefined（bot）.7z",
+          "version": "1.59.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "傲游浏览器": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "4.9.5.1000",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "傲游浏览器_4.9.5.1000_Cno（bot）.7z",
+          "version": "4.9.5.1000",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Bandizip": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "7.23.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Bandizip_7.23.0.0_Cno（bot）.7z",
+          "version": "7.23.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "火绒安全": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "5.0.66.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "火绒安全_5.0.66.0_Cno（bot）.7z",
+          "version": "5.0.66.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "360压缩": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "4.0.0.1270",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "360压缩_4.0.0.1270_Cno（bot）.7z",
+          "version": "4.0.0.1270",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Git": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.35.1.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Git_2.35.1.0_undefined（bot）.7z",
+          "version": "2.35.1.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "balenaEtcher": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.7.3.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "balenaEtcher_1.7.3.0_Hydrogen（bot）.7z",
+          "version": "1.7.3.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "adb": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "32.0.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "adb_32.0.0.0_Cno（bot）.7z",
+          "version": "32.0.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "向日葵远程控制": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "12.5.0.44227",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "向日葵远程控制_12.5.0.44227_Cno（bot）.7z",
+          "version": "12.5.0.44227",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Wechat": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.5.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Wechat_3.5.0.0_Cno（bot）.7z",
+          "version": "3.5.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "腾讯视频": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "11.38.9715.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "腾讯视频_11.38.9715.0_Cno（bot）.7z",
+          "version": "11.38.9715.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "uTools": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.5.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "uTools_2.5.2.0_Cno（bot）.7z",
+          "version": "2.5.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "网易云音乐": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.9.7.199711",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "网易云音乐_2.9.7.199711_Cno（bot）.7z",
+          "version": "2.9.7.199711",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "QQ": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "9.5.6.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "QQ_9.5.6.0_Cno（bot）.7z",
+          "version": "9.5.6.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "百度网盘": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "7.12.1.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "百度网盘_7.12.1.0_Cno（bot）.7z",
+          "version": "7.12.1.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "VSCode": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.64.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "VSCode_1.64.2.0_Cno（bot）.7z",
+          "version": "1.64.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "ToDesk": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "4.2.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "ToDesk_4.2.2.0_Cno（bot）.7z",
+          "version": "4.2.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "TIM": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.3.9.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "TIM_3.3.9.0_Cno（bot）.7z",
+          "version": "3.3.9.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "PCI-Z": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.0.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "PCI-Z_2.0.0.0_Cno（bot）.7z",
+          "version": "2.0.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "FastCopy": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "4.0.5.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "FastCopy_4.0.5.0_Cno（bot）.7z",
+          "version": "4.0.5.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "PuTTY": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "0.76.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "PuTTY_0.76.0.0_undefined（bot）.7z",
+          "version": "0.76.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Windows错误代码查询工具": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.0.7.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Windows错误代码查询工具_3.0.7.0_Horatio Shaw（bot）.7z",
+          "version": "3.0.7.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Rufus": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.17.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Rufus_3.17.0.0_Horatio Shaw（bot）.7z",
+          "version": "3.17.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "CPU-Z": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.99.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "CPU-Z_1.99.0.0_Cno（bot）.7z",
+          "version": "1.99.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "CrystalDiskInfo": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "8.15.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "CrystalDiskInfo_8.15.2.0_Cno（bot）.7z",
+          "version": "8.15.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "ReNamer": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "7.3.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "ReNamer_7.3.0.0_Cno（bot）.7z",
+          "version": "7.3.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "WizTree": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "4.08.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "WizTree_4.08.0.0_Horatio Shaw（bot）.7z",
+          "version": "4.08.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "2XClient": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "12.0.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "2XClient_12.0.0.0_Cno（bot）.7z",
+          "version": "12.0.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Notepad++": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "8.3.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Notepad++_8.3.0.0_支持梧桐，台毒biss（bot）.7z",
+          "version": "8.3.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "GPU-Z": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "2.44.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "GPU-Z_2.44.0.0_Cno（bot）.7z",
+          "version": "2.44.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "WinSCP": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "5.19.5.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "WinSCP_5.19.5.0_Horatio Shaw（bot）.7z",
+          "version": "5.19.5.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Sumatra PDF": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.3.3.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Sumatra PDF_3.3.3.0_Cno（bot）.7z",
+          "version": "3.3.3.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "FreeDownloadManager": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.9.7.1641",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "FreeDownloadManager_3.9.7.1641_Cno（bot）.7z",
+          "version": "3.9.7.1641",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "FileZilla": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.58.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "FileZilla_3.58.0.0_Cno（bot）.7z",
+          "version": "3.58.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Chrome": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "98.0.4758.102",
+      "errorMessage": "Error:Can't produce task Chrome",
+      "builds": [
+        {
+          "fileName": "Chrome_98.0.4758.102_Cno（bot）.7z",
+          "version": "98.0.4758.102",
+          "timestamp": "Tue Feb 15 2022 15:53:34 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "PotPlayer": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "1.7.21589.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "PotPlayer_1.7.21589.0_Cno（bot）.7z",
+          "version": "1.7.21589.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "gVim": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "8.2.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "gVim_8.2.0.0_undefined（bot）.7z",
+          "version": "8.2.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "VLC": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.0.16.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "VLC_3.0.16.0_Cno（bot）.7z",
+          "version": "3.0.16.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "DB Browser for SQLite": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.12.2.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "DB Browser for SQLite_3.12.2.0_Horatio Shaw（bot）.7z",
+          "version": "3.12.2.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Opera": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "83.0.4254.27",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Opera_83.0.4254.27_Cno（bot）.7z",
+          "version": "83.0.4254.27",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Iron": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "97.0.4950.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Iron_97.0.4950.0_Horatio Shaw（bot）.7z",
+          "version": "97.0.4950.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "ChromeBeta": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "99.0.4844.27",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "ChromeBeta_99.0.4844.27_Horatio Shaw（bot）.7z",
+          "version": "99.0.4844.27",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "Firefox": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "97.0.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "Firefox_97.0.0.0_Cno（bot）.7z",
+          "version": "97.0.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "OBS": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "27.2.0.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "OBS_27.2.0.0_Horatio Shaw（bot）.7z",
+          "version": "27.2.0.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "福昕阅读器": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "11.2.1.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "福昕阅读器_11.2.1.0_Cno（bot）.7z",
+          "version": "11.2.1.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "uTorrent": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "3.5.5.46148",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "uTorrent_3.5.5.46148_undefined（bot）.7z",
+          "version": "3.5.5.46148",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  },
+  "ChromeDev": {
+    "recent": {
+      "health": 3,
+      "latestVersion": "100.0.4878.0",
+      "errorMessage": "No error yet",
+      "builds": [
+        {
+          "fileName": "ChromeDev_100.0.4878.0_Horatio Shaw（bot）.7z",
+          "version": "100.0.4878.0",
+          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+        }
+      ]
+    }
+  }
+}

@@ -7,7 +7,6 @@ workshop
 builds
 *.js
 dist
-database.json
 *.exe
 docs/docs-dist
 tasks/1

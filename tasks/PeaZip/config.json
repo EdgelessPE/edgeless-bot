@@ -1,0 +1,11 @@
+{
+  "name": "PeaZip",
+  "category": "压缩镜像",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/peazip_portable",
+  "releaseRequirement": ["PeaZipPortable.exe"],
+  "buildRequirement": ["PeaZip_bot.wcs", "PeaZip_bot/PeaZipPortable.exe"],
+  "preprocess": true,
+  "autoMake": true
+}

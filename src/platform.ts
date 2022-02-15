@@ -81,13 +81,14 @@ function where(command: string): Result<string, string> {
 	//查找可能的命令
 	let result = '';
 	let node;
-	let testCmd = getOS() == 'Windows' ? 'where' : 'which';
+	let testCmd = getOS() == 'Windows' ? 'where' : 'which',
+		_;
 	//根据possibleCommands查找
 	for (let i = 0; i < possibleCommands.length; i++) {
 		node = possibleCommands[i];
 		//使用which/where
 		try {
-			cp.execSync(`${testCmd} ${node}`);
+			_ = cp.execSync(`${testCmd} ${node}`);
 			result = node;
 			break;
 		} catch (_) {

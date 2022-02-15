@@ -5,8 +5,9 @@ import {getOS, where} from './platform';
 import path from 'path';
 import fs from 'fs';
 import {config} from './config';
+import {PROJECT_ROOT} from './const';
 
-let aria2c_process: cp.ChildProcessWithoutNullStreams,
+let aria2c_process: cp.ChildProcess,
 	aria2c_alive = false,
 	sent_kill = false,
 	aria2c_handler: Aria2WebSocket.Client;
@@ -30,8 +31,12 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
 			args.push(`--max-connection-per-server=${config.ARIA2_THREAD}`);
 			args.push(`--split=${config.ARIA2_THREAD}`);
 		}
-		aria2c_process = cp.spawn(binPath, args);
-		aria2c_process.on('exit', _ => {
+		//生成字符串
+		let argsString = '';
+		for (let a of args) {
+			argsString += ` ${a}`;
+		}
+		aria2c_process = cp.exec(binPath + argsString, {cwd: PROJECT_ROOT}, (err) => {
 			aria2c_alive = false;
 			if (sent_kill) {
 				log('Info:Aria2c exit');
@@ -40,14 +45,8 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
 			}
 			resolve(false);
 		});
-		const waitSpawned = async function (p: cp.ChildProcessWithoutNullStreams): Promise<void> {
-			return new Promise((resolve1 => {
-				p.stdout.on('data', (_: any) => {
-					resolve1();
-				});
-			}));
-		};
-		await waitSpawned(aria2c_process);
+		//保持1s不退出即视为启动成功
+		await sleep(1000);
 		log(`Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`);
 		aria2c_alive = true;
 		resolve(true);

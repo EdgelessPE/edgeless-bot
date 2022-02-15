@@ -60,10 +60,10 @@ class Task {
 	autoMake: boolean; // 是否启用自动制作
 	// useWget:boolean; //是否使用wget，默认使用aria2
 	launchArgs?: string;
-	externalScraper?: boolean; //是否外置爬虫脚本
-	externalScraperOptions?: ExternalScraperOptions; //外置爬虫选项
+	externalScraper?: boolean; // 是否外置爬虫脚本
+	externalScraperOptions?: ExternalScraperOptions; // 外置爬虫选项
 
-	cover?: string; //用于增加内容的7z压缩包
+	cover?: string; // 用于增加内容的7z压缩包
 
 	constructor() {
 		this.name = 'Null';
@@ -78,7 +78,7 @@ class Task {
 	}
 }
 
-//爬虫接口相关
+// 爬虫接口相关
 interface ScrapedInfo {
 	version: string
 	url: string
@@ -96,17 +96,17 @@ interface Script {
 }
 
 interface ExternalScraperOptions {
-	//配置策略,可为silent,manual
+	// 配置策略,可为silent,manual
 	policy?: string
-	//是否需要解压安装包
+	// 是否需要解压安装包
 	releaseInstaller?: boolean
-	//更改静默安装参数，前面不需要留空格
+	// 更改静默安装参数，前面不需要留空格
 	silentArg?: string
-	//压缩等级，1-9
+	// 压缩等级，1-9
 	compressLevel?: number
-	//静默安装结束后是否删除安装包，默认删除
+	// 静默安装结束后是否删除安装包，默认删除
 	silentDelete?: boolean
-	//手动安装时使用的快捷方式名
+	// 手动安装时使用的快捷方式名
 	manualShortcutName?: string
 }
 
@@ -130,9 +130,9 @@ class DatabaseNode {
     recentStatus: Array<BuildStatus>;
 
     constructor() {
-    	this.latestVersion = '0.0.0';
-    	this.builds = [];
-    	this.recentStatus = [];
+		this.latestVersion = '0.0.0';
+		this.builds = [];
+		this.recentStatus = [];
     }
 }
 

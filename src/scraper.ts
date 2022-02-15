@@ -5,7 +5,7 @@ import {Interface, PageInfo, ScrapedInfo, Task} from './class';
 import {Status} from './enum';
 import {formatVersion, log, matchVersion, parseDownloadUrl} from './utils';
 import sleep from './sleep';
-import {args} from "./index";
+import {args} from './index';
 
 async function fetchPage(url:string):Promise<Interface> {
 	log('Info:Start scraping page: ' + url);
@@ -167,13 +167,13 @@ async function scrapePage(
                                 + '\ndownload link:'
                                 + result.href,
 							);
-						} else {
-							if (!args.hasOwnProperty("g")) log(
+						} else if (!args.hasOwnProperty('g')) {
+							log(
 								'Warning:Simplified chinese version not found,use English version',
 							);
 						}
-					} else {
-						if (!args.hasOwnProperty("g")) log('Warning:Localizations table not found,use English version');
+					} else if (!args.hasOwnProperty('g')) {
+						log('Warning:Localizations table not found,use English version');
 					}
 				} else {
 					log(
@@ -195,7 +195,7 @@ async function scrapePage(
 		});
 	}
 
-	//正则检查链接
+	// 正则检查链接
 	// if (!isURL(result.href)) {
 	// 	return new Interface({
 	// 		status: Status.ERROR,
@@ -245,6 +245,7 @@ export async function paScraper(task: Task): Promise<Interface<ScrapedInfo | str
 			payload: 'Error:Unexpected internal error:task.paUrl undefined',
 		});
 	}
+
 	const iScrape = await scrapePage(task.paUrl, false);
 	if (iScrape.status === Status.ERROR) {
 		log(iScrape.payload as any);
@@ -255,6 +256,7 @@ export async function paScraper(task: Task): Promise<Interface<ScrapedInfo | str
 				+ ' \'s page,skipping...'),
 		});
 	}
+
 	const pageInfo = iScrape.payload as PageInfo;
 
 	// 匹配版本号
@@ -269,6 +271,7 @@ export async function paScraper(task: Task): Promise<Interface<ScrapedInfo | str
 				+ ' \'s version from page,skipping...',
 		});
 	}
+
 	const version = formatVersion(iVersion.payload);
 
 	return new Interface<ScrapedInfo>({
@@ -276,7 +279,7 @@ export async function paScraper(task: Task): Promise<Interface<ScrapedInfo | str
 		payload: {
 			version,
 			url: pageInfo.href,
-			md5: pageInfo.md5
-		}
-	})
+			md5: pageInfo.md5,
+		},
+	});
 }

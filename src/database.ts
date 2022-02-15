@@ -66,6 +66,7 @@ function getDatabaseNode(taskName: string): DatabaseNode {
 
 //需要在read后调用
 function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
+	log(errorMessage + ` for task ${taskName}`);
 	let old = getDatabaseNode(taskName);
 	database[taskName] = {
 		recent: {

@@ -336,6 +336,22 @@ function writeGBK(file: string, text: string) {
 	fs.writeFileSync(file, toGBK(text));
 }
 
+function wherePECMD(): Result<string, string> {
+	let p = ['.\\pecmd.exe', '.\\bin\\pecmd.exe'];
+	let r = '';
+	for (let i of p) {
+		if (fs.existsSync(path.join(PROJECT_ROOT, i))) {
+			r = path.join(PROJECT_ROOT, i);
+			break;
+		}
+	}
+	if (r == '') {
+		return new Err('Error:Can\'t find pecmd.exe, store it to project root or "bin" folder');
+	} else {
+		return new Ok(r);
+	}
+}
+
 async function pressEnter(interval: number[]) {
 	//生成pecmd脚本
 	let script = '';
@@ -346,7 +362,7 @@ async function pressEnter(interval: number[]) {
 	const p = PROJECT_ROOT + '/_press.wcs';
 	fs.writeFileSync(p, script);
 	//执行
-	cp.execSync(`.\\pecmd.exe _press.wcs`, {cwd: PROJECT_ROOT});
+	cp.execSync(`${wherePECMD().unwrap()} _press.wcs`, {cwd: PROJECT_ROOT});
 	//删除脚本
 	fs.unlinkSync(p);
 }
@@ -371,4 +387,5 @@ export {
 	requiredKeysValidator,
 	writeGBK,
 	pressEnter,
+	wherePECMD,
 };

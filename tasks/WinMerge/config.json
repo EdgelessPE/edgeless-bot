@@ -1,0 +1,11 @@
+{
+  "name": "WinMerge",
+  "category": "实用工具",
+  "author": "undefined",
+
+  "paUrl": "https://portableapps.com/apps/utilities/winmerge_portable",
+  "releaseRequirement": ["WinMergePortable.exe"],
+  "buildRequirement": ["WinMerge_bot.wcs", "WinMerge_bot/WinMergePortable.exe"],
+  "preprocess": true,
+  "autoMake": true
+}

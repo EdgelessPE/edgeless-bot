@@ -26,6 +26,7 @@ import {compress, release} from './p7zip';
 import {PROJECT_ROOT} from './const';
 import {deleteFromRemote} from './rclone';
 import scraperRegister from '../templates/scrapers/_register';
+import os from 'os';
 
 const rcInfo = require('rcinfo');
 const shell = require('shelljs');
@@ -445,42 +446,62 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
 			resolve([]);
 			return;
 		}
-		let total = ts.length;
-		let r = '';
+		const total = ts.length;
+		let r = '',
+			normalTasks: Array<ExecuteParameter> = [],
+			requireWindowsTasks: Array<ExecuteParameter> = [];
 		ts.forEach((item) => {
+			//生成tip
 			r = r + ` ${item.task.name}`;
+			//根据是否需要Windows分流
+			if (item.task.extra?.require_windows) {
+				requireWindowsTasks.push(item);
+			} else {
+				normalTasks.push(item);
+			}
 		});
 		log(`Info:Starting executing ${total} tasks :${r}`);
 		let done = 0,
 			collection: Array<ResultReport> = [];
-		for (let t of shuffle(ts)) {
-			execute(t).then((res) => {
-				//处理缺失版本号但是无更新的情况
-				if (res.ok && res.val == 'missing_version') {
-					log(`Success:Missing version task ${t.task.name} executed successfully`);
+		const collect = (res: Result<string, string>, t: ExecuteParameter) => {
+			//处理缺失版本号但是无更新的情况
+			if (res.ok && res.val == 'missing_version') {
+				log(`Success:Missing version task ${t.task.name} executed successfully`);
+			} else {
+				//处理正常情况
+				if (res.err) {
+					log(res.val);
+					collection.push({
+						taskName: t.task.name,
+						result: res,
+					});
 				} else {
-					//处理正常情况
-					if (res.err) {
-						log(res.val);
-						collection.push({
-							taskName: t.task.name,
-							result: res,
-						});
-					} else {
-						log(`Success:Task ${t.task.name} executed successfully`);
-						collection.push({
-							taskName: t.task.name,
-							result: res,
-						});
-					}
+					log(`Success:Task ${t.task.name} executed successfully`);
+					collection.push({
+						taskName: t.task.name,
+						result: res,
+					});
 				}
-
-				//已完成任务自增，并检查是否需要resolve
-				done++;
-				if (done == total) {
-					resolve(collection);
-				}
+			}
+			//已完成任务自增，并检查是否需要resolve
+			done++;
+			if (done == total) {
+				resolve(collection);
+			}
+		};
+		//并发全部的普通任务
+		for (let t of shuffle(normalTasks)) {
+			execute(t).then((res) => {
+				collect(res, t);
 			});
+		}
+		//顺序执行全部的require windows任务
+		if (os.platform() == 'win32') {
+			for (let t of shuffle(requireWindowsTasks)) {
+				collect(await execute(t), t);
+			}
+		} else {
+			log(`Warning:Tasks require windows wouldn't be executed`);
 		}
 	});
 }

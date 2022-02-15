@@ -1,4 +1,4 @@
-import {log, requiredKeysValidator, sleep} from './utils';
+import {log, sleep} from './utils';
 import scraper from './scraper';
 import Piscina from 'piscina';
 import {executeTasks, getAllTasks, getSingleTask, getTasksToBeExecuted, removeExtraBuilds} from './task';
@@ -13,6 +13,7 @@ import art from './art';
 import fs from 'fs';
 import path from 'path';
 import * as TOML from 'toml';
+import {TaskInstance} from './class';
 
 require('source-map-support').install();
 
@@ -42,7 +43,16 @@ async function main(): Promise<boolean> {
 	//读取数据库
 	readDatabase();
 	//读取全部任务
-	let tasks = config.SPECIFY_TASK ? [getSingleTask(config.SPECIFY_TASK).unwrap()] : getAllTasks().unwrap();
+	let tasks: TaskInstance[];
+	if (config.SPECIFY_TASK) {
+		//以,分割分别获取任务
+		tasks = [];
+		for (let t of config.SPECIFY_TASK.split('/')) {
+			tasks.push(getSingleTask(t).unwrap());
+		}
+	} else {
+		tasks = getAllTasks().unwrap();
+	}
 	//执行全部任务爬虫
 	let results = await scraper(tasks);
 	//console.log(JSON.stringify(results,null,2))

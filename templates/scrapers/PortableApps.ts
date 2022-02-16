@@ -59,7 +59,7 @@ async function scrapePage(
 	if (!dom_node?.attr('class')) {
 		return new Err('Error:Valid dom node not found');
 	} else {
-		log('Info:Get valid dom node whose class is "' + dom_node.attr('class') + '"');
+		//log('Info:Get valid dom node whose class is "' + dom_node.attr('class') + '"');
 	}
 
 	// 尝试获取MD5
@@ -179,12 +179,12 @@ async function scrapePage(
 	result.href = parseDownloadUrl(result.href);
 
 	// 输出提示
-	log(
-		'Info:Scraped successfully,got\ntext: '
-		+ result.text
-		+ '\ndownload link: '
-		+ result.href,
-	);
+	// log(
+	// 	'Info:Scraped successfully,got\ntext: '
+	// 	+ result.text
+	// 	+ '\ndownload link: '
+	// 	+ result.href,
+	// );
 	if (result.md5 !== '') {
 		console.log('md5: ' + result.md5 ?? 'none');
 	}

@@ -58,9 +58,9 @@
   },
   "CrystalDiskMark": {
     "recent": {
-      "health": 3,
+      "health": 2,
       "latestVersion": "8.0.4.0",
-      "errorMessage": "No error yet",
+      "errorMessage": "Error:Scraper worker executed script failed : \n\"Await failed due to timeout\"",
       "builds": [
         {
           "fileName": "CrystalDiskMark_8.0.4.0_Horatio Shaw（bot）.7z",
@@ -68,8 +68,7 @@
           "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
         }
       ]
-    },
-    "taskName": "CrystalDiskMark"
+    }
   },
   "XnView": {
     "recent": {
@@ -861,10 +860,16 @@
   },
   "DOSBOX": {
     "recent": {
-      "health": 2,
-      "latestVersion": "0.0.0.0",
+      "health": 3,
+      "latestVersion": "0.74.3.0",
       "errorMessage": "Error:Worker executed script failed : \n\"Await failed due to timeout\"",
-      "builds": []
+      "builds": [
+        {
+          "fileName": "DOSBOX_0.74.3.0_undefined（bot）.7z",
+          "version": "0.74.3.0",
+          "timestamp": "Wed Feb 16 2022 23:33:04 GMT+0800 (中国标准时间)"
+        }
+      ]
     }
   },
   "Diffpdf": {
@@ -967,9 +972,9 @@
   },
   "WiseDiskCleaner": {
     "recent": {
-      "health": 3,
+      "health": 2,
       "latestVersion": "10.8.2.0",
-      "errorMessage": "No error yet",
+      "errorMessage": "Error:Scraper worker executed script failed : \n\"Await failed due to timeout\"",
       "builds": [
         {
           "fileName": "WiseDiskCleaner_10.8.2.0_undefined（bot）.7z",

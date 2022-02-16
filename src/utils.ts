@@ -321,6 +321,7 @@ function shuffle<T>(arr: Array<T>): Array<T> {
 	return arr;
 }
 
+//TODO:拓展内置变量解析的覆盖范围
 function parseBuiltInValue(source: string, v: {
 	taskName: string,
 	downloadedFile: string,

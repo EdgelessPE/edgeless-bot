@@ -46,6 +46,15 @@ function getGuideSidebar() {
           { text: '解析器', link: '/advanced/resolver' },
           { text: '制作器', link: '/advanced/producter' },
         ]
+      },
+      {
+        text: '使用模板',
+        children: [
+          { text: '开始', link: '/templates/start' },
+          { text: '爬虫', link: '/templates/scraper' },
+          { text: '解析器', link: '/templates/resolver' },
+          { text: '制作器', link: '/templates/producer' },
+        ]
       }
     ]
   }

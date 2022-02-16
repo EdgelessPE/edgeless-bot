@@ -185,9 +185,9 @@ async function scrapePage(
 	// 	+ '\ndownload link: '
 	// 	+ result.href,
 	// );
-	if (result.md5 !== '') {
-		console.log('md5: ' + result.md5 ?? 'none');
-	}
+	// if (result.md5 !== '') {
+	// 	console.log('md5: ' + result.md5 ?? 'none');
+	// }
 
 	return new Ok(result);
 }

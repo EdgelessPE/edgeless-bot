@@ -10,11 +10,11 @@ Edgeless Bot 的远程功能通过调用 rclone 命令实现，支持本地存�
 
 ## 性能
 
-Edgeless Bot 使用了 Node.js Worker 线程池以获取尽可能高的效率。同时，为了保证爬取和制作过程不受其他操作的影响，在两个阶段进行了同步并进行了并发线程数量限制；为了防止对同一域名的瞬时并发量过大，对于同模板的任务只能顺序执行。
+Edgeless Bot 使用了 Node.js Worker 线程池 [piscina](https://github.com/piscinajs/piscina) 以获取尽可能高的效率，在同时执行大量任务时相比较于上一代 Bot 性能有了大幅度的提升。同时，为了保证整体流程的顺畅运行和不对上游服务器产生过大的瞬时负载，也根据实际需要对部分操作进行了并发限制。
 
 ## 模板
 
-Bot 基于三种模板完成看门狗任务：
+Edgeless Bot 基于三种模板完成看门狗任务：
 
 * 爬虫 (Scraper)
 * 解析器 (Resolver)

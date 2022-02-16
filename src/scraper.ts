@@ -105,35 +105,34 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 			let node = classifyHash[key];
 			if (node.entrance == 'External') {
 				//启动外置脚本任务
-				let taskName = node.pool[0].name,
-					badge = getBadge('Scraper');
-				wd = {
-					badge,
-					scriptPath: path.join(__dirname, '..', config.DIR_TASKS, taskName, 'scraper.js'),
-					isExternal: true,
-					tasks: node.pool,
-				};
-				piscina.run(wd, {name: 'scraper'})
-					.then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
-						if (res.err) {
-							log('Error:Scraper resolved error', badge);
-							node.pool.forEach((item) => {
+				for (let poolNode of node.pool) {
+					let taskName = poolNode.name,
+						badge = getBadge('Scraper');
+					wd = {
+						badge,
+						scriptPath: path.join(__dirname, '..', config.DIR_TASKS, taskName, 'scraper.js'),
+						isExternal: true,
+						tasks: [poolNode],
+					};
+					piscina.run(wd, {name: 'scraper'})
+						.then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
+							console.log(badge + ' returned:\n' + JSON.stringify(res));
+							if (res.err) {
+								log('Error:Scraper resolved error', badge);
 								collection.push({
-									taskName: item.name,
-									result: new Err(res.val),
+									taskName,
+									result: res,
 								});
-							});
-						} else {
-							node.pool.forEach((item, index) => {
+							} else {
 								collection.push({
-									taskName: item.name,
-									result: res.val[index],
+									taskName,
+									result: res.val[0],
 								});
-							});
-						}
-						checkResolve(badge, taskName);
-					});
-				jobSum++;
+							}
+							checkResolve(badge, taskName);
+						});
+					jobSum++;
+				}
 			} else {
 				//启动模板任务
 				p = parsePath(node.entrance);

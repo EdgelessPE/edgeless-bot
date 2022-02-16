@@ -230,7 +230,11 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 				break;
 			case Cmp.G:
 				//警告
-				log(`Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`);
+				if (onlineVersion != '0.0.0.0') {
+					log(`Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`);
+				} else {
+					log(`Info:Ignore missing version task ` + result.taskName);
+				}
 				if (res.err) {
 					log(res.val);
 					break;

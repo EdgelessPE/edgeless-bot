@@ -20,7 +20,7 @@ const config = {
     logo: "https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico",
     nav: [
       { text: "首页", link: "https://home.edgeless.top" },
-      { text: "Hub", link: "https://down.edgeless.top" },
+      { text: "Edgeless Hub", link: "https://down.edgeless.top" },
     ],
     sidebar: {
         '/': getGuideSidebar()

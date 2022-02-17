@@ -3,8 +3,9 @@
 ## 通用解析器模板
 
 <!-- ${Resolver_Universal} -->
-* [Ctfile](./resolver/Ctfile.md)
 
-## 匹配URL解析器模板
+- [Ctfile](./resolver/Ctfile.md)
+
+## 匹配 URL 解析器模板
 
 <!-- ${Resolver_URL} -->

@@ -2,7 +2,7 @@
 
 ## 快速开始
 
-确保你已经安装 [Node.js](https://nodejs.org/) 16 和 [yarn](https://yarnpkg.com/) 包管理器，然后执行以下命令：
+确保你已经安装 [Node.js](https://nodejs.org/) 16 和 [yarn](https://yarnpkg.com/) 包管理器，克隆仓库后执行以下命令：
 
 ```shell
 yarn & yarn serve -d
@@ -47,6 +47,7 @@ sudo apt install rclone
 ```
 
 ### PECMD (选装)
+
 在执行仅 Windows 平台任务时需要使用，可以从 Edgeless 中提取。
 
 ## 配置
@@ -109,13 +110,13 @@ Debug，此模式下的数据库更新和远程功能会被禁用，此外可能
 
 Task(s)，指定需要执行的任务，用`/`分割。不指定此参数时会执行全部任务。
 
-示例：`yarn serve -t "TaskA/Task B/Long name task C"`	仅执行上述三个任务
+示例：`yarn serve -t "TaskA/Task B/Long name task C"` 仅执行上述三个任务
 
 ### -f
 
 Force，忽略与本地数据库的版本号对比强制重新构建任务，通常与`-t`参数同时给定。
 
-示例：`yarn serve -f -t TaskA`	强制重新构建 TaskA
+示例：`yarn serve -f -t TaskA` 强制重新构建 TaskA
 
 ### -g
 

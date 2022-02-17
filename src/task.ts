@@ -274,7 +274,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 			taskName: t.task.name,
 			downloadedFile: '"ERROR:Downloading not started yet"',
 			latestVersion: t.info.version,
-		}),
+		}, true),
 		cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
 		password: t.info.resolverParameter?.password,
 	}, t.info.resolverParameter?.entrance ?? (t.task.template.resolver ?? undefined));

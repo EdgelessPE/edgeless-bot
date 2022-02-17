@@ -289,7 +289,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		downloadedFile = await download(t.task.name, dRes.val.directLink, workshop);
 	} catch (e) {
 		console.log(JSON.stringify(e));
-		return new Err('Error:Can\'t download link' + dRes.val.directLink);
+		return new Err('Error:Can\'t download link : ' + dRes.val.directLink);
 	}
 	const absolutePath = path.join(workshop, downloadedFile);
 	//校验文件

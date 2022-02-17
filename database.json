@@ -116,9 +116,9 @@
   },
   "Deno": {
     "recent": {
-      "health": 3,
+      "health": 2,
       "latestVersion": "1.18.2.0",
-      "errorMessage": "No error yet",
+      "errorMessage": "Error:Can't download linkhttps://github.com/denoland/deno/releases/download/v1.19.0/deno-x86_64-pc-windows-msvc.zip",
       "builds": [
         {
           "fileName": "Deno_1.18.2.0_Hydrogen（bot）.7z",
@@ -126,8 +126,7 @@
           "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
         }
       ]
-    },
-    "taskName": "Deno"
+    }
   },
   "Motrix": {
     "recent": {
@@ -207,17 +206,16 @@
   "火绒安全": {
     "recent": {
       "health": 3,
-      "latestVersion": "5.0.66.0",
+      "latestVersion": "5.0.66.1",
       "errorMessage": "No error yet",
       "builds": [
         {
-          "fileName": "火绒安全_5.0.66.0_Cno（bot）.7z",
-          "version": "5.0.66.0",
-          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+          "fileName": "火绒安全_5.0.66.1_Cno（bot）.7z",
+          "version": "5.0.66.1",
+          "timestamp": "Thu Feb 17 2022 16:06:25 GMT+0800 (中国标准时间)"
         }
       ]
-    },
-    "taskName": "火绒安全"
+    }
   },
   "360压缩": {
     "recent": {
@@ -281,17 +279,16 @@
   "向日葵远程控制": {
     "recent": {
       "health": 3,
-      "latestVersion": "12.5.0.44227",
+      "latestVersion": "12.5.1.44969",
       "errorMessage": "No error yet",
       "builds": [
         {
-          "fileName": "向日葵远程控制_12.5.0.44227_Cno（bot）.7z",
-          "version": "12.5.0.44227",
-          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+          "fileName": "向日葵远程控制_12.5.1.44969_Cno（bot）.7z",
+          "version": "12.5.1.44969",
+          "timestamp": "Thu Feb 17 2022 16:06:25 GMT+0800 (中国标准时间)"
         }
       ]
-    },
-    "taskName": "向日葵远程控制"
+    }
   },
   "Wechat": {
     "recent": {
@@ -445,14 +442,14 @@
   },
   "FastCopy": {
     "recent": {
-      "health": 2,
-      "latestVersion": "4.0.5.0",
+      "health": 3,
+      "latestVersion": "4.1.0.0",
       "errorMessage": "Error:Worker executed script failed : \n\"Await failed due to timeout\"",
       "builds": [
         {
-          "fileName": "FastCopy_4.0.5.0_Cno（bot）.7z",
-          "version": "4.0.5.0",
-          "timestamp": "Tue Feb 15 2022 15:48:09 GMT+0800 (中国标准时间)"
+          "fileName": "FastCopy_4.1.0.0_Cno（bot）.7z",
+          "version": "4.1.0.0",
+          "timestamp": "Thu Feb 17 2022 16:06:25 GMT+0800 (中国标准时间)"
         }
       ]
     }
@@ -771,17 +768,16 @@
   "ChromeBeta": {
     "recent": {
       "health": 3,
-      "latestVersion": "99.0.4844.27",
+      "latestVersion": "99.0.4844.35",
       "errorMessage": "No error yet",
       "builds": [
         {
-          "fileName": "ChromeBeta_99.0.4844.27_Horatio Shaw（bot）.7z",
-          "version": "99.0.4844.27",
-          "timestamp": "Tue Feb 15 2022 15:48:10 GMT+0800 (中国标准时间)"
+          "fileName": "ChromeBeta_99.0.4844.35_Horatio Shaw（bot）.7z",
+          "version": "99.0.4844.35",
+          "timestamp": "Thu Feb 17 2022 16:06:25 GMT+0800 (中国标准时间)"
         }
       ]
-    },
-    "taskName": "ChromeBeta"
+    }
   },
   "Firefox": {
     "recent": {

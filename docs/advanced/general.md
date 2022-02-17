@@ -81,9 +81,13 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 ## Result 类型
 Edgeless Bot 使用了 [ts-results](https://www.npmjs.com/package/ts-results) 库中的 `Result` 类型，在模板编写中的返回值也同样需要这一类型。
 
-Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 类型要求函数返回所需要的值时将值打包在一个“盒子”中，这个盒子会被打上 “Ok” 或是 “Err” 来标记函数执行是否成功，同时也表明了盒子中的值的类型是所需要的值还是报错信息。
+Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 类型要求函数返回所需要的值时将值打包在一个“盒子”中，这个盒子会被打上 “Ok” 或是 “Err” 标签来标记函数执行是否成功，同时也表明了盒子中的值的类型是所需要的值还是报错信息。
 
-在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子。更多使用方式可以访问 [ts-results](https://github.com/vultix/ts-results)。
+![](https://pineapple.edgeless.top/picbed/bot/result.png)
+
+在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子；对于返回一个 `Result` 类型的函数，可以通过 `.unwarp()` “打开盒子”，如果盒子类型为 “Err” 则会引发一个 `throw` 以将错误传递到当前函数中。你可以通过 `.ok` 或是 `.err` 这两个布尔值判断盒子类型，然后通过 `.val` 获取到盒子内的值。
+
+更多使用方式可以访问 [ts-results](https://github.com/vultix/ts-results)。
 
 ## 常用函数
 Edgeless Bot 提供了一些函数来规范化一部分的常用操作。
@@ -103,7 +107,28 @@ Edgeless Bot 提供了一些函数来规范化一部分的常用操作。
 此函数可以用于格式化地向控制台输出日志。使用方法为 `log("LEVEL:CONTENT")` ，其中 `LEVEL` 的有效值为 `Info` `Warning` `Error`，`CONTENT` 表示日志内容。
 
 #### versionCmp
-此函数可以用于比较两个版本号的大小，注意同时需要导入枚举类 `Cmp`。`Cmp.L` 表示 `<`，`Cmp.E` 表示 `=`，`Cmp.G` 表示 `>`。
+此函数可以用于比较两个版本号的大小，注意同时需要导入枚举类 `Cmp`，`Cmp.L` 表示 `<`，`Cmp.E` 表示 `=`，`Cmp.G` 表示 `>`。
 
 #### writeGBK
 此函数通常用于制作器模板，用于以 GBK 编码写入某个文件。
+### jQuery
+Edgeless Bot 使用 [cheerio](https://github.com/cheeriojs/cheerio) 代替 jQuery 对 DOM 进行处理，可以使用如下代码使用：
+```typescript
+import cheerio from 'cheerio';
+const $ = cheerio.load("HTML_PAGE_TEXT");
+```
+### Shell
+Edgeless Bot 使用 [shelljs](https://github.com/shelljs/shelljs) 提供部分常用的 Shell 命令，通常用于制作器模板，可以使用如下代码使用：
+```typescript
+const shell = require('shelljs');
+//示例：删除工作目录中下载到的文件
+shell.rm('-rf',path.join(workshop,downloadedFile))
+```
+### 解压
+Edgeless Bot 提供 7-Zip 的压缩和解压函数封装，其中解压函数 `release` 通常用于制作器模板，可以使用如下代码导入：
+```typescript
+import {release} from '../../src/p7zip';
+```
+:::tip
+压缩函数通常不需要用到，因为 Edgeless Bot 会先验收制作器模板返回的就绪目录，验收通过后会由 Edgeless Bot 完成压缩上传的工作。
+:::

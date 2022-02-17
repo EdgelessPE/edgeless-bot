@@ -14,8 +14,8 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	const obj = p.requiredObject as RequiredObject;
 
 	//Create ready directory
-	const readyDir = path.join(workshop, '_ready', taskName);
-	shell.mkdir('-p', readyDir);
+	const contentDir = path.join(workshop, '_ready', taskName);
+	shell.mkdir('-p', contentDir);
 
 	//YOUR CODE HERE
 

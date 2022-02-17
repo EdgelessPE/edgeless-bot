@@ -42,6 +42,7 @@ function getGuideSidebar() {
       {
         text: '进阶',
         children: [
+          { text: '概览', link: '/advanced/general' },
           { text: '爬虫', link: '/advanced/scraper' },
           { text: '解析器', link: '/advanced/resolver' },
           { text: '制作器', link: '/advanced/producter' },

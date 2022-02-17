@@ -38,7 +38,9 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}.exe"]
 ### 最新版本号
 使用 `${latestVersion}` 代指最新版本号，值来自于爬虫的返回结果。
 
+:::tip
 当此变量用于正则表达式时，为了防止 `.0` 导致的匹配失败问题，Edgeless Bot会自动将 `.0` 处理为 `(\.0)*` 。
+:::
 
 示例：
 在 `regex.download_name` 中使用最新版本号变量
@@ -49,3 +51,11 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}.exe"]
 # 等价于 'Edgeless Hub_Beta_2.21\.exe'
 download_name = 'Edgeless Hub_Beta_${latestVersion}\.exe'
 ```
+
+## 使用范围
+在任务配置(`config.toml`)中合适的位置基本都可以使用相应的内置变量。详细使用范围如下：
+
+* `regex.download_name` (注：`${downloadedFile}` 无法使用)
+* `parameter.build_delete`
+* `parameter.build_manifest`
+* `extra.missing_version`

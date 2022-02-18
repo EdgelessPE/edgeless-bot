@@ -1,19 +1,13 @@
 # GitHub Release
+* 入口：`GitHub_Release`
+* 适用 URL：`https?://github.com/[^/]+/[^/]+`
 
-* 入口：`GR`
-* 适用 URL：`通用`
-
-${ description }
-
+爬取由 GitHub Release 发布的软件，注意使用 `regex.download_name` 筛选发布的文件
+:::tip 预发布的 Release 会被忽略
+:::
 ## 必须提供的参数
 
-${ required }
-
-### scraper_temp.redirection_url
-
-* 类型：`string`
-* 说明：
-
+无
 ## 可选的参数
 
-${ valid }
+无

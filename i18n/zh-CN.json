@@ -80,5 +80,7 @@
   " (exist)": " (已存在)",
   "Wiki template saved to ": "文档模板保存在 ",
   ", modify it to add more information": ",编辑此文件增加更多信息",
-  "Use \"string\" as the type of required keys, modify if discrepant": "使用 \"string\" 作为必须提供的参数的类型,如果矛盾请修改"
+  "Use \"string\" as the type of required keys, modify if discrepant": "使用 \"string\" 作为必须提供的参数的类型,如果矛盾请修改",
+  "Silent installing argument": "静默安装参数",
+  "Delete installer after installing": "是否在安装完成后删除安装包"
 }

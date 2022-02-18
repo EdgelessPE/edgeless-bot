@@ -34,8 +34,9 @@ function getGuideSidebar() {
         text: '基础',
         children: [
           { text: '介绍', link: '/guide/whats' },
-          { text: '安装', link: '/guide/usage' },
-          { text: '任务', link: '/guide/task' },
+          { text: '安装与使用', link: '/guide/usage' },
+          { text: '构建与远程', link: '/guide/builds-and-remote' },
+          { text: '添加任务', link: '/guide/task' },
           { text: '内置变量', link: '/guide/built-in-values' },
         ]
       },

@@ -2,7 +2,7 @@
 
 ## 快速开始
 
-确保你已经安装 [Node.js](https://nodejs.org/) 16 和 [yarn](https://yarnpkg.com/) 包管理器，克隆仓库后执行以下命令：
+确保你已经安装 [Node.js](https://nodejs.org/) 16 、 [yarn](https://yarnpkg.com/) 包管理器以及[二进制](#二进制)后，克隆仓库后执行以下命令：
 
 ```shell
 yarn & yarn serve -d
@@ -10,7 +10,7 @@ yarn & yarn serve -d
 
 ## 二进制
 
-Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如 Windows 平台的 [scoop](https://scoop.sh) 或是 Linux 平台的 apt/dnf/pacman/zypper 等。如果无法使用包管理器，你可以将二进制文件放在项目根目录的 `bin` 目录下，或是项目根目录内(不推荐)。
+Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如 Windows 平台的 [scoop](https://scoop.sh) 或是 Linux 平台的 apt / dnf / pacman / zypper 等。如果无法使用包管理器，你可以将二进制文件放在项目根目录的 `bin` 目录下，或是项目根目录内(不推荐)。
 
 ### Aria2
 
@@ -104,19 +104,19 @@ Edgeless Bot 支持以下参数的组合使用：
 
 Debug，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。
 
-示例：`yarn serve -d`
+示例：`yarn serve -d`   以调试模式运行全部任务
 
 ### -t
 
-Task(s)，指定需要执行的任务，用`/`分割。不指定此参数时会执行全部任务。
+Task(s)，指定需要执行的任务，用`/`分割不同的任务。不指定此参数时会执行全部任务。
 
-示例：`yarn serve -t "TaskA/Task B/Long name task C"` 仅执行上述三个任务
+示例：`yarn serve -t "TaskA/Task B/Long name task C"`   仅执行上述三个任务
 
 ### -f
 
 Force，忽略与本地数据库的版本号对比强制重新构建任务，通常与`-t`参数同时给定。
 
-示例：`yarn serve -f -t TaskA` 强制重新构建 TaskA
+示例：`yarn serve -f -t TaskA`  强制重新构建 TaskA
 
 ### -g
 

@@ -77,5 +77,7 @@
   "Create wiki for": "需要为哪个模板创建文档？",
   "Create new wiki for ": "为 ",
   " template ": " 类型的模板创建文档 : ",
-  " (exist)": " (已存在)"
+  " (exist)": " (已存在)",
+  "Wiki template saved to ": "文档模板保存在 ",
+  ", modify it to add more information": ",编辑此文件增加更多信息"
 }

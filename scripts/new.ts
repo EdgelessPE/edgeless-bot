@@ -11,6 +11,7 @@ import scraperRegister from '../templates/scrapers/_register';
 import resolverRegister from '../templates/resolvers/_register';
 import producerRegister from '../templates/producers/_register';
 import {ProducerRegister, ResolverRegister, ScraperRegister} from '../src/class';
+import {JSONSchema4} from 'json-schema';
 
 const TOML = require('@iarna/toml');
 const shell = require('shelljs');
@@ -392,7 +393,7 @@ async function createWiki(): Promise<void> {
 			}
 		});
 		name = list[await select(_('Create wiki for'), list)];
-		if (existWikiTree[typeI].includes(name) && !(await bool(_('Already exist, overwrite?')))) {
+		if (existWikiTree[typeI].includes(name) && !(await bool(_('Already exist, overwrite?'), false))) {
 			return await createWiki();
 		}
 	}
@@ -509,7 +510,38 @@ async function createWiki(): Promise<void> {
 		case 'producer':
 			regNode = getRegNode(producerRegister, name);
 			if (regNode) {
-
+				//读取schema文件
+				let schema = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'schema/producer_templates', regNode.entrance + '.json')).toString()) as JSONSchema4;
+				if (schema.required == null || typeof schema.required == 'boolean') {
+					schema.required = [];
+				}
+				//生成两个数组
+				let obj: JSONSchema4;
+				for (let key in schema.properties) {
+					obj = schema.properties[key];
+					if (schema.required.includes(key)) {
+						required.push({
+							key,
+							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
+						});
+					} else {
+						valid.push({
+							key,
+							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
+						});
+					}
+				}
+				//填充Wiki模板文本
+				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\`\n\n${regNode.description ? _(regNode.description) : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
+				//写Wiki
+				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
+				fs.writeFileSync(wikiPath, wikiText);
+				//注册Wiki
+				const label = 'Producer';
+				r(label, `* [${regNode.name}](./${type}/${regNode.entrance}.md)`);
+				fs.writeFileSync(path.join(process.cwd(), 'docs', 'templates', type + '.md'), indexMD);
+				//打印提示
+				console.log(chalk.green(_('Success ')), _('Wiki template saved to ') + chalk.cyanBright(wikiPath) + _(', modify it to add more information'));
 			} else {
 				log(`Error:Template ${name} not registered yet`)
 			}

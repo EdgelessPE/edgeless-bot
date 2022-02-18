@@ -3,7 +3,7 @@
 * 入口：`Global_Page_Match`
 * 适用 URL：`通用`
 
-使用给定的正则表达式匹配 html 文件中的文本内容,通过在 "scraper_temp.download_selector" "scraper_temp.version_selector" 中指定 jQuery 选择器缩小匹配范围
+使用给定的正则表达式匹配 html 文件中的文本内容,通过在 `scraper_temp.download_selector` `scraper_temp.version_selector` 中指定 jQuery 选择器缩小匹配范围
 
 ## 必须提供的参数
 

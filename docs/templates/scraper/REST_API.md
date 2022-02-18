@@ -3,7 +3,7 @@
 * 入口：`REST_API`
 * 适用 URL：`通用`
 
-通过 "scraper_temp.api_url" 指定 Json REST api 的 url ,并通过 "scraper_temp.version_path" "scraper_temp.download_path" 指定对象路径
+通过 `scraper_temp.api_url` 指定 Json REST api 的 url ,并通过 `scraper_temp.version_path` `scraper_temp.download_path` 指定对象路径
 
 ## 必须提供的参数
 

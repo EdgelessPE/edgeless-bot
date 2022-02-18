@@ -2,7 +2,7 @@
 
 * 入口：`Silent_Install`
 
-追加静默安装参数运行下载到的文件(默认参数为 "/S",可以通过 "producer_required.argument" 指定)
+追加静默安装参数运行下载到的文件(默认参数为 `/S`,可以通过 `producer_required.argument` 指定)
 
 推荐的构建装箱单 : `${taskName}.wcs,${taskName}/${downloadedFile}`
 

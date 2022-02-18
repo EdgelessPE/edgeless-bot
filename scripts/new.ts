@@ -465,7 +465,7 @@ async function createWiki(): Promise<void> {
 					}
 				}
 				//填充Wiki模板文本
-				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n\n${regNode.description ? _(regNode.description) : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
+				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
 				//写Wiki
 				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
 				fs.writeFileSync(wikiPath, wikiText);
@@ -490,7 +490,7 @@ async function createWiki(): Promise<void> {
 					});
 				});
 				//填充Wiki模板文本
-				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.downloadLinkRegex == 'universal://' ? '通用' : regNode.downloadLinkRegex}\`\n\n${regNode.description ? _(regNode.description) : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}`;
+				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.downloadLinkRegex == 'universal://' ? '通用' : regNode.downloadLinkRegex}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}`;
 				//写Wiki
 				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
 				fs.writeFileSync(wikiPath, wikiText);
@@ -532,7 +532,7 @@ async function createWiki(): Promise<void> {
 					}
 				}
 				//填充Wiki模板文本
-				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\`\n\n${regNode.description ? _(regNode.description) : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
+				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
 				//写Wiki
 				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
 				fs.writeFileSync(wikiPath, wikiText);

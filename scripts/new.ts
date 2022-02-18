@@ -434,8 +434,8 @@ async function createWiki(): Promise<void> {
 		}
 	};
 	//根据具体类型进行处理
-	let required: { type: string, key: string }[] = [],
-		valid: { type: string, key: string }[] = [];
+	let required: { type: string, key: string, description?: string }[] = [],
+		valid: { type: string, key: string, description?: string }[] = [];
 	switch (type as 'scraper' | 'resolver' | 'producer') {
 		case 'scraper':
 			regNode = getRegNode(scraperRegister, name);
@@ -523,11 +523,13 @@ async function createWiki(): Promise<void> {
 						required.push({
 							key,
 							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
+							description: obj.description ? _(obj.description) : undefined,
 						});
 					} else {
 						valid.push({
 							key,
 							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
+							description: obj.description ? _(obj.description) : undefined,
 						});
 					}
 				}

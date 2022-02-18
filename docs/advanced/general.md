@@ -89,15 +89,20 @@ export default async function (
 
 模板中已经预置了基本变量的解构、常用函数的导入、自定义类型说明和默认导出函数的类型等声明。在 `//YOUR CODE HERE` 处编写你的代码，并修改结尾处的 `return new Ok` 语句返回你获得的值。
 
+:::warning 不要随意修改爬虫模板中提供的 `interface Temp` 的接口名称 `Temp`，在生成文档时会根据这个接口中的申明生成部分内容。
+:::
+
 ## Result 类型
 
 Edgeless Bot 使用了 [ts-results](https://www.npmjs.com/package/ts-results) 库中的 `Result` 类型，在模板编写中的返回值也同样需要这一类型。
 
-Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 类型要求函数返回所需要的值时将值打包在一个“盒子”中，这个盒子会被打上 “Ok” 或是 “Err” 标签来标记函数执行是否成功，同时也表明了盒子中的值的类型是所需要的值还是报错信息。
+Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 类型要求函数返回所需要的值时将值打包在一个“盒子”中，这个盒子会被打上 “Ok” 或是 “Err”
+标签来标记函数执行是否成功，同时也表明了盒子中的值的类型是所需要的值还是报错信息。
 
 ![](https://pineapple.edgeless.top/picbed/bot/result.png)
 
-在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子；对于返回一个 `Result` 类型的函数，可以通过 `.unwarp()` “打开盒子”，如果盒子类型为 “Err” 则会引发一个 `throw` 以将错误传递到当前函数中。你可以通过 `.ok` 或是 `.err` 这两个布尔值判断盒子类型，然后通过 `.val` 获取到盒子内的值。
+在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子；对于返回一个 `Result` 类型的函数，可以通过 `.unwarp()`
+“打开盒子”，如果盒子类型为 “Err” 则会引发一个 `throw` 以将错误传递到当前函数中。你可以通过 `.ok` 或是 `.err` 这两个布尔值判断盒子类型，然后通过 `.val` 获取到盒子内的值。
 
 详情请访问 [ts-results](https://github.com/vultix/ts-results)。
 

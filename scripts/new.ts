@@ -46,9 +46,9 @@ interface Schema {
 function printHelp() {
 	//展示帮助信息
 	console.log('');
-	console.log(chalk.blue(_('Usage ')) + 'yarn new [task/template]');
+	console.log(chalk.blue(_('Usage ')) + 'yarn new [task/template/wiki]');
 	console.log('');
-	console.log(_('Create new task or template for Edgeless Bot'));
+	console.log(_('Create new task / template / template wiki for Edgeless Bot'));
 	console.log('');
 }
 
@@ -336,12 +336,16 @@ async function createTemplate() {
 			templatePath = `./templates/producers/${jsonP.entrance}.ts`;
 			shell.cp('./scripts/templates/producer.ts', templatePath);
 			//复制生成schema.json
-			let schemaPath=`./schema/producer_templates/${jsonP.entrance}.json`
-			shell.cp('./scripts/templates/schema.json',schemaPath)
+			let schemaPath = `./schema/producer_templates/${jsonP.entrance}.json`;
+			shell.cp('./scripts/templates/schema.json', schemaPath);
 			//报告
-			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + _(', schema for "producer_required" object saved to ')+ chalk.cyanBright(schemaPath) + _(', template register information saved to \"_register.ts\" in the same directory'));
+			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + _(', schema for "producer_required" object saved to ') + chalk.cyanBright(schemaPath) + _(', template register information saved to \"_register.ts\" in the same directory'));
 			break;
 	}
+}
+
+async function createWiki() {
+	
 }
 
 async function main() {
@@ -358,6 +362,9 @@ async function main() {
 			break;
 		case 'template':
 			await createTemplate();
+			break;
+		case 'wiki':
+			await createWiki();
 			break;
 		default:
 			log(`Error:Unknown argument '${process.argv[2]}'`);

@@ -230,7 +230,11 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 				break;
 			case Cmp.G:
 				//警告
-				log(`Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`);
+				if (onlineVersion != '0.0.0.0') {
+					log(`Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`);
+				} else {
+					log(`Info:Ignore missing version task ` + result.taskName);
+				}
 				if (res.err) {
 					log(res.val);
 					break;
@@ -270,7 +274,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 			taskName: t.task.name,
 			downloadedFile: '"ERROR:Downloading not started yet"',
 			latestVersion: t.info.version,
-		}),
+		}, true),
 		cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
 		password: t.info.resolverParameter?.password,
 	}, t.info.resolverParameter?.entrance ?? (t.task.template.resolver ?? undefined));
@@ -285,7 +289,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 		downloadedFile = await download(t.task.name, dRes.val.directLink, workshop);
 	} catch (e) {
 		console.log(JSON.stringify(e));
-		return new Err('Error:Can\'t download link' + dRes.val.directLink);
+		return new Err('Error:Can\'t download link : ' + dRes.val.directLink);
 	}
 	const absolutePath = path.join(workshop, downloadedFile);
 	//校验文件

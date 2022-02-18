@@ -44,7 +44,7 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 				}
 				return new Ok([res]);
 			} catch (e) {
-				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);
+				return new Err(`Error:Scraper worker executed script failed : \n${JSON.stringify(e)}`);
 			}
 		} else {
 			//作为模板处理
@@ -62,7 +62,7 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 					})) as Result<ScraperReturned, string>;
 					results.push(res);
 				} catch (e) {
-					results.push(new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`));
+					results.push(new Err(`Error:Scraper worker executed script failed : \n${JSON.stringify(e)}`));
 				}
 			}
 			return new Ok(results);
@@ -89,7 +89,7 @@ async function resolver(workerData: WorkerDataResolver): Promise<Result<Resolver
 				password: workerData.password,
 			})) as Result<ResolverReturned, string>;
 		} catch (e) {
-			return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);
+			return new Err(`Error:Resolver worker executed script failed : \n${JSON.stringify(e)}`);
 		}
 		return res;
 	}
@@ -111,7 +111,7 @@ async function producer(workerData: WorkerDataProducer): Promise<Result<Producer
 				res = (await awaitWithTimeout(script, HEAVY_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
 				return res;
 			} catch (e) {
-				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);
+				return new Err(`Error:Producer worker executed script failed : \n${JSON.stringify(e)}`);
 			}
 		} else {
 			//作为模板处理
@@ -120,7 +120,7 @@ async function producer(workerData: WorkerDataProducer): Promise<Result<Producer
 			try {
 				res = (await awaitWithTimeout(script, HEAVY_TIMEOUT, workerData.task)) as Result<ProducerReturned, string>;
 			} catch (e) {
-				return new Err(`Error:Worker executed script failed : \n${JSON.stringify(e)}`);
+				return new Err(`Error:Producer worker executed script failed : \n${JSON.stringify(e)}`);
 			}
 			return res;
 		}

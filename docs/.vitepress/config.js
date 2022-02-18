@@ -20,7 +20,7 @@ const config = {
     logo: "https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico",
     nav: [
       { text: "首页", link: "https://home.edgeless.top" },
-      { text: "Hub", link: "https://down.edgeless.top" },
+      { text: "Edgeless Hub", link: "https://down.edgeless.top" },
     ],
     sidebar: {
         '/': getGuideSidebar()
@@ -42,9 +42,19 @@ function getGuideSidebar() {
       {
         text: '进阶',
         children: [
+          { text: '概览', link: '/advanced/general' },
           { text: '爬虫', link: '/advanced/scraper' },
           { text: '解析器', link: '/advanced/resolver' },
           { text: '制作器', link: '/advanced/producter' },
+        ]
+      },
+      {
+        text: '使用模板',
+        children: [
+          { text: '开始', link: '/templates/start' },
+          { text: '爬虫', link: '/templates/scraper' },
+          { text: '解析器', link: '/templates/resolver' },
+          { text: '制作器', link: '/templates/producer' },
         ]
       }
     ]

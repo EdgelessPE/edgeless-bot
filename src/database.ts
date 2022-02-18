@@ -48,7 +48,7 @@ function writeDatabase() {
 //需要在read后调用
 function getDatabaseNode(taskName: string): DatabaseNode {
 	if (database.hasOwnProperty(taskName)) {
-		let node = database[taskName] as DatabaseNode;
+		let node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
 		node['taskName'] = taskName;
 		return node;
 	} else {
@@ -92,7 +92,7 @@ function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>)
 			latestVersion: newVersion,
 			errorMessage: old.recent.errorMessage,
 			builds: newBuilds,
-		},
+		}
 	};
 	successList.push({
 		taskName,

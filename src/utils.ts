@@ -321,15 +321,17 @@ function shuffle<T>(arr: Array<T>): Array<T> {
 	return arr;
 }
 
+//TODO:拓展内置变量解析的覆盖范围
 function parseBuiltInValue(source: string, v: {
-	taskName: string,
-	downloadedFile: string,
-	latestVersion: string
-}): string {
+		taskName: string,
+		downloadedFile: string,
+		latestVersion: string
+	},
+	regexOptimizing?: boolean): string {
 	return source
 		.replace('${taskName}', v.taskName)
 		.replace('${downloadedFile}', v.downloadedFile)
-		.replace('${latestVersion}', v.latestVersion.replace('.0', '(.0)*').replace('.', '\\.'));
+		.replace('${latestVersion}', (regexOptimizing ? (v.latestVersion.replace('.0', '(.0)*').replace('.', '\\.')) : v.latestVersion));
 }
 
 function writeGBK(file: string, text: string) {

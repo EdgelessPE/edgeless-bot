@@ -52,6 +52,8 @@ interface ResolverRegister {
 	entrance: string;
 	//TODO:实现校验
 	requiredKeys: Array<string>;
+	//TODO:增加描述
+	description?: string;
 }
 
 //自动制作模板

@@ -1,0 +1,38 @@
+# 任务基本信息
+[task]
+name = "WhatChanged"
+category = "实用工具"
+author = "undefined"
+url = "https://portableapps.com/apps/utilities/whatchanged-portable"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "PortableApps"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

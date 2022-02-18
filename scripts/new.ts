@@ -405,6 +405,9 @@ async function createWiki(): Promise<void> {
 	indexMD = fs.readFileSync(path.join(process.cwd(), 'docs', 'templates', type + '.md')).toString();
 	const r = (label: string, content: string) => {
 		let cmt = `<!-- \${${label}} -->`;
+		if (indexMD.includes(content)) {
+			return;
+		}
 		indexMD = indexMD.replace(cmt, content + '\n' + cmt);
 	};
 	//读取模板文本
@@ -463,12 +466,12 @@ async function createWiki(): Promise<void> {
 				//填充Wiki模板文本
 				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n\n${regNode.description ? _(regNode.description) : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
 				//写Wiki
-				fs.writeFileSync(path.join(process.cwd(), 'docs/templates', type, name + '.md'), wikiText);
+				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
+				fs.writeFileSync(wikiPath, wikiText);
 				//注册Wiki
 				const label = regNode.urlRegex == 'universal://' ? 'Scraper_Universal' : 'Scraper_URL';
 				r(label, `* [${regNode.name}](./${type}/${regNode.entrance}.md)`);
-				const wikiPath = path.join(process.cwd(), 'docs', 'templates', type + '.md');
-				fs.writeFileSync(wikiPath, indexMD);
+				fs.writeFileSync(path.join(process.cwd(), 'docs', 'templates', type + '.md'), indexMD);
 				//打印提示
 				console.log(chalk.green(_('Success ')), _('Wiki template saved to ') + chalk.cyanBright(wikiPath) + _(', modify it to add more information'));
 			} else {
@@ -478,7 +481,27 @@ async function createWiki(): Promise<void> {
 		case 'resolver':
 			regNode = getRegNode(resolverRegister, name);
 			if (regNode) {
-
+				//从注册节点复制required
+				regNode.requiredKeys.forEach(key => {
+					required.push({
+						key,
+						type: 'string',
+					});
+				});
+				//填充Wiki模板文本
+				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.downloadLinkRegex == 'universal://' ? '通用' : regNode.downloadLinkRegex}\`\n\n${regNode.description ? _(regNode.description) : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}`;
+				//写Wiki
+				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
+				fs.writeFileSync(wikiPath, wikiText);
+				//注册Wiki
+				const label = regNode.downloadLinkRegex == 'universal://' ? 'Resolver_Universal' : 'Resolver_URL';
+				r(label, `* [${regNode.name}](./${type}/${regNode.entrance}.md)`);
+				fs.writeFileSync(path.join(process.cwd(), 'docs', 'templates', type + '.md'), indexMD);
+				//打印提示
+				console.log(chalk.green(_('Success ')), _('Wiki template saved to ') + chalk.cyanBright(wikiPath) + _(', modify it to add more information'));
+				if (required.length > 0) {
+					console.log(chalk.yellow(_('Warning ')), _('Use "string" as the type of required keys, modify if discrepant'));
+				}
 			} else {
 				log(`Error:Template ${name} not registered yet`);
 			}

@@ -6,5 +6,5 @@
 
 ## 匹配 URL 爬虫模板
 
-- [GitHub Release](./scraper/GitHub_Release.md)
+* [GitHub Release](./scraper/GitHub_Release.md)
 <!-- ${Scraper_URL} -->

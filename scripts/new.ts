@@ -1,14 +1,15 @@
-import {applyInput, bool, input, inputRequiredKey, select, stringArray} from './utils';
+import {applyInput, bool, genParameterWiki, input, inputRequiredKey, select, stringArray} from './utils';
 import {log} from '../src/utils';
 import {TaskConfig} from '../src/task';
 import chalk from 'chalk';
 import {CATEGORIES, PROJECT_ROOT} from '../src/const';
 import fs from 'fs';
-import producerRegister from '../templates/producers/_register';
 import path from 'path';
 import {config} from '../src/config';
 import {_, init} from '../i18n/i18n';
 import scraperRegister from '../templates/scrapers/_register';
+import resolverRegister from '../templates/resolvers/_register';
+import producerRegister from '../templates/producers/_register';
 import {ProducerRegister, ResolverRegister, ScraperRegister} from '../src/class';
 
 const TOML = require('@iarna/toml');
@@ -191,32 +192,32 @@ async function createTask() {
 						universalList.push(i);
 					}
 				}
-				if(universalList.length>0){
+				if (universalList.length > 0) {
 					//生成用户界面选择文本
-					let choiceArray=[]
-					for(let i of universalList){
-						choiceArray.push(_(i.name)+(i.description?"\n"+_(i.description):""))
+					let choiceArray = [];
+					for (let i of universalList) {
+						choiceArray.push(_(i.name) + (i.description ? '\n' + _(i.description) : ''));
 					}
 					//让用户选择
-					let index=await select(_("Universal scraper template"),choiceArray)
-					scraperEntrance=universalList[index].entrance
+					let index = await select(_('Universal scraper template'), choiceArray);
+					scraperEntrance = universalList[index].entrance;
 					//提示可能的requiredKeys
-					if(universalList[index].requiredKeys.length>0) {
+					if (universalList[index].requiredKeys.length > 0) {
 						let tip = await inputRequiredKeys(universalList[index].requiredKeys);
 						if (tip != '') {
 							console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(tip.slice(0, -1)));
 						}
 					}
-				}else{
-					console.log(_("Warning ")+_("No universal scraper template found, consider modify task config manually later"));
+				} else {
+					console.log(_('Warning ') + _('No universal scraper template found, consider modify task config manually later'));
 				}
 			}
 		}
 		return url;
 	};
-	const getScraper=function ():string{
-		if(externalScraper){
-			return 'scraper = "External"'
+	const getScraper = function (): string {
+		if (externalScraper) {
+			return 'scraper = "External"';
 		} else {
 			if (scraperEntrance == undefined) {
 				return '# scraper = ""';
@@ -224,7 +225,7 @@ async function createTask() {
 				return `scraper = "${scraperEntrance}"`;
 			}
 		}
-	}
+	};
 
 	//构成基础json
 	const Categories = CATEGORIES.sort((a, b) => {
@@ -345,7 +346,151 @@ async function createTemplate() {
 }
 
 async function createWiki() {
-	
+	let type = null,
+		name = null;
+	const types = ['scraper', 'resolver', 'producer'];
+	//加载md目录树
+	let mdTree: {
+		[type: string]: string[]
+	} = {};
+	for (let type of types) {
+		mdTree[type] = [];
+		fs.readdirSync(path.join(process.cwd(), 'templates', type + 's')).forEach(name => {
+			if (name != '_register.ts') {
+				mdTree[type].push(name.split('.')[0]);
+			}
+		});
+	}
+	//读取索引MarkDown文件，自动查找需要添加文档的模板
+	let indexMD = '',
+		m,
+		tmp,
+		n;
+	for (let type1 of types) {
+		indexMD = fs.readFileSync(path.join(process.cwd(), 'docs', 'templates', type1 + '.md')).toString();
+		m = indexMD.match(/\* \[.+]\(.+\)/g);
+		if (m) {
+			for (let textNode of m) {
+				tmp = textNode.match(/\[.+]/) as RegExpMatchArray;
+				n = tmp[0].slice(1, -1);
+				if (!mdTree[type1].includes(n)) {
+					type = type1;
+					name = n;
+					break;
+				}
+			}
+			if (name) {
+				break;
+			}
+		}
+	}
+	//询问是否需要修改
+	if (!(await bool(_('Create new wiki for ') + type + _(' template ') + name + '?', true))) {
+		type = types[await select(_('Template type'), [
+			_('Scraper'),
+			_('Resolver'),
+			_('Producer'),
+		])];
+		//列出模板文件列表
+		let list: string[] = [];
+		fs.readdirSync(path.join(process.cwd(), 'templates', type)).forEach(name => {
+			if (name != '_register.ts') {
+				list.push(name.split('.')[0]);
+			}
+		});
+		name = list[await select(_('Create wiki for'), list)];
+	}
+	//让tsc确信name和type不为空
+	if (name == null || type == null) {
+		log('Error:Fatal error : name or type null');
+		return;
+	}
+	//读取索引MarkDown，定义替换函数
+	indexMD = fs.readFileSync(path.join(process.cwd(), 'docs', 'templates', type + '.md')).toString();
+	const r = (label: string, content: string) => {
+		indexMD = indexMD.replace(`<!-- \${${label}} -->`, content);
+	};
+	//读取模板文本
+	let regNode,
+		tsText = fs.readFileSync(path.join(process.cwd(), 'templates', type + 's', name + '.ts')).toString();
+	//定义注册池查询函数和清洗函数
+	const getRegNode = function <T extends { entrance: string }>(regPool: T[], entrance: string): T | null {
+		let r = null;
+		for (let n of regPool) {
+			if (n.entrance == entrance) {
+				r = n;
+				break;
+			}
+		}
+		return r;
+	};
+	const wash = function (dirty: string): string {
+		let m = dirty.match(/\w+/g);
+		if (m) {
+			return m[0];
+		} else {
+			throw 'Error:Internal error : can\'t wash string : ' + dirty;
+		}
+	};
+	//根据具体类型进行处理
+	let required: { type: string, key: string }[] = [],
+		valid: { type: string, key: string }[] = [];
+	switch (type as 'scraper' | 'resolver' | 'producer') {
+		case 'scraper':
+			regNode = getRegNode(scraperRegister, name);
+			if (regNode) {
+				//匹配对Temp接口的申明
+				m = tsText.match(/interface Temp {[^}]*}/g);
+				let declareLines = m ? m[0].match(/^\s*[\w:?\t; ]+$/gm) : null;
+				//如果申明了Temp接口
+				if (m && declareLines) {
+					//生成必须数组和可选数组
+					for (let line of declareLines) {
+						if (line.includes('?')) {
+							//添加到可选参数
+							tmp = line.split(':');
+							valid.push({
+								key: wash(tmp[0]),
+								type: wash(tmp[1]),
+							});
+						} else {
+							//添加到必须参数
+							tmp = line.split(':');
+							required.push({
+								key: wash(tmp[0]),
+								type: wash(tmp[1]),
+							});
+						}
+					}
+				}
+				//填充Wiki模板文本
+				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n${regNode.description}\n## 必须提供的参数\n${genParameterWiki(required)}## 可选的参数\n${genParameterWiki(valid)}`;
+				//写Wiki
+				fs.writeFileSync(path.join(process.cwd(), 'docs/templates', type, name + '.md'), wikiText);
+				//注册Wiki
+				const label = regNode.urlRegex == 'universal://' ? 'Scraper_Universal' : 'Scraper_URL';
+				r(label, `* [${regNode.name}](./${type}/${regNode.entrance}.md)\n<!-- \${${label} -->`);
+			} else {
+				log(`Error:Template ${name} not registered yet`);
+			}
+			break;
+		case 'resolver':
+			regNode = getRegNode(resolverRegister, name);
+			if (regNode) {
+
+			} else {
+				log(`Error:Template ${name} not registered yet`);
+			}
+			break;
+		case 'producer':
+			regNode = getRegNode(producerRegister, name);
+			if (regNode) {
+
+			} else {
+				log(`Error:Template ${name} not registered yet`)
+			}
+			break
+	}
 }
 
 async function main() {
@@ -374,9 +519,10 @@ async function main() {
 }
 
 async function test() {
-	//console.log(await input("输入项目名称","Test"));
-	//console.log(await select("选择模板",["Click2Install","RecRelease","GlobalMatch"],2));
-	//console.log(await bool("确认继续？",true));
+	const text = fs.readFileSync(process.cwd() + '/templates/scrapers/Global_Page_Match.ts').toString();
+	let declareText = text.match(/interface Temp {[^}]*}/g) as RegExpMatchArray;
+	let m = declareText[0].match(/^\s*[\w:?\t; ]+$/gm);
+	console.log(JSON.stringify(m, null, 2));
 }
 
 main().then(_ => {

@@ -188,6 +188,19 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 	return new Ok(toml);
 }
 
+//生成参数声明文档
+function genParameterWiki(arr: { type: string, key: string }[]): string {
+	if (arr.length == 0) {
+		return '无';
+	} else {
+		let r = '';
+		for (let n of arr) {
+			r += `### ${n.key}\n* 类型：\`${n.type}\`\n* 说明：\n`;
+		}
+		return r;
+	}
+}
+
 export {
 	input,
 	select,
@@ -195,4 +208,5 @@ export {
 	stringArray,
 	applyInput,
 	inputRequiredKey,
+	genParameterWiki,
 };

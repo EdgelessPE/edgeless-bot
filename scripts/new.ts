@@ -60,7 +60,7 @@ async function createTask() {
 	//创建任务文件夹
 	const taskDir = path.join(PROJECT_ROOT, config.DIR_TASKS, taskName),
 		configPath = path.join(taskDir, 'config.toml');
-	if (fs.existsSync(configPath) && !(await bool(_('Task already exist, overwrite?'), false))) {
+	if (fs.existsSync(configPath) && !(await bool(_('Already exist, overwrite?'), false))) {
 		return;
 	}
 	shell.mkdir('-p', taskDir);
@@ -345,60 +345,56 @@ async function createTemplate() {
 	}
 }
 
-async function createWiki() {
+async function createWiki(): Promise<void> {
 	let type = null,
 		name = null;
-	const types = ['scraper', 'resolver', 'producer'];
-	//加载md目录树
-	let mdTree: {
-		[type: string]: string[]
-	} = {};
-	for (let type of types) {
-		mdTree[type] = [];
-		fs.readdirSync(path.join(process.cwd(), 'templates', type + 's')).forEach(name => {
-			if (name != '_register.ts') {
-				mdTree[type].push(name.split('.')[0]);
-			}
-		});
-	}
-	//读取索引MarkDown文件，自动查找需要添加文档的模板
 	let indexMD = '',
 		m,
 		tmp,
 		n;
-	for (let type1 of types) {
-		indexMD = fs.readFileSync(path.join(process.cwd(), 'docs', 'templates', type1 + '.md')).toString();
-		m = indexMD.match(/\* \[.+]\(.+\)/g);
-		if (m) {
-			for (let textNode of m) {
-				tmp = textNode.match(/\[.+]/) as RegExpMatchArray;
-				n = tmp[0].slice(1, -1);
-				if (!mdTree[type1].includes(n)) {
-					type = type1;
-					name = n;
-					break;
-				}
-			}
-			if (name) {
+	const types = ['scraper', 'resolver', 'producer'],
+		regPool: Array<{ name: string, entrance: string }[]> = [scraperRegister, resolverRegister, producerRegister];
+	//加载已存在文档目录树
+	let existWikiTree: Array<string[]> = [];
+	for (let i in types) {
+		existWikiTree.push([]);
+		fs.readdirSync(path.join(process.cwd(), 'docs/templates', types[i])).forEach(name => {
+			existWikiTree[i].push(name.split('.')[0]);
+		});
+	}
+	//依次查询注册池寻找未添加文档的模板
+	for (let i in types) {
+		for (let node of regPool[i]) {
+			if (!existWikiTree[i].includes(node.entrance)) {
+				name = node.entrance;
+				type = types[i];
 				break;
 			}
 		}
+		if (name) {
+			break;
+		}
 	}
+
 	//询问是否需要修改
-	if (!(await bool(_('Create new wiki for ') + type + _(' template ') + name + '?', true))) {
-		type = types[await select(_('Template type'), [
+	if (name == null || !(await bool(_('Create new wiki for ') + type + _(' template ') + name + ' ?', true))) {
+		let typeI = await select(_('Template type'), [
 			_('Scraper'),
 			_('Resolver'),
 			_('Producer'),
-		])];
+		]);
+		type = types[typeI];
 		//列出模板文件列表
 		let list: string[] = [];
-		fs.readdirSync(path.join(process.cwd(), 'templates', type)).forEach(name => {
+		fs.readdirSync(path.join(process.cwd(), 'templates', type + 's')).forEach(name => {
 			if (name != '_register.ts') {
 				list.push(name.split('.')[0]);
 			}
 		});
 		name = list[await select(_('Create wiki for'), list)];
+		if (existWikiTree[typeI].includes(name) && !(await bool(_('Already exist, overwrite?')))) {
+			return await createWiki();
+		}
 	}
 	//让tsc确信name和type不为空
 	if (name == null || type == null) {

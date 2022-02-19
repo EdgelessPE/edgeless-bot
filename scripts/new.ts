@@ -1,4 +1,13 @@
-import {applyInput, bool, genParameterWiki, input, inputRequiredKey, select, stringArray} from './utils';
+import {
+	applyInput,
+	bool,
+	genParameterWiki,
+	input,
+	inputRequiredKey,
+	ParameterDeclare,
+	select,
+	stringArray,
+} from './utils';
 import {log} from '../src/utils';
 import {TaskConfig} from '../src/task';
 import chalk from 'chalk';
@@ -434,8 +443,8 @@ async function createWiki(): Promise<void> {
 		}
 	};
 	//根据具体类型进行处理
-	let required: { type: string, key: string, description?: string }[] = [],
-		valid: { type: string, key: string, description?: string }[] = [];
+	let required: ParameterDeclare[] = [],
+		valid: ParameterDeclare[] = [];
 	switch (type as 'scraper' | 'resolver' | 'producer') {
 		case 'scraper':
 			regNode = getRegNode(scraperRegister, name);
@@ -453,6 +462,7 @@ async function createWiki(): Promise<void> {
 							valid.push({
 								key: wash(tmp[0]),
 								type: wash(tmp[1]),
+								title:"scraper_temp"
 							});
 						} else {
 							//添加到必须参数
@@ -460,10 +470,21 @@ async function createWiki(): Promise<void> {
 							required.push({
 								key: wash(tmp[0]),
 								type: wash(tmp[1]),
+								title:"scraper_temp"
 							});
 						}
 					}
 				}
+				//补充来自注册节点的required信息
+				regNode.requiredKeys.forEach(key => {
+					if(key.split(".")[0]!="scraper_temp"){
+						required.push({
+							key:key.split(".")[0],
+							type: 'string',
+							title:key.split(".")[1]
+						});
+					}
+				});
 				//填充Wiki模板文本
 				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
 				//写Wiki
@@ -485,8 +506,9 @@ async function createWiki(): Promise<void> {
 				//从注册节点复制required
 				regNode.requiredKeys.forEach(key => {
 					required.push({
-						key,
+						key:key.split(".")[0],
 						type: 'string',
+						title:key.split(".")[1]
 					});
 				});
 				//填充Wiki模板文本
@@ -524,12 +546,14 @@ async function createWiki(): Promise<void> {
 							key,
 							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
 							description: obj.description ? _(obj.description) : undefined,
+							title:"producer_required"
 						});
 					} else {
 						valid.push({
 							key,
 							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
 							description: obj.description ? _(obj.description) : undefined,
+							title:"producer_required"
 						});
 					}
 				}

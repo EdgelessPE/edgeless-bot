@@ -188,14 +188,21 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 	return new Ok(toml);
 }
 
+interface ParameterDeclare {
+	type: string,
+	key: string,
+	title:string,
+	description?: string
+}
+
 //生成参数声明文档
-function genParameterWiki(arr: { type: string, key: string, description?: string }[]): string {
+function genParameterWiki(arr: ParameterDeclare[]): string {
 	if (arr.length == 0) {
 		return '无';
 	} else {
 		let r = '';
 		for (let n of arr) {
-			r += `### ${n.key}\n* 类型：\`${n.type}\`\n* 说明：${n.description ?? ''}\n`;
+			r += `### ${n.key}\n* 路径：\`${n.title}.${n.key}\`\n* 类型：\`${n.type}\`\n* 说明：${n.description ?? ''}\n`;
 		}
 		return r;
 	}
@@ -209,4 +216,5 @@ export {
 	applyInput,
 	inputRequiredKey,
 	genParameterWiki,
+	ParameterDeclare
 };

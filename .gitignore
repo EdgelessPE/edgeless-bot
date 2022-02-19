@@ -6,8 +6,6 @@ test
 workshop
 builds
 dist
-*.exe
 docs/docs-dist
 tasks/1
-bin
 _press.wcs

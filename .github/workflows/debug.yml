@@ -15,17 +15,6 @@ jobs:
           submodules: recursive
           ref: ${{ github.ref }}
 
-      # 获取rclone
-      - uses: actions/checkout@v2
-        with:
-          repository: Cnotech/rclone
-          token: ${{ secrets.RCLONE_TOKEN }}
-          path: rclone
-
-      # 取出rclone
-      - name: Copy rclone
-        run: mv .\rclone\* .\
-
       # 缓存yarn
       - uses: actions/cache@v2
         with:
@@ -38,7 +27,7 @@ jobs:
 
       # 获取数据库
       - name: Fetch database
-        run: rclone copy pineapple:/hdisk/Bot/database.json ./
+        run: curl https://pineapple.edgeless.top/Bot/database.json -o database.json
         shell: cmd
       
       # 运行构建任务，试运行期间禁用上传功能

@@ -168,6 +168,7 @@ if (!Piscina.isWorkerThread) {
 		if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
 			//回传数据库
 			cp.execSync('rclone copy ./database.json pineapple:/hdisk/Bot/');
+			log('Info:Database pushed');
 		}
 		process.exit(result ? 0 : 1);
 	});

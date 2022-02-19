@@ -1,8 +1,12 @@
-name: Serve
+name: Serve-next
 
 on:
   push:
     branches: [ next ]
+    paths:
+      - 'src/**'
+      - 'templates/**'
+      - 'tasks/**'
   schedule:
     - cron: '0 20 * * *'
 

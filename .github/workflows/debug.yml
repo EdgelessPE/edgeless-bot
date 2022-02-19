@@ -9,6 +9,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - id: step1
+        shell: cmd
         run: echo "::set-output name=test::hello"
       - id: step2
+        shell: cmd
         run: echo ${{needs.debug.outputs.output1}}

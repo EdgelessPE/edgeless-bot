@@ -8,11 +8,14 @@ jobs:
   debug:
     runs-on: windows-latest
     outputs:
-      output1: ${{ steps.step1.outputs.test }}
+      random-number:
+        description: "Random number"
+        value: ${{ steps.random-number-generator.outputs.random-id }}
     steps:
-      - id: step1
+      - id: random-number-generator
+        run: echo ::set-output name=random-id::nmsl
         shell: cmd
-        run: echo ::set-output name=test::hello
-      - id: step2
+      - id: print
+        if: needs.debug.outputs.random-number=='nmsl'
+        run: echo "Info:Should print"
         shell: cmd
-        run: echo ${{needs.debug.outputs.output1}}

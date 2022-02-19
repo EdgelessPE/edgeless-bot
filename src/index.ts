@@ -28,6 +28,10 @@ require('source-map-support').install();
 async function main(): Promise<boolean> {
 	//打印艺术字
 	art();
+	//GA模式收起运行输出
+	if (config.GITHUB_ACTIONS){
+		console.log('::group::Console Log');
+	}
 	//平台校验
 	//TODO:支持其他平台，实现require_windows，检查pecmd是否存在
 	if (getOS() != 'Windows') {
@@ -91,6 +95,9 @@ async function main(): Promise<boolean> {
 	//停止aria2c
 	await stopAria2c();
 	//打印报告
+	if (config.GITHUB_ACTIONS){
+		console.log('::endgroup::');
+	}
 	return report();
 }
 

@@ -13,20 +13,24 @@
 
 ### version_page_url
 
+* 路径：`scraper_temp.version_page_url`
 * 类型：`string`
 * 说明：版本号发布页面 URL，缺省使用上游 URL (`task.url`)
 
 ### download_page_url
 
+* 路径：`scraper_temp.download_page_url`
 * 类型：`string`
 * 说明：下载链接发布页面 URL，缺省使用上游 URL (`task.url`)
 
 ### version_selector
 
+* 路径：`scraper_temp.version_selector`
 * 类型：`string`
 * 说明：一个用于缩小查找版本号范围的 jQuery 选择器
 
 ### download_selector
 
+* 路径：`scraper_temp.download_selector`
 * 类型：`string`
 * 说明：一个用于缩小查找下载链接范围的 jQuery 选择器

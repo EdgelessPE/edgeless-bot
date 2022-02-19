@@ -9,6 +9,7 @@
 
 ### redirection_url
 
+* 路径：`scraper_temp.redirection_url`
 * 类型：`string`
 * 说明：指定被解析的 URL 链接
 

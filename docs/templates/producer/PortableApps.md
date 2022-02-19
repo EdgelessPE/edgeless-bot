@@ -12,15 +12,18 @@
 
 ### shortcutName
 
+* 路径：`producer_required.shortcutName`
 * 类型：`string`
 * 说明：在桌面上创建的快捷方式名称，缺省使用任务名称
 
 ### launchArg
 
+* 路径：`producer_required.launchArg`
 * 类型：`string`
 * 说明：创建的快捷方式启动参数
 
 ### autoClean
 
+* 路径：`producer_required.autoClean`
 * 类型：`boolean`
 * 说明：是否在安装完成后删除安装包，不推荐启用

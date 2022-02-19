@@ -10,6 +10,7 @@
 
 ### shortcutName
 
+* 路径：`producer_required.shortcutName`
 * 类型：`string`
 * 说明：创建的快捷方式名称
 

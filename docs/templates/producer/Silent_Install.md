@@ -14,10 +14,12 @@
 
 ### argument
 
+* 路径：`producer_required.argument`
 * 类型：`string`
 * 说明：静默安装参数
 
 ### deleteInstaller
 
+* 路径：`producer_required.deleteInstaller`
 * 类型：`boolean`
 * 说明：是否在安装完成后删除安装包，不推荐启用

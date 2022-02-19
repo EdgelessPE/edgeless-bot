@@ -23,7 +23,7 @@ function parseDownloadUrl(href: string): string {
 	// URL编码
 	href = encodeURI(href);
 
-	// Log("Info:Parse download link into:" + href)
+	// log("Info:Parse download link into:" + href)
 	return href;
 }
 
@@ -98,7 +98,7 @@ async function scrapePage(
 				// 匹配是否为英文
 				if (result.text.match(/English/)) {
 					// 尝试获取多语言下载列表
-					log(
+					if (!config.GITHUB_ACTIONS) log(
 						'Info:English application detected,trying to match simplified chinese version',
 					);
 					const table = $('.zebra.download-links');
@@ -120,7 +120,7 @@ async function scrapePage(
 								log('Warning:Fail to got md5');
 							}
 
-							log(
+							if (!config.GITHUB_ACTIONS) log(
 								'Info:Found simplified chinese version\nmd5:'
 								+ result.md5
 								+ '\ndownload link:'
@@ -177,17 +177,6 @@ async function scrapePage(
 
 	// 处理href
 	result.href = parseDownloadUrl(result.href);
-
-	// 输出提示
-	// log(
-	// 	'Info:Scraped successfully,got\ntext: '
-	// 	+ result.text
-	// 	+ '\ndownload link: '
-	// 	+ result.href,
-	// );
-	// if (result.md5 !== '') {
-	// 	console.log('md5: ' + result.md5 ?? 'none');
-	// }
 
 	return new Ok(result);
 }

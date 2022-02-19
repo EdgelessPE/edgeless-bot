@@ -158,9 +158,9 @@ async function test(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
 	main().then(async result => {
 		await sleep(1000);
-		if(config.GITHUB_ACTIONS&&modified){
+		if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
 			//回传数据库
-			cp.execSync("rclone copy ./database.json pineapple:/hdisk/Bot/")
+			cp.execSync('rclone copy ./database.json pineapple:/hdisk/Bot/');
 		}
 		process.exit(result ? 0 : 1);
 	});

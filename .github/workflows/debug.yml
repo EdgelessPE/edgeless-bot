@@ -1,0 +1,46 @@
+name: Debug
+
+on:
+  pull_request:
+    branches:
+      - next
+
+jobs:
+  serve:
+    runs-on: windows-latest
+    steps:
+      # 获取仓库源码
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          ref: ${{ github.ref }}
+
+      # 获取rclone
+      - uses: actions/checkout@v2
+        with:
+          repository: Cnotech/rclone
+          token: ${{ secrets.RCLONE_TOKEN }}
+          path: rclone
+
+      # 取出rclone
+      - name: Copy rclone
+        run: mv .\rclone\* .\
+
+      # 缓存yarn
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      # 安装依赖
+      - name: Install dependencies
+        run: yarn
+
+      # 获取数据库
+      - name: Fetch database
+        run: rclone copy pineapple:/hdisk/Bot/database.json ./
+        shell: cmd
+      
+      # 运行构建任务，试运行期间禁用上传功能
+      - name: Run scripts
+        run: yarn serve -g -d

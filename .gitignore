@@ -11,3 +11,4 @@ tasks/1
 _press.wcs
 rclone*
 *.exe
+database.json

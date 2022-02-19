@@ -1,4 +1,5 @@
 # GitHub Release
+* 类型：爬虫
 * 入口：`GitHub_Release`
 * 适用 URL：`https?://github.com/[^/]+/[^/]+`
 

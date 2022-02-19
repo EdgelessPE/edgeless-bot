@@ -1,5 +1,6 @@
 # Global Page Match
 
+* 类型：爬虫
 * 入口：`Global_Page_Match`
 * 适用 URL：`通用`
 

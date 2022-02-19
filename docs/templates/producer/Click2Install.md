@@ -1,5 +1,6 @@
 # Click to Install
 
+* 类型：制作器
 * 入口：`Click2Install`
 
 在桌面上创建快捷方式让用户手动双击安装或运行

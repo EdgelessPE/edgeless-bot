@@ -1,5 +1,6 @@
 # REST API
 
+* 类型：爬虫
 * 入口：`REST_API`
 * 适用 URL：`通用`
 

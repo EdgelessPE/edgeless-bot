@@ -1,5 +1,6 @@
 # Portable Apps
 
+* 类型：爬虫
 * 入口：`PortableApps`
 * 适用 URL：`https?://portableapps.com/apps/\S+`
 

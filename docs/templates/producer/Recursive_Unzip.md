@@ -1,5 +1,6 @@
 # Recursive Unzip
 
+* 类型：制作器
 * 入口：`Recursive_Unzip`
 
 根据指定的 `recursiveUnzipList` 递归地解压下载得到的文件，然后在桌面上创建一个快捷方式指向 `sourceFile`

@@ -1,5 +1,6 @@
 # PortableApps
 
+* 类型：制作器
 * 入口：`PortableApps`
 
 专用于离线 PortableApps 软件源（以 `.paf.exe` 为拓展名）

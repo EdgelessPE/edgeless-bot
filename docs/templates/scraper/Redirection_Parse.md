@@ -1,5 +1,6 @@
 # Redirection Parse
 
+* 类型：爬虫
 * 入口：`Redirection_Parse`
 * 适用 URL：`通用`
 

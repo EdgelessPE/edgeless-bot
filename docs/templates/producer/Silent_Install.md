@@ -1,5 +1,6 @@
 # Silent Install
 
+* 类型：制作器
 * 入口：`Silent_Install`
 
 追加静默安装参数运行下载到的文件(默认参数为 `/S`,可以通过 `producer_required.argument` 指定)

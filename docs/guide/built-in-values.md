@@ -40,7 +40,7 @@ name = "Edgeless Hub"
 [parameter]
 # 假设下载的文件名为 "edgeless-hub.exe"
 # 等价于 ["Edgeless Hub.wcs", "Edgeless Hub/edgeless-hub.exe"]
-build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}.exe"]
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 ```
 
 ### 最新版本号

@@ -462,7 +462,7 @@ async function createWiki(): Promise<void> {
 							valid.push({
 								key: wash(tmp[0]),
 								type: wash(tmp[1]),
-								title:"scraper_temp"
+								title: 'scraper_temp',
 							});
 						} else {
 							//添加到必须参数
@@ -470,18 +470,24 @@ async function createWiki(): Promise<void> {
 							required.push({
 								key: wash(tmp[0]),
 								type: wash(tmp[1]),
-								title:"scraper_temp"
+								title: 'scraper_temp',
 							});
 						}
 					}
 				}
 				//补充来自注册节点的required信息
+				let s;
 				regNode.requiredKeys.forEach(key => {
-					if(key.split(".")[0]!="scraper_temp"){
+					s = key.split('.');
+					if (s.length != 2) {
+						log('Error:Format error in requiredKeys (_register.ts) : ' + key);
+						return;
+					}
+					if (s[0] != 'scraper_temp') {
 						required.push({
-							key:key.split(".")[0],
+							key: s[0],
 							type: 'string',
-							title:key.split(".")[1]
+							title: s[1],
 						});
 					}
 				});
@@ -503,13 +509,21 @@ async function createWiki(): Promise<void> {
 		case 'resolver':
 			regNode = getRegNode(resolverRegister, name);
 			if (regNode) {
-				//从注册节点复制required
+				//从注册节点添加required
+				let s;
 				regNode.requiredKeys.forEach(key => {
-					required.push({
-						key:key.split(".")[0],
-						type: 'string',
-						title:key.split(".")[1]
-					});
+					s = key.split('.');
+					if (s.length != 2) {
+						log('Error:Format error in requiredKeys (_register.ts) : ' + key);
+						return;
+					}
+					if (s[0] != 'scraper_temp') {
+						required.push({
+							key: s[0],
+							type: 'string',
+							title: s[1],
+						});
+					}
 				});
 				//填充Wiki模板文本
 				let wikiText = `# ${regNode.name}\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.downloadLinkRegex == 'universal://' ? '通用' : regNode.downloadLinkRegex}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}`;
@@ -546,14 +560,14 @@ async function createWiki(): Promise<void> {
 							key,
 							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
 							description: obj.description ? _(obj.description) : undefined,
-							title:"producer_required"
+							title: 'producer_required',
 						});
 					} else {
 						valid.push({
 							key,
 							type: obj.type == 'array' ? `Array<${(obj.items as any).type}>` : (obj.type as string),
 							description: obj.description ? _(obj.description) : undefined,
-							title:"producer_required"
+							title: 'producer_required',
 						});
 					}
 				}
@@ -569,9 +583,9 @@ async function createWiki(): Promise<void> {
 				//打印提示
 				console.log(chalk.green(_('Success ')), _('Wiki template saved to ') + chalk.cyanBright(wikiPath) + _(', modify it to add more information'));
 			} else {
-				log(`Error:Template ${name} not registered yet`)
+				log(`Error:Template ${name} not registered yet`);
 			}
-			break
+			break;
 	}
 }
 

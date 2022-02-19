@@ -8,8 +8,8 @@ let database: {
 		[key: string]: {
 			recent: DatabaseNode['recent']
 		}
-	} = {},
-	modified = false;
+	} = {};
+export let modified = false;
 
 //记录执行成功/失败的操作列表
 let successList: Array<{

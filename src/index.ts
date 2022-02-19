@@ -7,11 +7,19 @@ import {ensurePlatform, getOS} from './platform';
 import os from 'os';
 import {clearWorkshop} from './workshop';
 import {initAria2c, stopAria2c} from './aria2c';
-import {readDatabase, report, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from './database';
+import {
+	modified,
+	readDatabase,
+	report,
+	setDatabaseNodeFailure,
+	setDatabaseNodeSuccess,
+	writeDatabase,
+} from './database';
 import {uploadToRemote} from './rclone';
 import art from './art';
 import fs from 'fs';
 import path from 'path';
+import cp from 'child_process'
 import * as TOML from 'toml';
 import {TaskInstance} from './class';
 
@@ -150,11 +158,10 @@ async function test(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
 	main().then(async result => {
 		await sleep(1000);
-		if(config.GITHUB_ACTIONS){
-			if(!result) fs.writeFileSync("actions_failed","")
-			process.exit(0)
-		}else{
-			process.exit(result ? 0 : 1);
+		if(config.GITHUB_ACTIONS&&modified){
+			//回传数据库
+			cp.execSync("rclone copy ./database.json pineapple:/hdisk/Bot/")
 		}
+		process.exit(result ? 0 : 1);
 	});
 }

@@ -50,14 +50,3 @@ jobs:
       # 运行构建任务，试运行期间禁用上传功能
       - name: Run scripts
         run: yarn serve -g
-
-      # 回传数据库
-      - name: Push database
-        run: rclone copy ./database.json pineapple:/hdisk/Bot/
-        shell: cmd
-
-      # 如果存在构建失败标记则返回1
-      - name: Passing check
-        shell: cmd
-        run: |
-          if exist actions_failed exit 1

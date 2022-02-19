@@ -1,0 +1,14 @@
+name: Debug
+
+on:
+  push:
+    branches: [ next ]
+
+jobs:
+  debug:
+    runs-on: windows-latest
+    steps:
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - id: step2
+        run: echo ${{needs.debug.outputs.output1}}

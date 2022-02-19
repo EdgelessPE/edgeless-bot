@@ -150,6 +150,11 @@ async function test(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
 	main().then(async result => {
 		await sleep(1000);
-		process.exit(result ? 0 : 1);
+		if(config.GITHUB_ACTIONS){
+			if(!result) fs.writeFileSync("actions_failed","")
+			process.exit(0)
+		}else{
+			process.exit(result ? 0 : 1);
+		}
 	});
 }

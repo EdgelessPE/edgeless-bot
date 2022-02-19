@@ -89,7 +89,8 @@ export default async function (
 
 模板中已经预置了基本变量的解构、常用函数的导入、自定义类型说明和默认导出函数的类型等声明。在 `//YOUR CODE HERE` 处编写你的代码，并修改结尾处的 `return new Ok` 语句返回你获得的值。
 
-:::warning 不要随意修改爬虫模板中提供的 `interface Temp` 的接口名称 `Temp`，在生成文档时会根据这个接口中的申明生成部分内容。
+:::warning
+不要随意修改爬虫模板中提供的 `interface Temp` 的接口名称 `Temp`，在生成文档时会根据这个接口中的申明生成部分内容。
 :::
 
 ## Result 类型

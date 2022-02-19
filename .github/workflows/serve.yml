@@ -47,6 +47,6 @@ jobs:
         run: rclone copy pineapple:/hdisk/Bot/database.json ./
         shell: cmd
       
-      # 运行构建任务，试运行期间禁用上传功能
+      # 运行构建任务
       - name: Run scripts
         run: yarn serve -g

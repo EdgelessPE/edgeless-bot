@@ -129,13 +129,13 @@ async function scrapePage(
 						} else {
 							if (!config.GITHUB_ACTIONS) {
 								log(
-									'Warning:Simplified chinese version not found,use English version',
+									'Info:Simplified chinese version not found,use English version',
 								);
 							}
 						}
 					} else {
 						if (!config.GITHUB_ACTIONS) {
-							log('Warning:Localizations table not found,use English version');
+							log('Info:Localizations table not found,use English version');
 						}
 					}
 				} else {

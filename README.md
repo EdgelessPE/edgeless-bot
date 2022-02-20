@@ -72,4 +72,4 @@ Edgeless Bot 基于三种模板完成看门狗任务：
 
 下方的流程图描述了 Edgeless Bot 的工作流程，其中蓝色的部分是 Edgeless Bot 本体提供的功能，棕色部分是 Edgeless Bot 在运行过程中动态生成、维护的部分，其他部分由模板提供。
 
-![](https://pineapple.edgeless.top/picbed/bot/bot-next.png)
+![](./img/bot-next.png)

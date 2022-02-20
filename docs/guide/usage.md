@@ -5,7 +5,7 @@
 确保你已经安装 [Node.js](https://nodejs.org/) 16 、 [yarn](https://yarnpkg.com/) 包管理器以及[二进制](#二进制)后，克隆仓库后执行以下命令：
 
 ```shell
-yarn & yarn serve -d
+yarn && yarn serve -d
 ```
 
 ## 二进制

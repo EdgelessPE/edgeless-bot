@@ -8,7 +8,7 @@
 
 <p align="center">
 
-<a href="https://github.com/EdgelessPE/edgeless-bot/actions">
+<a href="https://github.com/EdgelessPE/edgeless-bot/actions/workflows/serve.yml">
   <img src="https://github.com/EdgelessPE/edgeless-bot/actions/workflows/serve.yml/badge.svg?branch=next" alt="workflow status">
 </a>
 <br/>

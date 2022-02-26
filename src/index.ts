@@ -7,11 +7,19 @@ import {ensurePlatform, getOS} from './platform';
 import os from 'os';
 import {clearWorkshop} from './workshop';
 import {initAria2c, stopAria2c} from './aria2c';
-import {readDatabase, report, setDatabaseNodeFailure, setDatabaseNodeSuccess, writeDatabase} from './database';
+import {
+	modified,
+	readDatabase,
+	report,
+	setDatabaseNodeFailure,
+	setDatabaseNodeSuccess,
+	writeDatabase,
+} from './database';
 import {uploadToRemote} from './rclone';
 import art from './art';
 import fs from 'fs';
 import path from 'path';
+import cp from 'child_process'
 import * as TOML from 'toml';
 import {TaskInstance} from './class';
 
@@ -20,6 +28,10 @@ require('source-map-support').install();
 async function main(): Promise<boolean> {
 	//打印艺术字
 	art();
+	//GA模式收起运行输出
+	if (config.GITHUB_ACTIONS){
+		console.log('::group::Console Log');
+	}
 	//平台校验
 	//TODO:支持其他平台，实现require_windows，检查pecmd是否存在
 	if (getOS() != 'Windows') {
@@ -83,6 +95,9 @@ async function main(): Promise<boolean> {
 	//停止aria2c
 	await stopAria2c();
 	//打印报告
+	if (config.GITHUB_ACTIONS){
+		console.log('::endgroup::');
+	}
 	return report();
 }
 
@@ -150,6 +165,11 @@ async function test(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
 	main().then(async result => {
 		await sleep(1000);
+		if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
+			//回传数据库
+			cp.execSync('rclone copy ./database.json pineapple:/hdisk/Bot/');
+			log('Info:Database pushed');
+		}
 		process.exit(result ? 0 : 1);
 	});
 }

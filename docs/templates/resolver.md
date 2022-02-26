@@ -2,10 +2,10 @@
 
 ## 通用解析器模板
 
+* [Ctfile](./resolver/Ctfile.md)
 <!-- ${Resolver_Universal} -->
-
-- [Ctfile](./resolver/Ctfile.md)
 
 ## 匹配 URL 解析器模板
 
+* [GitHub Release](./resolver/GitHub_Release.md)
 <!-- ${Resolver_URL} -->

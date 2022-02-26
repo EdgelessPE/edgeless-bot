@@ -1,13 +1,13 @@
 .idea
 .vscode
 node_modules
-yarn.lock
 test
 workshop
 builds
 dist
-*.exe
 docs/docs-dist
 tasks/1
-bin
 _press.wcs
+rclone*
+*.exe
+database.json

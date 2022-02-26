@@ -1,0 +1,35 @@
+name: Debug
+
+on:
+  pull_request:
+    branches:
+      - next
+
+jobs:
+  serve:
+    runs-on: windows-latest
+    steps:
+      # 获取仓库源码
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          ref: ${{ github.ref }}
+
+      # 缓存yarn
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      # 安装依赖
+      - name: Install dependencies
+        run: yarn
+
+      # 获取数据库
+      - name: Fetch database
+        run: curl https://pineapple.edgeless.top/Bot/database.json -o database.json
+        shell: cmd
+      
+      # 以Debug模式运行构建任务
+      - name: Run scripts
+        run: yarn serve -g -d

@@ -116,7 +116,6 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 					};
 					piscina.run(wd, {name: 'scraper'})
 						.then((res: Result<Array<Result<ScraperReturned, string>>, string>) => {
-							console.log(badge + ' returned:\n' + JSON.stringify(res));
 							if (res.err) {
 								log('Error:Scraper resolved error', badge);
 								collection.push({

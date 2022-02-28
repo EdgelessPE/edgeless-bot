@@ -24,11 +24,6 @@ jobs:
       # 安装依赖
       - name: Install dependencies
         run: yarn
-
-      # 获取数据库
-      - name: Fetch database
-        run: curl https://pineapple.edgeless.top/Bot/database.json -o database.json
-        shell: cmd
       
       # 以Debug模式运行构建任务
       - name: Run scripts

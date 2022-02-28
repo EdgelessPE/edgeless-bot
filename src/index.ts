@@ -28,9 +28,18 @@ require('source-map-support').install();
 async function main(): Promise<boolean> {
 	//打印艺术字
 	art();
-	//GA模式收起运行输出
-	if (config.GITHUB_ACTIONS){
+	//GA模式特殊处理
+	if (config.GITHUB_ACTIONS) {
 		console.log('::group::Console Log');
+		//获取database
+		if (config.DATABASE_UPDATE && config.REMOTE_ENABLE) {
+			cp.execSync('rclone copy pineapple:/hdisk/Bot/database.json ./');
+			log('Info:Database pulled');
+		} else {
+			//从https获得只读数据库
+			cp.execSync('curl https://pineapple.edgeless.top/Bot/database.json -o database.json');
+			log('Info:Readonly database pulled');
+		}
 	}
 	//平台校验
 	//TODO:支持其他平台，实现require_windows，检查pecmd是否存在

@@ -23,7 +23,7 @@ download_name = '\.exe'
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}/ToDesk.exe"]
 # build_cover = ""
-# build_delete = []
+build_delete = ["$PLUGINSDIR", "uninst.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -35,7 +35,7 @@ download_page_url = "https://www.todesk.com/js/common.js"
 [producer_required]
 shortcutName = "ToDesk"
 sourceFile = "ToDesk.exe"
-recursiveUnzipList = ["app.7z"]
+recursiveUnzipList = []
 
 
 # 额外备注

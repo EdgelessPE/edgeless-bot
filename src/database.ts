@@ -128,6 +128,10 @@ function report(): boolean {
 	} else {
 		//存在失败
 		log(`Error:${failedList.length} tasks failed :${generateFailureTip()}`);
+		//GA模式下向额外输出内容
+		if (config.GITHUB_ACTIONS) {
+			console.log(`::error::${failedList.length} tasks failed :${failedList.toString()}`);
+		}
 		if (successList.length > 0) {
 			log(`Info:Successful tasks :${generateSuccessTip()}`);
 		}

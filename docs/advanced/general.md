@@ -102,10 +102,16 @@ Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 
 
 ![](https://pineapple.edgeless.top/picbed/bot/result.png)
 
-在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子；对于返回一个 `Result` 类型的函数，可以通过 `.unwarp()`
-“打开盒子”，如果盒子类型为 “Err” 则会引发一个 `throw` 以将错误传递到当前函数中。你可以通过 `.ok` 或是 `.err` 这两个布尔值判断盒子类型，然后通过 `.val` 获取到盒子内的值。
+在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子。
+
+当从某个函数接收到 `Result` 类型的返回值时，可以通过 `.unwrap()`
+“打开盒子”获取到内部的 `Val`，不过对一个类型为 “Err” 的盒子执行 `.unwrap()` 则会引发一个 `throw`。你可以通过 `.ok` 或是 `.err` 这两个布尔值判断盒子类型，然后通过 `.val` 获取到盒子内的值。
 
 详情请访问 [ts-results](https://github.com/vultix/ts-results)。
+
+:::tip
+在编写 Edgeless Bot 模板或外置脚本时，如果发生了错误请返回一个 `new Err("Error:REASON HERE")`
+:::
 
 ## 常用函数
 

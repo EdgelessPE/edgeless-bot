@@ -2,8 +2,10 @@ import {ProducerParameters, ProducerReturned} from '../../src/class';
 import fs from 'fs';
 import {Err, Ok, Result} from 'ts-results';
 import path from 'path';
-import {writeGBK} from '../../src/utils';
+import {writeGBK,log} from '../../src/utils';
 import {release} from '../../src/p7zip';
+import os from 'os';
+import cp from 'child_process'
 
 const shell = require('shelljs');
 
@@ -65,7 +67,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 			break;
 		}
 		//准备下次递归
-		cwd = cwd + '/' + level.toString();
+		cwd = path.join(cwd,level.toString());
 		level++;
 		}
 	}
@@ -79,7 +81,12 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	//重命名并生成外置批处理
 	let final = path.join(p.workshop, '_ready');
 	shell.mkdir(final);
-	shell.mv(cwd, final + '/' + p.taskName);
+	shell.mv(cwd, path.join(final, p.taskName));
+	if(!fs.existsSync(path.join(final,p.taskName,obj.sourceFile))){
+		if(os.platform()=='win32'){
+			cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`)
+		}else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`)
+	}
 	writeGBK(path.join(final, p.taskName + '.wcs'), `LINK X:\\Users\\Default\\Desktop\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}`);
 	//自检
 	const exist = function (p: string): boolean {

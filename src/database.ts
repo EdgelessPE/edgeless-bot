@@ -122,6 +122,8 @@ function generateFailureTip(): string {
 
 //返回是否存在失败
 function report(): boolean {
+	console.log(config.GITHUB_ACTIONS)
+	console.log(`::error:: ${successList.length} tasks executed :${successList.toString()}`);
 	if (failedList.length == 0) {
 		//全部成功
 		log(`Success:Executed ${successList.length} tasks :${generateSuccessTip()}`);
@@ -131,8 +133,6 @@ function report(): boolean {
 		//GA模式下向额外输出内容
 		if (config.GITHUB_ACTIONS) {
 			console.log(`::error:: ${failedList.length} tasks failed :${failedList.toString()}`);
-		} else {
-			console.log("GITHUB_ACTIONS:false")
 		}
 		if (successList.length > 0) {
 			log(`Info:Successful tasks :${generateSuccessTip()}`);

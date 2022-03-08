@@ -2,7 +2,7 @@ import {ProducerParameters, ProducerReturned} from '../../src/class';
 import fs from 'fs';
 import {Err, Ok, Result} from 'ts-results';
 import path from 'path';
-import {writeGBK,log} from '../../src/utils';
+import {log, writeGBK} from '../../src/utils';
 import {release} from '../../src/p7zip';
 import os from 'os';
 import cp from 'child_process'
@@ -84,6 +84,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	shell.mv(cwd, path.join(final, p.taskName));
 	if(!fs.existsSync(path.join(final,p.taskName,obj.sourceFile))){
 		if(os.platform()=='win32'){
+			log(`Info:Try to fix move with command : ` + `move /y "${cwd}" "${path.join(final, p.taskName)}"`)
 			cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`)
 		}else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`)
 	}

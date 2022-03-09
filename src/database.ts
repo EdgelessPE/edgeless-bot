@@ -130,7 +130,7 @@ function report(): boolean {
 		log(`Error:${failedList.length} tasks failed :${generateFailureTip()}`);
 		//GA模式下向额外输出内容
 		if (config.GITHUB_ACTIONS) {
-			console.log(`::error:: ${failedList.length} tasks failed :${failedList.toString()}`);
+			console.log(`::error:: ${failedList.length} tasks failed :${failedList.map(l=>l.taskName)}`);
 		}
 		if (successList.length > 0) {
 			log(`Info:Successful tasks :${generateSuccessTip()}`);

@@ -151,6 +151,11 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 				if (status.status == 'complete') {
 					done = true;
 					filename = path.parse(status.files[0].path).base;
+					let ls=fs.readdirSync(dir)
+					if(!ls.includes(filename)){
+						log(`Warning:Downloaded file not found due to error encoding, patch file name from ${filename} to ${ls[0]}`)
+						filename=ls[0]
+					}
 					log(`Info:${filename} downloaded successfully`);
 				}
 

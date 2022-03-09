@@ -16,8 +16,14 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	let vm = p.versionMatchRegex ? (new RegExp(p.versionMatchRegex, 'g')) : /(\d+\.)+\d+/g,
 		dm = p.downloadLinkRegex ? (new RegExp(p.downloadLinkRegex, 'g')) : /(https?:)*\/?\/[\w.-/]+\.exe/g;
 	//获取页面
-	let page = (await robustGet(temp.version_page_url ?? p.url)).unwrap() as string,
+	let page,
 		scope;
+	let getRes = await robustGet(temp.version_page_url ?? p.url)
+	if (getRes.err || getRes.val == null || getRes.val == "") {
+		return new Err(`Error:Fetched null page`)
+	} else {
+		page = getRes.val as string
+	}
 	//全局匹配版本号
 	//处理定义的选择器
 	if (temp.version_selector != undefined) {

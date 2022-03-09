@@ -200,7 +200,7 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 		if (fs.existsSync(path.join(dir, filename))) {
 			resolve(filename);
 		} else {
-			reject('Error:Can\'t find file after download');
+			reject(`Error:Can't find file ${filename} after download`);
 		}
 	}));
 }

@@ -22,7 +22,7 @@ import path from 'path';
 import cp from 'child_process'
 import * as TOML from 'toml';
 import {TaskInstance} from './class';
-
+//PR测试
 require('source-map-support').install();
 
 async function main(): Promise<boolean> {

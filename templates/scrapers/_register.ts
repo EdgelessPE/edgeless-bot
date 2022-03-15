@@ -47,6 +47,13 @@ const regArray: Array<ScraperRegister> = [
     urlRegex: "https?://scoop.sh/[^/]",
     requiredKeys: ["scraper_temp.bucketName"],
   },
+  {
+    name: "Scoop",
+    entrance: "Scoop",
+    urlRegex: "https?://scoop.sh/[^/]+",
+    requiredKeys: ["scraper_temp.bucketName"],
+    description: 'Parse Scoop Bucket to resolve version and direct download link, specify url by "scraper_temp.bucketName" and "taskName"',
+  },
 ];
 
 export default regArray;

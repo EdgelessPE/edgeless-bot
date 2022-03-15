@@ -11,4 +11,5 @@
 
 * [GitHub Release](./scraper/GitHub_Release.md)
 * [Portable Apps](./scraper/PortableApps.md)
+* [Scoop](./scraper/Scoop.md)
 <!-- ${Scraper_URL} -->

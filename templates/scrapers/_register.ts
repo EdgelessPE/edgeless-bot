@@ -40,6 +40,13 @@ const regArray: Array<ScraperRegister> = [
     description:
         'Parse redirection url to resolve version and direct download link, specify url by "scraper_temp.redirection_url"',
   },
+  {
+    name: "Scoop",
+    entrance: "Scoop",
+    urlRegex: "https?://scoop.sh/[^/]+",
+    requiredKeys: ["scraper_temp.bucketName"],
+    description: 'Parse Scoop Bucket to resolve version and direct download link, specify url by "scraper_temp.bucketName" and "taskName"',
+  },
 ];
 
 export default regArray;

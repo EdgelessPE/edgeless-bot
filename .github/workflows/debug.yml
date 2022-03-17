@@ -16,10 +16,10 @@ jobs:
           ref: ${{ github.ref }}
 
       # 缓存yarn
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+#       - uses: actions/cache@v2
+#         with:
+#           path: '**/node_modules'
+#           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 安装依赖
       - name: Install dependencies

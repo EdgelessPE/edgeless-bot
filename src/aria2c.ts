@@ -46,7 +46,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
 			resolve(false);
 		});
 		//保持1s不退出即视为启动成功
-		await sleep(1000);
+		await sleep(config.GITHUB_ACTIONS ? 5000 : 1000);
 		log(`Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`);
 		aria2c_alive = true;
 		resolve(true);

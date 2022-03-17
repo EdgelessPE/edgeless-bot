@@ -88,27 +88,40 @@ async function initAria2c(): Promise<boolean> {
 			sRes = true;
 		}
 		if (sRes) {
-			//连接ws
-			aria2c_handler = new Aria2WebSocket.Client({
-				host: 'localhost',
-				port: config.ARIA2_PORT,
-				auth: {
-					secret: config.ARIA2_SECRET,
-				},
-			});
-			try {
-				let ver = await aria2c_handler.getVersion();
-				log(`Info:Aria2c version ${ver.version}`);
-			} catch (e) {
-				console.log(JSON.stringify(e));
-				resolve(false);
-				return;
+			//尝试连接ws
+			for(let i=0;i<3;i++){
+				if(await tryConnect(i==2)){
+					resolve(true);
+					break
+				}else if(i==2){
+					resolve(false)
+				}else await sleep(1000)
 			}
-			resolve(true);
 		} else {
 			resolve(false);
 		}
 	}));
+}
+
+async function tryConnect(final:boolean):Promise<boolean> {
+	try {
+		aria2c_handler = new Aria2WebSocket.Client({
+			host: 'localhost',
+			port: config.ARIA2_PORT,
+			auth: {
+				secret: config.ARIA2_SECRET,
+			},
+		});
+		let ver = await aria2c_handler.getVersion();
+		log(`Info:Aria2c version ${ver.version}`);
+		return true
+	} catch (e) {
+		if(final){
+			console.log(JSON.stringify(e));
+			log(`Error:Can't connect to aria2c via WebSocket`)
+		}
+		return false;
+	}
 }
 
 //下载和等待完成函数

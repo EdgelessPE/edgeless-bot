@@ -1,0 +1,39 @@
+# 任务基本信息
+[task]
+name = "360安全卫士极速版"
+category = "安全急救"
+author = "Cno"
+url = "https://weishi.360.cn/jisu"
+
+# 指定使用的模板
+[template]
+scraper = "External"
+# resolver = ""
+producer = "Click2Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "安装360安全卫士极速版"
+
+
+# 额外备注
+[extra]
+# require_windows = false
+missing_version = "${taskName}/${downloadedFile}"

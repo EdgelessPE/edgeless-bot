@@ -1,0 +1,2 @@
+file %ProgramFiles%\Edgeless\WPS\$EXEFILE->%ProgramFiles%\Edgeless\WPS\WPS_Installer.exe
+exec %ProgramFiles%\Edgeless\WPS\WPS_Installer.exe /S -agreelicense

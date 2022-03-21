@@ -5,10 +5,6 @@ import {log} from '../../src/utils';
 import cheerio from 'cheerio';
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-	const $ = cheerio.load((await robustGet('http://localhost')).unwrap());
-
-	//YOUR CODE HERE
-
 	return new Ok({
 		version: '0.0.0',
 		downloadLink: 'https://down.360safe.com/setupbeta_jisu.exe',

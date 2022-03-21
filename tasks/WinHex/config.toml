@@ -1,0 +1,43 @@
+# 任务基本信息
+[task]
+name = "WinHex"
+category = "集成开发"
+author = "Cno"
+url = "https://www.x-ways.net/winhex/"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+download_link = 'http.+\.zip'
+download_name = '\.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/winhex.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+download_selector = "body > div.container > div.content > table > tbody > tr > td > table:nth-child(2) > tbody > tr > td:nth-child(1) > p:nth-child(3) > font > b > a"
+version_selector = "body > div.container > div.content > table > tbody > tr > td > table:nth-child(2) > tbody > tr > td:nth-child(1) > p:nth-child(1) > font:nth-child(2) > strong"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "WinHex"
+sourceFile = "winhex.exe"
+recursiveUnzipList = []
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

@@ -1,0 +1,43 @@
+# 任务基本信息
+[task]
+name = "Procmon"
+category = "开发辅助"
+author = "Cno"
+url = "https://docs.microsoft.com/en-us/sysinternals/downloads/procmon"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+download_link = 'http.+\.zip'
+download_name = '\.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/Procmon64.exe"]
+# build_cover = ""
+build_delete = ["Eula.txt", "procmon.chm", "Procmon.exe", "Procmon64a.exe"]
+
+# 爬虫模板临时参数
+[scraper_temp]
+download_selector = "#main > div.content > p:nth-child(6) > a:nth-child(2)"
+version_selector = "h1"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Procmon"
+sourceFile = "Procmon64.exe"
+recursiveUnzipList = []
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

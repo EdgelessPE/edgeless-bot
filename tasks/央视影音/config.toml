@@ -1,0 +1,40 @@
+# 任务基本信息
+[task]
+name = "央视影音"
+category = "影音播放"
+author = "Cno"
+url = "https://app.cctv.com/appkhdxz/more/index.shtml#page5"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Silent_Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+download_selector = "a.win"
+version_selector = ".pcDown"
+
+# 自动制作模板要求的参数
+[producer_required]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

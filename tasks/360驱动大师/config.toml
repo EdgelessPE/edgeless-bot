@@ -1,0 +1,41 @@
+# 任务基本信息
+[task]
+name = "360驱动大师"
+category = "驱动管理"
+author = "Cno"
+url = "https://dm.weishi.360.cn/home.html"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Silent_Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+download_selector = "body > div.page > div.main > div > a:nth-child(2)"
+#version_selector = "#list > li:nth-child(1) > div > span:nth-child(1)"
+version_page_url = "https://dm.weishi.360.cn/update.html"
+
+# 自动制作模板要求的参数
+[producer_required]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

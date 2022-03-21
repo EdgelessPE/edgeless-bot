@@ -14,7 +14,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 #download_link = ""
-download_name = ".exe"
+download_name = '\.exe'
 #scraper_version = ""
 
 # 通用参数

@@ -1,7 +1,9 @@
+import { config } from "./config";
+
 const PATH_CONFIG = './config.toml',
 	LIGHT_TIMEOUT = 30000,
-	HEAVY_TIMEOUT = 300000,
-	MISSING_VERSION_TRY_DAY = 4;
+	HEAVY_TIMEOUT = 300000;
+let MISSING_VERSION_TRY_DAY = 4
 const PROJECT_ROOT = process.cwd();
 const CATEGORIES = [
 	'实用工具',
@@ -28,6 +30,10 @@ const CATEGORIES = [
 	'远程连接',
 ];
 
+function setMVTDayToday(){
+	MISSING_VERSION_TRY_DAY=(new Date()).getDay()
+}
+
 export {
 	PATH_CONFIG,
 	LIGHT_TIMEOUT,
@@ -35,4 +41,5 @@ export {
 	PROJECT_ROOT,
 	MISSING_VERSION_TRY_DAY,
 	CATEGORIES,
+	setMVTDayToday
 };

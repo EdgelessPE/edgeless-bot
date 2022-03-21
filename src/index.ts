@@ -22,6 +22,7 @@ import path from 'path';
 import cp from 'child_process'
 import * as TOML from 'toml';
 import {TaskInstance} from './class';
+import {setMVTDayToday} from './const'
 
 require('source-map-support').install();
 
@@ -41,6 +42,8 @@ async function main(): Promise<boolean> {
 			log('Info:Readonly database pulled');
 		}
 	}
+	//处理无版本号任务的制作日
+	if(config.MODE_FORCED) setMVTDayToday()
 	//平台校验
 	//TODO:支持其他平台，实现require_windows，检查pecmd是否存在
 	if (getOS() != 'Windows') {

@@ -33,7 +33,7 @@ const contentDir = path.join(workshop, "_ready", taskName);
 shell.mkdir("-p", contentDir);
 ```
 
-2. 对下载到的文件进行处理，将需要的文件放置到 `_ready/%{taskName}` 目录内，然后在 `_ready` 目录内填充一个包信息文件（在初代 Edgeless 插件包中指外置批处理 `.wcs` `.cmd` 文件）
+2. 对下载到的文件进行处理，将需要的文件放置到 `_ready/${taskName}` 目录内，然后在 `_ready` 目录内填充一个包信息文件（在初代 Edgeless 插件包中指外置批处理 `.wcs` `.cmd` 文件）
 
 ```typescript
 //示例：将下载到的文件移动到_ready/${taskName}

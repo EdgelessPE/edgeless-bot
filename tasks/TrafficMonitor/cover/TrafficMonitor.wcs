@@ -1,1 +1,3 @@
-exec !"X:\Program Files\Edgeless\TrafficMonitor\TrafficMonitor.exe"
+file X:\Program Files\Edgeless\TrafficMonitor\mscoree.dll->%windir%\system32\
+exec =cmd /c "regsvr32 %windir%\system32\mscoree.dll /s"
+exec !"X:\Program Files\Edgeless\TrafficMonitor\TrafficMonitor\TrafficMonitor.exe"

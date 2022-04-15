@@ -172,7 +172,7 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 		return new Err(`Error:Toml title ${p[0]} undefined`);
 	} else {
 		//激活表头
-		replaceTitleWith = `[${p[0]}]`;
+		replaceTitleWith = `\n[${p[0]}]`;
 	}
 	//匹配键
 	let m2 = toml.match(genRegExpForToml(p[1]));

@@ -267,10 +267,17 @@ async function createTask() {
 	console.log(chalk.green(_('Success ')) + _('Task config saved to ') + chalk.cyanBright(configPath) + ', ' + _('you may need to modify it manually later'));
 }
 
-function registerTemplate(node: any, dir: string) {
+function registerTemplate(node: {name:string,entrance:string}, dir: string) {
 	//读取文本
 	const filePath = `./templates/${dir}/_register.ts`;
 	let text = fs.readFileSync(filePath).toString();
+	//查询是否存在重复
+	let regex1=new RegExp(`name:\\s*"${node.name}"`),
+		regex2=new RegExp(`entrance:\\s*"${node.entrance}"`)
+	if(text.match(regex1)||text.match(regex2)){
+		console.log(chalk.red(_(`Error `))+_(`Given name or entrance already registered in `)+chalk.cyanBright(filePath)+_(`, delete register node before continue`))
+		process.exit(1)
+	}
 	//生成数组内容
 	let newNode = `${JSON.stringify(node, null, 2)},\n];`;
 	//替换文本
@@ -615,10 +622,21 @@ async function main() {
 }
 
 async function test() {
-	const text = fs.readFileSync(process.cwd() + '/templates/scrapers/Global_Page_Match.ts').toString();
-	let declareText = text.match(/interface Temp {[^}]*}/g) as RegExpMatchArray;
-	let m = declareText[0].match(/^\s*[\w:?\t; ]+$/gm);
-	console.log(JSON.stringify(m, null, 2));
+	//读取文本
+	const filePath = `./templates/scrapers/_register.ts`;
+	let text = fs.readFileSync(filePath).toString();
+	//查询是否存在重复
+	let node={
+		name:"Scoop",
+		entrance:"Scoop"
+	}
+	let regex1=new RegExp(`name:\\s*"${node.name}"`),
+		regex2=new RegExp(`entrance:\\s*"${node.entrance}"`)
+	console.log(regex1)
+	console.log(JSON.stringify(text.match(regex1),null,2))
+	// if(text.match(regex1)||text.match(regex2)){
+	// 	log(`Error:`+_(`Given name or entrance already registered in `)+chalk.cyanBright(filePath)+_(`, delete register node before continue`))
+	// }
 }
 
 main().then(_ => {

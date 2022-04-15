@@ -1,6 +1,6 @@
 # 任务基本信息
 [task]
-name = "rust"
+name = "Rust"
 category = "运行环境"
 author = "undefined"
 url = "https://scoop.sh/rust"
@@ -28,6 +28,7 @@ build_manifest = ["${taskName}.cmd","${taskName}"]
 # 爬虫模板临时参数
 [scraper_temp]
 bucketName = "Main"
+scoopManifestName = "rust"
 
 # 自动制作模板要求的参数
 [producer_required]

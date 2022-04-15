@@ -1,9 +1,9 @@
 # 任务基本信息
 [task]
-name = "nali"
+name = "Nali"
 category = "实用工具"
 author = "undefined"
-url = "https://scoop.sh/aaa"
+url = "https://scoop.sh/nali"
 
 # 指定使用的模板
 [template]
@@ -28,6 +28,7 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 # 爬虫模板临时参数
 [scraper_temp]
 bucketName = "Main"
+scoopManifestName = "nali"
 
 # 自动制作模板要求的参数
 [producer_required]

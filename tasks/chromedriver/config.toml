@@ -1,5 +1,5 @@
 [task]
-name = "chromedriver"
+name = "ChromeDriver"
 category = "开发辅助"
 author = "undefined"
 url = "https://scoop.sh/chromedriver"
@@ -27,6 +27,7 @@ build_manifest = ["${taskName}.cmd","${taskName}"]
 # 爬虫模板临时参数
 [scraper_temp]
 bucketName = "Main"
+scoopManifestName = "chromedriver"
 
 # 自动制作模板要求的参数
 [producer_required]

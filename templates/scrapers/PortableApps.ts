@@ -11,6 +11,9 @@ interface PageInfo {
 	md5: string;
 }
 
+// 控制是否详细打印日志
+const DEBUG=false
+
 function parseDownloadUrl(href: string): string {
 	// 识别根目录字符“/”
 	if (href[0] === '/') {
@@ -98,7 +101,7 @@ async function scrapePage(
 				// 匹配是否为英文
 				if (result.text.match(/English/)) {
 					// 尝试获取多语言下载列表
-					if (!config.GITHUB_ACTIONS) log(
+					if (DEBUG) log(
 						'Info:English application detected,trying to match simplified chinese version',
 					);
 					const table = $('.zebra.download-links');
@@ -120,21 +123,21 @@ async function scrapePage(
 								log('Warning:Fail to got md5');
 							}
 
-							if (!config.GITHUB_ACTIONS) log(
+							if (DEBUG) log(
 								'Info:Found simplified chinese version\nmd5:'
 								+ result.md5
 								+ '\ndownload link:'
 								+ result.href,
 							);
 						} else {
-							if (!config.GITHUB_ACTIONS) {
+							if (DEBUG) {
 								log(
 									'Info:Simplified chinese version not found,use English version',
 								);
 							}
 						}
 					} else {
-						if (!config.GITHUB_ACTIONS) {
+						if (DEBUG) {
 							log('Info:Localizations table not found,use English version');
 						}
 					}

@@ -4,7 +4,8 @@ import {robustGet} from '../../src/network';
 import {log} from '../../src/utils'
 
 interface Temp {
-	bucketName: string
+	bucketName: string,
+	scoopManifestName: string
 }
 
 const Buckets: Map<string, string> = new Map([
@@ -23,7 +24,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	if (!bucketUrl){
 		return Err(`Error: Could not Get bucket ${bucketName}, please make sure bucketName is one of Main/Extras/games/java/nirsoft`)
 	}
-	const response = (await robustGet(`${bucketUrl}${taskName}.json`, {responseType: 'json'})).unwrap();
+	const response = (await robustGet(`${bucketUrl}${temp.scoopManifestName}.json`, {responseType: 'json'})).unwrap();
 	log(`Info: downloadLink:${response['architecture']?.['64bit']["url"] ?? response["url"]}`)
 	log(`Info: Version: ${response['version']}`)
 	return new Ok({

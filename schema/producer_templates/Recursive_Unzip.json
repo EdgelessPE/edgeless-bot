@@ -8,7 +8,7 @@
     },
     "sourceFile": {
       "type": "string",
-      "description": "The file shortcut points to after recursive unzip"
+      "description": "The file shortcut points to after recursive unzip, support regex contained by //"
     },
     "recursiveUnzipList": {
       "type": "array",

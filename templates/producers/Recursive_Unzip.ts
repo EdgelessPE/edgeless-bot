@@ -74,6 +74,21 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	if (!success) {
 		return new Err(reason);
 	}
+	//处理正则表达式的sourceFile
+	if(obj.sourceFile[0]=="/"){
+		//读取当前目录，匹配对应的文件
+		let list=fs.readdirSync(cwd)
+		let regexp=new RegExp(obj.sourceFile.slice(1,-1))
+		let matchRes=list.find((file)=>{
+			return regexp.test(file)
+		})
+		if(matchRes==undefined){
+			return new Err(`Error:Can't match source file with regex ${obj.sourceFile} in ${cwd}`);
+		}else{
+			log(`Info:Matched source file : ${matchRes}`)
+			obj.sourceFile=matchRes
+		}
+	}
 	//确认是否存在目标文件
 	if (!fs.existsSync(path.join(cwd, obj.sourceFile))) {
 		return new Err(`Error:Can't find source file ${obj.sourceFile} in ${cwd}`);

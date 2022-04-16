@@ -45,7 +45,7 @@
   "Key description for ": "键释义 ",
   "Shortcut name for the downloaded file": "为下载的文件创建的快捷方式名称",
   "Shortcut name for the source file": "为指定文件(sourceFile)创建的快捷方式名称",
-  "The file shortcut points to after recursive unzip": "递归解压后得到的目录内需要创建快捷方式的文件名称",
+  "The file shortcut points to after recursive unzip, support regex contained by //": "递归解压后得到的目录内需要创建快捷方式的文件名称,支持被 // 包裹的正则表达式",
   "Directory or compressed files chain inside downloaded file, support regex contained by // (keep it a empty array if only downloaded file is needed to unzip)": "在下载到的文件内文件夹或递归解压文件的文件名链,支持被 // 包裹的正则表达式(如果只需要解压下载到的文件则将其置为空数组)",
   "Template type": "模板类型",
   "Scraper": "爬虫",

@@ -63,6 +63,7 @@ return new Ok({
 ```typescript
 interface ProducerParameters {
   taskName: string;
+  version: string;
   workshop: string;
   downloadedFile: string;
   requiredObject: any;

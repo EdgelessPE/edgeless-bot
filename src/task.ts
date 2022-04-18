@@ -301,6 +301,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 	let p = await producer({
 		task: t.task,
 		downloadedFile,
+		version: t.info.version
 	});
 	if (p.err) {
 		log(p.val);

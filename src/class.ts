@@ -59,6 +59,7 @@ interface ResolverRegister {
 //自动制作模板
 interface ProducerParameters {
 	taskName: string;
+	version: string;
 	workshop: string;
 	downloadedFile: string;
 	requiredObject: any;

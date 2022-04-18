@@ -11,6 +11,7 @@ import {PROJECT_ROOT} from './const';
 interface ProducerSpawn {
 	task: TaskInstance;
 	downloadedFile: string;
+	version: string;
 }
 
 function parsePath(entrance: string): Result<string, string> {
@@ -46,6 +47,7 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
 		scriptPath,
 		task: {
 			taskName: task.name,
+			version: s.version,
 			workshop: path.join(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
 			downloadedFile,
 			requiredObject: task.producer_required,

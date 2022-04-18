@@ -1,0 +1,44 @@
+# 任务基本信息
+[task]
+name = "飞书"
+category = "网课会议"
+author = "Cno"
+url = "https://www.feishu.cn/download"
+
+# 指定使用的模板
+[template]
+scraper = "REST_API"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/Feishu.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+download_path = "versions.Windows.download_link"
+version_path = "versions.Windows.version_number"
+api_url = "https://www.feishu.cn/api/downloads"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "飞书"
+sourceFile = "Feishu.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

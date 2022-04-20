@@ -174,7 +174,7 @@ async function createTask() {
 		//要求输入上游URL
 		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
 		//检索对应的模板
-		for (let node of scraperRegister) {
+		for (let node of scraperRegister.reverse()) {
 			if (url.match(node.urlRegex) != null) {
 				console.log(chalk.blueBright(_('Info ')) + _('Matched scraper template ') + chalk.cyanBright(_(node.name)));
 				//如果有required keys 则提示
@@ -197,7 +197,7 @@ async function createTask() {
 				externalScraper = false;
 				//指定通用爬虫模板
 				let universalList: ScraperRegister[] = [];
-				for (let i of scraperRegister) {
+				for (let i of scraperRegister.reverse()) {
 					if (i.urlRegex == 'universal://') {
 						universalList.push(i);
 					}

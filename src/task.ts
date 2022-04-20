@@ -72,7 +72,7 @@ function validateConfig(task: TaskConfig): boolean {
 	let suc = false;
 	//尝试匹配Scraper
 	if (task.template.scraper == undefined) {
-		for (let node of scraperRegister) {
+		for (let node of scraperRegister.reverse()) {
 			if (task.task.url.match(node.urlRegex) != null) {
 				//对scraper执行requiredKeys检查
 				suc = requiredKeysValidator(task, node.requiredKeys, true);

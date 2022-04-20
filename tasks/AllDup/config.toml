@@ -1,0 +1,43 @@
+# 任务基本信息
+[task]
+name = "AllDup"
+category = "资源管理"
+author = "Cno"
+url = "https://www.alldup.de/en_download_alldup.php"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/AllDupPortable.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+version_selector = "#content > table:nth-child(7) > tbody > tr:nth-child(1)"
+download_selector = "#content > table:nth-child(7) > tbody > tr:nth-child(7) > td:nth-child(2) > a:nth-child(4)"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "AllDup"
+sourceFile = "AllDupPortable.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

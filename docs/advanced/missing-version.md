@@ -30,4 +30,9 @@ missing_version = "${taskName}/${taskName}.exe"
 ```
 
 ## 测试无版本号任务
-使用 `yarn -d -f -t TASKNAME` 来测试无版本号任务
+
+使用以下命令测试你的无版本号任务：
+
+```shell
+yarn serve -d -f -t TASK_NAME
+```

@@ -4,9 +4,10 @@
 - 入口：`Scoop`
 - 适用 URL：`https?://scoop.sh/[^/]+`
 
-  使用给定的名称于 scoop bucket 中查询下载路径，使用 `scraper_temp.bucketName` 缩小范围
-
-  爬虫会使用 taskName 到 scoop bucket 匹配应用，请确保 taskname 与 scoop bucket 中一致
+在指定的 Scoop Bucket 中查询下载路径信息，需要伪造一个适用 URL
+:::tip TODO
+通常来说上游 URL 必须是能访问的有效 URL 地址，因此建议将适用 URL 改为 Scoop Manifest 地址并从地址解析 Bucket 和 Name
+:::
 
 ## 必须提供的参数
 
@@ -14,7 +15,13 @@
 
 - 路径：`scraper_temp.bucketName`
 - 类型：`string`
-- 说明：目前可用 Bucket： Main、Extras、games、java、nirsoft
+- 说明：目前支持的 Scoop Bucket： Main、Extras、games、java、nirsoft
+
+### scoopManifestName
+
+- 路径：`scraper_temp.scoopManifestName`
+- 类型：`string`
+- 说明：指定在 Scoop Bucket 中的软件名称
 
 ## 可选的参数
 

@@ -100,24 +100,24 @@ ARIA2_THREAD = 4
 
 Edgeless Bot 支持以下参数的组合使用：
 
-### -d
+**-d**
 
 Debug，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。
 
 示例：`yarn serve -d`   以调试模式运行全部任务
 
-### -t
+**-t**
 
 Task(s)，指定需要执行的任务，用`/`分割不同的任务。不指定此参数时会执行全部任务。
 
 示例：`yarn serve -t "TaskA/Task B/Long name task C"`   仅执行上述三个任务
 
-### -f
+**-f**
 
 Force，忽略与本地数据库的版本号对比强制重新构建任务，通常与`-t`参数同时给定。
 
 示例：`yarn serve -f -t TaskA`  强制重新构建 TaskA
 
-### -g
+**-g**
 
 GitHub Actions，通常情况下不需要用到此模式，当 Edgeless Bot 在 GitHub Actions 运行时需要给定此参数用于改善一些行为。

@@ -47,7 +47,6 @@ function getGuideSidebar() {
           { text: '爬虫', link: '/advanced/scraper' },
           { text: '解析器', link: '/advanced/resolver' },
           { text: '制作器', link: '/advanced/producter' },
-          { text: '无版本号任务', link: '/advanced/missing-version' },
         ]
       },
       {

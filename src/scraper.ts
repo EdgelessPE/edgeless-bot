@@ -24,7 +24,9 @@ function searchTemplate(url: string, scraperName?: string): Result<ScraperRegist
 		});
 	}
 	let result = null;
-	for (let node of scraperRegister) {
+
+	//倒序匹配爬虫模板，以便于提前匹配更精确的正则表达式
+	for (let node of scraperRegister.reverse()) {
 		if (url.match(node.urlRegex) || scraperName==node.entrance) {
 			result = node;
 			break;

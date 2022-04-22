@@ -5,6 +5,7 @@ import {config} from './config';
 
 function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
 	let result: AxiosRequestConfig = axiosConfig ?? {};
+	//处理全局代理
 	if (config.GLOBAL_PROXY) {
 		let url = config.GLOBAL_PROXY;
 		let sp1 = url.split(':');
@@ -18,6 +19,9 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
 			port,
 		};
 	}
+	//增加UA
+	if(result.headers==undefined) result.headers={}
+	result.headers["user-agent"]="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
 	return result;
 }
 

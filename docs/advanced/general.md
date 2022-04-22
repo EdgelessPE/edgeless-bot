@@ -93,7 +93,7 @@ export default async function (
 不要随意修改爬虫模板中提供的 `interface Temp` 的接口名称 `Temp`，在生成文档时会根据这个接口中的申明生成部分内容。
 :::
 
-## Result 类型
+### Result 类型
 
 Edgeless Bot 使用了 [ts-results](https://www.npmjs.com/package/ts-results) 库中的 `Result` 类型，在模板编写中的返回值也同样需要这一类型。
 
@@ -113,39 +113,39 @@ Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 
 在编写 Edgeless Bot 模板或外置脚本时，如果发生了错误请返回一个 `new Err("Error:REASON HERE")`
 :::
 
-## 常用函数
+### 常用函数
 
 Edgeless Bot 提供了一些函数来规范化一部分的常用操作。
 
-### 网络
+#### 网络
 
 可以从 `../../src/network` 导入
 
-#### robustGet
+**robustGet**
 
 此函数是对 `axios.get` 的一个封装，顾名思义此函数有较好的健硕性，会在出错的情况下根据具体的配置自动重试请求过程。
 
-#### robustParseRedirect
+**robustParseRedirect**
 
 此函数可以用于解析一个指向 HTTP 301 或 HTTP 302 的链接的最终跳转位置，也具有较好的健硕性。
 
-### 工具
+#### 工具
 
 可以从 `../../src/utils` 导入
 
-#### log
+**log**
 
 此函数可以用于格式化地向控制台输出日志。使用方法为 `log("LEVEL:CONTENT")` ，其中 `LEVEL` 的有效值为 `Info` `Warning` `Error`，`CONTENT` 表示日志内容。
 
-#### versionCmp
+**versionCmp**
 
 此函数可以用于比较两个版本号的大小，**注意同时需要导入枚举类 `Cmp`**；`Cmp.L` 表示 `<`，`Cmp.E` 表示 `=`，`Cmp.G` 表示 `>`。
 
-#### writeGBK
+**writeGBK**
 
 此函数通常用于制作器模板，用于以 GBK 编码写入某个文件。
 
-### jQuery
+#### jQuery
 
 Edgeless Bot 使用 [cheerio](https://github.com/cheeriojs/cheerio) 代替 jQuery 对 DOM 进行处理，可以通过如下代码使用：
 
@@ -154,7 +154,7 @@ import cheerio from "cheerio";
 const $ = cheerio.load("HTML_PAGE_TEXT");
 ```
 
-### Shell
+#### Shell
 
 Edgeless Bot 使用 [shelljs](https://github.com/shelljs/shelljs) 提供部分常用的 Shell 命令，通常用于制作器模板，可以通过如下代码使用：
 
@@ -164,7 +164,7 @@ const shell = require("shelljs");
 shell.rm("-rf", path.join(workshop, "temp"));
 ```
 
-### 解压
+#### 解压
 
 Edgeless Bot 提供 7-Zip 的压缩和解压函数封装，其中解压函数 `release` 通常用于制作器模板，可以通过如下代码导入：
 
@@ -175,3 +175,6 @@ import { release } from "../../src/p7zip";
 :::tip
 压缩函数通常不需要用到，因为 Edgeless Bot 会先验收制作器模板返回的就绪目录，验收通过后会由 Edgeless Bot 完成压缩上传的工作。
 :::
+
+## 生成文档
+完成模板编写并使用示例任务测试后，你需要为你的模板编写使用文档。执行 `yarn new wiki` 运行一个 CLI 程序生成文档模板，然后在对应的模板中填充相关内容即可完成文档编写。

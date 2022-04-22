@@ -61,11 +61,13 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 		page = (await robustGet(p.url)).unwrap() as string;
 	}
 	//处理定义的选择器
+	let skipMatch=false
 	if (temp.download_selector != undefined) {
 		const $ = cheerio.load(page),
 			href = $(temp.download_selector).attr('href');
 		if (href) {
 			scope = href;
+			skipMatch=true
 		} else {
 			scope = ($(temp.download_selector).html()) ?? '';
 		}
@@ -73,14 +75,19 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	} else {
 		scope = page;
 	}
-	m = scope.match(dm);
-	if (m == null) {
-		return new Err('Error:Given download link match regex matched nothing');
+	let downloadLink
+	if(!skipMatch){
+		m = scope.match(dm);
+		if (m == null) {
+			return new Err('Error:Given download link match regex matched nothing');
+		}
+		if (m.length > 1) {
+			log(`Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`);
+		}
+		downloadLink = m[0]
+	}else{
+		downloadLink=scope
 	}
-	if (m.length > 1) {
-		log(`Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`);
-	}
-	let downloadLink = m[0];
 	log('Info:Download link match result : ' + downloadLink);
 
 	//处理以 / 开头的下载地址

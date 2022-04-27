@@ -121,6 +121,7 @@ interface TaskInstance {
 	extra?: {
 		require_windows?: boolean;
 		missing_version?: string;
+		weekly?: boolean;
 	};
 }
 

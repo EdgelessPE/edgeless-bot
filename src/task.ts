@@ -23,7 +23,7 @@ import checksum from './checksum';
 import producerRegister from '../templates/producers/_register';
 import producer from './producer';
 import {compress, release} from './p7zip';
-import {PROJECT_ROOT} from './const';
+import {MISSING_VERSION_TRY_DAY, PROJECT_ROOT} from './const';
 import {deleteFromRemote} from './rclone';
 import scraperRegister from '../templates/scrapers/_register';
 import os from 'os';
@@ -167,6 +167,12 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
 			success = false;
 			log(tmp.val);
 		} else {
+			if (
+				tmp.unwrap().extra?.weekly &&
+				MISSING_VERSION_TRY_DAY != new Date().getDay()
+			  ) {
+				continue;
+			  }
 			result.push(tmp.unwrap());
 		}
 	}

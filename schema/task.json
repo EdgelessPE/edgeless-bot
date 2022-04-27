@@ -55,6 +55,9 @@
         },
         "require_windows": {
           "type": "boolean"
+        },
+        "weekly": {
+          "type": "boolean"
         }
       },
       "type": "object"

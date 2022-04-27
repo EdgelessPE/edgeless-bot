@@ -2,7 +2,7 @@ import {fromGBK, getTimeString, log} from './utils';
 import cp from 'child_process';
 import {config} from './config';
 
-//TOFIX:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
+//FIXME:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
 function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
 	let result: cp.ExecSyncOptionsWithBufferEncoding = {
 		timeout,

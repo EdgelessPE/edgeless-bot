@@ -46,9 +46,9 @@ scoop install rclone
 sudo apt install rclone
 ```
 
-### PECMD (选装)
+### PECMD (自带)
 
-在执行仅 Windows 平台任务时需要使用，可以从 Edgeless 中提取。
+在执行仅 Windows 平台任务时需要使用，已经预置在 GitHub 仓库的 `bin` 文件夹内。
 
 ## 配置
 

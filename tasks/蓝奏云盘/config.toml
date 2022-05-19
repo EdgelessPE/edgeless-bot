@@ -1,0 +1,42 @@
+# 任务基本信息
+[task]
+name = "蓝奏云盘"
+category = "下载上传"
+author = "Cno"
+url = "https://github.com/chenhb23/lanzouyun-disk"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'x64-win\.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/蓝奏云盘.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "蓝奏云盘"
+sourceFile = "蓝奏云盘.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

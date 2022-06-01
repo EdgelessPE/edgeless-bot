@@ -21,8 +21,7 @@ export function getBadge(type: string): string {
 		chalk.bgMagentaBright,
 		chalk.bgCyanBright
 	];
-	let choice = (base + count) % 14
-	res = choice <= 13 && choice >= 0 ? choices[choice](type + ' ' + count) : chalk.bgWhiteBright(type + ' ' + count);
+	res = (choices[(base + count) % 14] ?? chalk.bgWhiteBright)(type + ' ' + count);
 
 	count++;
 

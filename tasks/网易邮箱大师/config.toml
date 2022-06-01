@@ -1,0 +1,42 @@
+# 任务基本信息
+[task]
+name = "网易邮箱大师"
+category = "办公编辑"
+author = "Cno"
+url = "https://mail.163.com/dashi"
+
+# 指定使用的模板
+[template]
+scraper = "External"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/mailmaster.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "网易邮箱大师"
+sourceFile = "mailmaster.exe"
+recursiveUnzipList = [ "mailmaster.7z", "MailMaster-bin" ]
+
+
+# 额外备注
+[extra]
+# require_windows = true
+missing_version = "${taskName}/mailmaster.exe"
+# weekly = true

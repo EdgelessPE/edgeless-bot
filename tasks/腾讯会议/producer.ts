@@ -26,8 +26,18 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		].map((file) => path.join(readyDir, file))
 	)
 
+	//查找依赖文件夹
+	let fileList=fs.readdirSync(readyDir),res="",regex=/\$_\d+_/
+	for(let name of fileList){
+		if(regex.test(name)){
+			res=name
+			break
+		}
+	}
+	if(res=="") return new Err("Error:Can't match dependency folder")
+
 	//重命名依赖文件夹
-	shell.mv(path.join(readyDir, "$_9_"), path.join(readyDir, version))
+	shell.mv(path.join(readyDir, res), path.join(readyDir, version))
 
 	//自检
 	if (!fs.existsSync(path.join(readyDir, version, "WeMeetUninstall.exe")) || !fs.existsSync(path.join(readyDir, "wemeetapp.exe"))) {

@@ -13,5 +13,5 @@ features:
     details: 无需更改核心代码即可适用于您的类应用商店项目，并重用已有的爬虫、解析器模板
   - title: TypeScript
     details: 享受海量 npm 库的便利与 TypeScript 的优雅特性
-footer: MPL2.0 Licensed | Copyright © 2022-present Cno
+footer: MPL-2.0 Licensed | Copyright © 2022-present Cno
 ---

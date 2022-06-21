@@ -1,27 +1,27 @@
 # 任务基本信息
 [task]
-name = "${ task.name }"
-category = "${ task.category }"
-author = "${ task.author }"
-url = "${ task.url }"
+name = "蓝奏云盘"
+category = "下载上传"
+author = "Cno"
+url = "https://github.com/chenhb23/lanzouyun-disk"
 
 # 指定使用的模板
 [template]
-${ template.scraper }
+# scraper = ""
 # resolver = ""
-producer = "${ template.producer }"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '${ regex.download_name }'
+download_name = 'x64-win\.zip'
 # scraper_version = ''
 
 # 通用参数
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ${ parameter.build_manifest }
+build_manifest = ["${taskName}.wcs","${taskName}/蓝奏云盘.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -30,7 +30,10 @@ build_manifest = ${ parameter.build_manifest }
 
 # 自动制作模板要求的参数
 [producer_required]
-${ producer_required }
+shortcutName = "蓝奏云盘"
+sourceFile = "蓝奏云盘.exe"
+recursiveUnzipList = [ ]
+
 
 # 额外备注
 # [extra]

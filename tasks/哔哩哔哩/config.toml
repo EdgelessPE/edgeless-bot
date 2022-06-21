@@ -1,15 +1,15 @@
 # 任务基本信息
 [task]
-name = "网易云音乐"
+name = "哔哩哔哩"
 category = "影音播放"
 author = "Cno"
-url = "https://music.163.com/#/download"
+url = "https://app.bilibili.com/"
 
 # 指定使用的模板
 [template]
-scraper = "Redirection_Parse"
+scraper = "External"
 # resolver = ""
-producer = "Silent_Install"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
@@ -21,20 +21,22 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+build_manifest = ["${taskName}.wcs","${taskName}/哔哩哔哩.exe"]
 # build_cover = ""
-# build_delete = ["$PLUGINSDIR"]
+# build_delete = []
 
 # 爬虫模板临时参数
-[scraper_temp]
-redirection_url = "https://music.163.com/api/pc/package/download/latest"
+# [scraper_temp]
 
 # 自动制作模板要求的参数
 [producer_required]
-
+shortcutName = "哔哩哔哩"
+sourceFile = "哔哩哔哩.exe"
+recursiveUnzipList = [ "$PLUGINSDIR", "app-64.7z" ]
 
 
 # 额外备注
 # [extra]
-# require_windows = false
+# require_windows = true
 # missing_version = ""
+# weekly = true

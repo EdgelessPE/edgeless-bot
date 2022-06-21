@@ -1,0 +1,3 @@
+FILE X:\Program Files\Edgeless\PotPlayer->X:\Users\PortableApps\PotPlayer
+LINK X:\Users\Default\Desktop\PotPlayer,X:\Users\PortableApps\PotPlayer\PotPlayerPortable.exe
+EXEC X:\Users\PortableApps\PotPlayer\PotPlayerPortable.exe /RegisterAll

@@ -22,7 +22,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 更新yarn
-      - name: Updtae yarn
+      - name: Update yarn
         run: yarn set version stable
 
       # 安装依赖

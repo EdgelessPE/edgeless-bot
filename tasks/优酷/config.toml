@@ -35,6 +35,7 @@ sourceFile = "YoukuDesktop.exe"
 recursiveUnzipList = []
 
 # 额外备注
-# [extra]
+[extra]
 # require_windows = false
 # missing_version = ""
+weekly = true

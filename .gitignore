@@ -11,3 +11,4 @@ _press.wcs
 rclone*
 *.exe
 database.json
+.yarn

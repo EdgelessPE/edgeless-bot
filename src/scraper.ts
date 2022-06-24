@@ -97,9 +97,9 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 			p,
 			jobSum = 0;
 		const checkResolve = function (badge: string, template: string) {
-			log(`Info:Finished scraping for ${template}`, badge);
+			log(`Success:Finished scraping for ${template}`, badge);
 			if (piscina.completed == jobSum) {
-				log(`Info:Scraping jobs all done`);
+				log(`Success:Scraping jobs all done`);
 				resolve(collection);
 			}
 		};

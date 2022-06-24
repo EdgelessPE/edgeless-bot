@@ -38,6 +38,10 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
+      # 更新yarn
+      - name: Updtae yarn
+        run: yarn set version stable
+
       # 安装依赖
       - name: Install dependencies
         run: yarn

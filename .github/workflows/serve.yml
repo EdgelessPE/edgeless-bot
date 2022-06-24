@@ -35,7 +35,7 @@ jobs:
       # 缓存yarn
       - uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: '**/.yarn'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 更新yarn

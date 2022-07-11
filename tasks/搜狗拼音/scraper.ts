@@ -1,4 +1,4 @@
-import {Ok, Result} from 'ts-results';
+import {Err, Ok, Result} from 'ts-results';
 import {ScraperReturned} from '../../src/class';
 import {robustGet} from '../../src/network';
 import {log, versionCmp, Cmp, fromGBK} from '../../src/utils';
@@ -9,21 +9,20 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
 		url = '';
 	//获取官网首页
 	let page = (await robustGet('https://pinyin.sogou.com/')).unwrap() as string;
-	//匹配出js中的所有下载地址
-	let matches = page.match(/window\.location\.href="\S*"/g) as RegExpMatchArray;
-	//筛选掉10版本（XP专用版）
-	matches.forEach((item) => {
-		if (item.match('sogou_pinyin_10') == null) {
-			url = item.split('="')[1].slice(0, -1);
-		}
-	});
+	//匹配页面json数据
+	let jsonM=page.match(/\{.*\}/)
+	if(jsonM==null||jsonM.length>1){
+		return new Err("Error:Can't match or match multi json data")
+	}
+	url=JSON.parse(jsonM[0]).props.pageProps.data.windows.link
+	
 	log('Info:Matched url ' + url);
 
 	//获取升级日志页面
 	let versionPage = (await robustGet('https://pinyin.sogou.com/changelog.php')).unwrap() as string;
 	//匹配所有的正式版发布信息
 	//console.log(gb2312(page.data))
-	matches = versionPage.match(/\d*\.\d*\S*<\/h2>/) as RegExpMatchArray;
+	let matches = versionPage.match(/\d*\.\d*\S*<\/h2>/) as RegExpMatchArray;
 	//获取其中最高的版本号
 	let match;
 	matches.forEach((item) => {

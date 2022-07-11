@@ -264,7 +264,7 @@ async function createTask() {
 	//修改toml并写入配置
 	//console.log(JSON.stringify(json,null,2));
 	fs.writeFileSync(configPath, applyInput(taskToml, json, '').unwrap());
-	console.log(chalk.green(_('Success ')) + _('Task config saved to ') + chalk.cyanBright(configPath) + ', ' + _('test it with ')+chalk.cyan(`yarn serve -d -t "${taskName}"`));
+	console.log(chalk.green(_('Success ')) + _('Task config saved to ') + chalk.cyanBright(configPath) + ', ' + _('test it with ')+chalk.cyan(`yarn dev -t "${taskName}"`));
 }
 
 function registerTemplate(node: {name:string,entrance:string}, dir: string) {

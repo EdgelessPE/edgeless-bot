@@ -129,7 +129,7 @@ build_manifest = ["${taskName}"]
 使用以下命令测试你的任务：
 
 ```shell
-yarn serve -d -t TASK_NAME
+yarn dev -t TASK_NAME
 ```
 ## 无版本号任务
 无版本号任务是指无法通过爬虫获取到软件当前最新版本号的任务，需要在进行完整的制作流程 (Produce) 后通过读取可执行主程序文件的文件版本获取最新版本号。
@@ -167,5 +167,5 @@ missing_version = "${taskName}/${taskName}.exe"
 使用以下命令测试你的无版本号任务：
 
 ```shell
-yarn serve -d -f -t TASK_NAME
+yarn dev -f -t TASK_NAME
 ```

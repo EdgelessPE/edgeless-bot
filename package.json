@@ -25,7 +25,7 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
     "serve": "tsc && node dist/src/index.js",
-    "dev": "yarn serve -d",
+    "dev": "tsc && node dist/src/index.js -d",
     "new": "ts-node scripts/new.ts"
   },
   "devDependencies": {

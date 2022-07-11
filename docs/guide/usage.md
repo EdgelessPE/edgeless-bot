@@ -5,7 +5,7 @@
 确保你已经安装 [Node.js](https://nodejs.org/) 16 、 [yarn](https://yarnpkg.com/) 包管理器以及[二进制](#二进制)后，克隆仓库后执行以下命令：
 
 ```shell
-yarn && yarn serve -d
+yarn && yarn dev
 ```
 
 ## 二进制
@@ -104,7 +104,7 @@ Edgeless Bot 支持以下参数的组合使用：
 
 Debug，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。
 
-示例：`yarn serve -d`   以调试模式运行全部任务
+示例：`yarn dev`   以调试模式运行全部任务
 
 **-t**
 

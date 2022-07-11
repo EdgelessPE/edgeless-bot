@@ -9,7 +9,7 @@ Edgeless Bot 的远程功能通过调用 rclone 命令实现，支持本地存�
 
 ## 起步
 
-克隆此仓库并执行 `yarn && yarn serve -d` 即可快速开始，详情请见[安装与使用](usage.md)。
+克隆此仓库并执行 `yarn && yarn dev` 即可快速开始，详情请见[安装与使用](usage.md)。
 
 ## 性能
 

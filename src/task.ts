@@ -27,6 +27,7 @@ import {MISSING_VERSION_TRY_DAY, PROJECT_ROOT} from './const';
 import {deleteFromRemote} from './rclone';
 import scraperRegister from '../templates/scrapers/_register';
 import os from 'os';
+import {ensurePlatform} from "./platform";
 
 const rcInfo = require('rcinfo');
 const shell = require('shelljs');
@@ -167,13 +168,11 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
 			success = false;
 			log(tmp.val);
 		} else {
-			if (
-				tmp.unwrap().extra?.weekly &&
-				MISSING_VERSION_TRY_DAY != new Date().getDay()
-			  ) {
+			let task=tmp.unwrap()
+			if (!reserveTask(task)) {
 				continue;
 			  }
-			result.push(tmp.unwrap());
+			result.push(task);
 		}
 	}
 	if (success) {
@@ -515,8 +514,6 @@ async function executeTasks(ts: Array<ExecuteParameter>): Promise<Array<ResultRe
 			for (let t of shuffle(requireWindowsTasks)) {
 				collect(await execute(t), t);
 			}
-		} else {
-			log(`Warning:Tasks require windows wouldn't be executed`);
 		}
 	});
 }
@@ -575,10 +572,30 @@ function removeExtraBuilds(taskName: string, category: string, newBuild: string)
 	return buildList;
 }
 
+function reserveTask(task:TaskInstance):boolean {
+	//排除 weekly
+	if (
+		task.extra?.weekly &&
+		MISSING_VERSION_TRY_DAY != new Date().getDay()
+	){
+		log(`Info:Ignore weekly task ${task.name}`)
+		return false
+	}
+
+	//排除需要 Windows
+	if(ensurePlatform(false)=="POSIX"&&task.extra?.require_windows){
+		log(`Info:Ignore require Windows task ${task.name}`)
+		return false
+	}
+
+	return true
+}
+
 export {
 	getAllTasks,
 	getSingleTask,
 	executeTasks,
 	getTasksToBeExecuted,
 	removeExtraBuilds,
+	reserveTask
 };

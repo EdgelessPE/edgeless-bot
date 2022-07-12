@@ -10,7 +10,7 @@ import {
 	WorkerDataScraper,
 } from './class';
 import {Err, Ok, Result} from 'ts-results';
-import {awaitWithTimeout} from './utils';
+import {awaitWithTimeout, log} from './utils';
 import {HEAVY_TIMEOUT, LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY} from './const';
 
 require('source-map-support').install();
@@ -32,13 +32,15 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 			try {
 				res = await awaitWithTimeout(script, LIGHT_TIMEOUT);
 				//处理无版本号任务
-				if (workerData.tasks[0].extra?.missing_version && res.ok) {
+				const task=workerData.tasks[0]
+				if (task.extra?.missing_version && res.ok) {
 					//在指定的星期检查更新
 					let date = new Date();
 					if (date.getDay() == MISSING_VERSION_TRY_DAY) {
 						res.val.version = '999999.99.99';
 					} else {
 						//其他时间将爬虫的版本号改为 0
+						log(`Info:Ignore missing version task ${task.name}`)
 						res.val.version = '0.0.0';
 					}
 				}

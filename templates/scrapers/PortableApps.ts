@@ -62,20 +62,20 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
     //log('Info:Get valid dom node whose class is "' + dom_node.attr('class') + '"');
   }
 
-  // 尝试获取MD5
-  const md5TagResult = $("strong:contains('MD5')");
-  if (md5TagResult == null || md5TagResult.length == 0) {
-    log("Warning:No MD5 tag found in this page");
-  } else {
-    try {
-      result.md5 = (
-        md5TagResult.parent("li").get(0)!.children[1] as any
-      ).data.substring(2);
-    } catch (err) {
-      console.log(JSON.stringify(err));
-      log("Warning:Fail to get MD5 value");
-    }
-  }
+  // 尝试获取MD5 （由于PortableApps改用SHA256作为校验哈希，因此暂时偷懒把校验获取禁用）
+  // const md5TagResult = $("strong:contains('MD5')");
+  // if (md5TagResult == null || md5TagResult.length == 0) {
+  //   log("Warning:No MD5 tag found in this page");
+  // } else {
+  //   try {
+  //     result.md5 = (
+  //       md5TagResult.parent("li").get(0)!.children[1] as any
+  //     ).data.substring(2);
+  //   } catch (err) {
+  //     console.log(JSON.stringify(err));
+  //     log("Warning:Fail to get MD5 value");
+  //   }
+  // }
 
   // 分className处理，获取text和href
   switch (dom_node.attr("class")) {
@@ -113,14 +113,14 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
               // 获得下载地址
               result.href = recordParent.find("a").get(0)!.attribs.href;
               // 尝试获得md5
-              try {
-                result.md5 = (
-                  recordParent.children("td").get(3)!.children[0] as any
-                ).data;
-              } catch (err) {
-                console.log(JSON.stringify(err));
-                log("Warning:Fail to got md5");
-              }
+              // try {
+              //   result.md5 = (
+              //     recordParent.children("td").get(3)!.children[0] as any
+              //   ).data;
+              // } catch (err) {
+              //   console.log(JSON.stringify(err));
+              //   log("Warning:Fail to got md5");
+              // }
 
               if (DEBUG)
                 log(
@@ -166,17 +166,17 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   // }
 
   // 校验md5
-  if (result.md5 == undefined) {
-    result.md5 = "";
-  }
-
-  if (
-    result.md5 !== "" &&
-    result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
-  ) {
-    log("Warning:Fail to check md5,got " + result.md5);
-    result.md5 = "";
-  }
+  // if (result.md5 == undefined) {
+  //   result.md5 = "";
+  // }
+  //
+  // if (
+  //   result.md5 !== "" &&
+  //   result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
+  // ) {
+  //   log("Warning:Fail to check md5,got " + result.md5);
+  //   result.md5 = "";
+  // }
 
   // 处理href
   result.href = parseDownloadUrl(result.href);
@@ -195,12 +195,12 @@ export default async function (
   return new Ok({
     version: text,
     downloadLink: href,
-    validation:
-      md5 == ""
-        ? undefined
-        : {
-            type: "MD5",
-            value: md5,
-          },
+    // validation:
+    //   md5 == ""
+    //     ? undefined
+    //     : {
+    //         type: "MD5",
+    //         value: md5,
+    //       },
   });
 }

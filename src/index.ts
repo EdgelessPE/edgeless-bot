@@ -6,11 +6,10 @@ import {
   getAllTasks,
   getSingleTask,
   getTasksToBeExecuted,
-  removeExtraBuilds,
+  removeExtraBuilds, reserveTask,
 } from "./task";
 import { config } from "./config";
-import { ensurePlatform, getOS } from "./platform";
-import os from "os";
+import { ensurePlatform } from "./platform";
 import { clearWorkshop } from "./workshop";
 import { initAria2c, stopAria2c } from "./aria2c";
 import {
@@ -28,7 +27,7 @@ import path from "path";
 import cp from "child_process";
 import * as TOML from "toml";
 import { TaskInstance } from "./class";
-import { MISSING_VERSION_TRY_DAY, setMVTDayToday } from "./const";
+import { setMVTDayToday } from "./const";
 
 require("source-map-support").install();
 
@@ -52,14 +51,9 @@ async function main(): Promise<boolean> {
   }
   //处理无版本号任务的制作日
   if (config.MODE_FORCED) setMVTDayToday();
-  //平台校验
-  //TODO:支持其他平台，实现require_windows，检查pecmd是否存在
-  if (getOS() != "Windows") {
-    log("Error:Unsupported platform : " + os.platform());
-    return false;
-  }
-  //命令校验
-  if (!ensurePlatform()) {
+  //平台命令校验
+  const platformMode=ensurePlatform()
+  if (platformMode=="Unavailable") {
     return false;
   }
   //重建工作目录
@@ -81,11 +75,8 @@ async function main(): Promise<boolean> {
     tasks = [];
     for (let t of config.SPECIFY_TASK.split("/")) {
       task = getSingleTask(t).unwrap();
-      //判断是否跳过weekly任务
-      if (
-        task.extra?.weekly &&
-        MISSING_VERSION_TRY_DAY != new Date().getDay()
-      ) {
+      //判断是否保留任务
+      if (!reserveTask(task)) {
         continue;
       }
       tasks.push(task);
@@ -93,14 +84,14 @@ async function main(): Promise<boolean> {
   } else {
     tasks = getAllTasks().unwrap();
   }
-  //执行全部任务爬虫
+  //执行全部爬虫
   let results = await scraper(tasks);
   //console.log(JSON.stringify(results,null,2))
 
-  //得到需要真正执行的任务数组
+  //得到需要制作的任务
   let toExecTasks = getTasksToBeExecuted(results);
 
-  //执行所有需要执行的任务
+  //执行任务
   let eRes = await executeTasks(toExecTasks);
   for (let node of eRes) {
     if (node.result.ok) {

@@ -126,16 +126,33 @@ function where(command: string): Result<string, string> {
 	}
 }
 
-function ensurePlatform(): boolean {
+function ensurePlatform(alert=true): "Full"|"POSIX"|"Unavailable" {
 	let list = ['aria2c', 'p7zip'],
-		suc = true;
+		suc:"Full"|"POSIX"|"Unavailable" = "Full";
 	if (config.REMOTE_ENABLE) {
 		list.push('rclone');
 	}
 	for (let cmd of list) {
 		if (where(cmd).err) {
-			suc = false;
-			log(`Error:Command ${cmd} not found`);
+			suc = "Unavailable";
+			if(alert) log(`Error:Command ${cmd} not found`);
+		}
+	}
+	if(suc=="Unavailable") return suc
+
+	const os=getOS()
+
+	//如果是Windows检查pecmd
+	if((os=="Windows")){
+		if(where('pecmd').err){
+			suc="POSIX"
+			if(alert) log(`Warning:PECMD not found, use POSIX mode (tasks require Windows won't be executed)`)
+		}
+	}else {
+		suc = "POSIX"
+		if(alert) {
+			log(`Warning:Use POSIX mode (tasks require Windows won't be executed)`)
+			log(`Warning:Platform ${os} not fully tested yet, you may run into errors later`)
 		}
 	}
 	return suc;

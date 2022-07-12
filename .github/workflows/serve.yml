@@ -35,12 +35,8 @@ jobs:
       # 缓存yarn
       - uses: actions/cache@v2
         with:
-          path: '**/.yarn'
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      # 更新yarn
-      - name: Update yarn
-        run: yarn set version stable
 
       # 安装依赖
       - name: Install dependencies

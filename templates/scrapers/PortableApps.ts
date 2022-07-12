@@ -3,7 +3,6 @@ import { ScraperParameters, ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 import cheerio from "cheerio";
 import { log } from "../../src/utils";
-import { config } from "../../src/config";
 
 interface PageInfo {
   text: string;
@@ -70,7 +69,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   } else {
     try {
       result.md5 = (
-        md5TagResult.parent("li").get(0).children[1] as any
+        md5TagResult.parent("li").get(0)!.children[1] as any
       ).data.substring(2);
     } catch (err) {
       console.log(JSON.stringify(err));
@@ -112,11 +111,11 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
               .parent("tr");
             if (recordParent != null && recordParent.length > 0) {
               // 获得下载地址
-              result.href = recordParent.find("a").get(0).attribs.href;
+              result.href = recordParent.find("a").get(0)!.attribs.href;
               // 尝试获得md5
               try {
                 result.md5 = (
-                  recordParent.children("td").get(3).children[0] as any
+                  recordParent.children("td").get(3)!.children[0] as any
                 ).data;
               } catch (err) {
                 console.log(JSON.stringify(err));

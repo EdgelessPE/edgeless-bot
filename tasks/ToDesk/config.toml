@@ -13,7 +13,7 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = '(https?:)*\/?\/.+ToDesk_Setup\.exe'
+download_link = '(https?:)*\/?\/.+ToDesk_[\d\.]+\.exe'
 download_name = '\.exe'
 # scraper_version = ''
 

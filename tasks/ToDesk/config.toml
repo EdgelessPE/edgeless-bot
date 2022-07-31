@@ -7,7 +7,7 @@ url = "https://www.todesk.com/download.html"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "External"
 # resolver = ""
 producer = "Recursive_Unzip"
 
@@ -42,4 +42,4 @@ recursiveUnzipList = []
 [extra]
 # require_windows = false
 # missing_version = ""
-weekly = true
+# weekly = true

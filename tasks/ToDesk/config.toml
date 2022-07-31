@@ -22,7 +22,7 @@ download_name = '\.exe'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}/ToDesk.exe"]
-# build_cover = ""
+build_cover = "cover"
 build_delete = ["$PLUGINSDIR", "uninst.exe"]
 
 # 爬虫模板临时参数

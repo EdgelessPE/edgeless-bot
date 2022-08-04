@@ -31,7 +31,7 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "Postman"
-sourceFile = "postman-portable\.exe"
+sourceFile = "postman-portable.exe"
 recursiveUnzipList = [ ]
 
 

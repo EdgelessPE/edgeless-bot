@@ -7,7 +7,7 @@ url = "https://www.todesk.com/download.html"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "External"
 # resolver = ""
 producer = "Recursive_Unzip"
 
@@ -22,7 +22,7 @@ download_name = '\.exe'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}/ToDesk.exe"]
-# build_cover = ""
+build_cover = "cover"
 build_delete = ["$PLUGINSDIR", "uninst.exe"]
 
 # 爬虫模板临时参数
@@ -42,4 +42,4 @@ recursiveUnzipList = []
 [extra]
 # require_windows = false
 # missing_version = ""
-weekly = true
+# weekly = true

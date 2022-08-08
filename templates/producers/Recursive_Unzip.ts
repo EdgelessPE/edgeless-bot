@@ -47,7 +47,10 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		if (reg[0] == '/') {
 			m = matchFile(cwd, reg);
 			if (m.err) {
-				reason = `Error:Can't find file matching ${reg} at ${cwd} during the ${level} recursion`;
+				if(level==1){
+					log(`Error:Check if you are trying to match the download file with the first regex in recursiveUnzipList.If so, remove it.`)
+				}
+				reason = `Error:Can't find file matching ${reg} at ${cwd} during the ${level}th recursion`;
 				success = false;
 				break;
 			}

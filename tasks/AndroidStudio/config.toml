@@ -33,7 +33,7 @@ bucketName = "Versions"
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "AndroidStudio"
-sourceFile = "bin\studio64.exe"
+sourceFile = 'bin\studio64.exe'
 recursiveUnzipList = ['android-studio']
 
 

@@ -1,0 +1,41 @@
+# 任务基本信息
+[task]
+name = "payload-dumper-go"
+category = "开发辅助"
+author = "JohnsonRan"
+url = "https://github.com/ssut/payload-dumper-go"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'windows_amd64\.tar.gz'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}"]
+build_cover = "cover"
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "pd"
+sourceFile = "payload-dumper-go.exe"
+recursiveUnzipList = ['/\S*_windows_amd64\.tar/']
+
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

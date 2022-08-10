@@ -33,7 +33,7 @@ bucketName = "Extras"
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "IntelliJ IDEA"
-sourceFile = "bin\idea64.exe"
+sourceFile = 'bin\idea64.exe'
 recursiveUnzipList = [ ]
 
 

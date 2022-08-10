@@ -15,7 +15,7 @@
 
 - 路径：`scraper_temp.bucketName`
 - 类型：`string`
-- 说明：目前支持的 Scoop Bucket： Main、Extras、games、java、nirsoft
+- 说明：目前支持的 Scoop Bucket： Main、Extras、Versions、games、java、nirsoft
 
 ### scoopManifestName
 

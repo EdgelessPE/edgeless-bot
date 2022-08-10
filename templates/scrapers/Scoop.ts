@@ -13,7 +13,8 @@ const Buckets: Map<string, string> = new Map([
 	["Extras", "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/"],
 	["games", "https://raw.githubusercontent.com/Calinou/scoop-games/master/bucket/"],
 	["java", "https://raw.githubusercontent.com/ScoopInstaller/Java/master/bucket/"],
-	["nirsoft", "https://raw.githubusercontent.com/kodybrown/scoop-nirsoft/master/bucket/"]
+	["nirsoft", "https://raw.githubusercontent.com/kodybrown/scoop-nirsoft/master/bucket/"],
+	["Versions", "https://raw.githubusercontent.com/ScoopInstaller/Versions/master/bucket/"]
 ])
 
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
@@ -22,7 +23,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	const bucketName: string = temp.bucketName;
 	const bucketUrl: string | undefined = Buckets.get(bucketName)
 	if (!bucketUrl){
-		return Err(`Error: Could not Get bucket ${bucketName}, please make sure bucketName is one of Main/Extras/games/java/nirsoft`)
+		return Err(`Error: Could not Get bucket ${bucketName}, please make sure bucketName is one of Main/Extras/Versions/games/java/nirsoft`)
 	}
 	const response = (await robustGet(`${bucketUrl}${temp.scoopManifestName}.json`, {responseType: 'json'})).unwrap();
 	log(`Info: downloadLink:${response['architecture']?.['64bit']["url"] ?? response["url"]}`)

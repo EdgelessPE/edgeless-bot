@@ -1,34 +1,34 @@
-import {ProducerRegister} from '../../src/class';
+import { ProducerRegister } from "../../src/class";
 
 const regArray: Array<ProducerRegister> = [
   {
     name: "Click to Install",
     entrance: "Click2Install",
     description:
-      "Create a shortcut on the desktop to allow user's manually install or click to run;" +
-      "\nSuggested buildManifest : ${taskName}.wcs,${taskName}/${downloadedFile}",
+      "Create a shortcut on the desktop to allow user's manually install or click to run",
     defaultCompressLevel: 1,
+    recommendedManifest: ["${taskName}.wcs", "${taskName}/${downloadedFile}"],
   },
   {
-    name: 'Recursive Unzip',
-    entrance: 'Recursive_Unzip',
+    name: "Recursive Unzip",
+    entrance: "Recursive_Unzip",
     description:
-        'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile";' +
-        '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/"sourceFile"',
+      'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile";' +
+      '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/"sourceFile"',
     defaultCompressLevel: 5,
   },
   {
-    name: 'Silent Install',
-    entrance: 'Silent_Install',
+    name: "Silent Install",
+    entrance: "Silent_Install",
     description:
-        'Execute downloaded file with argument (default "/S", can be specified by "producer_required.argument");' +
-        '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/${downloadedFile}',
+      'Execute downloaded file with argument (default "/S", can be specified by "producer_required.argument")',
     defaultCompressLevel: 1,
+    recommendedManifest: ["${taskName}.wcs", "${taskName}/${downloadedFile}"],
   },
   {
-    name: 'PortableApps',
-    entrance: 'PortableApps',
-    description: 'Special designed for PortableApps',
+    name: "PortableApps",
+    entrance: "PortableApps",
+    description: "Special designed for PortableApps",
     defaultCompressLevel: 5,
   },
 ];

@@ -74,6 +74,7 @@ interface ProducerRegister {
 	description: string;
 	entrance: string;
 	defaultCompressLevel: number;
+	recommendedManifest?:string[];
 }
 
 //数据库

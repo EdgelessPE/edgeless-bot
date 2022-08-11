@@ -56,6 +56,8 @@ interface ProducerRegister {
   defaultCompressLevel: number;
   //描述
   description: string;
+  //（可选）推荐的构建装箱单
+  recommendedManifest?: string[];
 }
 ```
 

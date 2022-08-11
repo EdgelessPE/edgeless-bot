@@ -76,6 +76,7 @@ async function createTask() {
 	shell.mkdir('-p', taskDir);
 
 	//用于输入template.producer
+	let recommendedManifest=['${taskName}.wcs', '${taskName}']
 	const inputProducer = async () => {
 		let index = await select(_('Producer template'), (() => {
 			let r: string[] = [];
@@ -93,7 +94,12 @@ async function createTask() {
 			producerEntrance = 'External';
 			return producerEntrance;
 		}
-		producerEntrance = producerRegister[index].entrance;
+
+		const chosenProducerNode=producerRegister[index]
+		producerEntrance = chosenProducerNode.entrance;
+		if(chosenProducerNode.recommendedManifest!=undefined){
+			recommendedManifest=chosenProducerNode.recommendedManifest
+		}
 		return producerEntrance;
 	};
 
@@ -152,7 +158,6 @@ async function createTask() {
 		return TOML.stringify(resJson);
 	};
 
-	//用于输入上游URL并进行校验
 	let externalScraper = true,
 		scraperEntrance: string | undefined = undefined;
 	const inputRequiredKeys = async (requiredKeys: string[]): Promise<string> => {
@@ -170,6 +175,7 @@ async function createTask() {
 		}
 		return s;
 	};
+	//用于输入上游URL并进行校验
 	const inputUpstreamUrl = async (): Promise<string> => {
 		//要求输入上游URL
 		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
@@ -237,10 +243,10 @@ async function createTask() {
 		}
 	};
 
-	//构成基础json
 	const Categories = CATEGORIES.sort((a, b) => {
 		return a.localeCompare(b, 'zh');
 	});
+	//构成基础json
 	let json: TaskInput = {
 		task: {
 			name: taskName,
@@ -256,7 +262,7 @@ async function createTask() {
 			download_name: await input(_('Regex for downloaded file'), '\\.exe'),
 		},
 		parameter: {
-			build_manifest: await stringArray(_('Build manifest, split file name with ,'), ['${taskName}.wcs', '${taskName}']),
+			build_manifest: await stringArray(_('Build manifest, split file name with ,'), recommendedManifest),
 		},
 		producer_required: await generateProducerRequired(taskName),
 	};
@@ -346,6 +352,7 @@ async function createTemplate() {
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
 				description: await inputDescription(),
 				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), '5', /^([1-9]|10)$/)),
+				recommendedManifest: await stringArray(_('Recommended manifest, ')+_('split with ,'),[])
 			};
 			console.log(chalk.blueBright(_('Info ')) + _('If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'));
 			//注册

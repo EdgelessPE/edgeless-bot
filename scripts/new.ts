@@ -352,8 +352,11 @@ async function createTemplate() {
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
 				description: await inputDescription(),
 				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), '5', /^([1-9]|10)$/)),
-				recommendedManifest: await stringArray(_('Recommended manifest, ')+_('split with ,'),[])
 			};
+			let recommendedManifest=await stringArray(_('Recommended manifest, ')+_('split with ,'),[])
+			if(recommendedManifest.length>0){
+				jsonP.recommendedManifest=recommendedManifest
+			}
 			console.log(chalk.blueBright(_('Info ')) + _('If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'));
 			//注册
 			registerTemplate(jsonP, 'producers');

@@ -1,6 +1,6 @@
 # 任务基本信息
 [task]
-name = "AndroidStudio"
+name = "AndroidStudioCanary"
 category = "集成开发"
 author = "JohnsonRan"
 url = "https://scoop.sh/android-studio-canary"
@@ -32,7 +32,7 @@ bucketName = "Versions"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "AndroidStudio"
+shortcutName = "AndroidStudioCanary"
 sourceFile = 'bin\studio64.exe'
 recursiveUnzipList = ['android-studio']
 

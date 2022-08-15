@@ -88,7 +88,7 @@ function where(command: string): Result<string, string> {
 		node = possibleCommands[i];
 		//使用which/where
 		try {
-			_ = cp.execSync(`${testCmd} ${node}`);
+			_ = cp.execSync(`${testCmd} ${node}`,{stdio:"ignore"});
 			result = node;
 			break;
 		} catch (_) {

@@ -1,6 +1,6 @@
 # 任务基本信息
 [task]
-name = "lxmusic-desktop"
+name = "洛雪音乐"
 category = "影音播放"
 author = "undefined"
 url = "https://github.com/lyswhut/lx-music-desktop/releases"
@@ -30,7 +30,7 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "lxmusic"
+shortcutName = "洛雪音乐"
 sourceFile = "lx-music-desktop.exe"
 recursiveUnzipList = [ ]
 

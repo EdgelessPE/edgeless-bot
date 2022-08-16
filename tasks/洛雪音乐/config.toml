@@ -1,9 +1,9 @@
 # 任务基本信息
 [task]
-name = "AndroidStudioCanary"
-category = "集成开发"
-author = "JohnsonRan"
-url = "https://scoop.sh/android-studio-canary"
+name = "洛雪音乐"
+category = "影音播放"
+author = "undefined"
+url = "https://github.com/lyswhut/lx-music-desktop/releases"
 
 # 指定使用的模板
 [template]
@@ -14,7 +14,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.zip'
+download_name = '-win_x64-green\.7z'
 # scraper_version = ''
 
 # 通用参数
@@ -26,16 +26,13 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 # build_delete = []
 
 # 爬虫模板临时参数
-[scraper_temp]
-scoopManifestName = "android-studio-canary"
-bucketName = "Versions"
+# [scraper_temp]
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "AndroidStudioCanary"
-sourceFile = 'bin\studio64.exe'
-recursiveUnzipList = ['android-studio']
-
+shortcutName = "洛雪音乐"
+sourceFile = "lx-music-desktop.exe"
+recursiveUnzipList = [ ]
 
 
 # 额外备注

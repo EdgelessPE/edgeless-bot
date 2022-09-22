@@ -1,7 +1,7 @@
 # 任务基本信息
 [task]
 name = "GIMP"
-category = "办公编辑"
+category = "媒体处理"
 author = "undefined"
 url = "https://portableapps.com/apps/graphics_pictures/gimp_portable"
 

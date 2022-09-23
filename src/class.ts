@@ -152,6 +152,9 @@ interface CONFIG {
 	SPECIFY_TASK: string;
 	MODE_FORCED: boolean;
 	GITHUB_ACTIONS: boolean;
+	
+	ENABLE_CACHE: boolean;
+	DEBUG_MODE: boolean;
 
 }
 

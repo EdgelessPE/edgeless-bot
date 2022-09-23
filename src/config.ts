@@ -22,6 +22,8 @@ function configGenerator(): Result<CONFIG, string> {
 		//对非必需布尔项填充缺省值
 		json['MODE_FORCED'] = false;
 		json['GITHUB_ACTIONS'] = false;
+		json['DEBUG_MODE'] = false;
+		json['ENABLE_CACHE'] = false
 		//使用JSON Schema校验
 		if (!schemaValidator(json, 'config').unwrap()) {
 			return new Err('Error:Validating config.toml failed');
@@ -41,6 +43,10 @@ function configGenerator(): Result<CONFIG, string> {
 				arg: 't',
 				key: 'SPECIFY_TASK',
 			},
+			{
+				arg: 'c',
+				key: 'ENABLE_CACHE'
+			}
 		];
 		for (const coverNode of coverTable) {
 			if (args.hasOwnProperty(coverNode.arg)) {
@@ -51,6 +57,11 @@ function configGenerator(): Result<CONFIG, string> {
 		if (args.hasOwnProperty('d')) {
 			json['DATABASE_UPDATE'] = false;
 			json['REMOTE_ENABLE'] = false;
+			json['DEBUG_MODE'] = true;
+		} else {
+			if (json["ENABLE_CACHE"]) {
+				return new Err("Error: Only Debug Mode can enable download cache.")
+			}
 		}
 		return new Ok(json);
 	}

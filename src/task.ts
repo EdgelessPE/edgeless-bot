@@ -234,8 +234,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
         newNode: ScraperReturned,
         matchRes,
         res,
-        onlineVersion,
-        date = new Date();
+        onlineVersion;
     for (let result of results) {
         if (result == null) {
             continue;
@@ -702,17 +701,18 @@ function removeExtraBuilds(
         let target = buildList.pop();
         if (typeof target != "undefined") {
             let absolutePath = path.join(repo, target.fileName);
-            log("Info:Remove extra build " + absolutePath);
-            try {
-                shell.rm(absolutePath);
-                if (fs.existsSync(absolutePath) && !config.GITHUB_ACTIONS) {
-                    log("Warning:Fail to delete local extra build " + target.fileName);
-                }
-            } catch {
-                if (!config.GITHUB_ACTIONS) {
+            if(!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)){
+                log("Info:Remove local extra build " + absolutePath);
+                try {
+                    shell.rm(absolutePath);
+                    if (fs.existsSync(absolutePath)) {
+                        log("Warning:Fail to delete local extra build " + target.fileName);
+                    }
+                } catch {
                     log("Warning:Fail to delete local extra build " + target.fileName);
                 }
             }
+
             if (!deleteFromRemote(target.fileName, category)) {
                 log("Warning:Fail to delete remote extra build " + target.fileName);
                 failure.push(target);

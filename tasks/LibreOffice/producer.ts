@@ -25,10 +25,10 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		"FILE X:\\Program Files\\Edgeless\\LibreOffice->X:\\Users\\PortableApps\\LibreOffice\n"+
 		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeBase,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeBasePortable.exe\n"+
 		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeCalc,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeCalcPortable.exe\n"+
-		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeDraw,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeDrawPortable.exe"+
-		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeImpress,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeImpressPortable.exe"+
-		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeMath,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeMathPortable.exe"+
-		"LINK X:\\Users\\Default\\Desktop\\LibreOffice,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficePortable.exe"+
+		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeDraw,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeDrawPortable.exe\n"+
+		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeImpress,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeImpressPortable.exe\n"+
+		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeMath,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeMathPortable.exe\n"+
+		"LINK X:\\Users\\Default\\Desktop\\LibreOffice,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficePortable.exe\n"+
 		"LINK X:\\Users\\Default\\Desktop\\LibreOfficeWriter,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeWriterPortable.exe"
 		)
 	//Return ready directory

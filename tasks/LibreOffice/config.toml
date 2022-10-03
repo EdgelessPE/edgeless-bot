@@ -9,7 +9,7 @@ url = "https://portableapps.com/apps/office/libreoffice_portable"
 [template]
 scraper = "External"
 # resolver = ""
-producer = "PortableApps"
+producer = "External"
 
 # 使用到的正则
 [regex]

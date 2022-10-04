@@ -1,13 +1,13 @@
 # 任务基本信息
 [task]
-name = "LibreOffice"
+name = "OpenOffice"
 category = "办公编辑"
 author = "undefined"
-url = "https://portableapps.com/apps/office/libreoffice_portable"
+url = "https://portableapps.com/apps/office/openoffice_portable"
 
 # 指定使用的模板
 [template]
-scraper = "External"
+# scraper = ""
 # resolver = ""
 producer = "External"
 

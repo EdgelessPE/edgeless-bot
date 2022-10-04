@@ -153,6 +153,7 @@ function validateConfig(task: TaskConfig): boolean {
             "/producer_required"
         ).unwrap();
     }
+    if (task.template.producer == "External" && task.template.scraper == "External") {return true;}
     return suc;
 }
 
@@ -324,10 +325,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     const workshop = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
     let downloadedFile: string = "";
     let absolutePath: string = "";
+    // 创建Cache目录
+    await shell.mkdir("-p", path.join(PROJECT_ROOT, "DownloadCache"))
     // 如果有则使用缓存
     if (config.ENABLE_CACHE && fs.existsSync(path.join(PROJECT_ROOT, "DownloadCache", t.task.name))) {
         log("Warning:Download Cache Enabled.");
         log("Info:Hit Cache");
+        
         await shell.cp(
             "-R",
             path.join(PROJECT_ROOT, "DownloadCache", t.task.name),

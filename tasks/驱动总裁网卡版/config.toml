@@ -27,7 +27,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}/DrvCeo.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div > div.dl > div > div > a:nth-child(1)"
+# download_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div > div.dl > div.bdxz.on > div > a:nth-child(4)"
 version_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div > div.msg.fl.cl > ol > li:nth-child(2)"
 
 # 自动制作模板要求的参数

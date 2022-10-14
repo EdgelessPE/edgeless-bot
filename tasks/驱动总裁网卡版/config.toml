@@ -3,7 +3,7 @@
 name = "驱动总裁网卡版"
 category = "驱动管理"
 author = "Cno"
-url = "https://www.sysceo.com/Software-softwarei-id-123.html"
+url = "https://www.sysceo.com/Software-softwarei-id-245.html"
 
 # 指定使用的模板
 [template]
@@ -13,8 +13,8 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = 'http.+\.zip'
-download_name = '\.exe'
+download_link = 'https:\/\/url\.usbrun\.com\/drvceo\/Final\/DrvCeonw\.zip'
+download_name = '\.zip'
 # scraper_version = ''
 
 # 通用参数
@@ -23,7 +23,7 @@ download_name = '\.exe'
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}/DrvCeo.exe"]
 # build_cover = ""
-build_delete = ["Uninstall.exe"]
+# build_delete = ["Uninstall.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -37,7 +37,7 @@ sourceFile = "DrvCeo.exe"
 recursiveUnzipList = ["DrvCeonw"]
 
 # 额外备注
-[extra]
+# [extra]
 # require_windows = false
 # missing_version = ""
-weekly = true
+# weekly = true

@@ -7,13 +7,13 @@ url = "https://www.todesk.com/download.html"
 
 # 指定使用的模板
 [template]
-scraper = "External"
+scraper = "Global_Page_Match"
 # resolver = ""
 producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = '(https?:)*\/?\/.+ToDesk_[\d\.]+\.exe'
+# download_link = ''
 download_name = '\.exe'
 # scraper_version = ''
 
@@ -21,25 +21,24 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/ToDesk.exe"]
-build_cover = "cover"
-build_delete = ["$PLUGINSDIR", "uninst.exe"]
+build_manifest = ["${taskName}.wcs","${taskName}\\ToDesk.exe"]
+# build_cover = ""
+build_delete = ["$PLUGINSDIR"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://update.todesk.com/windows/uplog.html"
-version_selector = ".text"
-download_page_url = "https://www.todesk.com/js/common.js"
+version_selector = '#__layout > div > div.tddownload.wrap > div.tcont_bx > div.tab_content.tab_content0 > div.left_info.win > section'
+download_selector = '#__layout > div > div.tddownload.wrap > div.tcont_bx > div.tab_content.tab_content0 > div.left_info.win > section > div.win_download'
 
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "ToDesk"
 sourceFile = "ToDesk.exe"
-recursiveUnzipList = []
+recursiveUnzipList = [ ]
 
 
 # 额外备注
-[extra]
-# require_windows = false
+# [extra]
+# require_windows = true
 # missing_version = ""
-weekly = true
+# weekly = true

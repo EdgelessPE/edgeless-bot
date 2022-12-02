@@ -1,8 +1,9 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/class";
-import { robustGet } from "../../src/network";
+import { robustGet, robustParseRedirect } from "../../src/network";
 import cheerio from "cheerio";
 import { log } from "../../src/utils";
+import GitHubRelease from "./GitHub_Release";
 
 interface PageInfo {
   text: string;
@@ -191,6 +192,21 @@ export default async function (
   let page = (await robustGet(p.url)).unwrap();
   //解析
   let { text, href, md5 } = (await scrapePage(page)).unwrap();
+
+  //处理跳转到 GitHub 备用下载的情况
+  const trueUrlRes=await robustParseRedirect(href);
+  const trueUrl=trueUrlRes.unwrapOr("");
+  if(trueUrl.indexOf("github.com")>-1){
+    //交给 GitHub Release 爬虫处理
+    log(`"Info:GitHub Releases backup download detected : ${trueUrl}"`)
+    const res= await GitHubRelease({
+      taskName:p.taskName,
+      url:trueUrl
+    })
+    log(`Info:Get gr parsed result : ${JSON.stringify(res)}`)
+    if(res.err) return res;
+    href=res.unwrap().downloadLink;
+  }
 
   return new Ok({
     version: text,

@@ -64,7 +64,7 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
 	return new Promise((resolve) => {
 		axios.get(url, getConfig({maxRedirects: 0}))
 			.catch((e) => {
-				if (e.response && (e.response.status == 302 || e.response.status == 301)) {
+				if (e.response && (e.response.status == 301 || e.response.status == 302 || e.response.status == 303)) {
 					resolve(new Ok(e.response.headers.location));
 				} else {
 					//console.log(e.response?.status)

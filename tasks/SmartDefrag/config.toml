@@ -36,4 +36,4 @@ build_manifest = ["${taskName}.wcs", "${taskName}"]
  [extra]
 # require_windows = false
 # missing_version = ""
- weekly = true
+# weekly = true

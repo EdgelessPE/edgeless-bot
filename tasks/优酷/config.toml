@@ -21,9 +21,9 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/YoukuDesktop.exe"]
+build_manifest = ["${taskName}.wcs","${taskName}/YOUKU.exe"]
 # build_cover = ""
-build_delete = ["$APPDATA","$PLUGINSDIR"]
+# build_delete = ["$APPDATA","$PLUGINSDIR"]
 
 # 爬虫模板临时参数
 # [scraper_temp]
@@ -31,8 +31,8 @@ build_delete = ["$APPDATA","$PLUGINSDIR"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "优酷"
-sourceFile = "YoukuDesktop.exe"
-recursiveUnzipList = []
+sourceFile = "YOUKU.exe"
+recursiveUnzipList = ["$PLUGINSDIR","app-32.7z"]
 
 # 额外备注
 [extra]

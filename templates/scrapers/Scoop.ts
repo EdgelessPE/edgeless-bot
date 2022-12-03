@@ -38,7 +38,7 @@ const Buckets: Map<string, string> = new Map([
 export default async function (
   p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
-  const { taskName, scraper_temp } = p;
+  const { scraper_temp } = p;
   const temp: Temp = scraper_temp;
   const bucketName: string = temp.bucketName;
   const bucketUrl: string | undefined = Buckets.get(bucketName);

@@ -1,4 +1,4 @@
-import { Ok, Err, Result } from "ts-results";
+import { Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {

@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
-import { log, versionCmp, Cmp, fromGBK } from "../../src/utils";
+import { log, versionCmp, Cmp } from "../../src/utils";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   let version = "0.0",
@@ -11,7 +11,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
     await robustGet("https://pinyin.sogou.com/")
   ).unwrap() as string;
   //匹配页面json数据
-  const jsonM = page.match(/\{.*\}/);
+  const jsonM = page.match(/\{.*}/);
   if (jsonM == null || jsonM.length > 1) {
     return new Err("Error:Can't match or match multi json data");
   }

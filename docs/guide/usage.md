@@ -110,13 +110,13 @@ Debug，此模式下的数据库更新和远程功能会被禁用，此外可能
 
 Task(s)，指定需要执行的任务，用`/`分割不同的任务。不指定此参数时会执行全部任务。
 
-示例：`yarn serve -t "TaskA/Task B/Long name task C"`   仅执行上述三个任务
+示例：`yarn serve -t "TaskA/Task B/Long name task C"` 仅执行上述三个任务
 
 **-f**
 
 Force，忽略与本地数据库的版本号对比强制重新构建任务，通常与`-t`参数同时给定。
 
-示例：`yarn serve -f -t TaskA`  强制重新构建 TaskA
+示例：`yarn serve -f -t TaskA` 强制重新构建 TaskA
 
 **-g**
 

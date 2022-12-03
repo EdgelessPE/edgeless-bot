@@ -1,16 +1,16 @@
-import {ResolverRegister} from '../../src/class';
+import { ResolverRegister } from "../../src/class";
 
 const regArray: Array<ResolverRegister> = [
   {
-    name: 'GitHub Release',
-    entrance: 'GitHub_Release',
-    downloadLinkRegex: 'https?://api.github.com/repos/[^/]+/[^/]+/releases',
+    name: "GitHub Release",
+    entrance: "GitHub_Release",
+    downloadLinkRegex: "https?://api.github.com/repos/[^/]+/[^/]+/releases",
     requiredKeys: [],
   },
   {
-    name: 'Ctfile',
-    entrance: 'Ctfile',
-    downloadLinkRegex: 'universal://',
+    name: "Ctfile",
+    entrance: "Ctfile",
+    downloadLinkRegex: "universal://",
     requiredKeys: [],
   },
 ];

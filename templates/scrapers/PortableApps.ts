@@ -170,11 +170,8 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   if (result.sha256 == undefined) {
     result.sha256 = "";
   }
-  
-  if (
-    result.sha256 !== "" &&
-    result.sha256.match(/^([a-f0-9]{64})$/) == null
-  ) {
+
+  if (result.sha256 !== "" && result.sha256.match(/^([a-f0-9]{64})$/) == null) {
     log("Warning:Fail to check sha256,got " + result.sha256);
     result.sha256 = "";
   }
@@ -192,21 +189,21 @@ export default async function (
   const page = (await robustGet(p.url)).unwrap();
   //解析
   let { text, href, sha256 } = (await scrapePage(page)).unwrap();
-  log(`Info:Get sha256 : ${sha256}`)
+  log(`Info:Get sha256 : ${sha256}`);
 
   //处理跳转到 GitHub 备用下载的情况
-  const trueUrlRes=await robustParseRedirect(href);
-  const trueUrl=trueUrlRes.unwrapOr("");
-  if(trueUrl.indexOf("github.com")>-1){
+  const trueUrlRes = await robustParseRedirect(href);
+  const trueUrl = trueUrlRes.unwrapOr("");
+  if (trueUrl.indexOf("github.com") > -1) {
     //交给 GitHub Release 爬虫处理
-    log(`Info:GitHub Releases backup download detected : ${trueUrl}`)
-    const res= await GitHubRelease({
-      taskName:p.taskName,
-      url:trueUrl
-    })
-    log(`Info:Get gr parsed result : ${JSON.stringify(res)}`)
-    if(res.err) return res;
-    href=res.unwrap().downloadLink;
+    log(`Info:GitHub Releases backup download detected : ${trueUrl}`);
+    const res = await GitHubRelease({
+      taskName: p.taskName,
+      url: trueUrl,
+    });
+    log(`Info:Get gr parsed result : ${JSON.stringify(res)}`);
+    if (res.err) return res;
+    href = res.unwrap().downloadLink;
   }
 
   return new Ok({

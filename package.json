@@ -27,7 +27,8 @@
     "docs:serve": "vitepress serve docs",
     "serve": "tsc && node dist/src/index.js",
     "dev": "tsc && node dist/src/index.js -d",
-    "new": "ts-node scripts/new.ts"
+    "new": "ts-node scripts/new.ts",
+    "fmt": "prettier --write ."
   },
   "devDependencies": {
     "@types/checksum": "^0.1.33",

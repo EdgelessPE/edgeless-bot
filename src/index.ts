@@ -6,7 +6,8 @@ import {
   getAllTasks,
   getSingleTask,
   getTasksToBeExecuted,
-  removeExtraBuilds, reserveTask,
+  removeExtraBuilds,
+  reserveTask,
 } from "./task";
 import { config } from "./config";
 import { ensurePlatform } from "./platform";
@@ -52,8 +53,8 @@ async function main(): Promise<boolean> {
   //处理无版本号任务的制作日
   if (config.MODE_FORCED) setMVTDayToday();
   //平台命令校验
-  const platformMode=ensurePlatform()
-  if (platformMode=="Unavailable") {
+  const platformMode = ensurePlatform();
+  if (platformMode == "Unavailable") {
     return false;
   }
   //重建工作目录

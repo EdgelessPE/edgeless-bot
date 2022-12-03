@@ -73,6 +73,12 @@ function print(text: string, ga_mode: boolean, badge?: string) {
 	}
 }
 
+/**
+ * 通用日志输出封装，支持的日志格式为： [Level]:[Content]，有效的 [Level] 枚举取值为：Info、Warning、Error、Success
+ * 示例： Info:This is a message
+ * @param text 日志内容
+ * @param b （可选）徽章
+ */
 function log(text: string, b?: string) {
 	let d = b;
 	if (b == null && Piscina.isWorkerThread) {

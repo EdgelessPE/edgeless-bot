@@ -3,63 +3,36 @@ import { ScraperParameters, ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 import { log } from "../../src/utils";
 
-interface Temp {
-  bucketName: string;
-  scoopManifestName: string;
-}
-
-const Buckets: Map<string, string> = new Map([
-  [
-    "Main",
-    "https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/",
-  ],
-  [
-    "Extras",
-    "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/",
-  ],
-  [
-    "games",
-    "https://raw.githubusercontent.com/Calinou/scoop-games/master/bucket/",
-  ],
-  [
-    "java",
-    "https://raw.githubusercontent.com/ScoopInstaller/Java/master/bucket/",
-  ],
-  [
-    "nirsoft",
-    "https://raw.githubusercontent.com/kodybrown/scoop-nirsoft/master/bucket/",
-  ],
-  [
-    "Versions",
-    "https://raw.githubusercontent.com/ScoopInstaller/Versions/master/bucket/",
-  ],
-]);
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Temp {}
 
 export default async function (
   p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
-  const { scraper_temp } = p;
-  const temp: Temp = scraper_temp;
-  const bucketName: string = temp.bucketName;
-  const bucketUrl: string | undefined = Buckets.get(bucketName);
-  if (!bucketUrl) {
-    return Err(
-      `Error: Could not Get bucket ${bucketName}, please make sure bucketName is one of Main/Extras/Versions/games/java/nirsoft`
-    );
-  }
+  const rawUrl = p.url.replace("/blob/", "/raw/");
+
   const response: any = (
-    await robustGet(`${bucketUrl}${temp.scoopManifestName}.json`, {
+    await robustGet(rawUrl, {
       responseType: "json",
     })
   ).unwrap();
-  log(
-    `Info: downloadLink:${
-      response["architecture"]?.["64bit"]["url"] ?? response["url"]
-    }`
-  );
-  log(`Info: Version: ${response["version"]}`);
-  return new Ok({
-    version: response["version"],
-    downloadLink: response["architecture"]?.["64bit"]["url"] ?? response["url"],
-  });
+  try {
+    log(
+      `Info: downloadLink:${
+        response["architecture"]?.["64bit"]["url"] ?? response["url"]
+      }`
+    );
+    log(`Info: Version: ${response["version"]}`);
+    return new Ok({
+      version: response["version"],
+      downloadLink:
+        response["architecture"]?.["64bit"]["url"] ?? response["url"],
+    });
+  } catch (e) {
+    return new Err(
+      `Error:Given url doesn't match standard scoop manifest schema, got : ${JSON.stringify(
+        response
+      )}, error : ${JSON.stringify(e)}`
+    );
+  }
 }

@@ -380,7 +380,9 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       );
     } catch (e) {
       if (typeof e == "string") log(e);
-      else console.log(JSON.stringify(e));
+      else {
+        console.log(JSON.stringify(e));
+      }
       return new Err("Error:Can't download link : " + dRes.val.directLink);
     }
     if (config.ENABLE_CACHE) {

@@ -166,7 +166,7 @@ async function download(
         await sleep(500);
         status = await aria2c_handler.tellStatus(gid);
         if (status.status == "error") {
-          reject(status);
+          reject("Error:Aria2c told task status was error");
           return;
         }
 

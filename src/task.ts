@@ -89,7 +89,7 @@ function validateConfig(task: TaskConfig): boolean {
     let suc = false;
     //尝试匹配Scraper
     if (task.template.scraper == undefined) {
-        for (let node of scraperRegister.reverse()) {
+        for (const node of scraperRegister.reverse()) {
             if (task.task.url.match(node.urlRegex) != null) {
                 //对scraper执行requiredKeys检查
                 suc = requiredKeysValidator(task, node.requiredKeys, true);
@@ -107,7 +107,7 @@ function validateConfig(task: TaskConfig): boolean {
             return false;
         }
     } else if (task.template.scraper != "External") {
-        for (let node of scraperRegister) {
+        for (const node of scraperRegister) {
             if (node.entrance == task.template.scraper) {
                 //对scraper执行requiredKeys检查
                 suc = requiredKeysValidator(task, node.requiredKeys);
@@ -122,7 +122,7 @@ function validateConfig(task: TaskConfig): boolean {
     //Producer模板配置正确性检查
     if (task.template.producer != "External") {
         suc = false;
-        for (let node of producerRegister) {
+        for (const node of producerRegister) {
             if (node.entrance == task.template.producer) {
                 suc = true;
                 break;
@@ -183,7 +183,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
         if (!validateConfig(json)) {
             return new Err("Error:Can't validate config.toml for " + taskName);
         } else {
-            let res: any = json;
+            const res: any = json;
             res["name"] = json.task.name;
             res["author"] = json.task.author;
             res["category"] = json.task.category;
@@ -198,17 +198,17 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
     if (!fs.existsSync(tasksDir)) {
         return new Err("Error:Task directory not exist : " + tasksDir);
     }
-    let dirList = fs.readdirSync(tasksDir);
+    const dirList = fs.readdirSync(tasksDir);
     let result = [],
         success = true,
         tmp;
-    for (let taskName of dirList) {
+    for (const taskName of dirList) {
         tmp = getSingleTask(taskName);
         if (tmp.err) {
             success = false;
             log(tmp.val);
         } else {
-            let task = tmp.unwrap();
+            const task = tmp.unwrap();
             if (!reserveTask(task)) {
                 continue;
             }
@@ -227,7 +227,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     info: ScraperReturned;
 }> {
     //逐个判断是否需要执行制作
-    let makeList: Array<{
+    const makeList: Array<{
         task: TaskInstance;
         info: ScraperReturned;
     }> = [];
@@ -236,7 +236,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
         matchRes,
         res,
         onlineVersion;
-    for (let result of results) {
+    for (const result of results) {
         if (result == null) {
             continue;
         }
@@ -323,8 +323,8 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 //返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 missing_version
 async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     const workshop = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
-    let downloadedFile: string = "";
-    let absolutePath: string = "";
+    let downloadedFile = "";
+    let absolutePath = "";
     // 创建Cache目录
     await shell.mkdir("-p", path.join(PROJECT_ROOT, "DownloadCache"))
     // 如果有则使用缓存
@@ -344,7 +344,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
             log("Info:Cache Miss")
         }
         //解析直链
-        let dRes = await resolver(
+        const dRes = await resolver(
             {
                 downloadLink: t.info.downloadLink,
                 fileMatchRegex: parseBuiltInValue(
@@ -406,7 +406,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         );
     }
     //制作
-    let p = await producer({
+    const p = await producer({
         task: t.task,
         downloadedFile,
         version: t.info.version,
@@ -426,7 +426,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     //实现delete 与 cover
     let f, v;
     if (t.task.parameter.build_delete) {
-        for (let file of t.task.parameter.build_delete) {
+        for (const file of t.task.parameter.build_delete) {
             v = parseBuiltInValue(file, {
                 taskName: t.task.name,
                 downloadedFile,
@@ -462,7 +462,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         }
     } else {
         //检查是否可能忘加了
-        let p = path.join(config.DIR_TASKS, t.task.name, "cover");
+        const p = path.join(config.DIR_TASKS, t.task.name, "cover");
         if (fs.existsSync(p) || fs.existsSync(p + ".7z")) {
             log(
                 "Warning:Exist cover folder/file but parameter.build_cover not specified"
@@ -471,9 +471,9 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
     //验收
     const getBuildManifest = (): Array<string> => {
-        let origin = t.task.parameter.build_manifest,
+        const origin = t.task.parameter.build_manifest,
             final: Array<string> = [];
-        for (let cmd of origin) {
+        for (const cmd of origin) {
             final.push(
                 parseBuiltInValue(cmd, {
                     downloadedFile,
@@ -485,7 +485,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         return final;
     };
     let pass = true;
-    for (let file of getBuildManifest()) {
+    for (const file of getBuildManifest()) {
         if (!fs.existsSync(path.join(target, file))) {
             pass = false;
             log(`Error:Check manifest failed for ${t.task.name},missing ${file}`);
@@ -552,7 +552,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         }
     }
     //压缩
-    let fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author
+    const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${t.task.author
         }（bot）.7z`;
     if (
         !(await compress(
@@ -591,7 +591,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 
 function getDefaultCompressLevel(templateName: string): number {
     let level = 5;
-    for (let node of producerRegister) {
+    for (const node of producerRegister) {
         if (node.entrance == templateName) {
             level = node.defaultCompressLevel;
             break;
@@ -655,14 +655,14 @@ async function executeTasks(
             }
         };
         //并发全部的普通任务
-        for (let t of shuffle(normalTasks)) {
+        for (const t of shuffle(normalTasks)) {
             execute(t).then((res) => {
                 collect(res, t);
             });
         }
         //顺序执行全部的require windows任务
         if (os.platform() == "win32") {
-            for (let t of shuffle(requireWindowsTasks)) {
+            for (const t of shuffle(requireWindowsTasks)) {
                 collect(await execute(t), t);
             }
         }
@@ -674,7 +674,7 @@ function removeExtraBuilds(
     category: string,
     newBuild: string
 ): Array<BuildStatus> {
-    let allBuilds = getDatabaseNode(taskName).recent.builds;
+    const allBuilds = getDatabaseNode(taskName).recent.builds;
     allBuilds.push({
         fileName: newBuild,
         version: newBuild.split("_")[1],
@@ -682,9 +682,9 @@ function removeExtraBuilds(
     });
     log("Info:Trying to remove extra builds");
     // Builds去重
-    let hashMap: any = {};
+    const hashMap: any = {};
     let buildList: Array<BuildStatus> = [];
-    for (let build of allBuilds) {
+    for (const build of allBuilds) {
         if (!hashMap.hasOwnProperty(build.version)) {
             hashMap[build.version] = true;
             buildList.push(build);
@@ -698,13 +698,13 @@ function removeExtraBuilds(
     // Builds降序排列（从列尾弹出元素删除）
     buildList.sort((a, b) => 1 - versionCmp(a.version, b.version));
     // 删除多余的builds
-    let failure: Array<BuildStatus> = [];
+    const failure: Array<BuildStatus> = [];
     const repo = path.join(PROJECT_ROOT, config.DIR_BUILDS, category);
-    let times = buildList.length - config.MAX_BUILDS;
+    const times = buildList.length - config.MAX_BUILDS;
     for (let i = 0; i < times; i++) {
-        let target = buildList.pop();
+        const target = buildList.pop();
         if (typeof target != "undefined") {
-            let absolutePath = path.join(repo, target.fileName);
+            const absolutePath = path.join(repo, target.fileName);
             if(!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)){
                 log("Info:Remove local extra build " + absolutePath);
                 try {

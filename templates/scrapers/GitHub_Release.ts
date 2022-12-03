@@ -3,7 +3,7 @@ import {robustGet} from '../../src/network';
 import {ScraperParameters, ScraperReturned} from '../../src/class';
 
 function parseRepo(url: string): { owner: string, repo: string } {
-	let splitRes = url.split('github.com/')[1].split('/');
+	const splitRes = url.split('github.com/')[1].split('/');
 	return {
 		owner: splitRes[0],
 		repo: splitRes[1],
@@ -14,7 +14,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	const {url} = p;
 	let version: string,
 		downloadLink: string;
-	let repoInfo = parseRepo(url);
+	const repoInfo = parseRepo(url);
 
 	//将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
 	downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;

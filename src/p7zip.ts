@@ -9,7 +9,7 @@ const shell = require('shelljs');
 async function release(file: string, intoDir: string, overwrite?: boolean, cwd?: string): Promise<boolean> {
 	return new Promise((resolve => {
 		const p7zip = where('p7zip').unwrap();
-		let aID = path.join(cwd ?? '', intoDir);
+		const aID = path.join(cwd ?? '', intoDir);
 		if (overwrite && fs.existsSync(aID)) {
 			if (fs.existsSync(aID)) {
 				shell.rm('-rf', aID);

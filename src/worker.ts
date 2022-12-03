@@ -35,7 +35,7 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 				const task=workerData.tasks[0]
 				if (task.extra?.missing_version && res.ok) {
 					//在指定的星期检查更新
-					let date = new Date();
+					const date = new Date();
 					if (date.getDay() == MISSING_VERSION_TRY_DAY) {
 						res.val.version = '999999.99.99';
 					} else {
@@ -51,9 +51,9 @@ async function scraper(workerData: WorkerDataScraper): Promise<Result<Array<Resu
 		} else {
 			//作为模板处理
 			const script = dirtyScript.default as (p: ScraperParameters) => Promise<Result<ScraperReturned, string>>;
-			let results: Array<Result<ScraperReturned, string>> = [];
+			const results: Array<Result<ScraperReturned, string>> = [];
 			let res;
-			for (let task of workerData.tasks) {
+			for (const task of workerData.tasks) {
 				try {
 					res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, {
 						taskName: task.name,

@@ -12,12 +12,12 @@ let database: {
 export let modified = false;
 
 //记录执行成功/失败的操作列表
-let successList: Array<{
+const successList: Array<{
 	taskName: string,
 	from: string,
 	to: string
 }> = [];
-let failedList: Array<{
+const failedList: Array<{
 	taskName: string,
 	errorMessage: string
 }> = [];
@@ -29,7 +29,7 @@ function readDatabase() {
 		database = {};
 		return;
 	}
-	let text = fs.readFileSync(config.DATABASE_PATH).toString();
+	const text = fs.readFileSync(config.DATABASE_PATH).toString();
 	database = JSON.parse(text);
 }
 
@@ -48,7 +48,7 @@ function writeDatabase() {
 //需要在read后调用
 function getDatabaseNode(taskName: string): DatabaseNode {
 	if (database.hasOwnProperty(taskName)) {
-		let node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
+		const node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
 		node['taskName'] = taskName;
 		return node;
 	} else {
@@ -67,7 +67,7 @@ function getDatabaseNode(taskName: string): DatabaseNode {
 //需要在read后调用
 function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 	log(errorMessage + ` for task ${taskName}`);
-	let old = getDatabaseNode(taskName);
+	const old = getDatabaseNode(taskName);
 	database[taskName] = {
 		recent: {
 			health: (old.recent.health > 0) ? (old.recent.health - 1) : 0,
@@ -84,7 +84,7 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 }
 
 function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>) {
-	let old = getDatabaseNode(taskName),
+	const old = getDatabaseNode(taskName),
 		newVersion = newBuilds[newBuilds.length - 1].version;
 	database[taskName] = {
 		recent: {
@@ -106,7 +106,7 @@ function setDatabaseNodeSuccess(taskName: string, newBuilds: Array<BuildStatus>)
 
 function generateSuccessTip(): string {
 	let tip = '';
-	for (let i of successList) {
+	for (const i of successList) {
 		tip += `\n\t${chalk.cyan(i.taskName)} updated from ${i.from} to ${i.to}`;
 	}
 	return tip;
@@ -114,7 +114,7 @@ function generateSuccessTip(): string {
 
 function generateFailureTip(): string {
 	let tip = '';
-	for (let i of failedList) {
+	for (const i of failedList) {
 		tip += `\n\t${chalk.yellowBright(i.taskName)} : ${i.errorMessage.replace('\n', '')}`;
 	}
 	return tip;

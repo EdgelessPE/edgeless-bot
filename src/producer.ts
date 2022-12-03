@@ -15,7 +15,7 @@ interface ProducerSpawn {
 }
 
 function parsePath(entrance: string): Result<string, string> {
-	let p = path.join(__dirname, '..', 'templates', 'producers', entrance + '.js');
+	const p = path.join(__dirname, '..', 'templates', 'producers', entrance + '.js');
 	if (fs.existsSync(p)) {
 		return new Ok(p);
 	} else {
@@ -33,7 +33,7 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
 		isExternal = true;
 	} else {
 		//处理模板
-		let r = parsePath(task.template.producer);
+		const r = parsePath(task.template.producer);
 		if (r.err) {
 			return r;
 		}
@@ -53,7 +53,7 @@ export default async function (s: ProducerSpawn): Promise<Result<ProducerReturne
 			requiredObject: task.producer_required,
 		},
 	};
-	let r = (await piscina.run(wd, {name: 'producer'})) as Result<ProducerReturned, string>;
+	const r = (await piscina.run(wd, {name: 'producer'})) as Result<ProducerReturned, string>;
 	if (r.err) {
 		log('Error:Producer resolved error', badge);
 	}

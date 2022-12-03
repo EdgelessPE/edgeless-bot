@@ -48,7 +48,7 @@ async function select(tip: string, options: string[], defaultIndex?: number): Pr
 			console.log(chalk.yellow((index + 1) + '. ') + item + ((defaultIndex && defaultIndex - 1 == index) ? chalk.yellowBright('	('+_('default')+')') : ''));
 		});
 		console.log('');
-		let r = await ask(_('Input index') + (defaultIndex ? chalk.yellowBright(` (${defaultIndex})`) : ''), '');
+		const r = await ask(_('Input index') + (defaultIndex ? chalk.yellowBright(` (${defaultIndex})`) : ''), '');
 		//处理空输入
 		if (r == '') {
 			if (defaultIndex) {
@@ -77,7 +77,7 @@ async function select(tip: string, options: string[], defaultIndex?: number): Pr
 }
 
 async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
-	let r = await ask(tip + ` (${defaultVal === true ? chalk.yellowBright(_('default')+' ') : ''}y/${defaultVal === false ? chalk.yellowBright(_('default')+' ') : ''}n)`);
+	const r = await ask(tip + ` (${defaultVal === true ? chalk.yellowBright(_('default')+' ') : ''}y/${defaultVal === false ? chalk.yellowBright(_('default')+' ') : ''}n)`);
 
 	//处理使用默认值
 	if (r == '' && defaultVal != undefined) {
@@ -105,7 +105,7 @@ async function stringArray(tip:string,defaultVal?: string[],regex?: RegExp):Prom
 	if (defaultVal != undefined) {
 		df = '';
 		if (!allowEmpty) {
-			for (let node of defaultVal) {
+			for (const node of defaultVal) {
 				df = df + node + ',';
 			}
 			df = df.slice(0, -1);
@@ -118,7 +118,7 @@ async function stringArray(tip:string,defaultVal?: string[],regex?: RegExp):Prom
 	}
 
 	//调用input
-	let r = await input(tip, df, regex);
+	const r = await input(tip, df, regex);
 	if (r == '') {
 		return [];
 	} else {
@@ -132,7 +132,7 @@ function applyInput(toml: string, input: any, base: string): Result<string, stri
 		reason = 'Success',
 		searchString;
 	//应用用户输入
-	for (let key in input) {
+	for (const key in input) {
 		val = input[key];
 		if (typeof val == 'object' && !(val instanceof Array)) {
 			toml = applyInput(toml, val, base + key + '.').unwrap();
@@ -167,7 +167,7 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 	let p = keyChain.split('.'),
 		replaceTitleWith = '';
 	//匹配表头
-	let m = toml.match(genRegExpForToml(p[0]));
+	const m = toml.match(genRegExpForToml(p[0]));
 	if (m == null) {
 		return new Err(`Error:Toml title ${p[0]} undefined`);
 	} else {
@@ -175,7 +175,7 @@ function inputRequiredKey(keyChain: string, toml: string, value: string): Result
 		replaceTitleWith = `\n[${p[0]}]`;
 	}
 	//匹配键
-	let m2 = toml.match(genRegExpForToml(p[1]));
+	const m2 = toml.match(genRegExpForToml(p[1]));
 	if (m2 == null) {
 		//增加新键
 		replaceTitleWith += `\n${p[1]} = "${value}"`;
@@ -201,7 +201,7 @@ function genParameterWiki(arr: ParameterDeclare[]): string {
 		return '无';
 	} else {
 		let r = '';
-		for (let n of arr) {
+		for (const n of arr) {
 			r += `### ${n.key}\n* 路径：\`${n.title}.${n.key}\`\n* 类型：\`${n.type}\`\n* 说明：${n.description ?? ''}\n`;
 		}
 		return r;

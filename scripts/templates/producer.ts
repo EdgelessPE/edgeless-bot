@@ -28,7 +28,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
         `${taskName}.wcs`,
         `${taskName}/${taskName}.exe`
     ].map((file) => path.join(workshop, '_ready', file))
-    for (let item of manifest) {
+    for (const item of manifest) {
         if (!fs.existsSync(item)) {
             return new Err(`Error:Self check failed : missing ${item} in ready directory`)
         }

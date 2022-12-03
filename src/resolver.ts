@@ -10,7 +10,7 @@ import {config} from './config';
 
 function searchTemplate(url: string): Result<ResolverRegister, string> {
 	let result = null;
-	for (let node of register) {
+	for (const node of register) {
 		if (url.match(node.downloadLinkRegex)) {
 			result = node;
 			break;
@@ -24,7 +24,7 @@ function searchTemplate(url: string): Result<ResolverRegister, string> {
 }
 
 function parsePath(entrance: string): Result<string, string> {
-	let p = path.join(__dirname, '..', 'templates', 'resolvers', entrance + '.js');
+	const p = path.join(__dirname, '..', 'templates', 'resolvers', entrance + '.js');
 	if (fs.existsSync(p)) {
 		return new Ok(p);
 	} else {
@@ -46,7 +46,7 @@ export default async function (p: ResolverParameters, specifyEntrance?: string):
 		entrance = specifyEntrance;
 	} else {
 		//搜索模板
-		let tRes = searchTemplate(url);
+		const tRes = searchTemplate(url);
 		if (tRes.err) {
 			//未找到模板，说明是直链，直接返回
 			log(tRes.val);
@@ -59,7 +59,7 @@ export default async function (p: ResolverParameters, specifyEntrance?: string):
 		}
 	}
 	//解析模板位置
-	let pRes = parsePath(entrance);
+	const pRes = parsePath(entrance);
 	if (pRes.err) {
 		return pRes;
 	}

@@ -6,7 +6,7 @@ import {log} from "../src/utils"
 let dictionary:any={},loaded=false
 
 export function init() {
-	let locale=Intl.DateTimeFormat().resolvedOptions().locale
+	const locale=Intl.DateTimeFormat().resolvedOptions().locale
 	// console.log(locale)
 	//locale="en-US"
 	if(locale.slice(0,2)=="en"){

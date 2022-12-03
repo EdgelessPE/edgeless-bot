@@ -21,18 +21,18 @@ async function f(url: string, referer: string): Promise<Result<any, string>> {
 
 async function getFileLink(fileID: string, password: string, referer: string): Promise<Result<string, string>> {
 	let jsonUrl = `http://webapi.ctfile.com/getfile.php?path=f&f=${fileID}&passcode=${password}&token=false&r=${Math.random()}`;
-	let getFileJsonRes = await f(jsonUrl, referer);
+	const getFileJsonRes = await f(jsonUrl, referer);
 	if (getFileJsonRes.err) {
 		return getFileJsonRes;
 	}
-	let getFileJson = getFileJsonRes.val;
+	const getFileJson = getFileJsonRes.val;
 
 	jsonUrl = `http://webapi.ctfile.com/get_file_url.php?uid=${getFileJson.userid}&fid=${getFileJson.file_id}&file_chk=${getFileJson.file_chk}&app=0&acheck=2&rd=${Math.random()}`;
-	let getFileUrlJsonRes = await f(jsonUrl, referer);
+	const getFileUrlJsonRes = await f(jsonUrl, referer);
 	if (getFileUrlJsonRes.err) {
 		return getFileUrlJsonRes;
 	}
-	let getFileUrlJson = getFileUrlJsonRes.val;
+	const getFileUrlJson = getFileUrlJsonRes.val;
 	if (getFileUrlJson.downurl == null) {
 		return new Err('Error:Can\'t fetch download url :\n' + JSON.stringify(getFileUrlJson, null, 2));
 	}
@@ -41,16 +41,16 @@ async function getFileLink(fileID: string, password: string, referer: string): P
 
 async function getDirectoryList(dirID: string, password: string, referer: string, pathType: 'd' | 'dir', subDir?: string): Promise<Result<Node[], string>> {
 	//发送getDir请求
-	let getDirJsonRes = await f(`http://webapi.ctfile.com/getdir.php?path=${pathType}&d=${dirID}&folder_id=${subDir ?? ''}&passcode=${password}&r=${Math.random()}&ref=${referer}`, referer);
+	const getDirJsonRes = await f(`http://webapi.ctfile.com/getdir.php?path=${pathType}&d=${dirID}&folder_id=${subDir ?? ''}&passcode=${password}&r=${Math.random()}&ref=${referer}`, referer);
 	if (getDirJsonRes.err || getDirJsonRes.val.code != '200') {
 		return getDirJsonRes;
 	}
 	//发送获取文件列表请求
-	let getDirListJsonRes = await f('http://webapi.ctfile.com' + getDirJsonRes.val.url, referer);
+	const getDirListJsonRes = await f('http://webapi.ctfile.com' + getDirJsonRes.val.url, referer);
 	if (getDirListJsonRes.err) {
 		return getDirListJsonRes;
 	}
-	let list = getDirListJsonRes.val as {
+	const list = getDirListJsonRes.val as {
 		aaData: Array<string[]>
 	};
 	//处理文件列表
@@ -62,7 +62,7 @@ async function getDirectoryList(dirID: string, password: string, referer: string
 		name,
 		success = true,
 		reason = '';
-	for (let item of list.aaData) {
+	for (const item of list.aaData) {
 		text = item[1];
 		m = text.match(/load_subdir\([0-9]+\)/);
 		if (m == null) {
@@ -91,7 +91,7 @@ async function getDirectoryList(dirID: string, password: string, referer: string
 		} else {
 			//说明是子文件夹
 			//获取子文件夹ID
-			let subDirID = (m[0].match(/[0-9]+/) as string[])[0];
+			const subDirID = (m[0].match(/[0-9]+/) as string[])[0];
 			//匹配名称
 			temp = text.match(/[^>]+<\/a>/);
 			if (temp == null) {
@@ -101,7 +101,7 @@ async function getDirectoryList(dirID: string, password: string, referer: string
 			}
 			name = temp[0].slice(0, -4);
 			//获取子文件夹内容
-			let childrenRes = await getDirectoryList(dirID, password, referer, pathType, subDirID);
+			const childrenRes = await getDirectoryList(dirID, password, referer, pathType, subDirID);
 			if (childrenRes.err) {
 				return new Err('Error:Can\'t read sub directory ' + name);
 			}
@@ -122,27 +122,27 @@ async function getDirectoryList(dirID: string, password: string, referer: string
 }
 
 export default async function (p: ResolverParameters): Promise<Result<ResolverReturned, string>> {
-	let {downloadLink, password, cd, fileMatchRegex} = p;
+	const {downloadLink, password, cd, fileMatchRegex} = p;
 	let fileID;
 	//尝试匹配路径类型
-	let m = downloadLink.match(/\/(d|dir|f)\/[\w-]+/);
+	const m = downloadLink.match(/\/(d|dir|f)\/[\w-]+/);
 	if (m == null) {
 		return new Err('Error:Can\'t treat download link as ctfile url : ' + downloadLink);
 	}
 	//获取路径类型
-	let s = m[0].split('/'),
+	const s = m[0].split('/'),
 		pathType = s[1] as 'd' | 'dir' | 'f';
 	if (pathType == 'f') {
 		//说明是文件
 		//匹配链接中的文件id
-		let match = downloadLink.match(/\/f\/[\w-]+/);
+		const match = downloadLink.match(/\/f\/[\w-]+/);
 		if (match == null) {
 			return new Err('Error:Can\'t match file id in file link url : ' + downloadLink);
 		}
 		fileID = match[0].slice(3);
 	} else {
 		//说明是文件夹，获取文件夹目录结构
-		let list = await getDirectoryList(s[2], password ?? '', downloadLink, pathType);
+		const list = await getDirectoryList(s[2], password ?? '', downloadLink, pathType);
 		//console.log(JSON.stringify(list.val, null, 2));
 		//处理cd，确定查找范围
 		let checkList: Node[] = [];
@@ -150,7 +150,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 			if (cd.length == 1) {
 				//查询是否存在一级子文件夹
 				let isIn = false;
-				for (let n of list) {
+				for (const n of list) {
 					if (n.type == 'Folder' && n.name == cd[0]) {
 						checkList = n.children as Node[];
 						isIn = true;
@@ -162,7 +162,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 				}
 			} else {
 				//length==0,仅在根目录查找
-				for (let n of list) {
+				for (const n of list) {
 					if (n.type == 'File') {
 						checkList.push(n);
 					}
@@ -173,7 +173,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 				log('Warning:Given cd array out of length, ignore (this can be caused by either task config or scraper template) : ' + cd.toString());
 			}
 			//查找全部文件
-			for (let n of list) {
+			for (const n of list) {
 				if (n.type == 'File') {
 					checkList.push(n);
 				} else {
@@ -181,9 +181,9 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 				}
 			}
 		}
-		let matchedResults: Node[] = [],
+		const matchedResults: Node[] = [],
 			regex = new RegExp(fileMatchRegex);
-		for (let n of checkList) {
+		for (const n of checkList) {
 			if (n.name.match(regex) != null) {
 				log(`Info:Matched file ${n.name}`);
 				matchedResults.push(n);
@@ -199,7 +199,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 	}
 
 	//解析
-	let r = await getFileLink(fileID, password ?? '', downloadLink);
+	const r = await getFileLink(fileID, password ?? '', downloadLink);
 	if (r.err) {
 		return r;
 	}

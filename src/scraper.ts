@@ -26,7 +26,7 @@ function searchTemplate(url: string, scraperName?: string): Result<ScraperRegist
 	let result = null;
 
 	//倒序匹配爬虫模板，以便于提前匹配更精确的正则表达式
-	for (let node of scraperRegister.reverse()) {
+	for (const node of scraperRegister.reverse()) {
 		if (url.match(node.urlRegex) || scraperName==node.entrance) {
 			result = node;
 			break;
@@ -40,7 +40,7 @@ function searchTemplate(url: string, scraperName?: string): Result<ScraperRegist
 }
 
 function parsePath(entrance: string): Result<string, string> {
-	let p = path.join(__dirname, '..', 'templates', 'scrapers', entrance + '.js');
+	const p = path.join(__dirname, '..', 'templates', 'scrapers', entrance + '.js');
 	if (fs.existsSync(p)) {
 		return new Ok(p);
 	} else {
@@ -60,14 +60,14 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 			} = {},
 			success = true,
 			workerSum = 0;
-		for (let task of tasks) {
-			let mRes = searchTemplate(task.pageUrl, task.template.scraper);
+		for (const task of tasks) {
+			const mRes = searchTemplate(task.pageUrl, task.template.scraper);
 			if (mRes.err) {
 				log(mRes.val);
 				success = false;
 				break;
 			} else {
-				let m = mRes.unwrap();
+				const m = mRes.unwrap();
 				if (classifyHash.hasOwnProperty(m.name)) {
 					classifyHash[m.name].pool.push(task);
 				} else {
@@ -87,7 +87,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 		}
 
 		//分别spawn hash中得到的数个任务池
-		let collection: Array<ResultNode> = [];
+		const collection: Array<ResultNode> = [];
 
 		piscina.on('error', (e) => {
 			console.log(JSON.stringify(e));
@@ -103,12 +103,12 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 				resolve(collection);
 			}
 		};
-		for (let key in classifyHash) {
-			let node = classifyHash[key];
+		for (const key in classifyHash) {
+			const node = classifyHash[key];
 			if (node.entrance == 'External') {
 				//启动外置脚本任务
-				for (let poolNode of node.pool) {
-					let taskName = poolNode.name,
+				for (const poolNode of node.pool) {
+					const taskName = poolNode.name,
 						badge = getBadge('Scraper');
 					wd = {
 						badge,
@@ -144,7 +144,7 @@ export default async function (tasks: Array<TaskInstance>): Promise<Array<Result
 					});
 					continue;
 				}
-				let badge = getBadge('Scraper');
+				const badge = getBadge('Scraper');
 				wd = {
 					badge,
 					scriptPath: p.unwrap(),

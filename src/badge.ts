@@ -5,7 +5,7 @@ let count = 0;
 
 export function getBadge(type: string): string {
 	let res;
-	let choices = [
+	const choices = [
 		chalk.bgRed,
 		chalk.bgGreen,
 		chalk.bgYellow,

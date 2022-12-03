@@ -21,12 +21,12 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	//解压
 	const readyDir = path.join(workshop, '_ready', taskName);
 	shell.mkdir('-p', readyDir);
-	let s = await release(path.join(workshop, downloadedFile), '_ready/' + taskName, false, workshop);
+	const s = await release(path.join(workshop, downloadedFile), '_ready/' + taskName, false, workshop);
 
 	//清理
 	if (obj.autoClean == undefined || obj.autoClean) {
 		const deleteList = ['$PLUGINSDIR', 'Other', 'help.html', 'App/readme.txt', 'App/AppInfo/*.ico', 'App/AppInfo/*.png'];
-		for (let f of deleteList) {
+		for (const f of deleteList) {
 			shell.rm('-rf', path.join(readyDir, f));
 		}
 	}
@@ -57,7 +57,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 
 	//扫描目录查找可执行文件
 	let exe = '';
-	for (let file of fs.readdirSync(readyDir)) {
+	for (const file of fs.readdirSync(readyDir)) {
 		if (file.includes('.exe')) {
 			exe = file;
 			log('Info:Got exe file:' + file);

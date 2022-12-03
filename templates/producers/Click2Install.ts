@@ -11,10 +11,10 @@ interface RequiredObject {
 }
 
 export default async function (p: ProducerParameters): Promise<Result<ProducerReturned, string>> {
-	let {workshop, downloadedFile, requiredObject, taskName} = p;
-	let {shortcutName} = (requiredObject as RequiredObject);
-	let ready = path.join(workshop, 'ready');
-	let aDF = path.join(workshop, downloadedFile),
+	const {workshop, downloadedFile, requiredObject, taskName} = p;
+	const {shortcutName} = (requiredObject as RequiredObject);
+	const ready = path.join(workshop, 'ready');
+	const aDF = path.join(workshop, downloadedFile),
 		rD = `${workshop}/ready/${taskName}`;
 
 	shell.mkdir('-p', rD);

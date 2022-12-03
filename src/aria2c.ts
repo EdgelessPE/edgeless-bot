@@ -15,7 +15,7 @@ let aria2c_process: cp.ChildProcess,
 //启动和管理aria2c进程
 async function spawnAria2c(binPath: string): Promise<boolean> {
 	return new Promise((async resolve => {
-		let args = [
+		const args = [
 			'--enable-rpc',
 			'--rpc-allow-origin-all=true',
 			'--rpc-listen-all=true',
@@ -33,7 +33,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
 		}
 		//生成字符串
 		let argsString = '';
-		for (let a of args) {
+		for (const a of args) {
 			argsString += ` ${a}`;
 		}
 		aria2c_process = cp.exec(binPath + argsString, {cwd: PROJECT_ROOT}, (err) => {
@@ -75,7 +75,7 @@ async function stopAria2c(): Promise<void> {
 async function initAria2c(): Promise<boolean> {
 	return new Promise((async resolve => {
 		//获得二进制配置
-		let binRes = where('aria2c');
+		const binRes = where('aria2c');
 		if (binRes.err) {
 			resolve(false);
 			return;
@@ -112,7 +112,7 @@ async function tryConnect(final:boolean):Promise<boolean> {
 				secret: config.ARIA2_SECRET,
 			},
 		});
-		let ver = await aria2c_handler.getVersion();
+		const ver = await aria2c_handler.getVersion();
 		log(`Info:Aria2c version ${ver.version}`);
 		return true
 	} catch (e) {
@@ -164,7 +164,7 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 				if (status.status == 'complete') {
 					done = true;
 					filename = path.parse(status.files[0].path).base;
-					let ls=fs.readdirSync(dir)
+					const ls=fs.readdirSync(dir)
 					if(!ls.includes(filename)){
 						log(`Warning:Downloaded file not found due to error encoding, patch file name from ${filename} to ${ls[0]}`)
 						filename=ls[0]
@@ -180,10 +180,10 @@ async function download(taskName: string, url: string, dir: string): Promise<str
 				percent=Number(status.completedLength) / Number(status.totalLength)
 				if(!checked && percent >= 0.1){
 					checked=true
-					let avgSpeed=Number(status.completedLength) / (Date.now()-startTime), //单位B/ms
+					const avgSpeed=Number(status.completedLength) / (Date.now()-startTime), //单位B/ms
 						etc=(Number(status.totalLength)/avgSpeed), //单位ms
 						etcString=getTimeString(etc);
-					let d=new Date(startTime+etc),
+					const d=new Date(startTime+etc),
 						endString=d.getHours()+":"+d.getMinutes()
 					if(avgSpeed<524){
 						log(`Warning:${taskName} downloading slowly @ ${getSizeString(avgSpeed*1024)}/s, etc ${etcString} (${endString})`)

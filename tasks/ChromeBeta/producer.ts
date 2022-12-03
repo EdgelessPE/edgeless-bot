@@ -18,7 +18,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	//移动安装程序
 	shell.mv(path.join(workshop, downloadedFile), readyDir);
 	//启动安装程序
-	let installer = cp.exec(downloadedFile, {cwd: readyDir}, (error => {
+	const installer = cp.exec(downloadedFile, {cwd: readyDir}, (error => {
 		log('Info:Installer exit');
 	}));
 
@@ -40,7 +40,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 
 	//清理
 	const deleteList = ['Other', 'help.html', 'App/readme.txt', 'App/AppInfo/*.ico', 'App/AppInfo/*.png'];
-	for (let f of deleteList) {
+	for (const f of deleteList) {
 		shell.rm('-rf', path.join(readyDir, 'GoogleChromePortableBeta', f));
 	}
 

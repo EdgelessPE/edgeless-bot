@@ -8,12 +8,12 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
 	//YOUR CODE HERE
 
 	//请求版本号接口
-	let res=await robustGet('https://app.bilibili.com/x/v2/version?mobi_app=html5_mobile')
+	const res=await robustGet('https://app.bilibili.com/x/v2/version?mobi_app=html5_mobile')
 	const arr=res.unwrap().data.map((n:any)=>n.version)
 
 	//匹配最大版本号
 	let maxVersion="0.0.0",cur
-	for(let text of arr){
+	for(const text of arr){
 		cur=matchVersion(text).unwrapOr("0.0.0")
 		if(versionCmp(maxVersion,cur)==Cmp.L) {
 			maxVersion=cur

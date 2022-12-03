@@ -11,7 +11,7 @@ async function master(
 	return new Promise((resolve => {
 		const scriptPath = path.join(__dirname, 'templates', 'scrapers', entrance + '.js');
 		//启动Worker
-		let worker = new Worker(scriptPath, {workerData: tasks});
+		const worker = new Worker(scriptPath, {workerData: tasks});
 		//监听完成
 		worker.on('message', (outcome: Array<Result<ScraperReturned, string>>) => {
 			//console.log(JSON.stringify(outcome))
@@ -22,7 +22,7 @@ async function master(
 }
 
 async function main() {
-	let res = await master(obj.tasks, obj.entrance);
+	const res = await master(obj.tasks, obj.entrance);
 	parentPort?.postMessage(res);
 }
 

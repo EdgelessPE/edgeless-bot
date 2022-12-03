@@ -78,8 +78,8 @@ async function createTask() {
 	//用于输入template.producer
 	let recommendedManifest=['${taskName}.wcs', '${taskName}']
 	const inputProducer = async () => {
-		let index = await select(_('Producer template'), (() => {
-			let r: string[] = [];
+		const index = await select(_('Producer template'), (() => {
+			const r: string[] = [];
 			producerRegister.forEach((item) => {
 				r.push(_(item.name) + '\n' + _(item.description),
 				);
@@ -117,7 +117,7 @@ async function createTask() {
 			d: string | undefined
 		;
 		if (schemaJson.required) {
-			for (let key of schemaJson.required) {
+			for (const key of schemaJson.required) {
 				//打印description
 				d = schemaJson.properties[key].description;
 				if (d != undefined) {
@@ -163,7 +163,7 @@ async function createTask() {
 	const inputRequiredKeys = async (requiredKeys: string[]): Promise<string> => {
 		let s = '',
 			p;
-		for (let key of requiredKeys) {
+		for (const key of requiredKeys) {
 			//获取对象路径
 			p = key.split('.');
 			if (p.length == 2) {
@@ -178,14 +178,14 @@ async function createTask() {
 	//用于输入上游URL并进行校验
 	const inputUpstreamUrl = async (): Promise<string> => {
 		//要求输入上游URL
-		let url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
+		const url = await input(_('Upstream URL'), taskName == '1' ? TEST_URL : undefined, /^https?:\/\/\S+/);
 		//检索对应的模板
-		for (let node of scraperRegister.reverse()) {
+		for (const node of scraperRegister.reverse()) {
 			if (url.match(node.urlRegex) != null) {
 				console.log(chalk.blueBright(_('Info ')) + _('Matched scraper template ') + chalk.cyanBright(_(node.name)));
 				//如果有required keys 则提示
 				if (node.requiredKeys.length > 0) {
-					let s = await inputRequiredKeys(node.requiredKeys);
+					const s = await inputRequiredKeys(node.requiredKeys);
 					if (s != '') {
 						console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(s.slice(0, -1)));
 					}
@@ -202,24 +202,24 @@ async function createTask() {
 			} else {
 				externalScraper = false;
 				//指定通用爬虫模板
-				let universalList: ScraperRegister[] = [];
-				for (let i of scraperRegister.reverse()) {
+				const universalList: ScraperRegister[] = [];
+				for (const i of scraperRegister.reverse()) {
 					if (i.urlRegex == 'universal://') {
 						universalList.push(i);
 					}
 				}
 				if (universalList.length > 0) {
 					//生成用户界面选择文本
-					let choiceArray = [];
-					for (let i of universalList) {
+					const choiceArray = [];
+					for (const i of universalList) {
 						choiceArray.push(_(i.name) + (i.description ? '\n' + _(i.description) : ''));
 					}
 					//让用户选择
-					let index = await select(_('Universal scraper template'), choiceArray);
+					const index = await select(_('Universal scraper template'), choiceArray);
 					scraperEntrance = universalList[index].entrance;
 					//提示可能的requiredKeys
 					if (universalList[index].requiredKeys.length > 0) {
-						let tip = await inputRequiredKeys(universalList[index].requiredKeys);
+						const tip = await inputRequiredKeys(universalList[index].requiredKeys);
 						if (tip != '') {
 							console.log(chalk.yellow(_('Warning ')) + _('Remember to add these keys manually later : ') + chalk.cyan(tip.slice(0, -1)));
 						}
@@ -247,7 +247,7 @@ async function createTask() {
 		return a.localeCompare(b, 'zh');
 	});
 	//构成基础json
-	let json: TaskInput = {
+	const json: TaskInput = {
 		task: {
 			name: taskName,
 			category: Categories[await select(_('Task category'), Categories)],
@@ -278,14 +278,14 @@ function registerTemplate(node: {name:string,entrance:string}, dir: string) {
 	const filePath = `./templates/${dir}/_register.ts`;
 	let text = fs.readFileSync(filePath).toString();
 	//查询是否存在重复
-	let regex1=new RegExp(`name:\\s*"${node.name}"`),
+	const regex1=new RegExp(`name:\\s*"${node.name}"`),
 		regex2=new RegExp(`entrance:\\s*"${node.entrance}"`)
 	if(text.match(regex1)||text.match(regex2)){
 		console.log(chalk.red(_(`Error `))+_(`Given name or entrance already registered in `)+chalk.cyanBright(filePath)+_(`, delete register node before continue`))
 		process.exit(1)
 	}
 	//生成数组内容
-	let newNode = `${JSON.stringify(node, null, 2)},\n];`;
+	const newNode = `${JSON.stringify(node, null, 2)},\n];`;
 	//替换文本
 	text = prettier.format(text.replace('];', newNode), {parser: 'babel'});
 	//写回
@@ -294,7 +294,7 @@ function registerTemplate(node: {name:string,entrance:string}, dir: string) {
 }
 
 async function inputDescription(): Promise<string> {
-	let r = await input(_('Template description(use English)'));
+	const r = await input(_('Template description(use English)'));
 	console.log(chalk.blueBright(_('Info ')) + _('If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'));
 	return r;
 }
@@ -309,7 +309,7 @@ async function createTemplate() {
 		//创建scraper
 		case 0:
 			//输入一个ScraperRegister
-			let jsonS: ScraperRegister = {
+			const jsonS: ScraperRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
 				urlRegex: (await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template'), 'universal://')),
@@ -330,7 +330,7 @@ async function createTemplate() {
 		//创建resolver
 		case 1:
 			//输入一个ResolverRegister
-			let jsonR: ResolverRegister = {
+			const jsonR: ResolverRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
 				downloadLinkRegex: await input(_('Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template'), 'universal://'),
@@ -347,13 +347,13 @@ async function createTemplate() {
 		//创建producer
 		case 2:
 			//输入一个ProducerRegister
-			let jsonP: ProducerRegister = {
+			const jsonP: ProducerRegister = {
 				name: await input(_('Template title')),
 				entrance: await input(_('Template id, should be brief and without space'), undefined, /^\S+$/),
 				description: await inputDescription(),
 				defaultCompressLevel: Number(await input(_('Default compress level, range from 1 to 10'), '5', /^([1-9]|10)$/)),
 			};
-			let recommendedManifest=await stringArray(_('Recommended manifest, ')+_('split with ,'),[])
+			const recommendedManifest=await stringArray(_('Recommended manifest, ')+_('split with ,'),[])
 			if(recommendedManifest.length>0){
 				jsonP.recommendedManifest=recommendedManifest
 			}
@@ -364,7 +364,7 @@ async function createTemplate() {
 			templatePath = `./templates/producers/${jsonP.entrance}.ts`;
 			shell.cp('./scripts/templates/producer.ts', templatePath);
 			//复制生成schema.json
-			let schemaPath = `./schema/producer_templates/${jsonP.entrance}.json`;
+			const schemaPath = `./schema/producer_templates/${jsonP.entrance}.json`;
 			shell.cp('./scripts/templates/schema.json', schemaPath);
 			//报告
 			console.log(chalk.green(_('Success ')) + _('Template saved to ') + chalk.cyanBright(templatePath) + _(', schema for "producer_required" object saved to ') + chalk.cyanBright(schemaPath) + _(', template register information saved to \"_register.ts\" in the same directory'));
@@ -382,16 +382,16 @@ async function createWiki(): Promise<void> {
 	const types = ['scraper', 'resolver', 'producer'],
 		regPool: Array<{ name: string, entrance: string }[]> = [scraperRegister, resolverRegister, producerRegister];
 	//加载已存在文档目录树
-	let existWikiTree: Array<string[]> = [];
-	for (let i in types) {
+	const existWikiTree: Array<string[]> = [];
+	for (const i in types) {
 		existWikiTree.push([]);
 		fs.readdirSync(path.join(process.cwd(), 'docs/templates', types[i])).forEach(name => {
 			existWikiTree[i].push(name.split('.')[0]);
 		});
 	}
 	//依次查询注册池寻找未添加文档的模板
-	for (let i in types) {
-		for (let node of regPool[i]) {
+	for (const i in types) {
+		for (const node of regPool[i]) {
 			if (!existWikiTree[i].includes(node.entrance)) {
 				name = node.entrance;
 				type = types[i];
@@ -405,14 +405,14 @@ async function createWiki(): Promise<void> {
 
 	//询问是否需要修改
 	if (name == null || !(await bool(_('Create new wiki for ') + type + _(' template ') + name + ' ?', true))) {
-		let typeI = await select(_('Template type'), [
+		const typeI = await select(_('Template type'), [
 			_('Scraper'),
 			_('Resolver'),
 			_('Producer'),
 		]);
 		type = types[typeI];
 		//列出模板文件列表
-		let list: string[] = [];
+		const list: string[] = [];
 		fs.readdirSync(path.join(process.cwd(), 'templates', type + 's')).forEach(name => {
 			if (name != '_register.ts') {
 				list.push(name.split('.')[0]);
@@ -431,7 +431,7 @@ async function createWiki(): Promise<void> {
 	//读取索引MarkDown，定义替换函数
 	indexMD = fs.readFileSync(path.join(process.cwd(), 'docs', 'templates', type + '.md')).toString();
 	const r = (label: string, content: string) => {
-		let cmt = `<!-- \${${label}} -->`;
+		const cmt = `<!-- \${${label}} -->`;
 		if (indexMD.includes(content)) {
 			return;
 		}
@@ -443,7 +443,7 @@ async function createWiki(): Promise<void> {
 	//定义注册池查询函数和清洗函数
 	const getRegNode = function <T extends { entrance: string }>(regPool: T[], entrance: string): T | null {
 		let r = null;
-		for (let n of regPool) {
+		for (const n of regPool) {
 			if (n.entrance == entrance) {
 				r = n;
 				break;
@@ -452,7 +452,7 @@ async function createWiki(): Promise<void> {
 		return r;
 	};
 	const wash = function (dirty: string): string {
-		let m = dirty.match(/\w+/g);
+		const m = dirty.match(/\w+/g);
 		if (m) {
 			return m[0];
 		} else {
@@ -460,7 +460,7 @@ async function createWiki(): Promise<void> {
 		}
 	};
 	//根据具体类型进行处理
-	let required: ParameterDeclare[] = [],
+	const required: ParameterDeclare[] = [],
 		valid: ParameterDeclare[] = [];
 	switch (type as 'scraper' | 'resolver' | 'producer') {
 		case 'scraper':
@@ -468,11 +468,11 @@ async function createWiki(): Promise<void> {
 			if (regNode) {
 				//匹配对Temp接口的申明
 				m = tsText.match(/interface Temp {[^}]*}/g);
-				let declareLines = m ? m[0].match(/^\s*[\w:?\t; ]+$/gm) : null;
+				const declareLines = m ? m[0].match(/^\s*[\w:?\t; ]+$/gm) : null;
 				//如果申明了Temp接口
 				if (m && declareLines) {
 					//生成必须数组和可选数组
-					for (let line of declareLines) {
+					for (const line of declareLines) {
 						if (line.includes('?')) {
 							//添加到可选参数
 							tmp = line.split(':');
@@ -509,7 +509,7 @@ async function createWiki(): Promise<void> {
 					}
 				});
 				//填充Wiki模板文本
-				let wikiText = `# ${regNode.name}\n* 类型：爬虫\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
+				const wikiText = `# ${regNode.name}\n* 类型：爬虫\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.urlRegex == 'universal://' ? '通用' : regNode.urlRegex}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
 				//写Wiki
 				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
 				fs.writeFileSync(wikiPath, wikiText);
@@ -543,7 +543,7 @@ async function createWiki(): Promise<void> {
 					}
 				});
 				//填充Wiki模板文本
-				let wikiText = `# ${regNode.name}\n* 类型：解析器\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.downloadLinkRegex == 'universal://' ? '通用' : regNode.downloadLinkRegex}\``+(regNode.downloadLinkRegex == 'universal://'?`\n\n:::tip 使用方式\n任务：将任务配置的 \`template.resolver\` 配置为 \`${regNode.entrance}\`\n\n爬虫模板：返回时指定 \`resolverParameter.entrance\` 为 \`${regNode.entrance}\`\n:::`:"")+`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}`;
+				const wikiText = `# ${regNode.name}\n* 类型：解析器\n* 入口：\`${regNode.entrance}\`\n* 适用 URL：\`${regNode.downloadLinkRegex == 'universal://' ? '通用' : regNode.downloadLinkRegex}\``+(regNode.downloadLinkRegex == 'universal://'?`\n\n:::tip 使用方式\n任务：将任务配置的 \`template.resolver\` 配置为 \`${regNode.entrance}\`\n\n爬虫模板：返回时指定 \`resolverParameter.entrance\` 为 \`${regNode.entrance}\`\n:::`:"")+`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}`;
 				//写Wiki
 				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
 				fs.writeFileSync(wikiPath, wikiText);
@@ -564,13 +564,13 @@ async function createWiki(): Promise<void> {
 			regNode = getRegNode(producerRegister, name);
 			if (regNode) {
 				//读取schema文件
-				let schema = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'schema/producer_templates', regNode.entrance + '.json')).toString()) as JSONSchema4;
+				const schema = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'schema/producer_templates', regNode.entrance + '.json')).toString()) as JSONSchema4;
 				if (schema.required == null || typeof schema.required == 'boolean') {
 					schema.required = [];
 				}
 				//生成两个数组
 				let obj: JSONSchema4;
-				for (let key in schema.properties) {
+				for (const key in schema.properties) {
 					obj = schema.properties[key];
 					if (schema.required.includes(key)) {
 						required.push({
@@ -589,7 +589,7 @@ async function createWiki(): Promise<void> {
 					}
 				}
 				//填充Wiki模板文本
-				let wikiText = `# ${regNode.name}\n* 类型：制作器\n* 入口：\`${regNode.entrance}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
+				const wikiText = `# ${regNode.name}\n* 类型：制作器\n* 入口：\`${regNode.entrance}\`\n\n${regNode.description ? _(regNode.description).replace(/\n/g, '\n\n') : '在此填写详细说明'}\n## 必须提供的参数\n${genParameterWiki(required)}\n## 可选的参数\n${genParameterWiki(valid)}`;
 				//写Wiki
 				const wikiPath = path.join(process.cwd(), 'docs/templates', type, name + '.md');
 				fs.writeFileSync(wikiPath, wikiText);
@@ -634,13 +634,13 @@ async function main() {
 async function test() {
 	//读取文本
 	const filePath = `./templates/scrapers/_register.ts`;
-	let text = fs.readFileSync(filePath).toString();
+	const text = fs.readFileSync(filePath).toString();
 	//查询是否存在重复
-	let node={
+	const node={
 		name:"Scoop",
 		entrance:"Scoop"
 	}
-	let regex1=new RegExp(`name:\\s*"${node.name}"`),
+	const regex1=new RegExp(`name:\\s*"${node.name}"`),
 		regex2=new RegExp(`entrance:\\s*"${node.entrance}"`)
 	console.log(regex1)
 	console.log(JSON.stringify(text.match(regex1),null,2))

@@ -180,7 +180,7 @@ async function awaitWithTimeout(closure: (payload?: any) => any, timeout: number
 			reject('Await failed due to timeout');
 		}, timeout);
 		try {
-			let res = await closure(payload);
+			const res = await closure(payload);
 			resolve(res);
 		} catch (e) {
 			reject(JSON.stringify(e));
@@ -198,7 +198,7 @@ function schemaValidator(obj: any, schema: string, root?: string): Result<boolea
 	if (!fs.existsSync(schemaFilePath)) {
 		return new Err(`Error:Specified schema not found : ${schemaFilePath}`);
 	}
-	let schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString());
+	const schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString());
 
 	const ajv = new Ajv();
 	const validate = ajv.compile(schemaJson);
@@ -227,7 +227,7 @@ function objChainValidator(obj: any, chain: string[]): boolean {
 function requiredKeysValidator(obj: any, requiredKeys: string[], disableAlert?: boolean): boolean {
 	let suc = true,
 		keys = [];
-	for (let originalString of requiredKeys) {
+	for (const originalString of requiredKeys) {
 		keys = originalString.split('.');
 		if (!objChainValidator(obj, keys)) {
 			log(`${disableAlert ? 'Warning' : 'Error'}:Missing ${originalString} in task config`);
@@ -240,7 +240,7 @@ function requiredKeysValidator(obj: any, requiredKeys: string[], disableAlert?: 
 
 function objectValidator(object: any, checkList: Array<ObjectValidationNode>, cd?: string): boolean {
 	let valid = true;
-	for (let node of checkList) {
+	for (const node of checkList) {
 		//检验必须但缺失
 		if (node.required && !object.hasOwnProperty(node.key)) {
 			log(`Error:Missing required key : ${node.key}`);
@@ -345,9 +345,9 @@ function writeGBK(file: string, text: string) {
 }
 
 function wherePECMD(): Result<string, string> {
-	let p = ['.\\pecmd.exe', '.\\bin\\pecmd.exe'];
+	const p = ['.\\pecmd.exe', '.\\bin\\pecmd.exe'];
 	let r = '';
-	for (let i of p) {
+	for (const i of p) {
 		if (fs.existsSync(path.join(PROJECT_ROOT, i))) {
 			r = path.join(PROJECT_ROOT, i);
 			break;
@@ -363,7 +363,7 @@ function wherePECMD(): Result<string, string> {
 async function pressEnter(interval: number[]) {
 	//生成pecmd脚本
 	let script = '';
-	for (let i of interval) {
+	for (const i of interval) {
 		script += `WAIT ${i}000\nSEND VK_RETURN\n`;
 	}
 	//写脚本

@@ -25,7 +25,7 @@ export default async function (p: ResolverParameters): Promise<Result<ResolverRe
 	if (i == json.length) {
 		i = 0;
 	}
-	let assets = json[i].assets;
+	const assets = json[i].assets;
 	let result = '',
 		node;
 	for (node of assets) {

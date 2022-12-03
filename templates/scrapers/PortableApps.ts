@@ -49,7 +49,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
 
   // 获取有效节点
   let dom_node;
-  for (let i of validClassName) {
+  for (const i of validClassName) {
     dom_node = dom_box.children(i);
     if (dom_node.attr("class")) {
       break;
@@ -189,7 +189,7 @@ export default async function (
   p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
   //获取页面
-  let page = (await robustGet(p.url)).unwrap();
+  const page = (await robustGet(p.url)).unwrap();
   //解析
   let { text, href, sha256 } = (await scrapePage(page)).unwrap();
   log(`Info:Get sha256 : ${sha256}`)

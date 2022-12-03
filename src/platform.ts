@@ -94,7 +94,7 @@ function where(command: string): Result<string, string> {
 		} catch (_) {
 		}
 		//生成可能的绝对路径
-		let possibleAbsolutePaths = [
+		const possibleAbsolutePaths = [
 			node,
 			node + '.exe',
 			path.join(process.cwd(), node),
@@ -132,7 +132,7 @@ function ensurePlatform(alert=true): "Full"|"POSIX"|"Unavailable" {
 	if (config.REMOTE_ENABLE) {
 		list.push('rclone');
 	}
-	for (let cmd of list) {
+	for (const cmd of list) {
 		if (where(cmd).err) {
 			suc = "Unavailable";
 			if(alert) log(`Error:Command ${cmd} not found`);

@@ -4,7 +4,7 @@ import {config} from './config';
 
 //FIXME:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
 function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
-	let result: cp.ExecSyncOptionsWithBufferEncoding = {
+	const result: cp.ExecSyncOptionsWithBufferEncoding = {
 		timeout,
 	};
 	if (config.GLOBAL_PROXY) {
@@ -21,7 +21,7 @@ function uploadToRemote(fileName: string, category: string): boolean {
 		const localPath = config.DIR_BUILDS + '/' + category + '/' + fileName;
 		const remotePath = config.REMOTE_PATH + '/' + category;
 		let date = new Date();
-		let startTime = date.getTime();
+		const startTime = date.getTime();
 
 		try {
 			log('Info:Uploading ' + fileName);

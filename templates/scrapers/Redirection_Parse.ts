@@ -10,9 +10,9 @@ interface Temp {
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
 	const temp = p.scraper_temp as Temp;
 	//解析直链
-	let downloadLink = (await robustParseRedirect(temp.redirection_url)).unwrap();
+	const downloadLink = (await robustParseRedirect(temp.redirection_url)).unwrap();
 	//匹配版本号
-	let m = downloadLink.match(p.versionMatchRegex ?? /(\d+\.)+\d+/g);
+	const m = downloadLink.match(p.versionMatchRegex ?? /(\d+\.)+\d+/g);
 	if (m == null) {
 		return new Err('Error:Can\'t match version with ' + downloadLink);
 	}

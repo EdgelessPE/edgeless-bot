@@ -13,12 +13,12 @@ interface Temp {
 
 export default async function (p: ScraperParameters): Promise<Result<ScraperReturned, string>> {
 	const temp: Temp = p.scraper_temp;
-	let vm = p.versionMatchRegex ? (new RegExp(p.versionMatchRegex, 'g')) : /(\d+\.)+\d+/g,
+	const vm = p.versionMatchRegex ? (new RegExp(p.versionMatchRegex, 'g')) : /(\d+\.)+\d+/g,
 		dm = p.downloadLinkRegex ? (new RegExp(p.downloadLinkRegex, 'g')) : /(https?:)*\/?\/[\w.-/]+\.exe/g;
 	//获取页面
 	let page,
 		scope;
-	let getRes = await robustGet(temp.version_page_url ?? p.url)
+	const getRes = await robustGet(temp.version_page_url ?? p.url)
 	if (getRes.err || getRes.val == null || getRes.val == "") {
 		return new Err(`Error:Fetched null page`)
 	} else {
@@ -40,7 +40,7 @@ export default async function (p: ScraperParameters): Promise<Result<ScraperRetu
 	log('Info:Version match result : ' + m.toString() + (m.length > 1 ? ', use the highest one' : ''));
 	let version = '0.0.0',
 		tmp;
-	for (let node of m) {
+	for (const node of m) {
 		tmp = matchVersion(node);
 		if (tmp.err) {
 			continue;

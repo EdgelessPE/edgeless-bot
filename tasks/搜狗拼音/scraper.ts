@@ -8,9 +8,9 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
 	let version = '0.0',
 		url = '';
 	//获取官网首页
-	let page = (await robustGet('https://pinyin.sogou.com/')).unwrap() as string;
+	const page = (await robustGet('https://pinyin.sogou.com/')).unwrap() as string;
 	//匹配页面json数据
-	let jsonM=page.match(/\{.*\}/)
+	const jsonM=page.match(/\{.*\}/)
 	if(jsonM==null||jsonM.length>1){
 		return new Err("Error:Can't match or match multi json data")
 	}
@@ -19,10 +19,10 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
 	log('Info:Matched url ' + url);
 
 	//获取升级日志页面
-	let versionPage = (await robustGet('https://pinyin.sogou.com/changelog.php')).unwrap() as string;
+	const versionPage = (await robustGet('https://pinyin.sogou.com/changelog.php')).unwrap() as string;
 	//匹配所有的正式版发布信息
 	//console.log(gb2312(page.data))
-	let matches = versionPage.match(/\d*\.\d*\S*<\/h2>/) as RegExpMatchArray;
+	const matches = versionPage.match(/\d*\.\d*\S*<\/h2>/) as RegExpMatchArray;
 	//获取其中最高的版本号
 	let match;
 	matches.forEach((item) => {

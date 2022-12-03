@@ -13,7 +13,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
 	//console.log(JSON.stringify(json,null,2))
 
 	//选中pc版
-	let node=json[0].subNav[0]
+	const node=json[0].subNav[0]
 	//console.log(JSON.stringify(node,null,2))
 
 	return new Ok({

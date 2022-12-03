@@ -4,11 +4,11 @@ import {log, sleep} from './utils';
 import {config} from './config';
 
 function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
-	let result: AxiosRequestConfig = axiosConfig ?? {};
+	const result: AxiosRequestConfig = axiosConfig ?? {};
 	//处理全局代理
 	if (config.GLOBAL_PROXY) {
-		let url = config.GLOBAL_PROXY;
-		let sp1 = url.split(':');
+		const url = config.GLOBAL_PROXY;
+		const sp1 = url.split(':');
 		const protocol = sp1[0],
 			port = Number(sp1[2]);
 		const host = sp1[1].split('//')[1];

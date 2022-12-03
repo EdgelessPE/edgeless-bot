@@ -16,10 +16,10 @@ interface RequiredObject {
 }
 
 function matchFile(cwd: string, regex: string): Result<string, string> {
-	let dir = fs.readdirSync(cwd);
+	const dir = fs.readdirSync(cwd);
 	let m = undefined,
 		r = new RegExp(regex.slice(1,-1));
-	for (let name of dir) {
+	for (const name of dir) {
 		if (name.match(r) != null) {
 			m = name;
 			break;
@@ -42,7 +42,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		m,
 		file: string
 	;
-	for (let reg of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
+	for (const reg of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
 		//校验文件是否存在
 		if (reg[0] == '/') {
 			m = matchFile(cwd, reg);
@@ -80,9 +80,9 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 	//处理正则表达式的sourceFile
 	if(obj.sourceFile[0]=="/"){
 		//读取当前目录，匹配对应的文件
-		let list=fs.readdirSync(cwd)
-		let regexp=new RegExp(obj.sourceFile.slice(1,-1))
-		let matchRes=list.find((file)=>{
+		const list=fs.readdirSync(cwd)
+		const regexp=new RegExp(obj.sourceFile.slice(1,-1))
+		const matchRes=list.find((file)=>{
 			return regexp.test(file)
 		})
 		if(matchRes==undefined){
@@ -97,7 +97,7 @@ export default async function (p: ProducerParameters): Promise<Result<ProducerRe
 		return new Err(`Error:Can't find source file ${obj.sourceFile} in ${cwd}`);
 	}
 	//重命名并生成外置批处理
-	let final = path.join(p.workshop, '_ready');
+	const final = path.join(p.workshop, '_ready');
 	shell.mkdir(final);
 	shell.mv(cwd, path.join(final, p.taskName));
 	if(!fs.existsSync(path.join(final,p.taskName,obj.sourceFile))){

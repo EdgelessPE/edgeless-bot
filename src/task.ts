@@ -329,21 +329,20 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   let downloadedFile = "";
   let absolutePath = "";
   // 创建Cache目录
-  await shell.mkdir("-p", DOWNLOAD_CACHE);
+  if (config.ENABLE_CACHE && !fs.existsSync(DOWNLOAD_CACHE)) {
+    await shell.mkdir("-p", DOWNLOAD_CACHE);
+  }
+  const subCacheDir = path.join(DOWNLOAD_CACHE, t.task.name);
   // 如果有则使用缓存
-  if (
-    config.ENABLE_CACHE &&
-    fs.existsSync(path.join(DOWNLOAD_CACHE, t.task.name))
-  ) {
-    log("Warning:Download Cache Enabled.");
-    log("Info:Hit Cache");
+  if (config.ENABLE_CACHE && fs.existsSync(subCacheDir)) {
+    log(`Warning:Use cache at ${subCacheDir}`);
 
-    await shell.cp("-R", path.join(DOWNLOAD_CACHE, t.task.name), workshop);
+    await shell.cp("-R", subCacheDir, workshop);
     absolutePath = shell.ls(path.join(workshop, "*.*"))[0] ?? "";
     downloadedFile = absolutePath.split("/").pop() as string;
   } else {
     if (config.ENABLE_CACHE) {
-      log("Info:Cache Miss");
+      log("Info:Cache not found");
     }
     //解析直链
     const dRes = await resolver(
@@ -383,9 +382,10 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       }
       return new Err("Error:Can't download link : " + dRes.val.directLink);
     }
+    // 缓存下载
     if (config.ENABLE_CACHE) {
-      log("Info:Caching downloads");
-      await shell.cp("-R", workshop, path.join(DOWNLOAD_CACHE, t.task.name));
+      log(`Info:Caching downloads into ${subCacheDir}`);
+      await shell.cp("-R", workshop, subCacheDir);
     }
   }
   if (!absolutePath) {
@@ -657,9 +657,7 @@ async function executeTasks(
     };
     //并发全部的普通任务
     for (const t of shuffle(normalTasks)) {
-      execute(t).then((res) => {
-        collect(res, t);
-      });
+      collect(await execute(t), t);
     }
     //顺序执行全部的require windows任务
     if (os.platform() == "win32") {

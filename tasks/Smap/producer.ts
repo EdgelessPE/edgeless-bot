@@ -9,20 +9,23 @@ import shell from "shelljs";
 export default async function (
   p: ProducerParameters
 ): Promise<Result<ProducerReturned, string>> {
-  const {taskName, downloadedFile, workshop} = p;
+  const { taskName, downloadedFile, workshop } = p;
 
   const readyDir = path.join(workshop, "_ready", taskName);
   shell.mkdir("-p", readyDir);
-  const res = await release(path.join(workshop, downloadedFile), path.join(workshop, taskName));
-  if (!res) return new Err("Error:Can't release downloaded file")
+  const res = await release(
+    path.join(workshop, downloadedFile),
+    path.join(workshop, taskName)
+  );
+  if (!res) return new Err("Error:Can't release downloaded file");
   shell.mv(
-      path.join(
-          workshop,
-          taskName,
-          downloadedFile.replace(".zip", ""),
-          "smap.exe"
-      ),
-      readyDir
+    path.join(
+      workshop,
+      taskName,
+      downloadedFile.replace(".zip", ""),
+      "smap.exe"
+    ),
+    readyDir
   );
   writeGBK(
     path.join(workshop, "_ready", taskName + ".cmd"),

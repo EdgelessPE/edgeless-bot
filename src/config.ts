@@ -54,16 +54,16 @@ function configGenerator(): Result<CONFIG, string> {
       }
     }
     //特殊处理-d参数
-      if (args["d"] != null) {
-        json["DATABASE_UPDATE"] = false;
-        json["REMOTE_ENABLE"] = false;
-        json["DEBUG_MODE"] = true;
-      } else {
-        if (json["ENABLE_CACHE"]) {
-          return new Err("Error: Only Debug Mode can enable download cache.");
-        }
+    if (args["d"] != null) {
+      json["DATABASE_UPDATE"] = false;
+      json["REMOTE_ENABLE"] = false;
+      json["DEBUG_MODE"] = true;
+    } else {
+      if (json["ENABLE_CACHE"]) {
+        return new Err("Error: Only Debug Mode can enable download cache.");
       }
-      return new Ok(json);
+    }
+    return new Ok(json);
   }
 }
 

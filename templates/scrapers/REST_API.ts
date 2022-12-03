@@ -38,7 +38,7 @@ export default async function (
           }
     )
   ).unwrap();
-    //尝试读取json
+  //尝试读取json
   const versionReadRes = objChainReader(json, temp.version_path.split(".")),
     linkReadRes = objChainReader(json, temp.download_path.split("."));
   if (typeof json == "string") {

@@ -36,7 +36,6 @@ function setMVTDayToday() {
   MISSING_VERSION_TRY_DAY = new Date().getDay();
 }
 
-
 export {
   PATH_CONFIG,
   LIGHT_TIMEOUT,

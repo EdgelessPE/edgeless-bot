@@ -9,8 +9,8 @@ interface Temp {}
 export default async function (
   p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
-  const {taskName, url, downloadLinkRegex, versionMatchRegex, scraper_temp} =
-      p;
+  const { taskName, url, downloadLinkRegex, versionMatchRegex, scraper_temp } =
+    p;
   const temp: Temp = p.scraper_temp;
   const html = (await robustGet(url)).unwrap() as string;
   const $ = cheerio.load(html);

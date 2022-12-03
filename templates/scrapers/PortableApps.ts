@@ -8,7 +8,7 @@ import GitHubRelease from "./GitHub_Release";
 interface PageInfo {
   text: string;
   href: string;
-  md5: string;
+  sha256: string;
 }
 
 // 控制是否详细打印日志
@@ -63,20 +63,20 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
     //log('Info:Get valid dom node whose class is "' + dom_node.attr('class') + '"');
   }
 
-  // 尝试获取MD5 （由于PortableApps改用SHA256作为校验哈希，因此暂时偷懒把校验获取禁用）
-  // const md5TagResult = $("strong:contains('MD5')");
-  // if (md5TagResult == null || md5TagResult.length == 0) {
-  //   log("Warning:No MD5 tag found in this page");
-  // } else {
-  //   try {
-  //     result.md5 = (
-  //       md5TagResult.parent("li").get(0)!.children[1] as any
-  //     ).data.substring(2);
-  //   } catch (err) {
-  //     console.log(JSON.stringify(err));
-  //     log("Warning:Fail to get MD5 value");
-  //   }
-  // }
+  // 尝试获取SHA256
+  const hashTagResult = $("strong:contains('SHA256')");
+  if (hashTagResult == null || hashTagResult.length == 0) {
+    log("Warning:No SHA256 tag found in this page");
+  } else {
+    try {
+      result.sha256 = (
+        hashTagResult.parent("li").get(0)!.children[1] as any
+      ).data.substring(2);
+    } catch (err) {
+      console.log(JSON.stringify(err));
+      log("Warning:Fail to get SHA256 value");
+    }
+  }
 
   // 分className处理，获取text和href
   switch (dom_node.attr("class")) {
@@ -113,20 +113,20 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
             if (recordParent != null && recordParent.length > 0) {
               // 获得下载地址
               result.href = recordParent.find("a").get(0)!.attribs.href;
-              // 尝试获得md5
-              // try {
-              //   result.md5 = (
-              //     recordParent.children("td").get(3)!.children[0] as any
-              //   ).data;
-              // } catch (err) {
-              //   console.log(JSON.stringify(err));
-              //   log("Warning:Fail to got md5");
-              // }
+              // 尝试获得sha256
+              try {
+                result.sha256 = (
+                  recordParent.children("td").get(3)!.children[0] as any
+                ).data;
+              } catch (err) {
+                console.log(JSON.stringify(err));
+                log("Warning:Fail to got sha256");
+              }
 
               if (DEBUG)
                 log(
-                  "Info:Found simplified chinese version\nmd5:" +
-                    result.md5 +
+                  "Info:Found simplified chinese version\nsha256:" +
+                    result.sha256 +
                     "\ndownload link:" +
                     result.href
                 );
@@ -166,18 +166,18 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   // 	});
   // }
 
-  // 校验md5
-  // if (result.md5 == undefined) {
-  //   result.md5 = "";
-  // }
-  //
-  // if (
-  //   result.md5 !== "" &&
-  //   result.md5.match(/([a-f\d]{32}|[A-F\d]{32})/) == null
-  // ) {
-  //   log("Warning:Fail to check md5,got " + result.md5);
-  //   result.md5 = "";
-  // }
+  // 校验SHA256是否有效
+  if (result.sha256 == undefined) {
+    result.sha256 = "";
+  }
+  
+  if (
+    result.sha256 !== "" &&
+    result.sha256.match(/^([a-f0-9]{64})$/) == null
+  ) {
+    log("Warning:Fail to check sha256,got " + result.sha256);
+    result.sha256 = "";
+  }
 
   // 处理href
   result.href = parseDownloadUrl(result.href);
@@ -191,7 +191,8 @@ export default async function (
   //获取页面
   let page = (await robustGet(p.url)).unwrap();
   //解析
-  let { text, href, md5 } = (await scrapePage(page)).unwrap();
+  let { text, href, sha256 } = (await scrapePage(page)).unwrap();
+  log(`Info:Get sha256 : ${sha256}`)
 
   //处理跳转到 GitHub 备用下载的情况
   const trueUrlRes=await robustParseRedirect(href);

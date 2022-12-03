@@ -1,8 +1,11 @@
+import path from "path";
+
 const PATH_CONFIG = "./config.toml",
   LIGHT_TIMEOUT = 30000,
   HEAVY_TIMEOUT = 300000;
 let MISSING_VERSION_TRY_DAY = 4;
 const PROJECT_ROOT = process.cwd();
+const DOWNLOAD_CACHE = path.join(PROJECT_ROOT, "cache");
 const CATEGORIES = [
   "实用工具",
   "开发辅助",
@@ -33,11 +36,13 @@ function setMVTDayToday() {
   MISSING_VERSION_TRY_DAY = new Date().getDay();
 }
 
+
 export {
   PATH_CONFIG,
   LIGHT_TIMEOUT,
   HEAVY_TIMEOUT,
   PROJECT_ROOT,
+  DOWNLOAD_CACHE,
   MISSING_VERSION_TRY_DAY,
   CATEGORIES,
   setMVTDayToday,

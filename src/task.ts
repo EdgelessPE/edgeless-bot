@@ -29,7 +29,7 @@ import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
 import { compress, release } from "./p7zip";
-import { MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
+import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
 import { deleteFromRemote } from "./rclone";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
@@ -329,20 +329,16 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   let downloadedFile = "";
   let absolutePath = "";
   // 创建Cache目录
-  await shell.mkdir("-p", path.join(PROJECT_ROOT, "DownloadCache"));
+  await shell.mkdir("-p", DOWNLOAD_CACHE);
   // 如果有则使用缓存
   if (
     config.ENABLE_CACHE &&
-    fs.existsSync(path.join(PROJECT_ROOT, "DownloadCache", t.task.name))
+    fs.existsSync(path.join(DOWNLOAD_CACHE, t.task.name))
   ) {
     log("Warning:Download Cache Enabled.");
     log("Info:Hit Cache");
 
-    await shell.cp(
-      "-R",
-      path.join(PROJECT_ROOT, "DownloadCache", t.task.name),
-      workshop
-    );
+    await shell.cp("-R", path.join(DOWNLOAD_CACHE, t.task.name), workshop);
     absolutePath = shell.ls(path.join(workshop, "*.*"))[0] ?? "";
     downloadedFile = absolutePath.split("/").pop() as string;
   } else {
@@ -389,11 +385,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
     if (config.ENABLE_CACHE) {
       log("Info:Caching downloads");
-      await shell.cp(
-        "-R",
-        workshop,
-        path.join(PROJECT_ROOT, "DownloadCache", t.task.name)
-      );
+      await shell.cp("-R", workshop, path.join(DOWNLOAD_CACHE, t.task.name));
     }
   }
   if (!absolutePath) {

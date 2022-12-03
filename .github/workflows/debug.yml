@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - next
+      - develop
 
 jobs:
   serve:
@@ -18,13 +19,13 @@ jobs:
       # 缓存yarn
       - uses: actions/cache@v3
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 安装依赖
       - name: Install dependencies
         run: yarn
-      
+
       # 以Debug模式运行构建任务
       - name: Run scripts
         run: yarn dev -g

@@ -1,8 +1,8 @@
 # Ctfile
 
-* 类型：解析器
-* 入口：`Ctfile`
-* 适用 URL：`通用`
+- 类型：解析器
+- 入口：`Ctfile`
+- 适用 URL：`通用`
 
 :::tip 使用方式
 任务：将任务配置的 `template.resolver` 配置为 `Ctfile`

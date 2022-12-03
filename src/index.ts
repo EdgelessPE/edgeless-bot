@@ -6,7 +6,8 @@ import {
   getAllTasks,
   getSingleTask,
   getTasksToBeExecuted,
-  removeExtraBuilds, reserveTask,
+  removeExtraBuilds,
+  reserveTask,
 } from "./task";
 import { config } from "./config";
 import { ensurePlatform } from "./platform";
@@ -29,6 +30,7 @@ import * as TOML from "toml";
 import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();
 
 async function main(): Promise<boolean> {
@@ -52,8 +54,8 @@ async function main(): Promise<boolean> {
   //处理无版本号任务的制作日
   if (config.MODE_FORCED) setMVTDayToday();
   //平台命令校验
-  const platformMode=ensurePlatform()
-  if (platformMode=="Unavailable") {
+  const platformMode = ensurePlatform();
+  if (platformMode == "Unavailable") {
     return false;
   }
   //重建工作目录
@@ -73,7 +75,7 @@ async function main(): Promise<boolean> {
   if (config.SPECIFY_TASK) {
     //以 / 分割分别获取任务
     tasks = [];
-    for (let t of config.SPECIFY_TASK.toString().split("/")) {
+    for (const t of config.SPECIFY_TASK.toString().split("/")) {
       task = getSingleTask(t).unwrap();
       //判断是否保留任务
       if (!reserveTask(task)) {
@@ -85,19 +87,19 @@ async function main(): Promise<boolean> {
     tasks = getAllTasks().unwrap();
   }
   //执行全部爬虫
-  let results = await scraper(tasks);
+  const results = await scraper(tasks);
   //console.log(JSON.stringify(results,null,2))
 
   //得到需要制作的任务
-  let toExecTasks = getTasksToBeExecuted(results);
+  const toExecTasks = getTasksToBeExecuted(results);
 
   //执行任务
-  let eRes = await executeTasks(toExecTasks);
-  for (let node of eRes) {
+  const eRes = await executeTasks(toExecTasks);
+  for (const node of eRes) {
     if (node.result.ok) {
       //去重
-      let task = getSingleTask(node.taskName).unwrap();
-      let newBuilds = removeExtraBuilds(
+      const task = getSingleTask(node.taskName).unwrap();
+      const newBuilds = removeExtraBuilds(
         node.taskName,
         task.category,
         node.result.val
@@ -135,12 +137,12 @@ async function test(): Promise<boolean> {
       "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot-master\\tasks",
     newTasksDir = "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\tasks";
   //读取两侧文件夹
-  let o = fs.readdirSync(oldTasksDir),
+  const o = fs.readdirSync(oldTasksDir),
     n = fs.readdirSync(newTasksDir);
   //读取旧任务
-  let oTasks: TaskTemp[] = [],
-    tmp;
-  for (let taskName of o) {
+  const oTasks: TaskTemp[] = [];
+  let tmp;
+  for (const taskName of o) {
     tmp = JSON.parse(
       fs
         .readFileSync(path.join(oldTasksDir, taskName, "config.json"))
@@ -149,8 +151,8 @@ async function test(): Promise<boolean> {
     oTasks.push(tmp);
   }
   //读取新任务
-  let nTasks: TaskTemp[] = [];
-  for (let taskName of n) {
+  const nTasks: TaskTemp[] = [];
+  for (const taskName of n) {
     tmp = TOML.parse(
       fs
         .readFileSync(path.join(newTasksDir, taskName, "config.toml"))
@@ -160,7 +162,7 @@ async function test(): Promise<boolean> {
   }
   const getNode = (taskName: string, list: TaskTemp[]): TaskTemp | null => {
     let r = null;
-    for (let n of list) {
+    for (const n of list) {
       if (n.name == taskName) {
         r = n;
         break;
@@ -170,14 +172,14 @@ async function test(): Promise<boolean> {
   };
   let m;
   //检查移植遗漏
-  for (let n of oTasks) {
+  for (const n of oTasks) {
     m = getNode(n.name, nTasks);
     if (m == null) {
       log(`Warning:Missing ${n.name}`);
     }
   }
   //检查对应
-  for (let n of nTasks) {
+  for (const n of nTasks) {
     m = getNode(n.name, oTasks);
     if (m == null) {
       log(`Info:New task ${n.name}`);

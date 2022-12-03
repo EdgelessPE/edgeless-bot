@@ -42,12 +42,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "author",
-        "category",
-        "name",
-        "url"
-      ]
+      "required": ["author", "category", "name", "url"]
     },
     "extra": {
       "properties": {
@@ -92,9 +87,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "build_manifest"
-      ],
+      "required": ["build_manifest"],
       "type": "object"
     },
     "producer_required": {
@@ -116,9 +109,7 @@
         }
       },
       "type": "object",
-      "required": [
-        "download_name"
-      ]
+      "required": ["download_name"]
     },
     "template": {
       "properties": {
@@ -132,19 +123,10 @@
           "type": "string"
         }
       },
-      "required": [
-        "producer"
-      ],
+      "required": ["producer"],
       "type": "object"
     }
   },
-  "required": [
-    "parameter",
-    "producer_required",
-    "template",
-    "task",
-    "regex"
-  ],
+  "required": ["parameter", "producer_required", "template", "task", "regex"],
   "type": "object"
 }
-

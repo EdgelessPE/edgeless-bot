@@ -3,7 +3,7 @@
 name = "NeoVim"
 category = "实用工具"
 author = "JohnsonRan"
-url = "https://scoop.sh/neovim-nightly"
+url = "https://github.com/ScoopInstaller/Versions/blob/master/bucket/neovim-nightly.json"
 
 # 指定使用的模板
 [template]
@@ -27,8 +27,6 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-scoopManifestName = "neovim-nightly"
-bucketName = "Versions"
 
 # 自动制作模板要求的参数
 [producer_required]

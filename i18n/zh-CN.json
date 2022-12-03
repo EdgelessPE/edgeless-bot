@@ -83,8 +83,8 @@
   "Use \"string\" as the type of required keys, modify if discrepant": "使用 \"string\" 作为必须提供的参数的类型,如果矛盾请修改",
   "Silent installing argument": "静默安装参数",
   "Delete installer after installing": "是否在安装完成后删除安装包",
-  "Given name or entrance already registered in ":"指定的名称或入口已经注册到 ",
-  ", delete register node before continue":", 如需继续请先将对应的注册信息删除",
-  "Parse Scoop Bucket to resolve version and direct download link, specify url by \"scraper_temp.bucketName\" and \"scraper_temp.taskName\"":"通过 Scoop Bucket 解析版本号和下载链接, 需要指定 \"scraper_temp.bucketName\" 和 \"scraper_temp.taskName\"",
+  "Given name or entrance already registered in ": "指定的名称或入口已经注册到 ",
+  ", delete register node before continue": ", 如需继续请先将对应的注册信息删除",
+  "Parse Scoop Bucket to resolve version and direct download link, specify url by \"scraper_temp.bucketName\" and \"scraper_temp.taskName\"": "通过 Scoop Bucket 解析版本号和下载链接, 需要指定 \"scraper_temp.bucketName\" 和 \"scraper_temp.taskName\"",
   "Recommended manifest, ": "推荐的构建装箱单，"
 }

@@ -7,7 +7,5 @@
       "description": "Shortcut name for the downloaded file"
     }
   },
-  "required": [
-    "shortcutName"
-  ]
+  "required": ["shortcutName"]
 }

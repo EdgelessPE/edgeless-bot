@@ -1,5 +1,5 @@
 import { ProducerParameters, ProducerReturned } from "../../src/class";
-import { Ok, Result } from "ts-results";
+import { Err, Ok, Result } from "ts-results";
 import { log, writeGBK } from "../../src/utils";
 import path from "path";
 import { release } from "../../src/p7zip";
@@ -14,10 +14,11 @@ export default async function (
   const readyDir = path.join(workshop, "_ready", taskName);
   shell.mkdir("-p", readyDir);
   log(`Info: ${downloadedFile}`);
-  release(
+  const res = await release(
     path.join(workshop, downloadedFile),
     path.join(workshop, "_ready", taskName)
   );
+  if (!res) return new Err("Error:Can't release downloaded file");
   writeGBK(
     path.join(workshop, "_ready", taskName + ".cmd"),
     `setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`

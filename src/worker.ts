@@ -37,7 +37,7 @@ async function scraper(
       >;
       let res: Result<ScraperReturned, string>;
       try {
-        res = await awaitWithTimeout(script, LIGHT_TIMEOUT);
+        res = await awaitWithTimeout(script, LIGHT_TIMEOUT, null);
         //处理无版本号任务
         const task = workerData.tasks[0];
         if (task.extra?.missing_version && res.ok) {

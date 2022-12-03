@@ -14,17 +14,25 @@ import { log } from "./utils";
 import { config } from "./config";
 
 function searchTemplate(url: string): Result<ResolverRegister, string> {
-  let result = null;
+  //匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
+  const results: {
+    node: ResolverRegister;
+    matchLength: number;
+  }[] = [];
   for (const node of register) {
-    if (url.match(node.downloadLinkRegex)) {
-      result = node;
-      break;
+    const m = url.match(node.downloadLinkRegex);
+    if (m != null) {
+      results.push({
+        node,
+        matchLength: m[0].length,
+      });
     }
   }
-  if (result == null) {
+  if (results.length == 0) {
     return new Err("Info:No matched resolver template found");
   } else {
-    return new Ok(result);
+    results.sort((a, b) => a.matchLength - b.matchLength);
+    return new Ok(results.pop()!.node);
   }
 }
 
@@ -69,7 +77,9 @@ export default async function (
       });
     } else {
       //找到模板，配置模板入口
-      entrance = tRes.val.entrance;
+      const node = tRes.unwrap();
+      log(`Info:Matched resolver template ${node.name} for link ${url}`);
+      entrance = node.entrance;
     }
   }
   //解析模板位置

@@ -60,6 +60,10 @@ interface ProducerRegister {
   recommendedManifest?: string[];
 }
 ```
+:::tip
+爬虫与解析器模板的 `urlRegex` 和 `downloadLinkRegex` 均支持最大长度匹配，如果你的模板适用的 URL
+同样适用于另一个模板时请尽可能使匹配长度最大，参考 `GitHub Release` 和 `Scoop` 爬虫模板
+:::
 
 ## 编写模板
 

@@ -31,15 +31,40 @@ function searchTemplate(
       requiredKeys: [],
     });
   }
+
   let result = null;
 
-  //倒序匹配爬虫模板，以便于提前匹配更精确的正则表达式
-  for (const node of scraperRegister.reverse()) {
-    if (url.match(node.urlRegex) || scraperName == node.entrance) {
-      result = node;
-      break;
+  if (scraperName) {
+    //对钦定的模板直接赋值
+    for (const node of scraperRegister) {
+      if (scraperName == node.entrance) {
+        result = node;
+        break;
+      }
+    }
+  } else {
+    //匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
+    const results: {
+      node: ScraperRegister;
+      matchLength: number;
+    }[] = [];
+
+    for (const node of scraperRegister) {
+      const m = url.match(node.urlRegex);
+      if (m) {
+        results.push({
+          node,
+          matchLength: m[0].length,
+        });
+      }
+    }
+
+    if (results.length > 0) {
+      result = results.sort((a, b) => a.matchLength - b.matchLength).pop()!
+        .node;
     }
   }
+
   if (result == null) {
     return new Err("Error:Can't find matched scraper template for " + url);
   } else {
@@ -84,6 +109,8 @@ export default async function (
         break;
       } else {
         const m = mRes.unwrap();
+        log(`Info:Matched scraper template ${m.name} for task ${task.name}`);
+
         if (classifyHash[m.name] != null) {
           classifyHash[m.name].pool.push(task);
         } else {

@@ -3,7 +3,7 @@
 name = "FirefoxNightly"
 category = "浏览器"
 author = "undefined"
-url = "http://scoop.sh/FirefoxNightly"
+url = "https://github.com/ScoopInstaller/Versions/blob/master/bucket/firefox-nightly.json"
 
 # 指定使用的模板
 [template]
@@ -27,8 +27,7 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-scoopManifestName = "firefox-nightly"
-bucketName = "Versions"
+
 
 # 自动制作模板要求的参数
 [producer_required]

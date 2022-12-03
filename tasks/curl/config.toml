@@ -2,7 +2,7 @@
 name = "curl"
 category = "下载上传"
 author = "undefined"
-url = "https://scoop.sh/curl"
+url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/curl.json"
 
 # 指定使用的模板
 [template]
@@ -26,8 +26,6 @@ build_manifest = ["${taskName}.cmd","${taskName}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-bucketName = "Main"
-scoopManifestName = "curl"
 
 # 自动制作模板要求的参数
 [producer_required]

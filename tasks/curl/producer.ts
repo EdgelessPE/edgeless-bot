@@ -4,7 +4,7 @@ import { log, writeGBK } from "../../src/utils";
 import path from "path";
 import { release } from "../../src/p7zip";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters

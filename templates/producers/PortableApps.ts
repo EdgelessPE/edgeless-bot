@@ -6,7 +6,7 @@ import fs from "fs";
 import { log, writeGBK } from "../../src/utils";
 import ini from "ini";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 interface RequiredObject {
   shortcutName?: string;

@@ -4,7 +4,7 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import { writeGBK } from "../../src/utils";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 interface RequiredObject {
   shortcutName: string;

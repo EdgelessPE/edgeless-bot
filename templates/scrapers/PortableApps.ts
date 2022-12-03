@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/class";
 import { robustGet, robustParseRedirect } from "../../src/network";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { log } from "../../src/utils";
 import GitHubRelease from "./GitHub_Release";
 

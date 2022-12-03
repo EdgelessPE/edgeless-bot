@@ -15,7 +15,7 @@ import { CATEGORIES, PROJECT_ROOT } from "../src/const";
 import fs from "fs";
 import path from "path";
 import { config } from "../src/config";
-import { t, init } from "../i18n/i18n";
+import { init, t } from "../i18n/i18n";
 import scraperRegister from "../templates/scrapers/_register";
 import resolverRegister from "../templates/resolvers/_register";
 import producerRegister from "../templates/producers/_register";
@@ -25,10 +25,10 @@ import {
   ScraperRegister,
 } from "../src/class";
 import { JSONSchema4 } from "json-schema";
+import shell from "shelljs";
+import TOML from "@iarna/toml";
+import prettier from "prettier";
 
-const TOML = require("@iarna/toml");
-const shell = require("shelljs");
-const prettier = require("prettier");
 const TEST_URL = "https://github.com/balena-io/etcher";
 
 export interface TaskInput {

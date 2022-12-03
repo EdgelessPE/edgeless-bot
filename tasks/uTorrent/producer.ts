@@ -1,12 +1,11 @@
 import { ProducerParameters, ProducerReturned } from "../../src/class";
-import { Err, Ok, Result } from "ts-results";
-import { log, pressEnter } from "../../src/utils";
+import { Ok, Result } from "ts-results";
+import { log, pressEnter, sleep } from "../../src/utils";
 import path from "path";
 import fs from "fs";
-import { sleep } from "../../src/utils";
 import cp from "child_process";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters
@@ -20,9 +19,9 @@ export default async function (
   //移动安装程序
   shell.mv(path.join(workshop, downloadedFile), readyDir);
   //启动安装程序
-    const installer = cp.exec(downloadedFile, { cwd: readyDir }, () => {
-      log("Info:Installer exit");
-    });
+  const installer = cp.exec(downloadedFile, { cwd: readyDir }, () => {
+    log("Info:Installer exit");
+  });
 
   //发送回车
   await pressEnter([5, 5, 2, 2]);
@@ -38,8 +37,8 @@ export default async function (
 
   //退出安装进程
   await pressEnter([3]);
-    await sleep(1000);
-    installer.kill();
+  await sleep(1000);
+  installer.kill();
 
   //删除安装包
   shell.rm(path.join(readyDir, downloadedFile));

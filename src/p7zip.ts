@@ -4,7 +4,7 @@ import { where } from "./platform";
 import path from "path";
 import { log } from "./utils";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 async function release(
   file: string,

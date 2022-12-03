@@ -7,7 +7,7 @@ import { release } from "../../src/p7zip";
 import os from "os";
 import cp from "child_process";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 interface RequiredObject {
   recursiveUnzipList: Array<string>;

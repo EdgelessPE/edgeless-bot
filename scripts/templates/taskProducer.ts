@@ -4,7 +4,7 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters

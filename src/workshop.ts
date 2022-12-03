@@ -1,7 +1,8 @@
 import fs from "fs";
 import { config } from "./config";
 
-const shell = require("shelljs");
+import shell from "shelljs";
+
 const DIR_WORKSHOP = config.DIR_WORKSHOP;
 
 function clearWorkshop(): boolean {

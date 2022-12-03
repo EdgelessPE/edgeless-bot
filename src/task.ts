@@ -34,9 +34,11 @@ import { deleteFromRemote } from "./rclone";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
 import { ensurePlatform } from "./platform";
+import shell from "shelljs";
 
-const rcInfo = require("rcinfo");
-const shell = require("shelljs");
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import rcInfo from "rcinfo";
 
 export interface TaskConfig {
   task: {

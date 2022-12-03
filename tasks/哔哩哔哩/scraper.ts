@@ -1,8 +1,7 @@
-import { Ok, Err, Result } from "ts-results";
+import { Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
-import { log, versionCmp, matchVersion, Cmp } from "../../src/utils";
-import cheerio from "cheerio";
+import { Cmp, matchVersion, versionCmp } from "../../src/utils";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   //YOUR CODE HERE

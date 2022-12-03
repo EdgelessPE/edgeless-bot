@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import { writeGBK } from "../../src/utils";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 interface RequiredObject {
   argument?: string;

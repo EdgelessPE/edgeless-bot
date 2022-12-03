@@ -1,12 +1,11 @@
 import { ProducerParameters, ProducerReturned } from "../../src/class";
 import { Ok, Result } from "ts-results";
-import { log } from "../../src/utils";
+import { log, pressEnter, sleep } from "../../src/utils";
 import path from "path";
 import fs from "fs";
-import { sleep, pressEnter } from "../../src/utils";
 import cp from "child_process";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters

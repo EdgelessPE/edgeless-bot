@@ -2,7 +2,7 @@ import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 import { Cmp, log, matchVersion, versionCmp } from "../../src/utils";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 
 interface Temp {
   version_page_url?: string;

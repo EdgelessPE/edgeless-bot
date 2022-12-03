@@ -3,7 +3,7 @@ import { Ok, Result } from "ts-results";
 import { writeGBK } from "../../src/utils";
 import path from "path";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters

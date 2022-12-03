@@ -4,7 +4,7 @@ import { log } from "./utils";
 import { ValidationType } from "./class";
 import path from "path";
 
-const checksum = require("checksum");
+import checksum from "checksum";
 
 async function getMD5(filePath: string): Promise<string> {
   return new Promise((resolve) => {

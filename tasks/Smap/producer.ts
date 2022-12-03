@@ -1,11 +1,10 @@
 import { ProducerParameters, ProducerReturned } from "../../src/class";
-import { Ok, Err, Result } from "ts-results";
-import { log, writeGBK } from "../../src/utils";
+import { Ok, Result } from "ts-results";
+import { writeGBK } from "../../src/utils";
 import path from "path";
-import fs from "fs";
 import { release } from "../../src/p7zip";
 
-const shell = require("shelljs");
+import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters

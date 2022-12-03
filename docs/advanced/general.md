@@ -161,7 +161,7 @@ const $ = cheerio.load("HTML_PAGE_TEXT");
 Edgeless Bot 使用 [shelljs](https://github.com/shelljs/shelljs) 提供部分常用的 Shell 命令，通常用于制作器模板，可以通过如下代码使用：
 
 ```typescript
-const shell = require("shelljs");
+import shell from "shelljs";
 //示例：删除工作目录中的临时目录
 shell.rm("-rf", path.join(workshop, "temp"));
 ```

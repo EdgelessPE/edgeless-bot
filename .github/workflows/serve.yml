@@ -2,14 +2,14 @@ name: Serve-next
 
 on:
   push:
-    branches: [ next ]
+    branches: [next]
     paths:
-      - 'src/**'
-      - 'templates/**'
-      - 'tasks/**'
-      - '.github/**'
+      - "src/**"
+      - "templates/**"
+      - "tasks/**"
+      - ".github/**"
   schedule:
-    - cron: '0 20 * * *'
+    - cron: "0 20 * * *"
 
 jobs:
   serve:
@@ -35,13 +35,13 @@ jobs:
       # 缓存yarn
       - uses: actions/cache@v3
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # 安装依赖
       - name: Install dependencies
         run: yarn
-      
+
       # 运行构建任务
       - name: Run scripts
         run: yarn serve -g

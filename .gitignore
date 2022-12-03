@@ -12,4 +12,5 @@ rclone*
 *.exe
 database.json
 .yarn
-/DownloadCache/*
+/cache
+/*.log

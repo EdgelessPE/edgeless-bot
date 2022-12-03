@@ -7,7 +7,5 @@
       "description": "Add english description here, then add simplified chinese translation to /i18n/zh-CN.json"
     }
   },
-  "required": [
-    "KEY_NAME"
-  ]
+  "required": ["KEY_NAME"]
 }

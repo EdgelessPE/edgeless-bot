@@ -1,8 +1,8 @@
 # GitHub Release
 
-* 类型：解析器
-* 入口：`GitHub_Release`
-* 适用 URL：`https?://api.github.com/repos/[^/]+/[^/]+/releases`
+- 类型：解析器
+- 入口：`GitHub_Release`
+- 适用 URL：`https?://api.github.com/repos/[^/]+/[^/]+/releases`
 
 用于解析 GitHub Release 的下载地址
 :::tip

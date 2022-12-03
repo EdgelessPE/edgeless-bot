@@ -3,7 +3,7 @@
 name = "IntelliJ IDEA"
 category = "集成开发"
 author = "JohnsonRan"
-url = "https://scoop.sh/idea"
+url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/idea.json"
 
 # 指定使用的模板
 [template]
@@ -27,8 +27,7 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-scoopManifestName = "idea"
-bucketName = "Extras"
+
 
 # 自动制作模板要求的参数
 [producer_required]

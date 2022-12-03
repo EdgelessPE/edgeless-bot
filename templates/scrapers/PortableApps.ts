@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/class";
 import { robustGet, robustParseRedirect } from "../../src/network";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { log } from "../../src/utils";
 import GitHubRelease from "./GitHub_Release";
 
@@ -49,7 +49,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
 
   // 获取有效节点
   let dom_node;
-  for (let i of validClassName) {
+  for (const i of validClassName) {
     dom_node = dom_box.children(i);
     if (dom_node.attr("class")) {
       break;
@@ -89,6 +89,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
       break;
     case "download-info":
       // 获取box的首个子节点
+      // eslint-disable-next-line no-case-declarations
       const dom_btn = dom_box.children("a");
 
       // 产生两个属性
@@ -170,11 +171,8 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   if (result.sha256 == undefined) {
     result.sha256 = "";
   }
-  
-  if (
-    result.sha256 !== "" &&
-    result.sha256.match(/^([a-f0-9]{64})$/) == null
-  ) {
+
+  if (result.sha256 !== "" && result.sha256.match(/^([a-f0-9]{64})$/) == null) {
     log("Warning:Fail to check sha256,got " + result.sha256);
     result.sha256 = "";
   }
@@ -189,24 +187,25 @@ export default async function (
   p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
   //获取页面
-  let page = (await robustGet(p.url)).unwrap();
+  const page = (await robustGet(p.url)).unwrap();
   //解析
-  let { text, href, sha256 } = (await scrapePage(page)).unwrap();
-  log(`Info:Get sha256 : ${sha256}`)
+  // eslint-disable-next-line prefer-const
+  let { text, href, sha256 } = (await scrapePage(page as string)).unwrap();
+  log(`Info:Get sha256 : ${sha256}`);
 
   //处理跳转到 GitHub 备用下载的情况
-  const trueUrlRes=await robustParseRedirect(href);
-  const trueUrl=trueUrlRes.unwrapOr("");
-  if(trueUrl.indexOf("github.com")>-1){
+  const trueUrlRes = await robustParseRedirect(href);
+  const trueUrl = trueUrlRes.unwrapOr("");
+  if (trueUrl.indexOf("github.com") > -1) {
     //交给 GitHub Release 爬虫处理
-    log(`Info:GitHub Releases backup download detected : ${trueUrl}`)
-    const res= await GitHubRelease({
-      taskName:p.taskName,
-      url:trueUrl
-    })
-    log(`Info:Get gr parsed result : ${JSON.stringify(res)}`)
-    if(res.err) return res;
-    href=res.unwrap().downloadLink;
+    log(`Info:GitHub Releases backup download detected : ${trueUrl}`);
+    const res = await GitHubRelease({
+      taskName: p.taskName,
+      url: trueUrl,
+    });
+    log(`Info:Get gr parsed result : ${JSON.stringify(res)}`);
+    if (res.err) return res;
+    href = res.unwrap().downloadLink;
   }
 
   return new Ok({

@@ -61,6 +61,11 @@ interface ProducerRegister {
 }
 ```
 
+:::tip
+爬虫与解析器模板的 `urlRegex` 和 `downloadLinkRegex` 均支持最大长度匹配，如果你的模板适用的 URL
+同样适用于另一个模板时请尽可能使匹配长度最大，参考 `GitHub Release` 和 `Scoop` 爬虫模板
+:::
+
 ## 编写模板
 
 运行 CLI 程序后生成的空白模板可能如下所示：
@@ -161,7 +166,7 @@ const $ = cheerio.load("HTML_PAGE_TEXT");
 Edgeless Bot 使用 [shelljs](https://github.com/shelljs/shelljs) 提供部分常用的 Shell 命令，通常用于制作器模板，可以通过如下代码使用：
 
 ```typescript
-const shell = require("shelljs");
+import shell from "shelljs";
 //示例：删除工作目录中的临时目录
 shell.rm("-rf", path.join(workshop, "temp"));
 ```
@@ -179,4 +184,5 @@ import { release } from "../../src/p7zip";
 :::
 
 ## 生成文档
+
 完成模板编写并使用示例任务测试后，你需要为你的模板编写使用文档。执行 `yarn new wiki` 运行一个 CLI 程序生成文档模板，然后在对应的模板中填充相关内容即可完成文档编写。

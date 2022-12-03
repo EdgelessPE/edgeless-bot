@@ -1,7 +1,7 @@
 # Click to Install
 
-* 类型：制作器
-* 入口：`Click2Install`
+- 类型：制作器
+- 入口：`Click2Install`
 
 在桌面上创建快捷方式让用户手动双击安装或运行
 
@@ -11,9 +11,9 @@
 
 ### shortcutName
 
-* 路径：`producer_required.shortcutName`
-* 类型：`string`
-* 说明：创建的快捷方式名称
+- 路径：`producer_required.shortcutName`
+- 类型：`string`
+- 说明：创建的快捷方式名称
 
 ## 可选的参数
 

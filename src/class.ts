@@ -2,7 +2,7 @@
 
 import {Result} from 'ts-results';
 
-type ValidationType = 'MD5' | 'SHA1'
+type ValidationType = 'MD5' | 'SHA1' | 'SHA256'
 
 interface ScraperParameters {
 	taskName: string;

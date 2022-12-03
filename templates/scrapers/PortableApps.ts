@@ -212,12 +212,12 @@ export default async function (
   return new Ok({
     version: text,
     downloadLink: href,
-    // validation:
-    //   md5 == ""
-    //     ? undefined
-    //     : {
-    //         type: "MD5",
-    //         value: md5,
-    //       },
+    validation:
+      sha256 == ""
+        ? undefined
+        : {
+            type: "SHA256",
+            value: sha256,
+          },
   });
 }

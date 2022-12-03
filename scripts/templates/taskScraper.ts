@@ -4,7 +4,8 @@ import { robustGet } from "../../src/network";
 import * as cheerio from "cheerio";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-  const $ = cheerio.load((await robustGet("http://localhost")).unwrap());
+  const html = (await robustGet("http://localhost")).unwrap() as string;
+  const $ = cheerio.load(html);
 
   //YOUR CODE HERE
 

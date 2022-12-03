@@ -12,7 +12,6 @@ module.exports = {
         "tasks/**/*.ts",
         "scripts/*.ts",
       ],
-      excludedFiles: ["./*.js", "./dist", "./workshop"],
     },
   ],
   parser: "@typescript-eslint/parser",
@@ -22,4 +21,5 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {},
+  ignorePatterns: ["*.js", "/dist", "/workshop"]
 };

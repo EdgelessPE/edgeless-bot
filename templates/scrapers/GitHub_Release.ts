@@ -13,15 +13,14 @@ function parseRepo(url: string): { owner: string; repo: string } {
 export default async function (
   p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
-  const { url } = p;
-  let version: string, downloadLink: string;
-  const repoInfo = parseRepo(url);
+  const { url } = p,
+    repoInfo = parseRepo(url);
 
   //将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
-  downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;
+  const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;
 
   //获取Json
-  let json;
+  let json: any;
   try {
     json = (await robustGet(downloadLink)).unwrap();
   } catch (e) {
@@ -37,7 +36,7 @@ export default async function (
   if (i == json.length) {
     i = 0;
   }
-  version = json[i].tag_name;
+  const version = json[i].tag_name;
   return new Ok({
     version,
     downloadLink,

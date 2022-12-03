@@ -8,7 +8,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
   const $ = cheerio.load(
     (
       await robustGet("https://www.neatdownloadmanager.com/index.php/en/")
-    ).unwrap()
+    ).unwrap() as any
   );
 
   //YOUR CODE HERE

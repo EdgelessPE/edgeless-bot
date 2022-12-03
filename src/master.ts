@@ -31,4 +31,5 @@ async function main() {
   parentPort?.postMessage(res);
 }
 
-main().then((_) => {});
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+main().then(() => {});

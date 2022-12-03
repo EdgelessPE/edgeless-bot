@@ -47,7 +47,7 @@ export default async function (
       `Error: Could not Get bucket ${bucketName}, please make sure bucketName is one of Main/Extras/Versions/games/java/nirsoft`
     );
   }
-  const response = (
+  const response: any = (
     await robustGet(`${bucketUrl}${temp.scoopManifestName}.json`, {
       responseType: "json",
     })

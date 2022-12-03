@@ -1,5 +1,3 @@
-import { config } from "./config";
-
 const PATH_CONFIG = "./config.toml",
   LIGHT_TIMEOUT = 30000,
   HEAVY_TIMEOUT = 300000;

@@ -49,21 +49,21 @@ function configGenerator(): Result<CONFIG, string> {
       },
     ];
     for (const coverNode of coverTable) {
-      if (args.hasOwnProperty(coverNode.arg)) {
+      if (args[coverNode.arg] != null) {
         json[coverNode.key] = args[coverNode.arg];
       }
     }
     //特殊处理-d参数
-    if (args.hasOwnProperty("d")) {
-      json["DATABASE_UPDATE"] = false;
-      json["REMOTE_ENABLE"] = false;
-      json["DEBUG_MODE"] = true;
-    } else {
-      if (json["ENABLE_CACHE"]) {
-        return new Err("Error: Only Debug Mode can enable download cache.");
+      if (args["d"] != null) {
+        json["DATABASE_UPDATE"] = false;
+        json["REMOTE_ENABLE"] = false;
+        json["DEBUG_MODE"] = true;
+      } else {
+        if (json["ENABLE_CACHE"]) {
+          return new Err("Error: Only Debug Mode can enable download cache.");
+        }
       }
-    }
-    return new Ok(json);
+      return new Ok(json);
   }
 }
 

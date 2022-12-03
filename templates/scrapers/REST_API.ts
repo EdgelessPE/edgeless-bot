@@ -27,19 +27,19 @@ export default async function (
   //发送请求
   const temp = p.scraper_temp as Temp;
   let json = (
-      await robustGet(
-        temp.api_url,
-        temp.referer == undefined
-          ? undefined
-          : {
-              headers: {
-                Referer: temp.referer,
-              },
-            }
-      )
-    ).unwrap(),
+    await robustGet(
+      temp.api_url,
+      temp.referer == undefined
+        ? undefined
+        : {
+            headers: {
+              Referer: temp.referer,
+            },
+          }
+    )
+  ).unwrap();
     //尝试读取json
-    versionReadRes = objChainReader(json, temp.version_path.split(".")),
+  const versionReadRes = objChainReader(json, temp.version_path.split(".")),
     linkReadRes = objChainReader(json, temp.download_path.split("."));
   if (typeof json == "string") {
     json = JSON.parse(json);

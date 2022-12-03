@@ -3,7 +3,7 @@ import { PROJECT_ROOT } from "../src/const";
 import path from "path";
 import { log } from "../src/utils";
 
-let dictionary: any = {},
+let dictionary: Record<string, string> = {},
   loaded = false;
 
 export function init() {
@@ -24,7 +24,7 @@ export function init() {
   }
 }
 
-export function _(eng: string): string {
+export function t(eng: string): string {
   if (loaded) {
     if (eng in dictionary) {
       return dictionary[eng];

@@ -4,26 +4,25 @@ const base = Math.floor(Math.random() * 14);
 let count = 0;
 
 export function getBadge(type: string): string {
-  let res;
   const choices = [
-    chalk.bgRed,
-    chalk.bgGreen,
-    chalk.bgYellow,
-    chalk.bgBlue,
-    chalk.bgMagenta,
-    chalk.bgCyan,
-    chalk.bgWhite,
-    chalk.bgGray,
-    chalk.bgRedBright,
-    chalk.bgGreenBright,
-    chalk.bgYellowBright,
-    chalk.bgBlueBright,
-    chalk.bgMagentaBright,
-    chalk.bgCyanBright,
-  ];
-  res = (choices[(base + count) % 14] ?? chalk.bgWhiteBright)(
-    type + " " + count
-  );
+      chalk.bgRed,
+      chalk.bgGreen,
+      chalk.bgYellow,
+      chalk.bgBlue,
+      chalk.bgMagenta,
+      chalk.bgCyan,
+      chalk.bgWhite,
+      chalk.bgGray,
+      chalk.bgRedBright,
+      chalk.bgGreenBright,
+      chalk.bgYellowBright,
+      chalk.bgBlueBright,
+      chalk.bgMagentaBright,
+      chalk.bgCyanBright,
+    ],
+    res = (choices[(base + count) % 14] ?? chalk.bgWhiteBright)(
+      type + " " + count
+    );
 
   count++;
 

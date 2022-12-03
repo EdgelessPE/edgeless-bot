@@ -1,8 +1,7 @@
 import readline from "readline";
 import chalk from "chalk";
 import { Err, Ok, Result } from "ts-results";
-import { _ } from "../i18n/i18n";
-import { log } from "../src/utils";
+import { t } from "../i18n/i18n";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -12,7 +11,7 @@ const rl = readline.createInterface({
 async function ask(tip: string, head?: string): Promise<string> {
   return new Promise((resolve) => {
     rl.question(
-      (head ?? chalk.blue(_("Question "))) + _(tip) + chalk.gray(" > "),
+      (head ?? chalk.blue(t("Question "))) + t(tip) + chalk.gray(" > "),
       (answer) => {
         resolve(answer);
         return;
@@ -33,7 +32,7 @@ async function input(
     //允许缺省
     //空值且未定义缺省值，或是未通过正则校验
     if (defaultVal == undefined) {
-      console.log(chalk.red(_("Error ")) + _("Please input value"));
+      console.log(chalk.red(t("Error ")) + t("Please input value"));
       r = await input(tip, defaultVal, regex);
     } else {
       r = defaultVal;
@@ -41,7 +40,7 @@ async function input(
   }
   if (regex != undefined && r.match(regex) == null) {
     console.log(
-      chalk.red(_("Error ")) + _("Please input valid value matching ") + regex
+      chalk.red(t("Error ")) + t("Please input valid value matching ") + regex
     );
     r = await input(tip, defaultVal, regex);
   }
@@ -53,6 +52,7 @@ async function select(
   options: string[],
   defaultIndex?: number
 ): Promise<number> {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (
       defaultIndex != undefined &&
@@ -63,19 +63,19 @@ async function select(
       );
       return;
     }
-    console.log(chalk.blue(_("Question ")) + tip);
+    console.log(chalk.blue(t("Question ")) + tip);
     options.forEach((item, index) => {
       console.log(
         chalk.yellow(index + 1 + ". ") +
           item +
           (defaultIndex && defaultIndex - 1 == index
-            ? chalk.yellowBright("	(" + _("default") + ")")
+            ? chalk.yellowBright("	(" + t("default") + ")")
             : "")
       );
     });
     console.log("");
     const r = await ask(
-      _("Input index") +
+      t("Input index") +
         (defaultIndex ? chalk.yellowBright(` (${defaultIndex})`) : ""),
       ""
     );
@@ -85,7 +85,7 @@ async function select(
         resolve(defaultIndex - 1);
         return;
       } else {
-        console.log(chalk.red(_("Error ")) + _("Please input index"));
+        console.log(chalk.red(t("Error ")) + t("Please input index"));
         resolve(await select(tip, options, defaultIndex));
         return;
       }
@@ -93,16 +93,16 @@ async function select(
     //校验输入
     if (r.match(/^[0-9]+$/) == null) {
       console.log(
-        chalk.red(_("Error ")) +
-          _("Invalid input, please input index") +
+        chalk.red(t("Error ")) +
+          t("Invalid input, please input index") +
           ` (1-${options.length})`
       );
       resolve(await select(tip, options, defaultIndex));
       return;
     } else if (Number(r) < 1 || Number(r) > options.length) {
       console.log(
-        chalk.red(_("Error ")) +
-          _("Input out of range, please input index") +
+        chalk.red(t("Error ")) +
+          t("Input out of range, please input index") +
           ` (1-${options.length})`
       );
       resolve(await select(tip, options, defaultIndex));
@@ -118,9 +118,9 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
   const r = await ask(
     tip +
       ` (${
-        defaultVal === true ? chalk.yellowBright(_("default") + " ") : ""
+        defaultVal === true ? chalk.yellowBright(t("default") + " ") : ""
       }y/${
-        defaultVal === false ? chalk.yellowBright(_("default") + " ") : ""
+        defaultVal === false ? chalk.yellowBright(t("default") + " ") : ""
       }n)`
   );
 
@@ -138,7 +138,7 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
   }
 
   //处理输入错误
-  console.log(chalk.red(_("Error ")) + _("Please input 'y' or 'n'"));
+  console.log(chalk.red(t("Error ")) + t("Please input 'y' or 'n'"));
   return bool(tip, defaultVal);
 }
 
@@ -147,8 +147,8 @@ async function stringArray(
   defaultVal?: string[],
   regex?: RegExp
 ): Promise<string[]> {
-  let df = undefined,
-    allowEmpty = defaultVal != undefined && defaultVal.length == 0;
+  let df = undefined;
+  const allowEmpty = defaultVal != undefined && defaultVal.length == 0;
 
   //生成字符串型默认值
   if (defaultVal != undefined) {
@@ -221,8 +221,8 @@ function inputRequiredKey(
   toml: string,
   value: string
 ): Result<string, string> {
-  let p = keyChain.split("."),
-    replaceTitleWith = "";
+  const p = keyChain.split(".");
+  let replaceTitleWith = "";
   //匹配表头
   const m = toml.match(genRegExpForToml(p[0]));
   if (m == null) {

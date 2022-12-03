@@ -64,7 +64,7 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
     rcInfo(
       path.join(cd, file),
       (
-        error: any,
+        error: unknown,
         info: {
           FileVersion: string;
         }
@@ -203,9 +203,9 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
   if (!fs.existsSync(tasksDir)) {
     return new Err("Error:Task directory not exist : " + tasksDir);
   }
-  const dirList = fs.readdirSync(tasksDir);
-  let result = [],
-    success = true,
+  const dirList = fs.readdirSync(tasksDir),
+    result = [];
+  let success = true,
     tmp;
   for (const taskName of dirList) {
     tmp = getSingleTask(taskName);
@@ -520,8 +520,8 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
     t.info.version = version;
     //如果版本号和数据库中一样说明没有更新
-    let ctn = true,
-      db = getDatabaseNode(t.task.name);
+    let ctn = true;
+    const db = getDatabaseNode(t.task.name);
     switch (versionCmp(version, db.recent.latestVersion)) {
       case Cmp.E:
         //与数据库一致，没有更新
@@ -601,12 +601,13 @@ function getDefaultCompressLevel(templateName: string): number {
       break;
     }
   }
-  return 5;
+  return level;
 }
 
 async function executeTasks(
   ts: Array<ExecuteParameter>
 ): Promise<Array<ResultReport>> {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     if (ts.length == 0) {
       log("Info:No tasks to be executed");
@@ -614,8 +615,8 @@ async function executeTasks(
       return;
     }
     const total = ts.length;
-    let r = "",
-      normalTasks: Array<ExecuteParameter> = [],
+    let r = "";
+    const normalTasks: Array<ExecuteParameter> = [],
       requireWindowsTasks: Array<ExecuteParameter> = [];
     ts.forEach((item) => {
       //生成tip
@@ -628,8 +629,8 @@ async function executeTasks(
       }
     });
     log(`Info:Starting executing ${total} tasks :${r}`);
-    let done = 0,
-      collection: Array<ResultReport> = [];
+    let done = 0;
+    const collection: Array<ResultReport> = [];
     const collect = (res: Result<string, string>, t: ExecuteParameter) => {
       //处理缺失版本号但是无更新的情况
       if (res.ok && res.val == "missing_version") {
@@ -686,10 +687,10 @@ function removeExtraBuilds(
   });
   log("Info:Trying to remove extra builds");
   // Builds去重
-  const hashMap: any = {};
+  const hashMap: Record<string, boolean> = {};
   let buildList: Array<BuildStatus> = [];
   for (const build of allBuilds) {
-    if (!hashMap.hasOwnProperty(build.version)) {
+    if (!hashMap[build.version]) {
       hashMap[build.version] = true;
       buildList.push(build);
     }

@@ -13,6 +13,7 @@ import { Err, Ok, Result } from "ts-results";
 import { awaitWithTimeout, log } from "./utils";
 import { HEAVY_TIMEOUT, LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY } from "./const";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();
 
 export let badge = "Worker";
@@ -103,8 +104,8 @@ async function resolver(
     const script = dirtyScript.default as (
       p: ResolverParameters
     ) => Promise<Result<ResolverReturned, string>>;
-    let res,
-      url = workerData.url;
+    let res;
+    const { url } = workerData;
     try {
       res = (await awaitWithTimeout(script, LIGHT_TIMEOUT, {
         downloadLink: url,

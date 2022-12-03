@@ -14,7 +14,7 @@ let aria2c_process: cp.ChildProcess,
 
 //启动和管理aria2c进程
 async function spawnAria2c(binPath: string): Promise<boolean> {
-  return new Promise(async (resolve) => {
+  return new Promise((resolve) => {
     const args = [
       "--enable-rpc",
       "--rpc-allow-origin-all=true",
@@ -39,7 +39,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
     aria2c_process = cp.exec(
       binPath + argsString,
       { cwd: PROJECT_ROOT },
-      (err) => {
+      () => {
         aria2c_alive = false;
         if (sent_kill) {
           log("Info:Aria2c exit");
@@ -50,12 +50,13 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
       }
     );
     //保持1s不退出即视为启动成功
-    await sleep(config.GITHUB_ACTIONS ? 5000 : 1000);
-    log(
-      `Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`
-    );
-    aria2c_alive = true;
-    resolve(true);
+    sleep(config.GITHUB_ACTIONS ? 5000 : 1000).then(() => {
+      log(
+        `Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`
+      );
+      aria2c_alive = true;
+      resolve(true);
+    });
   });
 }
 
@@ -68,7 +69,7 @@ async function stopAria2c(): Promise<void> {
       } else {
         aria2c_process.kill("SIGHUP");
       }
-      aria2c_process.on("exit", (_) => {
+      aria2c_process.on("exit", () => {
         resolve();
       });
     } else {
@@ -79,6 +80,7 @@ async function stopAria2c(): Promise<void> {
 
 //由外部调用的初始化函数
 async function initAria2c(): Promise<boolean> {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     //获得二进制配置
     const binRes = where("aria2c");
@@ -136,14 +138,15 @@ async function download(
   url: string,
   dir: string
 ): Promise<string> {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     //处理以 // 开头的链接
     if (url.slice(0, 2) == "//") {
       url = "https:" + url;
     }
     log(`Info:Get download address : ${url}`);
-    let filename = "",
-      startTime = Date.now();
+    let filename = "";
+    const startTime = Date.now();
     try {
       // Cp.execSync("wget -O target.exe " + url, {cwd: dir});
       log(`Info:Start downloading ${taskName}...`);
@@ -157,18 +160,14 @@ async function download(
       let done = false,
         checked = false,
         status,
-        percent,
-        speed;
-      // const progress = ora({
-      //     text: 'Downloading ' + taskName + '...',
-      //     prefixText: chalk.blue('Info'),
-      // });
-      //progress.start();
+        percent;
+
       while (!done) {
         await sleep(500);
         status = await aria2c_handler.tellStatus(gid);
         if (status.status == "error") {
-          throw status;
+          reject(status);
+          return;
         }
 
         if (status.status == "complete") {
@@ -226,7 +225,7 @@ async function download(
       }
       // progress.succeed(taskName + ' downloaded');
       // progress.stop()
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.log(err);
       reject("Error:Download progress thrown");
       return;

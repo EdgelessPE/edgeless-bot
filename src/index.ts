@@ -30,6 +30,7 @@ import * as TOML from "toml";
 import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();
 
 async function main(): Promise<boolean> {
@@ -139,8 +140,8 @@ async function test(): Promise<boolean> {
   const o = fs.readdirSync(oldTasksDir),
     n = fs.readdirSync(newTasksDir);
   //读取旧任务
-  let oTasks: TaskTemp[] = [],
-    tmp;
+  const oTasks: TaskTemp[] = [];
+  let tmp;
   for (const taskName of o) {
     tmp = JSON.parse(
       fs

@@ -11,7 +11,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
   const res = await robustGet(
     "https://app.bilibili.com/x/v2/version?mobi_app=html5_mobile"
   );
-  const arr = res.unwrap().data.map((n: any) => n.version);
+  const arr = (res.unwrap() as any).data.map((n: any) => n.version);
 
   //匹配最大版本号
   let maxVersion = "0.0.0",

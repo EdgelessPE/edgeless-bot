@@ -16,9 +16,9 @@ interface RequiredObject {
 }
 
 function matchFile(cwd: string, regex: string): Result<string, string> {
-  const dir = fs.readdirSync(cwd);
-  let m = undefined,
+  const dir = fs.readdirSync(cwd),
     r = new RegExp(regex.slice(1, -1));
+  let m = undefined;
   for (const name of dir) {
     if (name.match(r) != null) {
       m = name;
@@ -37,12 +37,12 @@ export default async function (
 ): Promise<Result<ProducerReturned, string>> {
   //递归解压
   let cwd = p.workshop,
-    obj = p.requiredObject as RequiredObject,
     level = 1,
     success = true,
     reason = "",
     m,
     file: string;
+  const obj = p.requiredObject as RequiredObject;
   for (const reg of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
     //校验文件是否存在
     if (reg[0] == "/") {

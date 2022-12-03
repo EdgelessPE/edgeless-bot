@@ -29,6 +29,9 @@ export default async function (
     false,
     workshop
   );
+  if (!s) {
+    return new Err(`Error:Can't release ${downloadedFile}`);
+  }
 
   //清理
   if (obj.autoClean == undefined || obj.autoClean) {

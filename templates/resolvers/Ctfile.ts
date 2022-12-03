@@ -79,8 +79,8 @@ async function getDirectoryList(
     aaData: Array<string[]>;
   };
   //处理文件列表
-  let res: Node[] = [],
-    text: string,
+  const res: Node[] = [];
+  let text: string,
     m,
     temp,
     id,

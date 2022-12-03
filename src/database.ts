@@ -50,7 +50,7 @@ function writeDatabase() {
 
 //需要在read后调用
 function getDatabaseNode(taskName: string): DatabaseNode {
-  if (database.hasOwnProperty(taskName)) {
+  if (database[taskName] != null) {
     const node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
     node["taskName"] = taskName;
     return node;

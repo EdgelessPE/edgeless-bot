@@ -29,7 +29,7 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
 async function singleFetch(
   url: string,
   axiosConfig?: AxiosRequestConfig
-): Promise<Result<any, string>> {
+): Promise<Result<unknown, string>> {
   let res;
   try {
     res = await axios.get(url, getConfig(axiosConfig));
@@ -44,7 +44,7 @@ async function singleFetch(
 async function robustGet(
   url: string,
   axiosConfig?: AxiosRequestConfig
-): Promise<Result<any, string>> {
+): Promise<Result<unknown, string>> {
   let result = null,
     r;
   for (let i = 0; i < config.MAX_RETRY_SCRAPER; i++) {

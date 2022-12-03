@@ -9,7 +9,7 @@ export default async function (
   const { downloadLink, fileMatchRegex } = p;
 
   //获取Json
-  let json;
+  let json: any;
   try {
     json = (await robustGet(downloadLink)).unwrap();
   } catch (e) {
@@ -17,8 +17,8 @@ export default async function (
     return new Err(`Error:Can't fetch ${downloadLink}`);
   }
   //匹配assets数组
-  let regex = new RegExp(fileMatchRegex),
-    i = 0;
+  const regex = new RegExp(fileMatchRegex);
+  let i = 0;
   //过滤预发布
   while (json[i].prerelease && i < json.length) {
     i++;

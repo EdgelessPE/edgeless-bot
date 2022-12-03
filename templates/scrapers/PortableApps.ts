@@ -89,6 +89,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
       break;
     case "download-info":
       // 获取box的首个子节点
+      // eslint-disable-next-line no-case-declarations
       const dom_btn = dom_box.children("a");
 
       // 产生两个属性
@@ -188,7 +189,8 @@ export default async function (
   //获取页面
   const page = (await robustGet(p.url)).unwrap();
   //解析
-  let { text, href, sha256 } = (await scrapePage(page)).unwrap();
+  // eslint-disable-next-line prefer-const
+  let { text, href, sha256 } = (await scrapePage(page as string)).unwrap();
   log(`Info:Get sha256 : ${sha256}`);
 
   //处理跳转到 GitHub 备用下载的情况

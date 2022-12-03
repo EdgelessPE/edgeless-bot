@@ -63,17 +63,18 @@ function where(command: string): Result<string, string> {
   //查找可能的命令
   let result = "";
   let node;
-  let testCmd = getOS() == "Windows" ? "where" : "which",
-    _;
+  const testCmd = getOS() == "Windows" ? "where" : "which";
   //根据possibleCommands查找
   for (let i = 0; i < possibleCommands.length; i++) {
     node = possibleCommands[i];
     //使用which/where
     try {
-      _ = cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
+      cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
       result = node;
       break;
-    } catch (_) {}
+    } catch (e) {
+      /* empty */
+    }
     //生成可能的绝对路径
     const possibleAbsolutePaths = [
       node,
@@ -108,8 +109,8 @@ function where(command: string): Result<string, string> {
 }
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
-  let list = ["aria2c", "p7zip"],
-    suc: "Full" | "POSIX" | "Unavailable" = "Full";
+  const list = ["aria2c", "p7zip"];
+  let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
     list.push("rclone");
   }

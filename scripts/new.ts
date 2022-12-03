@@ -15,7 +15,7 @@ import { CATEGORIES, PROJECT_ROOT } from "../src/const";
 import fs from "fs";
 import path from "path";
 import { config } from "../src/config";
-import { _, init } from "../i18n/i18n";
+import { t, init } from "../i18n/i18n";
 import scraperRegister from "../templates/scrapers/_register";
 import resolverRegister from "../templates/resolvers/_register";
 import producerRegister from "../templates/producers/_register";
@@ -61,22 +61,22 @@ interface Schema {
 function printHelp() {
   //展示帮助信息
   console.log("");
-  console.log(chalk.blue(_("Usage ")) + "yarn new [task/template/wiki]");
+  console.log(chalk.blue(t("Usage ")) + "yarn new [task/template/wiki]");
   console.log("");
-  console.log(_("Create new task / template / template wiki for Edgeless Bot"));
+  console.log(t("Create new task / template / template wiki for Edgeless Bot"));
   console.log("");
 }
 
 async function createTask() {
   let producerEntrance = "",
-    taskName = await input(_("Task name")),
     taskToml = fs.readFileSync("./scripts/templates/task.toml").toString();
+  const taskName = await input(t("Task name"));
   //创建任务文件夹
   const taskDir = path.join(PROJECT_ROOT, config.DIR_TASKS, taskName),
     configPath = path.join(taskDir, "config.toml");
   if (
     fs.existsSync(configPath) &&
-    !(await bool(_("Already exist, overwrite?"), false))
+    !(await bool(t("Already exist, overwrite?"), false))
   ) {
     return;
   }
@@ -86,16 +86,16 @@ async function createTask() {
   let recommendedManifest = ["${taskName}.wcs", "${taskName}"];
   const inputProducer = async () => {
     const index = await select(
-      _("Producer template"),
+      t("Producer template"),
       (() => {
         const r: string[] = [];
         producerRegister.forEach((item) => {
-          r.push(_(item.name) + "\n" + _(item.description));
+          r.push(t(item.name) + "\n" + t(item.description));
         });
         r.push(
-          _("External") +
+          t("External") +
             "\n" +
-            _("Use your own 'producer.ts' script to produce")
+            t("Use your own 'producer.ts' script to produce")
         );
         return r;
       })()
@@ -134,10 +134,8 @@ async function createTask() {
     const schemaJson = JSON.parse(
       fs.readFileSync(schemaFilePath).toString()
     ) as Schema;
-    let t: SchemaType,
-      resJson: any = {},
-      tmp: string,
-      d: string | undefined;
+    let schemaType: SchemaType, tmp: string, d: string | undefined;
+    const resJson: any = {};
     if (schemaJson.required) {
       for (const key of schemaJson.required) {
         //打印description
@@ -145,23 +143,23 @@ async function createTask() {
         if (d != undefined) {
           console.log("");
           console.log(
-            chalk.bgGray(_("Key description for ") + key) + " : " + _(d)
+            chalk.bgGray(t("Key description for ") + key) + " : " + t(d)
           );
         }
-        t = schemaJson.properties[key].type;
-        switch (t) {
+        schemaType = schemaJson.properties[key].type;
+        switch (schemaType) {
           case "array":
             resJson[key] = await stringArray(
-              `${_("Producer required ")}${chalk.cyan(_("array"))}${_(
+              `${t("Producer required ")}${chalk.cyan(t("array"))}${t(
                 " parameter"
-              )}：${key}, ${_("split with ,")}`,
+              )}：${key}, ${t("split with ,")}`,
               []
             );
             break;
           case "integer":
             resJson[key] = Number(
               await input(
-                `${_("Producer required ")}${chalk.cyan(_("integer"))}${_(
+                `${t("Producer required ")}${chalk.cyan(t("integer"))}${t(
                   " parameter"
                 )}：${key}`,
                 undefined,
@@ -174,9 +172,9 @@ async function createTask() {
               resJson["producer_required"] = {};
             }
             tmp = await input(
-              `${_("Producer required ")}${chalk.cyan(_("object"))}${_(
+              `${t("Producer required ")}${chalk.cyan(t("object"))}${t(
                 " parameter"
-              )}：${key},${_("input Json string contained by {}")}`,
+              )}：${key},${t("input Json string contained by {}")}`,
               undefined,
               /{.*}/
             );
@@ -192,7 +190,7 @@ async function createTask() {
             break;
           case "string":
             resJson[key] = await input(
-              `${_("Producer required ")}${chalk.cyan(_("string"))}${_(
+              `${t("Producer required ")}${chalk.cyan(t("string"))}${t(
                 " parameter"
               )}：${key}`,
               key == "shortcutName" ? taskName : undefined
@@ -200,7 +198,7 @@ async function createTask() {
             break;
           default:
             log(
-              `Error:Unimplemented type ${t}, please modify toml config later manually`
+              `Error:Unimplemented type ${schemaType}, please modify toml config later manually`
             );
             resJson[key] = "";
         }
@@ -221,7 +219,7 @@ async function createTask() {
         taskToml = inputRequiredKey(
           key,
           taskToml,
-          await input(_("Scraper required parameter：") + key)
+          await input(t("Scraper required parameter：") + key)
         ).unwrapOr(taskToml);
       } else {
         //生成提示语
@@ -234,7 +232,7 @@ async function createTask() {
   const inputUpstreamUrl = async (): Promise<string> => {
     //要求输入上游URL
     const url = await input(
-      _("Upstream URL"),
+      t("Upstream URL"),
       taskName == "1" ? TEST_URL : undefined,
       /^https?:\/\/\S+/
     );
@@ -242,17 +240,17 @@ async function createTask() {
     for (const node of scraperRegister.reverse()) {
       if (url.match(node.urlRegex) != null) {
         console.log(
-          chalk.blueBright(_("Info ")) +
-            _("Matched scraper template ") +
-            chalk.cyanBright(_(node.name))
+          chalk.blueBright(t("Info ")) +
+            t("Matched scraper template ") +
+            chalk.cyanBright(t(node.name))
         );
         //如果有required keys 则提示
         if (node.requiredKeys.length > 0) {
           const s = await inputRequiredKeys(node.requiredKeys);
           if (s != "") {
             console.log(
-              chalk.yellow(_("Warning ")) +
-                _("Remember to add these keys manually later : ") +
+              chalk.yellow(t("Warning ")) +
+                t("Remember to add these keys manually later : ") +
                 chalk.cyan(s.slice(0, -1))
             );
           }
@@ -266,7 +264,7 @@ async function createTask() {
       //询问是否需要外置scraper
       if (
         await bool(
-          _("No scraper template matched, use external scraper?"),
+          t("No scraper template matched, use external scraper?"),
           false
         )
       ) {
@@ -288,12 +286,12 @@ async function createTask() {
           const choiceArray = [];
           for (const i of universalList) {
             choiceArray.push(
-              _(i.name) + (i.description ? "\n" + _(i.description) : "")
+              t(i.name) + (i.description ? "\n" + t(i.description) : "")
             );
           }
           //让用户选择
           const index = await select(
-            _("Universal scraper template"),
+            t("Universal scraper template"),
             choiceArray
           );
           scraperEntrance = universalList[index].entrance;
@@ -304,16 +302,16 @@ async function createTask() {
             );
             if (tip != "") {
               console.log(
-                chalk.yellow(_("Warning ")) +
-                  _("Remember to add these keys manually later : ") +
+                chalk.yellow(t("Warning ")) +
+                  t("Remember to add these keys manually later : ") +
                   chalk.cyan(tip.slice(0, -1))
               );
             }
           }
         } else {
           console.log(
-            _("Warning ") +
-              _(
+            t("Warning ") +
+              t(
                 "No universal scraper template found, consider modify task config manually later"
               )
           );
@@ -341,8 +339,8 @@ async function createTask() {
   const json: TaskInput = {
     task: {
       name: taskName,
-      category: Categories[await select(_("Task category"), Categories)],
-      author: await input(_("Author")),
+      category: Categories[await select(t("Task category"), Categories)],
+      author: await input(t("Author")),
       url: await inputUpstreamUrl(),
     },
     template: {
@@ -350,11 +348,11 @@ async function createTask() {
       scraper: getScraper(),
     },
     regex: {
-      download_name: await input(_("Regex for downloaded file"), "\\.exe"),
+      download_name: await input(t("Regex for downloaded file"), "\\.exe"),
     },
     parameter: {
       build_manifest: await stringArray(
-        _("Build manifest, split file name with ,"),
+        t("Build manifest, split file name with ,"),
         recommendedManifest
       ),
     },
@@ -365,11 +363,11 @@ async function createTask() {
   //console.log(JSON.stringify(json,null,2));
   fs.writeFileSync(configPath, applyInput(taskToml, json, "").unwrap());
   console.log(
-    chalk.green(_("Success ")) +
-      _("Task config saved to ") +
+    chalk.green(t("Success ")) +
+      t("Task config saved to ") +
       chalk.cyanBright(configPath) +
       ", " +
-      _("test it with ") +
+      t("test it with ") +
       chalk.cyan(`yarn dev -t "${taskName}"`)
   );
 }
@@ -386,10 +384,10 @@ function registerTemplate(
     regex2 = new RegExp(`entrance:\\s*"${node.entrance}"`);
   if (text.match(regex1) || text.match(regex2)) {
     console.log(
-      chalk.red(_(`Error `)) +
-        _(`Given name or entrance already registered in `) +
+      chalk.red(t(`Error `)) +
+        t(`Given name or entrance already registered in `) +
         chalk.cyanBright(filePath) +
-        _(`, delete register node before continue`)
+        t(`, delete register node before continue`)
     );
     process.exit(1);
   }
@@ -403,10 +401,10 @@ function registerTemplate(
 }
 
 async function inputDescription(): Promise<string> {
-  const r = await input(_("Template description(use English)"));
+  const r = await input(t("Template description(use English)"));
   console.log(
-    chalk.blueBright(_("Info ")) +
-      _(
+    chalk.blueBright(t("Info ")) +
+      t(
         'If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'
       )
   );
@@ -414,52 +412,52 @@ async function inputDescription(): Promise<string> {
 }
 
 async function createTemplate() {
-  let templatePath;
+  let templatePath, json;
   switch (
-    await select(_("Template type"), [
-      _("Scraper"),
-      _("Resolver"),
-      _("Producer"),
+    await select(t("Template type"), [
+      t("Scraper"),
+      t("Resolver"),
+      t("Producer"),
     ])
   ) {
     //创建scraper
     case 0:
       //输入一个ScraperRegister
-      const jsonS: ScraperRegister = {
-        name: await input(_("Template title")),
+      json = {
+        name: await input(t("Template title")),
         entrance: await input(
-          _("Template id, should be brief and without space"),
+          t("Template id, should be brief and without space"),
           undefined,
           /^\S+$/
         ),
         urlRegex: await input(
-          _(
+          t(
             "Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template"
           ),
           "universal://"
         ),
         requiredKeys: await stringArray(
-          _(
+          t(
             "Required keys in task config, e.g. regex.scraper_version , split different objects with ,"
           ),
           []
         ),
-      };
+      } as ScraperRegister;
       //对通用爬虫增加description
-      if (jsonS.urlRegex == "universal://") {
-        jsonS["description"] = await inputDescription();
+      if (json.urlRegex == "universal://") {
+        json["description"] = await inputDescription();
       }
       //注册
-      registerTemplate(jsonS, "scrapers");
+      registerTemplate(json, "scrapers");
       //复制生成模板
-      templatePath = `./templates/scrapers/${jsonS.entrance}.ts`;
+      templatePath = `./templates/scrapers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/scraper.ts", templatePath);
       //报告
       console.log(
-        chalk.green(_("Success ")) +
-          _("Template saved to ") +
+        chalk.green(t("Success ")) +
+          t("Template saved to ") +
           chalk.cyanBright(templatePath) +
-          _(
+          t(
             ', template register information saved to "_register.ts" in the same directory'
           )
       );
@@ -467,37 +465,37 @@ async function createTemplate() {
     //创建resolver
     case 1:
       //输入一个ResolverRegister
-      const jsonR: ResolverRegister = {
-        name: await input(_("Template title")),
+      json = {
+        name: await input(t("Template title")),
         entrance: await input(
-          _("Template id, should be brief and without space"),
+          t("Template id, should be brief and without space"),
           undefined,
           /^\S+$/
         ),
         downloadLinkRegex: await input(
-          _(
+          t(
             "Matching URL Regex, e.g. https?://github.com/[^/]+/[^/]+, keep empty to specify a universal template"
           ),
           "universal://"
         ),
         requiredKeys: await stringArray(
-          _(
+          t(
             "Required keys in task config, e.g. parameter.resolver_cd , split different objects with ,"
           ),
           []
         ),
-      };
+      } as ResolverRegister;
       //注册
-      registerTemplate(jsonR, "resolvers");
+      registerTemplate(json, "resolvers");
       //复制生成模板
-      templatePath = `./templates/resolvers/${jsonR.entrance}.ts`;
+      templatePath = `./templates/resolvers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/resolver.ts", templatePath);
       //报告
       console.log(
-        chalk.green(_("Success ")) +
-          _("Template saved to ") +
+        chalk.green(t("Success ")) +
+          t("Template saved to ") +
           chalk.cyanBright(templatePath) +
-          _(
+          t(
             ', template register information saved to "_register.ts" in the same directory'
           )
       );
@@ -505,51 +503,53 @@ async function createTemplate() {
     //创建producer
     case 2:
       //输入一个ProducerRegister
-      const jsonP: ProducerRegister = {
-        name: await input(_("Template title")),
+      json = {
+        name: await input(t("Template title")),
         entrance: await input(
-          _("Template id, should be brief and without space"),
+          t("Template id, should be brief and without space"),
           undefined,
           /^\S+$/
         ),
         description: await inputDescription(),
         defaultCompressLevel: Number(
           await input(
-            _("Default compress level, range from 1 to 10"),
+            t("Default compress level, range from 1 to 10"),
             "5",
             /^([1-9]|10)$/
           )
         ),
-      };
+      } as ProducerRegister;
+      // eslint-disable-next-line no-case-declarations
       const recommendedManifest = await stringArray(
-        _("Recommended manifest, ") + _("split with ,"),
+        t("Recommended manifest, ") + t("split with ,"),
         []
       );
       if (recommendedManifest.length > 0) {
-        jsonP.recommendedManifest = recommendedManifest;
+        json.recommendedManifest = recommendedManifest;
       }
       console.log(
-        chalk.blueBright(_("Info ")) +
-          _(
+        chalk.blueBright(t("Info ")) +
+          t(
             'If you want to show i18n version of your description, add key-value pair to "./i18n/LOCALE.json"'
           )
       );
       //注册
-      registerTemplate(jsonP, "producers");
+      registerTemplate(json, "producers");
       //复制生成模板
-      templatePath = `./templates/producers/${jsonP.entrance}.ts`;
+      templatePath = `./templates/producers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/producer.ts", templatePath);
       //复制生成schema.json
-      const schemaPath = `./schema/producer_templates/${jsonP.entrance}.json`;
+      // eslint-disable-next-line no-case-declarations
+      const schemaPath = `./schema/producer_templates/${json.entrance}.json`;
       shell.cp("./scripts/templates/schema.json", schemaPath);
       //报告
       console.log(
-        chalk.green(_("Success ")) +
-          _("Template saved to ") +
+        chalk.green(t("Success ")) +
+          t("Template saved to ") +
           chalk.cyanBright(templatePath) +
-          _(', schema for "producer_required" object saved to ') +
+          t(', schema for "producer_required" object saved to ') +
           chalk.cyanBright(schemaPath) +
-          _(
+          t(
             ', template register information saved to "_register.ts" in the same directory'
           )
       );
@@ -562,8 +562,7 @@ async function createWiki(): Promise<void> {
     name = null;
   let indexMD = "",
     m,
-    tmp,
-    n;
+    tmp;
   const types = ["scraper", "resolver", "producer"],
     regPool: Array<{ name: string; entrance: string }[]> = [
       scraperRegister,
@@ -598,14 +597,14 @@ async function createWiki(): Promise<void> {
   if (
     name == null ||
     !(await bool(
-      _("Create new wiki for ") + type + _(" template ") + name + " ?",
+      t("Create new wiki for ") + type + t(" template ") + name + " ?",
       true
     ))
   ) {
-    const typeI = await select(_("Template type"), [
-      _("Scraper"),
-      _("Resolver"),
-      _("Producer"),
+    const typeI = await select(t("Template type"), [
+      t("Scraper"),
+      t("Resolver"),
+      t("Producer"),
     ]);
     type = types[typeI];
     //列出模板文件列表
@@ -617,10 +616,10 @@ async function createWiki(): Promise<void> {
         }
       }
     );
-    name = list[await select(_("Create wiki for"), list)];
+    name = list[await select(t("Create wiki for"), list)];
     if (
       existWikiTree[typeI].includes(name) &&
-      !(await bool(_("Already exist, overwrite?"), false))
+      !(await bool(t("Already exist, overwrite?"), false))
     ) {
       return await createWiki();
     }
@@ -642,12 +641,12 @@ async function createWiki(): Promise<void> {
     indexMD = indexMD.replace(cmt, content + "\n" + cmt);
   };
   //读取模板文本
-  let regNode: ScraperRegister | ResolverRegister | ProducerRegister | null,
-    tsText = fs
-      .readFileSync(
-        path.join(process.cwd(), "templates", type + "s", name + ".ts")
-      )
-      .toString();
+  let regNode: ScraperRegister | ResolverRegister | ProducerRegister | null;
+  const tsText = fs
+    .readFileSync(
+      path.join(process.cwd(), "templates", type + "s", name + ".ts")
+    )
+    .toString();
   //定义注册池查询函数和清洗函数
   const getRegNode = function <T extends { entrance: string }>(
     regPool: T[],
@@ -726,7 +725,7 @@ async function createWiki(): Promise<void> {
           regNode.urlRegex == "universal://" ? "通用" : regNode.urlRegex
         }\`\n\n${
           regNode.description
-            ? _(regNode.description).replace(/\n/g, "\n\n")
+            ? t(regNode.description).replace(/\n/g, "\n\n")
             : "在此填写详细说明"
         }\n## 必须提供的参数\n${genParameterWiki(
           required
@@ -751,10 +750,10 @@ async function createWiki(): Promise<void> {
         );
         //打印提示
         console.log(
-          chalk.green(_("Success ")),
-          _("Wiki template saved to ") +
+          chalk.green(t("Success ")),
+          t("Wiki template saved to ") +
             chalk.cyanBright(wikiPath) +
-            _(", modify it to add more information")
+            t(", modify it to add more information")
         );
       } else {
         log(`Error:Template ${name} not registered yet`);
@@ -793,7 +792,7 @@ async function createWiki(): Promise<void> {
             : "") +
           `\n\n${
             regNode.description
-              ? _(regNode.description).replace(/\n/g, "\n\n")
+              ? t(regNode.description).replace(/\n/g, "\n\n")
               : "在此填写详细说明"
           }\n## 必须提供的参数\n${genParameterWiki(required)}`;
         //写Wiki
@@ -816,15 +815,15 @@ async function createWiki(): Promise<void> {
         );
         //打印提示
         console.log(
-          chalk.green(_("Success ")),
-          _("Wiki template saved to ") +
+          chalk.green(t("Success ")),
+          t("Wiki template saved to ") +
             chalk.cyanBright(wikiPath) +
-            _(", modify it to add more information")
+            t(", modify it to add more information")
         );
         if (required.length > 0) {
           console.log(
-            chalk.yellow(_("Warning ")),
-            _('Use "string" as the type of required keys, modify if discrepant')
+            chalk.yellow(t("Warning ")),
+            t('Use "string" as the type of required keys, modify if discrepant')
           );
         }
       } else {
@@ -860,7 +859,7 @@ async function createWiki(): Promise<void> {
                 obj.type == "array"
                   ? `Array<${(obj.items as any).type}>`
                   : (obj.type as string),
-              description: obj.description ? _(obj.description) : undefined,
+              description: obj.description ? t(obj.description) : undefined,
               title: "producer_required",
             });
           } else {
@@ -870,7 +869,7 @@ async function createWiki(): Promise<void> {
                 obj.type == "array"
                   ? `Array<${(obj.items as any).type}>`
                   : (obj.type as string),
-              description: obj.description ? _(obj.description) : undefined,
+              description: obj.description ? t(obj.description) : undefined,
               title: "producer_required",
             });
           }
@@ -880,7 +879,7 @@ async function createWiki(): Promise<void> {
           regNode.entrance
         }\`\n\n${
           regNode.description
-            ? _(regNode.description).replace(/\n/g, "\n\n")
+            ? t(regNode.description).replace(/\n/g, "\n\n")
             : "在此填写详细说明"
         }\n## 必须提供的参数\n${genParameterWiki(
           required
@@ -902,10 +901,10 @@ async function createWiki(): Promise<void> {
         );
         //打印提示
         console.log(
-          chalk.green(_("Success ")),
-          _("Wiki template saved to ") +
+          chalk.green(t("Success ")),
+          t("Wiki template saved to ") +
             chalk.cyanBright(wikiPath) +
-            _(", modify it to add more information")
+            t(", modify it to add more information")
         );
       } else {
         log(`Error:Template ${name} not registered yet`);
@@ -939,24 +938,6 @@ async function main() {
   }
 }
 
-async function test() {
-  //读取文本
-  const filePath = `./templates/scrapers/_register.ts`;
-  const text = fs.readFileSync(filePath).toString();
-  //查询是否存在重复
-  const node = {
-    name: "Scoop",
-    entrance: "Scoop",
-  };
-  const regex1 = new RegExp(`name:\\s*"${node.name}"`),
-    regex2 = new RegExp(`entrance:\\s*"${node.entrance}"`);
-  console.log(regex1);
-  console.log(JSON.stringify(text.match(regex1), null, 2));
-  // if(text.match(regex1)||text.match(regex2)){
-  // 	log(`Error:`+_(`Given name or entrance already registered in `)+chalk.cyanBright(filePath)+_(`, delete register node before continue`))
-  // }
-}
-
-main().then((_) => {
+main().then(() => {
   process.exit(0);
 });

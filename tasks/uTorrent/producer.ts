@@ -11,7 +11,7 @@ const shell = require("shelljs");
 export default async function (
   p: ProducerParameters
 ): Promise<Result<ProducerReturned, string>> {
-  const { taskName, downloadedFile, workshop } = p;
+  const { downloadedFile, workshop } = p;
 
   //Create ready directory
   const readyDir = path.join(workshop, "_ready");
@@ -20,9 +20,9 @@ export default async function (
   //移动安装程序
   shell.mv(path.join(workshop, downloadedFile), readyDir);
   //启动安装程序
-  const installer = cp.exec(downloadedFile, { cwd: readyDir }, (error) => {
-    log("Info:Installer exit");
-  });
+    const installer = cp.exec(downloadedFile, { cwd: readyDir }, () => {
+      log("Info:Installer exit");
+    });
 
   //发送回车
   await pressEnter([5, 5, 2, 2]);
@@ -38,7 +38,8 @@ export default async function (
 
   //退出安装进程
   await pressEnter([3]);
-  await sleep(1000);
+    await sleep(1000);
+    installer.kill();
 
   //删除安装包
   shell.rm(path.join(readyDir, downloadedFile));

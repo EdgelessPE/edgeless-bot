@@ -1,6 +1,6 @@
 import { ProducerParameters, ProducerReturned } from "../../src/class";
-import { Ok, Err, Result } from "ts-results";
-import { log, writeGBK } from "../../src/utils";
+import { Ok, Result } from "ts-results";
+import { writeGBK } from "../../src/utils";
 import path from "path";
 
 const shell = require("shelljs");

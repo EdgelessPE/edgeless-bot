@@ -176,8 +176,7 @@ function versionCmp(a: string, b: string): Cmp {
   // 处理前几位版本号相同但是位数不一致的情况，如1.3/1.3.0
   if (result === Cmp.E && x.length !== y.length) {
     // 找出较长的那一个
-    let t: Array<string>;
-    t = x.length < y.length ? y : x;
+    const t: Array<string> = x.length < y.length ? y : x;
     // 读取剩余位
     for (
       let i = Math.min(x.length, y.length);
@@ -199,13 +198,12 @@ async function awaitWithTimeout(
   timeout: number,
   payload?: any
 ): Promise<any> {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       reject("Await failed due to timeout");
     }, timeout);
     try {
-      const res = await closure(payload);
-      resolve(res);
+      closure(payload).then(resolve);
     } catch (e) {
       reject(JSON.stringify(e));
     }
@@ -282,7 +280,7 @@ function objectValidator(
   let valid = true;
   for (const node of checkList) {
     //检验必须但缺失
-    if (node.required && !object.hasOwnProperty(node.key)) {
+    if (node.required && object[node.key] == null) {
       log(`Error:Missing required key : ${node.key}`);
       valid = false;
       continue;
@@ -336,10 +334,7 @@ function objectValidator(
       }
       return res;
     };
-    if (
-      object.hasOwnProperty(node.key) &&
-      getType(object[node.key]) != node.type
-    ) {
+    if (object[node.key] != null && getType(object[node.key]) != node.type) {
       log(
         `Error:Expect typeof ${cd ?? ""}${node.key} to be ${explainType(
           node.type
@@ -351,7 +346,7 @@ function objectValidator(
     //递归检验对象
     if (
       node.type == JsObjectType.object &&
-      object.hasOwnProperty(node.key) &&
+      object[node.key] != null &&
       node.properties
     ) {
       valid = objectValidator(

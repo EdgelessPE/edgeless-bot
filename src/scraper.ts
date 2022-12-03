@@ -68,13 +68,13 @@ export default async function (
 ): Promise<Array<ResultNode>> {
   return new Promise((resolve, reject) => {
     //按同域任务分类
-    let classifyHash: {
-        [key: string]: {
-          entrance: string;
-          pool: Array<TaskInstance>;
-        };
-      } = {},
-      success = true,
+    const classifyHash: {
+      [key: string]: {
+        entrance: string;
+        pool: Array<TaskInstance>;
+      };
+    } = {};
+    let success = true,
       workerSum = 0;
     for (const task of tasks) {
       const mRes = searchTemplate(task.pageUrl, task.template.scraper);
@@ -84,7 +84,7 @@ export default async function (
         break;
       } else {
         const m = mRes.unwrap();
-        if (classifyHash.hasOwnProperty(m.name)) {
+        if (classifyHash[m.name] != null) {
           classifyHash[m.name].pool.push(task);
         } else {
           classifyHash[m.name] = {

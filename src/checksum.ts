@@ -22,7 +22,7 @@ async function getMD5(filePath: string): Promise<string> {
 
 async function getSHA1(filePath: string): Promise<string> {
   return new Promise((resolve) => {
-    checksum.file(filePath, (_: any, res: string) => {
+    checksum.file(filePath, (_: unknown, res: string) => {
       resolve(res);
     });
   });

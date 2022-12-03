@@ -198,7 +198,7 @@ export default async function (
   const trueUrl=trueUrlRes.unwrapOr("");
   if(trueUrl.indexOf("github.com")>-1){
     //交给 GitHub Release 爬虫处理
-    log(`"Info:GitHub Releases backup download detected : ${trueUrl}"`)
+    log(`Info:GitHub Releases backup download detected : ${trueUrl}`)
     const res= await GitHubRelease({
       taskName:p.taskName,
       url:trueUrl

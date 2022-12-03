@@ -9,7 +9,8 @@ module.exports = {
     ],
     "overrides": [
         {
-            files:["src/**/*.ts","templates/**/*.ts","tasks/**/*.ts","scripts/*.ts"]
+            files:["src/**/*.ts","templates/**/*.ts","tasks/**/*.ts","scripts/*.ts"],
+            excludedFiles: ["./*.js", "./dist","./workshop"],
         }
     ],
     "parser": "@typescript-eslint/parser",

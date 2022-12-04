@@ -24,6 +24,14 @@ function getOS(): OS {
 
 //查找程序位置，返回值为绝对路径时会包含双引号
 function where(command: string): Result<string, string> {
+  //相对路径解析封装
+  const parsePath = (p: string) => {
+    if (p.indexOf("./") > -1) {
+      return path.resolve(PROJECT_ROOT, p);
+    } else {
+      return p;
+    }
+  };
   //生成可能的位置
   let possibleCommands: Array<string> = [];
   let possiblePositions: Array<string> = [];
@@ -96,7 +104,7 @@ function where(command: string): Result<string, string> {
     });
   }
   if (result != "") {
-    return new Ok(path.resolve(PROJECT_ROOT, result));
+    return new Ok(parsePath(result));
   }
   //根据possiblePositions查找
   for (let i = 0; i < possiblePositions.length; i++) {
@@ -110,7 +118,7 @@ function where(command: string): Result<string, string> {
     }
   }
   if (result != "") {
-    return new Ok(path.resolve(PROJECT_ROOT, result));
+    return new Ok(parsePath(result));
   } else {
     return new Err(`Error:Can't find command : ${command}`);
   }

@@ -30,32 +30,32 @@ function where(command: string): Result<string, string> {
     case "p7zip":
       possibleCommands = ["7z", "p7zip", "7za"];
       possiblePositions = [
-        "./7z.exe",
-        "./bin/7z.exe",
-        "C:/Program Files/7-Zip/7z.exe",
-        "C:/Program Files (x86)/7-Zip/7z.exe",
-        process.env.PROGRAMFILESW6432 + "/7-Zip/7z.exe",
+        "./7z",
+        "./bin/7z",
+        "C:/Program Files/7-Zip/7z",
+        "C:/Program Files (x86)/7-Zip/7z",
+        process.env.PROGRAMFILESW6432 + "/7-Zip/7z",
       ];
       break;
     case "aria2c":
       possibleCommands = ["aria2c"];
       possiblePositions = [
-        "./aria2c.exe",
-        "./bin/aria2c.exe",
-        path.join(os.homedir(), "scoop/apps/aria2/current/aria2c.exe"),
+        "./aria2c",
+        "./bin/aria2c",
+        path.join(os.homedir(), "scoop/apps/aria2/current/aria2c"),
       ];
       break;
     case "rclone":
       possibleCommands = ["rclone"];
       possiblePositions = [
-        "./rclone.exe",
-        "./bin/rclone.exe",
-        path.join(os.homedir(), "scoop/apps/rclone/current/rclone.exe"),
+        "./rclone",
+        "./bin/rclone",
+        path.join(os.homedir(), "scoop/apps/rclone/current/rclone"),
       ];
       break;
     case "pecmd":
       possibleCommands = ["pecmd"];
-      possiblePositions = ["./pecmd.exe", "./bin/pecmd.exe"];
+      possiblePositions = ["./pecmd", "./bin/pecmd"];
       break;
     default:
       return new Err(`Error:Undefined command argument : ${command}`);
@@ -78,12 +78,16 @@ function where(command: string): Result<string, string> {
     //生成可能的绝对路径
     const possibleAbsolutePaths = [
       node,
-      node + ".exe",
       path.join(process.cwd(), node),
       path.join(__dirname, node),
-      path.join(process.cwd(), node + ".exe"),
-      path.join(__dirname, node + ".exe"),
     ];
+    if (getOS() == "Windows") {
+      possibleAbsolutePaths.push(
+        node + ".exe",
+        path.join(process.cwd(), node + ".exe"),
+        path.join(__dirname, node + ".exe")
+      );
+    }
     possibleAbsolutePaths.forEach((item) => {
       if (fs.existsSync(item)) {
         result = '"' + item + '"';
@@ -96,6 +100,9 @@ function where(command: string): Result<string, string> {
   //根据possiblePositions查找
   for (let i = 0; i < possiblePositions.length; i++) {
     node = possiblePositions[i];
+    if (getOS() == "Windows") {
+      node += ".exe";
+    }
     if (fs.existsSync(node)) {
       result = '"' + node + '"';
       break;

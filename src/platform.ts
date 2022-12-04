@@ -37,7 +37,7 @@ function where(command: string): Result<string, string> {
   let possiblePositions: Array<string> = [];
   switch (command) {
     case "p7zip":
-      possibleCommands = ["7z", "p7zip", "7za"];
+      possibleCommands = ["7z", "7zz", "7zzs", "p7zip", "7za"];
       possiblePositions = [
         "./7z",
         "./bin/7z",

@@ -39,12 +39,12 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
     aria2c_process = cp.exec(
       binPath + argsString,
       { cwd: PROJECT_ROOT },
-      () => {
+      (error) => {
         aria2c_alive = false;
         if (sent_kill) {
           log("Info:Aria2c exit");
         } else {
-          log("Error:Aria2c exit");
+          log(`Error:Aria2c exit : ${JSON.stringify(error)}`);
         }
         resolve(false);
       }

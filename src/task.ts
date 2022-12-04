@@ -478,7 +478,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
           downloadedFile,
           taskName: t.task.name,
           latestVersion: t.info.version,
-        })
+        }).replace("\\", "/")
       );
     }
     return final;

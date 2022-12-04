@@ -3,7 +3,6 @@ name: Debug
 on:
   pull_request:
     branches:
-      - next
       - develop
 
 jobs:

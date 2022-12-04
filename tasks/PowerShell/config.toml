@@ -1,0 +1,42 @@
+# 任务基本信息
+[task]
+name = "PowerShell"
+category = "运行环境"
+author = "Cno"
+url = "https://github.com/PowerShell/PowerShell"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'PowerShell-[0-9\.]+-win-x64.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}\\pwsh.exe"]
+build_cover = "cover"
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "PowerShell"
+sourceFile = "pwsh.exe"
+recursiveUnzipList = []
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

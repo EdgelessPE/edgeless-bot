@@ -1,0 +1,2 @@
+EXEC !setx.exe PATH "X:\Program Files\Edgeless\PowerShell"
+LINK X:\Users\Default\Desktop\PowerShell,%ProgramFiles%\Edgeless\PowerShell\pwsh.exe

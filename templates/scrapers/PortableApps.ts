@@ -191,7 +191,7 @@ export default async function (
   //解析
   // eslint-disable-next-line prefer-const
   let { text, href, sha256 } = (await scrapePage(page as string)).unwrap();
-  log(`Info:Get sha256 : ${sha256}`);
+  // log(`Info:Fetched ${p.taskName} at PortableApps,version text : ${text}, href : ${href}, sha256 : ${sha256}`);
 
   //处理跳转到 GitHub 备用下载的情况
   const trueUrlRes = await robustParseRedirect(href);

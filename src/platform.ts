@@ -152,10 +152,7 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   } else {
     suc = "POSIX";
     if (alert) {
-      log(`Warning:Use POSIX mode (tasks require Windows won't be executed)`);
-      log(
-        `Warning:Platform ${os} not fully tested yet, you may run into errors later`
-      );
+      log(`Warning:Use POSIX mode, tasks require Windows won't be executed`);
     }
   }
   return suc;

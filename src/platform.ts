@@ -5,6 +5,7 @@ import fs from "fs";
 import cp from "child_process";
 import { config } from "./config";
 import { log } from "./utils";
+import { PROJECT_ROOT } from "./const";
 
 type OS = "Windows" | "Linux" | "MacOS" | "Other";
 
@@ -95,7 +96,7 @@ function where(command: string): Result<string, string> {
     });
   }
   if (result != "") {
-    return new Ok(result);
+    return new Ok(path.resolve(PROJECT_ROOT, result));
   }
   //根据possiblePositions查找
   for (let i = 0; i < possiblePositions.length; i++) {
@@ -109,7 +110,7 @@ function where(command: string): Result<string, string> {
     }
   }
   if (result != "") {
-    return new Ok(result);
+    return new Ok(path.resolve(PROJECT_ROOT, result));
   } else {
     return new Err(`Error:Can't find command : ${command}`);
   }

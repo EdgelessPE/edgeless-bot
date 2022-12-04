@@ -32,6 +32,10 @@ function where(command: string): Result<string, string> {
       possiblePositions = [
         "./7z",
         "./bin/7z",
+        "./7zz",
+        "./bin/7zz",
+        "./7zzs",
+        "./bin/7zzs",
         "C:/Program Files/7-Zip/7z",
         "C:/Program Files (x86)/7-Zip/7z",
         process.env.PROGRAMFILESW6432 + "/7-Zip/7z",
@@ -76,17 +80,13 @@ function where(command: string): Result<string, string> {
       /* empty */
     }
     //生成可能的绝对路径
-    const possibleAbsolutePaths = [
+    let possibleAbsolutePaths = [
       node,
       path.join(process.cwd(), node),
       path.join(__dirname, node),
     ];
     if (getOS() == "Windows") {
-      possibleAbsolutePaths.push(
-        node + ".exe",
-        path.join(process.cwd(), node + ".exe"),
-        path.join(__dirname, node + ".exe")
-      );
+      possibleAbsolutePaths = possibleAbsolutePaths.map((v) => v + ".exe");
     }
     possibleAbsolutePaths.forEach((item) => {
       if (fs.existsSync(item)) {

@@ -10,7 +10,9 @@ yarn && yarn dev
 
 ## 二进制
 
-Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如 Windows 平台的 [scoop](https://scoop.sh) 或是 Linux 平台的 apt / dnf / pacman / zypper 等。如果无法使用包管理器，你可以将二进制文件放在项目根目录的 `bin` 目录下，或是项目根目录内(不推荐)。
+Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如
+Windows 平台的 [scoop](https://scoop.sh) 或是 Linux / MacOS 平台的 [Homebrew](https://brew.sh/)
+等。如果无法使用包管理器，你可以将二进制文件放在项目根目录的 `bin` 目录下，或是项目根目录内(不推荐)。
 
 ### Aria2
 
@@ -20,8 +22,8 @@ Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整�
 # Windows
 scoop install aria2
 
-# Linux
-sudo apt install aria2
+# Linux / MacOS
+brew install aria2
 ```
 
 ### 7-Zip
@@ -31,8 +33,8 @@ sudo apt install aria2
 ```shell
 # Windows
 scoop install 7zip
-# Linux
-sudo apt install p7zip-full
+# Linux / MacOS
+brew install 7zip
 ```
 
 ### Rclone (选装)
@@ -42,8 +44,8 @@ sudo apt install p7zip-full
 ```shell
 # Windows
 scoop install rclone
-# Linux
-sudo apt install rclone
+# Linux / MacOS
+brew install rclone
 ```
 
 ### PECMD (自带)

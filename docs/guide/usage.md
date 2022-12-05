@@ -2,7 +2,7 @@
 
 ## 快速开始
 
-确保你已经安装 [Node.js](https://nodejs.org/) 16 、 [yarn](https://yarnpkg.com/) 包管理器以及[二进制](#二进制)后，克隆仓库后执行以下命令：
+确保你已经安装 [Node.js](https://nodejs.org/) 16+ 、 [yarn](https://yarnpkg.com/) 包管理器以及[二进制](#二进制)后，克隆仓库后执行以下命令：
 
 ```shell
 yarn && yarn dev
@@ -10,9 +10,10 @@ yarn && yarn dev
 
 ## 二进制
 
-Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。我们推荐使用包管理器来安装这些程序，比如
-Windows 平台的 [Scoop](https://scoop.sh) 或是 Linux / MacOS 平台的 [Homebrew](https://brew.sh/)
-等。如果无法使用包管理器，你可以将二进制文件放在项目根目录的 `bin` 目录下，或是项目根目录内(不推荐)。
+Edgeless Bot 依赖于一些第三方软件维持运行。为了避免直接整合源代码导致的复杂依赖问题，我们需要你手动安装一些二进制程序。
+
+我们推荐使用包管理器来安装这些程序，比如 Windows 平台的 [Scoop](https://scoop.sh) 或是 Linux / MacOS 平台的 [Homebrew](https://brew.sh/)
+等。你可以将相应二进制文件直接放在项目根目录的 `bin` 目录下，或是项目根目录下(不推荐)。
 
 ### Aria2
 

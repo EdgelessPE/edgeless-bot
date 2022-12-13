@@ -32,4 +32,4 @@ jobs:
 
       # 以Debug模式运行构建任务
       - name: Run scripts
-        run: yarn dev -g
+        run: yarn dev -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"

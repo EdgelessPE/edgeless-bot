@@ -76,9 +76,9 @@ async function main(): Promise<boolean> {
   //读取全部任务
   let tasks: TaskInstance[], task: TaskInstance;
   if (config.SPECIFY_TASK) {
-    //以 / 分割分别获取任务
+    //分割分别获取任务
     tasks = [];
-    for (const t of config.SPECIFY_TASK.toString().split("/")) {
+    for (const t of config.SPECIFY_TASK.toString().split(",")) {
       task = getSingleTask(t).unwrap();
       //判断是否保留任务
       if (!reserveTask(task)) {

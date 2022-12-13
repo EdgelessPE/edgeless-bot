@@ -11,9 +11,6 @@ on:
   schedule:
     - cron: "0 20 * * *"
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   serve:
     runs-on: windows-2019
@@ -47,4 +44,4 @@ jobs:
 
       # 运行构建任务
       - name: Run scripts
-        run:  yarn serve -g
+        run:  yarn serve -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"

@@ -111,9 +111,9 @@ Debug，此模式下的数据库更新和远程功能会被禁用，此外可能
 
 **-t**
 
-Task(s)，指定需要执行的任务，用`/`分割不同的任务。不指定此参数时会执行全部任务。
+Task(s)，指定需要执行的任务；若需要执行多个任务则添加`""`并用`,`分割不同的任务。不指定此参数时会执行全部任务。
 
-示例：`yarn serve -t "TaskA/Task B/Long name task C"` 仅执行上述三个任务
+示例：`yarn serve -t "TaskA,Task B,Long name task C"` 仅执行上述三个任务
 
 **-f**
 
@@ -129,6 +129,14 @@ GitHub Actions，通常情况下不需要用到此模式，当 Edgeless Bot 在 
 
 Cache，启用下载缓存，仅在 Debug 模式下可用，此时 Bot 会缓存下载的文件到根目录的 `cache` 文件夹中以减少因下载文件产生的不必要等待。
 
+示例：`yarn dev -c -t TaskA` 缓存调试 TaskA 时下载的文件
+
+**-e**
+
+Env，配置环境变量，使用 `key=value` 的格式输入键值对并使用 `,` 分割。
+
+示例：`yarn dev -e "GITHUB_TOKEN=XXX,SECRET=xxx" -t TaskA` 配置环境变量并调试 TaskA
+
 ## 环境变量
 在项目根目录中放置 `env.json` 作为需要加载的环境变量键值对，例如可以使用以下内容为 GitHub_Release 爬虫和解析器增加验证 token：
 ```json
@@ -136,3 +144,5 @@ Cache，启用下载缓存，仅在 Debug 模式下可用，此时 Bot 会缓存
   "GITHUB_TOKEN": "XXX"
 }
 ```
+
+你也可以通过 `-e` 参数添加环境变量，详见上方

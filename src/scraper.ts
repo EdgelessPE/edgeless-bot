@@ -165,7 +165,7 @@ export default async function (
             .then(
               (res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                 if (res.err) {
-                  log("Error:Scraper resolved error", badge);
+                  log(`Error:External scraper ${taskName} resolved error`, badge);
                   collection.push({
                     taskName,
                     result: res,
@@ -203,7 +203,7 @@ export default async function (
           .then(
             (res: Result<Array<Result<ScraperReturned, string>>, string>) => {
               if (res.err) {
-                log("Error:Scraper resolved error", badge);
+                log(`Error:Scraper ${node.entrance} resolved error`, badge);
                 node.pool.forEach((item) => {
                   collection.push({
                     taskName: item.name,

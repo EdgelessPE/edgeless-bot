@@ -1,6 +1,6 @@
-import { Err, Ok, Result } from "ts-results";
-import { robustGet } from "../../src/network";
-import { ScraperParameters, ScraperReturned } from "../../src/class";
+import {Err, Ok, Result} from "ts-results";
+import {robustGet} from "../../src/network";
+import {ScraperParameters, ScraperReturned} from "../../src/class";
 
 function parseRepo(url: string): { owner: string; repo: string } {
   const splitRes = url.split("github.com/")[1].split("/");
@@ -26,6 +26,9 @@ export default async function (
   } catch (e) {
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);
+  }
+  if (!Array.isArray(json)) {
+    return new Err(`Error:GitHub api response is not an array : ${json}`)
   }
   let i = 0;
   //过滤预发布

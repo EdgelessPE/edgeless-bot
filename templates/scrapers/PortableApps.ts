@@ -30,7 +30,7 @@ function parseDownloadUrl(href: string): string {
   return href;
 }
 
-async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
+async function scrapePage(page: string,url:string): Promise<Result<PageInfo, string>> {
   const result = {} as unknown as PageInfo;
 
   // 配置可识别的类名
@@ -66,7 +66,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   // 尝试获取SHA256
   const hashTagResult = $("strong:contains('SHA256')");
   if (hashTagResult == null || hashTagResult.length == 0) {
-    log("Warning:No SHA256 tag found in this page");
+    log(`Warning:No SHA256 tag found in page ${url}`);
   } else {
     try {
       result.sha256 = (
@@ -158,15 +158,6 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
     return new Err("Error:Null value caught in result");
   }
 
-  //正则检查链接
-  // if (!isURL(result.href)) {
-  // 	return new Result({
-  // 		status: Status.ERROR,
-  // 		payload: (('Error:Illegal download link got:' + result.href + ',can\'t scrape '
-  // 			+ url) as unknown) as PageInfo,
-  // 	});
-  // }
-
   // 校验SHA256是否有效
   if (result.sha256 == undefined) {
     result.sha256 = "";
@@ -174,7 +165,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
 
   if (result.sha256 !== "" && result.sha256.match(/^([a-f0-9]{64})$/) == null) {
     log(
-      `Warning:Fail to match sha256 regex for ${page},got "${result.sha256}"`
+      `Warning:Fail to match sha256 regex for ${url},got "${result.sha256}"`
     );
     result.sha256 = "";
   }
@@ -192,7 +183,7 @@ export default async function (
   const page = (await robustGet(p.url)).unwrap();
   //解析
   // eslint-disable-next-line prefer-const
-  let { text, href, sha256 } = (await scrapePage(page as string)).unwrap();
+  let { text, href, sha256 } = (await scrapePage(page as string,p.url)).unwrap();
   // log(`Info:Fetched ${p.taskName} at PortableApps,version text : ${text}, href : ${href}, sha256 : ${sha256}`);
 
   //处理跳转到 GitHub 备用下载的情况

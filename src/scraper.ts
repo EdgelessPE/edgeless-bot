@@ -1,12 +1,17 @@
 import path from "path";
-import {ScraperRegister, ScraperReturned, TaskInstance, WorkerDataScraper,} from "./class";
-import {Err, Ok, Result} from "ts-results";
+import {
+  ScraperRegister,
+  ScraperReturned,
+  TaskInstance,
+  WorkerDataScraper,
+} from "./class";
+import { Err, Ok, Result } from "ts-results";
 import scraperRegister from "../templates/scrapers/_register";
-import {log} from "./utils";
+import { log } from "./utils";
 import fs from "fs";
-import {config} from "./config";
-import {piscina} from "./piscina";
-import {getBadge} from "./badge";
+import { config } from "./config";
+import { piscina } from "./piscina";
+import { getBadge } from "./badge";
 
 export interface ResultNode {
   taskName: string;
@@ -165,7 +170,10 @@ export default async function (
             .then(
               (res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                 if (res.err) {
-                  log(`Error:External scraper ${taskName} resolved error`, badge);
+                  log(
+                    `Error:External scraper ${taskName} resolved error`,
+                    badge
+                  );
                   collection.push({
                     taskName,
                     result: res,

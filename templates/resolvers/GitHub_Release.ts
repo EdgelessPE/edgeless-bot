@@ -28,7 +28,7 @@ export default async function (
   const regex = new RegExp(fileMatchRegex);
   let i = 0;
   //过滤预发布
-  while (json[i].prerelease && i < json.length) {
+  while (json[i]?.prerelease && i < json.length) {
     i++;
   }
   //防止越界

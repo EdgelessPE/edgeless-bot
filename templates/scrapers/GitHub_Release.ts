@@ -19,7 +19,7 @@ export default async function (
     repoInfo = parseRepo(url);
 
   //将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
-  const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;
+  const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases?page=1&per_page=10`;
 
   //获取Json
   let json: any;
@@ -36,21 +36,25 @@ export default async function (
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);
   }
-  if (!Array.isArray(json)) {
+  if (!Array.isArray(json)||json[0]==null) {
     return new Err(`Error:GitHub api response is not an array : ${json}`);
   }
-  let i = 0;
-  //过滤预发布
-  while (json[i].prerelease && i < json.length) {
-    i++;
+  try{
+    let i = 0;
+    //过滤预发布
+    while (json[i]?.prerelease && i < json.length) {
+      i++;
+    }
+    //防止越界
+    if (i == json.length) {
+      i = 0;
+    }
+    const version = json[i].tag_name;
+    return new Ok({
+      version,
+      downloadLink,
+    });
+  }catch (e) {
+    return new Err(`Error:Abnormal GitHub api response at task ${p.taskName} : ${JSON.stringify(e,null,2)}`)
   }
-  //防止越界
-  if (i == json.length) {
-    i = 0;
-  }
-  const version = json[i].tag_name;
-  return new Ok({
-    version,
-    downloadLink,
-  });
 }

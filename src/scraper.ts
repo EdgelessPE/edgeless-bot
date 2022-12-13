@@ -1,17 +1,12 @@
 import path from "path";
-import {
-  ScraperRegister,
-  ScraperReturned,
-  TaskInstance,
-  WorkerDataScraper,
-} from "./class";
-import { Err, Ok, Result } from "ts-results";
+import {ScraperRegister, ScraperReturned, TaskInstance, WorkerDataScraper,} from "./class";
+import {Err, Ok, Result} from "ts-results";
 import scraperRegister from "../templates/scrapers/_register";
-import { log } from "./utils";
+import {log} from "./utils";
 import fs from "fs";
-import { config } from "./config";
-import { piscina } from "./piscina";
-import { getBadge } from "./badge";
+import {config} from "./config";
+import {piscina} from "./piscina";
+import {getBadge} from "./badge";
 
 export interface ResultNode {
   taskName: string;
@@ -109,7 +104,7 @@ export default async function (
         break;
       } else {
         const m = mRes.unwrap();
-        log(`Info:Matched scraper template ${m.name} for task ${task.name}`);
+        // log(`Info:Matched scraper template ${m.name} for task ${task.name}`);
 
         if (classifyHash[m.name] != null) {
           classifyHash[m.name].pool.push(task);

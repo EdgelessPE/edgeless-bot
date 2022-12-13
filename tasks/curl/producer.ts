@@ -18,11 +18,11 @@ export default async function (
     path.join(workshop, downloadedFile),
     path.join(workshop, "_ready", taskName)
   );
-    if (!res) return new Err("Error:Can't release downloaded file");
-    writeGBK(
-      path.join(workshop, "_ready", taskName + ".cmd"),
-      `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`
-    );
+  if (!res) return new Err("Error:Can't release downloaded file");
+  writeGBK(
+    path.join(workshop, "_ready", taskName + ".cmd"),
+    `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`
+  );
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",

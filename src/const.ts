@@ -31,6 +31,7 @@ const CATEGORIES = [
   "影音播放",
   "远程连接",
 ];
+const ENV_JSON_PATH = "./env.json";
 
 function setMVTDayToday() {
   MISSING_VERSION_TRY_DAY = new Date().getDay();
@@ -44,5 +45,6 @@ export {
   DOWNLOAD_CACHE,
   MISSING_VERSION_TRY_DAY,
   CATEGORIES,
+  ENV_JSON_PATH,
   setMVTDayToday,
 };

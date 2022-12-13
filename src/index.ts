@@ -29,6 +29,7 @@ import cp from "child_process";
 import * as TOML from "toml";
 import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
+import {printLoadEnvNotices} from "./env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();
@@ -36,6 +37,8 @@ require("source-map-support").install();
 async function main(): Promise<boolean> {
   //打印艺术字
   art();
+  //打印环境变量加载
+  printLoadEnvNotices();
   //GA模式特殊处理
   if (config.GITHUB_ACTIONS) {
     console.log("::group::Console Log");
@@ -73,9 +76,9 @@ async function main(): Promise<boolean> {
   //读取全部任务
   let tasks: TaskInstance[], task: TaskInstance;
   if (config.SPECIFY_TASK) {
-    //以 / 分割分别获取任务
+    //分割分别获取任务
     tasks = [];
-    for (const t of config.SPECIFY_TASK.toString().split("/")) {
+    for (const t of config.SPECIFY_TASK.toString().split(",")) {
       task = getSingleTask(t).unwrap();
       //判断是否保留任务
       if (!reserveTask(task)) {

@@ -435,6 +435,18 @@ async function pressEnter(interval: number[]) {
   fs.unlinkSync(p);
 }
 
+function coverSecret(secret:string) {
+  // 对半拆分密钥
+  const cutPoint=Math.ceil(secret.length/2)
+  const o1=secret.substring(0,cutPoint),o2=secret.substring(cutPoint)
+
+  // 分别遮掩尾和头
+  const c1=o1.substring(0,Math.ceil(o1.length*0.3)).padEnd(o1.length, "*"),
+      c2=o2.substring(Math.ceil(o2.length*0.6)).padStart(o2.length, "*")
+
+  return c1+c2
+}
+
 export {
   Cmp,
   log,
@@ -456,4 +468,5 @@ export {
   writeGBK,
   pressEnter,
   wherePECMD,
+  coverSecret
 };

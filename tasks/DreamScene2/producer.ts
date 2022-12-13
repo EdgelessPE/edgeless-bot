@@ -15,7 +15,7 @@ export default async function (
   shell.mkdir("-p", path.join(workshop, "_ready"));
   log(`Info: ${downloadedFile}`);
   const res = await release(path.join(workshop, downloadedFile), workshop);
-    if (!res) return new Err("Error:Can't release downloaded file");
+  if (!res) return new Err("Error:Can't release downloaded file");
   shell.mv(path.join(workshop, downloadedFile.split(".")[0]), readyDir);
   writeGBK(
     path.join(workshop, "_ready", taskName + ".wcs"),

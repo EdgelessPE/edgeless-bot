@@ -109,7 +109,7 @@ export default async function (
         break;
       } else {
         const m = mRes.unwrap();
-        log(`Info:Matched scraper template ${m.name} for task ${task.name}`);
+        // log(`Info:Matched scraper template ${m.name} for task ${task.name}`);
 
         if (classifyHash[m.name] != null) {
           classifyHash[m.name].pool.push(task);
@@ -170,7 +170,10 @@ export default async function (
             .then(
               (res: Result<Array<Result<ScraperReturned, string>>, string>) => {
                 if (res.err) {
-                  log("Error:Scraper resolved error", badge);
+                  log(
+                    `Error:External scraper ${taskName} resolved error`,
+                    badge
+                  );
                   collection.push({
                     taskName,
                     result: res,
@@ -208,7 +211,7 @@ export default async function (
           .then(
             (res: Result<Array<Result<ScraperReturned, string>>, string>) => {
               if (res.err) {
-                log("Error:Scraper resolved error", badge);
+                log(`Error:Scraper ${node.entrance} resolved error`, badge);
                 node.pool.forEach((item) => {
                   collection.push({
                     taskName: item.name,

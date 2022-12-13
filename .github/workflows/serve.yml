@@ -44,4 +44,4 @@ jobs:
 
       # 运行构建任务
       - name: Run scripts
-        run: yarn serve -g
+        run:  yarn serve -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"

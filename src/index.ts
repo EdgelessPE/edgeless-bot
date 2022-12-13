@@ -29,6 +29,7 @@ import cp from "child_process";
 import * as TOML from "toml";
 import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
+import {printLoadEnvNotices} from "./env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();
@@ -36,6 +37,8 @@ require("source-map-support").install();
 async function main(): Promise<boolean> {
   //打印艺术字
   art();
+  //打印环境变量加载
+  printLoadEnvNotices();
   //GA模式特殊处理
   if (config.GITHUB_ACTIONS) {
     console.log("::group::Console Log");

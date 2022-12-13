@@ -128,3 +128,11 @@ GitHub Actions，通常情况下不需要用到此模式，当 Edgeless Bot 在 
 **-c**
 
 Cache，启用下载缓存，仅在 Debug 模式下可用，此时 Bot 会缓存下载的文件到根目录的 `cache` 文件夹中以减少因下载文件产生的不必要等待。
+
+## 环境变量
+在项目根目录中放置 `env.json` 作为需要加载的环境变量键值对，例如可以使用以下内容为 GitHub_Release 爬虫和解析器增加验证 token：
+```json
+{
+  "GITHUB_TOKEN": "XXX"
+}
+```

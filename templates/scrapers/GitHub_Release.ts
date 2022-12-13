@@ -1,6 +1,8 @@
 import { Err, Ok, Result } from "ts-results";
 import { robustGet } from "../../src/network";
 import { ScraperParameters, ScraperReturned } from "../../src/class";
+import {AxiosRequestConfig} from "axios";
+import {coverSecret, log} from "../../src/utils";
 
 function parseRepo(url: string): { owner: string; repo: string } {
   const splitRes = url.split("github.com/")[1].split("/");
@@ -22,7 +24,14 @@ export default async function (
   //获取Json
   let json: any;
   try {
-    json = (await robustGet(downloadLink)).unwrap();
+    const token=process.env.GITHUB_TOKEN
+    if(token) log(`Info:Use GitHub Token ${coverSecret(token)}`)
+    const cfg:AxiosRequestConfig|undefined=token!=null?{
+      headers:{
+        authorization: `Bearer ${token}`
+      }
+    }:undefined
+    json = (await robustGet(downloadLink,cfg)).unwrap();
   } catch (e) {
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);

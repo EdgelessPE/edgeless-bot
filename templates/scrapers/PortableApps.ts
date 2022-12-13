@@ -1,8 +1,8 @@
-import { Err, Ok, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/class";
-import { robustGet, robustParseRedirect } from "../../src/network";
+import {Err, Ok, Result} from "ts-results";
+import {ScraperParameters, ScraperReturned} from "../../src/class";
+import {robustGet, robustParseRedirect} from "../../src/network";
 import * as cheerio from "cheerio";
-import { log } from "../../src/utils";
+import {log} from "../../src/utils";
 import GitHubRelease from "./GitHub_Release";
 
 interface PageInfo {
@@ -173,7 +173,7 @@ async function scrapePage(page: string): Promise<Result<PageInfo, string>> {
   }
 
   if (result.sha256 !== "" && result.sha256.match(/^([a-f0-9]{64})$/) == null) {
-    log("Warning:Fail to check sha256,got " + result.sha256);
+    log(`Warning:Fail to match sha256 regex for ${page},got "${result.sha256}"`);
     result.sha256 = "";
   }
 

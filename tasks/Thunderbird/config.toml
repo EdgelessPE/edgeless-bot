@@ -1,0 +1,44 @@
+# 任务基本信息
+[task]
+name = "Thunderbird"
+category = "实用工具"
+author = "wdw1007"
+url = "https://www.thunderbird.net"
+
+# 指定使用的模板
+[template]
+scraper = "Redirection_Parse"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'thunderbird.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+
+[scraper_temp]
+redirection_url = "https://download.mozilla.org/?product=thunderbird-latest&os=win64&lang=zh-CN"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Thunderbird"
+sourceFile = "thunderbird.exe"
+recursiveUnzipList = ["core"]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+weekly = true

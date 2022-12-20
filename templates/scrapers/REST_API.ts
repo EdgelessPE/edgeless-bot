@@ -17,7 +17,11 @@ function objChainReader(obj: any, chain: string[]): Result<any, string> {
   if (chain.length > 1) {
     return objChainReader(obj[chain[0]], chain.slice(1));
   } else {
-    return new Ok(obj[chain[0]]);
+    const res = obj[chain[0]];
+    if (Array.isArray(res)){
+      return new Ok(res.join("."))
+    }
+    return new Ok(res);
   }
 }
 

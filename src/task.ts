@@ -255,7 +255,19 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     if (newNode.version == null || newNode.downloadLink == null) {
       setDatabaseNodeFailure(
         result.taskName,
-        "Error:Scraper returned null value"
+        `Error:Scraper returned null value : ${JSON.stringify(newNode)}`
+      );
+      continue;
+    }
+    if (
+      typeof newNode.version !== "string" ||
+      typeof newNode.downloadLink !== "string"
+    ) {
+      setDatabaseNodeFailure(
+        result.taskName,
+        `Error:Scraper returned value doesn't conform to type specification : ${JSON.stringify(
+          newNode
+        )}`
       );
       continue;
     }

@@ -3,7 +3,7 @@ name: Debug
 on:
   pull_request:
     branches:
-      - develop
+      - next
     paths:
       - "src/**"
       - "templates/**"

@@ -13,7 +13,7 @@ producer = "Click2Install"
 
 # 使用到的正则
 [regex]
-# download_link = 'https:\/\/download\.anydesk\.com\/AnyDesk\.exe'
+download_link = 'https:\/\/download\.anydesk\.com\/AnyDesk\.exe'
 download_name = '\.exe'
 # scraper_version = '"id":"win_exe","version":"[0-9.]+"'
 
@@ -31,10 +31,10 @@ shortcutName = "AnyDesk"
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://anydesk.com/zhs/downloads"
+version_page_url = "https://anydesk.com/en/downloads"
 version_selector = ".d-block"
-download_page_url = "https://anydesk.com/zhs/downloads/thank-you?dv=win_exe"
-download_selector = "#download-button"
+# download_page_url = "https://anydesk.com/zhs/downloads/thank-you?dv=win_exe"
+# download_selector = "#download-button"
 
 # 额外备注
 # [extra]

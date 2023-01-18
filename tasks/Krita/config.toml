@@ -1,0 +1,47 @@
+# 任务基本信息
+[task]
+name = "Krita"
+category = "媒体处理"
+author = "wdw1007"
+url = "https://krita.org"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = 'https:\/\/mirrors\.tuna\.tsinghua\.edu\.cn\/kde\/stable\/krita\/{latestVersion}\/krita-x64-{latestVersion}\.zip'
+# https://mirrors.mit.edu/kde/stable/krita/{latestVersion}/krita-x64-{latestVersion}.zip
+download_name = 'krita-x64-{latestVersion}-setup\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 1
+build_manifest = ["${taskName}.wcs","${taskName}"]
+# build_cover = ""
+build_delete = ["$PLUGINSDIR","uninstall.exe.nsis"]
+
+# 爬虫模板临时参数
+[scraper_temp]
+version_page_url = "https://krita.org/en/download/krita-desktop/"
+download_page_url = "https://krita.org/en/download/krita-desktop/"
+version_selector = "#download-content-container > h3:nth-child(1)"
+download_selector = "#sixty-four-bit-windows-installer"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Krita"
+sourceFile = "bin/krita.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+weekly = true

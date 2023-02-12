@@ -398,7 +398,12 @@ function parseBuiltInValue(
     );
 }
 
-function writeGBK(file: string, text: string) {
+/**
+ * @deprecated 历史遗留 api（用于写入批处理）
+ * @param file 文件路径
+ * @param text 文件内容
+ */
+function _writeGBK(file: string, text: string) {
   fs.writeFileSync(file, toGBK(text));
 }
 
@@ -465,7 +470,6 @@ export {
   shuffle,
   parseBuiltInValue,
   requiredKeysValidator,
-  writeGBK,
   pressEnter,
   wherePECMD,
   coverSecret

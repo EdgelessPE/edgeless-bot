@@ -2,7 +2,6 @@ import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import fs from "fs";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
-import { writeGBK } from "../../src/utils";
 
 import shell from "shelljs";
 
@@ -21,7 +20,7 @@ export default async function (
 
   shell.mkdir("-p", rD);
   shell.mv(aDF, rD);
-  writeGBK(
+  fs.writeFileSync(
     path.join(ready, taskName + ".wcs"),
     `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`
   );

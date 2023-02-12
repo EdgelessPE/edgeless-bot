@@ -41,6 +41,7 @@ import shell from "shelljs";
 import rcInfo from "rcinfo";
 import {NepPackage} from "./types/nep";
 import TOML from "@iarna/toml";
+import {packIntoNep} from "./ept";
 
 export interface TaskConfig {
   task: {
@@ -585,15 +586,12 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 
   fs.writeFileSync(path.join(target,"package.toml"),TOML.stringify(nepPackage as any))
 
-  //压缩
+  //打包
   const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_Bot.nep`;
   if (
-    !(await compress(
-      p.val.readyRelativePath,
-      fileName,
-      t.task.parameter.compress_level ??
-        getDefaultCompressLevel(t.task.template.producer),
-      workshop
+    !(await packIntoNep(
+      target,
+      path.join(workshop, fileName)
     ))
   ) {
     return new Err("Error:Compress failed");

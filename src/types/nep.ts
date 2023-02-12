@@ -22,25 +22,28 @@ interface NepWorkflow {
 
 interface NepStepHeader {
     name: string
-    step: string
     if?: string
 }
 
 type NepStepLink = {
+    step:"Link"
     source_file: string
     target_name: string
 } & NepStepHeader
 
 type NepStepExecute = {
+    step:"Execute"
     command: string
     pwd?: string
 } & NepStepHeader
 
 type NepStepPath = {
+    step:"Path"
     record: string
 } & NepStepHeader
 
 type NepStepLog = {
+    step:"Log"
     level: string
     msg: string
 } & NepStepHeader

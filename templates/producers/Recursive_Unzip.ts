@@ -1,4 +1,4 @@
-import { ProducerParameters, ProducerReturned } from "../../src/class";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import fs from "fs";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
@@ -126,6 +126,7 @@ export default async function (
   if (exist(p.taskName + ".wcs") && exist(p.taskName + "/" + obj.sourceFile)) {
     return new Ok({
       readyRelativePath: "_ready",
+      mainProgram:obj.sourceFile
     });
   } else {
     return new Err(

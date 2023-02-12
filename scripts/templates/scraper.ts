@@ -1,5 +1,5 @@
 import { Ok, Err, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/class";
+import { ScraperParameters, ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/network";
 import { log } from "../../src/utils";
 import * as cheerio from "cheerio";

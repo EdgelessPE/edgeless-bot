@@ -1,4 +1,4 @@
-import { ScraperReturned, TaskInstance } from "./class";
+import { ScraperReturned, TaskInstance } from "./types/class";
 import { Result } from "ts-results";
 import path from "path";
 import { parentPort, Worker, workerData as obj } from "worker_threads";

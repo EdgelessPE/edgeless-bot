@@ -7,7 +7,7 @@ import {
   ResultReport,
   ScraperReturned,
   TaskInstance,
-} from "./class";
+} from "./types/class";
 import { config } from "./config";
 import toml from "toml";
 import {
@@ -39,6 +39,8 @@ import shell from "shelljs";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rcInfo from "rcinfo";
+import {NepPackage} from "./types/nep";
+import TOML from "@iarna/toml";
 
 export interface TaskConfig {
   task: {
@@ -46,6 +48,7 @@ export interface TaskConfig {
     author: TaskInstance["author"];
     category: TaskInstance["category"];
     url: TaskInstance["pageUrl"];
+    license?:TaskInstance["license"]
   };
   template: TaskInstance["template"];
   regex: TaskInstance["regex"];
@@ -195,6 +198,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       res["author"] = json.task.author;
       res["category"] = json.task.category;
       res["pageUrl"] = json.task.url;
+      res["license"]=json.task.license
       return new Ok(res);
     }
   }
@@ -562,6 +566,25 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       return new Ok("missing_version");
     }
   }
+  // 写 package.toml
+  const nepPackage:NepPackage={
+    nep:"0.1",
+    package:{
+      name:t.task.name,
+      template:"Software",
+      version:t.info.version,
+      authors:["Bot <bot@edgeless.top>"].concat(t.task.author),
+      licence:t.task.license
+    },
+    software:{
+      upstream:t.task.pageUrl,
+      category:t.task.category,
+      main_program:p.val.mainProgram
+    }
+  }
+
+  fs.writeFileSync(path.join(target,"package.toml"),TOML.stringify(nepPackage as any))
+
   //压缩
   const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_Bot.nep`;
   if (

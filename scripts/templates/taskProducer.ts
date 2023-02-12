@@ -1,4 +1,4 @@
-import { ProducerParameters, ProducerReturned } from "../../src/class";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { writeGBK } from "../../src/utils";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";

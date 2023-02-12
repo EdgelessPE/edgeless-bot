@@ -1,4 +1,4 @@
-import { ProducerParameters, ProducerReturned } from "../../src/class";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
 import { log, writeGBK } from "../../src/utils";
 import path from "path";
@@ -33,5 +33,6 @@ export default async function (
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
+    mainProgram:"OpenOfficePortable.exe"
   });
 }

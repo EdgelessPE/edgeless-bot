@@ -8,7 +8,7 @@ import {
   WorkerDataProducer,
   WorkerDataResolver,
   WorkerDataScraper,
-} from "./class";
+} from "./types/class";
 import { Err, Ok, Result } from "ts-results";
 import { awaitWithTimeout, log } from "./utils";
 import { HEAVY_TIMEOUT, LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY } from "./const";

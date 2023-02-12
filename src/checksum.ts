@@ -1,7 +1,7 @@
 import fs from "fs";
 import cpt from "crypto";
 import { log } from "./utils";
-import { ValidationType } from "./class";
+import { ValidationType } from "./types/class";
 import path from "path";
 
 import checksum from "checksum";

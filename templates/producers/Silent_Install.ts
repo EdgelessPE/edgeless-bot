@@ -1,4 +1,4 @@
-import { ProducerParameters, ProducerReturned } from "../../src/class";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
@@ -37,6 +37,7 @@ export default async function (
   ) {
     return new Ok({
       readyRelativePath: "_ready",
+      mainProgram:downloadedFile
     });
   } else {
     return new Err(

@@ -4,7 +4,7 @@ import {
   ScraperReturned,
   TaskInstance,
   WorkerDataScraper,
-} from "./class";
+} from "./types/class";
 import { Err, Ok, Result } from "ts-results";
 import scraperRegister from "../templates/scrapers/_register";
 import { log } from "./utils";

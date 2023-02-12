@@ -67,6 +67,7 @@ interface ProducerParameters {
 
 interface ProducerReturned {
   readyRelativePath: string;
+  mainProgram:string;
 }
 
 interface ProducerRegister {
@@ -98,6 +99,7 @@ interface DatabaseNode {
 interface TaskInstance {
   name: string;
   author: string[];
+  license?:string;
   category: string;
   pageUrl: string;
   template: {

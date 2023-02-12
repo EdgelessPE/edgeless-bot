@@ -1,4 +1,4 @@
-import { ResolverParameters, ResolverReturned } from "../../src/class";
+import { ResolverParameters, ResolverReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
 import { robustGet } from "../../src/network";
 import {coverSecret, log} from "../../src/utils";

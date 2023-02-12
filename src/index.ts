@@ -27,7 +27,7 @@ import fs from "fs";
 import path from "path";
 import cp from "child_process";
 import * as TOML from "toml";
-import { TaskInstance } from "./class";
+import { TaskInstance } from "./types/class";
 import { setMVTDayToday } from "./const";
 import {printLoadEnvNotices} from "./env";
 

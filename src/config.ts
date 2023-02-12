@@ -1,4 +1,4 @@
-import { CONFIG } from "./class";
+import { CONFIG } from "./types/class";
 import fs from "fs";
 import toml from "toml";
 import { Err, Ok, Result } from "ts-results";

@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
-import { ProducerReturned, TaskInstance, WorkerDataProducer } from "./class";
+import { ProducerReturned, TaskInstance, WorkerDataProducer } from "./types/class";
 import { piscina } from "./piscina";
 import { config } from "./config";
 import { getBadge } from "./badge";

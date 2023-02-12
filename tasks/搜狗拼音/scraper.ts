@@ -1,5 +1,5 @@
 import { Err, Ok, Result } from "ts-results";
-import { ScraperReturned } from "../../src/class";
+import { ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/network";
 import { log, versionCmp, Cmp } from "../../src/utils";
 

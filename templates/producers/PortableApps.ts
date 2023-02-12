@@ -1,4 +1,4 @@
-import { ProducerParameters, ProducerReturned } from "../../src/class";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
 import { release } from "../../src/p7zip";
 import path from "path";
@@ -112,5 +112,6 @@ export default async function (
 
   return new Ok({
     readyRelativePath: "_ready",
+    mainProgram:exe
   });
 }

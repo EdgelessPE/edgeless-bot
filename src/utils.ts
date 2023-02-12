@@ -4,7 +4,7 @@ import path from "path";
 import { Err, Ok, Result } from "ts-results";
 import Ajv from "ajv";
 import iconv from "iconv-lite";
-import { JsObjectType, ObjectValidationNode } from "./class";
+import { JsObjectType, ObjectValidationNode } from "./types/class";
 import { badge } from "./worker";
 import Piscina from "piscina";
 import cp from "child_process";

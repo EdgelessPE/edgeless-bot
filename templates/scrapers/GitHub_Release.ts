@@ -1,6 +1,6 @@
 import { Err, Ok, Result } from "ts-results";
 import { robustGet } from "../../src/network";
-import { ScraperParameters, ScraperReturned } from "../../src/class";
+import { ScraperParameters, ScraperReturned } from "../../src/types/class";
 import {AxiosRequestConfig} from "axios";
 import {coverSecret, log} from "../../src/utils";
 

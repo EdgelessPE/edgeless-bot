@@ -1,5 +1,5 @@
 import { Ok, Err, Result } from "ts-results";
-import { ScraperReturned } from "../../src/class";
+import { ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/network";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {

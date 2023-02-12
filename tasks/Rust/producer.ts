@@ -1,4 +1,4 @@
-import { ProducerParameters, ProducerReturned } from "../../src/class";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Ok, Result } from "ts-results";
 import { writeGBK } from "../../src/utils";
 import path from "path";
@@ -20,5 +20,6 @@ export default async function (
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
+    mainProgram:downloadedFile
   });
 }

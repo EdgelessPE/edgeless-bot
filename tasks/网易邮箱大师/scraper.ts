@@ -1,5 +1,5 @@
 import { Ok, Result } from "ts-results";
-import { ScraperReturned } from "../../src/class";
+import { ScraperReturned } from "../../src/types/class";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   //YOUR CODE HERE

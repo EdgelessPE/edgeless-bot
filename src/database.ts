@@ -1,5 +1,5 @@
 import fs from "fs";
-import { BuildStatus, DatabaseNode } from "./class";
+import { BuildStatus, DatabaseNode } from "./types/class";
 import { log } from "./utils";
 import { config } from "./config";
 import chalk from "chalk";

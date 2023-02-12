@@ -5,7 +5,7 @@ import {
   ResolverRegister,
   ResolverReturned,
   WorkerDataResolver,
-} from "./class";
+} from "./types/class";
 import { piscina } from "./piscina";
 import { getBadge } from "./badge";
 import path from "path";

@@ -23,7 +23,7 @@ import {
   ProducerRegister,
   ResolverRegister,
   ScraperRegister,
-} from "../src/class";
+} from "../src/types/class";
 import { JSONSchema4 } from "json-schema";
 import shell from "shelljs";
 import TOML from "@iarna/toml";

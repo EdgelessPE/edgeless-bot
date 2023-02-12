@@ -30,7 +30,7 @@ build_manifest = ["workflows/setup.toml", "${taskName}"]
 
 # 自动制作模板要求的参数
 [producer_required]
-launchArg = "https://www.baidu.com"
+#launchArg = "https://www.baidu.com"
 
 # 额外备注
 # [extra]

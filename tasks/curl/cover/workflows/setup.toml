@@ -1,0 +1,4 @@
+[path]
+name = "Add Path"
+step = "Path"
+record = "curl.exe"

@@ -1,0 +1,10 @@
+[path]
+name = "Add Path"
+step = "Path"
+record = "pwsh.exe"
+
+[link]
+name = "Create Shortcut"
+step = "Link"
+source_file = "pwsh.exe"
+target_name = "PowerShell"

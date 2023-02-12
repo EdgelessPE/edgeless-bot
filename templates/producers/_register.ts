@@ -7,14 +7,14 @@ const regArray: Array<ProducerRegister> = [
     description:
       "Create a shortcut on the desktop to allow user's manually install or click to run",
     defaultCompressLevel: 1,
-    recommendedManifest: ["${taskName}.wcs", "${taskName}/${downloadedFile}"],
+    recommendedManifest: ["workflows/setup.toml", "${taskName}/${downloadedFile}"],
   },
   {
     name: "Recursive Unzip",
     entrance: "Recursive_Unzip",
     description:
       'Recursive unzip downloaded file by array "recursiveUnzipList", then create a shortcut on the desktop for "sourceFile";' +
-      '\nSuggested buildManifest : ${taskName}.wcs,${taskName}/"sourceFile"',
+      '\nSuggested buildManifest : workflows/setup.toml,${taskName}/"sourceFile"',
     defaultCompressLevel: 5,
   },
   {
@@ -23,7 +23,7 @@ const regArray: Array<ProducerRegister> = [
     description:
       'Execute downloaded file with argument (default "/S", can be specified by "producer_required.argument")',
     defaultCompressLevel: 1,
-    recommendedManifest: ["${taskName}.wcs", "${taskName}/${downloadedFile}"],
+    recommendedManifest: ["workflows/setup.toml", "${taskName}/${downloadedFile}"],
   },
   {
     name: "PortableApps",

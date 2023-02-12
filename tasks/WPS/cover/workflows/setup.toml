@@ -1,0 +1,4 @@
+[install]
+name = "Run Installer"
+step = "Execute"
+command = "WPS_Installer.exe /S -agreelicense"

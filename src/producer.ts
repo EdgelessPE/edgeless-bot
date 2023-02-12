@@ -44,6 +44,9 @@ export default async function (
       task.name,
       "producer.js"
     );
+    if(!fs.existsSync(scriptPath)){
+      return new Err("Error:Missing producer.ts in task directory")
+    }
     isExternal = true;
   } else {
     //处理模板

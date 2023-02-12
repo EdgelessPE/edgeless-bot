@@ -1,0 +1,10 @@
+[path]
+name = "Add Path"
+step = "Path"
+record = "bin/git.exe"
+
+[link]
+name = "Create Shortcut"
+step = "Link"
+source_file = "git-bash.exe"
+target_name = "Git Bash"

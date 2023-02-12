@@ -83,7 +83,7 @@ async function createTask() {
   shell.mkdir("-p", taskDir);
 
   //用于输入template.producer
-  let recommendedManifest = ["${taskName}.wcs", "${taskName}"];
+  let recommendedManifest = ["workflows/setup.toml", "${taskName}"];
   const inputProducer = async () => {
     const index = await select(
       t("Producer template"),

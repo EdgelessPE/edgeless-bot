@@ -1,0 +1,9 @@
+[rename]
+name = "Rename"
+step = "Execute"
+command = 'ren payload-dumper-go.exe pd.exe'
+
+[path]
+name = "Add Path"
+step = "Path"
+record = "pd.exe"

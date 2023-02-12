@@ -1,10 +1,12 @@
 import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
-import { writeGBK } from "../../src/utils";
 import path from "path";
 import { release } from "../../src/p7zip";
 
 import shell from "shelljs";
+import fs from "fs";
+import {NepWorkflow} from "../../src/types/nep";
+import TOML from "@iarna/toml";
 
 export default async function (
   p: ProducerParameters
@@ -27,10 +29,21 @@ export default async function (
     ),
     readyDir
   );
-  writeGBK(
-    path.join(workshop, "_ready", taskName + ".cmd"),
-    `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`
-  );
+  const wfp=path.join(workshop, "_ready","workflows")
+  shell.mkdir("-p",wfp)
+  const setup:NepWorkflow={
+    path:{
+      name:"Set Path",
+      step:"Path",
+      record:"smap.exe"
+    }
+  }
+  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+
+  // fs.writeFileSync(
+  //   path.join(workshop, "_ready", taskName + ".cmd"),
+  //   `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`
+  // );
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",

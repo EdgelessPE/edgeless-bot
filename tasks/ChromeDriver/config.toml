@@ -8,7 +8,7 @@ url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/chromedriver.js
 [template]
 # scraper = ""
 # resolver = ""
-producer = "External"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
@@ -20,15 +20,18 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.cmd","${taskName}"]
-# build_cover = ""
-# build_delete = []
+build_manifest = ["workflows/setup.toml","${taskName}"]
+build_cover = "cover"
+build_delete = ["ChromeDriver/LICENSE.chromedriver"]
 
 # 爬虫模板临时参数
 [scraper_temp]
 
 # 自动制作模板要求的参数
 [producer_required]
+shortcutName = "${taskName}"
+sourceFile = "chromedriver.exe"
+recursiveUnzipList = []
 
 
 # 额外备注

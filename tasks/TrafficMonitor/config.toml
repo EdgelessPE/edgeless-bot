@@ -22,7 +22,7 @@ download_name = '_x64.zip'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["workflows/setup.toml","${taskName}/TrafficMonitor/TrafficMonitor.exe"]
-build_cover = "cover"
+#build_cover = "cover"
 #build_delete = []
 
 # 爬虫模板临时参数

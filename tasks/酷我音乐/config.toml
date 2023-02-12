@@ -21,7 +21,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = ["",""]
 #compress_level = 1
-build_manifest = ['${taskName}.wcs', '${taskName}/KwMusic.exe']
+build_manifest = ['workflows/setup.toml', '${taskName}/KwMusic.exe']
 #build_cover = "cover.zip"
 build_delete = ["$WINDIR", "$TEMP", "$PLUGINSDIR", "$APPDATA", "readme.txt", "Uninstall.exe", "Uninstall.exe.nsis"]
 

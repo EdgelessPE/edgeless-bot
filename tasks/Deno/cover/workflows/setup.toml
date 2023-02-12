@@ -1,0 +1,14 @@
+[path]
+name = "Add Path"
+step = "Path"
+record = "deno.exe"
+
+[types]
+name = "Generate types"
+step = "Execute"
+command = '.\deno.exe types > ".\lib.deno.d.ts"'
+
+[version]
+name = "Generate version"
+step = "Execute"
+command = '.\deno.exe -V > ".\VERSION"'

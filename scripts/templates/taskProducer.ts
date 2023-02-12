@@ -1,10 +1,11 @@
 import { ProducerParameters, ProducerReturned } from "../../src/types/class";
-import { writeGBK } from "../../src/utils";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
 
 import shell from "shelljs";
+import {NepWorkflow} from "../../src/types/nep";
+import TOML from "@iarna/toml";
 
 export default async function (
   p: ProducerParameters
@@ -17,12 +18,21 @@ export default async function (
 
   //YOUR CODE HERE
 
-  //Write command to external batch
-  const cmd = `LINK X:\\Users\\Default\\Desktop\\${taskName},%ProgramFiles%\\Edgeless\\${taskName}\\${taskName}.exe`;
-  writeGBK(path.join(workshop, "_ready", taskName + ".wcs"), cmd);
+  //Create setup flow
+  const wfp=path.join(workshop, "_ready","workflows")
+  shell.mkdir("-p",wfp)
+  const setup:NepWorkflow={
+    link:{
+      name:"Create Shortcut",
+      step:"Link",
+      source_file:`${taskName}.exe`,
+      target_name:taskName
+    },
+  }
+  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
 
   //Naive self check
-  const manifest = [`${taskName}.wcs`, `${taskName}/${taskName}.exe`].map(
+  const manifest = [`workflows/setup.toml`, `${taskName}/${taskName}.exe`].map(
     (file) => path.join(workshop, "_ready", file)
   );
   for (const item of manifest) {

@@ -3,18 +3,18 @@
 name = "DreamScene2"
 category = "美化增强"
 author = ["undefined"]
-url = "https://github.com/he55/DreamScene2/releases"
+url = "https://github.com/he55/DreamScene2"
 
 # 指定使用的模板
 [template]
 # scraper = ""
 # resolver = ""
-producer = "External"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.zip'
+download_name = 'net4\w+\.zip'
 # scraper_version = ''
 
 # 通用参数
@@ -31,8 +31,8 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "DreamScene2"
-sourceFile = "${download_name}/DreamScene2.exe"
-recursiveUnzipList = []
+sourceFile = "DreamScene2.exe"
+recursiveUnzipList = ["/net/"]
 
 
 # 额外备注

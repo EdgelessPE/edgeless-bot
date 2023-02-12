@@ -1,2 +1,0 @@
-exec =!cmd /c "ren payload-dumper-go\payload-dumper-go.exe pd.exe"
-exec =!setx.exe Path "%Path%;%ProgramFiles%\Edgeless\payload-dumper-go"

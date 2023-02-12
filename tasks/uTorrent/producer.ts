@@ -6,6 +6,8 @@ import fs from "fs";
 import cp from "child_process";
 
 import shell from "shelljs";
+import {NepWorkflow} from "../../src/types/nep";
+import TOML from "@iarna/toml";
 
 export default async function (
   p: ProducerParameters
@@ -55,9 +57,25 @@ export default async function (
     shell.rm("-rf", path.join(readyDir, "uTorrentPortable", f));
   }
 
+  //重命名目录为任务名
+  shell.mv(path.join(readyDir,"uTorrentPortable"),path.join(readyDir,"uTorrent"))
+
+  //写工作流
+  const wfp=path.join(readyDir,"workflows")
+  shell.mkdir("-p",wfp)
+  const setup:NepWorkflow={
+    link:{
+      name:"Create Shortcut",
+      step:"Link",
+      source_file:"uTorrentPortable.exe",
+      target_name:"uTorrent"
+    }
+  }
+  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
-    mainProgram:"uTorrentPortable.exe"
+    // mainProgram:"uTorrentPortable.exe"
   });
 }

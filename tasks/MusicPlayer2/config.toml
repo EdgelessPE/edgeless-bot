@@ -2,7 +2,7 @@
 [task]
 name = "MusicPlayer2"
 category = "影音播放"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/zhongyang219/MusicPlayer2"
 
 # 指定使用的模板

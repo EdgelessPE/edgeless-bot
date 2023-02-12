@@ -2,7 +2,7 @@
 [task]
 name = "百度拼音"
 category = "输入法"
-author = "Cno"
+author = ["Cno"]
 url = "https://shurufa.baidu.com/"
 
 # 指定使用的模板

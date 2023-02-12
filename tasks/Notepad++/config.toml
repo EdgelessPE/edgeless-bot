@@ -2,7 +2,7 @@
 [task]
 name = "Notepad++"
 category = "办公编辑"
-author = "支持梧桐，台毒biss"
+author = ["支持梧桐，台毒biss"]
 url = "https://portableapps.com/apps/development/notepadpp_portable"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "WiseDiskCleaner"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/utilities/wise-disk-cleaner-portable"
 
 # 指定使用的模板

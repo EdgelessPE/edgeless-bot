@@ -2,7 +2,7 @@
 [task]
 name = "waterfox"
 category = "浏览器"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/portapps/waterfox-portable/releases"
 
 # 指定使用的模板

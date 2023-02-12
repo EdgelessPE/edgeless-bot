@@ -2,7 +2,7 @@
 [task]
 name = "FastCopy"
 category = "资源管理"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/utilities/fastcopy-portable"
 
 # 指定使用的模板

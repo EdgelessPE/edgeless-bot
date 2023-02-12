@@ -2,7 +2,7 @@
 [task]
 name = "Motrix"
 category = "下载上传"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/agalwood/Motrix"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "WinSCP"
 category = "下载上传"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://portableapps.com/apps/internet/winscp_portable"
 
 # 指定使用的模板

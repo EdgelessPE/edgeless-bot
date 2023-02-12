@@ -2,7 +2,7 @@
 [task]
 name = "AllDup"
 category = "资源管理"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.alldup.de/en_download_alldup.php"
 
 # 指定使用的模板

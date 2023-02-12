@@ -2,7 +2,7 @@
 [task]
 name = "Everything"
 category = "资源管理"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/utilities/everything-portable"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "福昕阅读器"
 category = "办公编辑"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/office/foxit_reader_portable"
 
 # 指定使用的模板

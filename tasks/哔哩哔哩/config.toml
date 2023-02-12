@@ -2,7 +2,7 @@
 [task]
 name = "哔哩哔哩"
 category = "影音播放"
-author = "Cno"
+author = ["Cno"]
 url = "https://app.bilibili.com/"
 
 # 指定使用的模板

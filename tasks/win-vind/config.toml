@@ -2,7 +2,7 @@
 [task]
 name = "win-vind"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/pit-ray/win-vind/releases"
 
 # 指定使用的模板

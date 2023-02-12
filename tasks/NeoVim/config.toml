@@ -2,7 +2,7 @@
 [task]
 name = "NeoVim"
 category = "实用工具"
-author = "JohnsonRan"
+author = ["JohnsonRan"]
 url = "https://github.com/ScoopInstaller/Versions/blob/master/bucket/neovim-nightly.json"
 
 # 指定使用的模板

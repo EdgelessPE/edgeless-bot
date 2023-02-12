@@ -2,7 +2,7 @@
 [task]
 name = "FirefoxNightly"
 category = "浏览器"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ScoopInstaller/Versions/blob/master/bucket/firefox-nightly.json"
 
 # 指定使用的模板

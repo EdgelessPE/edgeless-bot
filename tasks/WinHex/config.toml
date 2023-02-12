@@ -2,7 +2,7 @@
 [task]
 name = "WinHex"
 category = "集成开发"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.x-ways.net/winhex/"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "java-zulu-jdk8-fx"
 category = "运行环境"
-author = "wdw1007"
+author = ["wdw1007"]
 url = "https://www.azul.com/downloads/"
 
 # 指定使用的模板

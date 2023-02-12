@@ -2,7 +2,7 @@
 [task]
 name = "RustDesk"
 category = "远程连接"
-author = "Cno"
+author = ["Cno"]
 url = "https://github.com/rustdesk/rustdesk"
 
 # 指定使用的模板

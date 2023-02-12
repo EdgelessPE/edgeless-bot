@@ -2,7 +2,7 @@
 [task]
 name = "Chrome"
 category = "浏览器"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/internet/google_chrome_portable"
 
 # 指定使用的模板

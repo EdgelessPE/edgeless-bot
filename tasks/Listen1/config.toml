@@ -2,7 +2,7 @@
 [task]
 name = "Listen1"
 category = "影音播放"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/listen1/listen1_desktop"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "BBDown"
 category = "实用工具"
-author = "JohnsonRan"
+author = ["JohnsonRan"]
 url = "https://github.com/nilaoda/BBDown"
 
 # 指定使用的模板

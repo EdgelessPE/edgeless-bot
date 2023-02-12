@@ -1,7 +1,7 @@
 [task]
 name = "curl"
 category = "下载上传"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/curl.json"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "原神祈愿记录导出工具"
 category = "游戏娱乐"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://github.com/biuuu/genshin-wish-export/releases"
 
 # 指定使用的模板

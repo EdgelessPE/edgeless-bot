@@ -2,7 +2,7 @@
 [task]
 name = "蓝奏云盘"
 category = "下载上传"
-author = "Cno"
+author = ["Cno"]
 url = "https://github.com/chenhb23/lanzouyun-disk"
 
 # 指定使用的模板

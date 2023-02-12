@@ -563,9 +563,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
   }
   //压缩
-  const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${
-    t.task.author
-  }（bot）.7z`;
+  const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_Bot.nep`;
   if (
     !(await compress(
       p.val.readyRelativePath,

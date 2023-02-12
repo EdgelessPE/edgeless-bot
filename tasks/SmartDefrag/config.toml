@@ -2,7 +2,7 @@
 [task]
 name = "SmartDefrag"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/utilities/smart_defrag_portable"
 
 # 指定使用的模板

@@ -97,7 +97,7 @@ interface DatabaseNode {
 //任务实例
 interface TaskInstance {
   name: string;
-  author: string;
+  author: string[];
   category: string;
   pageUrl: string;
   template: {

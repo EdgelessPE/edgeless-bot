@@ -2,7 +2,7 @@
 [task]
 name = "eSearch"
 category = "办公编辑"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://github.com/xushengfeng/eSearch"
 
 # 指定使用的模板

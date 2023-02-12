@@ -2,7 +2,7 @@
 [task]
 name = "百度网盘"
 category = "下载上传"
-author = "Cno"
+author = ["Cno"]
 url = "https://pan.baidu.com/download"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "CrystalDiskMark"
 category = "磁盘数据"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://portableapps.com/apps/utilities/crystaldiskmark_portable"
 
 # 指定使用的模板

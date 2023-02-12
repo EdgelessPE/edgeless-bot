@@ -2,7 +2,7 @@
 [task]
 name = "星愿浏览器"
 category = "浏览器"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.twinkstar.com/"
 
 # 指定使用的模板

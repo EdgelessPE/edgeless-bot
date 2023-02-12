@@ -2,7 +2,7 @@
 [task]
 name = "Sumatra PDF"
 category = "办公编辑"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/office/sumatra_pdf_portable"
 
 # 指定使用的模板

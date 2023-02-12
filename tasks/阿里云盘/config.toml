@@ -2,7 +2,7 @@
 [task]
 name = "阿里云盘"
 category = "下载上传"
-author = "Cno"
+author = ["Cno"]
 url = "https://yunpan.aliyun.com/"
 
 # 指定使用的模板

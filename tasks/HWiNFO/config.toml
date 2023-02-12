@@ -2,7 +2,7 @@
 [task]
 name = "HWiNFO"
 category = "配置检测"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/utilities/hwinfo-portable"
 
 # 指定使用的模板

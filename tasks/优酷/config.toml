@@ -2,7 +2,7 @@
 [task]
 name = "优酷"
 category = "影音播放"
-author = "Cno"
+author = ["Cno"]
 url = "https://youku.com/product/index"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "向日葵远程控制"
 category = "远程连接"
-author = "Cno"
+author = ["Cno"]
 url = "https://sunlogin.oray.com/download"
 
 # 指定使用的模板

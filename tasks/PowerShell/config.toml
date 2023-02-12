@@ -2,7 +2,7 @@
 [task]
 name = "PowerShell"
 category = "运行环境"
-author = "Cno"
+author = ["Cno"]
 url = "https://github.com/PowerShell/PowerShell"
 
 # 指定使用的模板

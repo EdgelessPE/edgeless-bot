@@ -2,7 +2,7 @@
 [task]
 name = "Nali"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/nali.json"
 
 # 指定使用的模板

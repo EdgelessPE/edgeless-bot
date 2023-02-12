@@ -2,7 +2,7 @@
 [task]
 name = "WPS"
 category = "办公编辑"
-author = "Cno"
+author = ["Cno"]
 url = "https://platform.wps.cn"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "WizTree"
 category = "资源管理"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://portableapps.com/apps/utilities/wiztree-portable"
 
 # 指定使用的模板

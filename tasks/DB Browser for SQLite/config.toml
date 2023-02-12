@@ -2,7 +2,7 @@
 [task]
 name = "DB Browser for SQLite"
 category = "集成开发"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://portableapps.com/apps/development/sqlite_database_browser_portable"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "ChromeDev"
 category = "浏览器"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://portableapps.com/apps/internet/google-chrome-portable-dev"
 
 # 指定使用的模板

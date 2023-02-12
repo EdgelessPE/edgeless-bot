@@ -2,7 +2,7 @@
 [task]
 name = "DOSBOX"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/games/dosbox_portable"
 
 # 指定使用的模板

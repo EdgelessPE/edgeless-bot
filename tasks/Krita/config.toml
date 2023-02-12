@@ -2,7 +2,7 @@
 [task]
 name = "Krita"
 category = "媒体处理"
-author = "wdw1007"
+author = ["wdw1007"]
 url = "https://krita.org"
 
 # 指定使用的模板

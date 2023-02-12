@@ -2,7 +2,7 @@
 [task]
 name = "AnyDesk"
 category = "远程连接"
-author = "Cno"
+author = ["Cno"]
 url = "https://anydesk.com"
 
 # 指定使用的模板

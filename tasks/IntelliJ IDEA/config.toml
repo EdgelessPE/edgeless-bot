@@ -2,7 +2,7 @@
 [task]
 name = "IntelliJ IDEA"
 category = "集成开发"
-author = "JohnsonRan"
+author = ["JohnsonRan"]
 url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/idea.json"
 
 # 指定使用的模板

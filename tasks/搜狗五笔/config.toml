@@ -2,7 +2,7 @@
 [task]
 name = "搜狗五笔"
 category = "输入法"
-author = "Cno"
+author = ["Cno"]
 url = "https://wubi.sogou.com/"
 
 # 指定使用的模板

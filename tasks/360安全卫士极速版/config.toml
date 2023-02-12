@@ -2,7 +2,7 @@
 [task]
 name = "360安全卫士极速版"
 category = "安全急救"
-author = "Cno"
+author = ["Cno"]
 url = "https://weishi.360.cn/jisu"
 
 # 指定使用的模板

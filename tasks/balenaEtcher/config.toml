@@ -2,7 +2,7 @@
 [task]
 name = "balenaEtcher"
 category = "压缩镜像"
-author = "Hydrogen"
+author = ["Hydrogen"]
 url = "https://github.com/balena-io/etcher"
 
 # 指定使用的模板

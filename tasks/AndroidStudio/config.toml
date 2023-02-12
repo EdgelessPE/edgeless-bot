@@ -2,7 +2,7 @@
 [task]
 name = "AndroidStudio"
 category = "集成开发"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/android-studio.json"
 
 # 指定使用的模板

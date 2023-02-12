@@ -2,7 +2,7 @@
 [task]
 name = "QtScrcpy"
 category = "开发辅助"
-author = "JohnsonRan"
+author = ["JohnsonRan"]
 url = "https://github.com/barry-ran/QtScrcpy"
 
 # 指定使用的模板

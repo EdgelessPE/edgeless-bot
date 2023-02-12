@@ -2,7 +2,7 @@
 [task]
 name = "Bandizip"
 category = "压缩镜像"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.bandisoft.com/bandizip/"
 
 # 指定使用的模板

@@ -2,7 +2,7 @@
 [task]
 name = "TIM"
 category = "即时通讯"
-author = "Cno"
+author = ["Cno"]
 url = "https://tim.qq.com/download.html"
 
 # 指定使用的模板

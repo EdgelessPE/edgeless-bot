@@ -2,7 +2,7 @@
 [task]
 name = "TrafficMonitor"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/zhongyang219/TrafficMonitor"
 
 # 指定使用的模板

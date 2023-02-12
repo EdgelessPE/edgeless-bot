@@ -2,7 +2,7 @@
 [task]
 name = "Rust"
 category = "运行环境"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/rust.json"
 
 # 指定使用的模板

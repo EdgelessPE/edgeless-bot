@@ -2,7 +2,7 @@
 [task]
 name = "驱动总裁网卡版"
 category = "驱动管理"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.sysceo.com/Software-softwarei-id-245.html"
 
 # 指定使用的模板

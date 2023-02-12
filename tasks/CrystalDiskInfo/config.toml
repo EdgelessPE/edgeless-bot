@@ -2,7 +2,7 @@
 [task]
 name = "CrystalDiskInfo"
 category = "磁盘数据"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/utilities/crystaldiskinfo_portable"
 
 # 指定使用的模板

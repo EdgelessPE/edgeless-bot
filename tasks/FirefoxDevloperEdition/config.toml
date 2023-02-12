@@ -2,7 +2,7 @@
 [task]
 name = "FirefoxDevloperEdition"
 category = "浏览器"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/internet/firefox-developer-portable"
 
 # 指定使用的模板

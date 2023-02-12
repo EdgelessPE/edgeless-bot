@@ -2,7 +2,7 @@
 [task]
 name = "XnView"
 category = "录屏看图"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/graphics_pictures/xnview_portable"
 
 # 指定使用的模板

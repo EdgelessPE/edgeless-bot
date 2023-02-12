@@ -2,7 +2,7 @@
 [task]
 name = "Git"
 category = "集成开发"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/git-for-windows/git"
 
 # 指定使用的模板

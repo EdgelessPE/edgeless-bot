@@ -2,7 +2,7 @@
 [task]
 name = "Wechat"
 category = "即时通讯"
-author = "Cno"
+author = ["Cno"]
 url = "https://pc.weixin.qq.com/?t=win_weixin&lang=zh_CN"
 
 # 指定使用的模板

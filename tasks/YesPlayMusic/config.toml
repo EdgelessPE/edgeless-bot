@@ -2,7 +2,7 @@
 [task]
 name = "YesPlayMusic"
 category = "影音播放"
-author = "Cno"
+author = ["Cno"]
 url = "https://github.com/qier222/YesPlayMusic"
 
 # 指定使用的模板

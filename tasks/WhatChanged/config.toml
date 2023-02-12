@@ -2,7 +2,7 @@
 [task]
 name = "WhatChanged"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/utilities/whatchanged-portable"
 
 # 指定使用的模板

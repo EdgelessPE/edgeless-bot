@@ -2,7 +2,7 @@
 [task]
 name = "飞书"
 category = "网课会议"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.feishu.cn/download"
 
 # 指定使用的模板

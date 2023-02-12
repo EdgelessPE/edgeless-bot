@@ -2,7 +2,7 @@
 [task]
 name = "Atom"
 category = "集成开发"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/atom/atom"
 
 # 指定使用的模板

@@ -5,7 +5,10 @@
       "type": "object",
       "properties": {
         "author": {
-          "type": "string"
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "category": {
           "type": "string",

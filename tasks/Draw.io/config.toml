@@ -2,7 +2,7 @@
 [task]
 name = "Draw.io"
 category = "办公编辑"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/graphics_pictures/drawio-portable"
 
 # 指定使用的模板

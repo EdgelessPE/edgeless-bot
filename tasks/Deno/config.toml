@@ -2,7 +2,7 @@
 [task]
 name = "Deno"
 category = "运行环境"
-author = "Hydrogen"
+author = ["Hydrogen"]
 url = "https://github.com/denoland/deno"
 
 # 指定使用的模板

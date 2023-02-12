@@ -2,7 +2,7 @@
 [task]
 name = "360极速浏览器X"
 category = "浏览器"
-author = "Cno"
+author = ["Cno"]
 url = "https://browser.360.cn/eex/index.html"
 
 # 指定使用的模板

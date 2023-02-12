@@ -1,7 +1,7 @@
 [task]
 name = "ChromeDriver"
 category = "开发辅助"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/chromedriver.json"
 
 # 指定使用的模板

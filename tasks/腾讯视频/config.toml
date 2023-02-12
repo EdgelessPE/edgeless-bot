@@ -2,7 +2,7 @@
 [task]
 name = "腾讯视频"
 category = "影音播放"
-author = "Cno"
+author = ["Cno"]
 url = "https://node.video.qq.com/x/api/download_pc"
 
 # 指定使用的模板

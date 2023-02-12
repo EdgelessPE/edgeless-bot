@@ -2,7 +2,7 @@
 [task]
 name = "VLC"
 category = "影音播放"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/music_video/vlc_portable"
 
 # 指定使用的模板

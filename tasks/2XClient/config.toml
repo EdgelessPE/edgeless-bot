@@ -2,7 +2,7 @@
 [task]
 name = "2XClient"
 category = "远程连接"
-author = "Cno"
+author = ["Cno"]
 url = "https://portableapps.com/apps/utilities/2x_client_portable"
 
 # 指定使用的模板

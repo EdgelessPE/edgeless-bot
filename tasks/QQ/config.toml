@@ -2,7 +2,7 @@
 [task]
 name = "QQ"
 category = "即时通讯"
-author = "Cno"
+author = ["Cno"]
 url = "https://im.qq.com/pcqq"
 
 # 指定使用的模板

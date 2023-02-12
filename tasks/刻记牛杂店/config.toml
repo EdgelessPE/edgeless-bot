@@ -2,7 +2,7 @@
 [task]
 name = "刻记牛杂店"
 category = "游戏娱乐"
-author = "Horatio Shaw"
+author = ["Horatio Shaw"]
 url = "https://github.com/xunkong/KeqingNiuza/releases"
 
 # 指定使用的模板

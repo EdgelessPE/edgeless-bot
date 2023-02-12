@@ -2,7 +2,7 @@
 [task]
 name = "payload-dumper-go"
 category = "开发辅助"
-author = "JohnsonRan"
+author = ["JohnsonRan"]
 url = "https://github.com/ssut/payload-dumper-go"
 
 # 指定使用的模板

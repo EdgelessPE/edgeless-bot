@@ -2,7 +2,7 @@
 [task]
 name = "adb"
 category = "开发辅助"
-author = "Cno"
+author = ["Cno"]
 url = "https://developer.android.com/studio/releases/platform-tools"
 
 # 指定使用的模板

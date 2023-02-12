@@ -2,7 +2,7 @@
 [task]
 name = "爱奇艺"
 category = "影音播放"
-author = "Cno"
+author = ["Cno"]
 url = "https://app.iqiyi.com/pc/player/index.html"
 
 # 指定使用的模板

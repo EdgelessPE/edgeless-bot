@@ -2,7 +2,7 @@
 [task]
 name = "bottom"
 category = "实用工具"
-author = "undefined"
+author = ["undefined"]
 url = "https://github.com/ClementTsang/bottom/releases"
 
 # 指定使用的模板

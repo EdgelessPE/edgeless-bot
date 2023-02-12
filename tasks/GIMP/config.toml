@@ -2,7 +2,7 @@
 [task]
 name = "GIMP"
 category = "媒体处理"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/graphics_pictures/gimp_portable"
 
 # 指定使用的模板

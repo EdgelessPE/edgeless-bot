@@ -2,7 +2,7 @@
 [task]
 name = "Thunderbird"
 category = "实用工具"
-author = "wdw1007"
+author = ["wdw1007"]
 url = "https://www.thunderbird.net"
 
 # 指定使用的模板

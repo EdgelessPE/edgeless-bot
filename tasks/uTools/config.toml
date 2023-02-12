@@ -2,7 +2,7 @@
 [task]
 name = "uTools"
 category = "实用工具"
-author = "Cno"
+author = ["Cno"]
 url = "https://www.u.tools/"
 
 # 指定使用的模板

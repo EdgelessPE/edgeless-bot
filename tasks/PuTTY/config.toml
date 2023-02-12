@@ -2,7 +2,7 @@
 [task]
 name = "PuTTY"
 category = "远程连接"
-author = "undefined"
+author = ["undefined"]
 url = "https://portableapps.com/apps/internet/putty_portable"
 
 # 指定使用的模板

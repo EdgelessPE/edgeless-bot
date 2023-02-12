@@ -21,7 +21,7 @@ download_name = '\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/DrvCeo.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/DrvCeo.exe"]
 # build_cover = ""
 # build_delete = ["Uninstall.exe"]
 

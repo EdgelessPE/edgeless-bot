@@ -21,7 +21,7 @@ download_name = 'QtScrcpy-win-x64-v[0-9.]+.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}"]
+build_manifest = ["workflows/setup.toml","${taskName}"]
 # build_cover = ""
 # build_delete = []
 

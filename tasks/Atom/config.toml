@@ -21,7 +21,7 @@ download_name = '\S*x64-windows\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/atom.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/atom.exe"]
 # build_cover = ""
 # build_delete = []
 

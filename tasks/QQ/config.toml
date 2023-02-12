@@ -21,7 +21,7 @@ scraper_version = 'QQ Windows版 \d+\.\d+(\.\d+)*'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
 

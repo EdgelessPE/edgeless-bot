@@ -21,7 +21,7 @@ download_name = 'x64-win\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/蓝奏云盘.exe"]
+build_manifest = ["workflows/setup.toml","${taskName}/蓝奏云盘.exe"]
 # build_cover = ""
 # build_delete = []
 

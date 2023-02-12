@@ -21,7 +21,7 @@ download_name = '\.7z'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/PartAssist.exe"]
+build_manifest = ["workflows/setup.toml","${taskName}/PartAssist.exe"]
 # build_cover = ""
 # build_delete = []
 

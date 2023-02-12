@@ -21,7 +21,7 @@ download_name = '\.paf\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/2XClient.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/2XClient.exe"]
 build_cover = "cover"
 # build_delete = ["$PLUGINSDIR","help.html","Other"]
 

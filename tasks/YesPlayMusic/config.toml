@@ -21,7 +21,7 @@ download_name = 'Setup.*\.exe$'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/YesPlayMusic.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/YesPlayMusic.exe"]
 # build_cover = ""
 # build_delete = []
 

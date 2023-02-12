@@ -21,7 +21,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "GoogleChromePortableBeta/GoogleChromePortable.exe"]
+build_manifest = ["workflows/setup.toml", "GoogleChromePortableBeta/GoogleChromePortable.exe"]
 build_cover = "cover"
 # build_delete = []
 

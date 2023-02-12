@@ -21,7 +21,7 @@ download_name = '^deno-x86_64-pc-windows-msvc.*\.zip$'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/deno.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/deno.exe"]
 build_cover = "cover"
 # build_delete = []
 

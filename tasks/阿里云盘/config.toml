@@ -21,7 +21,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/aDrive.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/aDrive.exe"]
 # build_cover = ""
 build_delete = ["$PLUGINSDIR", "$TEMP"]
 

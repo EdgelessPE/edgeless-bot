@@ -21,7 +21,7 @@ download_name = 'balenaEtcher-Portable-[\d\.]+.exe'
 [parameter]
 # resolver_cd = ["",""]
 # compress_level = 1
-build_manifest = ["${taskName}.wcs", "${taskName}/balenaEtcher.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/balenaEtcher.exe"]
 # build_cover = "cover.7z"
 
 # 自动制作模板要求的参数

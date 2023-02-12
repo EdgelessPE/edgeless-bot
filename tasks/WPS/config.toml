@@ -21,7 +21,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/$EXEFILE"]
+build_manifest = ["workflows/setup.toml","${taskName}/$EXEFILE"]
 build_cover = "cover"
 build_delete = ["oeminfo","oem_enterprise.txt","oem_static.exe","oem.ini"]
 

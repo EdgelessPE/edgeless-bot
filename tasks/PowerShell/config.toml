@@ -21,7 +21,7 @@ download_name = 'PowerShell-[0-9\.]+-win-x64.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}\\pwsh.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}\\pwsh.exe"]
 build_cover = "cover"
 # build_delete = []
 

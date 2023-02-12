@@ -3,10 +3,12 @@ import { Err, Ok, Result } from "ts-results";
 import { release } from "../../src/p7zip";
 import path from "path";
 import fs from "fs";
-import { log, writeGBK } from "../../src/utils";
+import { log } from "../../src/utils";
 import ini from "ini";
 
 import shell from "shelljs";
+import {NepWorkflow} from "../../src/types/nep";
+import TOML from "@iarna/toml";
 
 interface RequiredObject {
   shortcutName?: string;
@@ -101,17 +103,29 @@ export default async function (
     log("Warning:Exe file may be wrong:" + exe);
   }
   //写外置批处理
-  const cmd =
-    `FILE X:\\Program Files\\Edgeless\\${taskName}->X:\\Users\\PortableApps\\${taskName}` +
-    `\nLINK X:\\Users\\Default\\Desktop\\${
-      obj.shortcutName ?? taskName
-    },X:\\Users\\PortableApps\\${taskName}\\${exe}${
-      obj.launchArg ? "," + obj.launchArg : ""
-    }`;
-  writeGBK(path.join(readyDir, "..", taskName + ".wcs"), cmd);
+  // const cmd =
+  //   `FILE X:\\Program Files\\Edgeless\\${taskName}->X:\\Users\\PortableApps\\${taskName}` +
+  //   `\nLINK X:\\Users\\Default\\Desktop\\${
+  //     obj.shortcutName ?? taskName
+  //   },X:\\Users\\PortableApps\\${taskName}\\${exe}${
+  //     obj.launchArg ? "," + obj.launchArg : ""
+  //   }`;
+  // fs.writeFileSync(path.join(readyDir, "..", taskName + ".wcs"), cmd);
+
+  //写 setup.toml
+  const wfp=path.join(readyDir, "..","workflows")
+  shell.mkdir("-p",wfp)
+  const setup:NepWorkflow={
+    link:{
+      name:"Create Shortcut",
+      step:"Link",
+      source_file:exe,
+      target_name:taskName
+    }
+  }
+  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
 
   return new Ok({
     readyRelativePath: "_ready",
-    mainProgram:exe
   });
 }

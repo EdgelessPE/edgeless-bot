@@ -594,7 +594,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       path.join(workshop, fileName)
     ))
   ) {
-    return new Err("Error:Compress failed");
+    return new Err("Error:Packing failed");
   }
   shell.mkdir(
     "-p",

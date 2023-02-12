@@ -11,7 +11,7 @@ interface NepPackage {
     "software": {
         "upstream": string,
         "category": string,
-        "main_program": string
+        "main_program"?: string
     }
 }
 

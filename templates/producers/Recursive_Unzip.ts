@@ -2,12 +2,14 @@ import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import fs from "fs";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
-import { log, sleep, writeGBK } from "../../src/utils";
+import { log, sleep } from "../../src/utils";
 import { release } from "../../src/p7zip";
 import os from "os";
 import cp from "child_process";
 
 import shell from "shelljs";
+import {NepWorkflow} from "../../src/types/nep";
+import TOML from "@iarna/toml";
 
 interface RequiredObject {
   recursiveUnzipList: Array<string>;
@@ -101,7 +103,7 @@ export default async function (
   if (!fs.existsSync(path.join(cwd, obj.sourceFile))) {
     return new Err(`Error:Can't find source file ${obj.sourceFile} in ${cwd}`);
   }
-  //重命名并生成外置批处理
+  //重命名
   const final = path.join(p.workshop, "_ready");
   shell.mkdir(final);
   shell.mv(cwd, path.join(final, p.taskName));
@@ -115,15 +117,28 @@ export default async function (
       cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`);
     } else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`);
   }
-  writeGBK(
-    path.join(final, p.taskName + ".wcs"),
-    `LINK X:\\Users\\Default\\Desktop\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}`
+
+  //生成 setup.toml
+  const setupWorkflow:NepWorkflow={
+    link:{
+      name:"Create Shortcut",
+      step:"Link",
+      source_file:obj.sourceFile,
+      target_name:obj.shortcutName
+    }
+  }
+  const wfPath=path.join(final,"workflows")
+  shell.mkdir("-p",wfPath)
+  fs.writeFileSync(
+    path.join(wfPath, "setup.toml"),
+    TOML.stringify(setupWorkflow as any)
   );
+
   //自检
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(final, p));
   };
-  if (exist(p.taskName + ".wcs") && exist(p.taskName + "/" + obj.sourceFile)) {
+  if (exist(path.join("workflows", "setup.toml")) && exist(p.taskName + "/" + obj.sourceFile)) {
     return new Ok({
       readyRelativePath: "_ready",
       mainProgram:obj.sourceFile

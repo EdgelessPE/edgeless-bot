@@ -4,6 +4,8 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 
 import shell from "shelljs";
+import TOML from "@iarna/toml";
+import {NepWorkflow} from "../../src/types/nep";
 
 interface RequiredObject {
   shortcutName: string;
@@ -20,15 +22,26 @@ export default async function (
 
   shell.mkdir("-p", rD);
   shell.mv(aDF, rD);
-  fs.writeFileSync(
-    path.join(ready, taskName + ".wcs"),
-    `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`
-  );
+  // fs.writeFileSync(
+  //   path.join(ready, taskName + ".wcs"),
+  //   `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`
+  // );
+  const wfp=path.join(ready,"workflows")
+  shell.mkdir("-p",wfp)
+  const setup:NepWorkflow={
+    link:{
+      name:"Create Shortcut",
+      step:"Link",
+      source_file:downloadedFile,
+      target_name:shortcutName
+    }
+  }
+  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
 
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(ready, p));
   };
-  if (exist(taskName + ".wcs") && exist(taskName + "/" + downloadedFile)) {
+  if (exist(path.join("workflows","setup.toml")) && exist(taskName + "/" + downloadedFile)) {
     return new Ok({
       readyRelativePath: "ready",
       mainProgram:downloadedFile

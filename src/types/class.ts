@@ -67,7 +67,7 @@ interface ProducerParameters {
 
 interface ProducerReturned {
   readyRelativePath: string;
-  mainProgram:string;
+  mainProgram?:string;
 }
 
 interface ProducerRegister {

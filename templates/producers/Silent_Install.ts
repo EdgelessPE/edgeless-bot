@@ -2,9 +2,10 @@ import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
-import { writeGBK } from "../../src/utils";
 
 import shell from "shelljs";
+import {NepWorkflow} from "../../src/types/nep";
+import TOML from "@iarna/toml";
 
 interface RequiredObject {
   argument?: string;
@@ -20,19 +21,31 @@ export default async function (
     del = obj.deleteInstaller ?? false;
 
   const readyPath = path.join(workshop, "_ready"),
-    wcsPath = path.join(readyPath, taskName + ".wcs"),
+      workflow=path.join(readyPath,"workflows"),
+    setupPath = path.join(workflow, "setup.toml"),
     fileDir = path.join(readyPath, taskName);
   shell.mkdir("-p", fileDir);
   shell.cp(path.join(workshop, downloadedFile), fileDir + "/");
 
-  let text = `EXEC =! %ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile} ${arg}`;
-  if (del) {
-    text += `\nFILE %ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`;
+  shell.mkdir("-p",workflow)
+
+  // let text = `EXEC =! %ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile} ${arg}`;
+  // if (del) {
+  //   text += `\nFILE %ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`;
+  // }
+
+  const setupWorkflow:NepWorkflow={
+    run_installer:{
+      name:"Run Installer",
+      step:"Execute",
+      command:`${downloadedFile} ${arg}`,
+    }
   }
-  writeGBK(wcsPath, text);
+  // TODO:实现 del 特性
+  fs.writeFileSync(setupPath, TOML.stringify(setupWorkflow as any));
 
   if (
-    fs.existsSync(wcsPath) &&
+    fs.existsSync(setupPath) &&
     fs.existsSync(path.join(fileDir, downloadedFile))
   ) {
     return new Ok({

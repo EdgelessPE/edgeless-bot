@@ -1,5 +1,4 @@
 import {where} from "./platform";
-import shell from "shelljs";
 import path from "path";
 import cp from "child_process";
 import {log} from "./utils";
@@ -12,8 +11,9 @@ async function packIntoNep(
     log(`Info:Packing ${sourceDir} into ${intoFile}`)
     return new Promise((resolve) => {
         const ept = where("ept").unwrap();
+        let output
         try {
-            cp.execSync(`${ept} pack "${sourceDir}" "${intoFile}"`, {
+            output=cp.execSync(`${ept} pack "${sourceDir}" "${intoFile}"`, {
                 cwd: path.join(process.cwd(),"bin","ept"),
             });
         } catch (e) {
@@ -21,7 +21,12 @@ async function packIntoNep(
             resolve(false);
             return;
         }
-        resolve(fs.existsSync(intoFile));
+        if(fs.existsSync(intoFile)){
+            resolve(true);
+        }else{
+            log("Error:Pack command failed with output:\n" + output);
+            resolve(false);
+        }
     });
 }
 

@@ -1,0 +1,9 @@
+/target
+/bin
+/temp
+/apps
+/logs
+*.tar
+*.zst
+*.nep
+.vscode

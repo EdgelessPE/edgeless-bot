@@ -4,11 +4,11 @@ DATABASE_UPDATE = true
 DATABASE_PATH = "./database.json"
 
 # 是否启用远程功能
-REMOTE_ENABLE = true
+REMOTE_ENABLE = false
 # 远程存储的rclone名称
 REMOTE_NAME = "pineapple"
 # 远程存储路径
-REMOTE_PATH = "/hdisk/edgeless/插件包"
+REMOTE_PATH = "/hdisk/edgeless/nep/mirror"
 
 # 任务存储路径
 DIR_TASKS = "./tasks"

@@ -22,7 +22,7 @@ download_name = '\.zip'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["workflows/setup.toml", "${taskName}/Code.exe"]
-build_cover = "vscode_cover.7z"
+# build_cover = "vscode_cover.7z"
 # build_delete = []
 
 # 爬虫模板临时参数

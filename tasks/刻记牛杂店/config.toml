@@ -31,8 +31,8 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "刻记牛杂店"
-sourceFile = "\\KeqingNiuza\\KeqingNiuza.Final.exe"
-recursiveUnzipList = [ ]
+sourceFile = "KeqingNiuza.Final.exe"
+recursiveUnzipList = ["/KeqingNiuza/"]
 
 
 # 额外备注

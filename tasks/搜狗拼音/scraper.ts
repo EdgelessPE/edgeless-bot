@@ -3,6 +3,8 @@ import { ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/network";
 import { log, versionCmp, Cmp } from "../../src/utils";
 
+const reg=/<script id="__NEXT_DATA__" type="application\/json">({[^<]+})<\/script><\/body>/
+
 export default async function (): Promise<Result<ScraperReturned, string>> {
   let version = "0.0",
     url = "";
@@ -11,11 +13,16 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
     await robustGet("https://pinyin.sogou.com/")
   ).unwrap() as string;
   //匹配页面json数据
-  const jsonM = page.match(/\{.*}/);
-  if (jsonM == null || jsonM.length > 1) {
+  const jsonM = page.match(reg);
+  if (jsonM == null) {
     return new Err("Error:Can't match or match multi json data");
   }
-  url = JSON.parse(jsonM[0]).props.pageProps.data.windows.link;
+
+  try{
+    url = JSON.parse(jsonM[0].replace(reg,"$1")).props.pageProps.data.windows.link;
+  }catch(e){
+    return new Err("Error:Can't read version from json : "+JSON.stringify(e));
+  }
 
   log("Info:Matched url " + url);
 

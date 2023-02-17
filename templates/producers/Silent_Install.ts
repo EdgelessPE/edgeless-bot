@@ -10,12 +10,13 @@ import TOML from "@iarna/toml";
 interface RequiredObject {
   argument?: string;
   deleteInstaller?: boolean;
+  uninstallCmd?:string;
 }
 
 export default async function (
   p: ProducerParameters
 ): Promise<Result<ProducerReturned, string>> {
-  const { taskName, downloadedFile, workshop } = p;
+  const { taskName, downloadedFile, workshop, } = p;
   const obj = p.requiredObject as RequiredObject;
   const arg = obj.argument ?? "/S",
     del = obj.deleteInstaller ?? false;
@@ -23,6 +24,7 @@ export default async function (
   const readyPath = path.join(workshop, "_ready"),
       workflow=path.join(readyPath,"workflows"),
     setupPath = path.join(workflow, "setup.toml"),
+      removePath=path.join(workflow,"remove.toml"),
     fileDir = path.join(readyPath, taskName);
   shell.mkdir("-p", fileDir);
   shell.cp(path.join(workshop, downloadedFile), fileDir + "/");
@@ -41,8 +43,20 @@ export default async function (
       command:`${downloadedFile} ${arg}`,
     }
   }
-  // TODO:实现 del 特性
+  // TODO:等待 File 步骤上线后实现 del 特性
   fs.writeFileSync(setupPath, TOML.stringify(setupWorkflow as any));
+
+  // 写卸载流
+  if(obj.uninstallCmd){
+    const removeWorkflow:NepWorkflow={
+      run_uninstaller:{
+        name:"Run Uninstaller",
+        step:"Execute",
+        command:obj.uninstallCmd
+      }
+    }
+    fs.writeFileSync(removePath, TOML.stringify(removeWorkflow as any));
+  }
 
   if (
     fs.existsSync(setupPath) &&

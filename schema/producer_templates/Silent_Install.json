@@ -9,6 +9,10 @@
     "deleteInstaller": {
       "type": "boolean",
       "description": "Delete installer after installing"
+    },
+    "uninstallCmd": {
+      "type": "string",
+      "description": "Uninstalling command"
     }
   }
 }

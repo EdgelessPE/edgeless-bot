@@ -580,7 +580,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     software:{
       upstream:t.task.pageUrl,
       category:t.task.category,
-      main_program:p.val.mainProgram
+      main_program:p.val.mainProgram??t.task.parameter.main_program
     }
   }
 

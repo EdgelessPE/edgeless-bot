@@ -88,6 +88,9 @@
             "type": "string"
           },
           "type": "array"
+        },
+        "main_program": {
+          "type": "string"
         }
       },
       "required": ["build_manifest"],

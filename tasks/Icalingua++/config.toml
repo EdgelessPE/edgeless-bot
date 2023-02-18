@@ -14,7 +14,7 @@ producer = "Silent_Install"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\x64.exe'
+download_name = 'x64\.exe'
 # scraper_version = ''
 
 # 通用参数

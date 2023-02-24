@@ -30,7 +30,7 @@ export default async function (
 ): Promise<Result<ScraperReturned, string>> {
   //发送请求
   const temp = p.scraper_temp as Temp;
-  let json = (
+  const jsonRes = (
     await robustGet(
       temp.api_url,
       temp.referer == undefined
@@ -41,7 +41,11 @@ export default async function (
             },
           }
     )
-  ).unwrap();
+  );
+  if (jsonRes.err){
+    return jsonRes
+  }
+  let json=jsonRes.unwrap()
   //尝试读取json
   const versionReadRes = objChainReader(json, temp.version_path.split(".")),
     linkReadRes = objChainReader(json, temp.download_path.split("."));

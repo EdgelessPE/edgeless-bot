@@ -15,7 +15,7 @@ producer = "PortableApps"
 [regex]
 download_link = 'https?:\/\/[\w/.]+WiresharkPortable64_[0-9.]+\.paf\.exe'
 download_name = '\.exe'
-scraper_version = 'Stable Release\s*\([0-9.]+\)'
+# scraper_version = 'Stable Release\s*\([0-9.]+\)'
 
 # 通用参数
 [parameter]
@@ -27,7 +27,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_selector = ".accordion-toggle"
+version_selector = "#_downloadPage_1tgoo_1 > div:nth-child(1) > p"
 
 
 # 自动制作模板要求的参数

@@ -36,6 +36,7 @@
   "Author": "作者",
   "Upstream URL": "上游URL",
   "Regex for downloaded file": "下载文件校验正则",
+  "Scope": "软件域，通常取第二作者（例如 Microsoft/VSCode 中的 Microsoft，或 PortableApps/Firefox 中的 PortableApps）",
   "Build manifest, split file name with ,": "构建装箱单,使用 , 分割文件名",
   "Task config saved to ": "任务配置保存在 ",
   "test it with ": "使用此命令测试这个任务：",

@@ -3,6 +3,7 @@
 name = "HDHacker"
 category = "实用工具"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/hdhacker_portable"
 
 # 指定使用的模板

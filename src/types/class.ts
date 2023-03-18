@@ -98,6 +98,7 @@ interface DatabaseNode {
 //任务实例
 interface TaskInstance {
   name: string;
+  scope: string;
   author: string[];
   license?:string;
   category: string;

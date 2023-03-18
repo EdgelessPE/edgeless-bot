@@ -3,6 +3,7 @@
 name = "PeaZip"
 category = "压缩镜像"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/peazip_portable"
 
 # 指定使用的模板

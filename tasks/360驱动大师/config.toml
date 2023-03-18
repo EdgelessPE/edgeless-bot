@@ -3,6 +3,7 @@
 name = "360驱动大师"
 category = "驱动管理"
 author = ["Cno"]
+scope = "360"
 url = "https://dm.weishi.360.cn/home.html"
 
 # 指定使用的模板

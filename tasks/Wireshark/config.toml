@@ -3,6 +3,7 @@
 name = "Wireshark"
 category = "开发辅助"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://www.wireshark.org/download.html"
 
 # 指定使用的模板

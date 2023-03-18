@@ -3,6 +3,7 @@
 name = "Rufus"
 category = "压缩镜像"
 author = ["Horatio Shaw"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/rufus-portable"
 
 # 指定使用的模板

@@ -3,6 +3,7 @@
 name = "Opera"
 category = "浏览器"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/opera_portable"
 
 # 指定使用的模板

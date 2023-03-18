@@ -3,6 +3,7 @@
 name = "DuplicateFilesFinder"
 category = "实用工具"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/duplicate-files-finder-portable"
 
 # 指定使用的模板

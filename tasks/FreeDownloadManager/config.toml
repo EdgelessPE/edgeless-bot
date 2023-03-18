@@ -3,6 +3,7 @@
 name = "FreeDownloadManager"
 category = "下载上传"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/free-download-manager-portable"
 
 # 指定使用的模板

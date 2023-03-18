@@ -3,6 +3,7 @@
 name = "360压缩"
 category = "压缩镜像"
 author = ["Cno"]
+scope = "360"
 url = "https://yasuo.360.cn/"
 
 # 指定使用的模板

@@ -3,6 +3,7 @@
 name = "GIMP"
 category = "媒体处理"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/graphics_pictures/gimp_portable"
 
 # 指定使用的模板

@@ -3,6 +3,7 @@
 name = "Diffpdf"
 category = "实用工具"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/diffpdf_portable"
 
 # 指定使用的模板

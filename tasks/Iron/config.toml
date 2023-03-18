@@ -3,6 +3,7 @@
 name = "Iron"
 category = "浏览器"
 author = ["Horatio Shaw"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/iron_portable"
 
 # 指定使用的模板

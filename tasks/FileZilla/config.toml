@@ -3,6 +3,7 @@
 name = "FileZilla"
 category = "下载上传"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/filezilla_portable"
 
 # 指定使用的模板

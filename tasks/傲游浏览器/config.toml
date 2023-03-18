@@ -3,6 +3,7 @@
 name = "傲游浏览器"
 category = "浏览器"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/maxthon_portable"
 
 # 指定使用的模板

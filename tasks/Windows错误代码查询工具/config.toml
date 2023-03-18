@@ -3,6 +3,7 @@
 name = "Windows错误代码查询工具"
 category = "实用工具"
 author = ["Horatio Shaw"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/windows_error_lookup_tool_portable"
 
 # 指定使用的模板

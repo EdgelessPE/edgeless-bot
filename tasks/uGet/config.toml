@@ -3,6 +3,7 @@
 name = "uGet"
 category = "下载上传"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/uget-portable"
 
 # 指定使用的模板

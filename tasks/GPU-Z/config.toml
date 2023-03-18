@@ -3,6 +3,7 @@
 name = "GPU-Z"
 category = "配置检测"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/GPU-Z-portable"
 
 # 指定使用的模板

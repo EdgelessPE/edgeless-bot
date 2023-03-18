@@ -3,6 +3,7 @@
 name = "DOSBOX"
 category = "实用工具"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/games/dosbox_portable"
 
 # 指定使用的模板

@@ -3,6 +3,7 @@
 name = "PuTTY"
 category = "远程连接"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/putty_portable"
 
 # 指定使用的模板

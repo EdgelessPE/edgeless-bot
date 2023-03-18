@@ -41,12 +41,13 @@ import shell from "shelljs";
 import rcInfo from "rcinfo";
 import {NepPackage} from "./types/nep";
 import TOML from "@iarna/toml";
-import {packIntoNep} from "./ept";
+import { packIntoNep } from "./ept";
 
 export interface TaskConfig {
   task: {
     name: TaskInstance["name"];
     author: TaskInstance["author"];
+    scope: TaskInstance["scope"];
     category: TaskInstance["category"];
     url: TaskInstance["pageUrl"];
     license?:TaskInstance["license"]
@@ -197,6 +198,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       const res: any = json;
       res["name"] = json.task.name;
       res["author"] = json.task.author;
+      res["scope"] = json.task.scope;
       res["category"] = json.task.category;
       res["pageUrl"] = json.task.url;
       res["license"]=json.task.license
@@ -578,6 +580,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       licence:t.task.license
     },
     software:{
+      scope:t.task.scope,
       upstream:t.task.pageUrl,
       category:t.task.category,
       main_program:p.val.mainProgram??t.task.parameter.main_program

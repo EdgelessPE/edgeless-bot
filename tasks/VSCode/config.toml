@@ -3,6 +3,7 @@
 name = "VSCode"
 category = "集成开发"
 author = ["Cno"]
+scope = "Microsoft"
 url = "https://code.visualstudio.com/"
 
 # 指定使用的模板

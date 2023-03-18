@@ -3,6 +3,7 @@
 name = "WiseDiskCleaner"
 category = "实用工具"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/wise-disk-cleaner-portable"
 
 # 指定使用的模板

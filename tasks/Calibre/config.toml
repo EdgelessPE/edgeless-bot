@@ -3,6 +3,7 @@
 name = "Calibre"
 category = "办公编辑"
 author = ["undefined"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/office/calibre-portable"
 
 # 指定使用的模板

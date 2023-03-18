@@ -3,6 +3,7 @@
 name = "Firefox"
 category = "浏览器"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/firefox_portable"
 
 # 指定使用的模板

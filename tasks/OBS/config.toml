@@ -3,6 +3,7 @@
 name = "OBS"
 category = "录屏看图"
 author = ["Horatio Shaw"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/music_video/obs-studio-portable"
 
 # 指定使用的模板

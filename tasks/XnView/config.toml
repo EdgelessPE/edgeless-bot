@@ -3,6 +3,7 @@
 name = "XnView"
 category = "录屏看图"
 author = ["Cno"]
+scope = "PortableApps"
 url = "https://portableapps.com/apps/graphics_pictures/xnview_portable"
 
 # 指定使用的模板

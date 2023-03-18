@@ -9,6 +9,7 @@ interface NepPackage {
         "licence"?: string
     },
     "software": {
+        "scope": string,
         "upstream": string,
         "category": string,
         "main_program"?: string

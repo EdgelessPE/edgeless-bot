@@ -341,6 +341,7 @@ async function createTask() {
       name: taskName,
       category: Categories[await select(t("Task category"), Categories)],
       author: await stringArray(t("Author")),
+      scope:await input(t("Scope")),
       url: await inputUpstreamUrl(),
     },
     template: {

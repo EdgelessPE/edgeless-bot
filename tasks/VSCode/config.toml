@@ -1,9 +1,13 @@
 # 任务基本信息
 [task]
 name = "VSCode"
+description = "微软开发的跨平台开源编辑器"
 category = "集成开发"
 author = ["Cno"]
 scope = "Microsoft"
+license = "MIT"
+language = "Multi"
+tags = ["code","electron","typescript"]
 url = "https://code.visualstudio.com/"
 
 # 指定使用的模板

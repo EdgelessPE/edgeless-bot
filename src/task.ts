@@ -48,6 +48,9 @@ export interface TaskConfig {
     name: TaskInstance["name"];
     author: TaskInstance["author"];
     scope: TaskInstance["scope"];
+    description: TaskInstance["description"];
+    language: TaskInstance["language"];
+    tags?: TaskInstance["tags"];
     category: TaskInstance["category"];
     url: TaskInstance["pageUrl"];
     license?:TaskInstance["license"]
@@ -199,6 +202,9 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       res["name"] = json.task.name;
       res["author"] = json.task.author;
       res["scope"] = json.task.scope;
+      res["description"] = json.task.description;
+      res["language"] = json.task.language;
+      res["tags"] = json.task.tags;
       res["category"] = json.task.category;
       res["pageUrl"] = json.task.url;
       res["license"]=json.task.license
@@ -571,19 +577,22 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   }
   // 写 package.toml
   const nepPackage:NepPackage={
-    nep:"0.1",
+    nep:"0.2",
     package:{
       name:t.task.name,
       template:"Software",
+      description:t.task.description,
       version:t.info.version,
       authors:["Bot <bot@edgeless.top>"].concat(t.task.author),
-      licence:t.task.license
+      licence:t.task.license,
     },
     software:{
       scope:t.task.scope,
       upstream:t.task.pageUrl,
       category:t.task.category,
-      main_program:p.val.mainProgram??t.task.parameter.main_program
+      language:t.task.language,
+      main_program:p.val.mainProgram??t.task.parameter.main_program,
+      tags:t.task.tags,
     }
   }
 

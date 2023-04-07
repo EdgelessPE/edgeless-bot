@@ -2,6 +2,7 @@
 [task]
 name = "adb"
 category = "开发辅助"
+scope = "Google"
 author = ["Cno"]
 url = "https://developer.android.com/studio/releases/platform-tools"
 

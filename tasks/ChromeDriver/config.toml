@@ -2,7 +2,11 @@
 name = "ChromeDriver"
 category = "开发辅助"
 author = ["undefined"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/chromedriver.json"
+description = "An open source tool for automated testing of webapps across many browsers"
+tags = ["e2e test","automated"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

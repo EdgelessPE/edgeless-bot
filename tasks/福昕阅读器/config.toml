@@ -5,6 +5,9 @@ category = "办公编辑"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/office/foxit_reader_portable"
+description = "全球用户超越6.5亿. 阅读PDF文档的理想选择"
+tags = ["pdf"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

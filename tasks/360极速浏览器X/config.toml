@@ -5,6 +5,9 @@ category = "浏览器"
 author = ["Cno"]
 scope = "360"
 url = "https://browser.360.cn/eex/index.html"
+description = "极速浏览 极致顺滑"
+tags = ["chromium"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

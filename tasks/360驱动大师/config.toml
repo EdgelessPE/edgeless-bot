@@ -5,6 +5,9 @@ category = "驱动管理"
 author = ["Cno"]
 scope = "360"
 url = "https://dm.weishi.360.cn/home.html"
+description = "百万级驱动库，最新驱动全程自动安装"
+tags = ["driver"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

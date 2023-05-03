@@ -5,6 +5,9 @@ category = "远程连接"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/2x_client_portable"
+description = "remote server and RDP access client"
+tags = ["remote","rdp"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

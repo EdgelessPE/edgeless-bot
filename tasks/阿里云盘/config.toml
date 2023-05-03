@@ -3,7 +3,11 @@
 name = "阿里云盘"
 category = "下载上传"
 author = ["Cno"]
+scope = "Alibaba"
 url = "https://yunpan.aliyun.com/"
+description = "备份无忧 整理有序"
+tags = ["net disk"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

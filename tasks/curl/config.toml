@@ -2,7 +2,11 @@
 name = "curl"
 category = "下载上传"
 author = ["undefined"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/curl.json"
+description = "Command line tool and library for transferring data with URLs"
+tags = ["http","url"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

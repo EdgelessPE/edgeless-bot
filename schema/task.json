@@ -46,9 +46,30 @@
         },
         "url": {
           "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["Multi", "zh-CN", "en-US"]
         }
       },
-      "required": ["author", "category", "name", "url"]
+      "required": [
+        "author",
+        "category",
+        "name",
+        "url",
+        "description",
+        "tags",
+        "language"
+      ]
     },
     "extra": {
       "properties": {

@@ -3,7 +3,12 @@
 name = "Nali"
 category = "实用工具"
 author = ["undefined"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/nali.json"
+description = "一个查询IP地理信息和CDN服务提供商的离线终端工具"
+tags = ["ip","cdn","ipv6"]
+language = "Multi"
+lincence = "MIT"
 
 # 指定使用的模板
 [template]

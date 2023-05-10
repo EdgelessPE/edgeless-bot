@@ -3,7 +3,11 @@
 name = "AndroidStudio"
 category = "集成开发"
 author = ["undefined"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/android-studio.json"
+description = "The official Integrated Development Environment (IDE) for Android app development"
+tags = ["android","java","kotlin"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

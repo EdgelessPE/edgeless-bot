@@ -4,6 +4,7 @@ interface NepPackage {
     "package": {
         "name": string,
         "template": string,
+        "description": string,
         "version": string,
         "authors": string[],
         "licence"?: string
@@ -12,7 +13,9 @@ interface NepPackage {
         "scope": string,
         "upstream": string,
         "category": string,
-        "main_program"?: string
+        "language": string,
+        "main_program"?: string,
+        "tags"?: string[],
     }
 }
 
@@ -30,17 +33,22 @@ type NepStepLink = {
     step:"Link"
     source_file: string
     target_name: string
+    target_args?: string
+    target_icon?: string
+    at?: string[]
 } & NepStepHeader
 
 type NepStepExecute = {
     step:"Execute"
     command: string
     pwd?: string
+    call_installer?: boolean
 } & NepStepHeader
 
 type NepStepPath = {
     step:"Path"
     record: string
+    alias?: string
 } & NepStepHeader
 
 type NepStepLog = {

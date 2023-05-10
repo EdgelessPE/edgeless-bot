@@ -3,7 +3,11 @@
 name = "哔哩哔哩"
 category = "影音播放"
 author = ["Cno"]
+scope = "bilibili"
 url = "https://app.bilibili.com/"
+description = "(゜-゜)つロ 干杯~"
+tags = ["acg","we media"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

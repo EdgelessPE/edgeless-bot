@@ -41,6 +41,7 @@ export default async function (
       name:"Run Installer",
       step:"Execute",
       command:`${downloadedFile} ${arg}`,
+      call_installer:true,
     }
   }
   // TODO:等待 File 步骤上线后实现 del 特性
@@ -52,7 +53,8 @@ export default async function (
       run_uninstaller:{
         name:"Run Uninstaller",
         step:"Execute",
-        command:obj.uninstallCmd
+        command:obj.uninstallCmd,
+        call_installer:true,
       }
     }
     fs.writeFileSync(removePath, TOML.stringify(removeWorkflow as any));

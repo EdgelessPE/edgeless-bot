@@ -5,6 +5,9 @@ category = "安全急救"
 author = ["Cno"]
 scope = "360"
 url = "https://weishi.360.cn/jisu"
+description = "轻松出发，开启安全护航"
+tags = ["safe"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

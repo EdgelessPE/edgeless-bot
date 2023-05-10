@@ -5,6 +5,9 @@ category = "浏览器"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/maxthon_portable"
+description = "展翅傲游 享用你应得的自由"
+tags = ["chromium"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

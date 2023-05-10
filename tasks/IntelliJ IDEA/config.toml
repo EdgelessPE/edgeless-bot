@@ -3,7 +3,11 @@
 name = "IntelliJ IDEA"
 category = "集成开发"
 author = ["JohnsonRan"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/idea.json"
+description = "领先的 Java 和 Kotlin IDE"
+tags = ["jetbrains","java","kotlin"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

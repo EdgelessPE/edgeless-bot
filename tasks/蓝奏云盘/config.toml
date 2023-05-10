@@ -3,7 +3,12 @@
 name = "蓝奏云盘"
 category = "下载上传"
 author = ["Cno"]
+scope = "github"
 url = "https://github.com/chenhb23/lanzouyun-disk"
+description = ""
+tags = ["electron"]
+language = "zh-CN"
+licence = "MIT"
 
 # 指定使用的模板
 [template]

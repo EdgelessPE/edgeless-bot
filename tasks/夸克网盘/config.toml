@@ -3,7 +3,11 @@
 name = "夸克网盘"
 category = "下载上传"
 author = ["Cno"]
+scope = "alibaba"
 url = "https://pan.quark.cn/"
+description = "你的高效伴侣"
+tags = ["net disk"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

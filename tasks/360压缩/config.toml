@@ -5,6 +5,9 @@ category = "压缩镜像"
 author = ["Cno"]
 scope = "360"
 url = "https://yasuo.360.cn/"
+description = "压缩解压一键处理，助力办公安全省时"
+tags = ["zip","7z"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]
@@ -22,7 +25,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
+build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
 
@@ -31,7 +34,6 @@ build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
 
 # 自动制作模板要求的参数
 [producer_required]
-
 
 # 额外备注
 [extra]

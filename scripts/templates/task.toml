@@ -1,9 +1,12 @@
 # 任务基本信息
 [task]
 name = "${ task.name }"
+scope = "${ task.scope }"
 category = "${ task.category }"
 author = "${ task.author }"
 url = "${ task.url }"
+description = "${ task.description }"
+language = "${ task.language }"
 
 # 指定使用的模板
 [template]

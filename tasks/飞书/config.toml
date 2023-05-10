@@ -3,7 +3,11 @@
 name = "飞书"
 category = "网课会议"
 author = ["Cno"]
+scope = "bytedance"
 url = "https://www.feishu.cn/download"
+description = "先进团队，先用飞书"
+tags = ["office","online meeting"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

@@ -99,6 +99,9 @@ interface DatabaseNode {
 interface TaskInstance {
   name: string;
   scope: string;
+  description: string;
+  language: string;
+  tags?: string[];
   author: string[];
   license?:string;
   category: string;

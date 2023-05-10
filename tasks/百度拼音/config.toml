@@ -3,7 +3,11 @@
 name = "百度拼音"
 category = "输入法"
 author = ["Cno"]
+scope = "baidu"
 url = "https://shurufa.baidu.com/"
+description = "让世界更懂你"
+tags = ["pinyin","wubi","hand input","speech input"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

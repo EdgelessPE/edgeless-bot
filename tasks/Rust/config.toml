@@ -3,7 +3,11 @@
 name = "Rust"
 category = "运行环境"
 author = ["undefined"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/rust.json"
+description = "一门赋予每个人构建可靠且高效软件能力的语言"
+tags = ["cargo","rustup","rs"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

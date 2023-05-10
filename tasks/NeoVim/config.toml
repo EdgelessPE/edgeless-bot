@@ -3,7 +3,11 @@
 name = "NeoVim"
 category = "实用工具"
 author = ["JohnsonRan"]
+scope = "scoop"
 url = "https://github.com/ScoopInstaller/Versions/blob/master/bucket/neovim-nightly.json"
+description = "hyperextensible Vim-based text editor"
+tags = ["vim","editor"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

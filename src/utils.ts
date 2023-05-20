@@ -202,11 +202,9 @@ async function awaitWithTimeout<P, R>(
     setTimeout(() => {
       reject("Await failed due to timeout");
     }, timeout);
-    try {
-      closure(payload).then(resolve);
-    } catch (e) {
-      reject(JSON.stringify(e));
-    }
+    closure(payload)
+      .then(resolve)
+      .catch((e) => reject(e.toString()));
   });
 }
 
@@ -440,16 +438,17 @@ async function pressEnter(interval: number[]) {
   fs.unlinkSync(p);
 }
 
-function coverSecret(secret:string) {
+function coverSecret(secret: string) {
   // 对半拆分密钥
-  const cutPoint=Math.ceil(secret.length/2)
-  const o1=secret.substring(0,cutPoint),o2=secret.substring(cutPoint)
+  const cutPoint = Math.ceil(secret.length / 2);
+  const o1 = secret.substring(0, cutPoint),
+    o2 = secret.substring(cutPoint);
 
   // 分别遮掩尾和头
-  const c1=o1.substring(0,Math.ceil(o1.length*0.3)).padEnd(o1.length, "*"),
-      c2=o2.substring(Math.ceil(o2.length*0.6)).padStart(o2.length, "*")
+  const c1 = o1.substring(0, Math.ceil(o1.length * 0.3)).padEnd(o1.length, "*"),
+    c2 = o2.substring(Math.ceil(o2.length * 0.6)).padStart(o2.length, "*");
 
-  return c1+c2
+  return c1 + c2;
 }
 
 export {
@@ -472,5 +471,5 @@ export {
   requiredKeysValidator,
   pressEnter,
   wherePECMD,
-  coverSecret
+  coverSecret,
 };

@@ -1,0 +1,44 @@
+# 任务基本信息
+[task]
+name = "华为浏览器"
+category = "浏览器"
+author = "Cno"
+url = "https://consumer.huawei.com/cn/mobileservices/browser/"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+download_link = '[\/\w-]+HuaweiBrowser-[\.\w]+-signed\.exe'
+download_name = '\.exe'
+scraper_version = 'HuaweiBrowser-[\.\w]+-signed\.exe'
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/HuaweiBrowser.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+version_page_url = "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/mobileservices/browser/new-version/js/nav.js"
+download_page_url = "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/mobileservices/browser/new-version/js/nav.js"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "华为浏览器"
+sourceFile = "HuaweiBrowser.exe"
+recursiveUnzipList = [ "$PLUGINSDIR", "app", "chrome-signed.7z", "Chrome-bin" ]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

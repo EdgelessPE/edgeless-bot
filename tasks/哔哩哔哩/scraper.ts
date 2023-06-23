@@ -8,7 +8,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
 
   //请求版本号接口
   const res = await robustGet(
-    "https://app.bilibili.com/x/v2/version?mobi_app=html5_mobile"
+    "https://app.bilibili.com/x/v2/version?mobi_app=pc_client"
   );
   const arr = (res.unwrap() as any).data.map((n: any) => n.version);
 

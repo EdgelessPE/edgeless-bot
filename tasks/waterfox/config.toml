@@ -4,6 +4,9 @@ name = "waterfox"
 category = "浏览器"
 author = ["undefined"]
 url = "https://github.com/portapps/waterfox-portable/releases"
+description = "Waterfox portable for Windows"
+tags = ["firefox"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

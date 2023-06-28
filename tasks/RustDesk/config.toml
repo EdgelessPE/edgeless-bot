@@ -4,6 +4,9 @@ name = "RustDesk"
 category = "远程连接"
 author = ["Cno"]
 url = "https://github.com/rustdesk/rustdesk"
+description = "远程桌面软件，开箱即用，无需任何配置。"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

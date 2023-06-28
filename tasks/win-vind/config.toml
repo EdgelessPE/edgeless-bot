@@ -4,6 +4,9 @@ name = "win-vind"
 category = "实用工具"
 author = ["undefined"]
 url = "https://github.com/pit-ray/win-vind/releases"
+description = "You can operate Windows with key bindings like Vim."
+tags = ["vim"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

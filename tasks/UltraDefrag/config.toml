@@ -5,6 +5,9 @@ category = "实用工具"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/ultradefrag-portable"
+description = "full-featured disk defragmenter"
+tags = ["磁盘碎片","清理"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

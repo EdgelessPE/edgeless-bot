@@ -4,6 +4,9 @@ name = "uTools"
 category = "实用工具"
 author = ["Cno"]
 url = "https://www.u.tools/"
+description = "新一代效率工具平台"
+tags = ["搜索"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

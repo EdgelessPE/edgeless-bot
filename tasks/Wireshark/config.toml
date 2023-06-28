@@ -5,6 +5,9 @@ category = "开发辅助"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://www.wireshark.org/download.html"
+description = "The world's most popular network protocol analyzer"
+tags = ["抓包"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

@@ -5,6 +5,9 @@ category = "资源管理"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/ReNamer-portable"
+description = "file renaming tool"
+tags = ["重命名"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

@@ -4,6 +4,9 @@ name = "uTorrent"
 category = "下载上传"
 author = ["undefined"]
 url = "https://portableapps.com/apps/internet/utorrent_portable"
+description = "bittorrent client"
+tags = ["torrent"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

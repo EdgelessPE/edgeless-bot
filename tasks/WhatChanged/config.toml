@@ -5,6 +5,9 @@ category = "实用工具"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/whatchanged-portable"
+description = "registry and file change utility"
+tags = ["注册表"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

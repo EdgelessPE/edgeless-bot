@@ -4,6 +4,9 @@ name = "TIM"
 category = "即时通讯"
 author = ["Cno"]
 url = "https://tim.qq.com/download.html"
+description = "专注团队沟通协作"
+tags = ["qq"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

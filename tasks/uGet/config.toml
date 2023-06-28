@@ -5,6 +5,9 @@ category = "下载上传"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/uget-portable"
+description = "lightweight download manager"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

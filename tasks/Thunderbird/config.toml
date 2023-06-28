@@ -4,6 +4,9 @@ name = "Thunderbird"
 category = "实用工具"
 author = ["wdw1007"]
 url = "https://www.thunderbird.net"
+description = "收发邮件更简单。"
+tags = ["email"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

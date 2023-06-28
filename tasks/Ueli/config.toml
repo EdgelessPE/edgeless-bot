@@ -4,6 +4,9 @@ name = "Ueli"
 category = "实用工具"
 author = ["Cno"]
 url = "https://github.com/oliverschwendener/ueli"
+description = "Keystroke launcher for Windows and macOS"
+tags = ["搜索"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

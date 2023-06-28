@@ -5,6 +5,9 @@ category = "浏览器"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/firefox_portable"
+description = "全新、安全、快速"
+tags = []
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

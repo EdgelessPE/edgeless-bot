@@ -4,6 +4,9 @@ name = "Bandizip"
 category = "压缩镜像"
 author = ["Cno"]
 url = "https://www.bandisoft.com/bandizip/"
+description = "Bandizip 是一个强大的多功能压缩文件管理工具，可提供很快的解压缩速度和其他各种实用功能。 这是一个免费的软件，其付费版本更是可以使用更多的实用功能。"
+tags = ["zip"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

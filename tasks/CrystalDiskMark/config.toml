@@ -5,6 +5,9 @@ category = "磁盘数据"
 author = ["Horatio Shaw"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/crystaldiskmark_portable"
+description = "disk benchmark utility"
+tags = ["跑分"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

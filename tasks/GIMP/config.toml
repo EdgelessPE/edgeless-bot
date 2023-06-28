@@ -5,6 +5,9 @@ category = "媒体处理"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/graphics_pictures/gimp_portable"
+description = "image editor"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

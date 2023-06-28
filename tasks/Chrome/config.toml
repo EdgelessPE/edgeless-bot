@@ -4,6 +4,9 @@ name = "Chrome"
 category = "浏览器"
 author = ["Cno"]
 url = "https://portableapps.com/apps/internet/google_chrome_portable"
+description = "Chrome，不一样的浏览器体验"
+tags = ["chromium"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

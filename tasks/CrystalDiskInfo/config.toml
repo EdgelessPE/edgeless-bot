@@ -5,6 +5,9 @@ category = "磁盘数据"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/crystaldiskinfo_portable"
+description = "disk health monitoring"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

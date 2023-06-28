@@ -5,6 +5,9 @@ category = "下载上传"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/filezilla_portable"
+description = "免费的FTP解决方案"
+tags = ["ftp","sftp","ftps"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

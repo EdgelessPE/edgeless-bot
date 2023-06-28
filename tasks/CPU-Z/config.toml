@@ -5,6 +5,9 @@ category = "配置检测"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/cpu-z-portable"
+description = "system profiler"
+tags = []
+language = "en-US"
 
 # 指定使用的模板
 [template]

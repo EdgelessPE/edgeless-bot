@@ -5,6 +5,9 @@ category = "下载上传"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/free-download-manager-portable"
+description = "download manager and optimizer"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

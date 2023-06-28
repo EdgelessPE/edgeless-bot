@@ -4,6 +4,9 @@ name = "bottom"
 category = "实用工具"
 author = ["undefined"]
 url = "https://github.com/ClementTsang/bottom"
+description = "Yet another cross-platform graphical process/system monitor."
+tags = []
+language = "en-US"
 
 # 指定使用的模板
 [template]

@@ -4,6 +4,9 @@ name = "AnyDesk"
 category = "远程连接"
 author = ["Cno"]
 url = "https://anydesk.com"
+description = "快速远程桌面应用程序"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

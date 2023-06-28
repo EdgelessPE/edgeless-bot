@@ -4,6 +4,9 @@ name = "FastCopy"
 category = "资源管理"
 author = ["Cno"]
 url = "https://portableapps.com/apps/utilities/fastcopy-portable"
+description = "fast file copier and remover"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

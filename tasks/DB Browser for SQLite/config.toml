@@ -5,6 +5,9 @@ category = "集成开发"
 author = ["Horatio Shaw"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/development/sqlite_database_browser_portable"
+description = "SQLite database management"
+tags = ["数据库","SQL"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

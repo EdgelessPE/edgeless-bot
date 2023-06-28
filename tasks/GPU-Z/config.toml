@@ -5,6 +5,9 @@ category = "配置检测"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/GPU-Z-portable"
+description = "graphics system profiler"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

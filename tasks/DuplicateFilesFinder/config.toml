@@ -5,6 +5,9 @@ category = "实用工具"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/duplicate-files-finder-portable"
+description = "duplicate file finder and remover"
+tags = ["重复文件","清理"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

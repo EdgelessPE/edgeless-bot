@@ -5,6 +5,9 @@ category = "浏览器"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/firefox-developer-portable"
+description = "development web browser"
+tags = ["开发者"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

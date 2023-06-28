@@ -5,6 +5,9 @@ category = "资源管理"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/everything-portable"
+description = "local search utility"
+tags = ["搜索","文件系统"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

@@ -5,6 +5,9 @@ category = "实用工具"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/diffpdf_portable"
+description = "PDF comparison utility"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

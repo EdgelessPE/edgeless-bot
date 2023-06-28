@@ -5,6 +5,9 @@ category = "办公编辑"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/office/calibre-portable"
+description = "ebook manager and viewer"
+tags = ["电子书"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

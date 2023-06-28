@@ -108,19 +108,29 @@ function log(text: string, b?: string) {
 }
 
 function formatVersion(version: string): Result<string, string> {
-  const spl = version.split(".");
+  let spl = version.split(".");
 
-  //削减长的版本号
+  // 清理多余的 0 前缀
+  spl=spl.map(raw=>{
+    if(raw.startsWith("0")&&raw.length>1){
+      return raw.slice(1)
+    }else{
+      return raw
+    }
+  })
+
+  // 确保符合 ExSemVer 位数要求
   if (spl.length > 4) {
+    // 削减长的版本号
     log(`Warning:Slice long version: ${version}`);
-    return new Ok(`${spl[0]}.${spl[1]}.${spl[2]}.${spl[3]}`);
+  }else{
+    // 将版本号扩充为4位
+    for (let i = 0; i < 4 - spl.length; i++) {
+      spl.push("0");
+    }
   }
 
-  // 将版本号扩充为4位
-  for (let i = 0; i < 4 - spl.length; i++) {
-    version += ".0";
-  }
-  return new Ok(version);
+  return new Ok(`${spl[0]}.${spl[1]}.${spl[2]}.${spl[3]}`);
 }
 
 function matchVersion(text: string): Result<string, string> {

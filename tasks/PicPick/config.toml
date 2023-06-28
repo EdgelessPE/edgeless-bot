@@ -5,6 +5,9 @@ category = "录屏看图"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/graphics_pictures/picpick-portable"
+description = "screen capture, editor, color picker and more"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

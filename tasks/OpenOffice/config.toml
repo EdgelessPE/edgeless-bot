@@ -4,6 +4,9 @@ name = "OpenOffice"
 category = "办公编辑"
 author = ["undefined"]
 url = "https://portableapps.com/apps/office/openoffice_portable"
+description = "full-featured office suite"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

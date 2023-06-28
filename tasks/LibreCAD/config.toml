@@ -5,6 +5,9 @@ category = "办公编辑"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/graphics_pictures/librecad-portable"
+description = "2D computer-aided design (CAD) tool"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

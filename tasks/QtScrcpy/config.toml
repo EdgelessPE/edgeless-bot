@@ -4,6 +4,9 @@ name = "QtScrcpy"
 category = "开发辅助"
 author = ["JohnsonRan"]
 url = "https://github.com/barry-ran/QtScrcpy"
+description = "Android real-time display control software"
+tags = ["投屏","adb","scrcpy","安卓"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

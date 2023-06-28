@@ -5,6 +5,9 @@ category = "下载上传"
 author = ["Horatio Shaw"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/qbittorrent_portable"
+description = "lightweight torrent client"
+tags = ["bt","torrent"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

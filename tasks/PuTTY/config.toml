@@ -5,6 +5,9 @@ category = "远程连接"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/putty_portable"
+description = "telnet and SSH client"
+tags = ["telnet","ssh"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

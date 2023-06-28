@@ -4,6 +4,9 @@ name = "Postman"
 category = "开发辅助"
 author = ["undefined"]
 url = "https://github.com/portapps/postman-portable/releases"
+description = "Postman portable for Windows"
+tags = ["api","mock"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

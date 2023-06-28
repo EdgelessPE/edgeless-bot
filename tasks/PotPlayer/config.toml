@@ -5,6 +5,9 @@ category = "影音播放"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/music_video/potplayer-portable"
+description = "hardware enhanced media player"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

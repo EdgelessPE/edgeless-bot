@@ -5,6 +5,9 @@ category = "浏览器"
 author = ["Horatio Shaw"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/iron_portable"
+description = "The Browser of the Future"
+tags = ["chromium"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

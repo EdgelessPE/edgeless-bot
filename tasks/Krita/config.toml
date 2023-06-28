@@ -1,9 +1,12 @@
 # 任务基本信息
 [task]
 name = "Krita"
-category = "媒体处理"
+category = "办公编辑"
 author = ["wdw1007"]
 url = "https://krita.org"
+description = "自由开源的免费绘画软件"
+tags = ["数位板"]
+language = "Multi"
 
 # 指定使用的模板
 [template]

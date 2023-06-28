@@ -5,6 +5,9 @@ category = "浏览器"
 author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/opera_portable"
+description = "web browser"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

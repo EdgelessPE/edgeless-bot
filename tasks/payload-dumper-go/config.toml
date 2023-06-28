@@ -4,6 +4,9 @@ name = "payload-dumper-go"
 category = "开发辅助"
 author = ["JohnsonRan"]
 url = "https://github.com/ssut/payload-dumper-go"
+description = "an android OTA payload dumper written in Go"
+tags = ["安卓"]
+language = "en-US"
 
 # 指定使用的模板
 [template]

@@ -4,6 +4,9 @@ name = "Motrix"
 category = "下载上传"
 author = ["undefined"]
 url = "https://github.com/agalwood/Motrix"
+description = "A full-featured download manager."
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

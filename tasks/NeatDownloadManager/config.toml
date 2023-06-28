@@ -4,6 +4,9 @@ name = "NeatDownloadManager"
 category = "下载上传"
 author = ["undefined"]
 url = "https://www.neatdownloadmanager.com/index.php/en/"
+description = "Neat Download Manager is a free Internet Download Manager"
+tags = []
+language = "en-US"
 
 # 指定使用的模板
 [template]

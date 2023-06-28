@@ -5,6 +5,9 @@ category = "办公编辑"
 author = ["支持梧桐，台毒biss"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/development/notepadpp_portable"
+description = "development text editor"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

@@ -5,6 +5,9 @@ category = "实用工具"
 author = ["undefined"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/hdhacker_portable"
+description = "MBR and boot sector manager"
+tags = []
+language = "Multi"
 
 # 指定使用的模板
 [template]

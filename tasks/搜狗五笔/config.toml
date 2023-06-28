@@ -4,6 +4,9 @@ name = "搜狗五笔"
 category = "输入法"
 author = ["Cno"]
 url = "https://wubi.sogou.com/"
+description = "畅快表达"
+tags = []
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

@@ -4,6 +4,9 @@ name = "星愿浏览器"
 category = "浏览器"
 author = ["Cno"]
 url = "https://www.twinkstar.com/"
+description = "大学生都爱用"
+tags = ["chromium","flash"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

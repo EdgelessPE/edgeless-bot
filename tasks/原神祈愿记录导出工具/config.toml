@@ -4,6 +4,9 @@ name = "原神祈愿记录导出工具"
 category = "游戏娱乐"
 author = ["Horatio Shaw"]
 url = "https://github.com/biuuu/genshin-wish-export/releases"
+description = "Easily export the Genshin Impact wish record."
+tags = ["游戏辅助"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

@@ -4,6 +4,9 @@ name = "网易邮箱大师"
 category = "办公编辑"
 author = ["Cno"]
 url = "https://mail.163.com/dashi"
+description = "邮件办公，如此轻松。"
+tags = ["email"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

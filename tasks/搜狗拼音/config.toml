@@ -4,6 +4,9 @@ name = "搜狗拼音"
 category = "输入法"
 author = ["Cno"]
 url = "https://pinyin.sogou.com/"
+description = "万物输入皆搜狗"
+tags = []
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

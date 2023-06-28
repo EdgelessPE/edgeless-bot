@@ -2,8 +2,11 @@
 [task]
 name = "华为浏览器"
 category = "浏览器"
-author = "Cno"
+author = ["Cno"]
 url = "https://consumer.huawei.com/cn/mobileservices/browser/"
+description = "让世界遇见你"
+tags = ["chromium"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

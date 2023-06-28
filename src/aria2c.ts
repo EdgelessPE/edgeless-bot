@@ -120,7 +120,7 @@ async function initAria2c(): Promise<boolean> {
 async function tryConnect(final: boolean): Promise<boolean> {
   try {
     aria2c_handler = new Aria2WebSocket.Client({
-      host: "localhost",
+      host: "127.0.0.1",
       port: config.ARIA2_PORT,
       auth: {
         secret: config.ARIA2_SECRET,

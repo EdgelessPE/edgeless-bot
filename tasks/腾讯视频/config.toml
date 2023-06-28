@@ -3,7 +3,10 @@
 name = "腾讯视频"
 category = "影音播放"
 author = ["Cno"]
-url = "https://node.video.qq.com/x/api/download_pc"
+url = "https://v.qq.com/download.html"
+description = "不负好时光"
+tags = ["流媒体","正版"]
+language = "zh-CN"
 
 # 指定使用的模板
 [template]

@@ -7,6 +7,7 @@ url = "https://github.com/balena-io/etcher"
 description = "Flash OS images to SD cards & USB drives, safely and easily."
 tags = ["启动盘","iso"]
 language = "en-US"
+scope = "balena"
 
 # 指定使用的模板
 [template]

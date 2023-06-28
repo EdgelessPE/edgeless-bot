@@ -68,7 +68,8 @@
         "url",
         "description",
         "tags",
-        "language"
+        "language",
+        "scope"
       ]
     },
     "extra": {

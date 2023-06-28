@@ -6,6 +6,7 @@ author = ["Horatio Shaw"]
 url = "https://github.com/biuuu/genshin-wish-export/releases"
 description = "Easily export the Genshin Impact wish record."
 tags = ["游戏辅助"]
+scope = "github"
 language = "zh-CN"
 
 # 指定使用的模板

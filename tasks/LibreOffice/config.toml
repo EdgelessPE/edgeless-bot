@@ -7,6 +7,7 @@ url = "https://portableapps.com/apps/office/libreoffice_portable"
 description = "full-featured office suite"
 tags = []
 language = "Multi"
+scope = "PortableApps"
 
 # 指定使用的模板
 [template]

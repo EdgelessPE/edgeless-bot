@@ -7,6 +7,7 @@ url = "https://youku.com/product/index"
 description = "为好内容全力以赴"
 tags = ["流媒体","正版"]
 language = "zh-CN"
+scope = "youku"
 
 # 指定使用的模板
 [template]

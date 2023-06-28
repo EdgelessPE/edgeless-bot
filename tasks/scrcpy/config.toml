@@ -7,6 +7,7 @@ url = "https://github.com/Genymobile/scrcpy/releases"
 description = "Display and control your Android device"
 tags = ["安卓"]
 language = "en-US"
+scope = "github"
 
 # 指定使用的模板
 [template]

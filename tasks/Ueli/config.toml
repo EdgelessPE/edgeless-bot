@@ -7,6 +7,7 @@ url = "https://github.com/oliverschwendener/ueli"
 description = "Keystroke launcher for Windows and macOS"
 tags = ["搜索"]
 language = "Multi"
+scope = "github"
 
 # 指定使用的模板
 [template]

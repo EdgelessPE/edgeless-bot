@@ -7,6 +7,7 @@ url = "https://www.u.tools/"
 description = "新一代效率工具平台"
 tags = ["搜索"]
 language = "Multi"
+scope = "utools"
 
 # 指定使用的模板
 [template]

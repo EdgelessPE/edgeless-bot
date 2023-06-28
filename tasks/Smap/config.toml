@@ -7,6 +7,7 @@ url = "https://github.com/s0md3v/Smap"
 description = "passive Nmap like scanner built with shodan.io"
 tags = ["nmap"]
 language = "Multi"
+scope = "github"
 
 # 指定使用的模板
 [template]

@@ -7,6 +7,7 @@ url = "https://github.com/Icalingua-plus-plus/Icalingua-plus-plus/releases"
 description = "A client for QQ and more."
 tags = ["qq"]
 language = "Multi"
+scope = "github"
 
 # 指定使用的模板
 [template]

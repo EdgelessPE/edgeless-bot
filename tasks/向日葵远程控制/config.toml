@@ -7,6 +7,7 @@ url = "https://sunlogin.oray.com/download"
 description = "通过Windows远程控制 Windows、macOS、Android、iOS、Linux等设备"
 tags = []
 language = "zh-CN"
+scope = "oray"
 
 # 指定使用的模板
 [template]

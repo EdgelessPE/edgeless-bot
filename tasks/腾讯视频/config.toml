@@ -7,6 +7,7 @@ url = "https://v.qq.com/download.html"
 description = "不负好时光"
 tags = ["流媒体","正版"]
 language = "zh-CN"
+scope = "tencent"
 
 # 指定使用的模板
 [template]

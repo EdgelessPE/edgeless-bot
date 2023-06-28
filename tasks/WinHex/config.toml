@@ -7,6 +7,7 @@ url = "https://www.x-ways.net/winhex/"
 description = "Computer Forensics & Data Recovery Software,Hex Editor & Disk Editor"
 tags = ["二进制"]
 language = "en-US"
+scope = "x-ways"
 
 # 指定使用的模板
 [template]

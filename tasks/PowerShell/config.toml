@@ -7,6 +7,7 @@ url = "https://github.com/PowerShell/PowerShell"
 description = "PowerShell 是一种跨平台的任务自动化解决方案，由命令行 shell、脚本语言和配置管理框架组成。"
 tags = []
 language = "Multi"
+scope = "microsoft"
 
 # 指定使用的模板
 [template]

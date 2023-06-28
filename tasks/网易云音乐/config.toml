@@ -7,6 +7,7 @@ url = "https://music.163.com/#/download"
 description = "音乐的力量"
 tags = ["流媒体","正版"]
 language = "zh-CN"
+scope = "netease"
 
 # 指定使用的模板
 [template]

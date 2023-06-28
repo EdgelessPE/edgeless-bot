@@ -7,6 +7,7 @@ url = "https://github.com/qier222/YesPlayMusic"
 description = "高颜值的第三方网易云播放器"
 tags = ["网易云"]
 language = "zh-CN"
+scope = "github"
 
 # 指定使用的模板
 [template]

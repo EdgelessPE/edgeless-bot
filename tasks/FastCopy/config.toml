@@ -7,6 +7,7 @@ url = "https://portableapps.com/apps/utilities/fastcopy-portable"
 description = "fast file copier and remover"
 tags = []
 language = "Multi"
+scope = "PortableApps"
 
 # 指定使用的模板
 [template]

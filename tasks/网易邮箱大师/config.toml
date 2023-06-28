@@ -7,6 +7,7 @@ url = "https://mail.163.com/dashi"
 description = "邮件办公，如此轻松。"
 tags = ["email"]
 language = "zh-CN"
+scope = "netease"
 
 # 指定使用的模板
 [template]

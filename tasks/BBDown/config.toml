@@ -7,6 +7,7 @@ url = "https://github.com/nilaoda/BBDown"
 description = "一款命令行式哔哩哔哩下载器."
 tags = ["哔哩哔哩","下载器"]
 language = "zh-CN"
+scope = "github"
 
 # 指定使用的模板
 [template]

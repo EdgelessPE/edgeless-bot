@@ -7,6 +7,7 @@ url = "https://portableapps.com/apps/internet/utorrent_portable"
 description = "bittorrent client"
 tags = ["torrent"]
 language = "Multi"
+scope = "Portableapps"
 
 # 指定使用的模板
 [template]

@@ -7,6 +7,7 @@ url = "https://www.alldup.de/en_download_alldup.php"
 description = "Find and remove duplicate files"
 tags = ["清理","重复文件"]
 language = "Multi"
+scope = "alldup"
 
 # 指定使用的模板
 [template]

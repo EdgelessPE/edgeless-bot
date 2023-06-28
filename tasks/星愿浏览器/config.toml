@@ -7,6 +7,7 @@ url = "https://www.twinkstar.com/"
 description = "大学生都爱用"
 tags = ["chromium","flash"]
 language = "zh-CN"
+scope = "twinkstar"
 
 # 指定使用的模板
 [template]

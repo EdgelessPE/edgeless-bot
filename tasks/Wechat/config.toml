@@ -7,6 +7,7 @@ url = "https://pc.weixin.qq.com/?t=win_weixin&lang=zh_CN"
 description = "微信，是一个生活方式"
 tags = []
 language = "Multi"
+scope = "tencent"
 
 # 指定使用的模板
 [template]

@@ -7,6 +7,7 @@ url = "https://github.com/xushengfeng/eSearch"
 description = "截屏 离线OCR 搜索翻译 以图搜图 贴图 录屏 滚动截屏"
 tags = ["OCR","翻译"]
 language = "zh-CN"
+scope = "github"
 
 # 指定使用的模板
 [template]

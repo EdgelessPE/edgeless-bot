@@ -7,6 +7,7 @@ url = "https://pinyin.sogou.com/"
 description = "万物输入皆搜狗"
 tags = []
 language = "zh-CN"
+scope = "sogou"
 
 # 指定使用的模板
 [template]

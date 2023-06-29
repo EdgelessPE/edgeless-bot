@@ -37,6 +37,10 @@ require("source-map-support").install();
 async function main(): Promise<boolean> {
   //打印艺术字
   art();
+  //删除日志文件
+  if(fs.existsSync("bot.log")){
+    fs.unlinkSync("bot.log")
+  }
   //打印环境变量加载
   printLoadEnvNotices();
   //GA模式特殊处理

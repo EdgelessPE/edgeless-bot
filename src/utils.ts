@@ -105,6 +105,9 @@ function log(text: string, b?: string) {
     d = badge;
   }
   print(text, false, d);
+  if(!text.startsWith("Info:")){
+    fs.appendFileSync("bot.log",text);
+  }
 }
 
 function formatVersion(version: string): Result<string, string> {

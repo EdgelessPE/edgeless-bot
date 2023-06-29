@@ -28,6 +28,7 @@ download_name = '\.zip'
 build_manifest = ["workflows/setup.toml","${taskName}"]
 # build_cover = ""
 # build_delete = []
+main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -35,7 +36,7 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "NeoVim"
-sourceFile = 'bin\nvim-qt.exe'
+sourceFile = 'bin\nvim.exe'
 recursiveUnzipList = [ "nvim-win64" ]
 
 

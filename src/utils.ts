@@ -126,14 +126,9 @@ function formatVersion(version: string): Result<string, string> {
   if (spl.length > 4) {
     // 削减长的版本号
     log(`Warning:Slice long version: ${version}`);
-  }else{
-    // 将版本号扩充为4位
-    for (let i = 0; i < 4 - spl.length; i++) {
-      spl.push("0");
-    }
   }
 
-  return new Ok(`${spl[0]}.${spl[1]}.${spl[2]}.${spl[3]}`);
+  return new Ok(`${spl[0]}.${spl[1]??"0"}.${spl[2]??"0"}.${spl[3]??"0"}`);
 }
 
 function matchVersion(text: string): Result<string, string> {

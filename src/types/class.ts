@@ -122,7 +122,7 @@ interface TaskInstance {
     build_delete?: Array<string>;
     resolver_cd?: Array<string>;
     compress_level?: number;
-    main_program?: string;
+    main_program?: string | false;
   };
   producer_required: any;
   scraper_temp?: any;

@@ -27,6 +27,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml","${taskName}"]
 build_cover = "cover"
 build_delete = ["ChromeDriver/LICENSE.chromedriver"]
+main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]

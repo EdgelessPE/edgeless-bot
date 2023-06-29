@@ -25,7 +25,7 @@ scraper_version = 'HuaweiBrowser-[\.\w]+-signed\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/HuaweiBrowser.exe"]
+build_manifest = ["workflows/setup.toml","${taskName}/HuaweiBrowser.exe"]
 # build_cover = ""
 # build_delete = []
 

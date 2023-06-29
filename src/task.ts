@@ -576,6 +576,15 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
   }
   // 写 package.toml
+  const getMainProgram=():string|undefined=>{
+    if(t.task.parameter.main_program===false){
+      return undefined
+    }
+    if(t.task.parameter.main_program){
+      return t.task.parameter.main_program
+    }
+    return p.val.mainProgram
+  }
   const nepPackage:NepPackage={
     nep:"0.2",
     package:{
@@ -591,7 +600,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       upstream:t.task.pageUrl,
       category:t.task.category,
       language:t.task.language,
-      main_program:p.val.mainProgram??t.task.parameter.main_program,
+      main_program:getMainProgram(),
       tags:t.task.tags,
     }
   }

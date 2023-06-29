@@ -28,6 +28,7 @@ download_name = '\.7z'
 build_manifest = ["workflows/setup.toml","${taskName}/PartAssist.exe"]
 # build_cover = ""
 # build_delete = []
+main_program = "PartAssist.exe"
 
 # 爬虫模板临时参数
 # [scraper_temp]

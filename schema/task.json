@@ -115,7 +115,7 @@
           "type": "array"
         },
         "main_program": {
-          "type": "string"
+          "type": ["string", "boolean"]
         }
       },
       "required": ["build_manifest"],

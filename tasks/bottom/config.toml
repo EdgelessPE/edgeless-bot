@@ -28,6 +28,7 @@ download_name = '-pc-windows-msvc\.zip'
 build_manifest = ["workflows/setup.toml","${taskName}"]
 build_cover = "cover"
 # build_delete = []
+main_program = false
 
 # 爬虫模板临时参数
 # [scraper_temp]

@@ -20,7 +20,7 @@ export default async function (
       : /(\d+\.)+\d+/g,
     dm = p.downloadLinkRegex
       ? new RegExp(p.downloadLinkRegex, "g")
-      : /(https?:)*\/?\/[\w.-/]+\.exe/g;
+      : /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
   //获取页面
   let page, scope;
   const getRes = await robustGet(temp.version_page_url ?? p.url);

@@ -25,8 +25,7 @@ const config = {
     lastUpdated: "最近更新于",
     logo: "https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico",
     nav: [
-      { text: "首页", link: "https://home.edgeless.top" },
-      { text: "Edgeless Hub", link: "https://down.edgeless.top" },
+      { text: "Dashboard", link: "https://dashboard.wiki.edgeless.top" },
     ],
     sidebar: {
       "/": getGuideSidebar(),

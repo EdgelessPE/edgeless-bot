@@ -1,0 +1,42 @@
+# 任务基本信息
+[task]
+name = "mpv.net（需要 dotnet）"
+category = "影音播放"
+author = "wdw1007"
+url = "https://github.com/mpvnet-player/mpv.net"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 1
+build_manifest = ["${taskName}.wcs","${taskName}"]
+build_cover = "cover"
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "mpv.net"
+sourceFile = "mpvnet.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+weekly = true

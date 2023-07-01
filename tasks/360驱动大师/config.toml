@@ -15,7 +15,7 @@ producer = "Silent_Install"
 [regex]
 # download_link = ''
 download_name = '\.exe'
-# scraper_version = ''
+scraper_version = '"version"\s*:\s*"\d+\.\d+\.\d+(\.\d+)?",'
 
 # 通用参数
 [parameter]
@@ -29,7 +29,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 [scraper_temp]
 download_selector = "body > div.page > div.main > div > a:nth-child(2)"
 #version_selector = "#list > li:nth-child(1) > div > span:nth-child(1)"
-version_page_url = "https://dm.weishi.360.cn/update.html"
+version_page_url = "https://weishi.360.cn/qudongdashi/updateData.json?callback=jsonpCallback&_=1688231283156"
 
 # 自动制作模板要求的参数
 [producer_required]

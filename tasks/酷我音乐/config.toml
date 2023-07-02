@@ -34,4 +34,4 @@ recursiveUnzipList = []
 # 额外备注
 [extra]
 # require_windows = false
-missing_version = "${taskName}/KwMusic.exe"
+missing_version = "../${downloadedFile}"

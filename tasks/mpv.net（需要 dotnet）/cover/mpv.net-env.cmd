@@ -1,0 +1,1 @@
+setx Path "%Path%;%ProgramFiles%\Edgeless\mpv.net" /M

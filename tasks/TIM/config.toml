@@ -27,8 +27,8 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://qzonestyle.gtimg.cn/qzone/qzactStatics/configSystem/data/1605/config1.js"
-download_page_url = "https://qzonestyle.gtimg.cn/qzone/qzactStatics/configSystem/data/1605/config1.js"
+version_page_url = "https://im.qq.com/rainbow/TIMDownload/"
+download_page_url = "https://im.qq.com/rainbow/TIMDownload/"
 
 # 自动制作模板要求的参数
 [producer_required]

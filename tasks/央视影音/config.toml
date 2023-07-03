@@ -3,7 +3,7 @@
 name = "央视影音"
 category = "影音播放"
 author = ["Cno"]
-url = "https://app.cctv.com/appkhdxz/more/index.shtml#page5"
+url = "https://app.cctv.com/index.shtml#page5"
 description = "高清·流程·简洁"
 tags = ["流媒体","正版"]
 language = "zh-CN"

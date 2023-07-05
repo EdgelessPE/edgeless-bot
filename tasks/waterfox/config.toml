@@ -3,7 +3,7 @@
 name = "waterfox"
 category = "浏览器"
 author = ["undefined"]
-url = "https://github.com/portapps/waterfox-portable/releases"
+url = "https://github.com/portapps/waterfox-portable"
 description = "Waterfox portable for Windows"
 tags = ["firefox"]
 language = "en-US"

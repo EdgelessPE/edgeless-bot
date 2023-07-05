@@ -3,7 +3,7 @@
 name = "洛雪音乐"
 category = "影音播放"
 author = ["undefined"]
-url = "https://github.com/lyswhut/lx-music-desktop/releases"
+url = "https://github.com/lyswhut/lx-music-desktop"
 description = "一个基于 electron 的音乐软件"
 tags = ["electron"]
 language = "zh-CN"

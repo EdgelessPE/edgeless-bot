@@ -3,7 +3,7 @@
 name = "原神祈愿记录导出工具"
 category = "游戏娱乐"
 author = ["Horatio Shaw"]
-url = "https://github.com/biuuu/genshin-wish-export/releases"
+url = "https://github.com/biuuu/genshin-wish-export"
 description = "Easily export the Genshin Impact wish record."
 tags = ["游戏辅助"]
 scope = "github"

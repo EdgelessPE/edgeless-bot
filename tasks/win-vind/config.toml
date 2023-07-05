@@ -3,7 +3,7 @@
 name = "win-vind"
 category = "实用工具"
 author = ["undefined"]
-url = "https://github.com/pit-ray/win-vind/releases"
+url = "https://github.com/pit-ray/win-vind"
 description = "You can operate Windows with key bindings like Vim."
 tags = ["vim"]
 language = "en-US"

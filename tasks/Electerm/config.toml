@@ -3,7 +3,7 @@
 name = "Electerm"
 category = "远程连接"
 author = "Horatio Shaw"
-url = "https://github.com/electerm/electerm/releases"
+url = "https://github.com/electerm/electerm"
 
 # 指定使用的模板
 [template]

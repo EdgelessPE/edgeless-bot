@@ -3,7 +3,7 @@
 name = "DreamScene2"
 category = "美化增强"
 author = "undefined"
-url = "https://github.com/he55/DreamScene2/releases"
+url = "https://github.com/he55/DreamScene2"
 
 # 指定使用的模板
 [template]

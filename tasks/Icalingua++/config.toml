@@ -3,7 +3,7 @@
 name = "Icalingua++"
 category = "即时通讯"
 author = "Horatio Shaw"
-url = "https://github.com/Icalingua-plus-plus/Icalingua-plus-plus/releases"
+url = "https://github.com/Icalingua-plus-plus/Icalingua-plus-plus"
 
 # 指定使用的模板
 [template]

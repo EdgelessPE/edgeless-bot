@@ -3,7 +3,7 @@
 name = "win-vind"
 category = "实用工具"
 author = "undefined"
-url = "https://github.com/pit-ray/win-vind/releases"
+url = "https://github.com/pit-ray/win-vind"
 
 # 指定使用的模板
 [template]

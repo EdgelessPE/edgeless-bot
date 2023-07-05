@@ -3,7 +3,7 @@
 name = "scrcpy"
 category = "实用工具"
 author = "undefined"
-url = "https://github.com/Genymobile/scrcpy/releases"
+url = "https://github.com/Genymobile/scrcpy"
 
 # 指定使用的模板
 [template]

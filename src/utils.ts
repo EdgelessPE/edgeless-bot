@@ -232,7 +232,9 @@ function schemaValidator(
   }
   const schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString());
 
-  const ajv = new Ajv();
+  const ajv = new Ajv({
+    allowUnionTypes:true
+  });
   const validate = ajv.compile(schemaJson);
   if (validate(obj)) {
     return new Ok(true);

@@ -32,6 +32,5 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {},
-
   ignorePatterns: ["*.js", "/dist", "/workshop", "/scripts/templates"],
 };

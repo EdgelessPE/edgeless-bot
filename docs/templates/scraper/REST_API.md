@@ -6,7 +6,7 @@
 
 通过 `scraper_temp.api_url` 指定 JSON REST API 的 URL ,并通过 `scraper_temp.version_path` `scraper_temp.download_path` 指定对象路径；
 
-在对象路径中支持通过类似`builds.0.version`的形式访问数组（等效于JS代码`builds[0].version`）
+在对象路径中支持通过类似`builds.0.version`的形式访问数组（等效于 JS 代码`builds[0].version`）
 
 ## 必须提供的参数
 

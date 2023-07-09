@@ -76,7 +76,7 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
           e.response.status == 302 ||
           e.response.status == 303)
       ) {
-        resolve(new Ok(decodeURI(e.response.headers.location)));
+        resolve(new Ok(decodeURI(e.response.headers.location)));
       } else {
         //console.log(e.response?.status)
         resolve(

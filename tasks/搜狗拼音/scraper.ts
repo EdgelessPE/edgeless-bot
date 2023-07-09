@@ -3,7 +3,8 @@ import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 import { log, versionCmp, Cmp } from "../../src/utils";
 
-const reg=/<script id="__NEXT_DATA__" type="application\/json">({[^<]+})<\/script><\/body>/
+const reg =
+  /<script id="__NEXT_DATA__" type="application\/json">({[^<]+})<\/script><\/body>/;
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   let version = "0.0",
@@ -18,10 +19,11 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
     return new Err("Error:Can't match or match multi json data");
   }
 
-  try{
-    url = JSON.parse(jsonM[0].replace(reg,"$1")).props.pageProps.data.windows.link;
-  }catch(e){
-    return new Err("Error:Can't read version from json : "+JSON.stringify(e));
+  try {
+    url = JSON.parse(jsonM[0].replace(reg, "$1")).props.pageProps.data.windows
+      .link;
+  } catch (e) {
+    return new Err("Error:Can't read version from json : " + JSON.stringify(e));
   }
 
   log("Info:Matched url " + url);

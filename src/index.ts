@@ -29,7 +29,7 @@ import cp from "child_process";
 import * as TOML from "toml";
 import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
-import {printLoadEnvNotices} from "./env";
+import { printLoadEnvNotices } from "./env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();

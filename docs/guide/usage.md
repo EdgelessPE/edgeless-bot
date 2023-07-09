@@ -138,7 +138,9 @@ Env，配置环境变量，使用 `key=value` 的格式输入键值对并使用 
 示例：`yarn dev -e "GITHUB_TOKEN=XXX,SECRET=xxx" -t TaskA` 配置环境变量并调试 TaskA
 
 ## 环境变量
+
 在项目根目录中放置 `env.json` 作为需要加载的环境变量键值对，例如可以使用以下内容为 GitHub_Release 爬虫和解析器增加验证 token：
+
 ```json
 {
   "GITHUB_TOKEN": "XXX"

@@ -24,9 +24,7 @@ const config = {
     docsDir: "docs",
     lastUpdated: "最近更新于",
     logo: "https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico",
-    nav: [
-      { text: "Dashboard", link: "https://dashboard.wiki.edgeless.top" },
-    ],
+    nav: [{ text: "Dashboard", link: "https://dashboard.wiki.edgeless.top" }],
     sidebar: {
       "/": getGuideSidebar(),
     },

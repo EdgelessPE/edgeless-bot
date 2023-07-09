@@ -1,7 +1,11 @@
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
-import { ProducerReturned, TaskInstance, WorkerDataProducer } from "./types/class";
+import {
+  ProducerReturned,
+  TaskInstance,
+  WorkerDataProducer,
+} from "./types/class";
 import { piscina } from "./piscina";
 import { config } from "./config";
 import { getBadge } from "./badge";
@@ -44,8 +48,8 @@ export default async function (
       task.name,
       "producer.js"
     );
-    if(!fs.existsSync(scriptPath)){
-      return new Err("Error:Missing producer.ts in task directory")
+    if (!fs.existsSync(scriptPath)) {
+      return new Err("Error:Missing producer.ts in task directory");
     }
     isExternal = true;
   } else {

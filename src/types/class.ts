@@ -67,7 +67,7 @@ interface ProducerParameters {
 
 interface ProducerReturned {
   readyRelativePath: string;
-  mainProgram?:string;
+  mainProgram?: string;
 }
 
 interface ProducerRegister {
@@ -103,7 +103,7 @@ interface TaskInstance {
   language: string;
   tags?: string[];
   author: string[];
-  license?:string;
+  license?: string;
   category: string;
   pageUrl: string;
   template: {

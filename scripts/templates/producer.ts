@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 
 import shell from "shelljs";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 interface RequiredObject {}
@@ -22,17 +22,17 @@ export default async function (
   //YOUR CODE HERE
 
   //Create setup flow
-  const wfp=path.join(workshop, "_ready","workflows")
-  shell.mkdir("-p",wfp)
-  const setup:NepWorkflow={
-    link:{
-      name:"Create Shortcut",
-      step:"Link",
-      source_file:`${taskName}.exe`,
-      target_name:taskName
+  const wfp = path.join(workshop, "_ready", "workflows");
+  shell.mkdir("-p", wfp);
+  const setup: NepWorkflow = {
+    link: {
+      name: "Create Shortcut",
+      step: "Link",
+      source_file: `${taskName}.exe`,
+      target_name: taskName,
     },
-  }
-  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+  };
+  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
 
   //Naive self check
   const manifest = [`workflows/setup.toml`, `${taskName}/${taskName}.exe`].map(

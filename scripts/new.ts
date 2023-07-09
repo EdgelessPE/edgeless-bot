@@ -335,16 +335,16 @@ async function createTask() {
   const Categories = CATEGORIES.sort((a, b) => {
     return a.localeCompare(b, "zh");
   });
-  const Languages=["Multi","zh-CN","en-US"]
+  const Languages = ["Multi", "zh-CN", "en-US"];
   //构成基础json
   const json: TaskInput = {
     task: {
       name: taskName,
       category: Categories[await select(t("Task category"), Categories)],
       author: await stringArray(t("Author")),
-      scope:await input(t("Scope")),
-      description:await input(t("description")),
-      language:Languages[await select(t("language"),Languages)],
+      scope: await input(t("Scope")),
+      description: await input(t("description")),
+      language: Languages[await select(t("language"), Languages)],
       url: await inputUpstreamUrl(),
     },
     template: {

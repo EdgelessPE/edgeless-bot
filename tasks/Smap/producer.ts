@@ -5,7 +5,7 @@ import { release } from "../../src/p7zip";
 
 import shell from "shelljs";
 import fs from "fs";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 export default async function (
@@ -29,16 +29,16 @@ export default async function (
     ),
     readyDir
   );
-  const wfp=path.join(workshop, "_ready","workflows")
-  shell.mkdir("-p",wfp)
-  const setup:NepWorkflow={
-    path:{
-      name:"Set Path",
-      step:"Path",
-      record:"smap.exe"
-    }
-  }
-  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+  const wfp = path.join(workshop, "_ready", "workflows");
+  shell.mkdir("-p", wfp);
+  const setup: NepWorkflow = {
+    path: {
+      name: "Set Path",
+      step: "Path",
+      record: "smap.exe",
+    },
+  };
+  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
 
   // fs.writeFileSync(
   //   path.join(workshop, "_ready", taskName + ".cmd"),
@@ -47,6 +47,6 @@ export default async function (
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
-    mainProgram:"smap.exe"
+    mainProgram: "smap.exe",
   });
 }

@@ -1,8 +1,8 @@
 import { Err, Ok, Result } from "ts-results";
 import { robustGet } from "../../src/network";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import {AxiosRequestConfig} from "axios";
-import {coverSecret, log} from "../../src/utils";
+import { AxiosRequestConfig } from "axios";
+import { coverSecret, log } from "../../src/utils";
 
 function parseRepo(url: string): { owner: string; repo: string } {
   const splitRes = url.split("github.com/")[1].split("/");
@@ -24,22 +24,25 @@ export default async function (
   //获取Json
   let json: any;
   try {
-    const token=process.env.GITHUB_TOKEN
-    if(token) log(`Info:Use GitHub Token ${coverSecret(token)}`)
-    const cfg:AxiosRequestConfig|undefined=token!=null?{
-      headers:{
-        authorization: `Bearer ${token}`
-      }
-    }:undefined
-    json = (await robustGet(downloadLink,cfg)).unwrap();
+    const token = process.env.GITHUB_TOKEN;
+    if (token) log(`Info:Use GitHub Token ${coverSecret(token)}`);
+    const cfg: AxiosRequestConfig | undefined =
+      token != null
+        ? {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        : undefined;
+    json = (await robustGet(downloadLink, cfg)).unwrap();
   } catch (e) {
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);
   }
-  if (!Array.isArray(json)||json[0]==null) {
+  if (!Array.isArray(json) || json[0] == null) {
     return new Err(`Error:GitHub api response is not an array : ${json}`);
   }
-  try{
+  try {
     let i = 0;
     //过滤预发布
     while (json[i]?.prerelease && i < json.length) {
@@ -54,7 +57,11 @@ export default async function (
       version,
       downloadLink,
     });
-  }catch (e) {
-    return new Err(`Error:Abnormal GitHub api response at task ${p.taskName} : ${JSON.stringify(e,null,2)}`)
+  } catch (e) {
+    return new Err(
+      `Error:Abnormal GitHub api response at task ${
+        p.taskName
+      } : ${JSON.stringify(e, null, 2)}`
+    );
   }
 }

@@ -7,7 +7,10 @@ const regArray: Array<ProducerRegister> = [
     description:
       "Create a shortcut on the desktop to allow user's manually install or click to run",
     defaultCompressLevel: 1,
-    recommendedManifest: ["workflows/setup.toml", "${taskName}/${downloadedFile}"],
+    recommendedManifest: [
+      "workflows/setup.toml",
+      "${taskName}/${downloadedFile}",
+    ],
   },
   {
     name: "Recursive Unzip",
@@ -23,7 +26,10 @@ const regArray: Array<ProducerRegister> = [
     description:
       'Execute downloaded file with argument (default "/S", can be specified by "producer_required.argument")',
     defaultCompressLevel: 1,
-    recommendedManifest: ["workflows/setup.toml", "${taskName}/${downloadedFile}"],
+    recommendedManifest: [
+      "workflows/setup.toml",
+      "${taskName}/${downloadedFile}",
+    ],
   },
   {
     name: "PortableApps",

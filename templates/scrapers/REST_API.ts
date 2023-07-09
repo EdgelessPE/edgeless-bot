@@ -18,8 +18,8 @@ function objChainReader(obj: any, chain: string[]): Result<any, string> {
     return objChainReader(obj[chain[0]], chain.slice(1));
   } else {
     const res = obj[chain[0]];
-    if (Array.isArray(res)){
-      return new Ok(res.join("."))
+    if (Array.isArray(res)) {
+      return new Ok(res.join("."));
     }
     return new Ok(res);
   }
@@ -30,22 +30,20 @@ export default async function (
 ): Promise<Result<ScraperReturned, string>> {
   //发送请求
   const temp = p.scraper_temp as Temp;
-  const jsonRes = (
-    await robustGet(
-      temp.api_url,
-      temp.referer == undefined
-        ? undefined
-        : {
-            headers: {
-              Referer: temp.referer,
-            },
-          }
-    )
+  const jsonRes = await robustGet(
+    temp.api_url,
+    temp.referer == undefined
+      ? undefined
+      : {
+          headers: {
+            Referer: temp.referer,
+          },
+        }
   );
-  if (jsonRes.err){
-    return jsonRes
+  if (jsonRes.err) {
+    return jsonRes;
   }
-  let json=jsonRes.unwrap()
+  let json = jsonRes.unwrap();
   //尝试读取json
   const versionReadRes = objChainReader(json, temp.version_path.split(".")),
     linkReadRes = objChainReader(json, temp.download_path.split("."));

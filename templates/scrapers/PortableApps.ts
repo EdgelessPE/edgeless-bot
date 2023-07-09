@@ -30,7 +30,10 @@ function parseDownloadUrl(href: string): string {
   return href;
 }
 
-async function scrapePage(page: string,url:string): Promise<Result<PageInfo, string>> {
+async function scrapePage(
+  page: string,
+  url: string
+): Promise<Result<PageInfo, string>> {
   const result = {} as unknown as PageInfo;
 
   // 配置可识别的类名
@@ -164,9 +167,7 @@ async function scrapePage(page: string,url:string): Promise<Result<PageInfo, str
   }
 
   if (result.sha256 !== "" && result.sha256.match(/^([a-f0-9]{64})$/) == null) {
-    log(
-      `Warning:Fail to match sha256 regex for ${url},got "${result.sha256}"`
-    );
+    log(`Warning:Fail to match sha256 regex for ${url},got "${result.sha256}"`);
     result.sha256 = "";
   }
 
@@ -183,7 +184,9 @@ export default async function (
   const page = (await robustGet(p.url)).unwrap();
   //解析
   // eslint-disable-next-line prefer-const
-  let { text, href, sha256 } = (await scrapePage(page as string,p.url)).unwrap();
+  let { text, href, sha256 } = (
+    await scrapePage(page as string, p.url)
+  ).unwrap();
   // log(`Info:Fetched ${p.taskName} at PortableApps,version text : ${text}, href : ${href}, sha256 : ${sha256}`);
 
   //处理跳转到 GitHub 备用下载的情况

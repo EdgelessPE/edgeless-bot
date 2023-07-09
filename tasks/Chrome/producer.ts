@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 import cp from "child_process";
 import shell from "shelljs";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 export default async function (
@@ -57,20 +57,23 @@ export default async function (
   }
 
   //重命名目录为任务名
-  shell.mv(path.join(readyDir,"GoogleChromePortable"),path.join(readyDir,"Chrome"))
+  shell.mv(
+    path.join(readyDir, "GoogleChromePortable"),
+    path.join(readyDir, "Chrome")
+  );
 
   //写工作流
-  const wfp=path.join(readyDir,"workflows")
-  shell.mkdir("-p",wfp)
-  const setup:NepWorkflow={
-    link:{
-      name:"Create Shortcut",
-      step:"Link",
-      source_file:"GoogleChromePortable.exe",
-      target_name:"Google Chrome"
-    }
-  }
-  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+  const wfp = path.join(readyDir, "workflows");
+  shell.mkdir("-p", wfp);
+  const setup: NepWorkflow = {
+    link: {
+      name: "Create Shortcut",
+      step: "Link",
+      source_file: "GoogleChromePortable.exe",
+      target_name: "Google Chrome",
+    },
+  };
+  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
 
   //Return ready directory
   return new Ok({

@@ -7,7 +7,7 @@ import { log } from "../../src/utils";
 import ini from "ini";
 
 import shell from "shelljs";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 interface RequiredObject {
@@ -113,17 +113,17 @@ export default async function (
   // fs.writeFileSync(path.join(readyDir, "..", taskName + ".wcs"), cmd);
 
   //写 setup.toml
-  const wfp=path.join(readyDir, "..","workflows")
-  shell.mkdir("-p",wfp)
-  const setup:NepWorkflow={
-    link:{
-      name:"Create Shortcut",
-      step:"Link",
-      source_file:exe,
-      target_name:taskName
-    }
-  }
-  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+  const wfp = path.join(readyDir, "..", "workflows");
+  shell.mkdir("-p", wfp);
+  const setup: NepWorkflow = {
+    link: {
+      name: "Create Shortcut",
+      step: "Link",
+      source_file: exe,
+      target_name: taskName,
+    },
+  };
+  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
 
   return new Ok({
     readyRelativePath: "_ready",

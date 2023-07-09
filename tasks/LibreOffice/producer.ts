@@ -7,7 +7,7 @@ import { release } from "../../src/p7zip";
 import shell from "shelljs";
 import fs from "fs";
 import TOML from "@iarna/toml";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 
 export default async function (
   p: ProducerParameters
@@ -23,14 +23,14 @@ export default async function (
   shell.rm("-rf", path.join(readyDir, "$PLUGINSDIR"));
   shell.rm("-rf", path.join(readyDir, "Other"));
 
-  const wfp=path.join(workshop, "_ready","workflows")
-  shell.mkdir("-p",wfp)
-  const setup:NepWorkflow={
-    link:{
-      name:"Link Office",
-      step:"Link",
-      source_file:"LibreOfficePortable.exe",
-      target_name:"LibreOffice"
+  const wfp = path.join(workshop, "_ready", "workflows");
+  shell.mkdir("-p", wfp);
+  const setup: NepWorkflow = {
+    link: {
+      name: "Link Office",
+      step: "Link",
+      source_file: "LibreOfficePortable.exe",
+      target_name: "LibreOffice",
     },
     // link2:{
     //   name:"Link Calc",
@@ -68,8 +68,8 @@ export default async function (
     //   source_file:"LibreOfficeWriterPortable.exe",
     //   target_name:"LibreOfficeWriter"
     // },
-  }
-  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+  };
+  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
 
   // fs.writeFileSync(
   //   path.join(workshop, "_ready", taskName + ".wcs"),

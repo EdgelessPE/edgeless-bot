@@ -6,7 +6,7 @@ import { release } from "../../src/p7zip";
 
 import shell from "shelljs";
 import fs from "fs";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 export default async function (
@@ -23,17 +23,17 @@ export default async function (
   shell.rm("-rf", path.join(readyDir, "$PLUGINSDIR"));
   shell.rm("-rf", path.join(readyDir, "Other"));
 
-  const wfp=path.join(workshop, "_ready","workflows")
-  shell.mkdir("-p",wfp)
-  const setup:NepWorkflow={
-    link:{
-      name:"Link Office",
-      step:"Link",
-      source_file:"OpenOfficePortable.exe",
-      target_name:"OpenOffice"
+  const wfp = path.join(workshop, "_ready", "workflows");
+  shell.mkdir("-p", wfp);
+  const setup: NepWorkflow = {
+    link: {
+      name: "Link Office",
+      step: "Link",
+      source_file: "OpenOfficePortable.exe",
+      target_name: "OpenOffice",
     },
-  }
-  fs.writeFileSync(path.join(wfp,"setup.toml"),TOML.stringify(setup as any))
+  };
+  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
   // fs.writeFileSync(
   //   path.join(workshop, "_ready", taskName + ".wcs"),
   //   "FILE X:\\Program Files\\Edgeless\\OpenOffice->X:\\Users\\PortableApps\\OpenOffice\n" +

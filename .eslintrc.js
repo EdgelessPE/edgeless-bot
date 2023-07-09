@@ -3,15 +3,26 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+  ],
   overrides: [
     {
+      env: {
+        node: true,
+      },
       files: [
+        ".eslintrc.{js,cjs}",
         "src/**/*.ts",
         "templates/**/*.ts",
         "tasks/**/*.ts",
         "scripts/*.ts",
       ],
+      parserOptions: {
+        sourceType: "script",
+      },
     },
   ],
   parser: "@typescript-eslint/parser",
@@ -21,5 +32,6 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {},
+
   ignorePatterns: ["*.js", "/dist", "/workshop", "/scripts/templates"],
 };

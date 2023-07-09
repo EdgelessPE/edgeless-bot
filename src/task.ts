@@ -39,7 +39,7 @@ import shell from "shelljs";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rcInfo from "rcinfo";
-import {NepPackage} from "./types/nep";
+import { NepPackage } from "./types/nep";
 import TOML from "@iarna/toml";
 import { packIntoNep } from "./ept";
 
@@ -53,7 +53,7 @@ export interface TaskConfig {
     tags?: TaskInstance["tags"];
     category: TaskInstance["category"];
     url: TaskInstance["pageUrl"];
-    license?:TaskInstance["license"]
+    license?: TaskInstance["license"];
   };
   template: TaskInstance["template"];
   regex: TaskInstance["regex"];
@@ -207,7 +207,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       res["tags"] = json.task.tags;
       res["category"] = json.task.category;
       res["pageUrl"] = json.task.url;
-      res["license"]=json.task.license
+      res["license"] = json.task.license;
       return new Ok(res);
     }
   }
@@ -576,45 +576,43 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
   }
   // 写 package.toml
-  const getMainProgram=():string|undefined=>{
-    if(t.task.parameter.main_program===false){
-      return undefined
+  const getMainProgram = (): string | undefined => {
+    if (t.task.parameter.main_program === false) {
+      return undefined;
     }
-    if(t.task.parameter.main_program){
-      return t.task.parameter.main_program
+    if (t.task.parameter.main_program) {
+      return t.task.parameter.main_program;
     }
-    return p.val.mainProgram
-  }
-  const nepPackage:NepPackage={
-    nep:"0.2",
-    package:{
-      name:t.task.name,
-      template:"Software",
-      description:t.task.description,
-      version:t.info.version,
-      authors:["Bot <bot@edgeless.top>"].concat(t.task.author),
-      licence:t.task.license,
+    return p.val.mainProgram;
+  };
+  const nepPackage: NepPackage = {
+    nep: "0.2",
+    package: {
+      name: t.task.name,
+      template: "Software",
+      description: t.task.description,
+      version: t.info.version,
+      authors: ["Bot <bot@edgeless.top>"].concat(t.task.author),
+      licence: t.task.license,
     },
-    software:{
-      scope:t.task.scope,
-      upstream:t.task.pageUrl,
-      category:t.task.category,
-      language:t.task.language,
-      main_program:getMainProgram(),
-      tags:t.task.tags,
-    }
-  }
+    software: {
+      scope: t.task.scope,
+      upstream: t.task.pageUrl,
+      category: t.task.category,
+      language: t.task.language,
+      main_program: getMainProgram(),
+      tags: t.task.tags,
+    },
+  };
 
-  fs.writeFileSync(path.join(target,"package.toml"),TOML.stringify(nepPackage as any))
+  fs.writeFileSync(
+    path.join(target, "package.toml"),
+    TOML.stringify(nepPackage as any)
+  );
 
   //打包
   const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_Bot.nep`;
-  if (
-    !(await packIntoNep(
-      target,
-      path.join(workshop, fileName)
-    ))
-  ) {
+  if (!(await packIntoNep(target, path.join(workshop, fileName)))) {
     return new Err("Error:Packing failed");
   }
   shell.mkdir(

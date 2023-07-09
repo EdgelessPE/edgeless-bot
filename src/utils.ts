@@ -105,8 +105,8 @@ function log(text: string, b?: string) {
     d = badge;
   }
   print(text, false, d);
-  if(!text.startsWith("Info:")){
-    fs.appendFileSync("bot.log",text);
+  if (!text.startsWith("Info:")) {
+    fs.appendFileSync("bot.log", text);
   }
 }
 
@@ -114,13 +114,13 @@ function formatVersion(version: string): Result<string, string> {
   let spl = version.split(".");
 
   // 清理多余的 0 前缀
-  spl=spl.map(raw=>{
-    if(raw.startsWith("0")&&raw.length>1){
-      return raw.slice(1)
-    }else{
-      return raw
+  spl = spl.map((raw) => {
+    if (raw.startsWith("0") && raw.length > 1) {
+      return raw.slice(1);
+    } else {
+      return raw;
     }
-  })
+  });
 
   // 确保符合 ExSemVer 位数要求
   if (spl.length > 4) {
@@ -128,7 +128,7 @@ function formatVersion(version: string): Result<string, string> {
     log(`Warning:Slice long version: ${version}`);
   }
 
-  return new Ok(`${spl[0]}.${spl[1]??"0"}.${spl[2]??"0"}.${spl[3]??"0"}`);
+  return new Ok(`${spl[0]}.${spl[1] ?? "0"}.${spl[2] ?? "0"}.${spl[3] ?? "0"}`);
 }
 
 function matchVersion(text: string): Result<string, string> {
@@ -233,7 +233,7 @@ function schemaValidator(
   const schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString());
 
   const ajv = new Ajv({
-    allowUnionTypes:true
+    allowUnionTypes: true,
   });
   const validate = ajv.compile(schemaJson);
   if (validate(obj)) {

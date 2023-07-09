@@ -129,7 +129,7 @@ function where(command: string): Result<string, string> {
 }
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
-  const list = ["aria2c", "p7zip","ept"];
+  const list = ["aria2c", "p7zip", "ept"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
     list.push("rclone");

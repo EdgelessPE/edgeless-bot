@@ -29,7 +29,7 @@ import cp from "child_process";
 import * as TOML from "toml";
 import { TaskInstance } from "./types/class";
 import { setMVTDayToday } from "./const";
-import {printLoadEnvNotices} from "./env";
+import { printLoadEnvNotices } from "./env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();
@@ -38,8 +38,8 @@ async function main(): Promise<boolean> {
   //打印艺术字
   art();
   //删除日志文件
-  if(fs.existsSync("bot.log")){
-    fs.unlinkSync("bot.log")
+  if (fs.existsSync("bot.log")) {
+    fs.unlinkSync("bot.log");
   }
   //打印环境变量加载
   printLoadEnvNotices();

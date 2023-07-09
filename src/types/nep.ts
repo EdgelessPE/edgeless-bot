@@ -1,64 +1,60 @@
 // Nep Package
 interface NepPackage {
-    "nep": string,
-    "package": {
-        "name": string,
-        "template": string,
-        "description": string,
-        "version": string,
-        "authors": string[],
-        "licence"?: string
-    },
-    "software": {
-        "scope": string,
-        "upstream": string,
-        "category": string,
-        "language": string,
-        "main_program"?: string,
-        "tags"?: string[],
-    }
+  nep: string;
+  package: {
+    name: string;
+    template: string;
+    description: string;
+    version: string;
+    authors: string[];
+    licence?: string;
+  };
+  software: {
+    scope: string;
+    upstream: string;
+    category: string;
+    language: string;
+    main_program?: string;
+    tags?: string[];
+  };
 }
 
 // Nep Workflow
 interface NepWorkflow {
-    [key: string]: NepStepLink | NepStepExecute | NepStepPath | NepStepLog
+  [key: string]: NepStepLink | NepStepExecute | NepStepPath | NepStepLog;
 }
 
 interface NepStepHeader {
-    name: string
-    if?: string
+  name: string;
+  if?: string;
 }
 
 type NepStepLink = {
-    step:"Link"
-    source_file: string
-    target_name: string
-    target_args?: string
-    target_icon?: string
-    at?: string[]
-} & NepStepHeader
+  step: "Link";
+  source_file: string;
+  target_name: string;
+  target_args?: string;
+  target_icon?: string;
+  at?: string[];
+} & NepStepHeader;
 
 type NepStepExecute = {
-    step:"Execute"
-    command: string
-    pwd?: string
-    call_installer?: boolean
-} & NepStepHeader
+  step: "Execute";
+  command: string;
+  pwd?: string;
+  call_installer?: boolean;
+} & NepStepHeader;
 
 type NepStepPath = {
-    step:"Path"
-    record: string
-    alias?: string
-} & NepStepHeader
+  step: "Path";
+  record: string;
+  alias?: string;
+} & NepStepHeader;
 
 type NepStepLog = {
-    step:"Log"
-    level: string
-    msg: string
-} & NepStepHeader
+  step: "Log";
+  level: string;
+  msg: string;
+} & NepStepHeader;
 
-
-export {
-    NepPackage,
-    NepWorkflow
-}
+export { NepPackage, NepWorkflow };

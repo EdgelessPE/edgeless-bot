@@ -8,7 +8,7 @@ import os from "os";
 import cp from "child_process";
 
 import shell from "shelljs";
-import {NepWorkflow} from "../../src/types/nep";
+import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 interface RequiredObject {
@@ -119,16 +119,16 @@ export default async function (
   }
 
   //生成 setup.toml
-  const setupWorkflow:NepWorkflow={
-    link:{
-      name:"Create Shortcut",
-      step:"Link",
-      source_file:obj.sourceFile,
-      target_name:obj.shortcutName
-    }
-  }
-  const wfPath=path.join(final,"workflows")
-  shell.mkdir("-p",wfPath)
+  const setupWorkflow: NepWorkflow = {
+    link: {
+      name: "Create Shortcut",
+      step: "Link",
+      source_file: obj.sourceFile,
+      target_name: obj.shortcutName,
+    },
+  };
+  const wfPath = path.join(final, "workflows");
+  shell.mkdir("-p", wfPath);
   fs.writeFileSync(
     path.join(wfPath, "setup.toml"),
     TOML.stringify(setupWorkflow as any)
@@ -138,10 +138,13 @@ export default async function (
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(final, p));
   };
-  if (exist(path.join("workflows", "setup.toml")) && exist(p.taskName + "/" + obj.sourceFile)) {
+  if (
+    exist(path.join("workflows", "setup.toml")) &&
+    exist(p.taskName + "/" + obj.sourceFile)
+  ) {
     return new Ok({
       readyRelativePath: "_ready",
-      mainProgram:obj.sourceFile
+      mainProgram: obj.sourceFile,
     });
   } else {
     return new Err(

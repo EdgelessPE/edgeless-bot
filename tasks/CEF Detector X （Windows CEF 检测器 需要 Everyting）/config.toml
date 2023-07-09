@@ -3,7 +3,7 @@
 name = "CEF Detector X （Windows CEF 检测器 需要 Everyting）"
 category = "游戏娱乐"
 author = "Horatio Shaw"
-url = "https://github.com/ShirasawaSama/CefDetectorX/releases"
+url = "https://github.com/ShirasawaSama/CefDetectorX"
 
 # 指定使用的模板
 [template]

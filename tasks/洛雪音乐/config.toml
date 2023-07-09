@@ -3,7 +3,7 @@
 name = "洛雪音乐"
 category = "影音播放"
 author = "undefined"
-url = "https://github.com/lyswhut/lx-music-desktop/releases"
+url = "https://github.com/lyswhut/lx-music-desktop"
 
 # 指定使用的模板
 [template]

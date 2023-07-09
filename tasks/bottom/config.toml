@@ -3,7 +3,7 @@
 name = "bottom"
 category = "实用工具"
 author = "undefined"
-url = "https://github.com/ClementTsang/bottom/releases"
+url = "https://github.com/ClementTsang/bottom"
 
 # 指定使用的模板
 [template]

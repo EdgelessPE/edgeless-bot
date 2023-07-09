@@ -27,8 +27,8 @@ build_cover = "cover"
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://mediaarea.net/en/MediaInfo/Download/Windows"
-download_page_url = "https://mediaarea.net/en/MediaInfo/Download/Windows"
+# version_page_url = "https://mediaarea.net/en/MediaInfo/Download/Windows"
+# download_page_url = "https://mediaarea.net/en/MediaInfo/Download/Windows"
 version_selector = ".download > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4) > a:nth-child(1)"
 download_selector = ".download > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(3) > small:nth-child(2) > a:nth-child(1)"
 
@@ -43,4 +43,4 @@ recursiveUnzipList = [ ]
 # [extra]
 # require_windows = true
 # missing_version = ""
-weekly = true
+# weekly = true

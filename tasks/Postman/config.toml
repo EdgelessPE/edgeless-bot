@@ -3,7 +3,7 @@
 name = "Postman"
 category = "开发辅助"
 author = "undefined"
-url = "https://github.com/portapps/postman-portable/releases"
+url = "https://github.com/portapps/postman-portable"
 
 # 指定使用的模板
 [template]

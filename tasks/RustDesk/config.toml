@@ -9,12 +9,12 @@ url = "https://github.com/rustdesk/rustdesk"
 [template]
 # scraper = ""
 # resolver = ""
-producer = "Recursive_Unzip"
+producer = "Click2Install"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = 'windows_x64-portable\.zip'
+download_name = 'rustdesk-[\d\.]+-x86_64.exe'
 # scraper_version = ''
 
 # 通用参数
@@ -31,8 +31,6 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "RustDesk"
-sourceFile = "/rustdesk-[0-9\\.]+\\.exe/"
-recursiveUnzipList = [ ]
 
 
 # 额外备注

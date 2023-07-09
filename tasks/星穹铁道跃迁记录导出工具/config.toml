@@ -3,7 +3,7 @@
 name = "星穹铁道跃迁记录导出工具"
 category = "游戏娱乐"
 author = "Horatio Shaw"
-url = "https://github.com/biuuu/star-rail-warp-export/releases"
+url = "https://github.com/biuuu/star-rail-warp-export"
 
 # 指定使用的模板
 [template]

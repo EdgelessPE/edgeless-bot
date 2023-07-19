@@ -10,7 +10,7 @@ import TOML from "@iarna/toml";
 interface RequiredObject {
   argument?: string;
   deleteInstaller?: boolean;
-  uninstallCmd?: string;
+  uninstallCmd: string;
 }
 
 export default async function (

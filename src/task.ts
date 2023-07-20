@@ -222,6 +222,7 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
     result = [];
   let success = true,
     tmp;
+  log("Info:Loading tasks...");
   for (const taskName of dirList) {
     tmp = getSingleTask(taskName);
     if (tmp.err) {

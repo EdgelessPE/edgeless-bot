@@ -107,6 +107,8 @@ build_manifest = ["${taskName}"]
 #build_cover = ""
 # （可选）删除列表，用于在制作器完成制作后删除就绪目录中的文件（夹）
 #build_delete = []
+# （可选）主程序路径，用于提供内置变量 ${mainProgramVersion} 的值并被打包进 package.toml 中
+#main_program = false
 
 # （可选）爬虫模板临时参数，部分爬虫模板会要求指定其中的键；
 # 对于此表中的键，Bot仅提供缺失校验，不会校验值类型，因此名称中带"temp"

@@ -27,6 +27,7 @@ download_name = '${ regex.download_name }'
 build_manifest = ${ parameter.build_manifest }
 # build_cover = ""
 # build_delete = []
+# main_program = false
 
 # 爬虫模板临时参数
 # [scraper_temp]

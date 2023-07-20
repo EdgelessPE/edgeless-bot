@@ -62,6 +62,10 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 download_name = 'Edgeless Hub_Beta_${latestVersion}\.exe'
 ```
 
+### 主程序版本号
+
+使用 `${mainProgramVersion}` 代指主程序的最新版本号。如果任务在 `parameter.main_program` 中提供了有效字符串值，则在“制作”开始之前会读取此主程序的版本号；否则此值与 `${latestVersion}` 保持一致。
+
 ## 使用范围
 
 在任务配置(`config.toml`)中合适的位置基本都可以使用相应的内置变量。详细使用范围如下：
@@ -70,3 +74,4 @@ download_name = 'Edgeless Hub_Beta_${latestVersion}\.exe'
 - `parameter.build_delete`
 - `parameter.build_manifest`
 - `extra.missing_version`
+- `producer_required` （`producer_required` 表中类型为 `string` 的值）

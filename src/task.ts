@@ -62,13 +62,13 @@ export interface TaskConfig {
   extra?: TaskInstance["extra"];
 }
 
-async function getExeVersion(file: string, cd: string): Promise<string> {
-  return new Promise((resolve, reject) => {
+async function getExeVersion(file: string, cd: string): Promise<Result<string,string>> {
+  return new Promise((resolve) => {
     if (!fs.existsSync(path.join(cd, file))) {
-      reject(
-        "Error:Can't find " +
-          path.join(cd, file) +
-          ' , please consider add "${taskName}/" before it'
+      resolve(
+        new Err("Error:Can't find " +
+        path.join(cd, file) +
+        ' , please consider add "${taskName}/" before it')
       );
     }
     rcInfo(
@@ -81,9 +81,12 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
       ) => {
         if (error) {
           console.log(JSON.stringify(error, null, 2));
-          reject("Error:Can't get file version of " + path.join(cd, file));
+          resolve(new Err("Error:Can't get file version of " + path.join(cd, file)));
         } else {
-          resolve(info.FileVersion);
+          if(info.FileVersion) resolve(new Ok(info.FileVersion));
+          else{
+            resolve(new Err("Error:Fetch execute file version failed : returned null"))
+          }
         }
       }
     );
@@ -430,11 +433,25 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       `Error:Can't validate downloaded file,expect ${t.info.validation.value}`
     );
   }
+  //对提供了 main_program 的任务，读取主程序版本号
+  let mainProgramVersion=t.info.version;
+  if(t.task.parameter.main_program){
+    const readRes=await getExeVersion(
+      parseBuiltInValue(t.task.parameter.main_program, {
+      taskName: t.task.name,
+      downloadedFile,
+      latestVersion: t.info.version,
+    }),workshop);
+    if (readRes.err) return readRes;
+    mainProgramVersion=readRes.unwrap();
+  }
+
   //制作
   const p = await producer({
     task: t.task,
     downloadedFile,
     version: t.info.version,
+    mainProgramVersion
   });
   if (p.err) {
     log(p.val);
@@ -523,23 +540,16 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   }
   //处理无版本号任务：读取本地文件获得版本号
   if (t.task.extra?.missing_version) {
-    let version;
-    try {
-      version = await getExeVersion(
-        parseBuiltInValue(t.task.extra.missing_version, {
-          taskName: t.task.name,
-          downloadedFile,
-          latestVersion: t.info.version,
-        }),
-        target
-      );
-    } catch (e) {
-      console.log(e);
-      return new Err("Error:Fetch execute file version failed");
-    }
-    if (version == null) {
-      return new Err("Error:Fetch execute file version failed : returned null");
-    }
+    const versionRes=await getExeVersion(
+      parseBuiltInValue(t.task.extra.missing_version, {
+        taskName: t.task.name,
+        downloadedFile,
+        latestVersion: t.info.version,
+      }),
+      target
+    );
+    if(versionRes.err) return versionRes;
+    const version=versionRes.unwrap();
     t.info.version = version;
     //如果版本号和数据库中一样说明没有更新
     let ctn = true;
@@ -578,13 +588,23 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   }
   // 写 package.toml
   const getMainProgram = (): string | undefined => {
+    // 内置变量解释闭包
+    const interpreter=(raw:string|undefined)=> {
+      if (raw)
+      return parseBuiltInValue(raw,{
+        taskName: t.task.name,
+        downloadedFile,
+        latestVersion: t.info.version,
+      });
+      else return undefined
+    }
     if (t.task.parameter.main_program === false) {
       return undefined;
     }
     if (t.task.parameter.main_program) {
-      return t.task.parameter.main_program;
+      return interpreter(t.task.parameter.main_program);
     }
-    return p.val.mainProgram;
+    return interpreter(p.val.mainProgram);
   };
   const nepPackage: NepPackage = {
     nep: "0.2",

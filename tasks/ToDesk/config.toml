@@ -7,7 +7,7 @@ url = "https://www.todesk.com/download.html"
 description = "免费安全流畅的远程连接电脑手机"
 tags = []
 language = "zh-CN"
-scope = "todesk"
+scope = "Todesk"
 
 # 指定使用的模板
 [template]

@@ -3,7 +3,7 @@
 name = "分区助手"
 category = "磁盘数据"
 author = ["Cno"]
-scope = "aomei"
+scope = "Aomei"
 url = "https://www.disktool.cn/download.html"
 description = "无损分区、分区扩容、系统迁移"
 tags = ["partition"]

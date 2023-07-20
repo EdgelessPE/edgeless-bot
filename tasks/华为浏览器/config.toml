@@ -7,7 +7,7 @@ url = "https://consumer.huawei.com/cn/mobileservices/browser/"
 description = "让世界遇见你"
 tags = ["chromium"]
 language = "zh-CN"
-scope = "huawei"
+scope = "Huawei"
 
 # 指定使用的模板
 [template]

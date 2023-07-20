@@ -3,7 +3,7 @@
 name = "夸克网盘"
 category = "下载上传"
 author = ["Cno"]
-scope = "quark"
+scope = "Quark"
 url = "https://pan.quark.cn/"
 description = "你的高效伴侣"
 tags = ["net disk"]

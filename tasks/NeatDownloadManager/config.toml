@@ -7,7 +7,7 @@ url = "https://www.neatdownloadmanager.com/index.php/en/"
 description = "Neat Download Manager is a free Internet Download Manager"
 tags = []
 language = "en-US"
-scope = "neatdownloadmanager"
+scope = "NeatDownloadManager"
 
 # 指定使用的模板
 [template]

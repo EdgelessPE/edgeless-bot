@@ -3,7 +3,7 @@
 name = "火绒安全"
 category = "安全急救"
 author = ["Cno"]
-scope = "huorong"
+scope = "Huorong"
 url = "https://www.huorong.cn"
 description = "聚焦专业技术  专注终端安全"
 tags = ["safe"]

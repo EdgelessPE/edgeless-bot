@@ -3,7 +3,7 @@
 name = "百度网盘"
 category = "下载上传"
 author = ["Cno"]
-scope = "baidu"
+scope = "Baidu"
 url = "https://pan.baidu.com/download"
 description = "免费云盘丨文件共享软件丨超大容量丨存储安全"
 tags = ["net disk"]

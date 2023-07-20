@@ -7,7 +7,7 @@ url = "https://github.com/portapps/waterfox-portable"
 description = "Waterfox portable for Windows"
 tags = ["firefox"]
 language = "en-US"
-scope = "waterfox"
+scope = "Waterfox"
 
 # 指定使用的模板
 [template]

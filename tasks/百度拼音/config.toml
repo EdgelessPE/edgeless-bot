@@ -3,7 +3,7 @@
 name = "百度拼音"
 category = "输入法"
 author = ["Cno"]
-scope = "baidu"
+scope = "Baidu"
 url = "https://shurufa.baidu.com/"
 description = "让世界更懂你"
 tags = ["pinyin","wubi","hand input","speech input"]

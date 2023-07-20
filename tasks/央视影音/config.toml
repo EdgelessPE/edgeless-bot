@@ -7,7 +7,7 @@ url = "https://app.cctv.com/index.shtml#page5"
 description = "高清·流程·简洁"
 tags = ["流媒体","正版"]
 language = "zh-CN"
-scope = "cctv"
+scope = "CCTV"
 
 # 指定使用的模板
 [template]

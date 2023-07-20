@@ -7,7 +7,7 @@ url = "https://github.com/portapps/postman-portable"
 description = "Postman portable for Windows"
 tags = ["api","mock"]
 language = "en-US"
-scope = "postman"
+scope = "Postman"
 
 # 指定使用的模板
 [template]

@@ -7,7 +7,7 @@ url = "https://docs.microsoft.com/en-us/sysinternals/downloads/procmon"
 description = "Process Monitor is an advanced monitoring tool for Windows that shows real-time file system, Registry and process/thread activity."
 tags = []
 language = "en-US"
-scope = "microsoft"
+scope = "Microsoft"
 
 # 指定使用的模板
 [template]

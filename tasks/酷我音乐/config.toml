@@ -3,7 +3,7 @@
 name = "酷我音乐"
 category = "影音播放"
 author = ["Cno"]
-scope = "kuwo"
+scope = "Kuwo"
 url = "https://www.kuwo.cn/down"
 description = "海量无损资源下载 热歌新歌随时听"
 tags = ["streaming media","legal copy"]

@@ -9,7 +9,11 @@
 
 ## 必须提供的参数
 
-无
+### uninstallCmd
+
+- 路径：`producer_required.uninstallCmd`
+- 类型：`string`
+- 说明：卸载命令，会被写入卸载工作流中
 
 ## 可选的参数
 
@@ -24,9 +28,3 @@
 - 路径：`producer_required.deleteInstaller`
 - 类型：`boolean`
 - 说明：是否在安装完成后删除安装包，不推荐启用
-
-### uninstallCmd
-
-- 路径：`producer_required.uninstallCmd`
-- 类型：`string`
-- 说明：卸载命令，会被写入卸载工作流中

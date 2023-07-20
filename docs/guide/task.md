@@ -67,12 +67,22 @@ yarn new task
 [task]
 # 名称
 name = ""
+# 域，通常为上游组织或公司名称，例如 Microsoft/VSCode 中的 Microsoft
+scope = ""
 # 分类
 category = ""
-# 作者
-author = ""
+# 作者，第一作者为任务作者，第二作者为程序发布方
+author = ["",""]
 # 上游发布页面URL
 url = ""
+# 描述
+description = ""
+# 语言
+language = "Multi"
+# （可选）许可证，可以是类似于 MPL-2.0 的 SPDX 缩写或一个 URL
+license = ""
+# （可选）标签，关联相关话题方便用户找到你的包
+tags = [""]
 
 # 指定使用的模板
 [template]
@@ -108,7 +118,8 @@ build_manifest = ["${taskName}"]
 # （可选）删除列表，用于在制作器完成制作后删除就绪目录中的文件（夹）
 #build_delete = []
 # （可选）主程序路径，用于提供内置变量 ${mainProgramVersion} 的值并被打包进 package.toml 中
-#main_program = false
+# 当值为布尔值 false 时可以禁用制作器模板默认的 main_program 配置
+#main_program = ""
 
 # （可选）爬虫模板临时参数，部分爬虫模板会要求指定其中的键；
 # 对于此表中的键，Bot仅提供缺失校验，不会校验值类型，因此名称中带"temp"

@@ -110,7 +110,13 @@ function log(text: string, b?: string) {
   }
 }
 
-function formatVersion(version: string): Result<string, string> {
+/**
+ * 格式化版本号
+ * @param version 原版本号
+ * @param clearLast 是否将最后一位（第4位）置0
+ * @returns 
+ */
+function formatVersion(version: string, clearLast=false): Result<string, string> {
   let spl = version.split(".");
 
   // 清理多余的 0 前缀
@@ -128,7 +134,11 @@ function formatVersion(version: string): Result<string, string> {
     log(`Warning:Slice long version: ${version}`);
   }
 
-  return new Ok(`${spl[0]}.${spl[1] ?? "0"}.${spl[2] ?? "0"}.${spl[3] ?? "0"}`);
+  // 处理最后一位
+  const rawLast=spl[3] ?? "0";
+  const finalLast=clearLast?"0":rawLast
+
+  return new Ok(`${spl[0]}.${spl[1] ?? "0"}.${spl[2] ?? "0"}.${finalLast}`);
 }
 
 function matchVersion(text: string): Result<string, string> {

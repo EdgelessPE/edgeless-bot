@@ -8,7 +8,7 @@ url = "https://github.com/chenhb23/lanzouyun-disk"
 description = ""
 tags = ["electron"]
 language = "zh-CN"
-licence = "MIT"
+license = "MIT"
 
 # 指定使用的模板
 [template]

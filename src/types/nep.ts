@@ -7,7 +7,7 @@ interface NepPackage {
     description: string;
     version: string;
     authors: string[];
-    licence?: string;
+    license?: string;
   };
   software: {
     scope: string;

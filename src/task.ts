@@ -612,7 +612,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       name: t.task.name,
       template: "Software",
       description: t.task.description,
-      version: formatVersion(t.info.version,true).unwrap(), // nep 包的发行版本号抹去最后一位
+      version: t.info.version,
       authors: ["Bot <bot@edgeless.top>"].concat(t.task.author),
       license: t.task.license,
     },

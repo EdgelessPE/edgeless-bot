@@ -3,7 +3,7 @@
 name = "${ task.name }"
 scope = "${ task.scope }"
 category = "${ task.category }"
-author = "${ task.author }"
+author = ${ task.author }
 url = "${ task.url }"
 description = "${ task.description }"
 language = "${ task.language }"

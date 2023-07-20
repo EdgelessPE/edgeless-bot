@@ -344,7 +344,7 @@ async function createTask() {
       author: await stringArray(t("Author")),
       scope: await input(t("Scope")),
       description: await input(t("description")),
-      language: Languages[await select(t("language"), Languages)],
+      language: Languages[await select(t("language"), Languages,1)],
       url: await inputUpstreamUrl(),
     },
     template: {

@@ -9,7 +9,7 @@ import {
 import { piscina } from "./piscina";
 import { config } from "./config";
 import { getBadge } from "./badge";
-import { log } from "./utils";
+import { log, parseBuiltInValue } from "./utils";
 import { PROJECT_ROOT } from "./const";
 
 interface ProducerSpawn {
@@ -60,6 +60,17 @@ export default async function (
     }
     scriptPath = r.unwrap();
   }
+  
+  //解释producer_required的内置变量
+  const requiredObject:any={};
+  for(const [key,val] of Object.entries(task.producer_required)){
+    requiredObject[key]=typeof val==="string"? parseBuiltInValue(val,{
+      taskName:task.name,
+      latestVersion:s.version,
+      downloadedFile:s.downloadedFile
+    }):val
+  }
+
   //安排worker
   const badge = getBadge("Producer");
   const wd: WorkerDataProducer = {
@@ -71,7 +82,7 @@ export default async function (
       version: s.version,
       workshop: path.join(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
       downloadedFile,
-      requiredObject: task.producer_required,
+      requiredObject,
     },
   };
   const r = (await piscina.run(wd, { name: "producer" })) as Result<

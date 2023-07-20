@@ -36,6 +36,7 @@ version_selector = ".pcDown"
 
 # 自动制作模板要求的参数
 [producer_required]
+uninstallCmd = "${ProgramFiles_X86}/CNTV/CBox/uninst.exe"
 
 
 # 额外备注

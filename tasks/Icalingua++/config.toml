@@ -34,6 +34,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
 
 # 自动制作模板要求的参数
 [producer_required]
+uninstallCmd = "${AppData}/Local/Programs/Icalingua++/Uninstall Icalingua++.exe"
 
 
 # 额外备注

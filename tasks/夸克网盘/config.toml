@@ -38,6 +38,7 @@ api_url = "https://pan.quark.cn/api/client_version"
 # 自动制作模板要求的参数
 [producer_required]
 argument = "/sp- /silent /norestart /currentuser"
+uninstallCmd = "${AppData}/Local/Programs/quark-cloud-drive/unins000.exe"
 
 
 # 额外备注

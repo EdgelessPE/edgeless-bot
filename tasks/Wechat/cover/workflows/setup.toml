@@ -1,0 +1,17 @@
+[run_installer]
+name = "Run Installer"
+step = "Execute"
+command = "WeChatSetup.exe /S"
+call_installer = true
+wait = "Abandon"
+
+[wait_installer]
+name = "Wait Installer"
+step = "Wait"
+timeout = 300000
+break_if = 'Exist("${PublicDesktop}/微信.lnk")'
+
+[wait_exit]
+name = "Wait Installer"
+step = "Wait"
+timeout = 1000

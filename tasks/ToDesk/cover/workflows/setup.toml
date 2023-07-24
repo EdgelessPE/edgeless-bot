@@ -1,0 +1,5 @@
+[run_installer]
+name = "Run Installer"
+step = "Execute"
+command = "ToDesk_Setup.exe /S"
+call_installer = true

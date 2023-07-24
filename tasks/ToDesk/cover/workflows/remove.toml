@@ -1,0 +1,5 @@
+[run_uninstaller]
+name = "Run Uninstaller"
+step = "Execute"
+command = "${ProgramFiles_X86}/ToDesk/uninst.exe"
+call_installer = true

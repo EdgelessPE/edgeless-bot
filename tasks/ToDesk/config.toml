@@ -9,7 +9,7 @@ url = "https://www.todesk.com/download.html"
 [template]
 scraper = "Global_Page_Match"
 # resolver = ""
-producer = "Recursive_Unzip"
+producer = "External"
 
 # 使用到的正则
 [regex]
@@ -21,7 +21,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}\\ToDesk.exe"]
+build_manifest = ["${taskName}.wcs","${taskName}\\ToDesk_Setup.exe"]
 # build_cover = ""
 build_delete = ["$PLUGINSDIR"]
 
@@ -32,13 +32,11 @@ download_selector = '#__layout > div > div.tddownload.wrap > div.tcont_bx > div.
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "ToDesk"
-sourceFile = "ToDesk.exe"
-recursiveUnzipList = [ ]
+
 
 
 # 额外备注
 # [extra]
-# require_windows = true
+require_windows = true
 # missing_version = ""
 # weekly = true

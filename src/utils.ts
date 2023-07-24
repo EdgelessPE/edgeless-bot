@@ -106,7 +106,7 @@ function log(text: string, b?: string) {
   }
   print(text, false, d);
   if (!text.startsWith("Info:")) {
-    fs.appendFileSync("bot.log", text);
+    fs.appendFileSync("bot.log", text+'\n');
   }
 }
 

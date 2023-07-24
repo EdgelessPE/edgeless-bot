@@ -433,7 +433,8 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       `Error:Can't validate downloaded file,expect ${t.info.validation.value}`
     );
   }
-  //对提供了 main_program 的任务，读取主程序版本号
+  
+  //对提供了 main_program 的任务，尝试读取主程序版本号
   let mainProgramVersion=t.info.version;
   if(t.task.parameter.main_program){
     const readRes=await getExeVersion(
@@ -442,8 +443,11 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       downloadedFile,
       latestVersion: t.info.version,
     }),workshop);
-    if (readRes.err) return readRes;
-    mainProgramVersion=readRes.unwrap();
+    if (readRes.ok) {
+      mainProgramVersion=readRes.unwrap();
+    }else{
+      log(`Warning:Failed to get version of main program before produce, inner value 'mainProgramVersion' won't be updated : ${readRes.val}`)
+    }
   }
 
   //制作

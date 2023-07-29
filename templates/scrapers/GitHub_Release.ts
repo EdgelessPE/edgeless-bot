@@ -19,7 +19,7 @@ export default async function (
     repoInfo = parseRepo(url);
 
   //将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
-  const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases?page=1&per_page=10`;
+  const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;
 
   //获取Json
   let json: any;

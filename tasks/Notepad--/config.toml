@@ -14,7 +14,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = 'Notepad--v\d+(\.\d+)+-win10-single-portable*\.zip'
+download_name = 'Notepad--v\d+(\.\d+)+-win10-portable*\.zip'
 # scraper_version = ''
 
 # 通用参数
@@ -32,7 +32,7 @@ build_manifest = ["${taskName}.wcs","${taskName}"]
 [producer_required]
 shortcutName = "Notepad--"
 sourceFile = "Notepad--.exe"
-recursiveUnzipList = ["/Notepad--v\d+(\.\d+)+-win10-single-portable/" ]
+recursiveUnzipList = ["/Notepad--v\d+(\.\d+)+-win10-portable/" ]
 
 
 # 额外备注

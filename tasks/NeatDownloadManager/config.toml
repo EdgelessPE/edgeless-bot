@@ -13,7 +13,7 @@ scope = "NeatDownloadManager"
 [template]
 scraper = "External"
 # resolver = ""
-producer = "Click2Install"
+producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
@@ -34,8 +34,8 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "NeatDownloadManager"
-
+argument = "/sp- /verysilent"
+uninstallCmd = "${ProgramFiles_X86}/Neat Download Manager/unins000.exe"
 
 # 额外备注
 # [extra]

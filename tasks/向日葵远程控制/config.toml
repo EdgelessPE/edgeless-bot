@@ -13,7 +13,7 @@ scope = "Oray"
 [template]
 scraper = "REST_API"
 # resolver = ""
-producer = "Click2Install"
+producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
@@ -37,7 +37,7 @@ download_path = "downloadurl"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "向日葵"
+uninstallCmd = "${ProgramFiles_X64}/Oray/SunLogin/SunloginClient/SunloginClient.exe --mod=uninstall"
 
 
 # 额外备注

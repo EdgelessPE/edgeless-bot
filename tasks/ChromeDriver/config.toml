@@ -36,7 +36,7 @@ main_program = false
 [producer_required]
 shortcutName = "${taskName}"
 sourceFile = "chromedriver.exe"
-recursiveUnzipList = []
+recursiveUnzipList = ["chromedriver-win64"]
 
 
 # 额外备注

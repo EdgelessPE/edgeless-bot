@@ -13,7 +13,7 @@ language = "Multi"
 [template]
 scraper = "REST_API"
 # resolver = ""
-producer = "Click2Install"
+producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
@@ -37,7 +37,7 @@ download_path = "urlFull"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "火绒安全"
+uninstallCmd = "${ProgramFiles_X86}/Huorong/Sysdiag/uninst.exe"
 
 
 # 额外备注

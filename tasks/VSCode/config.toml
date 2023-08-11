@@ -14,7 +14,7 @@ url = "https://code.visualstudio.com/"
 [template]
 scraper = "Redirection_Parse"
 # resolver = ""
-producer = "Recursive_Unzip"
+producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
@@ -26,19 +26,18 @@ download_name = '\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml", "${taskName}/Code.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = "vscode_cover.7z"
 # build_delete = []
 
 # 爬虫模板临时参数
 [scraper_temp]
-redirection_url = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
+redirection_url = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "Visual Studio Code"
-sourceFile = "Code.exe"
-recursiveUnzipList = []
+argument = "/VERYSILENT /MERGETASKS=!runcode"
+uninstallCmd = "${AppData}/Local/Programs/Microsoft VS Code/unins000.exe"
 
 
 # 额外备注

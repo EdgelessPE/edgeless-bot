@@ -29,6 +29,9 @@ build_manifest = ["${taskName}.cmd","${taskName}"]
 
 # 自动制作模板要求的参数
 [producer_required]
+shortcutName = "${taskName}"
+sourceFile = "chromedriver.exe"
+recursiveUnzipList = ["chromedriver-win64"]
 
 
 # 额外备注

@@ -48,8 +48,8 @@ export default async function (
   fs.writeFileSync(setupPath, TOML.stringify(setupWorkflow as any));
 
   // 写卸载流
-  if(!obj.uninstallCmd.startsWith("${")){
-    return new Err(`Error:Invalid uninstallCmd '${obj.uninstallCmd}' : should start with inner value, e.g. '\${AppData}/Local/Programs/Microsoft VS Code/unins000.exe'`)
+  if(!(obj.uninstallCmd.startsWith("${")||obj.uninstallCmd.startsWith("\"${"))){
+    return new Err(`Error:Invalid uninstallCmd '${obj.uninstallCmd}' : should starts with inner value, e.g. '\${AppData}/Local/Programs/Microsoft VS Code/unins000.exe'`)
   }
   const removeWorkflow: NepWorkflow = {
     run_uninstaller: {

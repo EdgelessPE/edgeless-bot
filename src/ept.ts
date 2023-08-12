@@ -11,22 +11,17 @@ async function packIntoNep(
   log(`Info:Packing ${sourceDir} into ${intoFile}`);
   return new Promise((resolve) => {
     const ept = where("ept").unwrap();
-    let output;
-    try {
-      output = cp.execSync(`${ept} pack "${sourceDir}" "${intoFile}"`, {
-        cwd: path.join(process.cwd(), "bin", "ept"),
-      });
-    } catch (e) {
-      log("Error:Pack command failed\n" + e);
-      resolve(false);
-      return;
-    }
-    if (fs.existsSync(intoFile)) {
-      resolve(true);
-    } else {
-      log("Error:Pack command failed with output:\n" + output);
-      resolve(false);
-    }
+    cp.exec(`${ept} pack "${sourceDir}" "${intoFile}"`, {
+      cwd: path.join(process.cwd(), "bin", "ept"),
+    },(err,stdout)=>{
+      if (fs.existsSync(intoFile)) {
+        resolve(true);
+      } else {
+        log("Error:Pack command failed with output:\n" + stdout);
+        resolve(false);
+      }
+
+    });
   });
 }
 

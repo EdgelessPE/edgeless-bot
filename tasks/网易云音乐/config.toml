@@ -28,6 +28,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = ["$PLUGINSDIR"]
+main_program = "${ProgramFiles_X86}/NetEase/CloudMusic/cloudmusic.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]

@@ -28,7 +28,8 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
-main_program = "${downloadedFile}"
+correct_version = "${downloadedFile}"
+main_program = "${ProgramFiles_X86}/SogouWBInput/5.5.0.2582/WbConfig.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -37,7 +38,7 @@ version_selector = "#bannerCon_new"
 
 # 自动制作模板要求的参数
 [producer_required]
-uninstallCmd = "${ProgramFiles_X86}/SogouWBInput/${mainProgramVersion}/Uninstall.exe"
+uninstallCmd = "${ProgramFiles_X86}/SogouWBInput/${correctVersion}/Uninstall.exe"
 
 
 # 额外备注

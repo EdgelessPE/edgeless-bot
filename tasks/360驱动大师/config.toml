@@ -28,6 +28,7 @@ scraper_version = '"version"\s*:\s*"\d+\.\d+\.\d+(\.\d+)?",'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
+main_program = "${ProgramFiles_X86}/360/360DrvMgr/360DrvMgr.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]

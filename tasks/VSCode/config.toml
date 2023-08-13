@@ -29,6 +29,7 @@ download_name = '\.zip'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = "vscode_cover.7z"
 # build_delete = []
+main_program = "${AppData}/Local/Programs/Microsoft VS Code/Code.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]

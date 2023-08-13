@@ -28,6 +28,7 @@ scraper_version = '"pcVersion":"\d+.\d+(.\d+)*"'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
+main_program = "${ProgramFiles_X86}/Tencent/TIM/Bin/QQScLauncher.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]

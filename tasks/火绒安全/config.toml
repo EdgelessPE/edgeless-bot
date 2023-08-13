@@ -28,6 +28,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
+main_program = "${ProgramFiles_X86}/Huorong/Sysdiag/bin/HipsMain.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -37,6 +38,7 @@ download_path = "urlFull"
 
 # 自动制作模板要求的参数
 [producer_required]
+argument = ""
 uninstallCmd = "${ProgramFiles_X86}/Huorong/Sysdiag/uninst.exe"
 
 

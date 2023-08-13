@@ -28,6 +28,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
+main_program = "${ProgramFiles_X86}/360/360zip/360zip.exe"
 
 # 爬虫模板临时参数
 # [scraper_temp]

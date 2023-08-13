@@ -27,7 +27,8 @@
     "serve": "tsc && node dist/src/index.js",
     "dev": "tsc && node dist/src/index.js -d",
     "new": "ts-node scripts/new.ts",
-    "fmt": "prettier --write ."
+    "fmt": "prettier --write .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/checksum": "^0.1.33",
@@ -43,10 +44,15 @@
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "prettier": "^3.0.1",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.4.0",
     "typescript-json-schema": "^0.52.0",
     "vitepress": "^0.21.6"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
   }
 }

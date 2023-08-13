@@ -29,7 +29,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
 correct_version = "${downloadedFile}"
-main_program = "${ProgramFiles_X86}/SogouWBInput/5.5.0.2582/WbConfig.exe"
+main_program = "${ProgramFiles_X86}/SogouWBInput/${correctVersion}/WbConfig.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]

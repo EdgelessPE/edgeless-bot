@@ -28,7 +28,7 @@ import { download } from "./aria2c";
 import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
-import { compress, release } from "./p7zip";
+import { release } from "./p7zip";
 import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
 import { deleteFromRemote } from "./rclone";
 import scraperRegister from "../templates/scrapers/_register";
@@ -62,13 +62,18 @@ export interface TaskConfig {
   extra?: TaskInstance["extra"];
 }
 
-async function getExeVersion(file: string, cd: string): Promise<Result<string,string>> {
+async function getExeVersion(
+  file: string,
+  cd: string,
+): Promise<Result<string, string>> {
   return new Promise((resolve) => {
     if (!fs.existsSync(path.join(cd, file))) {
       resolve(
-        new Err("Error:Can't find " +
-        path.join(cd, file) +
-        ' , please consider add "${taskName}/" before it')
+        new Err(
+          "Error:Can't find " +
+            path.join(cd, file) +
+            ' , please consider add "${taskName}/" before it',
+        ),
       );
     }
     rcInfo(
@@ -77,18 +82,24 @@ async function getExeVersion(file: string, cd: string): Promise<Result<string,st
         error: unknown,
         info: {
           FileVersion: string;
-        }
+        },
       ) => {
         if (error) {
           console.log(JSON.stringify(error, null, 2));
-          resolve(new Err("Error:Can't get file version of " + path.join(cd, file)));
+          resolve(
+            new Err("Error:Can't get file version of " + path.join(cd, file)),
+          );
         } else {
-          if(info.FileVersion) resolve(new Ok(info.FileVersion));
-          else{
-            resolve(new Err("Error:Fetch execute file version failed : returned null"))
+          if (info.FileVersion) resolve(new Ok(info.FileVersion));
+          else {
+            resolve(
+              new Err(
+                "Error:Fetch execute file version failed : returned null",
+              ),
+            );
           }
         }
-      }
+      },
     );
   });
 }
@@ -108,7 +119,7 @@ function validateConfig(task: TaskConfig): boolean {
         suc = requiredKeysValidator(task, node.requiredKeys, true);
         if (!suc) {
           log(
-            `Warning:Skip scraper template ${node.name} due to missing required keys`
+            `Warning:Skip scraper template ${node.name} due to missing required keys`,
           );
         } else {
           break;
@@ -150,12 +161,12 @@ function validateConfig(task: TaskConfig): boolean {
         path.join(
           "./schema",
           "producer_templates",
-          task.template.producer + ".json"
-        )
+          task.template.producer + ".json",
+        ),
       )
     ) {
       log(
-        `Error:Producer template schema file ${task.template.producer} not found`
+        `Error:Producer template schema file ${task.template.producer} not found`,
       );
       return false;
     }
@@ -163,7 +174,7 @@ function validateConfig(task: TaskConfig): boolean {
     suc = schemaValidator(
       task.producer_required,
       "producer_templates/" + task.template.producer,
-      "/producer_required"
+      "/producer_required",
     ).unwrap();
   }
   if (
@@ -180,7 +191,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
     process.cwd(),
     config.DIR_TASKS,
     taskName,
-    "config.toml"
+    "config.toml",
   );
   if (!fs.existsSync(path.join(taskConfigFile))) {
     return new Err("Error:Can't find config.toml for " + taskName);
@@ -195,7 +206,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
     }
     if (taskName != json.task.name) {
       return new Err(
-        `Error:Please keep the folder name (${taskName}) same with task name (${json.task.name})`
+        `Error:Please keep the folder name (${taskName}) same with task name (${json.task.name})`,
       );
     }
     if (!validateConfig(json)) {
@@ -264,7 +275,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     if (result.result == null || result.result.err) {
       setDatabaseNodeFailure(
         result.taskName,
-        result.result?.val ?? "Error:Scraper returned null"
+        result.result?.val ?? "Error:Scraper returned null",
       );
       continue;
     }
@@ -272,7 +283,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     if (newNode.version == null || newNode.downloadLink == null) {
       setDatabaseNodeFailure(
         result.taskName,
-        `Error:Scraper returned null value : ${JSON.stringify(newNode)}`
+        `Error:Scraper returned null value : ${JSON.stringify(newNode)}`,
       );
       continue;
     }
@@ -283,8 +294,8 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
       setDatabaseNodeFailure(
         result.taskName,
         `Error:Scraper returned value doesn't conform to type specification : ${JSON.stringify(
-          newNode
-        )}`
+          newNode,
+        )}`,
       );
       continue;
     }
@@ -293,7 +304,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     if (matchRes.err) {
       setDatabaseNodeFailure(
         result.taskName,
-        "Error:Can't parse version returned by scraper : " + newNode.version
+        "Error:Can't parse version returned by scraper : " + newNode.version,
       );
       continue;
     }
@@ -317,7 +328,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
         //警告
         if (onlineVersion != "0.0.0.0") {
           log(
-            `Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`
+            `Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`,
           );
         } else {
           log(`Info:Ignore missing version task ` + result.taskName);
@@ -384,14 +395,14 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
             downloadedFile: '"ERROR:Downloading not started yet"',
             latestVersion: t.info.version,
           },
-          true
+          true,
         ),
         cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
         password: t.info.resolverParameter?.password,
       },
       t.info.resolverParameter?.entrance ??
         t.task.template.resolver ??
-        undefined
+        undefined,
     );
     if (dRes.err) {
       return dRes;
@@ -402,7 +413,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       downloadedFile = await download(
         t.task.name,
         dRes.val.directLink,
-        workshop
+        workshop,
       );
     } catch (e) {
       if (typeof e == "string") log(e);
@@ -426,30 +437,31 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     !(await checksum(
       absolutePath,
       t.info.validation.type,
-      t.info.validation.value
+      t.info.validation.value,
     ))
   ) {
     return new Err(
-      `Error:Can't validate downloaded file,expect ${t.info.validation.value}`
+      `Error:Can't validate downloaded file,expect ${t.info.validation.value}`,
     );
   }
-  
+
   //对提供了 revised_version 的任务，尝试读取主程序版本号
-  let revisedVersion=t.info.version;
-  if(t.task.parameter.revised_version){
-    const parsed=parseBuiltInValue(t.task.parameter.revised_version, {
+  let revisedVersion = t.info.version;
+  if (t.task.parameter.revised_version) {
+    const parsed = parseBuiltInValue(t.task.parameter.revised_version, {
       taskName: t.task.name,
       downloadedFile,
       latestVersion: t.info.version,
-    })
-    const readRes=await getExeVersion(
-      parsed,workshop);
+    });
+    const readRes = await getExeVersion(parsed, workshop);
     if (readRes.ok) {
-      revisedVersion=readRes.unwrap();
+      revisedVersion = readRes.unwrap();
       // t.info.version=revisedVersion;
-      log(`Info:Get revised version '${revisedVersion}' due to '${parsed}'`)
-    }else{
-      log(`Warning:Failed to get version of main program before produce, inner value 'revisedVersion' won't be updated : ${readRes.val}`)
+      log(`Info:Get revised version '${revisedVersion}' due to '${parsed}'`);
+    } else {
+      log(
+        `Warning:Failed to get version of main program before produce, inner value 'revisedVersion' won't be updated : ${readRes.val}`,
+      );
     }
   }
 
@@ -458,7 +470,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     task: t.task,
     downloadedFile,
     version: t.info.version,
-    revisedVersion
+    revisedVersion,
   });
   if (p.err) {
     log(p.val);
@@ -469,7 +481,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     PROJECT_ROOT,
     config.DIR_WORKSHOP,
     t.task.name,
-    p.val.readyRelativePath
+    p.val.readyRelativePath,
   );
   if (!config.GITHUB_ACTIONS) log("Info:Receive ready directory " + target);
   //实现delete 与 cover
@@ -480,7 +492,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         taskName: t.task.name,
         downloadedFile,
         latestVersion: t.info.version,
-        revisedVersion
+        revisedVersion,
       });
       f = path.join(target, v);
       if (!fs.existsSync(f)) {
@@ -488,7 +500,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         f = path.join(target, t.task.name, v);
         if (!fs.existsSync(f)) {
           log(
-            `Warning:Delete list include not existed file ${file}, consider update "build_delete"`
+            `Warning:Delete list include not existed file ${file}, consider update "build_delete"`,
           );
           continue;
         }
@@ -515,7 +527,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     const p = path.join(config.DIR_TASKS, t.task.name, "cover");
     if (fs.existsSync(p) || fs.existsSync(p + ".7z")) {
       log(
-        "Warning:Exist cover folder/file but parameter.build_cover not specified"
+        "Warning:Exist cover folder/file but parameter.build_cover not specified",
       );
     }
   }
@@ -529,8 +541,8 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
           downloadedFile,
           taskName: t.task.name,
           latestVersion: t.info.version,
-          revisedVersion
-        }).replace("\\", "/")
+          revisedVersion,
+        }).replace("\\", "/"),
       );
     }
     return final;
@@ -544,21 +556,21 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   }
   if (!pass) {
     return new Err(
-      `Error:Can't produce task ${t.task.name} due to build missing`
+      `Error:Can't produce task ${t.task.name} due to build missing`,
     );
   }
   //处理无版本号任务：读取本地文件获得版本号
   if (t.task.extra?.missing_version) {
-    const versionRes=await getExeVersion(
+    const versionRes = await getExeVersion(
       parseBuiltInValue(t.task.extra.missing_version, {
         taskName: t.task.name,
         downloadedFile,
         latestVersion: t.info.version,
       }),
-      target
+      target,
     );
-    if(versionRes.err) return versionRes;
-    const version=versionRes.unwrap();
+    if (versionRes.err) return versionRes;
+    const version = versionRes.unwrap();
     t.info.version = version;
     //如果版本号和数据库中一样说明没有更新
     let ctn = true;
@@ -567,7 +579,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       case Cmp.E:
         //与数据库一致，没有更新
         log(
-          `Info:Missing version task ${t.task.name} has no upstream updated release`
+          `Info:Missing version task ${t.task.name} has no upstream updated release`,
         );
         if (config.MODE_FORCED) {
           log("Warning:Forced rebuild " + t.task.name);
@@ -582,7 +594,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       case Cmp.L:
         //异常情况，上游版本号低于数据库版本号
         log(
-          `Warning:Missing version task ${t.task.name}'s local version(${db.recent.latestVersion}) greater than online version(${version})`
+          `Warning:Missing version task ${t.task.name}'s local version(${db.recent.latestVersion}) greater than online version(${version})`,
         );
         if (config.MODE_FORCED) {
           log("Warning:Forced rebuild " + t.task.name);
@@ -598,16 +610,16 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   // 写 package.toml
   const getMainProgram = (): string | undefined => {
     // 内置变量解释闭包
-    const interpreter=(raw:string|undefined)=> {
+    const interpreter = (raw: string | undefined) => {
       if (raw)
-      return parseBuiltInValue(raw,{
-        taskName: t.task.name,
-        downloadedFile,
-        latestVersion: t.info.version,
-        revisedVersion
-      });
-      else return undefined
-    }
+        return parseBuiltInValue(raw, {
+          taskName: t.task.name,
+          downloadedFile,
+          latestVersion: t.info.version,
+          revisedVersion,
+        });
+      else return undefined;
+    };
     if (t.task.parameter.main_program === false) {
       return undefined;
     }
@@ -638,7 +650,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 
   fs.writeFileSync(
     path.join(target, "package.toml"),
-    TOML.stringify(nepPackage as any)
+    TOML.stringify(nepPackage as any),
   );
 
   //打包
@@ -648,13 +660,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   }
   shell.mkdir(
     "-p",
-    path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category)
+    path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category),
   );
   const storagePath = path.join(
     PROJECT_ROOT,
     config.DIR_BUILDS,
     t.task.category,
-    fileName
+    fileName,
   );
   if (fs.existsSync(storagePath)) {
     shell.rm("-f", storagePath);
@@ -662,7 +674,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   shell.mv(path.join(workshop, fileName), storagePath);
   if (
     !fs.existsSync(
-      path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName)
+      path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName),
     )
   ) {
     return new Err("Error:Moving compressed file to builds folder failed");
@@ -670,19 +682,19 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   return new Ok(fileName);
 }
 
-function getDefaultCompressLevel(templateName: string): number {
-  let level = 5;
-  for (const node of producerRegister) {
-    if (node.entrance == templateName) {
-      level = node.defaultCompressLevel;
-      break;
-    }
-  }
-  return level;
-}
+// function getDefaultCompressLevel(templateName: string): number {
+//   let level = 5;
+//   for (const node of producerRegister) {
+//     if (node.entrance == templateName) {
+//       level = node.defaultCompressLevel;
+//       break;
+//     }
+//   }
+//   return level;
+// }
 
 async function executeTasks(
-  ts: Array<ExecuteParameter>
+  ts: Array<ExecuteParameter>,
 ): Promise<Array<ResultReport>> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
@@ -712,7 +724,7 @@ async function executeTasks(
       //处理缺失版本号但是无更新的情况
       if (res.ok && res.val == "missing_version") {
         log(
-          `Success:Missing version task ${t.task.name} executed successfully`
+          `Success:Missing version task ${t.task.name} executed successfully`,
         );
       } else {
         //处理正常情况
@@ -752,7 +764,7 @@ async function executeTasks(
 function removeExtraBuilds(
   taskName: string,
   category: string,
-  newBuild: string
+  newBuild: string,
 ): Array<BuildStatus> {
   const allBuilds = getDatabaseNode(taskName).recent.builds;
   allBuilds.push({

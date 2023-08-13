@@ -42,7 +42,7 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "resolvers",
-    entrance + ".js"
+    entrance + ".js",
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
@@ -53,7 +53,7 @@ function parsePath(entrance: string): Result<string, string> {
 
 export default async function (
   p: ResolverParameters,
-  specifyEntrance?: string
+  specifyEntrance?: string,
 ): Promise<Result<ResolverReturned, string>> {
   const url = p.downloadLink;
   let entrance;

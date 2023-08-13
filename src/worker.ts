@@ -19,7 +19,7 @@ require("source-map-support").install();
 export let badge = "Worker";
 
 async function scraper(
-  workerData: WorkerDataScraper
+  workerData: WorkerDataScraper,
 ): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
   //修改工作牌
   badge = workerData.badge;
@@ -27,7 +27,7 @@ async function scraper(
   const dirtyScript = await import(workerData.scriptPath);
   if (dirtyScript == null || dirtyScript.default == null) {
     return new Err(
-      `Error:Worker imported null script : ${workerData.scriptPath}`
+      `Error:Worker imported null script : ${workerData.scriptPath}`,
     );
   } else {
     if (workerData.isExternal) {
@@ -54,13 +54,15 @@ async function scraper(
         return new Ok([res]);
       } catch (e) {
         return new Err(
-          `Error:Scraper worker executed script failed : \n${JSON.stringify(e)}`
+          `Error:Scraper worker executed script failed : \n${JSON.stringify(
+            e,
+          )}`,
         );
       }
     } else {
       //作为模板处理
       const script = dirtyScript.default as (
-        p: ScraperParameters
+        p: ScraperParameters,
       ) => Promise<Result<ScraperReturned, string>>;
       const results: Array<Result<ScraperReturned, string>> = [];
       let res;
@@ -78,9 +80,9 @@ async function scraper(
           results.push(
             new Err(
               `Error:Scraper worker executed script failed : \n${JSON.stringify(
-                e
-              )}`
-            )
+                e,
+              )}`,
+            ),
           );
         }
       }
@@ -90,7 +92,7 @@ async function scraper(
 }
 
 async function resolver(
-  workerData: WorkerDataResolver
+  workerData: WorkerDataResolver,
 ): Promise<Result<ResolverReturned, string>> {
   //修改工作牌
   badge = workerData.badge;
@@ -98,11 +100,11 @@ async function resolver(
   const dirtyScript = await import(workerData.scriptPath);
   if (dirtyScript == null || dirtyScript.default == null) {
     return new Err(
-      `Error:Worker imported null script : ${workerData.scriptPath}`
+      `Error:Worker imported null script : ${workerData.scriptPath}`,
     );
   } else {
     const script = dirtyScript.default as (
-      p: ResolverParameters
+      p: ResolverParameters,
     ) => Promise<Result<ResolverReturned, string>>;
     let res;
     const { url } = workerData;
@@ -115,7 +117,7 @@ async function resolver(
       })) as Result<ResolverReturned, string>;
     } catch (e) {
       return new Err(
-        `Error:Resolver worker executed script failed : \n${JSON.stringify(e)}`
+        `Error:Resolver worker executed script failed : \n${JSON.stringify(e)}`,
       );
     }
     return res;
@@ -123,7 +125,7 @@ async function resolver(
 }
 
 async function producer(
-  workerData: WorkerDataProducer
+  workerData: WorkerDataProducer,
 ): Promise<Result<ProducerReturned, string>> {
   //修改工作牌
   badge = workerData.badge;
@@ -131,46 +133,46 @@ async function producer(
   const dirtyScript = await import(workerData.scriptPath);
   if (dirtyScript == null || dirtyScript.default == null) {
     return new Err(
-      `Error:Worker imported null script : ${workerData.scriptPath}`
+      `Error:Worker imported null script : ${workerData.scriptPath}`,
     );
   } else {
     if (workerData.isExternal) {
       //作为外置脚本处理
       const script = dirtyScript.default as (
-        p: ProducerParameters
+        p: ProducerParameters,
       ) => Promise<Result<ProducerReturned, string>>;
       let res;
       try {
         res = (await awaitWithTimeout(
           script,
           HEAVY_TIMEOUT,
-          workerData.task
+          workerData.task,
         )) as Result<ProducerReturned, string>;
         return res;
       } catch (e) {
         return new Err(
           `Error:Producer worker executed script failed : \n${JSON.stringify(
-            e
-          )}`
+            e,
+          )}`,
         );
       }
     } else {
       //作为模板处理
       const script = dirtyScript.default as (
-        p: ProducerParameters
+        p: ProducerParameters,
       ) => Promise<Result<ProducerReturned, string>>;
       let res;
       try {
         res = (await awaitWithTimeout(
           script,
           HEAVY_TIMEOUT,
-          workerData.task
+          workerData.task,
         )) as Result<ProducerReturned, string>;
       } catch (e) {
         return new Err(
           `Error:Producer worker executed script failed : \n${JSON.stringify(
-            e
-          )}`
+            e,
+          )}`,
         );
       }
       return res;

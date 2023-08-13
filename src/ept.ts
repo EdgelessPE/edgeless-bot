@@ -6,22 +6,25 @@ import fs from "fs";
 
 async function packIntoNep(
   sourceDir: string,
-  intoFile: string
+  intoFile: string,
 ): Promise<boolean> {
   log(`Info:Packing ${sourceDir} into ${intoFile}`);
   return new Promise((resolve) => {
     const ept = where("ept").unwrap();
-    cp.exec(`${ept} pack "${sourceDir}" "${intoFile}"`, {
-      cwd: path.join(process.cwd(), "bin", "ept"),
-    },(err,stdout)=>{
-      if (fs.existsSync(intoFile)) {
-        resolve(true);
-      } else {
-        log("Error:Pack command failed with output:\n" + stdout);
-        resolve(false);
-      }
-
-    });
+    cp.exec(
+      `${ept} pack "${sourceDir}" "${intoFile}"`,
+      {
+        cwd: path.join(process.cwd(), "bin", "ept"),
+      },
+      (err, stdout) => {
+        if (fs.existsSync(intoFile)) {
+          resolve(true);
+        } else {
+          log("Error:Pack command failed with output:\n" + stdout);
+          resolve(false);
+        }
+      },
+    );
   });
 }
 

@@ -22,7 +22,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     console.log(
       (badge ? badge + " " : "") +
         chalk.yellow("Warning ") +
-        "Illegal type detected"
+        "Illegal type detected",
     );
     console.log(JSON.stringify(text));
     return;
@@ -33,7 +33,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     console.log(
       (badge ? badge + " " : "") +
         chalk.yellow("Warning ") +
-        "Illegal message detected"
+        "Illegal message detected",
     );
     console.log(text);
     return;
@@ -52,11 +52,11 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     case "Success":
       if (ga_mode) {
         console.log(
-          (badge ? badge + " " : "") + chalk.greenBright("Success: ") + inf
+          (badge ? badge + " " : "") + chalk.greenBright("Success: ") + inf,
         );
       } else {
         console.log(
-          (badge ? badge + " " : "") + chalk.greenBright("Success ") + inf
+          (badge ? badge + " " : "") + chalk.greenBright("Success ") + inf,
         );
       }
 
@@ -66,7 +66,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
         console.log("::warning::" + inf);
       } else {
         console.log(
-          (badge ? badge + " " : "") + chalk.yellow("Warning ") + inf
+          (badge ? badge + " " : "") + chalk.yellow("Warning ") + inf,
         );
       }
 
@@ -86,7 +86,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
         console.log(
           (badge ? badge + " " : "") +
             chalk.yellow("Warning ") +
-            "Illegal message detected"
+            "Illegal message detected",
         );
         console.log(text);
       }
@@ -106,7 +106,7 @@ function log(text: string, b?: string) {
   }
   print(text, false, d);
   if (!text.startsWith("Info:")) {
-    fs.appendFileSync("bot.log", text+'\n');
+    fs.appendFileSync("bot.log", text + "\n");
   }
 }
 
@@ -114,9 +114,12 @@ function log(text: string, b?: string) {
  * 格式化版本号
  * @param version 原版本号
  * @param clearLast 是否将最后一位（第4位）置0
- * @returns 
+ * @returns
  */
-function formatVersion(version: string, clearLast=false): Result<string, string> {
+function formatVersion(
+  version: string,
+  clearLast = false,
+): Result<string, string> {
   let spl = version.split(".");
 
   // 清理多余的 0 前缀
@@ -135,8 +138,8 @@ function formatVersion(version: string, clearLast=false): Result<string, string>
   }
 
   // 处理最后一位
-  const rawLast=spl[3] ?? "0";
-  const finalLast=clearLast?"0":rawLast
+  const rawLast = spl[3] ?? "0";
+  const finalLast = clearLast ? "0" : rawLast;
 
   return new Ok(`${spl[0]}.${spl[1] ?? "0"}.${spl[2] ?? "0"}.${finalLast}`);
 }
@@ -214,7 +217,7 @@ function versionCmp(a: string, b: string): Cmp {
 async function awaitWithTimeout<P, R>(
   closure: (payload: P) => Promise<R>,
   timeout: number,
-  payload: P
+  payload: P,
 ): Promise<R> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -233,7 +236,7 @@ async function sleep(ms: number): Promise<void> {
 function schemaValidator(
   obj: any,
   schema: string,
-  root?: string
+  root?: string,
 ): Result<boolean, string> {
   //读取schema文件
   const schemaFilePath = path.join("./schema", schema + ".json");
@@ -271,7 +274,7 @@ function objChainValidator(obj: any, chain: string[]): boolean {
 function requiredKeysValidator(
   obj: any,
   requiredKeys: string[],
-  disableAlert?: boolean
+  disableAlert?: boolean,
 ): boolean {
   let suc = true,
     keys = [];
@@ -281,7 +284,7 @@ function requiredKeysValidator(
       log(
         `${
           disableAlert ? "Warning" : "Error"
-        }:Missing ${originalString} in task config`
+        }:Missing ${originalString} in task config`,
       );
       suc = false;
       break;
@@ -293,7 +296,7 @@ function requiredKeysValidator(
 function objectValidator(
   object: any,
   checkList: Array<ObjectValidationNode>,
-  cd?: string
+  cd?: string,
 ): boolean {
   let valid = true;
   for (const node of checkList) {
@@ -355,8 +358,8 @@ function objectValidator(
     if (object[node.key] != null && getType(object[node.key]) != node.type) {
       log(
         `Error:Expect typeof ${cd ?? ""}${node.key} to be ${explainType(
-          node.type
-        )},got ${typeof object[node.key]}`
+          node.type,
+        )},got ${typeof object[node.key]}`,
       );
       valid = false;
       continue;
@@ -370,7 +373,7 @@ function objectValidator(
       valid = objectValidator(
         object[node.key],
         node.properties,
-        `${cd ?? ""}${node.key}.`
+        `${cd ?? ""}${node.key}.`,
       );
     }
   }
@@ -402,9 +405,9 @@ function parseBuiltInValue(
     taskName: string;
     downloadedFile: string;
     latestVersion: string;
-    revisedVersion?:string;
+    revisedVersion?: string;
   },
-  regexOptimizing?: boolean
+  regexOptimizing?: boolean,
 ): string {
   return source
     .replace("${taskName}", v.taskName)
@@ -413,9 +416,9 @@ function parseBuiltInValue(
       "${latestVersion}",
       regexOptimizing
         ? v.latestVersion.replace(".0", "(.0)*").replace(".", "\\.")
-        : v.latestVersion
+        : v.latestVersion,
     )
-    .replace("${revisedVersion}", v.revisedVersion??v.latestVersion);
+    .replace("${revisedVersion}", v.revisedVersion ?? v.latestVersion);
 }
 
 /**
@@ -423,9 +426,9 @@ function parseBuiltInValue(
  * @param file 文件路径
  * @param text 文件内容
  */
-function _writeGBK(file: string, text: string) {
-  fs.writeFileSync(file, toGBK(text));
-}
+// function _writeGBK(file: string, text: string) {
+//   fs.writeFileSync(file, toGBK(text));
+// }
 
 function wherePECMD(): Result<string, string> {
   const p = [".\\pecmd.exe", ".\\bin\\pecmd.exe"];
@@ -438,7 +441,7 @@ function wherePECMD(): Result<string, string> {
   }
   if (r == "") {
     return new Err(
-      'Error:Can\'t find pecmd.exe, store it to project root or "bin" folder'
+      'Error:Can\'t find pecmd.exe, store it to project root or "bin" folder',
     );
   } else {
     return new Ok(r);

@@ -45,7 +45,7 @@ async function getSHA256(filePath: string): Promise<string> {
 export default async function (
   filePath: string,
   method: ValidationType,
-  targetValue: string
+  targetValue: string,
 ): Promise<boolean> {
   let sum = "";
   switch (method) {

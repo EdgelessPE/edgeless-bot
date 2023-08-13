@@ -16,7 +16,7 @@ interface ProducerSpawn {
   task: TaskInstance;
   downloadedFile: string;
   version: string;
-  revisedVersion:string;
+  revisedVersion: string;
 }
 
 function parsePath(entrance: string): Result<string, string> {
@@ -25,7 +25,7 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "producers",
-    entrance + ".js"
+    entrance + ".js",
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
@@ -35,7 +35,7 @@ function parsePath(entrance: string): Result<string, string> {
 }
 
 export default async function (
-  s: ProducerSpawn
+  s: ProducerSpawn,
 ): Promise<Result<ProducerReturned, string>> {
   const { task, downloadedFile } = s;
   let scriptPath,
@@ -47,7 +47,7 @@ export default async function (
       "..",
       config.DIR_TASKS,
       task.name,
-      "producer.js"
+      "producer.js",
     );
     if (!fs.existsSync(scriptPath)) {
       return new Err("Error:Missing producer.ts in task directory");
@@ -61,16 +61,19 @@ export default async function (
     }
     scriptPath = r.unwrap();
   }
-  
+
   //解释producer_required的内置变量
-  const requiredObject:any={};
-  for(const [key,val] of Object.entries(task.producer_required)){
-    requiredObject[key]=typeof val==="string"? parseBuiltInValue(val,{
-      taskName:task.name,
-      latestVersion:s.version,
-      downloadedFile:s.downloadedFile,
-      revisedVersion:s.revisedVersion
-    }):val
+  const requiredObject: any = {};
+  for (const [key, val] of Object.entries(task.producer_required)) {
+    requiredObject[key] =
+      typeof val === "string"
+        ? parseBuiltInValue(val, {
+            taskName: task.name,
+            latestVersion: s.version,
+            downloadedFile: s.downloadedFile,
+            revisedVersion: s.revisedVersion,
+          })
+        : val;
   }
 
   //安排worker

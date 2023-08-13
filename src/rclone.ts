@@ -32,15 +32,15 @@ function uploadToRemote(fileName: string, category: string): boolean {
           config.REMOTE_NAME +
           ":" +
           remotePath,
-        getOptions(3600000)
+        getOptions(3600000),
       );
     } catch (err: any) {
       console.log(err?.output.toString());
       date = new Date();
       log(
         `Info:Cost ${getTimeString(
-          date.getTime() - startTime
-        )} before error occurred`
+          date.getTime() - startTime,
+        )} before error occurred`,
       );
       // 尝试删除传了一半的文件
       log("Info:Trying to delete broken uploaded file");
@@ -55,8 +55,8 @@ function uploadToRemote(fileName: string, category: string): boolean {
     date = new Date();
     log(
       `Info:Uploaded successfully, cost ${getTimeString(
-        date.getTime() - startTime
-      )}`
+        date.getTime() - startTime,
+      )}`,
     );
   } else {
     log("Warning:Remote disabled, skip upload to remote");
@@ -68,7 +68,7 @@ function uploadToRemote(fileName: string, category: string): boolean {
 function deleteFromRemote(
   fileName: string,
   category: string,
-  ignoreNotExist?: boolean
+  ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
     const remotePath = config.REMOTE_PATH + "/" + category + "/" + fileName;
@@ -82,7 +82,7 @@ function deleteFromRemote(
           config.REMOTE_PATH +
           "/" +
           category,
-        getOptions(10000)
+        getOptions(10000),
       );
     } catch (err: any) {
       console.log(err?.output.toString());
@@ -92,7 +92,7 @@ function deleteFromRemote(
           ":" +
           config.REMOTE_PATH +
           "/" +
-          category
+          category,
       );
       return false;
     }
@@ -111,7 +111,7 @@ function deleteFromRemote(
           category +
           "/" +
           fileName +
-          " ,ignore"
+          " ,ignore",
       );
       return true;
     }
@@ -121,7 +121,7 @@ function deleteFromRemote(
       log("Info:Removing " + remotePath);
       cp.execSync(
         'rclone delete "' + config.REMOTE_NAME + ":" + remotePath + '"',
-        getOptions(10000)
+        getOptions(10000),
       );
     } catch (err: any) {
       console.log(err?.output.toString());

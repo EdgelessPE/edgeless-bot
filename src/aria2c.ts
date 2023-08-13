@@ -48,17 +48,17 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
             `Error:Aria2c exit : ${JSON.stringify(
               error,
               null,
-              2
-            )},stdout : ${stdout}, stderr : ${stderr}`
+              2,
+            )},stdout : ${stdout}, stderr : ${stderr}`,
           );
         }
         resolve(false);
-      }
+      },
     );
     //保持1s不退出即视为启动成功
     sleep(config.GITHUB_ACTIONS ? 5000 : 1000).then(() => {
       log(
-        `Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`
+        `Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`,
       );
       aria2c_alive = true;
       resolve(true);
@@ -142,7 +142,7 @@ async function tryConnect(final: boolean): Promise<boolean> {
 async function download(
   taskName: string,
   url: string,
-  dir: string
+  dir: string,
 ): Promise<string> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -161,7 +161,7 @@ async function download(
         {
           dir,
         },
-        0
+        0,
       );
       let done = false,
         checked = false,
@@ -182,7 +182,7 @@ async function download(
           const ls = fs.readdirSync(dir);
           if (!ls.includes(filename)) {
             log(
-              `Warning:Downloaded file not found due to error encoding, patch file name from ${filename} to ${ls[0]}`
+              `Warning:Downloaded file not found due to error encoding, patch file name from ${filename} to ${ls[0]}`,
             );
             filename = ls[0];
           }
@@ -206,14 +206,14 @@ async function download(
           if (avgSpeed < 524) {
             log(
               `Warning:${taskName} downloading slowly @ ${getSizeString(
-                avgSpeed * 1024
-              )}/s, etc ${etcString} (${endString})`
+                avgSpeed * 1024,
+              )}/s, etc ${etcString} (${endString})`,
             );
           } else {
             log(
               `Info:Task ${taskName} downloading @ ${getSizeString(
-                avgSpeed * 1024
-              )}/s, etc ${etcString} (${endString})`
+                avgSpeed * 1024,
+              )}/s, etc ${etcString} (${endString})`,
             );
           }
         }

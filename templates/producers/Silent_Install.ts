@@ -18,8 +18,8 @@ export default async function (
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
   const obj = p.requiredObject as RequiredObject;
-  const arg = obj.argument ?? "/S",
-    del = obj.deleteInstaller ?? false;
+  const arg = obj.argument ?? "/S";
+  // const del = obj.deleteInstaller ?? false;
 
   const readyPath = path.join(workshop, "_ready"),
     workflow = path.join(readyPath, "workflows"),

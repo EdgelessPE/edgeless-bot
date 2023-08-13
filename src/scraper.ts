@@ -20,7 +20,7 @@ export interface ResultNode {
 
 function searchTemplate(
   url: string,
-  scraperName?: string
+  scraperName?: string,
 ): Result<ScraperRegister, string> {
   //内部实现外置脚本模板
   if (scraperName && scraperName == "External") {
@@ -78,7 +78,7 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "scrapers",
-    entrance + ".js"
+    entrance + ".js",
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
@@ -89,7 +89,7 @@ function parsePath(entrance: string): Result<string, string> {
 
 //输入一个乱序tasks数组，按同域任务分类后使用线程池执行全部完成
 export default async function (
-  tasks: Array<TaskInstance>
+  tasks: Array<TaskInstance>,
 ): Promise<Array<ResultNode>> {
   return new Promise((resolve, reject) => {
     //按同域任务分类
@@ -160,7 +160,7 @@ export default async function (
               "..",
               config.DIR_TASKS,
               taskName,
-              "scraper.js"
+              "scraper.js",
             ),
             isExternal: true,
             tasks: [poolNode],
@@ -172,7 +172,7 @@ export default async function (
                 if (res.err) {
                   log(
                     `Error:External scraper ${taskName} resolved error`,
-                    badge
+                    badge,
                   );
                   collection.push({
                     taskName,
@@ -185,7 +185,7 @@ export default async function (
                   });
                 }
                 checkResolve(badge, taskName);
-              }
+              },
             );
           jobSum++;
         }
@@ -227,7 +227,7 @@ export default async function (
                 });
               }
               checkResolve(badge, node.entrance);
-            }
+            },
           );
         jobSum++;
       }

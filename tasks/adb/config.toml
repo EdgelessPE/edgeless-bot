@@ -28,7 +28,7 @@ download_name = '\.zip'
 build_manifest = ["workflows/setup.toml", "${taskName}/adb.exe"]
 build_cover = "cover"
 # build_delete = []
-revised_version = false
+# main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]

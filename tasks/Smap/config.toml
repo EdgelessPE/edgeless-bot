@@ -28,7 +28,7 @@ download_name = '_amd64.zip'
 build_manifest = ["workflows/setup.toml","${taskName}/smap.exe"]
 # build_cover = ""
 # build_delete = []
-revised_version = false
+# main_program = false
 
 # 爬虫模板临时参数
 # [scraper_temp]

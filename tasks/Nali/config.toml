@@ -29,7 +29,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml","${taskName}"]
 build_cover = "cover"
 # build_delete = []
-revised_version = false
+# main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]

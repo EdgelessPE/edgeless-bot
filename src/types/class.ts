@@ -68,7 +68,6 @@ interface ProducerParameters {
 interface ProducerReturned {
   readyRelativePath: string;
   mainProgram?: string;
-  currentVersionProgram?: string;
 }
 
 interface ProducerRegister {

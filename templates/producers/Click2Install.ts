@@ -47,7 +47,6 @@ export default async function (
   ) {
     return new Ok({
       readyRelativePath: "ready",
-      currentVersionProgram: downloadedFile,
       mainProgram: downloadedFile,
     });
   } else {

@@ -28,7 +28,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
-correct_version = "${downloadedFile}"
+revised_version = "${downloadedFile}"
 main_program = "${ProgramFiles_X86}/SogouInput/SogouExe/SogouExe.exe"
 
 # 爬虫模板临时参数
@@ -36,7 +36,7 @@ main_program = "${ProgramFiles_X86}/SogouInput/SogouExe/SogouExe.exe"
 
 # 自动制作模板要求的参数
 [producer_required]
-uninstallCmd = "${ProgramFiles_X86}/SogouInput/${correctVersion}/Uninstall/Uninstall.exe"
+uninstallCmd = "${ProgramFiles_X86}/SogouInput/${revisedVersion}/Uninstall/Uninstall.exe"
 
 
 # 额外备注

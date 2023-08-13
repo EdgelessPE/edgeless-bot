@@ -402,7 +402,7 @@ function parseBuiltInValue(
     taskName: string;
     downloadedFile: string;
     latestVersion: string;
-    mainProgramVersion?:string;
+    revisedVersion?:string;
   },
   regexOptimizing?: boolean
 ): string {
@@ -415,7 +415,7 @@ function parseBuiltInValue(
         ? v.latestVersion.replace(".0", "(.0)*").replace(".", "\\.")
         : v.latestVersion
     )
-    .replace("${mainProgramVersion}", v.mainProgramVersion??v.latestVersion);
+    .replace("${revisedVersion}", v.revisedVersion??v.latestVersion);
 }
 
 /**

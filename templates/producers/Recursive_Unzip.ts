@@ -145,6 +145,7 @@ export default async function (
     return new Ok({
       readyRelativePath: "_ready",
       mainProgram: obj.sourceFile,
+      currentVersionProgram: obj.sourceFile,
     });
   } else {
     return new Err(

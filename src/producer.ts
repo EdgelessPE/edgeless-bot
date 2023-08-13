@@ -16,7 +16,7 @@ interface ProducerSpawn {
   task: TaskInstance;
   downloadedFile: string;
   version: string;
-  mainProgramVersion:string;
+  revisedVersion:string;
 }
 
 function parsePath(entrance: string): Result<string, string> {
@@ -69,7 +69,7 @@ export default async function (
       taskName:task.name,
       latestVersion:s.version,
       downloadedFile:s.downloadedFile,
-      mainProgramVersion:s.mainProgramVersion
+      revisedVersion:s.revisedVersion
     }):val
   }
 

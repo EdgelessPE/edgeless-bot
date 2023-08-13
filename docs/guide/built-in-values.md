@@ -62,9 +62,13 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 download_name = 'Edgeless Hub_Beta_${latestVersion}\.exe'
 ```
 
-### 主程序版本号
+### 修正版本号
 
-使用 `${mainProgramVersion}` 代指主程序的最新版本号。如果任务在 `parameter.main_program` 中提供了有效字符串值，则在“制作”开始之前会读取此主程序的版本号；否则此值与 `${latestVersion}` 保持一致。
+使用 `${revisedVersion}` 代指修正的版本号。如果任务在 `parameter.revised_version` 中提供了有效字符串值，则在“制作”开始之前会读取指定程序的版本号；否则此值与 `${latestVersion}` 保持一致。
+
+:::tip
+注意修正版本号只是一个内置变量，并不会覆盖由爬虫获取到的版本号。
+:::
 
 ## 使用范围
 

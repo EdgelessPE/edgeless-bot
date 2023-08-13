@@ -47,6 +47,6 @@ export default async function (
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
-    mainProgram: "smap.exe",
+    revisedVersion: "smap.exe",
   });
 }

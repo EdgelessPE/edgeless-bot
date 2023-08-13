@@ -48,6 +48,6 @@ export default async function (
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
-    // mainProgram:"OpenOfficePortable.exe"
+    mainProgram:"OpenOfficePortable.exe"
   });
 }

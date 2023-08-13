@@ -28,7 +28,7 @@ download_name = 'win64-v.*\.zip'
 build_manifest = ["workflows/setup.toml","${taskName}"]
 build_cover = "cover"
 # build_delete = []
-main_program = false
+revised_version = false
 
 # 爬虫模板临时参数
 # [scraper_temp]

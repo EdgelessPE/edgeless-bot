@@ -434,19 +434,22 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     );
   }
   
-  //对提供了 main_program 的任务，尝试读取主程序版本号
-  let mainProgramVersion=t.info.version;
-  if(t.task.parameter.main_program){
-    const readRes=await getExeVersion(
-      parseBuiltInValue(t.task.parameter.main_program, {
+  //对提供了 revised_version 的任务，尝试读取主程序版本号
+  let revisedVersion=t.info.version;
+  if(t.task.parameter.revised_version){
+    const parsed=parseBuiltInValue(t.task.parameter.revised_version, {
       taskName: t.task.name,
       downloadedFile,
       latestVersion: t.info.version,
-    }),workshop);
+    })
+    const readRes=await getExeVersion(
+      parsed,workshop);
     if (readRes.ok) {
-      mainProgramVersion=readRes.unwrap();
+      revisedVersion=readRes.unwrap();
+      // t.info.version=revisedVersion;
+      log(`Info:Get revised version '${revisedVersion}' due to '${parsed}'`)
     }else{
-      log(`Warning:Failed to get version of main program before produce, inner value 'mainProgramVersion' won't be updated : ${readRes.val}`)
+      log(`Warning:Failed to get version of main program before produce, inner value 'revisedVersion' won't be updated : ${readRes.val}`)
     }
   }
 
@@ -455,7 +458,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     task: t.task,
     downloadedFile,
     version: t.info.version,
-    mainProgramVersion
+    revisedVersion
   });
   if (p.err) {
     log(p.val);
@@ -477,6 +480,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         taskName: t.task.name,
         downloadedFile,
         latestVersion: t.info.version,
+        revisedVersion
       });
       f = path.join(target, v);
       if (!fs.existsSync(f)) {
@@ -525,6 +529,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
           downloadedFile,
           taskName: t.task.name,
           latestVersion: t.info.version,
+          revisedVersion
         }).replace("\\", "/")
       );
     }
@@ -599,6 +604,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         taskName: t.task.name,
         downloadedFile,
         latestVersion: t.info.version,
+        revisedVersion
       });
       else return undefined
     }

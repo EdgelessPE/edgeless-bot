@@ -68,6 +68,7 @@ interface ProducerParameters {
 interface ProducerReturned {
   readyRelativePath: string;
   mainProgram?: string;
+  currentVersionProgram?: string;
 }
 
 interface ProducerRegister {
@@ -122,6 +123,7 @@ interface TaskInstance {
     build_delete?: Array<string>;
     resolver_cd?: Array<string>;
     compress_level?: number;
+    revised_version?: string | false;
     main_program?: string | false;
   };
   producer_required: any;

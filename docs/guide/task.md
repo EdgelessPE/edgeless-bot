@@ -117,8 +117,10 @@ build_manifest = ["${taskName}"]
 #build_cover = ""
 # （可选）删除列表，用于在制作器完成制作后删除就绪目录中的文件（夹）
 #build_delete = []
-# （可选）主程序路径，用于提供内置变量 ${mainProgramVersion} 的值并被打包进 package.toml 中
-# 当值为布尔值 false 时可以禁用制作器模板默认的 main_program 配置
+# （可选）修正版本号使用的可执行文件，用于提供内置变量 ${revisedVersion} 的值并被打包进 package.toml 中
+# 当值为布尔值 false 时可以禁用制作器模板默认的 revised_version 配置
+#revised_version = ""
+# 主程序位置，用于提供 nep 中 package.toml 的同名字段
 #main_program = ""
 
 # （可选）爬虫模板临时参数，部分爬虫模板会要求指定其中的键；

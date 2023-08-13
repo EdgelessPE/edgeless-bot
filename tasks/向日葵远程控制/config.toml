@@ -28,6 +28,7 @@ download_name = 'x64\.exe'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
+main_program = "${ProgramFiles_X64}/Oray/SunLogin/SunloginClient/SunloginClient.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -37,7 +38,7 @@ download_path = "downloadurl"
 
 # 自动制作模板要求的参数
 [producer_required]
-uninstallCmd = "${ProgramFiles_X64}/Oray/SunLogin/SunloginClient/SunloginClient.exe --mod=uninstall"
+uninstallCmd = "\"${ProgramFiles_X64}/Oray/SunLogin/SunloginClient/SunloginClient.exe\" --mod=uninstall"
 
 
 # 额外备注

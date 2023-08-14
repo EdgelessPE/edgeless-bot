@@ -7,7 +7,7 @@ import { release } from "../../src/p7zip";
 import shell from "shelljs";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
 
@@ -28,7 +28,7 @@ export default async function (
       "LINK X:\\Users\\Default\\Desktop\\OpenOfficeImpress,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficeImpressPortable.exe\n" +
       "LINK X:\\Users\\Default\\Desktop\\OpenOfficeMath,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficeMathPortable.exe\n" +
       "LINK X:\\Users\\Default\\Desktop\\OpenOffice,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficePortable.exe\n" +
-      "LINK X:\\Users\\Default\\Desktop\\OpenOfficeWriter,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficeWriterPortable.exe"
+      "LINK X:\\Users\\Default\\Desktop\\OpenOfficeWriter,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficeWriterPortable.exe",
   );
   //Return ready directory
   return new Ok({

@@ -8,7 +8,7 @@ import cp from "child_process";
 import shell from "shelljs";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { downloadedFile, workshop } = p;
 
@@ -29,7 +29,7 @@ export default async function (
   //循环判断安装完成
   const finishFilePath = path.join(
     readyDir,
-    "GoogleChromePortableDev/Data/PortableApps.comInstaller/license.ini"
+    "GoogleChromePortableDev/Data/PortableApps.comInstaller/license.ini",
   );
   while (!fs.existsSync(finishFilePath)) {
     await sleep(3000);

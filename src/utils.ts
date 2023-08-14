@@ -22,7 +22,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     console.log(
       (badge ? badge + " " : "") +
         chalk.yellow("Warning ") +
-        "Illegal type detected"
+        "Illegal type detected",
     );
     console.log(JSON.stringify(text));
     return;
@@ -33,7 +33,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     console.log(
       (badge ? badge + " " : "") +
         chalk.yellow("Warning ") +
-        "Illegal message detected"
+        "Illegal message detected",
     );
     console.log(text);
     return;
@@ -52,11 +52,11 @@ function print(text: string, ga_mode: boolean, badge?: string) {
     case "Success":
       if (ga_mode) {
         console.log(
-          (badge ? badge + " " : "") + chalk.greenBright("Success: ") + inf
+          (badge ? badge + " " : "") + chalk.greenBright("Success: ") + inf,
         );
       } else {
         console.log(
-          (badge ? badge + " " : "") + chalk.greenBright("Success ") + inf
+          (badge ? badge + " " : "") + chalk.greenBright("Success ") + inf,
         );
       }
 
@@ -66,7 +66,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
         console.log("::warning::" + inf);
       } else {
         console.log(
-          (badge ? badge + " " : "") + chalk.yellow("Warning ") + inf
+          (badge ? badge + " " : "") + chalk.yellow("Warning ") + inf,
         );
       }
 
@@ -86,7 +86,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
         console.log(
           (badge ? badge + " " : "") +
             chalk.yellow("Warning ") +
-            "Illegal message detected"
+            "Illegal message detected",
         );
         console.log(text);
       }
@@ -196,7 +196,7 @@ function versionCmp(a: string, b: string): Cmp {
 async function awaitWithTimeout<P, R>(
   closure: (payload: P) => Promise<R>,
   timeout: number,
-  payload: P
+  payload: P,
 ): Promise<R> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -215,7 +215,7 @@ async function sleep(ms: number): Promise<void> {
 function schemaValidator(
   obj: any,
   schema: string,
-  root?: string
+  root?: string,
 ): Result<boolean, string> {
   //读取schema文件
   const schemaFilePath = path.join("./schema", schema + ".json");
@@ -251,7 +251,7 @@ function objChainValidator(obj: any, chain: string[]): boolean {
 function requiredKeysValidator(
   obj: any,
   requiredKeys: string[],
-  disableAlert?: boolean
+  disableAlert?: boolean,
 ): boolean {
   let suc = true,
     keys = [];
@@ -261,7 +261,7 @@ function requiredKeysValidator(
       log(
         `${
           disableAlert ? "Warning" : "Error"
-        }:Missing ${originalString} in task config`
+        }:Missing ${originalString} in task config`,
       );
       suc = false;
       break;
@@ -273,7 +273,7 @@ function requiredKeysValidator(
 function objectValidator(
   object: any,
   checkList: Array<ObjectValidationNode>,
-  cd?: string
+  cd?: string,
 ): boolean {
   let valid = true;
   for (const node of checkList) {
@@ -335,8 +335,8 @@ function objectValidator(
     if (object[node.key] != null && getType(object[node.key]) != node.type) {
       log(
         `Error:Expect typeof ${cd ?? ""}${node.key} to be ${explainType(
-          node.type
-        )},got ${typeof object[node.key]}`
+          node.type,
+        )},got ${typeof object[node.key]}`,
       );
       valid = false;
       continue;
@@ -350,7 +350,7 @@ function objectValidator(
       valid = objectValidator(
         object[node.key],
         node.properties,
-        `${cd ?? ""}${node.key}.`
+        `${cd ?? ""}${node.key}.`,
       );
     }
   }
@@ -383,7 +383,7 @@ function parseBuiltInValue(
     downloadedFile: string;
     latestVersion: string;
   },
-  regexOptimizing?: boolean
+  regexOptimizing?: boolean,
 ): string {
   return source
     .replace("${taskName}", v.taskName)
@@ -392,7 +392,7 @@ function parseBuiltInValue(
       "${latestVersion}",
       regexOptimizing
         ? v.latestVersion.replace(".0", "(.0)*").replace(".", "\\.")
-        : v.latestVersion
+        : v.latestVersion,
     );
 }
 
@@ -411,7 +411,7 @@ function wherePECMD(): Result<string, string> {
   }
   if (r == "") {
     return new Err(
-      'Error:Can\'t find pecmd.exe, store it to project root or "bin" folder'
+      'Error:Can\'t find pecmd.exe, store it to project root or "bin" folder',
     );
   } else {
     return new Ok(r);

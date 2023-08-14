@@ -6,14 +6,14 @@ import { parentPort, Worker, workerData as obj } from "worker_threads";
 //输入一个同域任务数组然后同步顺次执行的Worker
 async function master(
   tasks: Array<TaskInstance>,
-  entrance: string
+  entrance: string,
 ): Promise<Array<Result<ScraperReturned, string>>> {
   return new Promise((resolve) => {
     const scriptPath = path.join(
       __dirname,
       "templates",
       "scrapers",
-      entrance + ".js"
+      entrance + ".js",
     );
     //启动Worker
     const worker = new Worker(scriptPath, { workerData: tasks });

@@ -146,7 +146,7 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
       suc = "POSIX";
       if (alert)
         log(
-          `Warning:PECMD not found, use POSIX mode (tasks require Windows won't be executed)`
+          `Warning:PECMD not found, use POSIX mode (tasks require Windows won't be executed)`,
         );
     }
   } else {

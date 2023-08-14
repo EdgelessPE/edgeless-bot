@@ -26,7 +26,7 @@ function objChainReader(obj: any, chain: string[]): Result<any, string> {
 }
 
 export default async function (
-  p: ScraperParameters
+  p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   //发送请求
   const temp = p.scraper_temp as Temp;
@@ -38,7 +38,7 @@ export default async function (
           headers: {
             Referer: temp.referer,
           },
-        }
+        },
   );
   if (jsonRes.err) {
     return jsonRes;
@@ -54,14 +54,14 @@ export default async function (
     return new Err(
       `Error:Can't find key ${
         temp.version_path
-      } in this json :\n${JSON.stringify(json, null, 2)}`
+      } in this json :\n${JSON.stringify(json, null, 2)}`,
     );
   }
   if (linkReadRes.err) {
     return new Err(
       `Error:Can't find key ${
         temp.download_path
-      } in this json :\n${JSON.stringify(json, null, 2)}`
+      } in this json :\n${JSON.stringify(json, null, 2)}`,
     );
   }
 

@@ -32,7 +32,7 @@ function parseDownloadUrl(href: string): string {
 
 async function scrapePage(
   page: string,
-  url: string
+  url: string,
 ): Promise<Result<PageInfo, string>> {
   const result = {} as unknown as PageInfo;
 
@@ -85,7 +85,7 @@ async function scrapePage(
   switch (dom_node.attr("class")) {
     case "download-link":
       log(
-        "Warning:You may provided a short term supported application,please check the paUrl"
+        "Warning:You may provided a short term supported application,please check the paUrl",
       );
       result.text = dom_node.text();
       result.href = dom_node.attr("href") as string;
@@ -106,7 +106,7 @@ async function scrapePage(
           // 尝试获取多语言下载列表
           if (DEBUG)
             log(
-              "Info:English application detected,trying to match simplified chinese version"
+              "Info:English application detected,trying to match simplified chinese version",
             );
           const table = $(".zebra.download-links");
           if (table.length > 0) {
@@ -132,12 +132,12 @@ async function scrapePage(
                   "Info:Found simplified chinese version\nsha256:" +
                     result.sha256 +
                     "\ndownload link:" +
-                    result.href
+                    result.href,
                 );
             } else {
               if (DEBUG) {
                 log(
-                  "Info:Simplified chinese version not found,use English version"
+                  "Info:Simplified chinese version not found,use English version",
                 );
               }
             }
@@ -148,7 +148,7 @@ async function scrapePage(
           }
         } else {
           log(
-            "Warning:Minority language application detected,check the default language"
+            "Warning:Minority language application detected,check the default language",
           );
         }
       }
@@ -178,7 +178,7 @@ async function scrapePage(
 }
 
 export default async function (
-  p: ScraperParameters
+  p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   //获取页面
   const page = (await robustGet(p.url)).unwrap();

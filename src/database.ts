@@ -38,7 +38,7 @@ function writeDatabase() {
   if (!config.DATABASE_UPDATE) {
     log(
       "Warning:Database not updated" +
-        (modified ? ", modification would be abandoned" : "")
+        (modified ? ", modification would be abandoned" : ""),
     );
     return;
   }
@@ -88,7 +88,7 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 
 function setDatabaseNodeSuccess(
   taskName: string,
-  newBuilds: Array<BuildStatus>
+  newBuilds: Array<BuildStatus>,
 ) {
   const old = getDatabaseNode(taskName),
     newVersion = newBuilds[newBuilds.length - 1].version;
@@ -123,7 +123,7 @@ function generateFailureTip(): string {
   for (const i of failedList) {
     tip += `\n\t${chalk.yellowBright(i.taskName)} : ${i.errorMessage.replace(
       "\n",
-      ""
+      "",
     )}`;
   }
   return tip;
@@ -134,7 +134,7 @@ function report(): boolean {
   if (failedList.length == 0) {
     //全部成功
     log(
-      `Success:Executed ${successList.length} tasks :${generateSuccessTip()}`
+      `Success:Executed ${successList.length} tasks :${generateSuccessTip()}`,
     );
   } else {
     //存在失败
@@ -143,8 +143,8 @@ function report(): boolean {
     if (config.GITHUB_ACTIONS) {
       console.log(
         `::error:: ${failedList.length} tasks failed :${failedList.map(
-          (l) => l.taskName
-        )}`
+          (l) => l.taskName,
+        )}`,
       );
     }
     if (successList.length > 0) {

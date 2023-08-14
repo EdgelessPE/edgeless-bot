@@ -23,10 +23,7 @@ import {
 } from "./database";
 import { uploadToRemote } from "./rclone";
 import art from "./art";
-import fs from "fs";
-import path from "path";
 import cp from "child_process";
-import * as TOML from "toml";
 import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
 import { printLoadEnvNotices } from "./env";
@@ -49,7 +46,7 @@ async function main(): Promise<boolean> {
     } else {
       //从https获得只读数据库
       cp.execSync(
-        "curl https://pineapple.edgeless.top/Bot/database.json -o database.json"
+        "curl https://pineapple.edgeless.top/Bot/database.json -o database.json",
       );
       log("Info:Readonly database pulled");
     }
@@ -105,7 +102,7 @@ async function main(): Promise<boolean> {
       const newBuilds = removeExtraBuilds(
         node.taskName,
         task.category,
-        node.result.val
+        node.result.val,
       );
       //上传
       if (uploadToRemote(node.result.val, task.category)) {
@@ -129,75 +126,75 @@ async function main(): Promise<boolean> {
   return report();
 }
 
-interface TaskTemp {
-  name: string;
-  author: string;
-  category: string;
-}
+// interface TaskTemp {
+//   name: string;
+//   author: string;
+//   category: string;
+// }
 
-async function test(): Promise<boolean> {
-  const oldTasksDir =
-      "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot-master\\tasks",
-    newTasksDir = "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\tasks";
-  //读取两侧文件夹
-  const o = fs.readdirSync(oldTasksDir),
-    n = fs.readdirSync(newTasksDir);
-  //读取旧任务
-  const oTasks: TaskTemp[] = [];
-  let tmp;
-  for (const taskName of o) {
-    tmp = JSON.parse(
-      fs
-        .readFileSync(path.join(oldTasksDir, taskName, "config.json"))
-        .toString()
-    );
-    oTasks.push(tmp);
-  }
-  //读取新任务
-  const nTasks: TaskTemp[] = [];
-  for (const taskName of n) {
-    tmp = TOML.parse(
-      fs
-        .readFileSync(path.join(newTasksDir, taskName, "config.toml"))
-        .toString()
-    );
-    nTasks.push(tmp.task);
-  }
-  const getNode = (taskName: string, list: TaskTemp[]): TaskTemp | null => {
-    let r = null;
-    for (const n of list) {
-      if (n.name == taskName) {
-        r = n;
-        break;
-      }
-    }
-    return r;
-  };
-  let m;
-  //检查移植遗漏
-  for (const n of oTasks) {
-    m = getNode(n.name, nTasks);
-    if (m == null) {
-      log(`Warning:Missing ${n.name}`);
-    }
-  }
-  //检查对应
-  for (const n of nTasks) {
-    m = getNode(n.name, oTasks);
-    if (m == null) {
-      log(`Info:New task ${n.name}`);
-    } else {
-      if (n.author != m.author) {
-        log(`Warning:Author not match ${m.author}->${n.author},task ${n.name}`);
-      }
-      if (n.category != m.category) {
-        log(`Error:Category not match ${m.author}->${n.author},task ${n.name}`);
-      }
-    }
-  }
+// async function test(): Promise<boolean> {
+//   const oldTasksDir =
+//       "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot-master\\tasks",
+//     newTasksDir = "D:\\Desktop\\Projects\\EdgelessPE\\edgeless-bot\\tasks";
+//   //读取两侧文件夹
+//   const o = fs.readdirSync(oldTasksDir),
+//     n = fs.readdirSync(newTasksDir);
+//   //读取旧任务
+//   const oTasks: TaskTemp[] = [];
+//   let tmp;
+//   for (const taskName of o) {
+//     tmp = JSON.parse(
+//       fs
+//         .readFileSync(path.join(oldTasksDir, taskName, "config.json"))
+//         .toString(),
+//     );
+//     oTasks.push(tmp);
+//   }
+//   //读取新任务
+//   const nTasks: TaskTemp[] = [];
+//   for (const taskName of n) {
+//     tmp = TOML.parse(
+//       fs
+//         .readFileSync(path.join(newTasksDir, taskName, "config.toml"))
+//         .toString(),
+//     );
+//     nTasks.push(tmp.task);
+//   }
+//   const getNode = (taskName: string, list: TaskTemp[]): TaskTemp | null => {
+//     let r = null;
+//     for (const n of list) {
+//       if (n.name == taskName) {
+//         r = n;
+//         break;
+//       }
+//     }
+//     return r;
+//   };
+//   let m;
+//   //检查移植遗漏
+//   for (const n of oTasks) {
+//     m = getNode(n.name, nTasks);
+//     if (m == null) {
+//       log(`Warning:Missing ${n.name}`);
+//     }
+//   }
+//   //检查对应
+//   for (const n of nTasks) {
+//     m = getNode(n.name, oTasks);
+//     if (m == null) {
+//       log(`Info:New task ${n.name}`);
+//     } else {
+//       if (n.author != m.author) {
+//         log(`Warning:Author not match ${m.author}->${n.author},task ${n.name}`);
+//       }
+//       if (n.category != m.category) {
+//         log(`Error:Category not match ${m.author}->${n.author},task ${n.name}`);
+//       }
+//     }
+//   }
 
-  return true;
-}
+//   return true;
+// }
 
 if (!Piscina.isWorkerThread) {
   main().then(async (result) => {

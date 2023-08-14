@@ -21,7 +21,7 @@ export function getBadge(type: string): string {
       chalk.bgCyanBright,
     ],
     res = (choices[(base + count) % 14] ?? chalk.bgWhiteBright)(
-      type + " " + count
+      type + " " + count,
     );
 
   count++;

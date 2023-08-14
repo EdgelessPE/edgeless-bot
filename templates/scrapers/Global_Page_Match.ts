@@ -12,7 +12,7 @@ interface Temp {
 }
 
 export default async function (
-  p: ScraperParameters
+  p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   const temp: Temp = p.scraper_temp;
   const vm = p.versionMatchRegex
@@ -20,7 +20,8 @@ export default async function (
       : /(\d+\.)+\d+/g,
     dm = p.downloadLinkRegex
       ? new RegExp(p.downloadLinkRegex, "g")
-      : /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
+      : // eslint-disable-next-line no-useless-escape
+        /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
   //获取页面
   let page, scope;
   const getRes = await robustGet(temp.version_page_url ?? p.url);
@@ -45,7 +46,7 @@ export default async function (
   log(
     "Info:Version match result : " +
       m.toString() +
-      (m.length > 1 ? ", use the highest one" : "")
+      (m.length > 1 ? ", use the highest one" : ""),
   );
   let version = "0.0.0",
     tmp;
@@ -95,7 +96,7 @@ export default async function (
     }
     if (m.length > 1) {
       log(
-        `Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`
+        `Warning:Matched multiple outcomes : ${m.toString()}, use the first one, consider modify regex.downloadLinkRegex`,
       );
     }
     downloadLink = m[0];

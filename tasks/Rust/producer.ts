@@ -6,7 +6,7 @@ import path from "path";
 import shell from "shelljs";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
 
@@ -15,7 +15,7 @@ export default async function (
   shell.mv(path.join(workshop, downloadedFile), readyDir);
   writeGBK(
     path.join(workshop, "_ready", taskName + ".cmd"),
-    `"X:\\Program Files\\Edgeless\\${taskName}\\${downloadedFile}" /qb`
+    `"X:\\Program Files\\Edgeless\\${taskName}\\${downloadedFile}" /qb`,
   );
   //Return ready directory
   return new Ok({

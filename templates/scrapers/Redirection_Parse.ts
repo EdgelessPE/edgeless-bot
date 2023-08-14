@@ -8,7 +8,7 @@ interface Temp {
 }
 
 export default async function (
-  p: ScraperParameters
+  p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   const temp = p.scraper_temp as Temp;
   //解析直链

@@ -28,7 +28,7 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
 
 async function singleFetch(
   url: string,
-  axiosConfig?: AxiosRequestConfig
+  axiosConfig?: AxiosRequestConfig,
 ): Promise<Result<unknown, string>> {
   let res;
   try {
@@ -43,7 +43,7 @@ async function singleFetch(
 //返回axios中的res.data
 async function robustGet(
   url: string,
-  axiosConfig?: AxiosRequestConfig
+  axiosConfig?: AxiosRequestConfig,
 ): Promise<Result<unknown, string>> {
   let result = null,
     r;
@@ -84,8 +84,8 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
             "Warning:Single fetch failed for " +
               url +
               " :\n" +
-              JSON.stringify(e)
-          )
+              JSON.stringify(e),
+          ),
         );
       }
     });
@@ -93,7 +93,7 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
 }
 
 async function robustParseRedirect(
-  url: string
+  url: string,
 ): Promise<Result<string, string>> {
   let result = null,
     r;

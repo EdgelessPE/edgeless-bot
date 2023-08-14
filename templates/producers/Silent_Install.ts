@@ -12,7 +12,7 @@ interface RequiredObject {
 }
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
   const obj = p.requiredObject as RequiredObject;
@@ -40,7 +40,7 @@ export default async function (
     });
   } else {
     return new Err(
-      "Error:Silent_Install self check failed due to file missing in ready folder"
+      "Error:Silent_Install self check failed due to file missing in ready folder",
     );
   }
 }

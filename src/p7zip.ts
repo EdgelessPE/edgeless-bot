@@ -10,7 +10,7 @@ async function release(
   file: string,
   intoDir: string,
   overwrite?: boolean,
-  cwd?: string
+  cwd?: string,
 ): Promise<boolean> {
   return new Promise((resolve) => {
     const p7zip = where("p7zip").unwrap();
@@ -36,7 +36,7 @@ async function compress(
   choosePlainDir: string,
   file: string,
   compressLevel: number,
-  cwd?: string
+  cwd?: string,
 ): Promise<boolean> {
   return new Promise((resolve) => {
     const p7zip = where("p7zip").unwrap();

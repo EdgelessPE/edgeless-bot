@@ -20,7 +20,7 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "producers",
-    entrance + ".js"
+    entrance + ".js",
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
@@ -30,7 +30,7 @@ function parsePath(entrance: string): Result<string, string> {
 }
 
 export default async function (
-  s: ProducerSpawn
+  s: ProducerSpawn,
 ): Promise<Result<ProducerReturned, string>> {
   const { task, downloadedFile } = s;
   let scriptPath,
@@ -42,7 +42,7 @@ export default async function (
       "..",
       config.DIR_TASKS,
       task.name,
-      "producer.js"
+      "producer.js",
     );
     isExternal = true;
   } else {

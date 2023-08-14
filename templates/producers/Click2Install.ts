@@ -11,7 +11,7 @@ interface RequiredObject {
 }
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { workshop, downloadedFile, requiredObject, taskName } = p;
   const { shortcutName } = requiredObject as RequiredObject;
@@ -23,7 +23,7 @@ export default async function (
   shell.mv(aDF, rD);
   writeGBK(
     path.join(ready, taskName + ".wcs"),
-    `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`
+    `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`,
   );
 
   const exist = function (p: string): boolean {
@@ -35,7 +35,7 @@ export default async function (
     });
   } else {
     return new Err(
-      "Error:Click2install self check failed due to file missing in ready folder"
+      "Error:Click2install self check failed due to file missing in ready folder",
     );
   }
 }

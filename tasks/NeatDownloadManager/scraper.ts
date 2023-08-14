@@ -7,12 +7,12 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
   const $ = cheerio.load(
     (
       await robustGet("https://www.neatdownloadmanager.com/index.php/en/")
-    ).unwrap() as any
+    ).unwrap() as any,
   );
 
   //YOUR CODE HERE
   const version: string = (/(\d\.\d)/.exec(
-    $("#dima_2_2 > div > p.p1").text() as string
+    $("#dima_2_2 > div > p.p1").text() as string,
   ) ?? [""])[0];
 
   return new Ok({

@@ -13,7 +13,7 @@ function parseRepo(url: string): { owner: string; repo: string } {
 }
 
 export default async function (
-  p: ScraperParameters
+  p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   const { url } = p,
     repoInfo = parseRepo(url);
@@ -61,7 +61,7 @@ export default async function (
     return new Err(
       `Error:Abnormal GitHub api response at task ${
         p.taskName
-      } : ${JSON.stringify(e, null, 2)}`
+      } : ${JSON.stringify(e, null, 2)}`,
     );
   }
 }

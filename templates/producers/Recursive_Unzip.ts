@@ -35,7 +35,7 @@ function matchFile(cwd: string, regex: string): Result<string, string> {
 }
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   //递归解压
   let cwd = p.workshop,
@@ -52,7 +52,7 @@ export default async function (
       if (m.err) {
         if (level == 1) {
           log(
-            `Error:Check if you are trying to match the download file with the first regex in recursiveUnzipList.If so, remove it.`
+            `Error:Check if you are trying to match the download file with the first regex in recursiveUnzipList.If so, remove it.`,
           );
         }
         reason = `Error:Can't find file matching ${reg} at ${cwd} during the ${level}th recursion`;
@@ -92,7 +92,7 @@ export default async function (
     });
     if (matchRes == undefined) {
       return new Err(
-        `Error:Can't match source file with regex ${obj.sourceFile} in ${cwd}`
+        `Error:Can't match source file with regex ${obj.sourceFile} in ${cwd}`,
       );
     } else {
       log(`Info:Matched source file : ${matchRes}`);
@@ -111,7 +111,7 @@ export default async function (
     if (os.platform() == "win32") {
       log(
         `Info:Try to fix move with command : ` +
-          `move /y "${cwd}" "${path.join(final, p.taskName)}"`
+          `move /y "${cwd}" "${path.join(final, p.taskName)}"`,
       );
       await sleep(3000);
       cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`);
@@ -131,7 +131,7 @@ export default async function (
   shell.mkdir("-p", wfPath);
   fs.writeFileSync(
     path.join(wfPath, "setup.toml"),
-    TOML.stringify(setupWorkflow as any)
+    TOML.stringify(setupWorkflow as any),
   );
 
   //自检
@@ -148,7 +148,7 @@ export default async function (
     });
   } else {
     return new Err(
-      "Error:Recursive_Unzip self check failed due to file missing in ready folder"
+      "Error:Recursive_Unzip self check failed due to file missing in ready folder",
     );
   }
 }

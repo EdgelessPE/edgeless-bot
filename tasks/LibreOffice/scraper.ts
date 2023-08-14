@@ -12,7 +12,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const version = $(
-    "#node-54208 > div > div.field.field-name-field-app-header-and-download.field-type-computed.field-label-hidden > div > div > div:nth-child(3) > p"
+    "#node-54208 > div > div.field.field-name-field-app-header-and-download.field-type-computed.field-label-hidden > div > div > div:nth-child(3) > p",
   )
     .text()
     .match(/Version (?<Version>\d+.\d+.\d+)/).groups.Version;

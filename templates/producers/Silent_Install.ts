@@ -14,7 +14,7 @@ interface RequiredObject {
 }
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
   const obj = p.requiredObject as RequiredObject;
@@ -48,8 +48,12 @@ export default async function (
   fs.writeFileSync(setupPath, TOML.stringify(setupWorkflow as any));
 
   // 写卸载流
-  if(!(obj.uninstallCmd.startsWith("${")||obj.uninstallCmd.startsWith("\"${"))){
-    return new Err(`Error:Invalid uninstallCmd '${obj.uninstallCmd}' : should starts with inner value, e.g. '\${AppData}/Local/Programs/Microsoft VS Code/unins000.exe'`)
+  if (
+    !(obj.uninstallCmd.startsWith("${") || obj.uninstallCmd.startsWith('"${'))
+  ) {
+    return new Err(
+      `Error:Invalid uninstallCmd '${obj.uninstallCmd}' : should starts with inner value, e.g. '\${AppData}/Local/Programs/Microsoft VS Code/unins000.exe'`,
+    );
   }
   const removeWorkflow: NepWorkflow = {
     run_uninstaller: {
@@ -71,7 +75,7 @@ export default async function (
     });
   } else {
     return new Err(
-      "Error:Silent_Install self check failed due to file missing in ready folder"
+      "Error:Silent_Install self check failed due to file missing in ready folder",
     );
   }
 }

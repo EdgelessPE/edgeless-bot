@@ -4,10 +4,11 @@ import { robustGet } from "../../src/network";
 import { log } from "../../src/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Temp {}
 
 export default async function (
-  p: ScraperParameters
+  p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   const rawUrl = p.url.replace("/blob/", "/raw/");
 
@@ -20,7 +21,7 @@ export default async function (
     log(
       `Info: downloadLink:${
         response["architecture"]?.["64bit"]["url"] ?? response["url"]
-      }`
+      }`,
     );
     log(`Info: Version: ${response["version"]}`);
     return new Ok({
@@ -31,8 +32,8 @@ export default async function (
   } catch (e) {
     return new Err(
       `Error:Given url doesn't match standard scoop manifest schema, got : ${JSON.stringify(
-        response
-      )}, error : ${JSON.stringify(e)}`
+        response,
+      )}, error : ${JSON.stringify(e)}`,
     );
   }
 }

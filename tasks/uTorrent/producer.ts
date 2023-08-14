@@ -10,7 +10,7 @@ import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { downloadedFile, workshop } = p;
 
@@ -31,7 +31,7 @@ export default async function (
   //循环判断安装完成
   const finishFilePath = path.join(
     readyDir,
-    "uTorrentPortable/Data/PortableApps.comInstaller/license.ini"
+    "uTorrentPortable/Data/PortableApps.comInstaller/license.ini",
   );
   while (!fs.existsSync(finishFilePath)) {
     await sleep(3000);
@@ -60,7 +60,7 @@ export default async function (
   //重命名目录为任务名
   shell.mv(
     path.join(readyDir, "uTorrentPortable"),
-    path.join(readyDir, "uTorrent")
+    path.join(readyDir, "uTorrent"),
   );
 
   //写工作流
@@ -79,6 +79,6 @@ export default async function (
   //Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
-    mainProgram:"uTorrentPortable.exe"
+    mainProgram: "uTorrentPortable.exe",
   });
 }

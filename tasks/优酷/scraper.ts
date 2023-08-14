@@ -11,7 +11,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
   const jsonTextMatch = page.match(/window\.__INITIAL_DATA__\s*=\s*([^;]+);/g);
   if (jsonTextMatch == null) return new Err("Error:Can't match initial data");
   const json = JSON.parse(
-    jsonTextMatch[0].split(/window.__INITIAL_DATA__\s*=\s*/)[1].slice(0, -1)
+    jsonTextMatch[0].split(/window.__INITIAL_DATA__\s*=\s*/)[1].slice(0, -1),
   );
   //console.log(JSON.stringify(json,null,2))
 

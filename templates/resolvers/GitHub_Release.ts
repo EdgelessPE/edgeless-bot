@@ -5,7 +5,7 @@ import { coverSecret, log } from "../../src/utils";
 import { AxiosRequestConfig } from "axios";
 
 export default async function (
-  p: ResolverParameters
+  p: ResolverParameters,
 ): Promise<Result<ResolverReturned, string>> {
   const { downloadLink, fileMatchRegex } = p;
 
@@ -51,7 +51,7 @@ export default async function (
         log(`Info:Matched ${node.name}`);
       } else {
         log(
-          `Warning:Ambiguous fileMatchRegex,matched more than one file : ${node.name}`
+          `Warning:Ambiguous fileMatchRegex,matched more than one file : ${node.name}`,
         );
       }
     }

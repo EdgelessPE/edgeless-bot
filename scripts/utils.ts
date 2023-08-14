@@ -15,7 +15,7 @@ async function ask(tip: string, head?: string): Promise<string> {
       (answer) => {
         resolve(answer);
         return;
-      }
+      },
     );
   });
 }
@@ -23,10 +23,11 @@ async function ask(tip: string, head?: string): Promise<string> {
 async function input(
   tip: string,
   defaultVal?: string,
-  regex?: RegExp
+  regex?: RegExp,
 ): Promise<string> {
   let r = await ask(
-    tip + (defaultVal != undefined ? chalk.yellowBright(`(${defaultVal})`) : "")
+    tip +
+      (defaultVal != undefined ? chalk.yellowBright(`(${defaultVal})`) : ""),
   );
   if (r == "") {
     //允许缺省
@@ -40,7 +41,7 @@ async function input(
   }
   if (regex != undefined && r.match(regex) == null) {
     console.log(
-      chalk.red(t("Error ")) + t("Please input valid value matching ") + regex
+      chalk.red(t("Error ")) + t("Please input valid value matching ") + regex,
     );
     r = await input(tip, defaultVal, regex);
   }
@@ -50,7 +51,7 @@ async function input(
 async function select(
   tip: string,
   options: string[],
-  defaultIndex?: number
+  defaultIndex?: number,
 ): Promise<number> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -59,7 +60,7 @@ async function select(
       (defaultIndex < 1 || defaultIndex > options.length)
     ) {
       reject(
-        `Error:Given default index (${defaultIndex}) out of range (1-${options.length})`
+        `Error:Given default index (${defaultIndex}) out of range (1-${options.length})`,
       );
       return;
     }
@@ -70,14 +71,14 @@ async function select(
           item +
           (defaultIndex && defaultIndex - 1 == index
             ? chalk.yellowBright("	(" + t("default") + ")")
-            : "")
+            : ""),
       );
     });
     console.log("");
     const r = await ask(
       t("Input index") +
         (defaultIndex ? chalk.yellowBright(` (${defaultIndex})`) : ""),
-      ""
+      "",
     );
     //处理空输入
     if (r == "") {
@@ -95,7 +96,7 @@ async function select(
       console.log(
         chalk.red(t("Error ")) +
           t("Invalid input, please input index") +
-          ` (1-${options.length})`
+          ` (1-${options.length})`,
       );
       resolve(await select(tip, options, defaultIndex));
       return;
@@ -103,7 +104,7 @@ async function select(
       console.log(
         chalk.red(t("Error ")) +
           t("Input out of range, please input index") +
-          ` (1-${options.length})`
+          ` (1-${options.length})`,
       );
       resolve(await select(tip, options, defaultIndex));
       return;
@@ -121,7 +122,7 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
         defaultVal === true ? chalk.yellowBright(t("default") + " ") : ""
       }y/${
         defaultVal === false ? chalk.yellowBright(t("default") + " ") : ""
-      }n)`
+      }n)`,
   );
 
   //处理使用默认值
@@ -145,7 +146,7 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
 async function stringArray(
   tip: string,
   defaultVal?: string[],
-  regex?: RegExp
+  regex?: RegExp,
 ): Promise<string[]> {
   let df = undefined;
   const allowEmpty = defaultVal != undefined && defaultVal.length == 0;
@@ -178,7 +179,7 @@ async function stringArray(
 function applyInput(
   toml: string,
   input: any,
-  base: string
+  base: string,
 ): Result<string, string> {
   let val,
     suc = true,
@@ -219,7 +220,7 @@ function genRegExpForToml(key: string): RegExp {
 function inputRequiredKey(
   keyChain: string,
   toml: string,
-  value: string
+  value: string,
 ): Result<string, string> {
   const p = keyChain.split(".");
   let replaceTitleWith = "";

@@ -12,7 +12,7 @@ interface RequiredObject {
 }
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { workshop, downloadedFile, requiredObject, taskName } = p;
   const { shortcutName } = requiredObject as RequiredObject;
@@ -51,7 +51,7 @@ export default async function (
     });
   } else {
     return new Err(
-      "Error:Click2install self check failed due to file missing in ready folder"
+      "Error:Click2install self check failed due to file missing in ready folder",
     );
   }
 }

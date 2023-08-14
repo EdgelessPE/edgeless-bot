@@ -9,7 +9,7 @@ import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
 
@@ -17,7 +17,7 @@ export default async function (
   shell.mkdir("-p", readyDir);
   const res = await release(
     path.join(workshop, downloadedFile),
-    path.join(workshop, taskName)
+    path.join(workshop, taskName),
   );
   if (!res) return new Err("Error:Can't release downloaded file");
   shell.mv(
@@ -25,9 +25,9 @@ export default async function (
       workshop,
       taskName,
       downloadedFile.replace(".zip", ""),
-      "smap.exe"
+      "smap.exe",
     ),
-    readyDir
+    readyDir,
   );
   const wfp = path.join(workshop, "_ready", "workflows");
   shell.mkdir("-p", wfp);

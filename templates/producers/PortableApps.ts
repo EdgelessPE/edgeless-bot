@@ -17,7 +17,7 @@ interface RequiredObject {
 }
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
   const obj = p.requiredObject as RequiredObject;
@@ -29,7 +29,7 @@ export default async function (
     path.join(workshop, downloadedFile),
     "_ready/" + taskName,
     false,
-    workshop
+    workshop,
   );
   if (!s) {
     return new Err(`Error:Can't release ${downloadedFile}`);
@@ -61,7 +61,7 @@ export default async function (
       return new Err(
         "Error:Can't preprocess " +
           taskName +
-          ":[PortableApps.comInstaller] not found in pac_installer_log.ini"
+          ":[PortableApps.comInstaller] not found in pac_installer_log.ini",
       );
     }
     try {
@@ -80,7 +80,7 @@ export default async function (
       return new Err(
         "Error:Can't preprocess " +
           taskName +
-          ":can't modify pac_installer_log.ini"
+          ":can't modify pac_installer_log.ini",
       );
     }
   }

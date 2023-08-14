@@ -28,6 +28,7 @@
     "dev": "tsc && node dist/src/index.js -d",
     "new": "ts-node scripts/new.ts",
     "fmt": "prettier --write .",
+    "lint": "eslint . --fix",
     "prepare": "husky install"
   },
   "devDependencies": {

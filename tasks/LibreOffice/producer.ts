@@ -10,7 +10,7 @@ import TOML from "@iarna/toml";
 import { NepWorkflow } from "../../src/types/nep";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
 

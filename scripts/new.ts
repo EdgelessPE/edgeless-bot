@@ -372,7 +372,7 @@ async function createTask() {
   );
 }
 
-function registerTemplate(
+async function registerTemplate(
   node: { name: string; entrance: string },
   dir: string
 ) {
@@ -394,7 +394,7 @@ function registerTemplate(
   //生成数组内容
   const newNode = `${JSON.stringify(node, null, 2)},\n];`;
   //替换文本
-  text = prettier.format(text.replace("];", newNode), { parser: "babel" });
+  text =await prettier.format(text.replace("];", newNode), { parser: "babel" });
   //写回
   fs.writeFileSync(filePath, text);
   // console.log(text);
@@ -448,7 +448,7 @@ async function createTemplate() {
         json["description"] = await inputDescription();
       }
       //注册
-      registerTemplate(json, "scrapers");
+      await registerTemplate(json, "scrapers");
       //复制生成模板
       templatePath = `./templates/scrapers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/scraper.ts", templatePath);
@@ -486,7 +486,7 @@ async function createTemplate() {
         ),
       } as ResolverRegister;
       //注册
-      registerTemplate(json, "resolvers");
+      await registerTemplate(json, "resolvers");
       //复制生成模板
       templatePath = `./templates/resolvers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/resolver.ts", templatePath);
@@ -534,7 +534,7 @@ async function createTemplate() {
           )
       );
       //注册
-      registerTemplate(json, "producers");
+      await registerTemplate(json, "producers");
       //复制生成模板
       templatePath = `./templates/producers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/producer.ts", templatePath);

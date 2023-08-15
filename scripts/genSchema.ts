@@ -1,5 +1,6 @@
 import fs from "fs";
-import type { JSONSchema4} from 'json-schema'
+import cp from "child_process";
+import type { JSONSchema4 } from "json-schema";
 import { resolve } from "path";
 import * as TJS from "typescript-json-schema";
 
@@ -8,17 +9,17 @@ function main() {
     required: true,
   });
   const schema = TJS.generateSchema(program, "NepPackage");
-	if(schema==null) {
-		console.log('Error:Failed to generate schema')
-		return
-	}
-	const template:JSONSchema4={
-		$schema: "http://json-schema.org/draft-04/schema#",
-		definitions: {
-			NepPackage:schema as JSONSchema4
-		}
-	}
-  fs.writeFileSync("schema/nep.json", JSON.stringify(template, null, 2));
+  if (schema == null) {
+    console.log("Error:Failed to generate schema");
+    return;
+  }
+  const task: JSONSchema4 = JSON.parse(
+    fs.readFileSync("schema/task.json").toString()
+  );
+  task.properties!.package_patch = schema as JSONSchema4;
+  fs.writeFileSync("schema/task.json", JSON.stringify(task, null, 2));
+
+  cp.execSync("yarn fmt ./schema");
 }
 
 main();

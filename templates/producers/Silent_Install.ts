@@ -71,7 +71,6 @@ export default async function (
   ) {
     return new Ok({
       readyRelativePath: "_ready",
-      mainProgram: downloadedFile,
     });
   } else {
     return new Err(

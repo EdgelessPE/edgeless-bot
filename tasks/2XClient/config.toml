@@ -41,6 +41,3 @@ build_cover = "cover"
 # [extra]
 # require_windows = false
 # missing_version = ""
-
-[package_patch]
-nep = "0.1"

@@ -19,7 +19,7 @@ function main() {
   task.properties!.package_patch = schema as JSONSchema4;
   fs.writeFileSync("schema/task.json", JSON.stringify(task, null, 2));
 
-  cp.execSync("yarn fmt ./schema");
+  cp.execSync("npx prettier --write ./schema");
 }
 
 main();

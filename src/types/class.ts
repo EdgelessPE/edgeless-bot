@@ -1,6 +1,7 @@
 //爬虫模板
 
 import { Result } from "ts-results";
+import { NepPackage } from './nep'
 
 type ValidationType = "MD5" | "SHA1" | "SHA256";
 
@@ -132,6 +133,7 @@ interface TaskInstance {
     missing_version?: string;
     weekly?: boolean;
   };
+  package_patch?:NepPackage;
 }
 
 //程序配置

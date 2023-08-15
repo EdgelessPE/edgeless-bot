@@ -156,6 +156,9 @@
       },
       "required": ["producer"],
       "type": "object"
+    },
+    "package_patch": {
+      "$ref": "nep.json#/definitions/NepPackage"
     }
   },
   "required": ["parameter", "producer_required", "template", "task", "regex"],

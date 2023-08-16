@@ -10,7 +10,7 @@ interface ScraperParameters {
   url: string;
   downloadLinkRegex?: string;
   versionMatchRegex?: string;
-  scraper_temp?: any;
+  scraper_temp?: unknown;
 }
 
 interface ScraperReturned {
@@ -63,7 +63,7 @@ interface ProducerParameters {
   version: string;
   workshop: string;
   downloadedFile: string;
-  requiredObject: any;
+  requiredObject: unknown;
 }
 
 interface ProducerReturned {
@@ -126,8 +126,8 @@ interface TaskInstance {
     revised_version?: string | false;
     main_program?: string | false;
   };
-  producer_required: any;
-  scraper_temp?: any;
+  producer_required: unknown;
+  scraper_temp?: unknown;
   extra?: {
     require_windows?: boolean;
     missing_version?: string;

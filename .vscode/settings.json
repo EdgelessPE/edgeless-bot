@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "commitish",
     "dima",
     "iarna",
     "PECMD",
@@ -8,6 +9,7 @@
     "rcinfo",
     "rclone",
     "smap",
-    "unins"
+    "unins",
+    "zipball"
   ]
 }

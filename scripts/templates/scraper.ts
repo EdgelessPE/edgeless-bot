@@ -11,7 +11,7 @@ export default async function (
 ): Promise<Result<ScraperReturned, string>> {
   const { taskName, url, downloadLinkRegex, versionMatchRegex, scraper_temp } =
     p;
-  const temp: Temp = p.scraper_temp;
+  const temp = p.scraper_temp as Temp;
   const html = (await robustGet(url)).unwrap() as string;
   const $ = cheerio.load(html);
 

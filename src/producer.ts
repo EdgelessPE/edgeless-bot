@@ -64,7 +64,9 @@ export default async function (
 
   // 解释producer_required的内置变量
   const requiredObject: Record<string, unknown> = {};
-  for (const [key, val] of Object.entries(task.producer_required)) {
+  for (const [key, val] of Object.entries(
+    task.producer_required as Record<string, unknown>,
+  )) {
     requiredObject[key] =
       typeof val === "string"
         ? parseBuiltInValue(val, {

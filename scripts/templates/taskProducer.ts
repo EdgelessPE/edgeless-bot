@@ -7,7 +7,7 @@ import fs from "fs";
 import shell from "shelljs";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop, version } = p;
 
@@ -23,12 +23,12 @@ export default async function (
 
   //Naive self check
   const manifest = [`${taskName}.wcs`, `${taskName}/${taskName}.exe`].map(
-    (file) => path.join(workshop, "_ready", file)
+    (file) => path.join(workshop, "_ready", file),
   );
   for (const item of manifest) {
     if (!fs.existsSync(item)) {
       return new Err(
-        `Error:Self check failed : missing ${item} in ready directory`
+        `Error:Self check failed : missing ${item} in ready directory`,
       );
     }
   }

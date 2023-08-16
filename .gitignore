@@ -16,3 +16,4 @@ database.json
 /*.log
 env.json
 /bin
+.DS_Store

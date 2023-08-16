@@ -8,7 +8,7 @@ import {
   select,
   stringArray,
 } from "./utils";
-import { log } from "../src/utils";
+import { log, tomlStringify } from "../src/utils";
 import { TaskConfig } from "../src/task";
 import chalk from "chalk";
 import { CATEGORIES, PROJECT_ROOT } from "../src/const";
@@ -26,7 +26,6 @@ import {
 } from "../src/types/class";
 import { JSONSchema4 } from "json-schema";
 import shell from "shelljs";
-import TOML from "@iarna/toml";
 import prettier from "prettier";
 
 const TEST_URL = "https://github.com/balena-io/etcher";
@@ -204,7 +203,7 @@ async function createTask() {
         }
       }
     }
-    return TOML.stringify(resJson);
+    return tomlStringify(resJson);
   };
 
   let externalScraper = true,

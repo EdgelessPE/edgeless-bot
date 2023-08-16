@@ -1,9 +1,13 @@
 {
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "dima",
     "iarna",
     "PECMD",
+    "PLUGINSDIR",
     "rcinfo",
-    "rclone"
+    "rclone",
+    "smap",
+    "unins"
   ]
 }

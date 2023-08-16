@@ -5,7 +5,7 @@ import fs from "fs";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
+import { tomlStringify } from "../../src/utils";
 
 interface RequiredObject {
   argument?: string;
@@ -45,7 +45,7 @@ export default async function (
     },
   };
   // TODO:等待 File 步骤上线后实现 del 特性
-  fs.writeFileSync(setupPath, TOML.stringify(setupWorkflow as any));
+  fs.writeFileSync(setupPath, tomlStringify(setupWorkflow));
 
   // 写卸载流
   if (
@@ -63,7 +63,7 @@ export default async function (
       call_installer: true,
     },
   };
-  fs.writeFileSync(removePath, TOML.stringify(removeWorkflow as any));
+  fs.writeFileSync(removePath, tomlStringify(removeWorkflow));
 
   if (
     fs.existsSync(setupPath) &&

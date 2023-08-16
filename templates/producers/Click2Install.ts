@@ -4,8 +4,8 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 
 import shell from "shelljs";
-import TOML from "@iarna/toml";
 import { NepWorkflow } from "../../src/types/nep";
+import { tomlStringify } from "../../src/utils";
 
 interface RequiredObject {
   shortcutName: string;
@@ -36,7 +36,7 @@ export default async function (
       target_name: shortcutName,
     },
   };
-  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
+  fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
 
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(ready, p));

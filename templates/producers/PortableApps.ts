@@ -3,12 +3,11 @@ import { Err, Ok, Result } from "ts-results";
 import { release } from "../../src/p7zip";
 import path from "path";
 import fs from "fs";
-import { log } from "../../src/utils";
+import { log, tomlStringify } from "../../src/utils";
 import ini from "ini";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
 
 interface RequiredObject {
   shortcutName?: string;
@@ -123,7 +122,7 @@ export default async function (
       target_name: taskName,
     },
   };
-  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
+  fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
 
   return new Ok({
     readyRelativePath: "_ready",

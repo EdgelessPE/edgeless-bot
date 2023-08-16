@@ -2,14 +2,13 @@ import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import fs from "fs";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
-import { log, sleep } from "../../src/utils";
+import { log, sleep, tomlStringify } from "../../src/utils";
 import { release } from "../../src/p7zip";
 import os from "os";
 import cp from "child_process";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
 
 interface RequiredObject {
   recursiveUnzipList: Array<string>;
@@ -131,7 +130,7 @@ export default async function (
   shell.mkdir("-p", wfPath);
   fs.writeFileSync(
     path.join(wfPath, "setup.toml"),
-    TOML.stringify(setupWorkflow as any),
+    tomlStringify(setupWorkflow),
   );
 
   // 自检

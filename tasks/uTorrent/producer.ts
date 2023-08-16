@@ -1,13 +1,12 @@
 import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Ok, Result } from "ts-results";
-import { log, pressEnter, sleep } from "../../src/utils";
+import { log, pressEnter, sleep, tomlStringify } from "../../src/utils";
 import path from "path";
 import fs from "fs";
 import cp from "child_process";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
 
 export default async function (
   p: ProducerParameters,
@@ -74,7 +73,7 @@ export default async function (
       target_name: "uTorrent",
     },
   };
-  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
+  fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
 
   // Return ready directory
   return new Ok({

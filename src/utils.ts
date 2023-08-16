@@ -9,6 +9,7 @@ import { badge } from "./worker";
 import Piscina from "piscina";
 import cp from "child_process";
 import { PROJECT_ROOT } from "./const";
+import TOML from "@iarna/toml";
 
 enum Cmp {
   L,
@@ -388,6 +389,11 @@ function fromGBK(b: Buffer): string {
   return iconv.decode(b, "GBK");
 }
 
+function tomlStringify(obj: object): string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return TOML.stringify(obj as any);
+}
+
 function shuffle<T>(arr: Array<T>): Array<T> {
   let n = arr.length,
     random;
@@ -497,4 +503,5 @@ export {
   pressEnter,
   wherePECMD,
   coverSecret,
+  tomlStringify,
 };

@@ -6,7 +6,7 @@ import { release } from "../../src/p7zip";
 import shell from "shelljs";
 import fs from "fs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
+import { tomlStringify } from "../../src/utils";
 
 export default async function (
   p: ProducerParameters,
@@ -38,12 +38,8 @@ export default async function (
       record: "smap.exe",
     },
   };
-  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
+  fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
 
-  // fs.writeFileSync(
-  //   path.join(workshop, "_ready", taskName + ".cmd"),
-  //   `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`
-  // );
   // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",

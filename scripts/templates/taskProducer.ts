@@ -5,7 +5,7 @@ import fs from "fs";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
+import { tomlStringify } from "../../src/utils";
 
 export default async function (
   p: ProducerParameters,
@@ -29,7 +29,7 @@ export default async function (
       target_name: taskName,
     },
   };
-  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
+  fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
 
   //Naive self check
   const manifest = [`workflows/setup.toml`, `${taskName}/${taskName}.exe`].map(

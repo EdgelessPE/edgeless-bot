@@ -20,6 +20,7 @@ import {
   schemaValidator,
   shuffle,
   versionCmp,
+  tomlStringify,
 } from "./utils";
 import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
 import { ResultNode } from "./scraper";
@@ -40,7 +41,6 @@ import shell from "shelljs";
 // @ts-ignore
 import rcInfo from "rcinfo";
 import { NepPackage } from "./types/nep";
-import TOML from "@iarna/toml";
 import { packIntoNep } from "./ept";
 
 export interface TaskConfig {
@@ -212,7 +212,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
     if (!validateConfig(json)) {
       return new Err("Error:Can't validate config.toml for " + taskName);
     } else {
-      const res: any = json;
+      const res = json as unknown as TaskInstance;
       res["name"] = json.task.name;
       res["author"] = json.task.author;
       res["scope"] = json.task.scope;
@@ -661,7 +661,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
 
   fs.writeFileSync(
     path.join(target, "package.toml"),
-    TOML.stringify(nepPackage as any),
+    tomlStringify(nepPackage),
   );
 
   // 打包

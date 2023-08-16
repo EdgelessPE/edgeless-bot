@@ -1,13 +1,12 @@
 import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
-import { log } from "../../src/utils";
+import { log, tomlStringify } from "../../src/utils";
 import path from "path";
 import { release } from "../../src/p7zip";
 
 import shell from "shelljs";
 import fs from "fs";
 import { NepWorkflow } from "../../src/types/nep";
-import TOML from "@iarna/toml";
 
 export default async function (
   p: ProducerParameters,
@@ -33,7 +32,7 @@ export default async function (
       target_name: "OpenOffice",
     },
   };
-  fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
+  fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
   // fs.writeFileSync(
   //   path.join(workshop, "_ready", taskName + ".wcs"),
   //   "FILE X:\\Program Files\\Edgeless\\OpenOffice->X:\\Users\\PortableApps\\OpenOffice\n" +

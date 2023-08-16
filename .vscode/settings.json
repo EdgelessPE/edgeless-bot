@@ -1,3 +1,9 @@
 {
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "iarna",
+    "PECMD",
+    "rcinfo",
+    "rclone"
+  ]
 }

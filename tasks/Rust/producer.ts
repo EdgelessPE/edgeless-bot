@@ -17,7 +17,7 @@ export default async function (
     path.join(workshop, "_ready", taskName + ".cmd"),
     `"X:\\Program Files\\Edgeless\\${taskName}\\${downloadedFile}" /qb`,
   );
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
   });

@@ -11,7 +11,7 @@ let database: {
 } = {};
 export let modified = false;
 
-//记录执行成功/失败的操作列表
+// 记录执行成功/失败的操作列表
 const successList: Array<{
   taskName: string;
   from: string;
@@ -22,7 +22,7 @@ const failedList: Array<{
   errorMessage: string;
 }> = [];
 
-//初始化时调用
+// 初始化时调用
 function readDatabase() {
   if (!fs.existsSync(config.DATABASE_PATH)) {
     log("Warning:Database file not found,create new one");
@@ -33,7 +33,7 @@ function readDatabase() {
   database = JSON.parse(text);
 }
 
-//保存数据库
+// 保存数据库
 function writeDatabase() {
   if (!config.DATABASE_UPDATE) {
     log(
@@ -48,7 +48,7 @@ function writeDatabase() {
   }
 }
 
-//需要在read后调用
+// 需要在read后调用
 function getDatabaseNode(taskName: string): DatabaseNode {
   if (database[taskName] != null) {
     const node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
@@ -67,7 +67,7 @@ function getDatabaseNode(taskName: string): DatabaseNode {
   }
 }
 
-//需要在read后调用
+// 需要在read后调用
 function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
   log(errorMessage + ` for task ${taskName}`);
   const old = getDatabaseNode(taskName);
@@ -108,7 +108,7 @@ function setDatabaseNodeSuccess(
   modified = true;
 }
 
-//输出日志
+// 输出日志
 
 function generateSuccessTip(): string {
   let tip = "";
@@ -129,17 +129,17 @@ function generateFailureTip(): string {
   return tip;
 }
 
-//返回是否存在失败
+// 返回是否存在失败
 function report(): boolean {
   if (failedList.length == 0) {
-    //全部成功
+    // 全部成功
     log(
       `Success:Executed ${successList.length} tasks :${generateSuccessTip()}`,
     );
   } else {
-    //存在失败
+    // 存在失败
     log(`Error:${failedList.length} tasks failed :${generateFailureTip()}`);
-    //GA模式下向额外输出内容
+    // GA模式下向额外输出内容
     if (config.GITHUB_ACTIONS) {
       console.log(
         `::error:: ${failedList.length} tasks failed :${failedList.map(

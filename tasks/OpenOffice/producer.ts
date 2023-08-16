@@ -30,7 +30,7 @@ export default async function (
       "LINK X:\\Users\\Default\\Desktop\\OpenOffice,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficePortable.exe\n" +
       "LINK X:\\Users\\Default\\Desktop\\OpenOfficeWriter,X:\\Users\\PortableApps\\OpenOffice\\OpenOfficeWriterPortable.exe",
   );
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
   });

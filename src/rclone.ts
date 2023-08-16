@@ -2,7 +2,7 @@ import { fromGBK, getTimeString, log } from "./utils";
 import cp from "child_process";
 import { config } from "./config";
 
-//FIXME:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
+// FIXME:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
 function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
   const result: cp.ExecSyncOptionsWithBufferEncoding = {
     timeout,
@@ -12,7 +12,7 @@ function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
       http_proxy: config.GLOBAL_PROXY,
     };
   }
-  //console.log(result)
+  // console.log(result)
   return result;
 }
 
@@ -72,7 +72,7 @@ function deleteFromRemote(
 ): boolean {
   if (config.REMOTE_ENABLE) {
     const remotePath = config.REMOTE_PATH + "/" + category + "/" + fileName;
-    //读取远程目录查看是否存在
+    // 读取远程目录查看是否存在
     let buf;
     try {
       buf = cp.execSync(
@@ -96,7 +96,7 @@ function deleteFromRemote(
       );
       return false;
     }
-    //log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};\n gbk(buf)=${gbk(buf)},\n buf.toString()=${buf.toString()}`)
+    // log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};\n gbk(buf)=${gbk(buf)},\n buf.toString()=${buf.toString()}`)
     if (
       !fromGBK(buf).includes(fileName) &&
       !buf.toString().includes(fileName) &&
@@ -116,7 +116,7 @@ function deleteFromRemote(
       return true;
     }
 
-    //尝试删除
+    // 尝试删除
     try {
       log("Info:Removing " + remotePath);
       cp.execSync(

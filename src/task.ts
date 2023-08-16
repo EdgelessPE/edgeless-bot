@@ -83,17 +83,17 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
 }
 
 function validateConfig(task: TaskConfig): boolean {
-  //基础校验
+  // 基础校验
   if (!schemaValidator(task, "task").unwrap()) {
     log(`Error:Schema validation failed`);
     return false;
   }
   let suc = false;
-  //尝试匹配Scraper
+  // 尝试匹配Scraper
   if (task.template.scraper == undefined) {
     for (const node of scraperRegister.reverse()) {
       if (task.task.url.match(node.urlRegex) != null) {
-        //对scraper执行requiredKeys检查
+        // 对scraper执行requiredKeys检查
         suc = requiredKeysValidator(task, node.requiredKeys, true);
         if (!suc) {
           log(
@@ -111,7 +111,7 @@ function validateConfig(task: TaskConfig): boolean {
   } else if (task.template.scraper != "External") {
     for (const node of scraperRegister) {
       if (node.entrance == task.template.scraper) {
-        //对scraper执行requiredKeys检查
+        // 对scraper执行requiredKeys检查
         suc = requiredKeysValidator(task, node.requiredKeys);
         break;
       }
@@ -121,7 +121,7 @@ function validateConfig(task: TaskConfig): boolean {
       return false;
     }
   }
-  //Producer模板配置正确性检查
+  // Producer模板配置正确性检查
   if (task.template.producer != "External") {
     suc = false;
     for (const node of producerRegister) {
@@ -148,7 +148,7 @@ function validateConfig(task: TaskConfig): boolean {
       );
       return false;
     }
-    //producer_required检查
+    // producer_required检查
     suc = schemaValidator(
       task.producer_required,
       "producer_templates/" + task.template.producer,
@@ -233,7 +233,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
   task: TaskInstance;
   info: ScraperReturned;
 }> {
-  //逐个判断是否需要执行制作
+  // 逐个判断是否需要执行制作
   const makeList: Array<{
     task: TaskInstance;
     info: ScraperReturned;
@@ -243,7 +243,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     if (result == null) {
       continue;
     }
-    //处理爬虫出错
+    // 处理爬虫出错
     if (result.result == null || result.result.err) {
       setDatabaseNodeFailure(
         result.taskName,
@@ -271,7 +271,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
       );
       continue;
     }
-    //进行版本号比较
+    // 进行版本号比较
     matchRes = matchVersion(newNode.version);
     if (matchRes.err) {
       setDatabaseNodeFailure(
@@ -286,7 +286,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     db = getDatabaseNode(result.taskName);
     switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
       case Cmp.L:
-        //需要更新
+        // 需要更新
         if (res.err) {
           log(res.val);
           break;
@@ -297,7 +297,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
         });
         break;
       case Cmp.G:
-        //警告
+        // 警告
         if (onlineVersion != "0.0.0.0") {
           log(
             `Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`,
@@ -335,7 +335,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
   return makeList;
 }
 
-//返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 missing_version
+// 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 missing_version
 async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   const workshop = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
   let downloadedFile = "";
@@ -356,7 +356,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     if (config.ENABLE_CACHE) {
       log("Info:Cache not found");
     }
-    //解析直链
+    // 解析直链
     const dRes = await resolver(
       {
         downloadLink: t.info.downloadLink,
@@ -379,7 +379,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     if (dRes.err) {
       return dRes;
     }
-    //下载文件
+    // 下载文件
     shell.mkdir(workshop);
     try {
       downloadedFile = await download(
@@ -403,7 +403,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   if (!absolutePath) {
     absolutePath = path.join(workshop, downloadedFile);
   }
-  //校验文件
+  // 校验文件
   if (
     t.info.validation &&
     !(await checksum(
@@ -416,7 +416,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       `Error:Can't validate downloaded file,expect ${t.info.validation.value}`,
     );
   }
-  //制作
+  // 制作
   const p = await producer({
     task: t.task,
     downloadedFile,
@@ -426,7 +426,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     log(p.val);
     return new Err(`Error:Can't produce task ${t.task.name}`);
   }
-  //获得即将验收的绝对路径
+  // 获得即将验收的绝对路径
   const target = path.join(
     PROJECT_ROOT,
     config.DIR_WORKSHOP,
@@ -434,7 +434,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     p.val.readyRelativePath,
   );
   if (!config.GITHUB_ACTIONS) log("Info:Receive ready directory " + target);
-  //实现delete 与 cover
+  // 实现delete 与 cover
   let f, v;
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
@@ -445,7 +445,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       });
       f = path.join(target, v);
       if (!fs.existsSync(f)) {
-        //尝试增加 ${taskName}/ 前缀
+        // 尝试增加 ${taskName}/ 前缀
         f = path.join(target, t.task.name, v);
         if (!fs.existsSync(f)) {
           log(
@@ -462,7 +462,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     if (!fs.existsSync(f)) {
       return new Err(`Error:Given cover not exist : ${f}`);
     } else {
-      //允许是文件夹或是压缩包
+      // 允许是文件夹或是压缩包
       if (fs.statSync(f).isDirectory()) {
         shell.cp("-r", f + "/*", target);
       } else {
@@ -472,7 +472,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       }
     }
   } else {
-    //检查是否可能忘加了
+    // 检查是否可能忘加了
     const p = path.join(config.DIR_TASKS, t.task.name, "cover");
     if (fs.existsSync(p) || fs.existsSync(p + ".7z")) {
       log(
@@ -480,7 +480,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       );
     }
   }
-  //验收
+  // 验收
   const getBuildManifest = (): Array<string> => {
     const origin = t.task.parameter.build_manifest,
       final: Array<string> = [];
@@ -507,7 +507,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       `Error:Can't produce task ${t.task.name} due to build missing`,
     );
   }
-  //处理无版本号任务：读取本地文件获得版本号
+  // 处理无版本号任务：读取本地文件获得版本号
   if (t.task.extra?.missing_version) {
     let version;
     try {
@@ -527,27 +527,27 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       return new Err("Error:Fetch execute file version failed : returned null");
     }
     t.info.version = version;
-    //如果版本号和数据库中一样说明没有更新
+    // 如果版本号和数据库中一样说明没有更新
     let ctn = true;
     const db = getDatabaseNode(t.task.name);
     switch (versionCmp(version, db.recent.latestVersion)) {
       case Cmp.E:
-        //与数据库一致，没有更新
+        // 与数据库一致，没有更新
         log(
           `Info:Missing version task ${t.task.name} has no upstream updated release`,
         );
         if (config.MODE_FORCED) {
           log("Warning:Forced rebuild " + t.task.name);
         } else {
-          //阻止继续，直接返回成功
+          // 阻止继续，直接返回成功
           ctn = false;
         }
         break;
       case Cmp.G:
-        //存在更新，继续
+        // 存在更新，继续
         break;
       case Cmp.L:
-        //异常情况，上游版本号低于数据库版本号
+        // 异常情况，上游版本号低于数据库版本号
         log(
           `Warning:Missing version task ${t.task.name}'s local version(${db.recent.latestVersion}) greater than online version(${version})`,
         );
@@ -562,7 +562,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       return new Ok("missing_version");
     }
   }
-  //压缩
+  // 压缩
   const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_${
     t.task.author
   }（bot）.7z`;
@@ -627,9 +627,9 @@ async function executeTasks(
     const normalTasks: Array<ExecuteParameter> = [],
       requireWindowsTasks: Array<ExecuteParameter> = [];
     ts.forEach((item) => {
-      //生成tip
+      // 生成tip
       r = r + ` ${item.task.name}`;
-      //根据是否需要Windows分流
+      // 根据是否需要Windows分流
       if (item.task.extra?.require_windows) {
         requireWindowsTasks.push(item);
       } else {
@@ -640,13 +640,13 @@ async function executeTasks(
     let done = 0;
     const collection: Array<ResultReport> = [];
     const collect = (res: Result<string, string>, t: ExecuteParameter) => {
-      //处理缺失版本号但是无更新的情况
+      // 处理缺失版本号但是无更新的情况
       if (res.ok && res.val == "missing_version") {
         log(
           `Success:Missing version task ${t.task.name} executed successfully`,
         );
       } else {
-        //处理正常情况
+        // 处理正常情况
         if (res.err) {
           log(res.val);
           collection.push({
@@ -661,17 +661,17 @@ async function executeTasks(
           });
         }
       }
-      //已完成任务自增，并检查是否需要resolve
+      // 已完成任务自增，并检查是否需要resolve
       done++;
       if (done == total) {
         resolve(collection);
       }
     };
-    //并发全部的普通任务
+    // 并发全部的普通任务
     for (const t of shuffle(normalTasks)) {
       collect(await execute(t), t);
     }
-    //顺序执行全部的require windows任务
+    // 顺序执行全部的require windows任务
     if (os.platform() == "win32") {
       for (const t of shuffle(requireWindowsTasks)) {
         collect(await execute(t), t);
@@ -740,13 +740,13 @@ function removeExtraBuilds(
 }
 
 function reserveTask(task: TaskInstance): boolean {
-  //排除 weekly
+  // 排除 weekly
   if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
     log(`Info:Ignore weekly task ${task.name}`);
     return false;
   }
 
-  //排除需要 Windows
+  // 排除需要 Windows
   if (ensurePlatform(false) == "POSIX" && task.extra?.require_windows) {
     log(`Info:Ignore require Windows task ${task.name}`);
     return false;

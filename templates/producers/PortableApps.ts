@@ -20,7 +20,7 @@ export default async function (
   const { taskName, downloadedFile, workshop } = p;
   const obj = p.requiredObject as RequiredObject;
 
-  //解压
+  // 解压
   const readyDir = path.join(workshop, "_ready", taskName);
   shell.mkdir("-p", readyDir);
   const s = await release(
@@ -33,7 +33,7 @@ export default async function (
     return new Err(`Error:Can't release ${downloadedFile}`);
   }
 
-  //清理
+  // 清理
   if (obj.autoClean == undefined || obj.autoClean) {
     const deleteList = [
       "$PLUGINSDIR",
@@ -48,7 +48,7 @@ export default async function (
     }
   }
 
-  //修改pac_installer_log.ini
+  // 修改pac_installer_log.ini
   const iniPath = path.join(readyDir, "App/AppInfo/pac_installer_log.ini");
   if (!fs.existsSync(iniPath)) {
     log("Warning:pac_installer_log.ini not found,skipping modification");
@@ -83,7 +83,7 @@ export default async function (
     }
   }
 
-  //扫描目录查找可执行文件
+  // 扫描目录查找可执行文件
   let exe = "";
   for (const file of fs.readdirSync(readyDir)) {
     if (file.includes(".exe")) {
@@ -100,7 +100,7 @@ export default async function (
   if (!exe.includes("Portable")) {
     log("Warning:Exe file may be wrong:" + exe);
   }
-  //写外置批处理
+  // 写外置批处理
   const cmd =
     `FILE X:\\Program Files\\Edgeless\\${taskName}->X:\\Users\\PortableApps\\${taskName}` +
     `\nLINK X:\\Users\\Default\\Desktop\\${

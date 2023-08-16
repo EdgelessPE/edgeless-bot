@@ -36,7 +36,7 @@ export default async function (
   let scriptPath,
     isExternal = false;
   if (task.template.producer == "External") {
-    //处理外置脚本
+    // 处理外置脚本
     scriptPath = path.join(
       __dirname,
       "..",
@@ -46,14 +46,14 @@ export default async function (
     );
     isExternal = true;
   } else {
-    //处理模板
+    // 处理模板
     const r = parsePath(task.template.producer);
     if (r.err) {
       return r;
     }
     scriptPath = r.unwrap();
   }
-  //安排worker
+  // 安排worker
   const badge = getBadge("Producer");
   const wd: WorkerDataProducer = {
     badge,

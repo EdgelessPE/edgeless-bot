@@ -21,7 +21,7 @@ export default async function (
     path.join(workshop, "_ready", taskName + ".wcs"),
     `LINK %desktop%\\DreamScene2 X:\\Program Files\\Edgeless\\${taskName}\\DreamScene2.exe"`,
   );
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
   });

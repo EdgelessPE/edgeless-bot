@@ -29,7 +29,7 @@ export function getBadge(type: string): string {
   return res;
 }
 
-//switch ((base + count) % 14) {
+// switch ((base + count) % 14) {
 //	case 0:
 //		res = chalk.bgRed(type + ' ' + count);
 //		break;
@@ -75,4 +75,4 @@ export function getBadge(type: string): string {
 //	default:
 //		res = chalk.bgWhiteBright(type + ' ' + count);
 //		break;
-//}
+// }

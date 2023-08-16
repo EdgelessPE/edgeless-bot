@@ -10,9 +10,9 @@ import shell from "shelljs";
 const INSTALLER = "ToDesk_Setup.exe";
 
 async function downloadInstaller(downloader: string): Promise<string> {
-  //执行下载器
+  // 执行下载器
   const handler = cp.exec(downloader);
-  //等待下载完成
+  // 等待下载完成
   const { homedir } = os.userInfo();
   const watchPath = path.join(homedir, `Downloads/${INSTALLER}`);
 
@@ -34,21 +34,21 @@ export default async function (
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop } = p;
 
-  //Create ready directory
+  // Create ready directory
   const readyDir = path.join(workshop, "_ready", taskName);
   shell.mkdir("-p", readyDir);
 
-  //下载安装包
+  // 下载安装包
   const installerPath = await downloadInstaller(
     path.join(workshop, downloadedFile),
   );
   shell.cp(installerPath, path.join(readyDir, INSTALLER));
 
-  //Write command to external batch
+  // Write command to external batch
   const cmd = `EXEC %ProgramFiles%\\Edgeless\\${taskName}\\${INSTALLER} /S`;
   writeGBK(path.join(workshop, "_ready", taskName + ".wcs"), cmd);
 
-  //Naive self check
+  // Naive self check
   const manifest = [`${taskName}.wcs`, `${taskName}/${INSTALLER}`].map((file) =>
     path.join(workshop, "_ready", file),
   );
@@ -60,7 +60,7 @@ export default async function (
     }
   }
 
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
   });

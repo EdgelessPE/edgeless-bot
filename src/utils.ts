@@ -110,7 +110,7 @@ function log(text: string, b?: string) {
 function formatVersion(version: string): Result<string, string> {
   const spl = version.split(".");
 
-  //削减长的版本号
+  // 削减长的版本号
   if (spl.length > 4) {
     log(`Warning:Slice long version: ${version}`);
     return new Ok(`${spl[0]}.${spl[1]}.${spl[2]}.${spl[3]}`);
@@ -217,7 +217,7 @@ function schemaValidator(
   schema: string,
   root?: string,
 ): Result<boolean, string> {
-  //读取schema文件
+  // 读取schema文件
   const schemaFilePath = path.join("./schema", schema + ".json");
   if (!fs.existsSync(schemaFilePath)) {
     return new Err(`Error:Specified schema not found : ${schemaFilePath}`);
@@ -240,7 +240,7 @@ function objChainValidator(obj: any, chain: string[]): boolean {
   if (!(chain[0] in obj)) {
     return false;
   }
-  //当chain数组大于1时进行递归
+  // 当chain数组大于1时进行递归
   if (chain.length > 1) {
     return objChainValidator(obj[chain[0]], chain.slice(1));
   } else {
@@ -277,13 +277,13 @@ function objectValidator(
 ): boolean {
   let valid = true;
   for (const node of checkList) {
-    //检验必须但缺失
+    // 检验必须但缺失
     if (node.required && object[node.key] == null) {
       log(`Error:Missing required key : ${node.key}`);
       valid = false;
       continue;
     }
-    //检验类型错误
+    // 检验类型错误
     const getType = function (a: any): JsObjectType {
       let res;
       switch (typeof a) {
@@ -341,7 +341,7 @@ function objectValidator(
       valid = false;
       continue;
     }
-    //递归检验对象
+    // 递归检验对象
     if (
       node.type == JsObjectType.object &&
       object[node.key] != null &&
@@ -375,7 +375,7 @@ function shuffle<T>(arr: Array<T>): Array<T> {
   return arr;
 }
 
-//TODO:拓展内置变量解析的覆盖范围
+// TODO:拓展内置变量解析的覆盖范围
 function parseBuiltInValue(
   source: string,
   v: {
@@ -419,17 +419,17 @@ function wherePECMD(): Result<string, string> {
 }
 
 async function pressEnter(interval: number[]) {
-  //生成pecmd脚本
+  // 生成pecmd脚本
   let script = "";
   for (const i of interval) {
     script += `WAIT ${i}000\nSEND VK_RETURN\n`;
   }
-  //写脚本
+  // 写脚本
   const p = PROJECT_ROOT + "/_press.wcs";
   fs.writeFileSync(p, script);
-  //执行
+  // 执行
   cp.execSync(`${wherePECMD().unwrap()} _press.wcs`, { cwd: PROJECT_ROOT });
-  //删除脚本
+  // 删除脚本
   fs.unlinkSync(p);
 }
 

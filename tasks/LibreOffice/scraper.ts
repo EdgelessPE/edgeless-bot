@@ -4,7 +4,7 @@ import { robustGet } from "../../src/network";
 import * as cheerio from "cheerio";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-  //请求官网
+  // 请求官网
   const page = (
     await robustGet("https://portableapps.com/apps/office/libreoffice_portable")
   ).unwrap() as string;

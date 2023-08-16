@@ -395,6 +395,20 @@ function tomlStringify(obj: object): string {
   return TOML.stringify(obj as any);
 }
 
+function parseBuiltInValueForObject<T>(
+  obj: T,
+  v: {
+    taskName: string;
+    downloadedFile: string;
+    latestVersion: string;
+    revisedVersion?: string;
+  },
+): T {
+  const text = JSON.stringify(obj);
+  const parsed = parseBuiltInValue(text, v, false);
+  return JSON.parse(parsed);
+}
+
 function shuffle<T>(arr: Array<T>): Array<T> {
   let n = arr.length,
     random;
@@ -500,6 +514,7 @@ export {
   objectValidator,
   shuffle,
   parseBuiltInValue,
+  parseBuiltInValueForObject,
   requiredKeysValidator,
   pressEnter,
   wherePECMD,

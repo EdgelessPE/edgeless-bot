@@ -21,6 +21,7 @@ import {
   shuffle,
   versionCmp,
   tomlStringify,
+  parseBuiltInValueForObject,
 } from "./utils";
 import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
 import { ResultNode } from "./scraper";
@@ -288,8 +289,8 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
       continue;
     }
     if (
-      typeof newNode.version !== "string" ||
-      typeof newNode.downloadLink !== "string"
+      typeof (newNode.version as unknown) !== "string" ||
+      typeof (newNode.downloadLink as unknown) !== "string"
     ) {
       setDatabaseNodeFailure(
         result.taskName,
@@ -477,6 +478,12 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     return new Err(`Error:Can't produce task ${t.task.name}`);
   }
   // 获得即将验收的绝对路径
+  const parsedBuiltInValuePack = {
+    taskName: t.task.name,
+    downloadedFile,
+    latestVersion: t.info.version,
+    revisedVersion,
+  };
   const target = path.join(
     PROJECT_ROOT,
     config.DIR_WORKSHOP,
@@ -488,12 +495,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   let f, v;
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
-      v = parseBuiltInValue(file, {
-        taskName: t.task.name,
-        downloadedFile,
-        latestVersion: t.info.version,
-        revisedVersion,
-      });
+      v = parseBuiltInValue(file, parsedBuiltInValuePack);
       f = path.join(target, v);
       if (!fs.existsSync(f)) {
         // 尝试增加 ${taskName}/ 前缀
@@ -537,12 +539,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       final: Array<string> = [];
     for (const cmd of origin) {
       final.push(
-        parseBuiltInValue(cmd, {
-          downloadedFile,
-          taskName: t.task.name,
-          latestVersion: t.info.version,
-          revisedVersion,
-        }).replace("\\", "/"),
+        parseBuiltInValue(cmd, parsedBuiltInValuePack).replace("\\", "/"),
       );
     }
     return final;
@@ -562,11 +559,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   // 处理无版本号任务：读取本地文件获得版本号
   if (t.task.extra?.missing_version) {
     const versionRes = await getExeVersion(
-      parseBuiltInValue(t.task.extra.missing_version, {
-        taskName: t.task.name,
-        downloadedFile,
-        latestVersion: t.info.version,
-      }),
+      parseBuiltInValue(t.task.extra.missing_version, parsedBuiltInValuePack),
       target,
     );
     if (versionRes.err) return versionRes;
@@ -611,13 +604,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   const getMainProgram = (): string | undefined => {
     // 内置变量解释闭包
     const interpreter = (raw: string | undefined) => {
-      if (raw)
-        return parseBuiltInValue(raw, {
-          taskName: t.task.name,
-          downloadedFile,
-          latestVersion: t.info.version,
-          revisedVersion,
-        });
+      if (raw) return parseBuiltInValue(raw, parsedBuiltInValuePack);
       else return undefined;
     };
     if (t.task.parameter.main_program === false) {
@@ -651,10 +638,14 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   // 打来自用户的 package_patch 补丁
   const { package_patch } = t.task;
   if (package_patch) {
+    const parsedPackagePatch = parseBuiltInValueForObject(
+      package_patch,
+      parsedBuiltInValuePack,
+    );
     for (const _key in nepPackage) {
       const key = _key as keyof NepPackage;
-      if (package_patch[key]) {
-        Object.assign(nepPackage[key], package_patch[key]);
+      if (parsedPackagePatch[key]) {
+        Object.assign(nepPackage[key], parsedPackagePatch[key]);
       }
     }
   }

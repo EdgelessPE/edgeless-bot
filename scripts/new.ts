@@ -42,7 +42,7 @@ export interface TaskInput {
   parameter: {
     build_manifest: TaskConfig["parameter"]["build_manifest"];
   };
-  producer_required: any;
+  producer_required: unknown;
 }
 
 type SchemaType = "string" | "array" | "integer" | "object";
@@ -134,7 +134,7 @@ async function createTask() {
       fs.readFileSync(schemaFilePath).toString(),
     ) as Schema;
     let schemaType: SchemaType, tmp: string, d: string | undefined;
-    const resJson: any = {};
+    const resJson: Record<string, unknown> = {};
     if (schemaJson.required) {
       for (const key of schemaJson.required) {
         // 打印description
@@ -178,13 +178,15 @@ async function createTask() {
               /{.*}/,
             );
             try {
-              resJson["producer_required"][key] = JSON.parse(tmp);
+              (resJson["producer_required"] as Record<string, unknown>)[key] =
+                JSON.parse(tmp);
             } catch (e) {
               console.log(JSON.stringify(e, null, 2));
               log(
                 "Error:Can't parse input as object, please modify toml config later manually",
               );
-              resJson["producer_required"][key] = {};
+              (resJson["producer_required"] as Record<string, unknown>)[key] =
+                {};
             }
             break;
           case "string":
@@ -364,7 +366,14 @@ async function createTask() {
 
   // 修改toml并写入配置
   // console.log(JSON.stringify(json,null,2));
-  fs.writeFileSync(configPath, applyInput(taskToml, json, "").unwrap());
+  fs.writeFileSync(
+    configPath,
+    applyInput(
+      taskToml,
+      json as unknown as Record<string, unknown>,
+      "",
+    ).unwrap(),
+  );
   console.log(
     chalk.green(t("Success ")) +
       t("Task config saved to ") +
@@ -864,7 +873,7 @@ async function createWiki(): Promise<void> {
               key,
               type:
                 obj.type == "array"
-                  ? `Array<${(obj.items as any).type}>`
+                  ? `Array<${(obj.items as { type: string }).type}>`
                   : (obj.type as string),
               description: obj.description ? t(obj.description) : undefined,
               title: "producer_required",
@@ -874,7 +883,7 @@ async function createWiki(): Promise<void> {
               key,
               type:
                 obj.type == "array"
-                  ? `Array<${(obj.items as any).type}>`
+                  ? `Array<${(obj.items as { type: string }).type}>`
                   : (obj.type as string),
               description: obj.description ? t(obj.description) : undefined,
               title: "producer_required",

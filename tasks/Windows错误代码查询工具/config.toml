@@ -1,3 +1,4 @@
+#:schema ../../schema/task.json
 # 任务基本信息
 [task]
 name = "Windows错误代码查询工具"

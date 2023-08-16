@@ -1,0 +1,6 @@
+#workflow:insert_origin
+
+[wait]
+step = "Wait"
+timeout = 300000
+break_if = '!IsAlive("${downloadedFile}")'

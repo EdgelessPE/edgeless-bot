@@ -27,7 +27,7 @@ download_name = 'x64\.exe'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
-# build_cover = ""
+build_cover = "cover"
 # build_delete = []
 main_program = "${ProgramFiles_X64}/Oray/SunLogin/SunloginClient/SunloginClient.exe"
 

@@ -37,6 +37,8 @@ function setMVTDayToday() {
   MISSING_VERSION_TRY_DAY = new Date().getDay();
 }
 
+const VALID_WORKFLOW_NAMES = ["setup.toml", "update.toml", "remove.toml"];
+
 export {
   PATH_CONFIG,
   LIGHT_TIMEOUT,
@@ -47,4 +49,5 @@ export {
   CATEGORIES,
   ENV_JSON_PATH,
   setMVTDayToday,
+  VALID_WORKFLOW_NAMES,
 };

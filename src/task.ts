@@ -31,7 +31,12 @@ import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
 import { release } from "./p7zip";
-import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
+import {
+  DOWNLOAD_CACHE,
+  MISSING_VERSION_TRY_DAY,
+  PROJECT_ROOT,
+  VALID_WORKFLOW_NAMES,
+} from "./const";
 import { deleteFromRemote } from "./rclone";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
@@ -492,7 +497,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   );
   if (!config.GITHUB_ACTIONS) log("Info:Receive ready directory " + target);
   // 实现 delete 与 cover
-  let f, v;
+  let f: string, v;
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
       v = parseBuiltInValue(file, parsedBuiltInValuePack);
@@ -517,7 +522,39 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     } else {
       // 允许是文件夹或是压缩包
       if (fs.statSync(f).isDirectory()) {
+        // 检查是否在 cover 和就绪目录中都有工作流文件
+        const hasCoverNames = VALID_WORKFLOW_NAMES.filter(
+          (name) =>
+            fs.existsSync(path.join(f, "workflows", name)) &&
+            fs.existsSync(path.join(target, "workflows", name)),
+        );
+        // 如果是，则先保存 bot 生成的工作流
+        const botWorkflowScene: Record<string, string> = {};
+        if (hasCoverNames.length) {
+          for (const name of hasCoverNames) {
+            const rawPath = path.join(target, "workflows", name);
+            if (fs.existsSync(rawPath))
+              botWorkflowScene[name] = fs.readFileSync(rawPath).toString();
+          }
+        }
+        // 覆盖拷贝文件
         shell.cp("-r", f + "/*", target);
+        // 替换插入原工作流标记，并替换内置变量
+        if (hasCoverNames.length) {
+          for (const name of hasCoverNames) {
+            const rawPath = path.join(target, "workflows", name);
+            const text = fs.readFileSync(rawPath).toString();
+            const insertedText = text.replace(
+              "#workflow:insert_origin",
+              botWorkflowScene[name] ?? "",
+            );
+            const parsedText = parseBuiltInValue(
+              insertedText,
+              parsedBuiltInValuePack,
+            );
+            fs.writeFileSync(rawPath, parsedText);
+          }
+        }
       } else {
         if (!(await release(f, target, false))) {
           return new Err("Error:Can't cover given compressed file");

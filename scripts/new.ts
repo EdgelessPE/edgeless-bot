@@ -43,7 +43,7 @@ export interface TaskInput {
   parameter: {
     build_manifest: TaskConfig["parameter"]["build_manifest"];
   };
-  producer_required: any;
+  producer_required: unknown;
 }
 
 type SchemaType = "string" | "array" | "integer" | "object";

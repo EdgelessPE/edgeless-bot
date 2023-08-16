@@ -137,6 +137,12 @@ build_manifest = ["${taskName}"]
 #missing_version = ""
 #weekly = true
 
+# 对 package.toml 的补丁，可以传入部分的 NepPackage 且支持内置变量
+# [package_patch]
+# nep = "0.1"
+# [package_patch.pakcage]
+# license = "MIT"
+
 ```
 
 ## 测试任务

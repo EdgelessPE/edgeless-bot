@@ -43,3 +43,6 @@ ${ producer_required }
 # require_windows = true
 # missing_version = ""
 # weekly = true
+
+# 对 package.toml 的补丁
+# [package_patch]

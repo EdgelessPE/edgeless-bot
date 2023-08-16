@@ -1,3 +1,4 @@
+#:schema ../../schema/task.json
 # 任务基本信息
 [task]
 name = "CEF Detector X （Windows CEF 检测器 需要 Everyting）"

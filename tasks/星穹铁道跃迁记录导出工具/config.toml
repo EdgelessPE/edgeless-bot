@@ -1,3 +1,4 @@
+#:schema ../../schema/task.json
 # 任务基本信息
 [task]
 name = "星穹铁道跃迁记录导出工具"

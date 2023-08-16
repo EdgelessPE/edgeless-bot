@@ -133,7 +133,7 @@ interface TaskInstance {
     missing_version?: string;
     weekly?: boolean;
   };
-  package_patch?: NepPackage;
+  package_patch?: Partial<NepPackage>;
 }
 
 // 程序配置

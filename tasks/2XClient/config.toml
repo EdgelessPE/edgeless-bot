@@ -7,7 +7,7 @@ author = ["Cno"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/2x_client_portable"
 description = "remote server and RDP access client"
-tags = ["remote","rdp"]
+tags = ["remote", "rdp"]
 language = "Multi"
 
 # 指定使用的模板
@@ -35,7 +35,6 @@ build_cover = "cover"
 
 # 自动制作模板要求的参数
 [producer_required]
-
 
 
 # 额外备注

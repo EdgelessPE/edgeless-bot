@@ -484,7 +484,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     p.val.readyRelativePath,
   );
   if (!config.GITHUB_ACTIONS) log("Info:Receive ready directory " + target);
-  // 实现delete 与 cover
+  // 实现 delete 与 cover
   let f, v;
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
@@ -647,6 +647,17 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       tags: t.task.tags,
     },
   };
+
+  // 打来自用户的 package_patch 补丁
+  const { package_patch } = t.task;
+  if (package_patch) {
+    for (const _key in nepPackage) {
+      const key = _key as keyof NepPackage;
+      if (package_patch[key]) {
+        Object.assign(nepPackage[key], package_patch[key]);
+      }
+    }
+  }
 
   fs.writeFileSync(
     path.join(target, "package.toml"),

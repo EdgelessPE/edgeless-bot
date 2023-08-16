@@ -235,7 +235,7 @@ async function sleep(ms: number): Promise<void> {
 }
 
 function schemaValidator(
-  obj: any,
+  obj: unknown,
   schema: string,
   root?: string,
 ): Result<boolean, string> {
@@ -260,6 +260,7 @@ function schemaValidator(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function objChainValidator(obj: any, chain: string[]): boolean {
   if (!(chain[0] in obj)) {
     return false;
@@ -273,7 +274,7 @@ function objChainValidator(obj: any, chain: string[]): boolean {
 }
 
 function requiredKeysValidator(
-  obj: any,
+  obj: object,
   requiredKeys: string[],
   disableAlert?: boolean,
 ): boolean {
@@ -295,7 +296,7 @@ function requiredKeysValidator(
 }
 
 function objectValidator(
-  object: any,
+  object: Record<string, unknown>,
   checkList: Array<ObjectValidationNode>,
   cd?: string,
 ): boolean {
@@ -308,7 +309,7 @@ function objectValidator(
       continue;
     }
     // 检验类型错误
-    const getType = function (a: any): JsObjectType {
+    const getType = function (a: unknown): JsObjectType {
       let res;
       switch (typeof a) {
         case "number":
@@ -372,7 +373,7 @@ function objectValidator(
       node.properties
     ) {
       valid = objectValidator(
-        object[node.key],
+        object[node.key] as Record<string, unknown>,
         node.properties,
         `${cd ?? ""}${node.key}.`,
       );

@@ -178,10 +178,10 @@ async function stringArray(
 
 function applyInput(
   toml: string,
-  input: any,
+  input: Record<string, unknown>,
   base: string,
 ): Result<string, string> {
-  let val,
+  let val: unknown,
     suc = true,
     reason = "Success",
     searchString;
@@ -189,7 +189,11 @@ function applyInput(
   for (const key in input) {
     val = input[key];
     if (typeof val == "object" && !(val instanceof Array)) {
-      toml = applyInput(toml, val, base + key + ".").unwrap();
+      toml = applyInput(
+        toml,
+        val as Record<string, unknown>,
+        base + key + ".",
+      ).unwrap();
     } else {
       searchString = "${ " + base + key + " }";
       if (!toml.includes(searchString)) {
@@ -201,7 +205,7 @@ function applyInput(
       if (val instanceof Array) {
         toml = toml.replace(searchString, JSON.stringify(val));
       } else {
-        toml = toml.replace(searchString, val);
+        toml = toml.replace(searchString, val as string);
       }
     }
   }

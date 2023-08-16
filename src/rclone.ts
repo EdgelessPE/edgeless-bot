@@ -2,6 +2,8 @@ import { fromGBK, getTimeString, log } from "./utils";
 import cp from "child_process";
 import { config } from "./config";
 
+type ExecSyncError = { output: { toString: () => string } } | undefined;
+
 // FIXME:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
 function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
   const result: cp.ExecSyncOptionsWithBufferEncoding = {
@@ -34,8 +36,8 @@ function uploadToRemote(fileName: string, category: string): boolean {
           remotePath,
         getOptions(3600000),
       );
-    } catch (err: any) {
-      console.log(err?.output.toString());
+    } catch (err: unknown) {
+      console.log((err as ExecSyncError)?.output.toString());
       date = new Date();
       log(
         `Info:Cost ${getTimeString(
@@ -84,8 +86,8 @@ function deleteFromRemote(
           category,
         getOptions(10000),
       );
-    } catch (err: any) {
-      console.log(err?.output.toString());
+    } catch (err: unknown) {
+      console.log((err as ExecSyncError)?.output.toString());
       log(
         "Error:Remote directory not exist:" +
           config.REMOTE_NAME +
@@ -123,8 +125,8 @@ function deleteFromRemote(
         'rclone delete "' + config.REMOTE_NAME + ":" + remotePath + '"',
         getOptions(10000),
       );
-    } catch (err: any) {
-      console.log(err?.output.toString());
+    } catch (err: unknown) {
+      console.log((err as ExecSyncError)?.output.toString());
       return false;
     }
 

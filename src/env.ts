@@ -3,7 +3,7 @@ import { ENV_JSON_PATH } from "./const";
 import { coverSecret, log } from "./utils";
 import minimist from "minimist";
 
-let cache: any = null;
+let cache: Record<string, string> | null = null;
 const notices: string[] = [];
 
 function load2ProcessEnv(data: Record<string, string>, from: string) {
@@ -35,7 +35,7 @@ function getEnv(): Record<string, string> {
     load2ProcessEnv(data, "-e argument");
   }
 
-  cache = process.env;
+  cache = process.env as Record<string, string>;
   return cache;
 }
 

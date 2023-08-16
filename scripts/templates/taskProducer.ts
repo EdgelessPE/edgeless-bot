@@ -8,7 +8,7 @@ import { NepWorkflow } from "../../src/types/nep";
 import TOML from "@iarna/toml";
 
 export default async function (
-  p: ProducerParameters
+  p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
   const { taskName, downloadedFile, workshop, version } = p;
 
@@ -33,12 +33,12 @@ export default async function (
 
   //Naive self check
   const manifest = [`workflows/setup.toml`, `${taskName}/${taskName}.exe`].map(
-    (file) => path.join(workshop, "_ready", file)
+    (file) => path.join(workshop, "_ready", file),
   );
   for (const item of manifest) {
     if (!fs.existsSync(item)) {
       return new Err(
-        `Error:Self check failed : missing ${item} in ready directory`
+        `Error:Self check failed : missing ${item} in ready directory`,
       );
     }
   }

@@ -14,7 +14,7 @@ function main() {
     return;
   }
   const task: JSONSchema4 = JSON.parse(
-    fs.readFileSync("schema/task.json").toString()
+    fs.readFileSync("schema/task.json").toString(),
   );
   task.properties!.package_patch = schema as JSONSchema4;
   fs.writeFileSync("schema/task.json", JSON.stringify(task, null, 2));

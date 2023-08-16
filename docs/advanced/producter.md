@@ -39,12 +39,12 @@ shell.mkdir("-p", contentDir);
 //示例：将下载到的文件移动到_ready/${taskName}
 shell.mv(
   path.join(workshop, downloadedFile),
-  path.join(workshop, "_ready", taskName)
+  path.join(workshop, "_ready", taskName),
 );
 //示例：使用writeGBK函数写外置批处理文件
 writeGBK(
   path.join(workshop, "_ready", taskName + ".wcs"),
-  `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`
+  `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`,
 );
 ```
 

@@ -13,21 +13,21 @@ export default async function (
 ): Promise<Result<ProducerReturned, string>> {
   const { downloadedFile, workshop } = p;
 
-  //Create ready directory
+  // Create ready directory
   const readyDir = path.join(workshop, "_ready");
   shell.mkdir("-p", readyDir);
 
-  //移动安装程序
+  // 移动安装程序
   shell.mv(path.join(workshop, downloadedFile), readyDir);
-  //启动安装程序
+  // 启动安装程序
   const installer = cp.exec(downloadedFile, { cwd: readyDir }, () => {
     log("Info:Installer exit");
   });
 
-  //发送回车
+  // 发送回车
   await pressEnter([5, 5, 2, 2]);
 
-  //循环判断安装完成
+  // 循环判断安装完成
   const finishFilePath = path.join(
     readyDir,
     "GoogleChromePortable/Data/PortableApps.comInstaller/license.ini",
@@ -36,15 +36,15 @@ export default async function (
     await sleep(3000);
   }
 
-  //退出安装进程
+  // 退出安装进程
   await pressEnter([3]);
   await sleep(1000);
   installer.kill();
 
-  //删除安装包
+  // 删除安装包
   shell.rm(path.join(readyDir, downloadedFile));
 
-  //清理
+  // 清理
   const deleteList = [
     "Other",
     "help.html",
@@ -56,13 +56,13 @@ export default async function (
     shell.rm("-rf", path.join(readyDir, "GoogleChromePortable", f));
   }
 
-  //重命名目录为任务名
+  // 重命名目录为任务名
   shell.mv(
     path.join(readyDir, "GoogleChromePortable"),
     path.join(readyDir, "Chrome"),
   );
 
-  //写工作流
+  // 写工作流
   const wfp = path.join(readyDir, "workflows");
   shell.mkdir("-p", wfp);
   const setup: NepWorkflow = {
@@ -75,7 +75,7 @@ export default async function (
   };
   fs.writeFileSync(path.join(wfp, "setup.toml"), TOML.stringify(setup as any));
 
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
   });

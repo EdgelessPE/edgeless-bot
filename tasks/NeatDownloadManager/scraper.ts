@@ -10,7 +10,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
     ).unwrap() as any,
   );
 
-  //YOUR CODE HERE
+  // YOUR CODE HERE
   const version: string = (/(\d\.\d)/.exec(
     $("#dima_2_2 > div > p.p1").text() as string,
   ) ?? [""])[0];

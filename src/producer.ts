@@ -41,7 +41,7 @@ export default async function (
   let scriptPath,
     isExternal = false;
   if (task.template.producer == "External") {
-    //处理外置脚本
+    // 处理外置脚本
     scriptPath = path.join(
       __dirname,
       "..",
@@ -54,7 +54,7 @@ export default async function (
     }
     isExternal = true;
   } else {
-    //处理模板
+    // 处理模板
     const r = parsePath(task.template.producer);
     if (r.err) {
       return r;
@@ -62,7 +62,7 @@ export default async function (
     scriptPath = r.unwrap();
   }
 
-  //解释producer_required的内置变量
+  // 解释producer_required的内置变量
   const requiredObject: any = {};
   for (const [key, val] of Object.entries(task.producer_required)) {
     requiredObject[key] =
@@ -76,7 +76,7 @@ export default async function (
         : val;
   }
 
-  //安排worker
+  // 安排worker
   const badge = getBadge("Producer");
   const wd: WorkerDataProducer = {
     badge,

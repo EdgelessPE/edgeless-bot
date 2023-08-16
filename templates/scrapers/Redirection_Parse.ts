@@ -11,11 +11,11 @@ export default async function (
   p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
   const temp = p.scraper_temp as Temp;
-  //解析直链
+  // 解析直链
   const downloadLink = (
     await robustParseRedirect(temp.redirection_url)
   ).unwrap();
-  //匹配版本号
+  // 匹配版本号
   const m = downloadLink.match(p.versionMatchRegex ?? /(\d+\.)+\d+/g);
   if (m == null) {
     return new Err("Error:Can't match version with " + downloadLink);

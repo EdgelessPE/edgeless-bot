@@ -30,8 +30,8 @@ async function input(
       (defaultVal != undefined ? chalk.yellowBright(`(${defaultVal})`) : ""),
   );
   if (r == "") {
-    //允许缺省
-    //空值且未定义缺省值，或是未通过正则校验
+    // 允许缺省
+    // 空值且未定义缺省值，或是未通过正则校验
     if (defaultVal == undefined) {
       console.log(chalk.red(t("Error ")) + t("Please input value"));
       r = await input(tip, defaultVal, regex);
@@ -80,7 +80,7 @@ async function select(
         (defaultIndex ? chalk.yellowBright(` (${defaultIndex})`) : ""),
       "",
     );
-    //处理空输入
+    // 处理空输入
     if (r == "") {
       if (defaultIndex) {
         resolve(defaultIndex - 1);
@@ -91,7 +91,7 @@ async function select(
         return;
       }
     }
-    //校验输入
+    // 校验输入
     if (r.match(/^[0-9]+$/) == null) {
       console.log(
         chalk.red(t("Error ")) +
@@ -125,12 +125,12 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
       }n)`,
   );
 
-  //处理使用默认值
+  // 处理使用默认值
   if (r == "" && defaultVal != undefined) {
     return defaultVal;
   }
 
-  //处理y/n
+  // 处理y/n
   if (r.toLocaleLowerCase() == "y") {
     return true;
   }
@@ -138,7 +138,7 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
     return false;
   }
 
-  //处理输入错误
+  // 处理输入错误
   console.log(chalk.red(t("Error ")) + t("Please input 'y' or 'n'"));
   return bool(tip, defaultVal);
 }
@@ -151,7 +151,7 @@ async function stringArray(
   let df = undefined;
   const allowEmpty = defaultVal != undefined && defaultVal.length == 0;
 
-  //生成字符串型默认值
+  // 生成字符串型默认值
   if (defaultVal != undefined) {
     df = "";
     if (!allowEmpty) {
@@ -162,12 +162,12 @@ async function stringArray(
     }
   }
 
-  //生成默认正则
+  // 生成默认正则
   if (regex == undefined && !allowEmpty) {
     regex = /([^,]+\s*,)*\s*([^,]+)+/;
   }
 
-  //调用input
+  // 调用input
   const r = await input(tip, df, regex);
   if (r == "") {
     return [];
@@ -185,7 +185,7 @@ function applyInput(
     suc = true,
     reason = "Success",
     searchString;
-  //应用用户输入
+  // 应用用户输入
   for (const key in input) {
     val = input[key];
     if (typeof val == "object" && !(val instanceof Array)) {
@@ -197,7 +197,7 @@ function applyInput(
         reason = `Error:Can't find ${searchString} to replace with ${val}`;
         break;
       }
-      //单独处理数组
+      // 单独处理数组
       if (val instanceof Array) {
         toml = toml.replace(searchString, JSON.stringify(val));
       } else {
@@ -216,7 +216,7 @@ function genRegExpForToml(key: string): RegExp {
   return new RegExp(`#?\\s*\\[\\s*${key}\\s*\\]`);
 }
 
-//只能激活被注释的表头，不允许自行添加
+// 只能激活被注释的表头，不允许自行添加
 function inputRequiredKey(
   keyChain: string,
   toml: string,
@@ -224,24 +224,24 @@ function inputRequiredKey(
 ): Result<string, string> {
   const p = keyChain.split(".");
   let replaceTitleWith = "";
-  //匹配表头
+  // 匹配表头
   const m = toml.match(genRegExpForToml(p[0]));
   if (m == null) {
     return new Err(`Error:Toml title ${p[0]} undefined`);
   } else {
-    //激活表头
+    // 激活表头
     replaceTitleWith = `\n[${p[0]}]`;
   }
-  //匹配键
+  // 匹配键
   const m2 = toml.match(genRegExpForToml(p[1]));
   if (m2 == null) {
-    //增加新键
+    // 增加新键
     replaceTitleWith += `\n${p[1]} = "${value}"`;
   } else {
-    //激活键
+    // 激活键
     toml = toml.replace(m2[0], `${p[1]} = "${value}"`);
   }
-  //替换标题
+  // 替换标题
   toml = toml.replace(m[0], replaceTitleWith);
   return new Ok(toml);
 }
@@ -253,7 +253,7 @@ interface ParameterDeclare {
   description?: string;
 }
 
-//生成参数声明文档
+// 生成参数声明文档
 function genParameterWiki(arr: ParameterDeclare[]): string {
   if (arr.length == 0) {
     return "无";

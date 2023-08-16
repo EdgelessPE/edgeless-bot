@@ -82,7 +82,7 @@ export default async function (
   //     "LINK X:\\Users\\Default\\Desktop\\LibreOffice,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficePortable.exe\n" +
   //     "LINK X:\\Users\\Default\\Desktop\\LibreOfficeWriter,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeWriterPortable.exe"
   // );
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
   });

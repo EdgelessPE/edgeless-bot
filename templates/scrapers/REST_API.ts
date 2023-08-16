@@ -13,7 +13,7 @@ function objChainReader(obj: any, chain: string[]): Result<any, string> {
   if (!(chain[0] in obj)) {
     return new Err(`Error:Key undefined`);
   }
-  //当chain数组大于1时进行递归
+  // 当chain数组大于1时进行递归
   if (chain.length > 1) {
     return objChainReader(obj[chain[0]], chain.slice(1));
   } else {
@@ -28,7 +28,7 @@ function objChainReader(obj: any, chain: string[]): Result<any, string> {
 export default async function (
   p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
-  //发送请求
+  // 发送请求
   const temp = p.scraper_temp as Temp;
   const jsonRes = await robustGet(
     temp.api_url,
@@ -44,7 +44,7 @@ export default async function (
     return jsonRes;
   }
   let json = jsonRes.unwrap();
-  //尝试读取json
+  // 尝试读取json
   const versionReadRes = objChainReader(json, temp.version_path.split(".")),
     linkReadRes = objChainReader(json, temp.download_path.split("."));
   if (typeof json == "string") {

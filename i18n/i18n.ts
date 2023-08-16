@@ -9,7 +9,7 @@ let dictionary: Record<string, string> = {},
 export function init() {
   const locale = Intl.DateTimeFormat().resolvedOptions().locale;
   // console.log(locale)
-  //locale="en-US"
+  // locale="en-US"
   if (locale.slice(0, 2) == "en") {
     return;
   }

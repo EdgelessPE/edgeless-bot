@@ -21,9 +21,9 @@ export let badge = "Worker";
 async function scraper(
   workerData: WorkerDataScraper,
 ): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
-  //修改工作牌
+  // 修改工作牌
   badge = workerData.badge;
-  //执行脚本
+  // 执行脚本
   const dirtyScript = await import(workerData.scriptPath);
   if (dirtyScript == null || dirtyScript.default == null) {
     return new Err(
@@ -31,22 +31,22 @@ async function scraper(
     );
   } else {
     if (workerData.isExternal) {
-      //作为外置脚本处理
+      // 作为外置脚本处理
       const script = dirtyScript.default as () => Promise<
         Result<ScraperReturned, string>
       >;
       let res: Result<ScraperReturned, string>;
       try {
         res = await awaitWithTimeout(script, LIGHT_TIMEOUT, null);
-        //处理无版本号任务
+        // 处理无版本号任务
         const task = workerData.tasks[0];
         if (task.extra?.missing_version && res.ok) {
-          //在指定的星期检查更新
+          // 在指定的星期检查更新
           const date = new Date();
           if (date.getDay() == MISSING_VERSION_TRY_DAY) {
             res.val.version = "999999.99.99";
           } else {
-            //其他时间将爬虫的版本号改为 0
+            // 其他时间将爬虫的版本号改为 0
             log(`Info:Ignore missing version task ${task.name}`);
             res.val.version = "0.0.0";
           }
@@ -60,7 +60,7 @@ async function scraper(
         );
       }
     } else {
-      //作为模板处理
+      // 作为模板处理
       const script = dirtyScript.default as (
         p: ScraperParameters,
       ) => Promise<Result<ScraperReturned, string>>;
@@ -94,9 +94,9 @@ async function scraper(
 async function resolver(
   workerData: WorkerDataResolver,
 ): Promise<Result<ResolverReturned, string>> {
-  //修改工作牌
+  // 修改工作牌
   badge = workerData.badge;
-  //执行脚本
+  // 执行脚本
   const dirtyScript = await import(workerData.scriptPath);
   if (dirtyScript == null || dirtyScript.default == null) {
     return new Err(
@@ -127,9 +127,9 @@ async function resolver(
 async function producer(
   workerData: WorkerDataProducer,
 ): Promise<Result<ProducerReturned, string>> {
-  //修改工作牌
+  // 修改工作牌
   badge = workerData.badge;
-  //执行脚本
+  // 执行脚本
   const dirtyScript = await import(workerData.scriptPath);
   if (dirtyScript == null || dirtyScript.default == null) {
     return new Err(
@@ -137,7 +137,7 @@ async function producer(
     );
   } else {
     if (workerData.isExternal) {
-      //作为外置脚本处理
+      // 作为外置脚本处理
       const script = dirtyScript.default as (
         p: ProducerParameters,
       ) => Promise<Result<ProducerReturned, string>>;
@@ -157,7 +157,7 @@ async function producer(
         );
       }
     } else {
-      //作为模板处理
+      // 作为模板处理
       const script = dirtyScript.default as (
         p: ProducerParameters,
       ) => Promise<Result<ProducerReturned, string>>;

@@ -22,7 +22,7 @@ export default async function (
       ? new RegExp(p.downloadLinkRegex, "g")
       : // eslint-disable-next-line no-useless-escape
         /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
-  //获取页面
+  // 获取页面
   let page, scope;
   const getRes = await robustGet(temp.version_page_url ?? p.url);
   if (getRes.err || getRes.val == null || getRes.val == "") {
@@ -30,8 +30,8 @@ export default async function (
   } else {
     page = getRes.val as string;
   }
-  //全局匹配版本号
-  //处理定义的选择器
+  // 全局匹配版本号
+  // 处理定义的选择器
   if (temp.version_selector != undefined) {
     const $ = cheerio.load(page);
     scope = $(temp.version_selector).html() ?? "";
@@ -63,7 +63,7 @@ export default async function (
     return new Err("Error:Given version match regex matched no version string");
   }
 
-  //全局匹配下载地址
+  // 全局匹配下载地址
   if (temp.download_page_url != undefined) {
     page = (await robustGet(temp.download_page_url)).unwrap() as string;
   }
@@ -73,7 +73,7 @@ export default async function (
   ) {
     page = (await robustGet(p.url)).unwrap() as string;
   }
-  //处理定义的选择器
+  // 处理定义的选择器
   let skipMatch = false;
   if (temp.download_selector != undefined) {
     const $ = cheerio.load(page),
@@ -105,7 +105,7 @@ export default async function (
   }
   log("Info:Download link match result : " + downloadLink);
 
-  //处理以 / 开头的下载地址
+  // 处理以 / 开头的下载地址
   if (downloadLink[0] == "/" && downloadLink[1] != "/") {
     downloadLink =
       new URL(temp.download_page_url ?? p.url).origin + downloadLink;

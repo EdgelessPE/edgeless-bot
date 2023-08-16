@@ -3,7 +3,7 @@ import { Result } from "ts-results";
 import path from "path";
 import { parentPort, Worker, workerData as obj } from "worker_threads";
 
-//输入一个同域任务数组然后同步顺次执行的Worker
+// 输入一个同域任务数组然后同步顺次执行的Worker
 async function master(
   tasks: Array<TaskInstance>,
   entrance: string,
@@ -15,11 +15,11 @@ async function master(
       "scrapers",
       entrance + ".js",
     );
-    //启动Worker
+    // 启动Worker
     const worker = new Worker(scriptPath, { workerData: tasks });
-    //监听完成
+    // 监听完成
     worker.on("message", (outcome: Array<Result<ScraperReturned, string>>) => {
-      //console.log(JSON.stringify(outcome))
+      // console.log(JSON.stringify(outcome))
       worker.terminate();
       resolve(outcome);
     });

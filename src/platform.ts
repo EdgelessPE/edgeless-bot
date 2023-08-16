@@ -22,9 +22,9 @@ function getOS(): OS {
   }
 }
 
-//查找程序位置，返回值为绝对路径时会包含双引号
+// 查找程序位置，返回值为绝对路径时会包含双引号
 function where(command: string): Result<string, string> {
-  //相对路径解析封装
+  // 相对路径解析封装
   const parsePath = (p: string) => {
     if (p.indexOf("./") > -1) {
       return path.resolve(PROJECT_ROOT, p);
@@ -32,7 +32,7 @@ function where(command: string): Result<string, string> {
       return p;
     }
   };
-  //生成可能的位置
+  // 生成可能的位置
   let possibleCommands: Array<string> = [];
   let possiblePositions: Array<string> = [];
   switch (command) {
@@ -77,14 +77,14 @@ function where(command: string): Result<string, string> {
     default:
       return new Err(`Error:Undefined command argument : ${command}`);
   }
-  //查找可能的命令
+  // 查找可能的命令
   let result = "";
   let node;
   const testCmd = getOS() == "Windows" ? "where" : "which";
-  //根据possibleCommands查找
+  // 根据possibleCommands查找
   for (let i = 0; i < possibleCommands.length; i++) {
     node = possibleCommands[i];
-    //使用which/where
+    // 使用which/where
     try {
       cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
       result = node;
@@ -92,7 +92,7 @@ function where(command: string): Result<string, string> {
     } catch (e) {
       /* empty */
     }
-    //生成可能的绝对路径
+    // 生成可能的绝对路径
     let possibleAbsolutePaths = [
       node,
       path.join(process.cwd(), node),
@@ -110,7 +110,7 @@ function where(command: string): Result<string, string> {
   if (result != "") {
     return new Ok(parsePath(result));
   }
-  //根据possiblePositions查找
+  // 根据possiblePositions查找
   for (let i = 0; i < possiblePositions.length; i++) {
     node = possiblePositions[i];
     if (getOS() == "Windows") {
@@ -144,7 +144,7 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
 
   const os = getOS();
 
-  //如果是Windows检查pecmd
+  // 如果是Windows检查pecmd
   if (os == "Windows") {
     if (where("pecmd").err) {
       suc = "POSIX";

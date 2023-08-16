@@ -44,7 +44,7 @@ export default async function (
   //   path.join(workshop, "_ready", taskName + ".cmd"),
   //   `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`
   // );
-  //Return ready directory
+  // Return ready directory
   return new Ok({
     readyRelativePath: "_ready",
     revisedVersion: "smap.exe",

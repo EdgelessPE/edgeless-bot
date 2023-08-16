@@ -18,10 +18,10 @@ export default async function (
   const { url } = p,
     repoInfo = parseRepo(url);
 
-  //将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
+  // 将API接口直接作为下载地址返回，后续会由GitHub Release下载模板解析
   const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;
 
-  //获取Json
+  // 获取Json
   let json: any;
   try {
     const token = process.env.GITHUB_TOKEN;
@@ -44,11 +44,11 @@ export default async function (
   }
   try {
     let i = 0;
-    //过滤预发布
+    // 过滤预发布
     while (json[i]?.prerelease && i < json.length) {
       i++;
     }
-    //防止越界
+    // 防止越界
     if (i == json.length) {
       i = 0;
     }

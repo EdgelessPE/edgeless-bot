@@ -63,7 +63,7 @@ async function scrapePage(
   if (!dom_node?.attr("class")) {
     return new Err("Error:Valid dom node not found");
   } else {
-    //log('Info:Get valid dom node whose class is "' + dom_node.attr('class') + '"');
+    // log('Info:Get valid dom node whose class is "' + dom_node.attr('class') + '"');
   }
 
   // 尝试获取SHA256
@@ -180,20 +180,20 @@ async function scrapePage(
 export default async function (
   p: ScraperParameters,
 ): Promise<Result<ScraperReturned, string>> {
-  //获取页面
+  // 获取页面
   const page = (await robustGet(p.url)).unwrap();
-  //解析
+  // 解析
   // eslint-disable-next-line prefer-const
   let { text, href, sha256 } = (
     await scrapePage(page as string, p.url)
   ).unwrap();
   // log(`Info:Fetched ${p.taskName} at PortableApps,version text : ${text}, href : ${href}, sha256 : ${sha256}`);
 
-  //处理跳转到 GitHub 备用下载的情况
+  // 处理跳转到 GitHub 备用下载的情况
   const trueUrlRes = await robustParseRedirect(href);
   const trueUrl = trueUrlRes.unwrapOr("");
   if (trueUrl.indexOf("github.com") > -1) {
-    //交给 GitHub Release 爬虫处理
+    // 交给 GitHub Release 爬虫处理
     log(`Info:GitHub Releases backup download detected : ${trueUrl}`);
     const res = await GitHubRelease({
       taskName: p.taskName,

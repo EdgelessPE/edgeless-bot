@@ -34,6 +34,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": "error",
+    "spaced-comment": "error",
   },
   ignorePatterns: ["*.js", "/dist", "/workshop", "/scripts/templates"],
 };

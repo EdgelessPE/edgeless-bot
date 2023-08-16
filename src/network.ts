@@ -5,7 +5,7 @@ import { config } from "./config";
 
 function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
   const result: AxiosRequestConfig = axiosConfig ?? {};
-  //处理全局代理
+  // 处理全局代理
   if (config.GLOBAL_PROXY) {
     const url = config.GLOBAL_PROXY;
     const sp1 = url.split(":");
@@ -19,7 +19,7 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
       port,
     };
   }
-  //增加UA
+  // 增加UA
   if (result.headers == undefined) result.headers = {};
   result.headers["user-agent"] =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36";
@@ -34,13 +34,13 @@ async function singleFetch(
   try {
     res = await axios.get(url, getConfig(axiosConfig));
   } catch (err) {
-    //console.log(JSON.stringify(err));
+    // console.log(JSON.stringify(err));
     return new Err("Warning:Single fetch failed for " + url);
   }
   return new Ok(res.data);
 }
 
-//返回axios中的res.data
+// 返回axios中的res.data
 async function robustGet(
   url: string,
   axiosConfig?: AxiosRequestConfig,
@@ -78,7 +78,7 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
       ) {
         resolve(new Ok(decodeURI(e.response.headers.location)));
       } else {
-        //console.log(e.response?.status)
+        // console.log(e.response?.status)
         resolve(
           new Err(
             "Warning:Single fetch failed for " +

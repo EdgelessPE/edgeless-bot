@@ -1,4 +1,4 @@
-//爬虫模板
+// 爬虫模板
 
 import { Result } from "ts-results";
 import { NepPackage } from "./nep";
@@ -21,9 +21,9 @@ interface ScraperReturned {
     value: string;
   };
   resolverParameter?: {
-    entrance?: string; //由scraper钦定resolver，会覆盖任务配置中的template.resolver
+    entrance?: string; // 由scraper钦定resolver，会覆盖任务配置中的template.resolver
     password?: string;
-    cd?: string[]; //此cd会覆盖任务配置中的resolver_cd
+    cd?: string[]; // 此cd会覆盖任务配置中的resolver_cd
   };
 }
 
@@ -35,7 +35,7 @@ interface ScraperRegister {
   description?: string;
 }
 
-//云盘下载模板
+// 云盘下载模板
 interface ResolverParameters {
   downloadLink: string;
   fileMatchRegex: string;
@@ -51,13 +51,13 @@ interface ResolverRegister {
   name: string;
   downloadLinkRegex: string;
   entrance: string;
-  //TODO:实现校验
+  // TODO:实现校验
   requiredKeys: Array<string>;
-  //TODO:增加描述
+  // TODO:增加描述
   description?: string;
 }
 
-//自动制作模板
+// 自动制作模板
 interface ProducerParameters {
   taskName: string;
   version: string;
@@ -79,7 +79,7 @@ interface ProducerRegister {
   recommendedManifest?: string[];
 }
 
-//数据库
+// 数据库
 interface BuildStatus {
   version: string;
   timestamp: string;
@@ -89,14 +89,14 @@ interface BuildStatus {
 interface DatabaseNode {
   taskName: string;
   recent: {
-    health: number; //健康度，0-3
+    health: number; // 健康度，0-3
     latestVersion: string;
     errorMessage: string;
     builds: Array<BuildStatus>;
   };
 }
 
-//任务实例
+// 任务实例
 interface TaskInstance {
   name: string;
   scope: string;
@@ -136,7 +136,7 @@ interface TaskInstance {
   package_patch?: NepPackage;
 }
 
-//程序配置
+// 程序配置
 interface CONFIG {
   DATABASE_UPDATE: boolean;
   DATABASE_PATH: string;
@@ -167,7 +167,7 @@ interface CONFIG {
   DEBUG_MODE: boolean;
 }
 
-//对象检验表节点
+// 对象检验表节点
 enum JsObjectType {
   "numberOrEnum",
   "string",
@@ -184,7 +184,7 @@ interface ObjectValidationNode {
   properties?: Array<ObjectValidationNode>;
 }
 
-//工人数据对象
+// 工人数据对象
 interface WorkerDataScraper {
   badge: string;
   scriptPath: string;
@@ -208,16 +208,16 @@ interface WorkerDataProducer {
   task: ProducerParameters;
 }
 
-//制作所需信息
+// 制作所需信息
 interface ExecuteParameter {
   task: TaskInstance;
   info: ScraperReturned;
 }
 
-//状态报告
+// 状态报告
 interface ResultReport {
   taskName: string;
-  result: Result<string, string>; //成功时返回新构建的名称，失败返回错误消息
+  result: Result<string, string>; // 成功时返回新构建的名称，失败返回错误消息
 }
 
 export {

@@ -14,7 +14,7 @@ import { log } from "./utils";
 import { config } from "./config";
 
 function searchTemplate(url: string): Result<ResolverRegister, string> {
-  //匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
+  // 匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
   const results: {
     node: ResolverRegister;
     matchLength: number;
@@ -58,31 +58,31 @@ export default async function (
   const url = p.downloadLink;
   let entrance;
   if (specifyEntrance != undefined) {
-    //禁用模板
+    // 禁用模板
     if (specifyEntrance == "None") {
       return new Ok({
         directLink: url,
       });
     }
-    //使用钦定模板
+    // 使用钦定模板
     entrance = specifyEntrance;
   } else {
-    //搜索模板
+    // 搜索模板
     const tRes = searchTemplate(url);
     if (tRes.err) {
-      //未找到模板，说明是直链，直接返回
+      // 未找到模板，说明是直链，直接返回
       log(tRes.val);
       return new Ok({
         directLink: url,
       });
     } else {
-      //找到模板，配置模板入口
+      // 找到模板，配置模板入口
       const node = tRes.unwrap();
       log(`Info:Matched resolver template ${node.name} for link ${url}`);
       entrance = node.entrance;
     }
   }
-  //解析模板位置
+  // 解析模板位置
   const pRes = parsePath(entrance);
   if (pRes.err) {
     return pRes;

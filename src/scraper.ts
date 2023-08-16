@@ -22,7 +22,7 @@ function searchTemplate(
   url: string,
   scraperName?: string,
 ): Result<ScraperRegister, string> {
-  //内部实现外置脚本模板
+  // 内部实现外置脚本模板
   if (scraperName && scraperName == "External") {
     return new Ok({
       name: "External",
@@ -35,7 +35,7 @@ function searchTemplate(
   let result = null;
 
   if (scraperName) {
-    //对钦定的模板直接赋值
+    // 对钦定的模板直接赋值
     for (const node of scraperRegister) {
       if (scraperName == node.entrance) {
         result = node;
@@ -43,7 +43,7 @@ function searchTemplate(
       }
     }
   } else {
-    //匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
+    // 匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
     const results: {
       node: ScraperRegister;
       matchLength: number;
@@ -87,12 +87,12 @@ function parsePath(entrance: string): Result<string, string> {
   }
 }
 
-//输入一个乱序tasks数组，按同域任务分类后使用线程池执行全部完成
+// 输入一个乱序tasks数组，按同域任务分类后使用线程池执行全部完成
 export default async function (
   tasks: Array<TaskInstance>,
 ): Promise<Array<ResultNode>> {
   return new Promise((resolve, reject) => {
-    //按同域任务分类
+    // 按同域任务分类
     const classifyHash: {
       [key: string]: {
         entrance: string;
@@ -129,7 +129,7 @@ export default async function (
       log(`Info:Need ${workerSum} workers to scrape`);
     }
 
-    //分别spawn hash中得到的数个任务池
+    // 分别spawn hash中得到的数个任务池
     const collection: Array<ResultNode> = [];
 
     piscina.on("error", (e) => {
@@ -149,7 +149,7 @@ export default async function (
     for (const key in classifyHash) {
       const node = classifyHash[key];
       if (node.entrance == "External") {
-        //启动外置脚本任务
+        // 启动外置脚本任务
         for (const poolNode of node.pool) {
           const taskName = poolNode.name,
             badge = getBadge("Scraper");
@@ -190,7 +190,7 @@ export default async function (
           jobSum++;
         }
       } else {
-        //启动模板任务
+        // 启动模板任务
         p = parsePath(node.entrance);
         if (p.err) {
           collection.push({
@@ -232,7 +232,7 @@ export default async function (
         jobSum++;
       }
     }
-    //如果piscina未在运行中则直接返回
+    // 如果piscina未在运行中则直接返回
     if (jobSum == 0) {
       log("Warning:No jobs scheduled!");
       resolve(collection);

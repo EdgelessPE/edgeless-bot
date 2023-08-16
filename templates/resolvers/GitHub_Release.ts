@@ -9,7 +9,7 @@ export default async function (
 ): Promise<Result<ResolverReturned, string>> {
   const { downloadLink, fileMatchRegex } = p;
 
-  //获取Json
+  // 获取Json
   let json: any;
   try {
     const token = process.env.GITHUB_TOKEN;
@@ -27,14 +27,14 @@ export default async function (
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);
   }
-  //匹配assets数组
+  // 匹配assets数组
   const regex = new RegExp(fileMatchRegex);
   let i = 0;
-  //过滤预发布
+  // 过滤预发布
   while (json[i]?.prerelease && i < json.length) {
     i++;
   }
-  //防止越界
+  // 防止越界
   if (i == json.length) {
     i = 0;
   }

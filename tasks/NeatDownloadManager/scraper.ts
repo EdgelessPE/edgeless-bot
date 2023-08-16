@@ -4,11 +4,11 @@ import { robustGet } from "../../src/network";
 import * as cheerio from "cheerio";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-  const $ = cheerio.load(
-    (
-      await robustGet("https://www.neatdownloadmanager.com/index.php/en/")
-    ).unwrap() as any,
+  const pageRes = await robustGet(
+    "https://www.neatdownloadmanager.com/index.php/en/",
   );
+  if (pageRes.err) return pageRes;
+  const $ = cheerio.load(pageRes.unwrap() as string);
 
   // YOUR CODE HERE
   const version: string = (/(\d\.\d)/.exec(

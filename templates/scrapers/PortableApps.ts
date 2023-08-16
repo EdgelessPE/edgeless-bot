@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
 import { robustGet, robustParseRedirect } from "../../src/network";

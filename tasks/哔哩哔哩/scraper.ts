@@ -3,14 +3,28 @@ import { ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/network";
 import { Cmp, matchVersion, versionCmp } from "../../src/utils";
 
+interface Data {
+  code: number;
+  message: string;
+  ttl: number;
+  data: {
+    plat: number;
+    desc: string;
+    version: string;
+    build: number;
+    ptime: number;
+  }[];
+}
+
 export default async function (): Promise<Result<ScraperReturned, string>> {
   // YOUR CODE HERE
 
   // 请求版本号接口
-  const res = await robustGet(
+  const res = await robustGet<Data>(
     "https://app.bilibili.com/x/v2/version?mobi_app=pc_client",
   );
-  const arr = (res.unwrap() as any).data.map((n: any) => n.version);
+  if (res.err) return res;
+  const arr = res.unwrap().data.map((n) => n.version);
 
   // 匹配最大版本号
   let maxVersion = "0.0.0",

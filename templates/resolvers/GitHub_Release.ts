@@ -3,6 +3,7 @@ import { Err, Ok, Result } from "ts-results";
 import { robustGet } from "../../src/network";
 import { coverSecret, log } from "../../src/utils";
 import { AxiosRequestConfig } from "axios";
+import { GitHubRelease } from "../scrapers/GitHub_ReleaseTypes";
 
 export default async function (
   p: ResolverParameters,
@@ -10,7 +11,7 @@ export default async function (
   const { downloadLink, fileMatchRegex } = p;
 
   // 获取Json
-  let json: any;
+  let json: GitHubRelease;
   try {
     const token = process.env.GITHUB_TOKEN;
     if (token) log(`Info:Use GitHub Token ${coverSecret(token)}`);
@@ -22,7 +23,9 @@ export default async function (
             },
           }
         : undefined;
-    json = (await robustGet(downloadLink, cfg)).unwrap();
+    const res = await robustGet<GitHubRelease>(downloadLink, cfg);
+    if (res.err) return res;
+    json = res.unwrap();
   } catch (e) {
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);

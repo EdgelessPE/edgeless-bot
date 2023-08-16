@@ -12,9 +12,9 @@ function configGenerator(): Result<CONFIG, string> {
   } else {
     // 读取和解析配置
     const text = fs.readFileSync(PATH_CONFIG).toString();
-    let json;
+    let json: CONFIG;
     try {
-      json = toml.parse(text) as any;
+      json = toml.parse(text);
     } catch (e) {
       console.log(JSON.stringify(e));
       return new Err("Error:Can't parse config.toml");
@@ -30,7 +30,7 @@ function configGenerator(): Result<CONFIG, string> {
     }
     // 使用参数覆盖
     const args = minimist(process.argv.slice(2));
-    const coverTable = [
+    const coverTable: { arg: string; key: keyof CONFIG }[] = [
       {
         arg: "g",
         key: "GITHUB_ACTIONS",
@@ -50,6 +50,8 @@ function configGenerator(): Result<CONFIG, string> {
     ];
     for (const coverNode of coverTable) {
       if (args[coverNode.arg] != null) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         json[coverNode.key] = args[coverNode.arg];
       }
     }

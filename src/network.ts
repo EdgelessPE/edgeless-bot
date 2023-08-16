@@ -41,16 +41,16 @@ async function singleFetch(
 }
 
 // 返回axios中的res.data
-async function robustGet(
+async function robustGet<T>(
   url: string,
   axiosConfig?: AxiosRequestConfig,
-): Promise<Result<unknown, string>> {
-  let result = null,
+): Promise<Result<T, string>> {
+  let result: T | null = null,
     r;
   for (let i = 0; i < config.MAX_RETRY_SCRAPER; i++) {
     r = await singleFetch(url, axiosConfig);
     if (r.ok) {
-      result = r.unwrap();
+      result = r.unwrap() as T;
       break;
     } else {
       log(r.val);

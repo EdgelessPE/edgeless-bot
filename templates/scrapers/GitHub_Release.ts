@@ -3,6 +3,7 @@ import { robustGet } from "../../src/network";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
 import { AxiosRequestConfig } from "axios";
 import { coverSecret, log } from "../../src/utils";
+import { GitHubRelease } from "./GitHub_ReleaseTypes";
 
 function parseRepo(url: string): { owner: string; repo: string } {
   const splitRes = url.split("github.com/")[1].split("/");
@@ -22,7 +23,7 @@ export default async function (
   const downloadLink = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/releases`;
 
   // 获取Json
-  let json: any;
+  let json: GitHubRelease;
   try {
     const token = process.env.GITHUB_TOKEN;
     if (token) log(`Info:Use GitHub Token ${coverSecret(token)}`);
@@ -34,7 +35,9 @@ export default async function (
             },
           }
         : undefined;
-    json = (await robustGet(downloadLink, cfg)).unwrap();
+    const res = await robustGet<GitHubRelease>(downloadLink, cfg);
+    if (res.err) return res;
+    json = res.unwrap();
   } catch (e) {
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);

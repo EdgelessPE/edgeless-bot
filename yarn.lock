@@ -324,7 +324,7 @@
 
 "@types/json-schema@^7.0.12":
   version "7.0.12"
-  resolved "http://bnpm.byted.org/@types/json-schema/-/json-schema-7.0.12.tgz#d70faba7039d5fca54c83c7dbab41051d2b6f6cb"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.12.tgz#d70faba7039d5fca54c83c7dbab41051d2b6f6cb"
   integrity sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==
 
 "@types/json-schema@^7.0.9":
@@ -354,7 +354,7 @@
 
 "@types/node@^18.17.1":
   version "18.17.5"
-  resolved "http://bnpm.byted.org/@types/node/-/node-18.17.5.tgz#c58b12bca8c2a437b38c15270615627e96dd0bc5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.17.5.tgz#c58b12bca8c2a437b38c15270615627e96dd0bc5"
   integrity sha512-xNbS75FxH6P4UXTPUJp/zNPq6/xsfdJKussCWNOnz4aULWIRwMgP1LgaB5RiBnMX1DPCYenuqGZfnIAx5mbFLA==
 
 "@types/prettier@^2.4.3":
@@ -2052,7 +2052,7 @@ parse5@^7.0.0:
 
 path-equal@^1.2.5:
   version "1.2.5"
-  resolved "http://bnpm.byted.org/path-equal/-/path-equal-1.2.5.tgz#9fcbdd5e5daee448e96f43f3bac06c666b5e982a"
+  resolved "https://registry.yarnpkg.com/path-equal/-/path-equal-1.2.5.tgz#9fcbdd5e5daee448e96f43f3bac06c666b5e982a"
   integrity sha512-i73IctDr3F2W+bsOWDyyVm/lqsXO47aY9nsFZUjTT/aljSbkxHxxCoyZ9UUrM8jK0JVod+An+rl48RCsvWM+9g==
 
 path-exists@^4.0.0:
@@ -2489,7 +2489,7 @@ ts-node@^10.4.0:
 
 ts-node@^10.9.1:
   version "10.9.1"
-  resolved "http://bnpm.byted.org/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
   integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==
   dependencies:
     "@cspotcode/source-map-support" "^0.8.0"
@@ -2540,7 +2540,7 @@ type-fest@^0.21.3:
 
 typescript-json-schema@^0.59.0:
   version "0.59.0"
-  resolved "http://bnpm.byted.org/typescript-json-schema/-/typescript-json-schema-0.59.0.tgz#736d1b4e4b101b9e989741958f0b2571e998d6ed"
+  resolved "https://registry.yarnpkg.com/typescript-json-schema/-/typescript-json-schema-0.59.0.tgz#736d1b4e4b101b9e989741958f0b2571e998d6ed"
   integrity sha512-eYB9RO8p4PntznWUukdDQHckNfxzjEFCJUgsWeCE43mcFioE0wXGTSECGk1uhty9XQMxkpuI4pKAqqnb62ln3Q==
   dependencies:
     "@types/json-schema" "^7.0.9"
@@ -2559,7 +2559,7 @@ typescript@^4.5.4:
 
 typescript@~4.9.5:
   version "4.9.5"
-  resolved "http://bnpm.byted.org/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
 untildify@^4.0.0:

@@ -10,17 +10,18 @@ license = "MIT"
 language = "Multi"
 tags = ["code", "electron", "typescript"]
 url = "https://code.visualstudio.com/"
+flags = "p"
 
 # 指定使用的模板
 [template]
 scraper = "Redirection_Parse"
 # resolver = ""
-producer = "Silent_Install"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.exe'
+download_name = '\.zip'
 # scraper_version = ''
 
 # 通用参数
@@ -34,12 +35,13 @@ main_program = "${AppData}/Local/Programs/Microsoft VS Code/Code.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
-redirection_url = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user"
+redirection_url = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
 
 # 自动制作模板要求的参数
 [producer_required]
-argument = "/VERYSILENT /MERGETASKS=!runcode"
-uninstallCmd = "${AppData}/Local/Programs/Microsoft VS Code/unins000.exe"
+shortcutName = "VSCode"
+sourceFile = "Code.exe"
+recursiveUnzipList = []
 
 
 # 额外备注

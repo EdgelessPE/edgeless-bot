@@ -1,13 +1,14 @@
 #:schema ../../schema/task.json
 # 任务基本信息
 [task]
+author = ${ task.author }
 name = "${ task.name }"
 scope = "${ task.scope }"
 category = "${ task.category }"
-author = ${ task.author }
 url = "${ task.url }"
 description = "${ task.description }"
 language = "${ task.language }"
+# flags = ""
 
 # 指定使用的模板
 [template]
@@ -23,9 +24,9 @@ download_name = '${ regex.download_name }'
 
 # 通用参数
 [parameter]
+build_manifest = ${ parameter.build_manifest }
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ${ parameter.build_manifest }
 # build_cover = ""
 # build_delete = []
 # revised_version = false

@@ -83,6 +83,8 @@ language = "Multi"
 license = ""
 # （可选）标签，关联相关话题方便用户找到你的包
 tags = [""]
+# （可选）Nep 旗帜，用于标记包信息
+# flags = ""
 
 # 指定使用的模板
 [template]

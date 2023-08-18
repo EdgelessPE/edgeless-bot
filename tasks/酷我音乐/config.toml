@@ -3,11 +3,11 @@
 [task]
 name = "酷我音乐"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Kuwo"
 url = "https://www.kuwo.cn/down"
 description = "海量无损资源下载 热歌新歌随时听"
-tags = ["streaming media","legal copy"]
+tags = ["streaming media", "legal copy"]
 language = "zh-CN"
 
 # 指定使用的模板
@@ -28,7 +28,15 @@ download_name = '\.exe'
 #compress_level = 1
 build_manifest = ['workflows/setup.toml', '${taskName}/KwMusic.exe']
 #build_cover = "cover.zip"
-build_delete = ["$WINDIR", "$TEMP", "$PLUGINSDIR", "$APPDATA", "readme.txt", "Uninstall.exe", "Uninstall.exe.nsis"]
+build_delete = [
+  "$WINDIR",
+  "$TEMP",
+  "$PLUGINSDIR",
+  "$APPDATA",
+  "readme.txt",
+  "Uninstall.exe",
+  "Uninstall.exe.nsis",
+]
 
 # 自动制作模板要求的参数
 [producer_required]

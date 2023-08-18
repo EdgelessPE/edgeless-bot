@@ -3,11 +3,11 @@
 [task]
 name = "爱奇艺"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Iqiyi"
 url = "https://app.iqiyi.com/pc/player/index.html"
 description = "轻快 流畅 正版 超清"
-tags = ["streaming media","legal copy"]
+tags = ["streaming media", "legal copy"]
 language = "zh-CN"
 
 # 指定使用的模板

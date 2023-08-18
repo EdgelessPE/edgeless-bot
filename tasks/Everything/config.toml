@@ -3,11 +3,11 @@
 [task]
 name = "Everything"
 category = "资源管理"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/everything-portable"
 description = "local search utility"
-tags = ["搜索","文件系统"]
+tags = ["搜索", "文件系统"]
 language = "Multi"
 
 # 指定使用的模板
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 # build_cover = ""
 # build_delete = []
 

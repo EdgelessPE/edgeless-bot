@@ -3,7 +3,7 @@
 [task]
 name = "网易邮箱大师"
 category = "办公编辑"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://mail.163.com/dashi"
 description = "邮件办公，如此轻松。"
 tags = ["email"]
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/mailmaster.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/mailmaster.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -37,7 +37,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/mailmaster.exe"]
 [producer_required]
 shortcutName = "网易邮箱大师"
 sourceFile = "mailmaster.exe"
-recursiveUnzipList = [ "mailmaster.7z", "MailMaster-bin" ]
+recursiveUnzipList = ["mailmaster.7z", "MailMaster-bin"]
 
 
 # 额外备注

@@ -3,7 +3,7 @@
 [task]
 name = "Ueli"
 category = "实用工具"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://github.com/oliverschwendener/ueli"
 description = "Keystroke launcher for Windows and macOS"
 tags = ["搜索"]
@@ -26,7 +26,7 @@ download_name = '^ueli-[\d\.]*-win\.zip$'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/ueli.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/ueli.exe"]
 # build_cover = "cover"
 # build_delete = []
 
@@ -37,7 +37,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/ueli.exe"]
 [producer_required]
 shortcutName = "Ueli"
 sourceFile = "ueli.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

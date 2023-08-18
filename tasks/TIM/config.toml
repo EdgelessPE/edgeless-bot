@@ -3,7 +3,7 @@
 [task]
 name = "TIM"
 category = "即时通讯"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://tim.qq.com/download.html"
 description = "专注团队沟通协作"
 tags = ["qq"]

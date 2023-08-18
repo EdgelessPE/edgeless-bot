@@ -3,7 +3,7 @@
 [task]
 name = "分区助手"
 category = "磁盘数据"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Aomei"
 url = "https://www.disktool.cn/download.html"
 description = "无损分区、分区扩容、系统迁移"
@@ -26,7 +26,7 @@ download_name = '\.7z'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/PartAssist.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/PartAssist.exe"]
 # build_cover = ""
 # build_delete = []
 main_program = "PartAssist.exe"
@@ -38,7 +38,7 @@ main_program = "PartAssist.exe"
 [producer_required]
 shortcutName = "分区助手"
 sourceFile = "StartPartAssist.exe"
-recursiveUnzipList = [ "PAWinPEx64" ]
+recursiveUnzipList = ["PAWinPEx64"]
 
 
 # 额外备注

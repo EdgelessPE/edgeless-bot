@@ -3,7 +3,7 @@
 [task]
 name = "VLC"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/music_video/vlc_portable"
 description = "media player"

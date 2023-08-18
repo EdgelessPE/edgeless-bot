@@ -3,11 +3,11 @@
 [task]
 name = "飞书"
 category = "网课会议"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Bytedance"
 url = "https://www.feishu.cn/download"
 description = "先进团队，先用飞书"
-tags = ["office","online meeting"]
+tags = ["office", "online meeting"]
 language = "Multi"
 
 # 指定使用的模板
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/Feishu.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/Feishu.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -40,7 +40,7 @@ api_url = "https://www.feishu.cn/api/downloads"
 [producer_required]
 shortcutName = "飞书"
 sourceFile = "Feishu.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

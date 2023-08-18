@@ -3,7 +3,7 @@
 [task]
 name = "RustDesk"
 category = "远程连接"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://github.com/rustdesk/rustdesk"
 description = "远程桌面软件，开箱即用，无需任何配置。"
 tags = []
@@ -26,7 +26,7 @@ download_name = 'rustdesk-[\d\.]+-x86_64.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 # build_cover = ""
 # build_delete = []
 # main_program = false

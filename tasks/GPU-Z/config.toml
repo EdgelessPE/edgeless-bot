@@ -3,7 +3,7 @@
 [task]
 name = "GPU-Z"
 category = "配置检测"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/GPU-Z-portable"
 description = "graphics system profiler"

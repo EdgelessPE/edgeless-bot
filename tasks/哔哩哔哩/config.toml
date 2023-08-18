@@ -3,11 +3,11 @@
 [task]
 name = "哔哩哔哩"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Bilibili"
 url = "https://app.bilibili.com/"
 description = "(゜-゜)つロ 干杯~"
-tags = ["acg","we media"]
+tags = ["acg", "we media"]
 language = "zh-CN"
 
 # 指定使用的模板
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/哔哩哔哩.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/哔哩哔哩.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -37,7 +37,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/哔哩哔哩.exe"]
 [producer_required]
 shortcutName = "哔哩哔哩"
 sourceFile = "哔哩哔哩.exe"
-recursiveUnzipList = [ "$PLUGINSDIR", "app-64.7z" ]
+recursiveUnzipList = ["$PLUGINSDIR", "app-64.7z"]
 
 
 # 额外备注

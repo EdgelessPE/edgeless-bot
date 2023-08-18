@@ -3,10 +3,10 @@
 [task]
 name = "腾讯视频"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://v.qq.com/download.html"
 description = "不负好时光"
-tags = ["流媒体","正版"]
+tags = ["流媒体", "正版"]
 language = "zh-CN"
 scope = "Tencent"
 

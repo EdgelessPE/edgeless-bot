@@ -3,7 +3,7 @@
 [task]
 name = "YesPlayMusic"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://github.com/qier222/YesPlayMusic"
 description = "高颜值的第三方网易云播放器"
 tags = ["网易云"]

@@ -3,7 +3,7 @@
 [task]
 name = "Chrome"
 category = "浏览器"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://portableapps.com/apps/internet/google_chrome_portable"
 description = "Chrome，不一样的浏览器体验"
 tags = ["chromium"]

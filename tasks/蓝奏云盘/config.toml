@@ -3,7 +3,7 @@
 [task]
 name = "蓝奏云盘"
 category = "下载上传"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "github"
 url = "https://github.com/chenhb23/lanzouyun-disk"
 description = ""
@@ -27,7 +27,7 @@ download_name = 'x64-win\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/蓝奏云盘.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/蓝奏云盘.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -38,7 +38,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/蓝奏云盘.exe"]
 [producer_required]
 shortcutName = "蓝奏云盘"
 sourceFile = "蓝奏云盘.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

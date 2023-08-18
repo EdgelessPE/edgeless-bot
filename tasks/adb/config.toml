@@ -4,10 +4,10 @@
 name = "adb"
 category = "开发辅助"
 scope = "Google"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://developer.android.com/studio/releases/platform-tools"
 description = "Android Debug Bridge"
-tags = ["Android","debug"]
+tags = ["Android", "debug"]
 language = "en-US"
 
 # 指定使用的模板

@@ -3,7 +3,7 @@
 [task]
 name = "驱动总裁"
 category = "驱动管理"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://www.sysceo.com/Software-softwarei-id-258.html"
 description = "驱动总裁是由系统总裁自主开发的一款既能在桌面，又能在PE下安装硬件驱动的软件，集在线和离线双模式，笔记本、台式机以及苹果电脑Windows系统的bootcamp自动匹配安装的综合驱动工具，在线拥有庞大丰富的驱动库，界面友好，简单好用，功能丰富，自定义强，拥有多项独家技术，轻松解决硬件驱动各种问题。"
 tags = []

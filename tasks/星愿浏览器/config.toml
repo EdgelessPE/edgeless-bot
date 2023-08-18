@@ -3,10 +3,10 @@
 [task]
 name = "星愿浏览器"
 category = "浏览器"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://www.twinkstar.com/"
 description = "大学生都爱用"
-tags = ["chromium","flash"]
+tags = ["chromium", "flash"]
 language = "zh-CN"
 scope = "Twinkstar"
 
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/twinkstar.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/twinkstar.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -39,7 +39,7 @@ version_selector = ".downloadBox"
 [producer_required]
 shortcutName = "星愿浏览器"
 sourceFile = "twinkstar.exe"
-recursiveUnzipList = [ "$PLUGINSDIR", "tw_data" ]
+recursiveUnzipList = ["$PLUGINSDIR", "tw_data"]
 
 
 # 额外备注

@@ -3,7 +3,7 @@
 [task]
 name = "百度网盘"
 category = "下载上传"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Baidu"
 url = "https://pan.baidu.com/download"
 description = "免费云盘丨文件共享软件丨超大容量丨存储安全"
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/BaiduNetdisk.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/BaiduNetdisk.exe"]
 # build_cover = "cover"
 build_delete = ["$PLUGINSDIR", "$TEMP"]
 
@@ -40,7 +40,7 @@ download_path = "guanjia.url"
 [producer_required]
 shortcutName = "百度网盘"
 sourceFile = "BaiduNetdisk.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

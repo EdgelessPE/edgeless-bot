@@ -3,7 +3,7 @@
 [task]
 name = "向日葵远程控制"
 category = "远程连接"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://sunlogin.oray.com/download"
 description = "通过Windows远程控制 Windows、macOS、Android、iOS、Linux等设备"
 tags = []

@@ -3,7 +3,7 @@
 [task]
 name = "Opera"
 category = "浏览器"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/opera_portable"
 description = "web browser"

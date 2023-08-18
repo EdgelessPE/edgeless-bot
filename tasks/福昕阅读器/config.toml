@@ -3,7 +3,7 @@
 [task]
 name = "福昕阅读器"
 category = "办公编辑"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/office/foxit_reader_portable"
 description = "全球用户超越6.5亿. 阅读PDF文档的理想选择"

@@ -3,7 +3,7 @@
 [task]
 name = "傲游浏览器"
 category = "浏览器"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/maxthon_portable"
 description = "展翅傲游 享用你应得的自由"

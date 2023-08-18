@@ -3,10 +3,10 @@
 [task]
 name = "AllDup"
 category = "资源管理"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://www.alldup.de/en_download_alldup.php"
 description = "Find and remove duplicate files"
-tags = ["清理","重复文件"]
+tags = ["清理", "重复文件"]
 language = "Multi"
 scope = "Alldup"
 
@@ -26,7 +26,7 @@ download_name = '\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/AllDupPortable.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/AllDupPortable.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -39,7 +39,7 @@ download_selector = "#content > table:nth-child(7) > tbody > tr:nth-child(7) > t
 [producer_required]
 shortcutName = "AllDup"
 sourceFile = "AllDupPortable.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

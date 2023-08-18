@@ -3,7 +3,7 @@
 [task]
 name = "QQ"
 category = "即时通讯"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://im.qq.com/pcqq"
 description = "从心出发·趣无止境"
 tags = []

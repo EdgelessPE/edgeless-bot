@@ -3,7 +3,7 @@
 [task]
 name = "夸克网盘"
 category = "下载上传"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Quark"
 url = "https://pan.quark.cn/"
 description = "你的高效伴侣"

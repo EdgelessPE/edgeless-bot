@@ -23,6 +23,7 @@ import {
   tomlStringify,
   parseBuiltInValueForObject,
   getVersionFromFileName,
+  getAuthorForFileName,
 } from "./utils";
 import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
 import { ResultNode } from "./scraper";
@@ -694,7 +695,9 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   );
 
   // 打包
-  const fileName = `${t.task.name}_${matchVersion(t.info.version).val}.nep`;
+  const fileName = `${t.task.name}_${
+    matchVersion(t.info.version).val
+  }_${getAuthorForFileName(t.task.author)}.nep`;
   if (!(await packIntoNep(target, path.join(workshop, fileName)))) {
     return new Err("Error:Packing failed");
   }

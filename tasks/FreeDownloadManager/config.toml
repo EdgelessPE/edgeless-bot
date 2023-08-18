@@ -3,7 +3,7 @@
 [task]
 name = "FreeDownloadManager"
 category = "下载上传"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/internet/free-download-manager-portable"
 description = "download manager and optimizer"

@@ -3,7 +3,7 @@
 [task]
 name = "360安全卫士极速版"
 category = "安全急救"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "360"
 url = "https://weishi.360.cn/jisu"
 description = "轻松出发，开启安全护航"
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
+build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
 main_program = "${ProgramFiles_X86}/360/360Safe/360Safe.exe"

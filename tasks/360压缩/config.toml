@@ -3,11 +3,11 @@
 [task]
 name = "360压缩"
 category = "压缩镜像"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "360"
 url = "https://yasuo.360.cn/"
 description = "压缩解压一键处理，助力办公安全省时"
-tags = ["zip","7z"]
+tags = ["zip", "7z"]
 language = "zh-CN"
 
 # 指定使用的模板
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/${downloadedFile}"]
+build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
 main_program = "${ProgramFiles_X86}/360/360zip/360zip.exe"

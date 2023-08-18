@@ -3,7 +3,7 @@
 [task]
 name = "阿里云盘"
 category = "下载上传"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "Alibaba"
 url = "https://yunpan.aliyun.com/"
 description = "备份无忧 整理有序"

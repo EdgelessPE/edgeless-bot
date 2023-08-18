@@ -3,10 +3,10 @@
 [task]
 name = "优酷"
 category = "影音播放"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://youku.com/product/index"
 description = "为好内容全力以赴"
-tags = ["流媒体","正版"]
+tags = ["流媒体", "正版"]
 language = "zh-CN"
 scope = "Youku"
 
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/YOUKU.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/YOUKU.exe"]
 # build_cover = ""
 # build_delete = ["$APPDATA","$PLUGINSDIR"]
 
@@ -37,7 +37,7 @@ build_manifest = ["workflows/setup.toml","${taskName}/YOUKU.exe"]
 [producer_required]
 shortcutName = "优酷"
 sourceFile = "YOUKU.exe"
-recursiveUnzipList = ["$PLUGINSDIR","app-32.7z"]
+recursiveUnzipList = ["$PLUGINSDIR", "app-32.7z"]
 
 # 额外备注
 [extra]

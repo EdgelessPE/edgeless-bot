@@ -3,7 +3,7 @@
 [task]
 name = "uTools"
 category = "实用工具"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://www.u.tools/"
 description = "新一代效率工具平台"
 tags = ["搜索"]

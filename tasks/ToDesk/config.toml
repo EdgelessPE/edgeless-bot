@@ -3,7 +3,7 @@
 [task]
 name = "ToDesk"
 category = "远程连接"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://www.todesk.com/download.html"
 description = "免费安全流畅的远程连接电脑手机"
 tags = []
@@ -26,7 +26,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/ToDesk_Setup.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/ToDesk_Setup.exe"]
 build_cover = "cover"
 build_delete = ["$PLUGINSDIR"]
 
@@ -37,7 +37,6 @@ download_selector = '#__layout > div > div.tddownload.wrap > div.tcont_bx > div.
 
 # 自动制作模板要求的参数
 [producer_required]
-
 
 
 # 额外备注

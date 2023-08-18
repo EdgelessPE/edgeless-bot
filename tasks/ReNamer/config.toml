@@ -3,7 +3,7 @@
 [task]
 name = "ReNamer"
 category = "资源管理"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "PortableApps"
 url = "https://portableapps.com/apps/utilities/ReNamer-portable"
 description = "file renaming tool"

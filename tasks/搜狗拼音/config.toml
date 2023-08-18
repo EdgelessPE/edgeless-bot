@@ -3,7 +3,7 @@
 [task]
 name = "搜狗拼音"
 category = "输入法"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://pinyin.sogou.com/"
 description = "万物输入皆搜狗"
 tags = []

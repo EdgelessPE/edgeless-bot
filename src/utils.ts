@@ -4,7 +4,11 @@ import path from "path";
 import { Err, Ok, Result } from "ts-results";
 import Ajv from "ajv";
 import iconv from "iconv-lite";
-import { JsObjectType, ObjectValidationNode } from "./types/class";
+import {
+  JsObjectType,
+  ObjectValidationNode,
+  TaskInstance,
+} from "./types/class";
 import { badge } from "./worker";
 import Piscina from "piscina";
 import cp from "child_process";
@@ -186,7 +190,11 @@ function getVersionFromFileName(fileName: string): string {
     name = name.slice(0, -4);
   }
   const sp = name.split("_");
-  return sp[sp.length - 1];
+  return sp[sp.length - 2];
+}
+
+function getAuthorForFileName(author: TaskInstance["author"]): string {
+  return author[0].split("<")[0].trim();
 }
 
 function versionCmp(a: string, b: string): Cmp {
@@ -529,4 +537,5 @@ export {
   getVersionFromFileName,
   coverSecret,
   tomlStringify,
+  getAuthorForFileName,
 };

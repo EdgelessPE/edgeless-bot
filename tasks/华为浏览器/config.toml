@@ -3,7 +3,7 @@
 [task]
 name = "华为浏览器"
 category = "浏览器"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://consumer.huawei.com/cn/mobileservices/browser/"
 description = "让世界遇见你"
 tags = ["chromium"]
@@ -26,7 +26,7 @@ scraper_version = 'HuaweiBrowser-[\.\w]+-signed\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}/HuaweiBrowser.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/HuaweiBrowser.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -39,7 +39,7 @@ download_page_url = "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/
 [producer_required]
 shortcutName = "华为浏览器"
 sourceFile = "HuaweiBrowser.exe"
-recursiveUnzipList = [ "$PLUGINSDIR", "app", "chrome-signed.7z", "Chrome-bin" ]
+recursiveUnzipList = ["$PLUGINSDIR", "app", "chrome-signed.7z", "Chrome-bin"]
 
 
 # 额外备注

@@ -3,7 +3,7 @@
 [task]
 name = "AnyDesk"
 category = "远程连接"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 url = "https://anydesk.com"
 description = "快速远程桌面应用程序"
 tags = []

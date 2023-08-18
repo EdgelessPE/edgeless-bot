@@ -3,7 +3,7 @@
 [task]
 name = "360驱动大师"
 category = "驱动管理"
-author = ["Cno"]
+author = ["Cno <cno4tech@gmail.com>"]
 scope = "360"
 url = "https://dm.weishi.360.cn/home.html"
 description = "百万级驱动库，最新驱动全程自动安装"

@@ -59,9 +59,6 @@
         "language": {
           "type": "string",
           "enum": ["Multi", "zh-CN", "en-US"]
-        },
-        "flags": {
-          "type": "string"
         }
       },
       "required": [

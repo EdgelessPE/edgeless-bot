@@ -1,7 +1,7 @@
 #:schema ../../schema/task.json
 # 任务基本信息
 [task]
-name = "VSCode"
+name = "VSCode_p"
 description = "微软开发的跨平台开源编辑器"
 category = "集成开发"
 author = ["Cno"]
@@ -10,7 +10,6 @@ license = "MIT"
 language = "Multi"
 tags = ["code", "electron", "typescript"]
 url = "https://code.visualstudio.com/"
-flags = "p"
 
 # 指定使用的模板
 [template]
@@ -28,7 +27,7 @@ download_name = '\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
+build_manifest = ["workflows/setup.toml", "${taskName}/Code.exe"]
 # build_cover = "vscode_cover.7z"
 # build_delete = []
 main_program = "${AppData}/Local/Programs/Microsoft VS Code/Code.exe"

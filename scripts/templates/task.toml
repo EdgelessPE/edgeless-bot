@@ -8,7 +8,6 @@ category = "${ task.category }"
 url = "${ task.url }"
 description = "${ task.description }"
 language = "${ task.language }"
-# flags = ""
 
 # 指定使用的模板
 [template]

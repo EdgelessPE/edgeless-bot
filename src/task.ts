@@ -22,6 +22,7 @@ import {
   versionCmp,
   tomlStringify,
   parseBuiltInValueForObject,
+  getVersionFromFileName,
 } from "./utils";
 import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
 import { ResultNode } from "./scraper";
@@ -693,7 +694,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   );
 
   // 打包
-  const fileName = `${t.task.name}_${matchVersion(t.info.version).val}_Bot.nep`;
+  const fileName = `${t.task.name}_${matchVersion(t.info.version).val}.nep`;
   if (!(await packIntoNep(target, path.join(workshop, fileName)))) {
     return new Err("Error:Packing failed");
   }
@@ -808,7 +809,7 @@ function removeExtraBuilds(
   const allBuilds = getDatabaseNode(taskName).recent.builds;
   allBuilds.push({
     fileName: newBuild,
-    version: newBuild.split("_")[1],
+    version: getVersionFromFileName(newBuild),
     timestamp: new Date().toString(),
   });
   log("Info:Trying to remove extra builds");

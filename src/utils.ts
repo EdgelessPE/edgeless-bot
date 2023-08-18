@@ -180,6 +180,15 @@ function getTimeString(ms: number): string {
   }
 }
 
+function getVersionFromFileName(fileName: string): string {
+  let name = fileName;
+  if (name.endsWith(".nep")) {
+    name = name.slice(0, -4);
+  }
+  const sp = name.split("_");
+  return sp[sp.length - 1];
+}
+
 function versionCmp(a: string, b: string): Cmp {
   const x = a.split(".");
   const y = b.split(".");
@@ -517,7 +526,7 @@ export {
   parseBuiltInValueForObject,
   requiredKeysValidator,
   pressEnter,
-  wherePECMD,
+  getVersionFromFileName,
   coverSecret,
   tomlStringify,
 };

@@ -12,7 +12,7 @@ let aria2c_process: cp.ChildProcess,
   sent_kill = false,
   aria2c_handler: Aria2WebSocket.Client;
 
-//启动和管理aria2c进程
+// 启动和管理aria2c进程
 async function spawnAria2c(binPath: string): Promise<boolean> {
   return new Promise((resolve) => {
     const args = [
@@ -31,7 +31,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
       args.push(`--max-connection-per-server=${config.ARIA2_THREAD}`);
       args.push(`--split=${config.ARIA2_THREAD}`);
     }
-    //生成字符串
+    // 生成字符串
     let argsString = "";
     for (const a of args) {
       argsString += ` ${a}`;
@@ -55,7 +55,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
         resolve(false);
       },
     );
-    //保持1s不退出即视为启动成功
+    // 保持1s不退出即视为启动成功
     sleep(config.GITHUB_ACTIONS ? 5000 : 1000).then(() => {
       log(
         `Info:Aria2c spawned, visit https://www.edgeless.top/ariang/#!/settings/rpc/set/http/127.0.0.1/${config.ARIA2_PORT}/jsonrpc to supervise`,
@@ -84,17 +84,17 @@ async function stopAria2c(): Promise<void> {
   });
 }
 
-//由外部调用的初始化函数
+// 由外部调用的初始化函数
 async function initAria2c(): Promise<boolean> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
-    //获得二进制配置
+    // 获得二进制配置
     const binRes = where("aria2c");
     if (binRes.err) {
       resolve(false);
       return;
     }
-    //启动进程
+    // 启动进程
     let sRes;
     if (config.ARIA2_SPAWN) {
       sRes = await spawnAria2c(binRes.unwrap());
@@ -102,7 +102,7 @@ async function initAria2c(): Promise<boolean> {
       sRes = true;
     }
     if (sRes) {
-      //尝试连接ws
+      // 尝试连接ws
       for (let i = 0; i < 3; i++) {
         if (await tryConnect(i == 2)) {
           resolve(true);
@@ -138,7 +138,7 @@ async function tryConnect(final: boolean): Promise<boolean> {
   }
 }
 
-//下载和等待完成函数
+// 下载和等待完成函数
 async function download(
   taskName: string,
   url: string,
@@ -146,7 +146,7 @@ async function download(
 ): Promise<string> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    //处理以 // 开头的链接
+    // 处理以 // 开头的链接
     if (url.slice(0, 2) == "//") {
       url = "https:" + url;
     }
@@ -193,13 +193,13 @@ async function download(
           await sleep(1000);
         }
 
-        //在下到10%时检查平均速度，对<512KB/s(524,288B/1000ms)的打印警告，其他情况打印预估剩余时间
+        // 在下到10%时检查平均速度，对<512KB/s(524,288B/1000ms)的打印警告，其他情况打印预估剩余时间
         percent = Number(status.completedLength) / Number(status.totalLength);
         if (!checked && percent >= 0.1) {
           checked = true;
           const avgSpeed =
-              Number(status.completedLength) / (Date.now() - startTime), //单位B/ms
-            etc = Number(status.totalLength) / avgSpeed, //单位ms
+              Number(status.completedLength) / (Date.now() - startTime), // 单位B/ms
+            etc = Number(status.totalLength) / avgSpeed, // 单位ms
             etcString = getTimeString(etc);
           const d = new Date(startTime + etc),
             endString = d.getHours() + ":" + d.getMinutes();

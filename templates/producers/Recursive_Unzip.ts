@@ -35,7 +35,7 @@ function matchFile(cwd: string, regex: string): Result<string, string> {
 export default async function (
   p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
-  //递归解压
+  // 递归解压
   let cwd = p.workshop,
     level = 1,
     success = true,
@@ -44,7 +44,7 @@ export default async function (
     file: string;
   const obj = p.requiredObject as RequiredObject;
   for (const reg of [p.downloadedFile].concat(obj.recursiveUnzipList)) {
-    //校验文件是否存在
+    // 校验文件是否存在
     if (reg[0] == "/") {
       m = matchFile(cwd, reg);
       if (m.err) {
@@ -61,18 +61,18 @@ export default async function (
     } else {
       file = reg;
     }
-    //判断是文件夹还是文件
+    // 判断是文件夹还是文件
     if (fs.statSync(path.join(cwd, file)).isDirectory()) {
       cwd = cwd + "/" + file;
     } else {
-      //尝试解压
+      // 尝试解压
       success = await release(file, level.toString(), true, cwd);
       if (!success) {
         reason = `Error:Can't unzip file ${file} at ${cwd} during the ${level} recursion`;
         success = false;
         break;
       }
-      //准备下次递归
+      // 准备下次递归
       cwd = path.join(cwd, level.toString());
       level++;
     }
@@ -80,9 +80,9 @@ export default async function (
   if (!success) {
     return new Err(reason);
   }
-  //处理正则表达式的sourceFile
+  // 处理正则表达式的sourceFile
   if (obj.sourceFile[0] == "/") {
-    //读取当前目录，匹配对应的文件
+    // 读取当前目录，匹配对应的文件
     const list = fs.readdirSync(cwd);
     const regexp = new RegExp(obj.sourceFile.slice(1, -1));
     const matchRes = list.find((file) => {
@@ -97,11 +97,11 @@ export default async function (
       obj.sourceFile = matchRes;
     }
   }
-  //确认是否存在目标文件
+  // 确认是否存在目标文件
   if (!fs.existsSync(path.join(cwd, obj.sourceFile))) {
     return new Err(`Error:Can't find source file ${obj.sourceFile} in ${cwd}`);
   }
-  //重命名并生成外置批处理
+  // 重命名并生成外置批处理
   const final = path.join(p.workshop, "_ready");
   shell.mkdir(final);
   shell.mv(cwd, path.join(final, p.taskName));
@@ -119,7 +119,7 @@ export default async function (
     path.join(final, p.taskName + ".wcs"),
     `LINK X:\\Users\\Default\\Desktop\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}`,
   );
-  //自检
+  // 自检
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(final, p));
   };

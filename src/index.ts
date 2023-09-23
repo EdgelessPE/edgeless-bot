@@ -32,52 +32,52 @@ import { printLoadEnvNotices } from "./env";
 require("source-map-support").install();
 
 async function main(): Promise<boolean> {
-  //打印艺术字
+  // 打印艺术字
   art();
-  //打印环境变量加载
+  // 打印环境变量加载
   printLoadEnvNotices();
-  //GA模式特殊处理
+  // GA模式特殊处理
   if (config.GITHUB_ACTIONS) {
     console.log("::group::Console Log");
-    //获取database
+    // 获取database
     if (config.DATABASE_UPDATE && config.REMOTE_ENABLE) {
       cp.execSync("rclone copy pineapple:/hdisk/Bot/database.json ./");
       log("Info:Database pulled");
     } else {
-      //从https获得只读数据库
+      // 从https获得只读数据库
       cp.execSync(
         "curl https://pineapple.edgeless.top/Bot/database.json -o database.json",
       );
       log("Info:Readonly database pulled");
     }
   }
-  //处理无版本号任务的制作日
+  // 处理无版本号任务的制作日
   if (config.MODE_FORCED) setMVTDayToday();
-  //平台命令校验
+  // 平台命令校验
   const platformMode = ensurePlatform();
   if (platformMode == "Unavailable") {
     return false;
   }
-  //重建工作目录
+  // 重建工作目录
   if (!clearWorkshop()) {
     log("Error:Can't keep workshop clear : " + config.DIR_WORKSHOP);
     return false;
   }
-  //启动aria2c
+  // 启动aria2c
   if (!(await initAria2c())) {
     log("Error:Can't initiate aria2c");
     return false;
   }
-  //读取数据库
+  // 读取数据库
   readDatabase();
-  //读取全部任务
+  // 读取全部任务
   let tasks: TaskInstance[], task: TaskInstance;
   if (config.SPECIFY_TASK) {
-    //分割分别获取任务
+    // 分割分别获取任务
     tasks = [];
     for (const t of config.SPECIFY_TASK.toString().split(",")) {
       task = getSingleTask(t).unwrap();
-      //判断是否保留任务
+      // 判断是否保留任务
       if (!reserveTask(task)) {
         continue;
       }
@@ -86,25 +86,25 @@ async function main(): Promise<boolean> {
   } else {
     tasks = getAllTasks().unwrap();
   }
-  //执行全部爬虫
+  // 执行全部爬虫
   const results = await scraper(tasks);
-  //console.log(JSON.stringify(results,null,2))
+  // console.log(JSON.stringify(results,null,2))
 
-  //得到需要制作的任务
+  // 得到需要制作的任务
   const toExecTasks = getTasksToBeExecuted(results);
 
-  //执行任务
+  // 执行任务
   const eRes = await executeTasks(toExecTasks);
   for (const node of eRes) {
     if (node.result.ok) {
-      //去重
+      // 去重
       const task = getSingleTask(node.taskName).unwrap();
       const newBuilds = removeExtraBuilds(
         node.taskName,
         task.category,
         node.result.val,
       );
-      //上传
+      // 上传
       if (uploadToRemote(node.result.val, task.category)) {
         setDatabaseNodeSuccess(node.taskName, newBuilds);
       } else {
@@ -115,11 +115,11 @@ async function main(): Promise<boolean> {
     }
   }
 
-  //保存数据库
+  // 保存数据库
   writeDatabase();
-  //停止aria2c
+  // 停止aria2c
   await stopAria2c();
-  //打印报告
+  // 打印报告
   if (config.GITHUB_ACTIONS) {
     console.log("::endgroup::");
   }
@@ -200,7 +200,7 @@ if (!Piscina.isWorkerThread) {
   main().then(async (result) => {
     await sleep(1000);
     if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
-      //回传数据库
+      // 回传数据库
       cp.execSync("rclone copy ./database.json pineapple:/hdisk/Bot/");
       log("Info:Database pushed");
     }

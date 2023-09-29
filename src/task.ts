@@ -742,13 +742,19 @@ function removeExtraBuilds(
 function reserveTask(task: TaskInstance): boolean {
   // 排除 weekly
   if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
-    log(`Info:Ignore weekly task ${task.name}`);
+    log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }
 
   // 排除需要 Windows
   if (ensurePlatform(false) == "POSIX" && task.extra?.require_windows) {
-    log(`Info:Ignore require Windows task ${task.name}`);
+    log(`Warning:Ignore require Windows task ${task.name}`);
+    return false;
+  }
+
+  // 排除 POSIX 平台但是需要读取版本号
+  if (ensurePlatform(false) == "POSIX" && task.extra?.missing_version) {
+    log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
     return false;
   }
 

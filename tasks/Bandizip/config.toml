@@ -33,8 +33,9 @@ main_program = "${ProgramFiles_X64}/Bandizip/Bandizip.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_selector = ".button"
-download_selector = "center"
+version_page_url = "https://www.bandisoft.com/bandizip/history/"
+version_selector = "body > div.main_content > section > div > h2:nth-child(1)"
+download_selector = "#bandizip_main > div > a:nth-child(3)"
 
 # 自动制作模板要求的参数
 [producer_required]

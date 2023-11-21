@@ -33,7 +33,7 @@ main_program = "${ProgramFiles_X86}/CNTV/CBox/bin/CBox.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "a.win"
+download_selector = "a.win32"
 version_selector = ".pcDown"
 
 # 自动制作模板要求的参数

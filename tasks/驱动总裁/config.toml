@@ -33,7 +33,7 @@ main_program = "${ProgramFiles_X86}/SysCeo/DrvCeo/DrvCeo.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div"
+download_selector = "#links > div > div.dlbox > a:nth-child(1)"
 version_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div > div.msg.fl.cl > ol > li:nth-child(2)"
 
 # 自动制作模板要求的参数

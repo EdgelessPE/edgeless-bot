@@ -8,7 +8,9 @@ import minimist from "minimist";
 
 function configGenerator(): Result<CONFIG, string> {
   if (!fs.existsSync(PATH_CONFIG)) {
-    return new Err("Error:Can't find config.toml");
+    return new Err(
+      "Error:Can't find config.toml, copy 'config.toml.example' as 'config.toml'",
+    );
   } else {
     // 读取和解析配置
     const text = fs.readFileSync(PATH_CONFIG).toString();

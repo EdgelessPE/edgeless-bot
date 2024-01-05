@@ -2,7 +2,7 @@ import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { Err, Ok, Result } from "ts-results";
-import Ajv from "ajv";
+import Ajv, { ValidateFunction } from "ajv";
 import iconv from "iconv-lite";
 import {
   JsObjectType,
@@ -251,22 +251,34 @@ async function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+const ajvCache: Record<string, ValidateFunction<unknown>> = {};
+function getValidator(name: string): Result<ValidateFunction<unknown>, string> {
+  if (!ajvCache[name]) {
+    // 读取schema文件
+    const schemaFilePath = path.join("./schema", name + ".json");
+    if (!fs.existsSync(schemaFilePath)) {
+      return new Err(`Error:Specified schema not found : ${schemaFilePath}`);
+    }
+    const schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString());
+
+    const ajv = new Ajv({
+      allowUnionTypes: true,
+    });
+    ajvCache[name] = ajv.compile(schemaJson);
+  }
+  ajvCache[name].errors = [];
+  return new Ok(ajvCache[name]);
+}
+
 function schemaValidator(
   obj: unknown,
   schema: string,
   root?: string,
 ): Result<boolean, string> {
-  // 读取schema文件
-  const schemaFilePath = path.join("./schema", schema + ".json");
-  if (!fs.existsSync(schemaFilePath)) {
-    return new Err(`Error:Specified schema not found : ${schemaFilePath}`);
-  }
-  const schemaJson = JSON.parse(fs.readFileSync(schemaFilePath).toString());
+  const vRes = getValidator(schema);
+  if (vRes.err) return vRes;
+  const validate = vRes.unwrap();
 
-  const ajv = new Ajv({
-    allowUnionTypes: true,
-  });
-  const validate = ajv.compile(schemaJson);
   if (validate(obj)) {
     return new Ok(true);
   } else {

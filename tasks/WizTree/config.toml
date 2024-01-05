@@ -39,6 +39,6 @@ build_manifest = ["workflows/setup.toml", "${taskName}"]
 
 # 额外备注
 [extra]
-weekly = true
+# weekly = true
 # require_windows = false
 # missing_version = ""

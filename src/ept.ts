@@ -16,11 +16,13 @@ async function packIntoNep(
       {
         cwd: path.join(process.cwd(), "bin", "ept"),
       },
-      (err, stdout) => {
+      (err, stdout, stderr) => {
         if (fs.existsSync(intoFile)) {
           resolve(true);
         } else {
-          log("Error:Pack command failed with output:\n" + stdout);
+          log(
+            "Error:Pack command failed with output:\n" + stdout + "\n" + stderr,
+          );
           resolve(false);
         }
       },

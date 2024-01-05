@@ -33,7 +33,7 @@ build_manifest = ["${taskName}.wcs","${taskName}/YOUKU.exe"]
 [producer_required]
 shortcutName = "优酷"
 sourceFile = "YOUKU.exe"
-recursiveUnzipList = ["$PLUGINSDIR","app-32.7z"]
+recursiveUnzipList = []
 
 # 额外备注
 [extra]

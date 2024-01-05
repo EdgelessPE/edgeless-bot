@@ -16,5 +16,5 @@ database.json
 env.json
 /bin
 .DS_Store
-*.cmd
-./config.toml
+/*.cmd
+/config.toml

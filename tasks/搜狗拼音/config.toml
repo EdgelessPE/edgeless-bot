@@ -35,6 +35,6 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 
 # 额外备注
 [extra]
-weekly = true
+# weekly = true
 # require_windows = false
 # missing_version = ""

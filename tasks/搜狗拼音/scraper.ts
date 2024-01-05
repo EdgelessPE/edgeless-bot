@@ -4,28 +4,20 @@ import { robustGet } from "../../src/network";
 import { log, versionCmp, Cmp } from "../../src/utils";
 
 const reg =
-  /<script id="__NEXT_DATA__" type="application\/json">({[^<]+})<\/script><\/body>/;
+  /https:\/\/ime-sec.gtimg.com\/[0-9]+\/\w+\/pc\/dl\/gzindex\/[0-9]+\/sogou_pinyin_[\w.]+.exe/;
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-  let version = "0.0",
-    url = "";
+  let version = "0.0";
   // 获取官网首页
   const page = (
-    await robustGet("https://pinyin.sogou.com/")
+    await robustGet("https://pinyin.sogou.com/windows/?r=mac&t=pinyin")
   ).unwrap() as string;
   // 匹配页面json数据
-  const jsonM = page.match(reg);
-  if (jsonM == null) {
-    return new Err("Error:Can't match or match multi json data");
+  const m = page.match(reg);
+  if (m == null) {
+    return new Err("Error:Can't match url");
   }
-
-  try {
-    url = JSON.parse(jsonM[0].replace(reg, "$1")).props.pageProps.data.windows
-      .link;
-  } catch (e) {
-    return new Err("Error:Can't read version from json : " + JSON.stringify(e));
-  }
-
+  const url = m[0];
   log("Info:Matched url " + url);
 
   // 获取升级日志页面

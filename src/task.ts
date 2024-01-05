@@ -75,17 +75,17 @@ async function getExeVersion(
   cd: string,
 ): Promise<Result<string, string>> {
   return new Promise((resolve) => {
-    if (!fs.existsSync(path.join(cd, file))) {
+    if (!fs.existsSync(path.resolve(cd, file))) {
       resolve(
         new Err(
           "Error:Can't find " +
-            path.join(cd, file) +
+            path.resolve(cd, file) +
             ' , please consider add "${taskName}/" before it',
         ),
       );
     }
     rcInfo(
-      path.join(cd, file),
+      path.resolve(cd, file),
       (
         error: unknown,
         info: {
@@ -95,7 +95,9 @@ async function getExeVersion(
         if (error) {
           console.log(JSON.stringify(error, null, 2));
           resolve(
-            new Err("Error:Can't get file version of " + path.join(cd, file)),
+            new Err(
+              "Error:Can't get file version of " + path.resolve(cd, file),
+            ),
           );
         } else {
           if (info.FileVersion) resolve(new Ok(info.FileVersion));
@@ -166,7 +168,7 @@ function validateConfig(task: TaskConfig): boolean {
     }
     if (
       !fs.existsSync(
-        path.join(
+        path.resolve(
           "./schema",
           "producer_templates",
           task.template.producer + ".json",
@@ -195,13 +197,13 @@ function validateConfig(task: TaskConfig): boolean {
 }
 
 function getSingleTask(taskName: string): Result<TaskInstance, string> {
-  const taskConfigFile = path.join(
+  const taskConfigFile = path.resolve(
     process.cwd(),
     config.DIR_TASKS,
     taskName,
     "config.toml",
   );
-  if (!fs.existsSync(path.join(taskConfigFile))) {
+  if (!fs.existsSync(path.resolve(taskConfigFile))) {
     return new Err("Error:Can't find config.toml for " + taskName);
   } else {
     const text = fs.readFileSync(taskConfigFile).toString();
@@ -236,7 +238,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
 }
 
 function getAllTasks(): Result<Array<TaskInstance>, string> {
-  const tasksDir = path.join(process.cwd(), config.DIR_TASKS);
+  const tasksDir = path.resolve(process.cwd(), config.DIR_TASKS);
   if (!fs.existsSync(tasksDir)) {
     return new Err("Error:Task directory not exist : " + tasksDir);
   }
@@ -373,20 +375,20 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
 
 // 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 missing_version
 async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
-  const workshop = path.join(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
+  const workshop = path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
   let downloadedFile = "";
   let absolutePath = "";
   // 创建Cache目录
   if (config.ENABLE_CACHE && !fs.existsSync(DOWNLOAD_CACHE)) {
     await shell.mkdir("-p", DOWNLOAD_CACHE);
   }
-  const subCacheDir = path.join(DOWNLOAD_CACHE, t.task.name);
+  const subCacheDir = path.resolve(DOWNLOAD_CACHE, t.task.name);
   // 如果有则使用缓存
   if (config.ENABLE_CACHE && fs.existsSync(subCacheDir)) {
     log(`Warning:Use cache at ${subCacheDir}`);
 
     await shell.cp("-R", subCacheDir, workshop);
-    absolutePath = shell.ls(path.join(workshop, "*.*"))[0] ?? "";
+    absolutePath = shell.ls(path.resolve(workshop, "*.*"))[0] ?? "";
     downloadedFile = absolutePath.split("/").pop() as string;
   } else {
     if (config.ENABLE_CACHE) {
@@ -437,7 +439,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
   }
   if (!absolutePath) {
-    absolutePath = path.join(workshop, downloadedFile);
+    absolutePath = path.resolve(workshop, downloadedFile);
   }
   // 校验文件
   if (
@@ -491,7 +493,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     latestVersion: t.info.version,
     revisedVersion,
   };
-  const target = path.join(
+  const target = path.resolve(
     PROJECT_ROOT,
     config.DIR_WORKSHOP,
     t.task.name,
@@ -503,10 +505,10 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
       v = parseBuiltInValue(file, parsedBuiltInValuePack);
-      f = path.join(target, v);
+      f = path.resolve(target, v);
       if (!fs.existsSync(f)) {
         // 尝试增加 ${taskName}/ 前缀
-        f = path.join(target, t.task.name, v);
+        f = path.resolve(target, t.task.name, v);
         if (!fs.existsSync(f)) {
           log(
             `Warning:Delete list include not existed file ${file}, consider update "build_delete"`,
@@ -518,7 +520,11 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
   }
   if (t.task.parameter.build_cover) {
-    f = path.join(config.DIR_TASKS, t.task.name, t.task.parameter.build_cover);
+    f = path.resolve(
+      config.DIR_TASKS,
+      t.task.name,
+      t.task.parameter.build_cover,
+    );
     if (!fs.existsSync(f)) {
       return new Err(`Error:Given cover not exist : ${f}`);
     } else {
@@ -527,14 +533,14 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         // 检查是否在 cover 和就绪目录中都有工作流文件
         const hasCoverNames = VALID_WORKFLOW_NAMES.filter(
           (name) =>
-            fs.existsSync(path.join(f, "workflows", name)) &&
-            fs.existsSync(path.join(target, "workflows", name)),
+            fs.existsSync(path.resolve(f, "workflows", name)) &&
+            fs.existsSync(path.resolve(target, "workflows", name)),
         );
         // 如果是，则先保存 bot 生成的工作流
         const botWorkflowScene: Record<string, string> = {};
         if (hasCoverNames.length) {
           for (const name of hasCoverNames) {
-            const rawPath = path.join(target, "workflows", name);
+            const rawPath = path.resolve(target, "workflows", name);
             if (fs.existsSync(rawPath))
               botWorkflowScene[name] = fs.readFileSync(rawPath).toString();
           }
@@ -544,7 +550,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         // 替换插入原工作流标记，并替换内置变量
         if (hasCoverNames.length) {
           for (const name of hasCoverNames) {
-            const rawPath = path.join(target, "workflows", name);
+            const rawPath = path.resolve(target, "workflows", name);
             const text = fs.readFileSync(rawPath).toString();
             const insertedText = text.replace(
               "#workflow:insert_origin",
@@ -565,7 +571,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
   } else {
     // 检查是否可能忘加了
-    const p = path.join(config.DIR_TASKS, t.task.name, "cover");
+    const p = path.resolve(config.DIR_TASKS, t.task.name, "cover");
     if (fs.existsSync(p) || fs.existsSync(p + ".7z")) {
       log(
         "Warning:Exist cover folder/file but parameter.build_cover not specified",
@@ -585,7 +591,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   };
   let pass = true;
   for (const file of getBuildManifest()) {
-    if (!fs.existsSync(path.join(target, file))) {
+    if (!fs.existsSync(path.resolve(target, file))) {
       pass = false;
       log(`Error:Check manifest failed for ${t.task.name},missing ${file}`);
     }
@@ -690,7 +696,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   }
 
   fs.writeFileSync(
-    path.join(target, "package.toml"),
+    path.resolve(target, "package.toml"),
     tomlStringify(nepPackage),
   );
 
@@ -698,14 +704,14 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   const fileName = `${t.task.name}_${
     matchVersion(t.info.version).val
   }_${getAuthorForFileName(t.task.author)}.nep`;
-  if (!(await packIntoNep(target, path.join(workshop, fileName)))) {
+  if (!(await packIntoNep(target, path.resolve(workshop, fileName)))) {
     return new Err("Error:Packing failed");
   }
   shell.mkdir(
     "-p",
-    path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category),
+    path.resolve(PROJECT_ROOT, config.DIR_BUILDS, t.task.category),
   );
-  const storagePath = path.join(
+  const storagePath = path.resolve(
     PROJECT_ROOT,
     config.DIR_BUILDS,
     t.task.category,
@@ -714,10 +720,10 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   if (fs.existsSync(storagePath)) {
     shell.rm("-f", storagePath);
   }
-  shell.mv(path.join(workshop, fileName), storagePath);
+  shell.mv(path.resolve(workshop, fileName), storagePath);
   if (
     !fs.existsSync(
-      path.join(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName),
+      path.resolve(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName),
     )
   ) {
     return new Err("Error:Moving compressed file to builds folder failed");
@@ -834,12 +840,12 @@ function removeExtraBuilds(
   buildList.sort((a, b) => 1 - versionCmp(a.version, b.version));
   // 删除多余的builds
   const failure: Array<BuildStatus> = [];
-  const repo = path.join(PROJECT_ROOT, config.DIR_BUILDS, category);
+  const repo = path.resolve(PROJECT_ROOT, config.DIR_BUILDS, category);
   const times = buildList.length - config.MAX_BUILDS;
   for (let i = 0; i < times; i++) {
     const target = buildList.pop();
     if (typeof target != "undefined") {
-      const absolutePath = path.join(repo, target.fileName);
+      const absolutePath = path.resolve(repo, target.fileName);
       if (!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)) {
         log("Info:Remove local extra build " + absolutePath);
         try {

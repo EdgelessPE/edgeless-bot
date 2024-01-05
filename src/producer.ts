@@ -20,7 +20,7 @@ interface ProducerSpawn {
 }
 
 function parsePath(entrance: string): Result<string, string> {
-  const p = path.join(
+  const p = path.resolve(
     __dirname,
     "..",
     "templates",
@@ -42,7 +42,7 @@ export default async function (
     isExternal = false;
   if (task.template.producer == "External") {
     // 处理外置脚本
-    scriptPath = path.join(
+    scriptPath = path.resolve(
       __dirname,
       "..",
       config.DIR_TASKS,
@@ -87,7 +87,7 @@ export default async function (
     task: {
       taskName: task.name,
       version: s.version,
-      workshop: path.join(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
+      workshop: path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
       downloadedFile,
       requiredObject,
     },

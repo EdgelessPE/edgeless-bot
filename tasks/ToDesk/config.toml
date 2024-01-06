@@ -27,8 +27,9 @@ download_name = '\.exe'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["workflows/setup.toml", "${taskName}/ToDesk.exe"]
-build_cover = "cover"
+# build_cover = "cover"
 build_delete = ["$PLUGINSDIR"]
+main_program = "${ProgramFiles_X64}/ToDesk/ToDesk.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -43,6 +44,6 @@ recursiveUnzipList = []
 
 # 额外备注
 # [extra]
-require_windows = true
+# require_windows = true
 # missing_version = ""
 # weekly = true

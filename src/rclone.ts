@@ -1,6 +1,7 @@
 import { fromGBK, getTimeString, log } from "./utils";
 import cp from "child_process";
 import { config } from "./config";
+import path from "path";
 
 type ExecSyncError = { output: { toString: () => string } } | undefined;
 
@@ -18,10 +19,14 @@ function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
   return result;
 }
 
-function uploadToRemote(fileName: string, category: string): boolean {
+function uploadToRemote(
+  fileName: string,
+  scope: string,
+  taskName: string,
+): boolean {
   if (config.REMOTE_ENABLE) {
-    const localPath = config.DIR_BUILDS + "/" + category + "/" + fileName;
-    const remotePath = config.REMOTE_PATH + "/" + category;
+    const localPath = path.join(config.DIR_BUILDS, scope, taskName, fileName);
+    const remotePath = path.join(config.REMOTE_PATH, scope, taskName);
     let date = new Date();
     const startTime = date.getTime();
 
@@ -46,7 +51,7 @@ function uploadToRemote(fileName: string, category: string): boolean {
       );
       // 尝试删除传了一半的文件
       log("Info:Trying to delete broken uploaded file");
-      if (!deleteFromRemote(fileName, category, true)) {
+      if (!deleteFromRemote(fileName, scope, taskName, true)) {
         log("Warning:Fail to delete broken uploaded file");
       } else {
         log("Info:Deleted broken uploaded file");
@@ -69,21 +74,18 @@ function uploadToRemote(fileName: string, category: string): boolean {
 
 function deleteFromRemote(
   fileName: string,
-  category: string,
+  scope: string,
+  taskName: string,
   ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
-    const remotePath = config.REMOTE_PATH + "/" + category + "/" + fileName;
+    const remoteDir = path.join(config.REMOTE_PATH, scope, taskName);
+    const remotePath = path.join(remoteDir, fileName);
     // 读取远程目录查看是否存在
     let buf;
     try {
       buf = cp.execSync(
-        "rclone ls " +
-          config.REMOTE_NAME +
-          ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category,
+        "rclone ls " + config.REMOTE_NAME + ":" + remoteDir,
         getOptions(10000),
       );
     } catch (err: unknown) {
@@ -92,9 +94,7 @@ function deleteFromRemote(
         "Error:Remote directory not exist:" +
           config.REMOTE_NAME +
           ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category,
+          remoteDir,
       );
       return false;
     }
@@ -108,11 +108,7 @@ function deleteFromRemote(
         "Warning:Remote not exist file : " +
           config.REMOTE_NAME +
           ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category +
-          "/" +
-          fileName +
+          remotePath +
           " ,ignore",
       );
       return true;

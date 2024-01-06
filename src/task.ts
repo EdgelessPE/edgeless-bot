@@ -707,25 +707,19 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   if (!(await packIntoNep(target, path.resolve(workshop, fileName)))) {
     return new Err("Error:Packing failed");
   }
-  shell.mkdir(
-    "-p",
-    path.resolve(PROJECT_ROOT, config.DIR_BUILDS, t.task.category),
-  );
-  const storagePath = path.resolve(
+  const localStorageDir = path.resolve(
     PROJECT_ROOT,
     config.DIR_BUILDS,
-    t.task.category,
-    fileName,
+    t.task.scope,
+    t.task.name,
   );
+  shell.mkdir("-p", localStorageDir);
+  const storagePath = path.resolve(localStorageDir, fileName);
   if (fs.existsSync(storagePath)) {
     shell.rm("-f", storagePath);
   }
   shell.mv(path.resolve(workshop, fileName), storagePath);
-  if (
-    !fs.existsSync(
-      path.resolve(PROJECT_ROOT, config.DIR_BUILDS, t.task.category, fileName),
-    )
-  ) {
+  if (!fs.existsSync(storagePath)) {
     return new Err("Error:Moving compressed file to builds folder failed");
   }
   return new Ok(fileName);
@@ -812,7 +806,7 @@ async function executeTasks(
 
 function removeExtraBuilds(
   taskName: string,
-  category: string,
+  scope: string,
   newBuild: string,
 ): Array<BuildStatus> {
   const allBuilds = getDatabaseNode(taskName).recent.builds;
@@ -840,7 +834,7 @@ function removeExtraBuilds(
   buildList.sort((a, b) => 1 - versionCmp(a.version, b.version));
   // 删除多余的builds
   const failure: Array<BuildStatus> = [];
-  const repo = path.resolve(PROJECT_ROOT, config.DIR_BUILDS, category);
+  const repo = path.resolve(PROJECT_ROOT, config.DIR_BUILDS, scope, taskName);
   const times = buildList.length - config.MAX_BUILDS;
   for (let i = 0; i < times; i++) {
     const target = buildList.pop();
@@ -858,7 +852,7 @@ function removeExtraBuilds(
         }
       }
 
-      if (!deleteFromRemote(target.fileName, category)) {
+      if (!deleteFromRemote(target.fileName, scope, taskName)) {
         log("Warning:Fail to delete remote extra build " + target.fileName);
         failure.push(target);
       }

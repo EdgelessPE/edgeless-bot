@@ -4,7 +4,7 @@
 name = "QQ"
 category = "即时通讯"
 author = ["Cno <cno4tech@gmail.com>"]
-url = "https://im.qq.com/pcqq"
+url = "https://im.qq.com/pcqq/index.shtml"
 description = "从心出发·趣无止境"
 tags = []
 language = "zh-CN"
@@ -18,9 +18,9 @@ producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
-download_link = 'https://dldir1.qq.com/qqfile/qq/PCQQ[\w./]+.exe'
-download_name = 'QQ${latestVersion}.exe'
-scraper_version = 'QQ Windows版 \d+\.\d+(\.\d+)*'
+download_link = 'https:\/\/dldir1\.qq\.com\/qqfile\/qq/QQNT\/[\w\/.]+_x64\.exe'
+download_name = '\.exe'
+scraper_version = '"ntVersion":\s?.+,'
 
 # 通用参数
 [parameter]
@@ -33,8 +33,8 @@ main_program = "${ProgramFiles_X86}/Tencent/QQ/Bin/QQScLauncher.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_selector = ".desc-version"
-download_selector = ".btn-downlond"
+version_page_url = "https://cdn-go.cn/qq-web/im.qq.com_new/latest/rainbow/windowsDownloadUrl.js"
+download_page_url = "https://cdn-go.cn/qq-web/im.qq.com_new/latest/rainbow/windowsDownloadUrl.js"
 
 # 自动制作模板要求的参数
 [producer_required]

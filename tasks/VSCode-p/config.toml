@@ -1,7 +1,7 @@
 #:schema ../../schema/task.json
 # 任务基本信息
 [task]
-name = "VSCode_p"
+name = "VSCode-p"
 description = "微软开发的跨平台开源编辑器"
 category = "集成开发"
 author = ["Cno <cno4tech@gmail.com>"]

@@ -42,7 +42,7 @@ import {
 import { deleteFromRemote } from "./rclone";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
-import { ensurePlatform } from "./platform";
+import { getOS } from "./platform";
 import shell from "shelljs";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -875,15 +875,15 @@ function reserveTask(task: TaskInstance): boolean {
     log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }
-
+  const isPOSIX = getOS() !== "Windows";
   // 排除需要 Windows
-  if (ensurePlatform(false) == "POSIX" && task.extra?.require_windows) {
+  if (isPOSIX && task.extra?.require_windows) {
     log(`Warning:Ignore require Windows task ${task.name}`);
     return false;
   }
 
   // 排除 POSIX 平台但是需要读取版本号
-  if (ensurePlatform(false) == "POSIX" && task.extra?.missing_version) {
+  if (isPOSIX && task.extra?.missing_version) {
     log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
     return false;
   }

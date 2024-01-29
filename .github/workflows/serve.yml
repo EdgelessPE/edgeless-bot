@@ -16,13 +16,13 @@ jobs:
     runs-on: windows-2019
     steps:
       # 获取仓库源码
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
           ref: ${{ github.ref }}
 
       # 获取rclone
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: Cnotech/rclone
           token: ${{ secrets.RCLONE_TOKEN }}
@@ -33,7 +33,7 @@ jobs:
         run: mv .\rclone\* .\
 
       # 缓存yarn
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}

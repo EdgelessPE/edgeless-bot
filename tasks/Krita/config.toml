@@ -27,22 +27,22 @@ download_name = 'krita-x64-{latestVersion}-setup\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 1
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}/bin/krita.exe"]
 # build_cover = ""
-build_delete = ["$PLUGINSDIR","uninstall.exe.nsis"]
+build_delete = ["$PLUGINSDIR", "uninstall.exe.nsis"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://krita.org/en/download/krita-desktop/"
-download_page_url = "https://krita.org/en/download/krita-desktop/"
-version_selector = "#download-content-container > h3:nth-child(1)"
-download_selector = "#sixty-four-bit-windows-installer"
+version_page_url = "https://krita.org/zh-cn/download/"
+download_page_url = "https://krita.org/zh-cn/download/"
+version_selector = "#main > div.download-hero-image > span > h1"
+download_selector = "#windows-download"
 
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "Krita"
 sourceFile = "bin/krita.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

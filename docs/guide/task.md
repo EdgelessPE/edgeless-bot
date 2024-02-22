@@ -123,6 +123,8 @@ build_manifest = ["${taskName}"]
 #revised_version = ""
 # 主程序位置，用于提供 nep 中 package.toml 的同名字段
 #main_program = ""
+# 注册表卸载入口键，用于提供 nep 中 package.toml 的同名字段
+#registry_entry = ""
 
 # （可选）爬虫模板临时参数，部分爬虫模板会要求指定其中的键；
 # 对于此表中的键，Bot仅提供缺失校验，不会校验值类型，因此名称中带"temp"

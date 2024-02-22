@@ -676,6 +676,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       category: t.task.category,
       language: t.task.language,
       main_program: getMainProgram(),
+      registry_entry: t.task.parameter.registry_entry,
       tags: t.task.tags,
     },
   };

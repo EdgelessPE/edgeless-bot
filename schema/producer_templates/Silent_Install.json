@@ -15,5 +15,5 @@
       "description": "Uninstalling command"
     }
   },
-  "required": ["uninstallCmd"]
+  "required": []
 }

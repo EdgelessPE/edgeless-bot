@@ -125,6 +125,7 @@ interface TaskInstance {
     compress_level?: number;
     revised_version?: string | false;
     main_program?: string | false;
+    registry_entry?: string;
   };
   producer_required: unknown;
   scraper_temp?: unknown;

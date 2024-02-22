@@ -10,7 +10,7 @@ import { tomlStringify } from "../../src/utils";
 interface RequiredObject {
   argument?: string;
   deleteInstaller?: boolean;
-  uninstallCmd: string;
+  uninstallCmd?: string;
 }
 
 export default async function (
@@ -48,22 +48,24 @@ export default async function (
   fs.writeFileSync(setupPath, tomlStringify(setupWorkflow));
 
   // 写卸载流
-  if (
-    !(obj.uninstallCmd.startsWith("${") || obj.uninstallCmd.startsWith('"${'))
-  ) {
-    return new Err(
-      `Error:Invalid uninstallCmd '${obj.uninstallCmd}' : should starts with inner value, e.g. '\${AppData}/Local/Programs/Microsoft VS Code/unins000.exe'`,
-    );
+  if (obj.uninstallCmd) {
+    if (
+      !(obj.uninstallCmd.startsWith("${") || obj.uninstallCmd.startsWith('"${'))
+    ) {
+      return new Err(
+        `Error:Invalid uninstallCmd '${obj.uninstallCmd}' : should starts with inner value, e.g. '\${AppData}/Local/Programs/Microsoft VS Code/unins000.exe'`,
+      );
+    }
+    const removeWorkflow: NepWorkflow = {
+      run_uninstaller: {
+        name: "Run Uninstaller",
+        step: "Execute",
+        command: obj.uninstallCmd,
+        call_installer: true,
+      },
+    };
+    fs.writeFileSync(removePath, tomlStringify(removeWorkflow));
   }
-  const removeWorkflow: NepWorkflow = {
-    run_uninstaller: {
-      name: "Run Uninstaller",
-      step: "Execute",
-      command: obj.uninstallCmd,
-      call_installer: true,
-    },
-  };
-  fs.writeFileSync(removePath, tomlStringify(removeWorkflow));
 
   if (
     fs.existsSync(setupPath) &&

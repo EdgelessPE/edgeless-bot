@@ -116,6 +116,9 @@
         },
         "main_program": {
           "type": ["string", "boolean"]
+        },
+        "registry_entry": {
+          "type": "string"
         }
       },
       "required": ["build_manifest"],

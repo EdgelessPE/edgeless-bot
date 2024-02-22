@@ -15,6 +15,7 @@ interface NepPackage {
     category: string;
     language: string;
     main_program?: string;
+    registry_entry?: string;
     tags?: string[];
   };
 }

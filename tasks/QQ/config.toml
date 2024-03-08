@@ -18,7 +18,7 @@ producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
-download_link = 'https:\/\/dldir1\.qq\.com\/qqfile\/qq/QQNT\/[\w\/.]+_x64\.exe'
+download_link = 'https:\/\/dldir1\.qq\.com\/qqfile\/qq/QQNT\/[\w\/.]+_x64([\w_]*)\.exe'
 download_name = '\.exe'
 scraper_version = '"ntVersion":\s?.+,'
 

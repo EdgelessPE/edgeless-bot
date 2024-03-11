@@ -20,7 +20,7 @@ producer = "Silent_Install"
 [regex]
 download_link = 'https:\/\/dldir1\.qq\.com\/qqfile\/qq/QQNT\/[\w\/.]+_x64([\w_]*)\.exe'
 download_name = '\.exe'
-scraper_version = '"ntVersion":\s?.+,'
+scraper_version = '"ntVersion":\s?[^,]+,'
 
 # 通用参数
 [parameter]

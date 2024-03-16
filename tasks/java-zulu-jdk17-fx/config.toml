@@ -30,7 +30,7 @@ build_cover = "cover"
 # 爬虫模板临时参数
 
 [scraper_temp]
-api_url = "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?jdk_version=17&os=windows&arch=x86&hw_bitness=64&ext=zip&bundle_type=jre&javafx=true&release_status=both"
+api_url = "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?jdk_version=17&os=windows&arch=x86&hw_bitness=64&ext=zip&bundle_type=jdk&javafx=true&release_status=both"
 version_path = "jdk_version"
 download_path = "url"
 

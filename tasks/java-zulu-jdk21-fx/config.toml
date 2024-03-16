@@ -1,7 +1,6 @@
-#:schema ../../schema/task.json
 # 任务基本信息
 [task]
-name = "java-zulu-jdk11-fx"
+name = "java-zulu-jdk21-fx"
 category = "运行环境"
 author = "wdw1007"
 url = "https://www.azul.com/downloads/"
@@ -30,7 +29,7 @@ build_cover = "cover"
 # 爬虫模板临时参数
 
 [scraper_temp]
-api_url = "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?jdk_version=11.0&os=windows&arch=x86&hw_bitness=64&ext=zip&bundle_type=jdk&javafx=true&release_status=both"
+api_url = "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?jdk_version=21&os=windows&arch=x86&hw_bitness=64&ext=zip&bundle_type=jdk&javafx=true&release_status=both"
 version_path = "jdk_version"
 download_path = "url"
 

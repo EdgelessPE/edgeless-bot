@@ -33,7 +33,7 @@ main_program = "${Home}/FastCopy/setup.exe"
 # 爬虫模板临时参数
 [scraper_temp]
 version_selector = ".main_head1_main"
-download_selector = "#main_td > table:nth-child(1) > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(3) > th > div > a"
+download_selector = ".dl_link"
 
 
 # 自动制作模板要求的参数

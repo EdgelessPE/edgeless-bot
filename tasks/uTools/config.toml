@@ -18,9 +18,9 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-# download_link = ''
+download_link = 'https:\/\/open\.u-tools\.cn\/download\/uTools-[0-9.]+\.exe'
 download_name = '\.exe'
-scraper_version = 'uTools v[0-9]+\.[0-9]+\.[0-9]+'
+scraper_version = '[0-9]+\.[0-9]+\.[0-9]+\.exe'
 
 # 通用参数
 [parameter]
@@ -34,8 +34,8 @@ build_manifest = ["workflows/setup.toml", "${taskName}/uTools.exe"]
 [scraper_temp]
 download_page_url = "https://www.u.tools/download/"
 download_selector = "div[class^='Dl_dlItems__']"
-version_page_url = "https://www.u.tools/docs/guide/changelog.html"
-# version_selector = "h2"
+version_page_url = "https://www.u.tools/download/"
+version_selector = "div[class^='Dl_dlItems__']"
 
 # 自动制作模板要求的参数
 [producer_required]

@@ -42,6 +42,7 @@ argument = "/SILENT"
 uninstallCmd = "${Home}/FastCopy/setup.exe /r /SILENT"
 
 # 额外备注
-# [extra]
+[extra]
 # require_windows = false
 # missing_version = ""
+weekly = true

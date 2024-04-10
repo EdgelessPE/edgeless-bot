@@ -38,6 +38,7 @@ argument = "/SILENT"
 
 
 # 额外备注
-# [extra]
-# require_windows = false
+[extra]
+# require_windows = true
 # missing_version = ""
+weekly = true

@@ -8,7 +8,7 @@ url = "https://platform.wps.cn"
 
 # 指定使用的模板
 [template]
-scraper = "External"
+scraper = "REST_API"
 # resolver = ""
 producer = "Recursive_Unzip"
 
@@ -22,12 +22,15 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/$EXEFILE"]
+build_manifest = ["${taskName}.wcs", "${taskName}/$EXEFILE"]
 build_cover = "cover"
-build_delete = ["oeminfo","oem_enterprise.txt","oem_static.exe","oem.ini"]
+build_delete = ["oeminfo", "oem_enterprise.txt", "oem_static.exe", "oem.ini"]
 
 # 爬虫模板临时参数
-# [scraper_temp]
+[scraper_temp]
+api_url = "https://www.wps.cn/platformUrls"
+version_path = "productDetail.productVcode"
+download_path = "productDetail.productButtonUrl"
 
 # 自动制作模板要求的参数
 [producer_required]

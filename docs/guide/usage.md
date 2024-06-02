@@ -66,7 +66,7 @@ DATABASE_PATH = "./database.json"
 # 是否启用远程功能
 REMOTE_ENABLE = false
 # 远程存储的rclone名称
-REMOTE_NAME = "pineapple"
+REMOTE_NAME = "kanuo"
 # 远程存储路径
 REMOTE_PATH = "/hdisk/edgeless/插件包"
 

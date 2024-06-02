@@ -41,12 +41,14 @@ async function main(): Promise<boolean> {
     console.log("::group::Console Log");
     // 获取database
     if (config.DATABASE_UPDATE && config.REMOTE_ENABLE) {
-      cp.execSync("rclone copy pineapple:/hdisk/Bot/database.json ./");
+      cp.execSync(
+        "rclone copy kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json ./",
+      );
       log("Info:Database pulled");
     } else {
       // 从https获得只读数据库
       cp.execSync(
-        "curl https://pineapple.edgeless.top/Bot/database.json -o database.json",
+        "curl https://cloud.edgeless.top/Bot/database.json -o database.json",
       );
       log("Info:Readonly database pulled");
     }
@@ -201,7 +203,9 @@ if (!Piscina.isWorkerThread) {
     await sleep(1000);
     if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
       // 回传数据库
-      cp.execSync("rclone copy ./database.json pineapple:/hdisk/Bot/");
+      cp.execSync(
+        "rclone copy ./database.json kanuo:/www/wwwroot/cloud.edgeless.top/Bot/",
+      );
       log("Info:Database pushed");
     }
     process.exit(result ? 0 : 1);

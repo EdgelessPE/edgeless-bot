@@ -30,7 +30,7 @@
 
 假设下载得到的文件是这样的
 
-![](https://pineapple.edgeless.top/picbed/wiki/bot/recursiveUnzipList.png)
+![](https://cloud.edgeless.top/picbed/wiki/bot/recursiveUnzipList.png)
 
 由于 `下北泽.7z` 是直接下载的文件，因此默认会被解压，将此文件中的子目录和子压缩包名称填入即可：
 

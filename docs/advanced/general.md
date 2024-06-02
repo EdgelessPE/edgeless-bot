@@ -107,7 +107,7 @@ Edgeless Bot 使用了 [ts-results](https://www.npmjs.com/package/ts-results) �
 Result 类型的原型来源于 Rust 等编程语言。形象地来说，Result 类型要求函数返回所需要的值时将值打包在一个“盒子”中，这个盒子会被打上 “Ok” 或是 “Err”
 标签来标记函数执行是否成功，同时也表明了盒子中的值的类型是所需要的值还是报错信息。
 
-![](https://pineapple.edgeless.top/picbed/bot/result.png)
+![](https://cloud.edgeless.top/picbed/bot/result.png)
 
 在编程时，使用 `new Ok(xxx)` 可以创建一个有“Ok”标记的盒子，而使用 `new Err(xxx)` 可以创建一个有“Err”标记的盒子。
 

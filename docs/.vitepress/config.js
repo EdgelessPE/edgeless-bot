@@ -11,7 +11,7 @@ const config = {
       "link",
       {
         rel: "icon",
-        href: "https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico",
+        href: "https://cloud.edgeless.top/picbed/bot/logo.ico",
       },
     ],
   ],
@@ -23,7 +23,7 @@ const config = {
     editLinkText: "在 GitHub 上编辑此页",
     docsDir: "docs",
     lastUpdated: "最近更新于",
-    logo: "https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico",
+    logo: "https://cloud.edgeless.top/picbed/bot/logo.ico",
     nav: [{ text: "Dashboard", link: "https://dashboard.wiki.edgeless.top" }],
     sidebar: {
       "/": getGuideSidebar(),

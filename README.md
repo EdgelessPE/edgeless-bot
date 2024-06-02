@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="logo" src="https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico" width="150"/>
+  <img alt="logo" src="https://cloud.edgeless.top/picbed/bot/logo.ico" width="150"/>
   <br>
   Edgeless Bot
 </h1>

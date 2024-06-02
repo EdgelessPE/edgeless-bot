@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://pineapple.edgeless.top/picbed/wiki/bot/logo.ico
+heroImage: https://cloud.edgeless.top/picbed/bot/logo.ico
 heroAlt: Edgeless Logo
 heroText: Edgeless Bot
 tagline: 模板驱动的组件式上游软件源看门狗

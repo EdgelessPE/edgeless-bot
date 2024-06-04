@@ -6,9 +6,9 @@ DATABASE_PATH = "./database.json"
 # 是否启用远程功能
 REMOTE_ENABLE = false
 # 远程存储的rclone名称
-REMOTE_NAME = "pineapple"
+REMOTE_NAME = "alist"
 # 远程存储路径
-REMOTE_PATH = "/hdisk/edgeless/nep/mirror"
+REMOTE_PATH = "/我的备份/NepBuild"
 
 # 任务存储路径
 DIR_TASKS = "./tasks"

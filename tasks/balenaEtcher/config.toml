@@ -19,7 +19,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ""
-download_name = 'balenaEtcher-Portable-[\d\.]+.exe'
+download_name = 'balenaEtcher-win32-x64-[\d\.]+.zip'
 # scraper_version = ""
 
 # 通用参数
@@ -33,7 +33,7 @@ build_manifest = ["workflows/setup.toml", "${taskName}/balenaEtcher.exe"]
 [producer_required]
 shortcutName = "balenaEtcher"
 sourceFile = "balenaEtcher.exe"
-recursiveUnzipList = ["$PLUGINSDIR", "app-64.7z"]
+recursiveUnzipList = []
 
 # 额外备注
 [extra]

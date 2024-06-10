@@ -11,7 +11,7 @@ function uploadToRemote(fileName: string, category: string): boolean {
 
     try {
       log("Info:Uploading " + fileName);
-      cp.execSync(`cloud189 up ${localPath} ${remotePath}`);
+      cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
     } catch (err: any) {
       console.log(err?.output.toString());
       date = new Date();

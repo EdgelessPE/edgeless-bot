@@ -35,6 +35,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": "error",
     "spaced-comment": "error",
+    "@typescript-eslint/no-explicit-any":"off"
   },
   ignorePatterns: ["*.js", "/dist", "/workshop", "/scripts/templates"],
 };

@@ -74,6 +74,10 @@ function where(command: string): Result<string, string> {
       possibleCommands = ["ept"];
       possiblePositions = ["./bin/ept/ept"];
       break;
+    case "cloud189":
+      possibleCommands = ["cloud189"];
+      possiblePositions = ["./cloud189", "./bin/cloud189"];
+      break;
     default:
       return new Err(`Error:Undefined command argument : ${command}`);
   }
@@ -132,7 +136,7 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   const list = ["aria2c", "p7zip", "ept"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
-    list.push("rclone");
+    list.push("cloud189");
   }
   for (const cmd of list) {
     if (where(cmd).err) {

@@ -30,7 +30,7 @@ jobs:
 
       # 取出rclone
       - name: Copy rclone
-        run: mv .\rclone\* .\
+        run: mv .\rclone\* .\ && New-Item -Path "~/.config/cloud189" -ItemType Directory && mv .\config.json ~/.config/cloud189/config.json
 
       # 缓存yarn
       - uses: actions/cache@v4

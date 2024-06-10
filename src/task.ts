@@ -32,14 +32,14 @@ import { download } from "./aria2c";
 import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
-import { release } from "./p7zip";
+import {  release } from "./p7zip";
 import {
   DOWNLOAD_CACHE,
   MISSING_VERSION_TRY_DAY,
   PROJECT_ROOT,
   VALID_WORKFLOW_NAMES,
 } from "./const";
-import { deleteFromRemote } from "./rclone";
+import { deleteFromRemote } from "./cloud189";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
 import { getOS } from "./platform";

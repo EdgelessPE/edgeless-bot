@@ -21,7 +21,7 @@ import {
   setDatabaseNodeSuccess,
   writeDatabase,
 } from "./database";
-import { uploadToRemote } from "./rclone";
+import { uploadToRemote } from "./cloud189";
 import art from "./art";
 import fs from "fs";
 import cp from "child_process";

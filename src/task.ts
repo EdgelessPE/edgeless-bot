@@ -30,7 +30,7 @@ import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
 import { compress, release } from "./p7zip";
 import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
-import { deleteFromRemote } from "./rclone";
+import { deleteFromRemote } from "./cloud189";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
 import { getOS } from "./platform";

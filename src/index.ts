@@ -21,7 +21,7 @@ import {
   setDatabaseNodeSuccess,
   writeDatabase,
 } from "./database";
-import { uploadToRemote } from "./cloud189";
+import { login, uploadToRemote } from "./cloud189";
 import art from "./art";
 import fs from "fs";
 import cp from "child_process";
@@ -54,6 +54,10 @@ async function main(): Promise<boolean> {
         "curl https://pineapple.edgeless.top/Bot/database.json -o database.json",
       );
       log("Info:Readonly database pulled");
+    }
+    const loginRes = login();
+    if (!loginRes) {
+      return false;
     }
   }
   // 处理无版本号任务的制作日

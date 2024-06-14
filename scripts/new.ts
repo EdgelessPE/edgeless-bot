@@ -61,7 +61,7 @@ interface Schema {
 function printHelp() {
   // 展示帮助信息
   console.log("");
-  console.log(chalk.blue(t("Usage ")) + "yarn new [task/template/wiki]");
+  console.log(chalk.blue(t("Usage ")) + "pnpm new [task/template/wiki]");
   console.log("");
   console.log(t("Create new task / template / template wiki for Edgeless Bot"));
   console.log("");
@@ -368,7 +368,7 @@ async function createTask() {
       chalk.cyanBright(configPath) +
       ", " +
       t("test it with ") +
-      chalk.cyan(`yarn dev -t "${taskName}"`),
+      chalk.cyan(`pnpm dev -t "${taskName}"`),
   );
 }
 

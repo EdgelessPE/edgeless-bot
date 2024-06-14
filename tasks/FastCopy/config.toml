@@ -29,7 +29,7 @@ build_delete = []
 # 爬虫模板临时参数
 [scraper_temp]
 version_selector = ".main_head1_main"
-download_selector = ".dl_link"
+download_selector = ".dl_link:eq(1)"
 
 
 # 自动制作模板要求的参数

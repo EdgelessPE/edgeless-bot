@@ -40,7 +40,7 @@ jobs:
 
       # 安装依赖
       - name: Install dependencies
-        run: pnpm install
+        run: npm install -g pnpm@8 && pnpm install
 
       # 运行构建任务
       - name: Run scripts

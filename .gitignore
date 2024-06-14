@@ -10,7 +10,6 @@ _press.wcs
 rclone*
 *.exe
 database.json
-.yarn
 /cache
 /*.log
 env.json

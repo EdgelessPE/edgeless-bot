@@ -7,7 +7,7 @@
 你可以通过复制粘贴已有的任务文件夹来添加一个新任务，不过我们更推荐使用 CLI 创建：
 
 ```shell
-yarn new task
+pnpm new task
 ```
 
 运行上述命令后，程序会询问一些问题并相应地完成新任务创建操作，并尽可能确保新任务符合要求。
@@ -153,7 +153,7 @@ build_manifest = ["${taskName}"]
 使用以下命令测试你的任务：
 
 ```shell
-yarn dev -t TASK_NAME
+pnpm dev -t TASK_NAME
 ```
 
 ## 无版本号任务
@@ -196,5 +196,5 @@ missing_version = "${taskName}/${taskName}.exe"
 使用以下命令测试你的无版本号任务：
 
 ```shell
-yarn dev -f -t TASK_NAME
+pnpm dev -f -t TASK_NAME
 ```

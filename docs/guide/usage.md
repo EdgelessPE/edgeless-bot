@@ -2,10 +2,10 @@
 
 ## 快速开始
 
-确保你已经安装 [Node.js](https://nodejs.org/) 16+ 、 [yarn](https://yarnpkg.com/) 包管理器以及[二进制](#二进制)后，克隆仓库后执行以下命令：
+确保你已经安装 [Node.js](https://nodejs.org/) 16+ 、 [pnpm](https://pnpm.io/) 8 以及[二进制](#二进制)后，克隆仓库后执行以下命令：
 
 ```shell
-yarn && yarn dev
+pnpm install && pnpm dev
 ```
 
 ## 二进制
@@ -105,21 +105,21 @@ Edgeless Bot 支持以下参数的组合使用：
 
 **-d**
 
-Debug，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。实践中通常使用`yarn dev` 等效代替 `yarn serve -d`。
+Debug，此模式下的数据库更新和远程功能会被禁用，此外可能还有一些微小差异。实践中通常使用`pnpm dev` 等效代替 `pnpm serve -d`。
 
-示例：`yarn dev` 以调试模式运行全部任务
+示例：`pnpm dev` 以调试模式运行全部任务
 
 **-t**
 
 Task(s)，指定需要执行的任务；若需要执行多个任务则添加`""`并用`,`分割不同的任务。不指定此参数时会执行全部任务。
 
-示例：`yarn serve -t "TaskA,Task B,Long name task C"` 仅执行上述三个任务
+示例：`pnpm serve -t "TaskA,Task B,Long name task C"` 仅执行上述三个任务
 
 **-f**
 
 Force，忽略与本地数据库的版本号对比强制重新构建任务，通常与`-t`参数同时给定。
 
-示例：`yarn serve -f -t TaskA` 强制重新构建 TaskA
+示例：`pnpm serve -f -t TaskA` 强制重新构建 TaskA
 
 **-g**
 
@@ -129,13 +129,13 @@ GitHub Actions，通常情况下不需要用到此模式，当 Edgeless Bot 在 
 
 Cache，启用下载缓存，仅在 Debug 模式下可用，此时 Bot 会缓存下载的文件到根目录的 `cache` 文件夹中以减少因下载文件产生的不必要等待。
 
-示例：`yarn dev -c -t TaskA` 缓存调试 TaskA 时下载的文件
+示例：`pnpm dev -c -t TaskA` 缓存调试 TaskA 时下载的文件
 
 **-e**
 
 Env，配置环境变量，使用 `key=value` 的格式输入键值对并使用 `,` 分割。
 
-示例：`yarn dev -e "GITHUB_TOKEN=XXX,SECRET=xxx" -t TaskA` 配置环境变量并调试 TaskA
+示例：`pnpm dev -e "GITHUB_TOKEN=XXX,SECRET=xxx" -t TaskA` 配置环境变量并调试 TaskA
 
 ## 环境变量
 

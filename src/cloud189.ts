@@ -1,6 +1,36 @@
+import os from "os";
+import fs from "fs";
 import { fromGBK, getTimeString, log } from "./utils";
 import cp from "child_process";
+import path from "path";
 import { config } from "./config";
+
+function login(): boolean {
+  if (!config.GITHUB_ACTIONS) {
+    return false;
+  }
+  const configPath = path.join(os.homedir(), ".config/cloud189/config.json");
+  if (!fs.existsSync(configPath)) {
+    log(`Error:Can't find cloud189 config path : ${configPath}`);
+    return false;
+  }
+  try {
+    const {
+      user: { name, password },
+    } = JSON.parse(fs.readFileSync(configPath).toString()) as {
+      user: {
+        name: string;
+        password: string;
+      };
+    };
+    log("Info:Login to cloud189..");
+    cp.execSync(`cloud189 login -i ${name} ${password}`);
+  } catch (e) {
+    log("Error:Failed to login to cloud189..");
+    return false;
+  }
+  return true;
+}
 
 function uploadToRemote(fileName: string, category: string): boolean {
   if (config.REMOTE_ENABLE) {
@@ -103,4 +133,4 @@ function deleteFromRemote(
   return true;
 }
 
-export { uploadToRemote, deleteFromRemote };
+export { login, uploadToRemote, deleteFromRemote };

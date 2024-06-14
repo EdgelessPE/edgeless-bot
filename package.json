@@ -30,7 +30,8 @@
     "gen": "ts-node ./scripts/genSchema.ts",
     "fmt": "prettier --write .",
     "lint": "eslint . --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@types/checksum": "^0.1.33",
@@ -56,5 +57,9 @@
   },
   "lint-staged": {
     "*.ts": "eslint --fix"
+  },
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=8"
   }
 }

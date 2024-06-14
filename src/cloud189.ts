@@ -5,6 +5,8 @@ import cp from "child_process";
 import path from "path";
 import { config } from "./config";
 
+type ExecSyncError = { output: { toString: () => string } } | undefined;
+
 function login(): boolean {
   if (!config.GITHUB_ACTIONS) {
     return false;
@@ -32,27 +34,31 @@ function login(): boolean {
   return true;
 }
 
-function uploadToRemote(fileName: string, category: string): boolean {
+function uploadToRemote(
+    fileName: string,
+    scope: string,
+    taskName: string,
+): boolean {
   if (config.REMOTE_ENABLE) {
-    const localPath = config.DIR_BUILDS + "/" + category + "/" + fileName;
-    const remotePath = config.REMOTE_PATH + "/" + category;
+    const localPath = path.join(config.DIR_BUILDS, scope, taskName, fileName);
+    const remotePath = path.join(config.REMOTE_PATH, scope, taskName);
     let date = new Date();
     const startTime = date.getTime();
 
     try {
       log("Info:Uploading " + fileName);
       cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
-    } catch (err: any) {
-      console.log(err?.output.toString());
+    } catch (err: unknown) {
+      console.log((err as ExecSyncError)?.output.toString());
       date = new Date();
       log(
-        `Info:Cost ${getTimeString(
-          date.getTime() - startTime,
-        )} before error occurred`,
+          `Info:Cost ${getTimeString(
+              date.getTime() - startTime,
+          )} before error occurred`,
       );
       // 尝试删除传了一半的文件
       log("Info:Trying to delete broken uploaded file");
-      if (!deleteFromRemote(fileName, category, true)) {
+      if (!deleteFromRemote(fileName, scope, taskName, true)) {
         log("Warning:Fail to delete broken uploaded file");
       } else {
         log("Info:Deleted broken uploaded file");
@@ -62,9 +68,9 @@ function uploadToRemote(fileName: string, category: string): boolean {
     }
     date = new Date();
     log(
-      `Info:Uploaded successfully, cost ${getTimeString(
-        date.getTime() - startTime,
-      )}`,
+        `Info:Uploaded successfully, cost ${getTimeString(
+            date.getTime() - startTime,
+        )}`,
     );
   } else {
     log("Warning:Remote disabled, skip upload to remote");
@@ -74,43 +80,39 @@ function uploadToRemote(fileName: string, category: string): boolean {
 }
 
 function deleteFromRemote(
-  fileName: string,
-  category: string,
-  ignoreNotExist?: boolean,
+    fileName: string,
+    scope: string,
+    taskName: string,
+    ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
-    const remotePath = config.REMOTE_PATH + "/" + category + "/" + fileName;
+    const remoteDir = path.join(config.REMOTE_PATH, scope, taskName);
+    const remotePath = path.join(remoteDir, fileName);
     // 读取远程目录查看是否存在
     let buf;
     try {
-      buf = cp.execSync(`cloud189 ls ${config.REMOTE_PATH}/${category}`);
-    } catch (err: any) {
-      console.log(err?.output.toString());
+      buf = cp.execSync(`cloud189 ls ${remoteDir}`);
+    } catch (err: unknown) {
+      console.log((err as ExecSyncError)?.output.toString());
       log(
-        "Error:Remote directory not exist:" +
+          "Error:Remote directory not exist:" +
           config.REMOTE_NAME +
           ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category,
+          remoteDir,
       );
       return false;
     }
     // log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};\n gbk(buf)=${gbk(buf)},\n buf.toString()=${buf.toString()}`)
     if (
-      !fromGBK(buf).includes(fileName) &&
-      !buf.toString().includes(fileName) &&
-      (ignoreNotExist == undefined || !ignoreNotExist)
+        !fromGBK(buf).includes(fileName) &&
+        !buf.toString().includes(fileName) &&
+        (ignoreNotExist == undefined || !ignoreNotExist)
     ) {
       log(
-        "Warning:Remote not exist file : " +
+          "Warning:Remote not exist file : " +
           config.REMOTE_NAME +
           ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category +
-          "/" +
-          fileName +
+          remotePath +
           " ,ignore",
       );
       return true;
@@ -120,8 +122,8 @@ function deleteFromRemote(
     try {
       log("Info:Removing " + remotePath);
       cp.execSync(`cloud189 rm "${remotePath}"`);
-    } catch (err: any) {
-      console.log(err?.output.toString());
+    } catch (err: unknown) {
+      console.log((err as ExecSyncError)?.output.toString());
       return false;
     }
 

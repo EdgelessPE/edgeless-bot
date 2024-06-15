@@ -20,16 +20,16 @@ jobs:
           submodules: recursive
           ref: ${{ github.ref }}
 
-      # 缓存yarn
+      # 缓存 node_modules
       - uses: actions/cache@v4
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       # 安装依赖
       - name: Install dependencies
-        run: yarn
+        run: npm install -g pnpm@8 && pnpm install
 
       # 以Debug模式运行构建任务
       - name: Run scripts
-        run: yarn dev -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+        run: pnpm dev -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"

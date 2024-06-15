@@ -7,6 +7,9 @@ import fs from "fs";
 import { config } from "./config";
 import { PROJECT_ROOT } from "./const";
 
+const UA =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
+
 let aria2c_process: cp.ChildProcess,
   aria2c_alive = false,
   sent_kill = false,
@@ -139,7 +142,7 @@ async function tryConnect(final: boolean): Promise<boolean> {
 }
 
 // 下载和等待完成函数
-async function download(
+async function download_with_aria2c(
   taskName: string,
   url: string,
   dir: string,
@@ -242,6 +245,38 @@ async function download(
       reject(`Error:Can't find file ${filename} after download`);
     }
   });
+}
+
+async function download_with_curl(
+  taskName: string,
+  url: string,
+  dir: string,
+): Promise<string> {
+  // 解析文件名
+  const instance = new URL(url);
+  const filename = decodeURIComponent(instance.pathname.split("/").pop() ?? "");
+  if (!filename) {
+    throw new Error(`Error:Failed to resolve url filename : ${url}`);
+  }
+  const finalPath = path.join(dir, filename);
+
+  // 开始下载
+  try {
+    cp.execSync(`curl -L -A ${UA} -o ${finalPath} ${url}`);
+  } catch (e) {
+    throw new Error(`Error:Failed to download ${url} with curl : ${e}`);
+  }
+  return finalPath;
+}
+
+async function download(...args: [string, string, string]): Promise<string> {
+  // 先尝试使用 aria2c 下载
+  try {
+    return download_with_aria2c(...args);
+  } catch (e) {
+    log(`Warning:Failed to download with aria2c, try using curl...`);
+    return download_with_curl(...args);
+  }
 }
 
 export { initAria2c, download, aria2c_alive, stopAria2c };

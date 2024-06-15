@@ -9,6 +9,14 @@ import { PROJECT_ROOT } from "./const";
 
 type OS = "Windows" | "Linux" | "MacOS" | "Other";
 
+export type Commands =
+  | "p7zip"
+  | "aria2c"
+  | "rclone"
+  | "pecmd"
+  | "cloud189"
+  | "curl";
+
 function getOS(): OS {
   switch (os.platform()) {
     case "win32":
@@ -23,7 +31,7 @@ function getOS(): OS {
 }
 
 // 查找程序位置，返回值为绝对路径时会包含双引号
-function where(command: string): Result<string, string> {
+function where(command: Commands): Result<string, string> {
   // 相对路径解析封装
   const parsePath = (p: string) => {
     if (p.indexOf("./") > -1) {
@@ -73,6 +81,10 @@ function where(command: string): Result<string, string> {
     case "cloud189":
       possibleCommands = ["cloud189"];
       possiblePositions = ["./cloud189", "./bin/cloud189"];
+      break;
+    case "curl":
+      possibleCommands = ["curl"];
+      possiblePositions = ["./curl", "./bin/curl"];
       break;
     default:
       return new Err(`Error:Undefined command argument : ${command}`);
@@ -129,7 +141,7 @@ function where(command: string): Result<string, string> {
 }
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
-  const list = ["aria2c", "p7zip"];
+  const list: Commands[] = ["aria2c", "p7zip"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
     list.push("cloud189");

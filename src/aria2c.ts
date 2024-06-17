@@ -259,10 +259,13 @@ async function download_with_curl(
     throw new Error(`Error:Failed to resolve url filename : ${url}`);
   }
   const finalPath = path.join(dir, filename);
+  if (fs.existsSync(finalPath)) {
+    fs.rmSync(finalPath);
+  }
 
   // 开始下载
   try {
-    cp.execSync(`curl -L -A ${UA} -o ${finalPath} ${url}`);
+    cp.execSync(`curl -L -A "${UA}" -o ${finalPath} ${url}`);
   } catch (e) {
     throw new Error(`Error:Failed to download ${url} with curl : ${e}`);
   }
@@ -272,7 +275,8 @@ async function download_with_curl(
 async function download(...args: [string, string, string]): Promise<string> {
   // 先尝试使用 aria2c 下载
   try {
-    return download_with_aria2c(...args);
+    const res = await download_with_aria2c(...args);
+    return res;
   } catch (e) {
     log(`Warning:Failed to download with aria2c, try using curl...`);
     return download_with_curl(...args);

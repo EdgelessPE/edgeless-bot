@@ -141,7 +141,7 @@ function where(command: Commands): Result<string, string> {
 }
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
-  const list: Commands[] = ["aria2c", "p7zip"];
+  const list: Commands[] = ["aria2c", "p7zip", "curl"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
     list.push("cloud189");

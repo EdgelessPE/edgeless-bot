@@ -42,5 +42,5 @@ recursiveUnzipList = ["$_11_"]
 # 额外备注
 [extra]
 # require_windows = false
-missing_version = "${taskName}/$EXEFILE"
+# missing_version = "${taskName}/$EXEFILE"
 weekly = true

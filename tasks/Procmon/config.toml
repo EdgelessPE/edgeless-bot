@@ -32,7 +32,7 @@ build_delete = ["Eula.txt", "procmon.chm", "Procmon.exe", "Procmon64a.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "#main > div.content > p:nth-child(7) > a:nth-child(1)"
+download_selector = "#main > div.content > p:nth-child(6) > a:nth-child(1)"
 version_selector = "h1"
 
 # 自动制作模板要求的参数

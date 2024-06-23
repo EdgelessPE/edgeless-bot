@@ -15,14 +15,14 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '^ueli-[\d\.]*-win\.zip$'
+download_name = '^[Uu]eli-[\d\.]*-win\.zip$'
 # scraper_version = ''
 
 # 通用参数
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/ueli.exe"]
+build_manifest = ["${taskName}.wcs", "${taskName}/ueli.exe"]
 build_cover = "cover"
 # build_delete = []
 
@@ -33,7 +33,7 @@ build_cover = "cover"
 [producer_required]
 shortcutName = "Ueli"
 sourceFile = "ueli.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

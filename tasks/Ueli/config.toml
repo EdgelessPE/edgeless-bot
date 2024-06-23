@@ -19,7 +19,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '^ueli-[\d\.]*-win\.zip$'
+download_name = '^[Uu]eli-[\d\.]*-win\.zip$'
 # scraper_version = ''
 
 # 通用参数

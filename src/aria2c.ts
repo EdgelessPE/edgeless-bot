@@ -269,7 +269,7 @@ async function download_with_curl(
   } catch (e) {
     throw new Error(`Error:Failed to download ${url} with curl : ${e}`);
   }
-  return finalPath;
+  return filename;
 }
 
 async function download(...args: [string, string, string]): Promise<string> {

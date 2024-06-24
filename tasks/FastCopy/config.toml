@@ -19,8 +19,8 @@ producer = "Silent_Install"
 # 使用到的正则
 [regex]
 # download_link = ""
-download_name = "/.exe/"
-# scraper_version = ""
+download_name = "/archive/FastCopy[0-9.]+_installer.exe/"
+# scraper_version = ".main_head1_main"
 
 # 通用参数
 [parameter]
@@ -33,7 +33,7 @@ main_program = "${Home}/FastCopy/setup.exe"
 # 爬虫模板临时参数
 [scraper_temp]
 version_selector = ".main_head1_main"
-download_selector = ".dl_link:eq(1)"
+# download_selector = ".dl_link"
 
 
 # 自动制作模板要求的参数

@@ -6,7 +6,7 @@ category = "办公编辑"
 author = ["Horatio Shaw"]
 url = "https://github.com/xushengfeng/eSearch"
 description = "截屏 离线OCR 搜索翻译 以图搜图 贴图 录屏 滚动截屏"
-tags = ["OCR","翻译"]
+tags = ["OCR", "翻译"]
 language = "zh-CN"
 scope = "github"
 
@@ -26,7 +26,7 @@ download_name = 'eSearch-[\d\.]+-win32-x64.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 # build_cover = ""
 # build_delete = []
 
@@ -36,8 +36,8 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "eSearch"
-sourceFile = "eSearch.exe"
-recursiveUnzipList = [ ]
+sourceFile = "e-search.exe"
+recursiveUnzipList = []
 
 
 # 额外备注

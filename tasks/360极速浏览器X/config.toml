@@ -26,7 +26,10 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml", "${taskName}/360chromex.exe"]
+build_manifest = [
+  "workflows/setup.toml",
+  "${taskName}/Chrome-bin/360chromex.exe",
+]
 # build_cover = ""
 # build_delete = []
 
@@ -38,8 +41,8 @@ download_selector = ".main-box"
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "360极速浏览器X"
-sourceFile = "360chromex.exe"
-recursiveUnzipList = ["chrome.7z", "Chrome-bin"]
+sourceFile = "Chrome-bin/360chromex.exe"
+recursiveUnzipList = ["chrome.7z"]
 
 
 # 额外备注

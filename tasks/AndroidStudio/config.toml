@@ -7,7 +7,7 @@ author = ["undefined"]
 scope = "scoop"
 url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/android-studio.json"
 description = "The official Integrated Development Environment (IDE) for Android app development"
-tags = ["android","java","kotlin"]
+tags = ["android", "java", "kotlin"]
 language = "en-US"
 
 # 指定使用的模板
@@ -26,9 +26,10 @@ download_name = '\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 # build_cover = ""
 # build_delete = []
+main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -37,7 +38,7 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 [producer_required]
 shortcutName = "AndroidStudio"
 sourceFile = "android-studio\\bin\\studio64.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

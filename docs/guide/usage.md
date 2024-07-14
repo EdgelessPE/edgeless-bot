@@ -2,7 +2,7 @@
 
 ## 快速开始
 
-确保你已经安装 [Node.js](https://nodejs.org/) 16+ 、 [pnpm](https://pnpm.io/) 8 以及[二进制](#二进制)后，克隆仓库后执行以下命令：
+确保你已经安装 [Node.js](https://nodejs.org/) 18+ 、 [pnpm](https://pnpm.io/) 8 以及[二进制](#二进制)后，克隆仓库后执行以下命令：
 
 ```shell
 pnpm install && pnpm dev

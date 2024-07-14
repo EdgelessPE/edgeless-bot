@@ -32,7 +32,7 @@ import { download } from "./aria2c";
 import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
-import {  release } from "./p7zip";
+import { release } from "./p7zip";
 import {
   DOWNLOAD_CACHE,
   MISSING_VERSION_TRY_DAY,

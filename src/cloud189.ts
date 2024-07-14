@@ -35,9 +35,9 @@ function login(): boolean {
 }
 
 function uploadToRemote(
-    fileName: string,
-    scope: string,
-    taskName: string,
+  fileName: string,
+  scope: string,
+  taskName: string,
 ): boolean {
   if (config.REMOTE_ENABLE) {
     const localPath = path.join(config.DIR_BUILDS, scope, taskName, fileName);
@@ -52,9 +52,9 @@ function uploadToRemote(
       console.log((err as ExecSyncError)?.output.toString());
       date = new Date();
       log(
-          `Info:Cost ${getTimeString(
-              date.getTime() - startTime,
-          )} before error occurred`,
+        `Info:Cost ${getTimeString(
+          date.getTime() - startTime,
+        )} before error occurred`,
       );
       // 尝试删除传了一半的文件
       log("Info:Trying to delete broken uploaded file");
@@ -68,9 +68,9 @@ function uploadToRemote(
     }
     date = new Date();
     log(
-        `Info:Uploaded successfully, cost ${getTimeString(
-            date.getTime() - startTime,
-        )}`,
+      `Info:Uploaded successfully, cost ${getTimeString(
+        date.getTime() - startTime,
+      )}`,
     );
   } else {
     log("Warning:Remote disabled, skip upload to remote");
@@ -80,10 +80,10 @@ function uploadToRemote(
 }
 
 function deleteFromRemote(
-    fileName: string,
-    scope: string,
-    taskName: string,
-    ignoreNotExist?: boolean,
+  fileName: string,
+  scope: string,
+  taskName: string,
+  ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
     const remoteDir = path.join(config.REMOTE_PATH, scope, taskName);
@@ -95,7 +95,7 @@ function deleteFromRemote(
     } catch (err: unknown) {
       console.log((err as ExecSyncError)?.output.toString());
       log(
-          "Error:Remote directory not exist:" +
+        "Error:Remote directory not exist:" +
           config.REMOTE_NAME +
           ":" +
           remoteDir,
@@ -104,12 +104,12 @@ function deleteFromRemote(
     }
     // log(`Info:Debug - run deleteFromRemote with remotePath=${remotePath};\n gbk(buf)=${gbk(buf)},\n buf.toString()=${buf.toString()}`)
     if (
-        !fromGBK(buf).includes(fileName) &&
-        !buf.toString().includes(fileName) &&
-        (ignoreNotExist == undefined || !ignoreNotExist)
+      !fromGBK(buf).includes(fileName) &&
+      !buf.toString().includes(fileName) &&
+      (ignoreNotExist == undefined || !ignoreNotExist)
     ) {
       log(
-          "Warning:Remote not exist file : " +
+        "Warning:Remote not exist file : " +
           config.REMOTE_NAME +
           ":" +
           remotePath +

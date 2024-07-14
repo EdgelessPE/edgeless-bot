@@ -109,12 +109,12 @@ async function main(): Promise<boolean> {
       const task = getSingleTask(node.taskName).unwrap();
       // 上传
       if (uploadToRemote(node.result.val, task.scope, task.name)) {
-          // 去重
-          const newBuilds = removeExtraBuilds(
-              node.taskName,
-              task.scope,
-              node.result.val,
-          );
+        // 去重
+        const newBuilds = removeExtraBuilds(
+          node.taskName,
+          task.scope,
+          node.result.val,
+        );
         setDatabaseNodeSuccess(node.taskName, newBuilds);
       } else {
         setDatabaseNodeFailure(node.taskName, "Error:Can't upload target file");

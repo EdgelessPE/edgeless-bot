@@ -124,8 +124,41 @@ export default async function (
   };
   fs.writeFileSync(path.join(wfp, "setup.toml"), tomlStringify(setup));
 
+  // 获取真实的主程序路径
+  let mainProgram: string | undefined = undefined;
+  try {
+    // 读取 appinfo.ini
+    const appInfoPath = path.join(readyDir, "App/AppInfo/appinfo.ini");
+    const {
+      Control: { BaseAppID, BaseAppID64 },
+    } = ini.parse(fs.readFileSync(appInfoPath).toString()) as {
+      Control: { BaseAppID: string; BaseAppID64: string };
+    };
+    const rawPathText = BaseAppID64 ?? BaseAppID;
+    mainProgram = rawPathText
+      .replace("%BASELAUNCHERPATH%\\", "")
+      .replace(/\\/g, "/");
+
+    // 检查是否存在且为文件
+    const mpPath = path.join(readyDir, mainProgram);
+    if (!fs.existsSync(mpPath)) {
+      throw new Error(
+        `Declared main program path '${mainProgram}' in 'App/AppInfo/appinfo.ini' not exits, assign 'parameter.main_program' in task config manually`,
+      );
+    }
+    if (!fs.statSync(mpPath).isFile()) {
+      throw new Error(
+        `Declared main program path '${mainProgram}' in 'App/AppInfo/appinfo.ini' is not a file, assign 'parameter.main_program' in task config manually`,
+      );
+    }
+    log(`Info:Parse real PortableApps main program as '${mainProgram}'`);
+  } catch (e) {
+    log(`Warning:Failed to get real PortableApps main program path : ${e}`);
+    mainProgram = undefined;
+  }
+
   return new Ok({
     readyRelativePath: "_ready",
-    mainProgram: exe,
+    mainProgram,
   });
 }

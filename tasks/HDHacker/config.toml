@@ -26,7 +26,11 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml", "${taskName}"]
+build_manifest = [
+  "workflows/setup.toml",
+  "${taskName}/HDHackerPortable.exe",
+  "${taskName}/App/HDHacker/HDHacker.exe",
+]
 # build_cover = ""
 # build_delete = []
 

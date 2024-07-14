@@ -36,6 +36,7 @@ main_program = "${ProgramFiles_X64}/Oray/SunLogin/SunloginClient/SunloginClient.
 api_url = "https://client-api.oray.com/softwares/SUNLOGIN_X_WINDOWS?x64=1&_t=1639239993"
 version_path = "versionno"
 download_path = "downloadurl"
+referer = "https://sunlogin.oray.com/"
 
 # 自动制作模板要求的参数
 [producer_required]

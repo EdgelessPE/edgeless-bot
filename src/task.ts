@@ -425,7 +425,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         dRes.val.directLink,
         workshop,
         {
-          referer: t.task.scraper_temp?.referer,
+          referer: (t.task.scraper_temp as any)?.referer,
         },
       );
     } catch (e) {

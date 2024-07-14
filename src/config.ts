@@ -9,7 +9,7 @@ import minimist from "minimist";
 function configGenerator(): Result<CONFIG, string> {
   if (!fs.existsSync(PATH_CONFIG)) {
     return new Err(
-      "Error:Can't find config.toml, copy 'config.toml.example' as 'config.toml'",
+      "Error:Can't find config.toml, try run 'cp config.toml.example config.toml'",
     );
   } else {
     // 读取和解析配置

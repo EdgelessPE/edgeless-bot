@@ -26,9 +26,10 @@ download_name = '_x64.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 # build_cover = ""
 # build_delete = []
+main_program = false
 
 # 爬虫模板临时参数
 # [scraper_temp]
@@ -37,7 +38,7 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 [producer_required]
 shortcutName = "MusicPlayer2"
 sourceFile = "MusicPlayer2_x64/MusicPlayer2.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

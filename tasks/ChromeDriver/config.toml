@@ -7,7 +7,7 @@ author = ["undefined"]
 scope = "scoop"
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/chromedriver.json"
 description = "An open source tool for automated testing of webapps across many browsers"
-tags = ["e2e test","automated"]
+tags = ["e2e test", "automated"]
 language = "Multi"
 
 # 指定使用的模板
@@ -26,10 +26,10 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 build_cover = "cover"
 build_delete = ["ChromeDriver/LICENSE.chromedriver"]
-# main_program = false
+main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]

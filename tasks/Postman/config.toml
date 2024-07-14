@@ -6,7 +6,7 @@ category = "开发辅助"
 author = ["undefined"]
 url = "https://github.com/portapps/postman-portable"
 description = "Postman portable for Windows"
-tags = ["api","mock"]
+tags = ["api", "mock"]
 language = "en-US"
 scope = "Postman"
 
@@ -26,9 +26,10 @@ download_name = '\.7z'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 # build_cover = ""
 # build_delete = []
+main_program = "app/Postman.exe"
 
 # 爬虫模板临时参数
 # [scraper_temp]
@@ -37,7 +38,7 @@ build_manifest = ["workflows/setup.toml","${taskName}"]
 [producer_required]
 shortcutName = "Postman"
 sourceFile = "postman-portable.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

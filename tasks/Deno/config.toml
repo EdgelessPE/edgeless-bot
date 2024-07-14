@@ -6,7 +6,7 @@ category = "运行环境"
 author = ["Hydrogen"]
 url = "https://github.com/denoland/deno"
 description = "The easiest,most secure JavaScript runtime."
-tags = ["JavaScript","TypeScript","V8","云原生"]
+tags = ["JavaScript", "TypeScript", "V8", "云原生"]
 language = "en-US"
 scope = "Deno"
 

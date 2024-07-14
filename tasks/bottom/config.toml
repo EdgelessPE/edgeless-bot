@@ -26,10 +26,10 @@ download_name = '-pc-windows-msvc\.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 build_cover = "cover"
 # build_delete = []
-# main_program = false
+main_program = false
 
 # 爬虫模板临时参数
 # [scraper_temp]
@@ -38,7 +38,7 @@ build_cover = "cover"
 [producer_required]
 shortcutName = "bottom"
 sourceFile = "btm.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

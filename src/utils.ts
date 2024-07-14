@@ -460,15 +460,15 @@ function parseBuiltInValue(
   regexOptimizing?: boolean,
 ): string {
   return source
-    .replace("${taskName}", v.taskName)
-    .replace("${downloadedFile}", v.downloadedFile)
-    .replace(
+    .replaceAll("${taskName}", v.taskName)
+    .replaceAll("${downloadedFile}", v.downloadedFile)
+    .replaceAll(
       "${latestVersion}",
       regexOptimizing
         ? v.latestVersion.replace(".0", "(.0)*").replace(".", "\\.")
         : v.latestVersion,
     )
-    .replace("${revisedVersion}", v.revisedVersion ?? v.latestVersion);
+    .replaceAll("${revisedVersion}", v.revisedVersion ?? v.latestVersion);
 }
 
 /**

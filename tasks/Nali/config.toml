@@ -7,7 +7,7 @@ author = ["undefined"]
 scope = "scoop"
 url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/nali.json"
 description = "一个查询IP地理信息和CDN服务提供商的离线终端工具"
-tags = ["ip","cdn","ipv6"]
+tags = ["ip", "cdn", "ipv6"]
 language = "Multi"
 lincence = "MIT"
 
@@ -27,10 +27,10 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml","${taskName}"]
+build_manifest = ["workflows/setup.toml", "${taskName}"]
 build_cover = "cover"
 # build_delete = []
-# main_program = false
+main_program = false
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -39,7 +39,7 @@ build_cover = "cover"
 [producer_required]
 shortcutName = "nali"
 sourceFile = "nali-windows-amd64.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = []
 
 
 # 额外备注

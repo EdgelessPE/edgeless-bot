@@ -29,6 +29,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
+main_program = false
 
 # 自动制作模板要求的参数
 [producer_required]
@@ -36,7 +37,7 @@ shortcutName = "AnyDesk"
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://anydesk.com/en/downloads"
+version_page_url = "https://anydesk.com.cn/zhs/downloads/windows"
 version_selector = ".d-block"
 # download_page_url = "https://anydesk.com/zhs/downloads/thank-you?dv=win_exe"
 # download_selector = "#download-button"

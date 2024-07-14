@@ -386,6 +386,9 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         t.task.name,
         dRes.val.directLink,
         workshop,
+        {
+          referer: t.task.scraper_temp?.referer,
+        },
       );
     } catch (e) {
       if (typeof e == "string") log(e);

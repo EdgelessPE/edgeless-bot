@@ -10,6 +10,10 @@ import { PROJECT_ROOT } from "./const";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
 
+export interface DownloadOptions {
+  referer?: string;
+}
+
 let aria2c_process: cp.ChildProcess,
   aria2c_alive = false,
   sent_kill = false,
@@ -146,6 +150,7 @@ async function download_with_aria2c(
   taskName: string,
   url: string,
   dir: string,
+  options: DownloadOptions,
 ): Promise<string> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -163,6 +168,7 @@ async function download_with_aria2c(
         url,
         {
           dir,
+          referer: options.referer,
         },
         0,
       );
@@ -251,6 +257,7 @@ async function download_with_curl(
   taskName: string,
   url: string,
   dir: string,
+  options: DownloadOptions,
 ): Promise<string> {
   // 解析文件名
   const instance = new URL(url);
@@ -263,16 +270,25 @@ async function download_with_curl(
     fs.rmSync(finalPath);
   }
 
+  // 构造命令行
+  const cmd = ["curl", "-L", `-A "${UA}"`, `-o ${finalPath}`];
+
+  if (options.referer) {
+    cmd.push(`-e ${options.referer}`);
+  }
+
   // 开始下载
   try {
-    cp.execSync(`curl -L -A "${UA}" -o ${finalPath} ${url}`);
+    cp.execSync(`${cmd.join(" ")} ${url}`);
   } catch (e) {
     throw new Error(`Error:Failed to download ${url} with curl : ${e}`);
   }
   return filename;
 }
 
-async function download(...args: [string, string, string]): Promise<string> {
+async function download(
+  ...args: [string, string, string, DownloadOptions]
+): Promise<string> {
   // 先尝试使用 aria2c 下载
   try {
     const res = await download_with_aria2c(...args);

@@ -29,7 +29,7 @@ scraper_version = '\d\.\d\.\d\.\d'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 build_cover = "cover"
 # build_delete = []
-main_program = "${ProgramFiles_X64}/Huorong/Sysdiag/bin/HipsMain.exe"
+registry_entry = "HuorongSysdiag"
 
 # 爬虫模板临时参数
 [scraper_temp]

@@ -8,7 +8,7 @@ url = "https://www.huorong.cn"
 
 # 指定使用的模板
 [template]
-scraper = "REST_API"
+scraper = "Redirection_Parse"
 # resolver = ""
 producer = "Click2Install"
 
@@ -16,7 +16,7 @@ producer = "Click2Install"
 [regex]
 # download_link = ''
 download_name = '\.exe'
-# scraper_version = ''
+scraper_version = '\d\.\d\.\d\.\d'
 
 # 通用参数
 [parameter]
@@ -28,9 +28,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-api_url = "https://www.huorong.cn/5.0.version.json"
-version_path = "version"
-download_path = "urlFull"
+redirection_url = "https://www.huorong.cn/product/downloadHr60.php?pro=hr60&plat=x64UrlAll"
 
 # 自动制作模板要求的参数
 [producer_required]

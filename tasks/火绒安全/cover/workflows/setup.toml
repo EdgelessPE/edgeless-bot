@@ -1,0 +1,17 @@
+[run_installer]
+name = "Run Installer"
+step = "Execute"
+command = "${downloadedFile}"
+call_installer = true
+wait = "Abandon"
+
+[wait_installer]
+name = "Wait Installer"
+step = "Wait"
+timeout = 300000
+break_if = 'Exist("${PublicDesktop}/火绒安全软件.lnk")'
+
+[wait_exit]
+name = "Wait Installer"
+step = "Wait"
+timeout = 10000

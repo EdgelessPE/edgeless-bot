@@ -7,8 +7,8 @@ import {
   ResultReport,
   ScraperReturned,
   TaskInstance,
-} from "./types/class";
-import { config } from "./config";
+} from "../types/class";
+import { config } from "../config";
 import toml from "toml";
 import {
   Cmp,
@@ -26,15 +26,15 @@ import {
   getAuthorForFileName,
   parseFileSize,
   calcMD5,
-} from "./utils";
-import { getDatabaseNode, setDatabaseNodeFailure } from "./utils/database";
-import { ResultNode } from "./scraper";
-import resolver from "./resolver";
-import { download } from "./cli/aria2c";
-import checksum from "./utils/checksum";
-import producerRegister from "../templates/producers/_register";
-import producer from "./producer";
-import { release } from "./cli/p7zip";
+} from "../utils";
+import { getDatabaseNode, setDatabaseNodeFailure } from "../utils/database";
+import { ResultNode } from "../scraper";
+import resolver from "../resolver";
+import { download } from "../cli/aria2c";
+import checksum from "../utils/checksum";
+import producerRegister from "../../templates/producers/_register";
+import producer from "../producer";
+import { release } from "../cli/p7zip";
 import {
   DOWNLOAD_CACHE,
   DOWNLOAD_SERVE_CACHE,
@@ -43,18 +43,18 @@ import {
   PROJECT_ROOT,
   VALID_FLAGS,
   VALID_WORKFLOW_NAMES,
-} from "./const";
-import { deleteFromRemote } from "./cli/cloud189";
-import scraperRegister from "../templates/scrapers/_register";
+} from "../const";
+import { deleteFromRemote } from "../cli/cloud189";
+import scraperRegister from "../../templates/scrapers/_register";
 import os from "os";
-import { getOS } from "./utils/platform";
+import { getOS } from "../utils/platform";
 import shell from "shelljs";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rcInfo from "rcinfo";
-import { NepPackage } from "./types/nep";
-import { packIntoNep } from "./cli/ept";
+import { NepPackage } from "../types/nep";
+import { packIntoNep } from "../cli/ept";
 
 export interface TaskConfig {
   task: {

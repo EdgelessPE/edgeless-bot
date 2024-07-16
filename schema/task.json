@@ -58,7 +58,11 @@
         },
         "language": {
           "type": "string",
-          "enum": ["Multi", "zh-CN", "en-US"]
+          "enum": [
+            "Multi",
+            "zh-CN",
+            "en-US"
+          ]
         }
       },
       "required": [
@@ -115,13 +119,21 @@
           "type": "array"
         },
         "main_program": {
-          "type": ["string", "boolean"]
+          "type": [
+            "string",
+            "boolean"
+          ]
         },
         "registry_entry": {
           "type": "string"
+        },
+        "min_download_size": {
+          "type": "string"
         }
       },
-      "required": ["build_manifest"],
+      "required": [
+        "build_manifest"
+      ],
       "type": "object"
     },
     "producer_required": {
@@ -143,7 +155,9 @@
         }
       },
       "type": "object",
-      "required": ["download_name"]
+      "required": [
+        "download_name"
+      ]
     },
     "template": {
       "properties": {
@@ -157,7 +171,9 @@
           "type": "string"
         }
       },
-      "required": ["producer"],
+      "required": [
+        "producer"
+      ],
       "type": "object"
     },
     "package_patch": {
@@ -210,6 +226,9 @@
             "main_program": {
               "type": "string"
             },
+            "registry_entry": {
+              "type": "string"
+            },
             "tags": {
               "type": "array",
               "items": {
@@ -222,6 +241,12 @@
       "$schema": "http://json-schema.org/draft-07/schema#"
     }
   },
-  "required": ["parameter", "producer_required", "template", "task", "regex"],
+  "required": [
+    "parameter",
+    "producer_required",
+    "template",
+    "task",
+    "regex"
+  ],
   "type": "object"
 }

@@ -24,6 +24,7 @@ import {
   parseBuiltInValueForObject,
   getVersionFromFileName,
   getAuthorForFileName,
+  parseFileSize,
 } from "./utils";
 import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
 import { ResultNode } from "./scraper";
@@ -119,6 +120,14 @@ function validateConfig(task: TaskConfig): boolean {
   if (!schemaValidator(task, "task").unwrap()) {
     log(`Error:Schema validation failed`);
     return false;
+  }
+  // 检查是否能解析 min_download_size
+  if (task.parameter.min_download_size) {
+    const res = parseFileSize(task.parameter.min_download_size);
+    if (res.err) {
+      log(`Error:Schema validation failed : ${res.val}`);
+      return false;
+    }
   }
   let suc = false;
   // 尝试匹配Scraper
@@ -454,10 +463,18 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     ))
   ) {
     return new Err(
-      `Error:Can't validate downloaded file,expect ${t.info.validation.value}`,
+      `Error:Can't validate downloaded file ${downloadedFile} : expect hash ${t.info.validation.value}`,
     );
   }
-
+  // 文件应不小于给定的阈值（缺省512KB）
+  const minSize = parseFileSize(t.task.parameter.min_download_size).unwrap();
+  if (fs.statSync(absolutePath).size < minSize) {
+    return new Err(
+      `Error:Can't validate downloaded file ${downloadedFile} : file size less than ${
+        t.task.parameter.min_download_size ?? "512KB"
+      }`,
+    );
+  }
   // 对提供了 revised_version 的任务，尝试读取主程序版本号
   let revisedVersion = t.info.version;
   if (t.task.parameter.revised_version) {

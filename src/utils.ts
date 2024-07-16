@@ -526,6 +526,42 @@ function coverSecret(secret: string) {
   return c1 + c2;
 }
 
+function parseFileSize(str: string = "512KB"): Result<number, string> {
+  if (!str) {
+    return new Err(
+      `Error:Failed to parse '${str}' as valid file size : empty string provided, e.g. '512KB'`,
+    );
+  }
+
+  const UNITS: Record<string, number> = {
+    B: 1,
+    KB: 1024,
+    MB: 1024 ** 2,
+    GB: 1024 ** 3,
+    TB: 1024 ** 4,
+  };
+
+  const regex = /(\d+(?:\.\d+)?)\s*(B|KB|MB|GB|TB)/i;
+  const match = str.match(regex);
+
+  if (!match) {
+    return new Err(
+      `Error:Failed to parse '${str}' as valid file size : invalid file size format, e.g. '512KB'`,
+    );
+  }
+
+  const value = parseFloat(match[1]);
+  const unit = match[2].toUpperCase();
+
+  if (!UNITS[unit]) {
+    return new Err(
+      `Error:Failed to parse '${str}' as valid file size : unknown unit, e.g. '512KB'`,
+    );
+  }
+
+  return new Ok(value * UNITS[unit]);
+}
+
 export {
   Cmp,
   log,
@@ -550,4 +586,5 @@ export {
   coverSecret,
   tomlStringify,
   getAuthorForFileName,
+  parseFileSize,
 };

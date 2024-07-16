@@ -31,6 +31,7 @@ build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_delete = []
 revised_version = "${downloadedFile}"
 main_program = "${ProgramFiles_X86}/SogouInput/SogouExe/SogouExe.exe"
+min_download_size = "100MB"
 
 # 爬虫模板临时参数
 # [scraper_temp]

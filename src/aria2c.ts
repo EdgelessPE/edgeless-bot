@@ -254,7 +254,7 @@ async function download_with_aria2c(
 }
 
 async function download_with_curl(
-  taskName: string,
+  _taskName: string,
   url: string,
   dir: string,
   options: DownloadOptions,

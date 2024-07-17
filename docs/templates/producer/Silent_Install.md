@@ -9,15 +9,17 @@
 
 ## 必须提供的参数
 
+无
+
+## 可选的参数
+
+### argument
+
 ### uninstallCmd
 
 - 路径：`producer_required.uninstallCmd`
 - 类型：`string`
 - 说明：卸载命令，会被写入卸载工作流中
-
-## 可选的参数
-
-### argument
 
 - 路径：`producer_required.argument`
 - 类型：`string`

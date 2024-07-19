@@ -21,8 +21,9 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
   }
   // 增加UA
   if (result.headers == undefined) result.headers = {};
-  result.headers["user-agent"] =
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36";
+  if (!result.headers["User-Agent"])
+    result.headers["User-Agent"] =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36";
   return result;
 }
 

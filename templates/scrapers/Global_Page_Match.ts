@@ -3,12 +3,14 @@ import { ScraperParameters, ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/network";
 import { Cmp, log, matchVersion, versionCmp } from "../../src/utils";
 import * as cheerio from "cheerio";
+import { AxiosRequestConfig } from "axios";
 
 interface Temp {
   version_page_url?: string;
   download_page_url?: string;
   version_selector?: string;
   download_selector?: string;
+  ua?: string;
 }
 
 export default async function (
@@ -22,9 +24,13 @@ export default async function (
       ? new RegExp(p.downloadLinkRegex, "g")
       : // eslint-disable-next-line no-useless-escape
         /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
+  // 生成 Axios Config
+  const axiosCfg: AxiosRequestConfig | undefined = temp.ua
+    ? { headers: { "User-Agent": temp.ua } }
+    : undefined;
   // 获取页面
   let page, scope;
-  const getRes = await robustGet(temp.version_page_url ?? p.url);
+  const getRes = await robustGet(temp.version_page_url ?? p.url, axiosCfg);
   if (getRes.err || getRes.val == null || getRes.val == "") {
     return new Err(`Error:Fetched null page`);
   } else {
@@ -65,13 +71,15 @@ export default async function (
 
   // 全局匹配下载地址
   if (temp.download_page_url != undefined) {
-    page = (await robustGet(temp.download_page_url)).unwrap() as string;
+    page = (
+      await robustGet(temp.download_page_url, axiosCfg)
+    ).unwrap() as string;
   }
   if (
     temp.download_page_url == undefined &&
     temp.version_page_url != undefined
   ) {
-    page = (await robustGet(p.url)).unwrap() as string;
+    page = (await robustGet(p.url, axiosCfg)).unwrap() as string;
   }
   // 处理定义的选择器
   let skipMatch = false;

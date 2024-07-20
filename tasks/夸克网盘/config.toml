@@ -29,7 +29,7 @@ download_name = '\.exe'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
-main_program = "${AppData}/Local/Programs/quark-cloud-drive/QuarkCloudDrive.exe"
+registry_entry = "{82ca84ef-374c-5058-ba56-bb3ddca980c4}_is1"
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -40,7 +40,6 @@ api_url = "https://pan.quark.cn/api/client_version"
 # 自动制作模板要求的参数
 [producer_required]
 argument = "/sp- /silent /norestart /currentuser"
-uninstallCmd = "${AppData}/Local/Programs/quark-cloud-drive/unins000.exe"
 
 
 # 额外备注

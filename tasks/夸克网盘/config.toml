@@ -27,7 +27,7 @@ download_name = '\.exe'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
-# build_cover = ""
+build_cover = "cover"
 # build_delete = []
 registry_entry = "{82ca84ef-374c-5058-ba56-bb3ddca980c4}_is1"
 

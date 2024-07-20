@@ -1,0 +1,10 @@
+[rename]
+step = "Rename"
+from = "${downloadedFile}"
+to = "QuarkCloudDrive_v1.exe"
+
+[run_installer]
+name = "Run Installer"
+step = "Execute"
+command = 'QuarkCloudDrive_v1.exe /sp- /silent /norestart /currentuser'
+call_installer = true

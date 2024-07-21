@@ -29,7 +29,7 @@ scraper_version = '"ntVersion":\s?[^,]+,'
 build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = ""
 # build_delete = []
-main_program = "${ProgramFiles_X64}/Tencent/QQNT/QQ.exe"
+registry_entry = "QQ"
 
 # 爬虫模板临时参数
 [scraper_temp]
@@ -38,7 +38,6 @@ download_page_url = "https://cdn-go.cn/qq-web/im.qq.com_new/latest/rainbow/windo
 
 # 自动制作模板要求的参数
 [producer_required]
-uninstallCmd = "${ProgramFiles_X64}/Tencent/QQNT/Uninstall.exe"
 
 
 # 额外备注

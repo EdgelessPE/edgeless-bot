@@ -48,7 +48,7 @@ function uploadToRemote(
     try {
       log("Info:Uploading " + fileName);
       // 先尝试移除这个文件
-      deleteFromRemote(fileName, category, true);
+      deleteFromRemote(fileName, scope, taskName, true);
       cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
     } catch (err: unknown) {
       console.log((err as ExecSyncError)?.output.toString());

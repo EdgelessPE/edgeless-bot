@@ -16,4 +16,3 @@ env.json
 /bin
 .DS_Store
 /*.cmd
-/config.toml

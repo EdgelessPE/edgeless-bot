@@ -22,7 +22,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}\\ToDesk.exe"]
+build_manifest = ["${taskName}.wcs", "${taskName}\\ToDesk.exe"]
 # build_cover = ""
 build_delete = ["$PLUGINSDIR"]
 
@@ -39,7 +39,7 @@ recursiveUnzipList = []
 
 
 # 额外备注
-# [extra]
+[extra]
 require_windows = true
 # missing_version = ""
-# weekly = true
+weekly = true

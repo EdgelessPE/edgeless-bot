@@ -271,7 +271,7 @@ async function download_with_curl(
   }
 
   // 构造命令行
-  const cmd = ["curl", "-L", `-A "${UA}"`, `-o ${finalPath}`];
+  const cmd = ["curl", "-k", "-L", `-A "${UA}"`, `-o ${finalPath}`];
 
   if (options.referer) {
     cmd.push(`-e ${options.referer}`);
@@ -279,7 +279,7 @@ async function download_with_curl(
 
   // 开始下载
   try {
-    cp.execSync(`${cmd.join(" ")} ${url}`);
+    cp.execSync(`${cmd.join(" ")} "${url}"`);
   } catch (e) {
     throw new Error(`Error:Failed to download ${url} with curl : ${e}`);
   }

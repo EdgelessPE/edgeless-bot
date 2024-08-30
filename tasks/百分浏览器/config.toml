@@ -1,0 +1,45 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "百分浏览器"
+category = "浏览器"
+author = "xrgzs"
+url = "https://www.centbrowser.cn/history.html"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+download_link = 'https:\/\/static\.centbrowser\.cn\/win_stable\/(\d+\.\d+\.\d+\.\d+)\/centbrowser_\1_x64_portable\.exe'
+download_name = '\.exe'
+scraper_version = '(\d+\.\d+\.\d+\.\d+)'
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/chrome.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0"
+version_selector = ".list p"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Cent Browser"
+sourceFile = "chrome.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

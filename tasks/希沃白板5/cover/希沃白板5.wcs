@@ -1,0 +1,25 @@
+FILE %ProgramFiles%\Edgeless\Configs.fkv=>X:\Users\Default\AppData\Seewo\EasiNote5\Data\Configs.fkv
+LINK X:\Users\Default\Desktop\Ï£ÎÖ°×°å5,%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe
+
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\.enb\\=iseewo.enb
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\.enbx\\=iseewo.enbx
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\easinote\\=Ï£ÎÖ°×°å 5
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\easinote\\URL Protocol=%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe
+
+REGI --k HKEY_LOCAL_MACHINE\SOFTWARE\Classes\easinote\shell\\=
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\easinote\shell\open\\FriendlyAppName=Ï£ÎÖ°×°å 5
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\easinote\shell\open\command\\="%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe" "%%1"
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enb\\=Seewo EasiNote File
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enb\DefaultIcon\\=%CurDir%\enb_file.ico
+
+REGI --k HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enb\shell\\=
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enb\shell\open\\FriendlyAppName=Ï£ÎÖ°×°å 5
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enb\shell\open\command\\=%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe "%%1"
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\\=Seewo EasiNote File
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\DefaultIcon\\=%CurDir%\enb_file.ico
+
+REGI --k HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\shell\\=
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\shell\open\\FriendlyAppName=Ï£ÎÖ°×°å 5
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\shell\open\command\\=%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe "%%1"
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\shell\Ê¹ÓÃ Ï£ÎÖ°×°å 5 ¿ªÊ¼ÊÚ¿Î\\Icon=%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe
+REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\iseewo.enbx\shell\Ê¹ÓÃ Ï£ÎÖ°×°å 5 ¿ªÊ¼ÊÚ¿Î\command\\="%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe" "%%1" -m Display

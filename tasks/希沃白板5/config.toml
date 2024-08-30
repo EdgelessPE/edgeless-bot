@@ -1,0 +1,46 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "希沃白板5"
+category = "网课会议"
+author = "狂犬主子"
+url = "https://baoku.360.cn/soft/show/appid/105036181"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}\\Main\\EasiNote.exe"]
+build_cover = "cover"
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0"
+version_selector = ".type-info"
+download_selector = ".normal-down-btn"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "希沃白板5"
+sourceFile = "Main\\EasiNote.exe"
+recursiveUnzipList = ['/EasiNote5_\d+.\d+.\d+.\d+/']
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

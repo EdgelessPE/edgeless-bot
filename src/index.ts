@@ -45,16 +45,16 @@ async function main(): Promise<boolean> {
         "rclone copy kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json ./",
       );
       log("Info:Database pulled");
+      const loginRes = login();
+      if (!loginRes) {
+        return false;
+      }
     } else {
       // 从https获得只读数据库
       cp.execSync(
         "curl https://cloud.edgeless.top/Bot/database.json -o database.json",
       );
       log("Info:Readonly database pulled");
-    }
-    const loginRes = login();
-    if (!loginRes) {
-      return false;
     }
   }
   // 处理无版本号任务的制作日

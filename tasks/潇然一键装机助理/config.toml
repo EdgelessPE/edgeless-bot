@@ -1,0 +1,46 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "潇然一键装机助理"
+category = "安装备份"
+author = "xrgzs"
+url = "https://www.xrgzs.top/xrok"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+download_link = 'https://url.xrgzs.top/xrokhpm'
+download_name = '\.HPM'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/Xiaoran.bat"]
+build_cover = "cover"
+build_delete = ["HPM.config","HPM.key","HPM.WCE.Dense","HPM_Next.WCE"]
+
+# 爬虫模板临时参数
+
+[scraper_temp]
+ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0"
+version_page_url = "https://url.xrgzs.top/QiiVersion"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "潇然一键装机助理"
+sourceFile = "Xiaoran.bat"
+recursiveUnzipList = []
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

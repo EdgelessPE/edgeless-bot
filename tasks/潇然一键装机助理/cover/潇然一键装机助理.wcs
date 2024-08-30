@@ -1,0 +1,4 @@
+LINK X:\Users\Default\Desktop\潇然一键装机助理,%ProgramFiles%\Edgeless\潇然一键装机助理\Xiaoran.bat,,%ProgramFiles%\Edgeless\潇然一键装机助理\Xiaoran.ico
+
+REGI $HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers\\%ProgramFiles%\Edgeless\潇然一键装机助理\UjyQii.exe=~ GDIDPISCALING DPIUNAWARE
+REGI $HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers\\%ProgramFiles%\Edgeless\潇然一键装机助理\UjyQii.exe=~ GDIDPISCALING DPIUNAWARE

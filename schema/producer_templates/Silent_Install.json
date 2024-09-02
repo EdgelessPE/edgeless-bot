@@ -13,6 +13,14 @@
     "uninstallCmd": {
       "type": "string",
       "description": "Uninstalling command"
+    },
+    "ignoreInstallCmdExitCode": {
+      "type": "boolean",
+      "description": "Ignore if installing command fails"
+    },
+    "ignoreUninstallCmdExitCode": {
+      "type": "boolean",
+      "description": "Ignore if uninstalling command fails"
     }
   },
   "required": []

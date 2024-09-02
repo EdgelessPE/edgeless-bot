@@ -44,6 +44,7 @@ type NepStepExecute = {
   command: string;
   pwd?: string;
   call_installer?: boolean;
+  ignore_exit_code?: boolean;
 } & NepStepHeader;
 
 type NepStepPath = {

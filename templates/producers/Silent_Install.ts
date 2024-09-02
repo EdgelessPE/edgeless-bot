@@ -11,6 +11,8 @@ interface RequiredObject {
   argument?: string;
   deleteInstaller?: boolean;
   uninstallCmd?: string;
+  ignoreInstallCmdExitCode?: boolean;
+  ignoreUninstallCmdExitCode?: boolean;
 }
 
 export default async function (
@@ -42,6 +44,7 @@ export default async function (
       step: "Execute",
       command: `${downloadedFile} ${arg}`,
       call_installer: true,
+      ignore_exit_code: obj.ignoreInstallCmdExitCode ?? undefined,
     },
   };
   // TODO:等待 File 步骤上线后实现 del 特性
@@ -62,6 +65,7 @@ export default async function (
         step: "Execute",
         command: obj.uninstallCmd,
         call_installer: true,
+        ignore_exit_code: obj.ignoreUninstallCmdExitCode ?? undefined,
       },
     };
     fs.writeFileSync(removePath, tomlStringify(removeWorkflow));

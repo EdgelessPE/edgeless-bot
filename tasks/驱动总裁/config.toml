@@ -33,12 +33,12 @@ registry_entry = "DrvCeo2.0"
 # build_delete = []
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "#links > div > div.dlbox > a:nth-child(1)"
+download_selector = "#links > div > div.dlbox > a:nth-child(2)"
 version_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div > div.msg.fl.cl > ol > li:nth-child(2)"
 
 # 自动制作模板要求的参数
 [producer_required]
-
+ignoreInstallCmdExitCode = true
 
 # 额外备注
 # [extra]

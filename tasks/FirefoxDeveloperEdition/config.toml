@@ -1,7 +1,7 @@
 #:schema ../../schema/task.json
 # 任务基本信息
 [task]
-name = "FirefoxDevloperEdition"
+name = "FirefoxDeveloperEdition"
 category = "浏览器"
 author = "undefined"
 url = "https://portableapps.com/apps/internet/firefox-developer-portable"
@@ -22,7 +22,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}"]
+build_manifest = ["${taskName}.wcs", "${taskName}"]
 # build_cover = ""
 # build_delete = []
 

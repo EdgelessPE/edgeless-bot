@@ -160,5 +160,6 @@ export default async function (
   return new Ok({
     readyRelativePath: "_ready",
     mainProgram,
+    flags: ["P"],
   });
 }

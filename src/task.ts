@@ -525,6 +525,16 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     log(p.val);
     return new Err(`Error:Can't produce task ${t.task.name}`);
   }
+  // 检查返回的 flag 是否合规
+  if (p.val.flags) {
+    for (const flag of p.val.flags) {
+      if (!VALID_FLAGS.has(flag)) {
+        return new Err(
+          `Error:Invalid flag '${flag}' returned by template at task ${t.task}`,
+        );
+      }
+    }
+  }
   // 获得即将验收的绝对路径
   const cleanTaskName = t.task.name.includes("_")
     ? t.task.name.split("_")[0]
@@ -752,9 +762,10 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         matchVersion(t.info.version).val
       }_${getAuthorForFileName(t.task.author)}.${flags}.nep`;
     } else {
+      const flagStr = p.val.flags?.length ? `.${p.val.flags.join("")}` : "";
       return `${name}_${
         matchVersion(t.info.version).val
-      }_${getAuthorForFileName(t.task.author)}.nep`;
+      }_${getAuthorForFileName(t.task.author)}${flagStr}.nep`;
     }
   })();
 

@@ -77,6 +77,7 @@ export default async function (
   ) {
     return new Ok({
       readyRelativePath: "_ready",
+      flags: ["I"],
     });
   } else {
     return new Err(

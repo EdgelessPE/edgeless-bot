@@ -80,12 +80,15 @@ export default async function (
 
   // 安排worker
   const badge = getBadge("Producer");
+  const cleanTaskName = task.name.includes("_")
+    ? task.name.split("_")[0]
+    : task.name;
   const wd: WorkerDataProducer = {
     badge,
     isExternal,
     scriptPath,
     task: {
-      taskName: task.name,
+      taskName: cleanTaskName,
       version: s.version,
       workshop: path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
       downloadedFile,

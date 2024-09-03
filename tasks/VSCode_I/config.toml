@@ -1,7 +1,7 @@
 #:schema ../../schema/task.json
 # 任务基本信息
 [task]
-name = "VSCode-p"
+name = "VSCode_I"
 description = "微软开发的跨平台开源编辑器"
 category = "集成开发"
 author = ["Cno <cno4tech@gmail.com>"]
@@ -15,32 +15,31 @@ url = "https://code.visualstudio.com/"
 [template]
 scraper = "Redirection_Parse"
 # resolver = ""
-producer = "Recursive_Unzip"
+producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.zip'
+download_name = '\.exe'
 # scraper_version = ''
 
 # 通用参数
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["workflows/setup.toml", "${taskName}/Code.exe"]
+build_manifest = ["workflows/setup.toml", "${taskName}/${downloadedFile}"]
 # build_cover = "vscode_cover.7z"
 # build_delete = []
 main_program = "${AppData}/Local/Programs/Microsoft VS Code/Code.exe"
 
 # 爬虫模板临时参数
 [scraper_temp]
-redirection_url = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
+redirection_url = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "VSCode"
-sourceFile = "Code.exe"
-recursiveUnzipList = []
+argument = "/VERYSILENT /MERGETASKS=!runcode"
+uninstallCmd = "${AppData}/Local/Programs/Microsoft VS Code/unins000.exe"
 
 
 # 额外备注

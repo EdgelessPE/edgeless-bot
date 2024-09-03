@@ -39,6 +39,16 @@ function setMVTDayToday() {
 
 const VALID_WORKFLOW_NAMES = ["setup.toml", "update.toml", "remove.toml"];
 
+// 有效的 Nep flag
+const VALID_FLAGS = new Set([
+  // 可拓展
+  "E",
+  // 调用安装包
+  "I",
+  // 便携版
+  "P",
+]);
+
 export {
   PATH_CONFIG,
   LIGHT_TIMEOUT,
@@ -50,4 +60,5 @@ export {
   ENV_JSON_PATH,
   setMVTDayToday,
   VALID_WORKFLOW_NAMES,
+  VALID_FLAGS,
 };

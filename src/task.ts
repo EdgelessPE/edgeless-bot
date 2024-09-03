@@ -38,6 +38,7 @@ import {
   DOWNLOAD_CACHE,
   MISSING_VERSION_TRY_DAY,
   PROJECT_ROOT,
+  VALID_FLAGS,
   VALID_WORKFLOW_NAMES,
 } from "./const";
 import { deleteFromRemote } from "./cloud189";
@@ -227,6 +228,24 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       return new Err(
         `Error:Please keep the folder name (${taskName}) same with task name (${json.task.name})`,
       );
+    }
+    // 如果名称中有 _，检查是否合规
+    if (taskName.includes("_")) {
+      const sp = taskName.split("_");
+      // 最多只能有一个下划线
+      if (sp.length != 2) {
+        return new Err(
+          `Error:Invalid task name : ${taskName} : at most one '_' in task name`,
+        );
+      }
+      // 检查 flags 是否符合要求
+      for (const c of sp[1]) {
+        if (!VALID_FLAGS.has(c)) {
+          return new Err(
+            `Error:Invalid task name : ${taskName} : invalid flag '${c}'`,
+          );
+        }
+      }
     }
     if (!validateConfig(json)) {
       return new Err("Error:Can't validate config.toml for " + taskName);
@@ -507,8 +526,11 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     return new Err(`Error:Can't produce task ${t.task.name}`);
   }
   // 获得即将验收的绝对路径
+  const cleanTaskName = t.task.name.includes("_")
+    ? t.task.name.split("_")[0]
+    : t.task.name;
   const parsedBuiltInValuePack = {
-    taskName: t.task.name,
+    taskName: cleanTaskName,
     downloadedFile,
     latestVersion: t.info.version,
     revisedVersion,
@@ -528,7 +550,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       f = path.resolve(target, v);
       if (!fs.existsSync(f)) {
         // 尝试增加 ${taskName}/ 前缀
-        f = path.resolve(target, t.task.name, v);
+        f = path.resolve(target, cleanTaskName, v);
         if (!fs.existsSync(f)) {
           log(
             `Warning:Delete list include not existed file ${file}, consider update "build_delete"`,
@@ -683,7 +705,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   const nepPackage: NepPackage = {
     nep: "0.2",
     package: {
-      name: t.task.name,
+      name: cleanTaskName,
       template: "Software",
       description: t.task.description,
       version: t.info.version,
@@ -721,10 +743,22 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     tomlStringify(nepPackage),
   );
 
+  // 确定文件名
+  const fileName = (() => {
+    const { name } = t.task;
+    if (name.includes("_")) {
+      const [stem, flags] = name.split("_");
+      return `${stem}_${
+        matchVersion(t.info.version).val
+      }_${getAuthorForFileName(t.task.author)}.${flags}.nep`;
+    } else {
+      return `${name}_${
+        matchVersion(t.info.version).val
+      }_${getAuthorForFileName(t.task.author)}.nep`;
+    }
+  })();
+
   // 打包
-  const fileName = `${t.task.name}_${
-    matchVersion(t.info.version).val
-  }_${getAuthorForFileName(t.task.author)}.nep`;
   if (!(await packIntoNep(target, path.resolve(workshop, fileName)))) {
     return new Err("Error:Packing failed");
   }
@@ -732,7 +766,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     PROJECT_ROOT,
     config.DIR_BUILDS,
     t.task.scope,
-    t.task.name,
+    cleanTaskName,
   );
   shell.mkdir("-p", localStorageDir);
   const storagePath = path.resolve(localStorageDir, fileName);

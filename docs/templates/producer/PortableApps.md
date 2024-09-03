@@ -3,7 +3,9 @@
 - 类型：制作器
 - 入口：`PortableApps`
 
-专用于离线 PortableApps 软件源（以 `.paf.exe` 为拓展名）
+专用于离线 PortableApps 软件源（以 `.paf.exe` 为拓展名）。
+
+该模板默认会配置 flag `P`，表示制作得到的包是便携版。
 
 ## 必须提供的参数
 

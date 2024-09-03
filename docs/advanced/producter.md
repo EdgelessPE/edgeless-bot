@@ -79,5 +79,7 @@ interface ProducerParameters {
 ```typescript
 interface ProducerReturned {
   readyRelativePath: string;
+  mainProgram?: string;
+  flags?: string[];
 }
 ```

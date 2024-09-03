@@ -14,7 +14,7 @@ producer = "Click2Install"
 
 # 使用到的正则
 [regex]
-download_link = 'https:\/\/download\.anydesk\.com\/AnyDesk\.exe'
+download_link = 'https:\/\/download\.anydesk\.com(\.cn)?\/AnyDesk\.exe'
 download_name = '\.exe'
 # scraper_version = '"id":"win_exe","version":"[0-9.]+"'
 

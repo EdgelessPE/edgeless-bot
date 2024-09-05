@@ -408,11 +408,32 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   const workshop = path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
   let downloadedFile = "";
   let absolutePath = "";
+  // 解析直链
+  const dRes = await resolver(
+    {
+      downloadLink: t.info.downloadLink,
+      fileMatchRegex: parseBuiltInValue(
+        t.task.regex.download_name,
+        {
+          taskName: t.task.name,
+          downloadedFile: '"ERROR:Downloading not started yet"',
+          latestVersion: t.info.version,
+        },
+        true,
+      ),
+      cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
+      password: t.info.resolverParameter?.password,
+    },
+    t.info.resolverParameter?.entrance ?? t.task.template.resolver ?? undefined,
+  );
+  if (dRes.err) {
+    return dRes;
+  }
   // 创建 Cache 目录
   const downloadCache = config.DEBUG_MODE
     ? DOWNLOAD_CACHE
     : DOWNLOAD_SERVE_CACHE;
-  const hash = calcMD5(t.info.downloadLink);
+  const hash = calcMD5(dRes.val.directLink);
   if (config.ENABLE_CACHE && !fs.existsSync(downloadCache)) {
     await shell.mkdir("-p", downloadCache);
   }
@@ -427,29 +448,6 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   } else {
     if (config.ENABLE_CACHE) {
       log("Info:Cache not found");
-    }
-    // 解析直链
-    const dRes = await resolver(
-      {
-        downloadLink: t.info.downloadLink,
-        fileMatchRegex: parseBuiltInValue(
-          t.task.regex.download_name,
-          {
-            taskName: t.task.name,
-            downloadedFile: '"ERROR:Downloading not started yet"',
-            latestVersion: t.info.version,
-          },
-          true,
-        ),
-        cd: t.task.parameter.resolver_cd ?? t.task.parameter.resolver_cd,
-        password: t.info.resolverParameter?.password,
-      },
-      t.info.resolverParameter?.entrance ??
-        t.task.template.resolver ??
-        undefined,
-    );
-    if (dRes.err) {
-      return dRes;
     }
     // 下载文件
     shell.mkdir(workshop);

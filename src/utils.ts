@@ -14,6 +14,7 @@ import Piscina from "piscina";
 import cp from "child_process";
 import { PROJECT_ROOT } from "./const";
 import TOML from "@iarna/toml";
+import { createHash } from "crypto";
 
 enum Cmp {
   L,
@@ -562,6 +563,12 @@ function parseFileSize(str: string = "512KB"): Result<number, string> {
   return new Ok(value * UNITS[unit]);
 }
 
+function calcMD5(text: string) {
+  const hash = createHash("md5");
+  hash.update(text);
+  return hash.digest("hex");
+}
+
 export {
   Cmp,
   log,
@@ -587,4 +594,5 @@ export {
   tomlStringify,
   getAuthorForFileName,
   parseFileSize,
+  calcMD5,
 };

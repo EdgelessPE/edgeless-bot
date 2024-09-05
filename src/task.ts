@@ -25,6 +25,7 @@ import {
   getVersionFromFileName,
   getAuthorForFileName,
   parseFileSize,
+  calcMD5,
 } from "./utils";
 import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
 import { ResultNode } from "./scraper";
@@ -36,6 +37,7 @@ import producer from "./producer";
 import { release } from "./p7zip";
 import {
   DOWNLOAD_CACHE,
+  DOWNLOAD_SERVE_CACHE,
   MISSING_VERSION_TRY_DAY,
   PROJECT_ROOT,
   VALID_FLAGS,
@@ -406,11 +408,15 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   const workshop = path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
   let downloadedFile = "";
   let absolutePath = "";
-  // 创建Cache目录
-  if (config.ENABLE_CACHE && !fs.existsSync(DOWNLOAD_CACHE)) {
-    await shell.mkdir("-p", DOWNLOAD_CACHE);
+  // 创建 Cache 目录
+  const downloadCache = config.DEBUG_MODE
+    ? DOWNLOAD_CACHE
+    : DOWNLOAD_SERVE_CACHE;
+  const hash = calcMD5(t.info.downloadLink);
+  if (config.ENABLE_CACHE && !fs.existsSync(downloadCache)) {
+    await shell.mkdir("-p", downloadCache);
   }
-  const subCacheDir = path.resolve(DOWNLOAD_CACHE, t.task.name);
+  const subCacheDir = path.resolve(downloadCache, hash);
   // 如果有则使用缓存
   if (config.ENABLE_CACHE && fs.existsSync(subCacheDir)) {
     log(`Warning:Use cache at ${subCacheDir}`);

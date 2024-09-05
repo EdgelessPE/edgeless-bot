@@ -62,10 +62,6 @@ function configGenerator(): Result<CONFIG, string> {
       json["DATABASE_UPDATE"] = false;
       json["REMOTE_ENABLE"] = false;
       json["DEBUG_MODE"] = true;
-    } else {
-      if (json["ENABLE_CACHE"]) {
-        return new Err("Error: Only Debug Mode can enable download cache.");
-      }
     }
     return new Ok(json);
   }

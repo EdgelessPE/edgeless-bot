@@ -1,3 +1,4 @@
+import shell from "shelljs";
 import { log, sleep } from "./utils";
 import scraper from "./scraper";
 import Piscina from "piscina";
@@ -26,7 +27,7 @@ import art from "./art";
 import fs from "fs";
 import cp from "child_process";
 import { TaskInstance } from "./types/class";
-import { setMVTDayToday } from "./const";
+import { DOWNLOAD_SERVE_CACHE, setMVTDayToday } from "./const";
 import { printLoadEnvNotices } from "./env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -38,6 +39,10 @@ async function main(): Promise<boolean> {
   // 删除日志文件
   if (fs.existsSync("bot.log")) {
     fs.unlinkSync("bot.log");
+  }
+  // 删除生产缓存
+  if (fs.existsSync(DOWNLOAD_SERVE_CACHE)) {
+    shell.rm("-rf", DOWNLOAD_SERVE_CACHE);
   }
   // 打印环境变量加载
   printLoadEnvNotices();

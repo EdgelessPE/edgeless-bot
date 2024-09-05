@@ -11,6 +11,7 @@ rclone*
 *.exe
 database.json
 /cache
+/serve-cache
 /*.log
 env.json
 /bin

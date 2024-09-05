@@ -6,6 +6,7 @@ const PATH_CONFIG = "./config.toml",
 let MISSING_VERSION_TRY_DAY = 4;
 const PROJECT_ROOT = process.cwd();
 const DOWNLOAD_CACHE = path.join(PROJECT_ROOT, "cache");
+const DOWNLOAD_SERVE_CACHE = path.join(PROJECT_ROOT, "serve-cache");
 const CATEGORIES = [
   "实用工具",
   "开发辅助",
@@ -55,6 +56,7 @@ export {
   HEAVY_TIMEOUT,
   PROJECT_ROOT,
   DOWNLOAD_CACHE,
+  DOWNLOAD_SERVE_CACHE,
   MISSING_VERSION_TRY_DAY,
   CATEGORIES,
   ENV_JSON_PATH,

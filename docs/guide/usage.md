@@ -127,7 +127,7 @@ GitHub Actions，通常情况下不需要用到此模式，当 Edgeless Bot 在 
 
 **-c**
 
-Cache，启用下载缓存，仅在 Debug 模式下可用，此时 Bot 会缓存下载的文件到根目录的 `cache` 文件夹中以减少因下载文件产生的不必要等待。
+Cache，启用下载缓存，此时 Bot 会缓存下载的文件到根目录的 `cache` 或 `serve-cache` 文件夹中以减少因下载文件产生的不必要等待。
 
 示例：`pnpm dev -c -t TaskA` 缓存调试 TaskA 时下载的文件
 

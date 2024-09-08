@@ -1,4 +1,4 @@
-FILE %ProgramFiles%\Edgeless\Configs.fkv=>X:\Users\Default\AppData\Seewo\EasiNote5\Data\Configs.fkv
+FILE %ProgramFiles%\Edgeless\Configs.fkv=>X:\Users\Default\AppData\Roaming\Seewo\EasiNote5\Data\Configs.fkv
 LINK X:\Users\Default\Desktop\Ï£ÎÖ°×°å5,%ProgramFiles%\Edgeless\Ï£ÎÖ°×°å5\Main\EasiNote.exe
 
 REGI  $HKEY_LOCAL_MACHINE\SOFTWARE\Classes\.enb\\=iseewo.enb

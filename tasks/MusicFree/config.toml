@@ -15,7 +15,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = 'x64-portable.zip'
+download_name = 'x64-portable\.zip'
 # scraper_version = ''
 
 # 通用参数

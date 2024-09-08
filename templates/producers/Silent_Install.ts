@@ -78,6 +78,9 @@ export default async function (
     return new Ok({
       readyRelativePath: "_ready",
       flags: ["I"],
+      expandableContext: {
+        downloadedFilePath: path.join(fileDir, downloadedFile),
+      },
     });
   } else {
     return new Err(

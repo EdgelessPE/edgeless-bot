@@ -48,6 +48,9 @@ export default async function (
     return new Ok({
       readyRelativePath: "ready",
       mainProgram: downloadedFile,
+      expandableContext: {
+        downloadedFilePath: path.join(taskName, downloadedFile),
+      },
     });
   } else {
     return new Err(

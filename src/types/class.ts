@@ -69,7 +69,12 @@ interface ProducerParameters {
 interface ProducerReturned {
   readyRelativePath: string;
   mainProgram?: string;
+  // nep flag
   flags?: string[];
+  // 可拓展包的相关上下文
+  expandableContext?: {
+    downloadedFilePath?: string;
+  };
 }
 
 interface ProducerRegister {

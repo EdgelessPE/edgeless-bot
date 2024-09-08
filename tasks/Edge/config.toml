@@ -1,0 +1,47 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "Edge"
+category = "浏览器"
+author = "xrgzs"
+url = "https://www.microsoft.com/zh-cn/edge/download"
+
+# 指定使用的模板
+[template]
+scraper = "REST_API"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/msedge.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+download_path = "msedge-stable-win-x64.下载链接"
+version_path = "msedge-stable-win-x64.version"
+api_url = "https://raw.githubusercontent.com/Bush2021/edge_installer/main/data.json"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Microsoft Edge"
+sourceFile = "msedge.exe"
+launchArg = "--allow-run-as-system --no-first-run"
+recursiveUnzipList = ["MSEDGE.7z", "Chrome-bin", "/(\\d+.){3}\\d+/"]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

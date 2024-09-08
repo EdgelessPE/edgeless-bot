@@ -18,8 +18,8 @@ let res = (await robustGet(`https://xxx/api?xxx=XXX`)).unwarp();
 ```
 
 2. 通过 `cd` 和 `fileMatchRegex` 等信息匹配到需要的文件
-   :::tip
-   如果任务未指定 `cd`，默认处理策略是遍历全部文件夹然后使用 `fileMatchRegex` 匹配所有文件
+:::tip
+如果任务未指定 `cd`，默认处理策略是遍历全部文件夹然后使用 `fileMatchRegex` 匹配所有文件
 
 如果给定的 `fileMatchRegex` 能匹配到多个文件，默认处理策略是取第一个并输出警告提醒任务作者更新 `regex.download_name`
 :::

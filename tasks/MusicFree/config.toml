@@ -22,7 +22,7 @@ download_name = 'x64-portable.zip'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}"]
+build_manifest = ["${taskName}.wcs","${taskName}/MusicFree.exe"]
 # build_cover = ""
 # build_delete = []
 

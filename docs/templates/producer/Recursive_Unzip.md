@@ -46,4 +46,8 @@ recursiveUnzipList = ['下北泽','池沼','/雷普先辈！_ver\.*\.7z/']
 
 ## 可选的参数
 
-无
+### launchArg
+
+- 路径：`producer_required.launchArg`
+- 类型：`string`
+- 说明：创建的快捷方式启动参数

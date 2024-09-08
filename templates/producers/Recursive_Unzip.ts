@@ -13,6 +13,7 @@ interface RequiredObject {
   recursiveUnzipList: Array<string>;
   sourceFile: string;
   shortcutName: string;
+  launchArg?: string;
 }
 
 function matchFile(cwd: string, regex: string): Result<string, string> {
@@ -117,7 +118,11 @@ export default async function (
   }
   writeGBK(
     path.join(final, p.taskName + ".wcs"),
-    `LINK X:\\Users\\Default\\Desktop\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}`,
+    `LINK X:\\Users\\Default\\Desktop\\${
+      obj.shortcutName
+    },%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}${
+      obj.launchArg ? "," + obj.launchArg : ""
+    }`,
   );
   // 自检
   const exist = function (p: string): boolean {

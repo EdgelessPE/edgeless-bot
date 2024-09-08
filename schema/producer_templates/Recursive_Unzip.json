@@ -6,6 +6,10 @@
       "type": "string",
       "description": "Shortcut name for the source file"
     },
+    "launchArg": {
+      "type": "string",
+      "description": "The startup parameters for the created shortcut"
+    },
     "sourceFile": {
       "type": "string",
       "description": "The file shortcut points to after recursive unzip, support regex contained by //"

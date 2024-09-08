@@ -4,7 +4,7 @@
 name = "百分浏览器"
 category = "浏览器"
 author = "xrgzs"
-url = "https://www.centbrowser.cn/history.html"
+url = "https://www.centbrowser.com/history.html"
 
 # 指定使用的模板
 [template]
@@ -14,7 +14,7 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = 'https:\/\/static\.centbrowser\.cn\/win_stable\/(\d+\.\d+\.\d+\.\d+)\/centbrowser_\1_x64_portable\.exe'
+download_link = 'https:\/\/static\.centbrowser\.com\/win_stable\/(\d+\.\d+\.\d+\.\d+)\/centbrowser_\1_x64_portable\.exe'
 download_name = '\.exe'
 scraper_version = '(\d+\.\d+\.\d+\.\d+)'
 

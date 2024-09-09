@@ -15,9 +15,7 @@ import resolver from "../steps/resolver";
 import {
   calcMD5,
   Cmp,
-  getAuthorForFileName,
   log,
-  matchVersion,
   parseBuiltInValue,
   parseBuiltInValueForObject,
   parseFileSize,
@@ -33,7 +31,7 @@ import producer from "../steps/producer";
 import { release } from "../cli/p7zip";
 import { getDatabaseNode } from "../utils/database";
 import { NepPackage } from "../types/nep";
-import { packIntoNep } from "../cli/ept";
+import { packer } from "./steps/packer";
 
 export async function execute(
   t: ExecuteParameter,
@@ -390,40 +388,10 @@ export async function execute(
     tomlStringify(nepPackage),
   );
 
-  // 确定文件名
-  const fileName = (() => {
-    const { name } = t.task;
-    if (name.includes("_")) {
-      const [stem, flags] = name.split("_");
-      return `${stem}_${
-        matchVersion(t.info.version).val
-      }_${getAuthorForFileName(t.task.author)}.${flags}.nep`;
-    } else {
-      const flagStr = p.val.flags?.length ? `.${p.val.flags.join("")}` : "";
-      return `${name}_${
-        matchVersion(t.info.version).val
-      }_${getAuthorForFileName(t.task.author)}${flagStr}.nep`;
-    }
-  })();
+  // 对就绪目录初步打包
+  const packerRes = await packer(t, p, { target, workshop, cleanTaskName });
+  if (packerRes.err) return packerRes;
+  const fileName = packerRes.val;
 
-  // 打包
-  if (!(await packIntoNep(target, path.resolve(workshop, fileName)))) {
-    return new Err("Error:Packing failed");
-  }
-  const localStorageDir = path.resolve(
-    PROJECT_ROOT,
-    config.DIR_BUILDS,
-    t.task.scope,
-    cleanTaskName,
-  );
-  shell.mkdir("-p", localStorageDir);
-  const storagePath = path.resolve(localStorageDir, fileName);
-  if (fs.existsSync(storagePath)) {
-    shell.rm("-f", storagePath);
-  }
-  shell.mv(path.resolve(workshop, fileName), storagePath);
-  if (!fs.existsSync(storagePath)) {
-    return new Err("Error:Moving compressed file to builds folder failed");
-  }
   return new Ok([fileName]);
 }

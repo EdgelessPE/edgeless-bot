@@ -16,10 +16,12 @@ export async function packer(
     target,
     workshop,
     cleanTaskName,
+    isExpandableAppend,
   }: {
     target: string;
     workshop: string;
     cleanTaskName: string;
+    isExpandableAppend?: boolean;
   },
 ): Promise<Result<string, string>> {
   // 确定文件名
@@ -31,7 +33,10 @@ export async function packer(
         matchVersion(t.info.version).val
       }_${getAuthorForFileName(t.task.author)}.${flags}.nep`;
     } else {
-      const flagStr = p.val.flags?.length ? `.${p.val.flags.join("")}` : "";
+      let flagStr = p.val.flags?.length ? `.${p.val.flags.join("")}` : "";
+      if (isExpandableAppend && !flagStr.includes("E")) {
+        flagStr += "E";
+      }
       return `${name}_${
         matchVersion(t.info.version).val
       }_${getAuthorForFileName(t.task.author)}${flagStr}.nep`;

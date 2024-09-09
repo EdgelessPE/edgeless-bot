@@ -32,6 +32,7 @@ import { release } from "../cli/p7zip";
 import { getDatabaseNode } from "../utils/database";
 import { NepPackage } from "../types/nep";
 import { packer } from "./steps/packer";
+import { produceExpandableReady } from "./steps/expandable";
 
 export async function execute(
   t: ExecuteParameter,
@@ -391,7 +392,19 @@ export async function execute(
   // 对就绪目录初步打包
   const packerRes = await packer(t, p, { target, workshop, cleanTaskName });
   if (packerRes.err) return packerRes;
-  const fileName = packerRes.val;
+  const fileNames = [packerRes.val];
 
-  return new Ok([fileName]);
+  // 生成可展开包
+  const expandRes = await produceExpandableReady(t, p.val, {
+    target,
+    workshop,
+  });
+  if (expandRes.err) return expandRes;
+  if (expandRes.val === null) {
+    log(`Info:Can't produce expandable package for task '${t.task.name}'`);
+  } else {
+    fileNames.push(expandRes.val);
+  }
+
+  return new Ok(fileNames);
 }

@@ -1,14 +1,15 @@
-import fs from "fs";
 import { log } from "./index";
 import { ValidationType } from "../types/class";
 import path from "path";
+import blake3 from "blake3";
 
 import checksum from "checksum";
 import { createHash } from "node:crypto";
+import { createReadStream } from "node:fs";
 
 async function getMD5(filePath: string): Promise<string> {
   return new Promise((resolve) => {
-    const rs = fs.createReadStream(filePath);
+    const rs = createReadStream(filePath);
     const hash = createHash("md5");
     let hex;
     rs.on("data", hash.update.bind(hash));
@@ -30,7 +31,7 @@ async function getSHA1(filePath: string): Promise<string> {
 
 async function getSHA256(filePath: string): Promise<string> {
   return new Promise((resolve) => {
-    const rs = fs.createReadStream(filePath);
+    const rs = createReadStream(filePath);
     const hash = createHash("sha256");
     let hex;
     rs.on("data", hash.update.bind(hash));
@@ -42,26 +43,31 @@ async function getSHA256(filePath: string): Promise<string> {
   });
 }
 
+export async function getBLAKE3(filePath: string): Promise<string> {
+  return new Promise((resolve) => {
+    const stream = createReadStream(filePath);
+    const hash = blake3.createHash();
+    stream.on("data", (d) => hash.update(d));
+    stream.on("error", (err) => {
+      hash.dispose();
+      throw err;
+    });
+    stream.on("end", () => resolve(hash.digest().toString()));
+  });
+}
+
 export default async function (
   filePath: string,
   method: ValidationType,
   targetValue: string,
 ): Promise<boolean> {
-  let sum = "";
-  switch (method) {
-    case "MD5":
-      sum = await getMD5(filePath);
-      break;
-    case "SHA1":
-      sum = await getSHA1(filePath);
-      break;
-    case "SHA256":
-      sum = await getSHA256(filePath);
-      break;
-    default:
-      log(`Error:Unknown ValidationType '${method}'`);
-      break;
-  }
+  const fnMap: Record<ValidationType, (filePath: string) => Promise<string>> = {
+    MD5: getMD5,
+    SHA1: getSHA1,
+    SHA256: getSHA256,
+    BLAKE3: getBLAKE3,
+  };
+  const sum = await fnMap[method]?.(filePath);
   log(`Info:Checksum for ${path.parse(filePath).base},got ${sum}`);
   return sum == targetValue;
 }

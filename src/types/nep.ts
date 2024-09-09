@@ -22,11 +22,16 @@ export interface NepPackage {
 
 // Nep Workflow
 export interface NepWorkflow {
-  [key: string]: NepStepLink | NepStepExecute | NepStepPath | NepStepLog;
+  [key: string]:
+    | NepStepLink
+    | NepStepExecute
+    | NepStepPath
+    | NepStepLog
+    | NepStepDownload;
 }
 
 interface NepStepHeader {
-  name: string;
+  name?: string;
   if?: string;
 }
 
@@ -57,4 +62,10 @@ type NepStepLog = {
   step: "Log";
   level: string;
   msg: string;
+} & NepStepHeader;
+
+type NepStepDownload = {
+  step: "Download";
+  url: string;
+  hash_blake3: string;
 } & NepStepHeader;

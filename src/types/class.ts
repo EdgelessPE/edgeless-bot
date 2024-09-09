@@ -3,7 +3,7 @@
 import { Result } from "ts-results";
 import { NepPackage } from "./nep";
 
-export type ValidationType = "MD5" | "SHA1" | "SHA256";
+export type ValidationType = "MD5" | "SHA1" | "SHA256" | "BLAKE3";
 
 export interface ScraperParameters {
   taskName: string;

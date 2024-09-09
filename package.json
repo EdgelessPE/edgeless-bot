@@ -17,7 +17,8 @@
     "toml": "^3.0.0",
     "ts-results": "^3.3.0",
     "tslib": "^2.4.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "blake3": "^3"
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
@@ -60,6 +61,10 @@
   },
   "engines": {
     "node": ">=16",
-    "pnpm": ">=8"
+    "pnpm": ">=9"
+  },
+  "resolutions": {
+    "blake3-wasm": "^3.0.0",
+    "@c4312/blake3-internal": "^3.0.0"
   }
 }

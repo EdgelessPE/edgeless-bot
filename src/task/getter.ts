@@ -1,5 +1,5 @@
 import { Err, Ok, Result } from "ts-results";
-import { TaskInstance } from "../types/class";
+import { TaskConfig, TaskInstance } from "../types/class";
 import path from "path";
 import { config } from "../config";
 import fs from "fs";
@@ -7,7 +7,6 @@ import toml from "toml";
 import { VALID_FLAGS } from "../const";
 import { reserveTask, validateConfig } from "./utils";
 import { log } from "../utils";
-import { TaskConfig } from "./index";
 
 export function getSingleTask(taskName: string): Result<TaskInstance, string> {
   const taskConfigFile = path.resolve(

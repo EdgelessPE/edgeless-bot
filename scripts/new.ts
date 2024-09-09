@@ -9,7 +9,6 @@ import {
   stringArray,
 } from "./utils";
 import { log, tomlStringify } from "../src/utils";
-import { TaskConfig } from "../src/task";
 import chalk from "chalk";
 import { CATEGORIES, PROJECT_ROOT } from "../src/const";
 import fs from "fs";
@@ -27,23 +26,9 @@ import {
 import { JSONSchema4 } from "json-schema";
 import shell from "shelljs";
 import prettier from "prettier";
+import { TaskInput } from "./types";
 
 const TEST_URL = "https://github.com/balena-io/etcher";
-
-export interface TaskInput {
-  task: TaskConfig["task"];
-  template: {
-    producer: TaskConfig["template"]["producer"];
-    scraper?: TaskConfig["template"]["scraper"];
-  };
-  regex: {
-    download_name: TaskConfig["regex"]["download_name"];
-  };
-  parameter: {
-    build_manifest: TaskConfig["parameter"]["build_manifest"];
-  };
-  producer_required: unknown;
-}
 
 type SchemaType = "string" | "array" | "integer" | "object";
 

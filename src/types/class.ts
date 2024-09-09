@@ -229,3 +229,22 @@ export interface ResultReport {
   taskName: string;
   result: Result<string[], string>; // 成功时返回新构建的名称，失败返回错误消息
 }
+
+export interface TaskConfig {
+  task: {
+    name: TaskInstance["name"];
+    author: TaskInstance["author"];
+    scope: TaskInstance["scope"];
+    description: TaskInstance["description"];
+    language: TaskInstance["language"];
+    tags?: TaskInstance["tags"];
+    category: TaskInstance["category"];
+    url: TaskInstance["pageUrl"];
+    license?: TaskInstance["license"];
+  };
+  template: TaskInstance["template"];
+  regex: TaskInstance["regex"];
+  parameter: TaskInstance["parameter"];
+  producer_required: TaskInstance["producer_required"];
+  extra?: TaskInstance["extra"];
+}

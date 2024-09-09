@@ -59,7 +59,7 @@ export default async function (
       sum = await getSHA256(filePath);
       break;
     default:
-      log("Error:Unknown ValidationType");
+      log(`Error:Unknown ValidationType '${method}'`);
       break;
   }
   log(`Info:Checksum for ${path.parse(filePath).base},got ${sum}`);

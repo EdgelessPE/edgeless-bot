@@ -1,4 +1,9 @@
-import { BuildStatus, ScraperReturned, TaskInstance } from "../types/class";
+import {
+  BuildStatus,
+  ScraperReturned,
+  TaskConfig,
+  TaskInstance,
+} from "../types/class";
 import { getDatabaseNode, setDatabaseNodeFailure } from "../utils/database";
 import {
   Cmp,
@@ -23,7 +28,6 @@ import { Err, Ok, Result } from "ts-results";
 import rcInfo from "rcinfo";
 import scraperRegister from "../../templates/scrapers/_register";
 import producerRegister from "../../templates/producers/_register";
-import { TaskConfig } from "./index";
 import { getOS } from "../utils/platform";
 import { ResultNode } from "../scraper";
 import { getSingleTask } from "./getter";

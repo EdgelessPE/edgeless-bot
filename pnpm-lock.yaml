@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@iarna/toml':
-        specifier: ^2
+        specifier: ^2.2.5
         version: 2.2.5
       ajv:
         specifier: ^8.8.2
@@ -18,7 +18,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.5
       chalk:
-        specifier: ^4
+        specifier: ^4.1.1
         version: 4.1.2
       checksum:
         specifier: ^1.0.0

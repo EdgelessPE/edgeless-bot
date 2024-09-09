@@ -209,7 +209,7 @@ function validateConfig(task: TaskConfig): boolean {
   return suc;
 }
 
-function getSingleTask(taskName: string): Result<TaskInstance, string> {
+export function getSingleTask(taskName: string): Result<TaskInstance, string> {
   const taskConfigFile = path.resolve(
     process.cwd(),
     config.DIR_TASKS,
@@ -268,7 +268,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
   }
 }
 
-function getAllTasks(): Result<Array<TaskInstance>, string> {
+export function getAllTasks(): Result<Array<TaskInstance>, string> {
   const tasksDir = path.resolve(process.cwd(), config.DIR_TASKS);
   if (!fs.existsSync(tasksDir)) {
     return new Err("Error:Task directory not exist : " + tasksDir);
@@ -298,7 +298,7 @@ function getAllTasks(): Result<Array<TaskInstance>, string> {
   }
 }
 
-function getTasksToBeExecuted(results: ResultNode[]): Array<{
+export function getTasksToBeExecuted(results: ResultNode[]): Array<{
   task: TaskInstance;
   info: ScraperReturned;
 }> {
@@ -809,7 +809,7 @@ async function execute(
 //   return level;
 // }
 
-async function executeTasks(
+export async function executeTasks(
   ts: Array<ExecuteParameter>,
 ): Promise<Array<ResultReport>> {
   // eslint-disable-next-line no-async-promise-executor
@@ -880,7 +880,7 @@ async function executeTasks(
   });
 }
 
-function removeExtraBuilds(
+export function removeExtraBuilds(
   taskName: string,
   scope: string,
   newBuild: string,
@@ -939,7 +939,7 @@ function removeExtraBuilds(
   return buildList;
 }
 
-function reserveTask(task: TaskInstance): boolean {
+export function reserveTask(task: TaskInstance): boolean {
   // 排除 weekly
   if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
     log(`Warning:Ignore weekly task ${task.name}`);
@@ -960,12 +960,3 @@ function reserveTask(task: TaskInstance): boolean {
 
   return true;
 }
-
-export {
-  getAllTasks,
-  getSingleTask,
-  executeTasks,
-  getTasksToBeExecuted,
-  removeExtraBuilds,
-  reserveTask,
-};

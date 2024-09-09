@@ -1,5 +1,5 @@
 // Nep Package
-interface NepPackage {
+export interface NepPackage {
   nep: string;
   package: {
     name: string;
@@ -21,7 +21,7 @@ interface NepPackage {
 }
 
 // Nep Workflow
-interface NepWorkflow {
+export interface NepWorkflow {
   [key: string]: NepStepLink | NepStepExecute | NepStepPath | NepStepLog;
 }
 
@@ -58,5 +58,3 @@ type NepStepLog = {
   level: string;
   msg: string;
 } & NepStepHeader;
-
-export { NepPackage, NepWorkflow };

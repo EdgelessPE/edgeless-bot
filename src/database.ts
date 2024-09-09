@@ -23,7 +23,7 @@ const failedList: Array<{
 }> = [];
 
 // 初始化时调用
-function readDatabase() {
+export function readDatabase() {
   if (!fs.existsSync(config.DATABASE_PATH)) {
     log("Warning:Database file not found,create new one");
     database = {};
@@ -34,7 +34,7 @@ function readDatabase() {
 }
 
 // 保存数据库
-function writeDatabase() {
+export function writeDatabase() {
   if (!config.DATABASE_UPDATE) {
     log(
       "Warning:Database not updated" +
@@ -49,7 +49,7 @@ function writeDatabase() {
 }
 
 // 需要在read后调用
-function getDatabaseNode(taskName: string): DatabaseNode {
+export function getDatabaseNode(taskName: string): DatabaseNode {
   if (database[taskName] != null) {
     const node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
     node["taskName"] = taskName;
@@ -68,7 +68,7 @@ function getDatabaseNode(taskName: string): DatabaseNode {
 }
 
 // 需要在read后调用
-function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
+export function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
   log(errorMessage + ` for task ${taskName}`);
   const old = getDatabaseNode(taskName);
   database[taskName] = {
@@ -86,7 +86,7 @@ function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
   modified = true;
 }
 
-function setDatabaseNodeSuccess(
+export function setDatabaseNodeSuccess(
   taskName: string,
   newBuilds: Array<BuildStatus>,
 ) {
@@ -130,7 +130,7 @@ function generateFailureTip(): string {
 }
 
 // 返回是否存在失败
-function report(): boolean {
+export function report(): boolean {
   if (failedList.length == 0) {
     // 全部成功
     log(
@@ -153,12 +153,3 @@ function report(): boolean {
   }
   return failedList.length == 0;
 }
-
-export {
-  readDatabase,
-  writeDatabase,
-  getDatabaseNode,
-  setDatabaseNodeSuccess,
-  setDatabaseNodeFailure,
-  report,
-};

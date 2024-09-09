@@ -6,7 +6,7 @@ import { log } from "./utils";
 
 import shell from "shelljs";
 
-async function release(
+export async function release(
   file: string,
   intoDir: string,
   overwrite?: boolean,
@@ -32,7 +32,7 @@ async function release(
   });
 }
 
-async function compress(
+export async function compress(
   choosePlainDir: string,
   file: string,
   compressLevel: number,
@@ -56,5 +56,3 @@ async function compress(
     resolve(fs.existsSync(path.join(cwd ?? "", file)));
   });
 }
-
-export { release, compress };

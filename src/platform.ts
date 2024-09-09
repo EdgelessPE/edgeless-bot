@@ -7,7 +7,7 @@ import { config } from "./config";
 import { log } from "./utils";
 import { PROJECT_ROOT } from "./const";
 
-type OS = "Windows" | "Linux" | "MacOS" | "Other";
+export type OS = "Windows" | "Linux" | "MacOS" | "Other";
 
 export type Commands =
   | "p7zip"
@@ -18,7 +18,7 @@ export type Commands =
   | "curl"
   | "ept";
 
-function getOS(): OS {
+export function getOS(): OS {
   switch (os.platform()) {
     case "win32":
       return "Windows";
@@ -32,7 +32,7 @@ function getOS(): OS {
 }
 
 // 查找程序位置，返回值为绝对路径时会包含双引号
-function where(command: Commands): Result<string, string> {
+export function where(command: Commands): Result<string, string> {
   // 相对路径解析封装
   const parsePath = (p: string) => {
     if (p.indexOf("./") > -1) {
@@ -145,7 +145,7 @@ function where(command: Commands): Result<string, string> {
   }
 }
 
-function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
+export function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   const list: Commands[] = ["aria2c", "p7zip", "ept", "curl"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
@@ -178,5 +178,3 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   }
   return suc;
 }
-
-export { getOS, where, OS, ensurePlatform };

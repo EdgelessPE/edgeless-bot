@@ -18,7 +18,7 @@ require("source-map-support").install();
 
 export let badge = "Worker";
 
-async function scraper(
+export async function scraper(
   workerData: WorkerDataScraper,
 ): Promise<Result<Array<Result<ScraperReturned, string>>, string>> {
   // 修改工作牌
@@ -91,7 +91,7 @@ async function scraper(
   }
 }
 
-async function resolver(
+export async function resolver(
   workerData: WorkerDataResolver,
 ): Promise<Result<ResolverReturned, string>> {
   // 修改工作牌
@@ -124,7 +124,7 @@ async function resolver(
   }
 }
 
-async function producer(
+export async function producer(
   workerData: WorkerDataProducer,
 ): Promise<Result<ProducerReturned, string>> {
   // 修改工作牌
@@ -179,5 +179,3 @@ async function producer(
     }
   }
 }
-
-export { scraper, resolver, producer };

@@ -4,7 +4,7 @@ import cp from "child_process";
 import { log } from "./utils";
 import fs from "fs";
 
-async function packIntoNep(
+export async function packIntoNep(
   sourceDir: string,
   intoFile: string,
 ): Promise<boolean> {
@@ -29,5 +29,3 @@ async function packIntoNep(
     );
   });
 }
-
-export { packIntoNep };

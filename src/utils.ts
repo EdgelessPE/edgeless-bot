@@ -16,13 +16,13 @@ import { PROJECT_ROOT } from "./const";
 import TOML from "@iarna/toml";
 import { createHash } from "crypto";
 
-enum Cmp {
+export enum Cmp {
   L,
   E,
   G,
 }
 
-function print(text: string, ga_mode: boolean, badge?: string) {
+export function print(text: string, ga_mode: boolean, badge?: string) {
   // 增加字符串类型判断
   if (typeof text !== "string") {
     console.log(
@@ -105,7 +105,7 @@ function print(text: string, ga_mode: boolean, badge?: string) {
  * @param text 日志内容
  * @param b （可选）徽章
  */
-function log(text: string, b?: string) {
+export function log(text: string, b?: string) {
   let d = b;
   if (b == null && Piscina.isWorkerThread) {
     d = badge;
@@ -122,7 +122,7 @@ function log(text: string, b?: string) {
  * @param clearLast 是否将最后一位（第4位）置0
  * @returns
  */
-function formatVersion(
+export function formatVersion(
   version: string,
   clearLast = false,
 ): Result<string, string> {
@@ -150,7 +150,7 @@ function formatVersion(
   return new Ok(`${spl[0]}.${spl[1] ?? "0"}.${spl[2] ?? "0"}.${finalLast}`);
 }
 
-function matchVersion(text: string): Result<string, string> {
+export function matchVersion(text: string): Result<string, string> {
   const regex = /(\d+\.)+\d+/;
   const matchRes = text.match(regex);
   if (!matchRes || matchRes.length === 0) {
@@ -160,11 +160,11 @@ function matchVersion(text: string): Result<string, string> {
   return new Ok(matchRes[0]);
 }
 
-function isURL(str_url: string): boolean {
+export function isURL(str_url: string): boolean {
   return str_url.slice(0, 4) == "http";
 }
 
-function getSizeString(size: number): string {
+export function getSizeString(size: number): string {
   if (size < 1024) {
     return size.toFixed(2) + "B";
   } else if (size < 1024 * 1024) {
@@ -176,7 +176,7 @@ function getSizeString(size: number): string {
   }
 }
 
-function getTimeString(ms: number): string {
+export function getTimeString(ms: number): string {
   const s = ms / 1000;
   if (s < 60) {
     return `${s.toFixed(1)} s`;
@@ -185,7 +185,7 @@ function getTimeString(ms: number): string {
   }
 }
 
-function getVersionFromFileName(fileName: string): string {
+export function getVersionFromFileName(fileName: string): string {
   let name = fileName;
   if (name.endsWith(".nep")) {
     name = name.slice(0, -4);
@@ -194,11 +194,11 @@ function getVersionFromFileName(fileName: string): string {
   return sp[sp.length - 2];
 }
 
-function getAuthorForFileName(author: TaskInstance["author"]): string {
+export function getAuthorForFileName(author: TaskInstance["author"]): string {
   return author[0].split("<")[0].trim();
 }
 
-function versionCmp(a: string, b: string): Cmp {
+export function versionCmp(a: string, b: string): Cmp {
   const x = a.split(".");
   const y = b.split(".");
   let result: Cmp = Cmp.E;
@@ -233,7 +233,7 @@ function versionCmp(a: string, b: string): Cmp {
   return result;
 }
 
-async function awaitWithTimeout<P, R>(
+export async function awaitWithTimeout<P, R>(
   closure: (payload: P) => Promise<R>,
   timeout: number,
   payload: P,
@@ -248,12 +248,14 @@ async function awaitWithTimeout<P, R>(
   });
 }
 
-async function sleep(ms: number): Promise<void> {
+export async function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
 
 const ajvCache: Record<string, ValidateFunction<unknown>> = {};
-function getValidator(name: string): Result<ValidateFunction<unknown>, string> {
+export function getValidator(
+  name: string,
+): Result<ValidateFunction<unknown>, string> {
   if (!ajvCache[name]) {
     // 读取schema文件
     const schemaFilePath = path.join("./schema", name + ".json");
@@ -271,7 +273,7 @@ function getValidator(name: string): Result<ValidateFunction<unknown>, string> {
   return new Ok(ajvCache[name]);
 }
 
-function schemaValidator(
+export function schemaValidator(
   obj: unknown,
   schema: string,
   root?: string,
@@ -291,7 +293,7 @@ function schemaValidator(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function objChainValidator(obj: any, chain: string[]): boolean {
+export function objChainValidator(obj: any, chain: string[]): boolean {
   if (!(chain[0] in obj)) {
     return false;
   }
@@ -303,7 +305,7 @@ function objChainValidator(obj: any, chain: string[]): boolean {
   }
 }
 
-function requiredKeysValidator(
+export function requiredKeysValidator(
   obj: object,
   requiredKeys: string[],
   disableAlert?: boolean,
@@ -325,7 +327,7 @@ function requiredKeysValidator(
   return suc;
 }
 
-function objectValidator(
+export function objectValidator(
   object: Record<string, unknown>,
   checkList: Array<ObjectValidationNode>,
   cd?: string,
@@ -412,20 +414,20 @@ function objectValidator(
   return valid;
 }
 
-function toGBK(text: string): Buffer {
+export function toGBK(text: string): Buffer {
   return iconv.encode(text, "GBK");
 }
 
-function fromGBK(b: Buffer): string {
+export function fromGBK(b: Buffer): string {
   return iconv.decode(b, "GBK");
 }
 
-function tomlStringify(obj: object): string {
+export function tomlStringify(obj: object): string {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return TOML.stringify(obj as any);
 }
 
-function parseBuiltInValueForObject<T>(
+export function parseBuiltInValueForObject<T>(
   obj: T,
   v: {
     taskName: string;
@@ -439,7 +441,7 @@ function parseBuiltInValueForObject<T>(
   return JSON.parse(parsed);
 }
 
-function shuffle<T>(arr: Array<T>): Array<T> {
+export function shuffle<T>(arr: Array<T>): Array<T> {
   let n = arr.length,
     random;
   while (0 != n) {
@@ -450,7 +452,7 @@ function shuffle<T>(arr: Array<T>): Array<T> {
 }
 
 // TODO:拓展内置变量解析的覆盖范围
-function parseBuiltInValue(
+export function parseBuiltInValue(
   source: string,
   v: {
     taskName: string;
@@ -472,16 +474,7 @@ function parseBuiltInValue(
     .replaceAll("${revisedVersion}", v.revisedVersion ?? v.latestVersion);
 }
 
-/**
- * @deprecated 历史遗留 api（用于写入批处理）
- * @param file 文件路径
- * @param text 文件内容
- */
-// function _writeGBK(file: string, text: string) {
-//   fs.writeFileSync(file, toGBK(text));
-// }
-
-function wherePECMD(): Result<string, string> {
+export function wherePECMD(): Result<string, string> {
   const p = [".\\pecmd.exe", ".\\bin\\pecmd.exe"];
   let r = "";
   for (const i of p) {
@@ -499,7 +492,7 @@ function wherePECMD(): Result<string, string> {
   }
 }
 
-async function pressEnter(interval: number[]) {
+export async function pressEnter(interval: number[]) {
   // 生成pecmd脚本
   let script = "";
   for (const i of interval) {
@@ -514,7 +507,7 @@ async function pressEnter(interval: number[]) {
   fs.unlinkSync(p);
 }
 
-function coverSecret(secret: string) {
+export function coverSecret(secret: string) {
   // 对半拆分密钥
   const cutPoint = Math.ceil(secret.length / 2);
   const o1 = secret.substring(0, cutPoint),
@@ -527,7 +520,7 @@ function coverSecret(secret: string) {
   return c1 + c2;
 }
 
-function parseFileSize(str: string = "512KB"): Result<number, string> {
+export function parseFileSize(str: string = "512KB"): Result<number, string> {
   if (!str) {
     return new Err(
       `Error:Failed to parse '${str}' as valid file size : empty string provided, e.g. '512KB'`,
@@ -563,36 +556,8 @@ function parseFileSize(str: string = "512KB"): Result<number, string> {
   return new Ok(value * UNITS[unit]);
 }
 
-function calcMD5(text: string) {
+export function calcMD5(text: string) {
   const hash = createHash("md5");
   hash.update(text);
   return hash.digest("hex");
 }
-
-export {
-  Cmp,
-  log,
-  formatVersion,
-  matchVersion,
-  isURL,
-  getSizeString,
-  getTimeString,
-  versionCmp,
-  awaitWithTimeout,
-  sleep,
-  schemaValidator,
-  toGBK,
-  fromGBK,
-  objectValidator,
-  shuffle,
-  parseBuiltInValue,
-  parseBuiltInValueForObject,
-  requiredKeysValidator,
-  pressEnter,
-  getVersionFromFileName,
-  coverSecret,
-  tomlStringify,
-  getAuthorForFileName,
-  parseFileSize,
-  calcMD5,
-};

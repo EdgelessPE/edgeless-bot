@@ -13,7 +13,7 @@ function load2ProcessEnv(data: Record<string, string>, from: string) {
   });
 }
 
-function getEnv(): Record<string, string> {
+export function getEnv(): Record<string, string> {
   if (cache != null) return cache;
   // 加载自定义环境变量文件
   if (fs.existsSync(ENV_JSON_PATH)) {
@@ -39,8 +39,6 @@ function getEnv(): Record<string, string> {
   return cache;
 }
 
-function printLoadEnvNotices() {
+export function printLoadEnvNotices() {
   notices.forEach((n) => log(n));
 }
-
-export { getEnv, printLoadEnvNotices };

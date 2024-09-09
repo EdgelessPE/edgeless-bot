@@ -7,7 +7,7 @@ import { config } from "./config";
 
 type ExecSyncError = { output: { toString: () => string } } | undefined;
 
-function login(): boolean {
+export function login(): boolean {
   if (!config.GITHUB_ACTIONS) {
     return false;
   }
@@ -34,7 +34,7 @@ function login(): boolean {
   return true;
 }
 
-function uploadToRemote(
+export function uploadToRemote(
   fileName: string,
   scope: string,
   taskName: string,
@@ -81,7 +81,7 @@ function uploadToRemote(
   return true;
 }
 
-function deleteFromRemote(
+export function deleteFromRemote(
   fileName: string,
   scope: string,
   taskName: string,
@@ -136,5 +136,3 @@ function deleteFromRemote(
 
   return true;
 }
-
-export { login, uploadToRemote, deleteFromRemote };

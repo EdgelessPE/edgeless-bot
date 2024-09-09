@@ -3,9 +3,9 @@
 import { Result } from "ts-results";
 import { NepPackage } from "./nep";
 
-type ValidationType = "MD5" | "SHA1" | "SHA256";
+export type ValidationType = "MD5" | "SHA1" | "SHA256";
 
-interface ScraperParameters {
+export interface ScraperParameters {
   taskName: string;
   url: string;
   downloadLinkRegex?: string;
@@ -13,7 +13,7 @@ interface ScraperParameters {
   scraper_temp?: unknown;
 }
 
-interface ScraperReturned {
+export interface ScraperReturned {
   version: string;
   downloadLink: string;
   validation?: {
@@ -27,7 +27,7 @@ interface ScraperReturned {
   };
 }
 
-interface ScraperRegister {
+export interface ScraperRegister {
   name: string;
   urlRegex: string;
   entrance: string;
@@ -36,18 +36,18 @@ interface ScraperRegister {
 }
 
 // 云盘下载模板
-interface ResolverParameters {
+export interface ResolverParameters {
   downloadLink: string;
   fileMatchRegex: string;
   cd?: Array<string>;
   password?: string;
 }
 
-interface ResolverReturned {
+export interface ResolverReturned {
   directLink: string;
 }
 
-interface ResolverRegister {
+export interface ResolverRegister {
   name: string;
   downloadLinkRegex: string;
   entrance: string;
@@ -58,7 +58,7 @@ interface ResolverRegister {
 }
 
 // 自动制作模板
-interface ProducerParameters {
+export interface ProducerParameters {
   taskName: string;
   version: string;
   workshop: string;
@@ -66,7 +66,7 @@ interface ProducerParameters {
   requiredObject: unknown;
 }
 
-interface ProducerReturned {
+export interface ProducerReturned {
   readyRelativePath: string;
   mainProgram?: string;
   // nep flag
@@ -77,7 +77,7 @@ interface ProducerReturned {
   };
 }
 
-interface ProducerRegister {
+export interface ProducerRegister {
   name: string;
   description: string;
   entrance: string;
@@ -86,13 +86,13 @@ interface ProducerRegister {
 }
 
 // 数据库
-interface BuildStatus {
+export interface BuildStatus {
   version: string;
   timestamp: string;
   fileName: string;
 }
 
-interface DatabaseNode {
+export interface DatabaseNode {
   taskName: string;
   recent: {
     health: number; // 健康度，0-3
@@ -103,7 +103,7 @@ interface DatabaseNode {
 }
 
 // 任务实例
-interface TaskInstance {
+export interface TaskInstance {
   name: string;
   scope: string;
   description: string;
@@ -145,7 +145,7 @@ interface TaskInstance {
 }
 
 // 程序配置
-interface CONFIG {
+export interface CONFIG {
   DATABASE_UPDATE: boolean;
   DATABASE_PATH: string;
 
@@ -176,7 +176,7 @@ interface CONFIG {
 }
 
 // 对象检验表节点
-enum JsObjectType {
+export enum JsObjectType {
   "numberOrEnum",
   "string",
   "object",
@@ -185,7 +185,7 @@ enum JsObjectType {
   "invalid",
 }
 
-interface ObjectValidationNode {
+export interface ObjectValidationNode {
   key: string;
   type: JsObjectType;
   required: boolean;
@@ -193,14 +193,14 @@ interface ObjectValidationNode {
 }
 
 // 工人数据对象
-interface WorkerDataScraper {
+export interface WorkerDataScraper {
   badge: string;
   scriptPath: string;
   isExternal: boolean;
   tasks: Array<TaskInstance>;
 }
 
-interface WorkerDataResolver {
+export interface WorkerDataResolver {
   badge: string;
   scriptPath: string;
   url: string;
@@ -209,7 +209,7 @@ interface WorkerDataResolver {
   password?: string;
 }
 
-interface WorkerDataProducer {
+export interface WorkerDataProducer {
   badge: string;
   scriptPath: string;
   isExternal: boolean;
@@ -217,37 +217,13 @@ interface WorkerDataProducer {
 }
 
 // 制作所需信息
-interface ExecuteParameter {
+export interface ExecuteParameter {
   task: TaskInstance;
   info: ScraperReturned;
 }
 
 // 状态报告
-interface ResultReport {
+export interface ResultReport {
   taskName: string;
   result: Result<string[], string>; // 成功时返回新构建的名称，失败返回错误消息
 }
-
-export {
-  ValidationType,
-  JsObjectType,
-  ScraperParameters,
-  ScraperReturned,
-  ScraperRegister,
-  ResolverParameters,
-  ResolverReturned,
-  ResolverRegister,
-  ProducerParameters,
-  ProducerReturned,
-  ProducerRegister,
-  DatabaseNode,
-  TaskInstance,
-  CONFIG,
-  ObjectValidationNode,
-  WorkerDataScraper,
-  WorkerDataResolver,
-  WorkerDataProducer,
-  ExecuteParameter,
-  BuildStatus,
-  ResultReport,
-};

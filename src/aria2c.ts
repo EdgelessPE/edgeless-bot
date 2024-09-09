@@ -73,7 +73,7 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
   });
 }
 
-async function stopAria2c(): Promise<void> {
+export async function stopAria2c(): Promise<void> {
   return new Promise((resolve) => {
     if (aria2c_alive) {
       sent_kill = true;
@@ -92,7 +92,7 @@ async function stopAria2c(): Promise<void> {
 }
 
 // 由外部调用的初始化函数
-async function initAria2c(): Promise<boolean> {
+export async function initAria2c(): Promise<boolean> {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     // 获得二进制配置
@@ -286,7 +286,7 @@ async function download_with_curl(
   return filename;
 }
 
-async function download(
+export async function download(
   ...args: [string, string, string, DownloadOptions]
 ): Promise<string> {
   // 先尝试使用 aria2c 下载
@@ -299,4 +299,4 @@ async function download(
   }
 }
 
-export { initAria2c, download, aria2c_alive, stopAria2c };
+export { aria2c_alive };

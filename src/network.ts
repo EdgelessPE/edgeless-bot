@@ -42,7 +42,7 @@ async function singleFetch(
 }
 
 // 返回axios中的res.data
-async function robustGet<T>(
+export async function robustGet<T>(
   url: string,
   axiosConfig?: AxiosRequestConfig,
 ): Promise<Result<T, string>> {
@@ -93,7 +93,7 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
   });
 }
 
-async function robustParseRedirect(
+export async function robustParseRedirect(
   url: string,
 ): Promise<Result<string, string>> {
   let result = null,
@@ -117,5 +117,3 @@ async function robustParseRedirect(
     return new Ok(result);
   }
 }
-
-export { robustGet, robustParseRedirect };

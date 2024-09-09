@@ -20,7 +20,7 @@ async function ask(tip: string, head?: string): Promise<string> {
   });
 }
 
-async function input(
+export async function input(
   tip: string,
   defaultVal?: string,
   regex?: RegExp,
@@ -48,7 +48,7 @@ async function input(
   return r;
 }
 
-async function select(
+export async function select(
   tip: string,
   options: string[],
   defaultIndex?: number,
@@ -115,7 +115,10 @@ async function select(
   });
 }
 
-async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
+export async function bool(
+  tip: string,
+  defaultVal?: boolean,
+): Promise<boolean> {
   const r = await ask(
     tip +
       ` (${
@@ -143,7 +146,7 @@ async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
   return bool(tip, defaultVal);
 }
 
-async function stringArray(
+export async function stringArray(
   tip: string,
   defaultVal?: string[],
   regex?: RegExp,
@@ -176,7 +179,7 @@ async function stringArray(
   }
 }
 
-function applyInput(
+export function applyInput(
   toml: string,
   input: Record<string, unknown>,
   base: string,
@@ -221,7 +224,7 @@ function genRegExpForToml(key: string): RegExp {
 }
 
 // 只能激活被注释的表头，不允许自行添加
-function inputRequiredKey(
+export function inputRequiredKey(
   keyChain: string,
   toml: string,
   value: string,
@@ -250,7 +253,7 @@ function inputRequiredKey(
   return new Ok(toml);
 }
 
-interface ParameterDeclare {
+export interface ParameterDeclare {
   type: string;
   key: string;
   title: string;
@@ -258,7 +261,7 @@ interface ParameterDeclare {
 }
 
 // 生成参数声明文档
-function genParameterWiki(arr: ParameterDeclare[]): string {
+export function genParameterWiki(arr: ParameterDeclare[]): string {
   if (arr.length == 0) {
     return "无";
   } else {
@@ -271,14 +274,3 @@ function genParameterWiki(arr: ParameterDeclare[]): string {
     return r;
   }
 }
-
-export {
-  input,
-  select,
-  bool,
-  stringArray,
-  applyInput,
-  inputRequiredKey,
-  genParameterWiki,
-  ParameterDeclare,
-};

@@ -1,6 +1,6 @@
 import { Ok, Err, Result } from "ts-results";
 import { ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/network";
+import { robustGet } from "../../src/utils/network";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   const page = (

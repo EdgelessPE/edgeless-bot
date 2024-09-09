@@ -11,7 +11,7 @@ import { log } from "./utils";
 import fs from "fs";
 import { config } from "./config";
 import { piscina } from "./piscina";
-import { getBadge } from "./badge";
+import { getBadge } from "./utils/badge";
 
 export interface ResultNode {
   taskName: string;

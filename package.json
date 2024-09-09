@@ -26,7 +26,7 @@
     "docs:serve": "vitepress serve docs",
     "serve": "tsc && node dist/src/index.js",
     "dev": "tsc && node dist/src/index.js -d",
-    "type:check": "tsc --noEmit",
+    "check": "tsc --noEmit",
     "new": "ts-node scripts/new.ts",
     "gen": "ts-node ./scripts/genSchema.ts",
     "fmt": "prettier --write .",

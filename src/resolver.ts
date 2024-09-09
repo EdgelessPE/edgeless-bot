@@ -7,7 +7,7 @@ import {
   WorkerDataResolver,
 } from "./types/class";
 import { piscina } from "./piscina";
-import { getBadge } from "./badge";
+import { getBadge } from "./utils/badge";
 import path from "path";
 import fs from "fs";
 import { log } from "./utils";

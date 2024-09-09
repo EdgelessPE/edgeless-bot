@@ -1,11 +1,11 @@
 import { WebSocket as Aria2WebSocket } from "libaria2-ts";
 import cp from "child_process";
-import { getSizeString, getTimeString, log, sleep } from "./utils";
-import { getOS, where } from "./platform";
+import { getSizeString, getTimeString, log, sleep } from "../utils";
+import { getOS, where } from "../utils/platform";
 import path from "path";
 import fs from "fs";
-import { config } from "./config";
-import { PROJECT_ROOT } from "./const";
+import { config } from "../config";
+import { PROJECT_ROOT } from "../const";
 
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";

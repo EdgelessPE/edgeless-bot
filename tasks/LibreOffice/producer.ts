@@ -2,7 +2,7 @@ import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
 import { log, tomlStringify } from "../../src/utils";
 import path from "path";
-import { release } from "../../src/p7zip";
+import { release } from "../../src/cli/p7zip";
 
 import shell from "shelljs";
 import fs from "fs";

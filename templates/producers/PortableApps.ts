@@ -1,6 +1,6 @@
 import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
-import { release } from "../../src/p7zip";
+import { release } from "../../src/cli/p7zip";
 import path from "path";
 import fs from "fs";
 import { log, tomlStringify } from "../../src/utils";

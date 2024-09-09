@@ -27,14 +27,14 @@ import {
   parseFileSize,
   calcMD5,
 } from "./utils";
-import { getDatabaseNode, setDatabaseNodeFailure } from "./database";
+import { getDatabaseNode, setDatabaseNodeFailure } from "./utils/database";
 import { ResultNode } from "./scraper";
 import resolver from "./resolver";
-import { download } from "./aria2c";
-import checksum from "./checksum";
+import { download } from "./cli/aria2c";
+import checksum from "./utils/checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
-import { release } from "./p7zip";
+import { release } from "./cli/p7zip";
 import {
   DOWNLOAD_CACHE,
   DOWNLOAD_SERVE_CACHE,
@@ -44,17 +44,17 @@ import {
   VALID_FLAGS,
   VALID_WORKFLOW_NAMES,
 } from "./const";
-import { deleteFromRemote } from "./cloud189";
+import { deleteFromRemote } from "./cli/cloud189";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
-import { getOS } from "./platform";
+import { getOS } from "./utils/platform";
 import shell from "shelljs";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rcInfo from "rcinfo";
 import { NepPackage } from "./types/nep";
-import { packIntoNep } from "./ept";
+import { packIntoNep } from "./cli/ept";
 
 export interface TaskConfig {
   task: {

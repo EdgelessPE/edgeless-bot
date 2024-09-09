@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustGet, robustParseRedirect } from "../../src/network";
+import { robustGet, robustParseRedirect } from "../../src/utils/network";
 import * as cheerio from "cheerio";
 import { log } from "../../src/utils";
 import GitHubRelease from "./GitHub_Release";

@@ -7,7 +7,6 @@ dist
 docs/docs-dist
 tasks/1
 _press.wcs
-rclone*
 *.exe
 database.json
 /cache

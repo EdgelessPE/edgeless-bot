@@ -1,6 +1,6 @@
 import { ResolverParameters, ResolverReturned } from "../../src/types/class";
 import { Err, Ok, Result } from "ts-results";
-import { robustGet } from "../../src/network";
+import { robustGet } from "../../src/utils/network";
 import { coverSecret, log } from "../../src/utils";
 import { AxiosRequestConfig } from "axios";
 import { GitHubRelease } from "../scrapers/GitHub_ReleaseTypes";

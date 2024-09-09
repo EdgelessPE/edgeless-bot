@@ -8,11 +8,11 @@ import {
   JsObjectType,
   ObjectValidationNode,
   TaskInstance,
-} from "./types/class";
-import { badge } from "./worker";
+} from "../types/class";
+import { badge } from "../worker";
 import Piscina from "piscina";
 import cp from "child_process";
-import { PROJECT_ROOT } from "./const";
+import { PROJECT_ROOT } from "../const";
 import TOML from "@iarna/toml";
 import { createHash } from "crypto";
 
@@ -22,7 +22,7 @@ export enum Cmp {
   G,
 }
 
-export function print(text: string, ga_mode: boolean, badge?: string) {
+export function print(text: unknown, ga_mode: boolean, badge?: string) {
   // 增加字符串类型判断
   if (typeof text !== "string") {
     console.log(

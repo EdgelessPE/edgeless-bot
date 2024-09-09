@@ -3,7 +3,7 @@ import fs from "fs";
 import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import { log, sleep, tomlStringify } from "../../src/utils";
-import { release } from "../../src/p7zip";
+import { release } from "../../src/cli/p7zip";
 import os from "os";
 import cp from "child_process";
 

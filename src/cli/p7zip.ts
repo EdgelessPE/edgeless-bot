@@ -1,8 +1,8 @@
 import cp from "child_process";
 import fs from "fs";
-import { where } from "./platform";
+import { where } from "../utils/platform";
 import path from "path";
-import { log } from "./utils";
+import { log } from "../utils";
 
 import shell from "shelljs";
 

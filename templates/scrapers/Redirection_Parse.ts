@@ -1,6 +1,6 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustParseRedirect } from "../../src/network";
+import { robustParseRedirect } from "../../src/utils/network";
 import { log } from "../../src/utils";
 
 interface Temp {

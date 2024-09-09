@@ -8,7 +8,7 @@ import {
 } from "./types/class";
 import { piscina } from "./piscina";
 import { config } from "./config";
-import { getBadge } from "./badge";
+import { getBadge } from "./utils/badge";
 import { log, parseBuiltInValue } from "./utils";
 import { PROJECT_ROOT } from "./const";
 

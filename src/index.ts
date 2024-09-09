@@ -11,9 +11,9 @@ import {
   reserveTask,
 } from "./task";
 import { config } from "./config";
-import { ensurePlatform } from "./platform";
-import { clearWorkshop } from "./workshop";
-import { initAria2c, stopAria2c } from "./aria2c";
+import { ensurePlatform } from "./utils/platform";
+import { clearWorkshop } from "./utils/workshop";
+import { initAria2c, stopAria2c } from "./cli/aria2c";
 import {
   modified,
   readDatabase,
@@ -21,14 +21,14 @@ import {
   setDatabaseNodeFailure,
   setDatabaseNodeSuccess,
   writeDatabase,
-} from "./database";
-import { login, uploadToRemote } from "./cloud189";
-import art from "./art";
+} from "./utils/database";
+import { login, uploadToRemote } from "./cli/cloud189";
+import art from "./utils/art";
 import fs from "fs";
 import cp from "child_process";
 import { TaskInstance } from "./types/class";
 import { DOWNLOAD_SERVE_CACHE, setMVTDayToday } from "./const";
-import { printLoadEnvNotices } from "./env";
+import { printLoadEnvNotices } from "./utils/env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();

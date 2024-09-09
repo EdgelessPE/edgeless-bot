@@ -3,9 +3,9 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import fs from "fs";
 import cp from "child_process";
-import { config } from "./config";
-import { log } from "./utils";
-import { PROJECT_ROOT } from "./const";
+import { config } from "../config";
+import { log } from "./index";
+import { PROJECT_ROOT } from "../const";
 
 export type OS = "Windows" | "Linux" | "MacOS" | "Other";
 

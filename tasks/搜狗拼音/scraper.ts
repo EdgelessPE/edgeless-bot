@@ -1,6 +1,6 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/network";
+import { robustGet } from "../../src/utils/network";
 import { log, versionCmp, Cmp } from "../../src/utils";
 
 const reg =

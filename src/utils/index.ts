@@ -14,7 +14,7 @@ import Piscina from "piscina";
 import cp from "child_process";
 import { PROJECT_ROOT } from "../const";
 import TOML from "@iarna/toml";
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
 
 export enum Cmp {
   L,

@@ -26,9 +26,6 @@ importers:
       cheerio:
         specifier: ^1.0.0-rc.10
         version: 1.0.0-rc.12
-      crypto:
-        specifier: ^1.0.1
-        version: 1.0.1
       iconv-lite:
         specifier: ^0.6.3
         version: 0.6.3
@@ -92,7 +89,7 @@ importers:
         version: 0.8.11
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.3.0
-        version: 6.3.0(@typescript-eslint/parser@6.3.0)(eslint@8.47.0)(typescript@4.9.5)
+        version: 6.3.0(@typescript-eslint/parser@6.3.0(eslint@8.47.0)(typescript@4.9.5))(eslint@8.47.0)(typescript@4.9.5)
       '@typescript-eslint/parser':
         specifier: ^6.3.0
         version: 6.3.0(eslint@8.47.0)(typescript@4.9.5)
@@ -104,7 +101,7 @@ importers:
         version: 9.0.0(eslint@8.47.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.47.0)(prettier@3.0.1)
+        version: 5.0.0(eslint-config-prettier@9.0.0(eslint@8.47.0))(eslint@8.47.0)(prettier@3.0.1)
       husky:
         specifier: ^8.0.3
         version: 8.0.3
@@ -125,7 +122,7 @@ importers:
         version: 0.59.0
       vitepress:
         specifier: ^0.21.6
-        version: 0.21.6(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+        version: 0.21.6(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
 packages:
 
@@ -617,10 +614,6 @@ packages:
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
-
-  crypto@1.0.1:
-    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
-    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
 
   css-select@5.1.0:
     resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==}
@@ -1848,9 +1841,9 @@ snapshots:
 
   '@docsearch/css@3.1.1': {}
 
-  '@docsearch/js@3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)':
+  '@docsearch/js@3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@docsearch/react': 3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+      '@docsearch/react': 3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       preact: 10.9.0
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -1858,7 +1851,7 @@ snapshots:
       - react
       - react-dom
 
-  '@docsearch/react@3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)':
+  '@docsearch/react@3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@algolia/autocomplete-core': 1.7.1
       '@algolia/autocomplete-preset-algolia': 1.7.1(@algolia/client-search@4.13.1)(algoliasearch@4.13.1)
@@ -1984,7 +1977,7 @@ snapshots:
       '@types/glob': 7.2.0
       '@types/node': 18.17.5
 
-  '@typescript-eslint/eslint-plugin@6.3.0(@typescript-eslint/parser@6.3.0)(eslint@8.47.0)(typescript@4.9.5)':
+  '@typescript-eslint/eslint-plugin@6.3.0(@typescript-eslint/parser@6.3.0(eslint@8.47.0)(typescript@4.9.5))(eslint@8.47.0)(typescript@4.9.5)':
     dependencies:
       '@eslint-community/regexpp': 4.6.2
       '@typescript-eslint/parser': 6.3.0(eslint@8.47.0)(typescript@4.9.5)
@@ -2000,6 +1993,7 @@ snapshots:
       natural-compare-lite: 1.4.0
       semver: 7.5.4
       ts-api-utils: 1.0.1(typescript@4.9.5)
+    optionalDependencies:
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
@@ -2012,6 +2006,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 6.3.0
       debug: 4.3.4
       eslint: 8.47.0
+    optionalDependencies:
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
@@ -2028,6 +2023,7 @@ snapshots:
       debug: 4.3.4
       eslint: 8.47.0
       ts-api-utils: 1.0.1(typescript@4.9.5)
+    optionalDependencies:
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
@@ -2043,6 +2039,7 @@ snapshots:
       is-glob: 4.0.3
       semver: 7.5.4
       ts-api-utils: 1.0.1(typescript@4.9.5)
+    optionalDependencies:
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
@@ -2328,8 +2325,6 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  crypto@1.0.1: {}
-
   css-select@5.1.0:
     dependencies:
       boolbase: 1.0.0
@@ -2497,13 +2492,14 @@ snapshots:
     dependencies:
       eslint: 8.47.0
 
-  eslint-plugin-prettier@5.0.0(eslint-config-prettier@9.0.0)(eslint@8.47.0)(prettier@3.0.1):
+  eslint-plugin-prettier@5.0.0(eslint-config-prettier@9.0.0(eslint@8.47.0))(eslint@8.47.0)(prettier@3.0.1):
     dependencies:
       eslint: 8.47.0
-      eslint-config-prettier: 9.0.0(eslint@8.47.0)
       prettier: 3.0.1
       prettier-linter-helpers: 1.0.0
       synckit: 0.8.5
+    optionalDependencies:
+      eslint-config-prettier: 9.0.0(eslint@8.47.0)
 
   eslint-scope@7.2.2:
     dependencies:
@@ -3323,10 +3319,10 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  vitepress@0.21.6(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1):
+  vitepress@0.21.6(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@docsearch/css': 3.1.1
-      '@docsearch/js': 3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+      '@docsearch/js': 3.1.1(@algolia/client-search@4.13.1)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@vitejs/plugin-vue': 2.3.3(vite@2.9.14)(vue@3.2.37)
       prismjs: 1.28.0
       vite: 2.9.14

@@ -1,15 +1,15 @@
 import fs from "fs";
-import cpt from "crypto";
 import { log } from "./index";
 import { ValidationType } from "../types/class";
 import path from "path";
 
 import checksum from "checksum";
+import { createHash } from "node:crypto";
 
 async function getMD5(filePath: string): Promise<string> {
   return new Promise((resolve) => {
     const rs = fs.createReadStream(filePath);
-    const hash = cpt.createHash("md5");
+    const hash = createHash("md5");
     let hex;
     rs.on("data", hash.update.bind(hash));
     rs.on("end", () => {
@@ -31,7 +31,7 @@ async function getSHA1(filePath: string): Promise<string> {
 async function getSHA256(filePath: string): Promise<string> {
   return new Promise((resolve) => {
     const rs = fs.createReadStream(filePath);
-    const hash = cpt.createHash("sha256");
+    const hash = createHash("sha256");
     let hex;
     rs.on("data", hash.update.bind(hash));
     rs.on("end", () => {

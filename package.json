@@ -6,7 +6,6 @@
     "chalk": "^4.1.1",
     "checksum": "^1.0.0",
     "cheerio": "^1.0.0-rc.10",
-    "crypto": "^1.0.1",
     "iconv-lite": "^0.6.3",
     "ini": "^2.0.0",
     "libaria2-ts": "^1.0.91",

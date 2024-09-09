@@ -2,6 +2,7 @@ import readline from "readline";
 import chalk from "chalk";
 import { Err, Ok, Result } from "ts-results";
 import { t } from "../i18n/i18n";
+import { ParameterDeclare } from "./types";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -251,13 +252,6 @@ export function inputRequiredKey(
   // 替换标题
   toml = toml.replace(m[0], replaceTitleWith);
   return new Ok(toml);
-}
-
-export interface ParameterDeclare {
-  type: string;
-  key: string;
-  title: string;
-  description?: string;
 }
 
 // 生成参数声明文档

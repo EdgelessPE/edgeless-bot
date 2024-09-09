@@ -291,8 +291,7 @@ export async function download(
 ): Promise<string> {
   // 先尝试使用 aria2c 下载
   try {
-    const res = await download_with_aria2c(...args);
-    return res;
+    return download_with_aria2c(...args);
   } catch (e) {
     log(`Warning:Failed to download with aria2c, try using curl...`);
     return download_with_curl(...args);

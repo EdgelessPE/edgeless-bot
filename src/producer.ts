@@ -12,13 +12,6 @@ import { getBadge } from "./utils/badge";
 import { log, parseBuiltInValue } from "./utils";
 import { PROJECT_ROOT } from "./const";
 
-interface ProducerSpawn {
-  task: TaskInstance;
-  downloadedFile: string;
-  version: string;
-  revisedVersion: string;
-}
-
 function parsePath(entrance: string): Result<string, string> {
   const p = path.resolve(
     __dirname,
@@ -34,9 +27,12 @@ function parsePath(entrance: string): Result<string, string> {
   }
 }
 
-export default async function (
-  s: ProducerSpawn,
-): Promise<Result<ProducerReturned, string>> {
+export default async function (s: {
+  task: TaskInstance;
+  downloadedFile: string;
+  version: string;
+  revisedVersion: string;
+}): Promise<Result<ProducerReturned, string>> {
   const { task, downloadedFile } = s;
   let scriptPath,
     isExternal = false;

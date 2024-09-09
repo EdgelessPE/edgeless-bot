@@ -4,7 +4,6 @@ import {
   genParameterWiki,
   input,
   inputRequiredKey,
-  ParameterDeclare,
   select,
   stringArray,
 } from "./utils";
@@ -26,7 +25,7 @@ import {
 import { JSONSchema4 } from "json-schema";
 import shell from "shelljs";
 import prettier from "prettier";
-import { TaskInput } from "./types";
+import { ParameterDeclare, TaskInput } from "./types";
 
 const TEST_URL = "https://github.com/balena-io/etcher";
 

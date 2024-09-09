@@ -14,3 +14,10 @@ export interface TaskInput {
   };
   producer_required: unknown;
 }
+
+export interface ParameterDeclare {
+  type: string;
+  key: string;
+  title: string;
+  description?: string;
+}

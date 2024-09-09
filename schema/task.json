@@ -129,6 +129,12 @@
         },
         "min_download_size": {
           "type": "string"
+        },
+        "expandable": {
+          "type": [
+            "string",
+            "boolean"
+          ]
         }
       },
       "required": [

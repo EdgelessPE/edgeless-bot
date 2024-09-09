@@ -133,6 +133,8 @@ export interface TaskInstance {
     main_program?: string | false;
     registry_entry?: string;
     min_download_size?: string;
+    // 可拓展包的上下文信息，给定下载文件的相对路径或禁用
+    expandable?: string | false;
   };
   producer_required: unknown;
   scraper_temp?: unknown;

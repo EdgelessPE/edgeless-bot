@@ -282,7 +282,7 @@ export async function execute(
   for (const file of getBuildManifest()) {
     if (!fs.existsSync(path.resolve(target, file))) {
       pass = false;
-      log(`Error:Check manifest failed for ${t.task.name},missing ${file}`);
+      log(`Error:Check manifest failed for ${t.task.name} : missing ${file}`);
     }
   }
   if (!pass) {

@@ -112,17 +112,22 @@ async function main(): Promise<boolean> {
   for (const node of eRes) {
     if (node.result.ok) {
       const task = getSingleTask(node.taskName).unwrap();
-      // 上传
-      if (uploadToRemote(node.result.val, task.scope, task.name)) {
-        // 去重
-        const newBuilds = removeExtraBuilds(
-          node.taskName,
-          task.scope,
-          node.result.val,
-        );
-        setDatabaseNodeSuccess(node.taskName, newBuilds);
-      } else {
-        setDatabaseNodeFailure(node.taskName, "Error:Can't upload target file");
+      for (const fileName of node.result.val) {
+        // 上传
+        if (uploadToRemote(fileName, task.scope, task.name)) {
+          // 去重
+          const newBuilds = removeExtraBuilds(
+            node.taskName,
+            task.scope,
+            fileName,
+          );
+          setDatabaseNodeSuccess(node.taskName, newBuilds);
+        } else {
+          setDatabaseNodeFailure(
+            node.taskName,
+            "Error:Can't upload target file",
+          );
+        }
       }
     } else {
       setDatabaseNodeFailure(node.taskName, node.result.val);

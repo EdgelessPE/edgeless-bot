@@ -38,6 +38,7 @@ import { release } from "./p7zip";
 import {
   DOWNLOAD_CACHE,
   DOWNLOAD_SERVE_CACHE,
+  MISSING_VERSION_FLAG,
   MISSING_VERSION_TRY_DAY,
   PROJECT_ROOT,
   VALID_FLAGS,
@@ -403,8 +404,10 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
   return makeList;
 }
 
-// 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 missing_version
-async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
+// 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 MISSING_VERSION_FLAG
+async function execute(
+  t: ExecuteParameter,
+): Promise<Result<string[] | typeof MISSING_VERSION_FLAG, string>> {
   const workshop = path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, t.task.name);
   let downloadedFile = "";
   let absolutePath = "";
@@ -698,7 +701,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         break;
     }
     if (!ctn) {
-      return new Ok("missing_version");
+      return new Ok(MISSING_VERSION_FLAG);
     }
   }
   // 写 package.toml
@@ -792,7 +795,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   if (!fs.existsSync(storagePath)) {
     return new Err("Error:Moving compressed file to builds folder failed");
   }
-  return new Ok(fileName);
+  return new Ok([fileName]);
 }
 
 // function getDefaultCompressLevel(templateName: string): number {
@@ -833,9 +836,12 @@ async function executeTasks(
     log(`Info:Starting executing ${total} tasks :${r}`);
     let done = 0;
     const collection: Array<ResultReport> = [];
-    const collect = (res: Result<string, string>, t: ExecuteParameter) => {
+    const collect = (
+      res: Result<string[] | typeof MISSING_VERSION_FLAG, string>,
+      t: ExecuteParameter,
+    ) => {
       // 处理缺失版本号但是无更新的情况
-      if (res.ok && res.val == "missing_version") {
+      if (res.ok && res.val == MISSING_VERSION_FLAG) {
         log(
           `Success:Missing version task ${t.task.name} executed successfully`,
         );
@@ -851,7 +857,7 @@ async function executeTasks(
           log(`Success:Task ${t.task.name} executed successfully`);
           collection.push({
             taskName: t.task.name,
-            result: res,
+            result: res as Ok<string[]>,
           });
         }
       }

@@ -225,7 +225,7 @@ interface ExecuteParameter {
 // 状态报告
 interface ResultReport {
   taskName: string;
-  result: Result<string, string>; // 成功时返回新构建的名称，失败返回错误消息
+  result: Result<string[], string>; // 成功时返回新构建的名称，失败返回错误消息
 }
 
 export {

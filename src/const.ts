@@ -50,6 +50,8 @@ const VALID_FLAGS = new Set([
   "P",
 ]);
 
+const MISSING_VERSION_FLAG = "_MISSING_VERSION_";
+
 export {
   PATH_CONFIG,
   LIGHT_TIMEOUT,
@@ -63,4 +65,5 @@ export {
   setMVTDayToday,
   VALID_WORKFLOW_NAMES,
   VALID_FLAGS,
+  MISSING_VERSION_FLAG,
 };

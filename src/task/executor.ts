@@ -11,7 +11,7 @@ import {
 } from "../const";
 import path from "path";
 import { config } from "../config";
-import resolver from "../resolver";
+import resolver from "../steps/resolver";
 import {
   calcMD5,
   Cmp,
@@ -29,7 +29,7 @@ import shell from "shelljs";
 import { download } from "../cli/aria2c";
 import checksum from "../utils/checksum";
 import { getExeVersion } from "./utils";
-import producer from "../producer";
+import producer from "../steps/producer";
 import { release } from "../cli/p7zip";
 import { getDatabaseNode } from "../utils/database";
 import { NepPackage } from "../types/nep";

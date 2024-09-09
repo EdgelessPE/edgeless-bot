@@ -5,16 +5,17 @@ import {
   ProducerReturned,
   TaskInstance,
   WorkerDataProducer,
-} from "./types/class";
-import { piscina } from "./piscina";
-import { config } from "./config";
-import { getBadge } from "./utils/badge";
-import { log, parseBuiltInValue } from "./utils";
-import { PROJECT_ROOT } from "./const";
+} from "../types/class";
+import { piscina } from "../piscina";
+import { config } from "../config";
+import { getBadge } from "../utils/badge";
+import { log, parseBuiltInValue } from "../utils";
+import { PROJECT_ROOT } from "../const";
 
 function parsePath(entrance: string): Result<string, string> {
   const p = path.resolve(
     __dirname,
+    "..",
     "..",
     "templates",
     "producers",
@@ -40,6 +41,7 @@ export default async function (s: {
     // 处理外置脚本
     scriptPath = path.resolve(
       __dirname,
+      "..",
       "..",
       config.DIR_TASKS,
       task.name,

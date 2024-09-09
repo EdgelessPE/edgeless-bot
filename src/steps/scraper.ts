@@ -4,14 +4,14 @@ import {
   ScraperReturned,
   TaskInstance,
   WorkerDataScraper,
-} from "./types/class";
+} from "../types/class";
 import { Err, Ok, Result } from "ts-results";
-import scraperRegister from "../templates/scrapers/_register";
-import { log } from "./utils";
+import scraperRegister from "../../templates/scrapers/_register";
+import { log } from "../utils";
 import fs from "fs";
-import { config } from "./config";
-import { piscina } from "./piscina";
-import { getBadge } from "./utils/badge";
+import { config } from "../config";
+import { piscina } from "../piscina";
+import { getBadge } from "../utils/badge";
 
 export interface ResultNode {
   taskName: string;
@@ -75,6 +75,7 @@ function searchTemplate(
 function parsePath(entrance: string): Result<string, string> {
   const p = path.join(
     __dirname,
+    "..",
     "..",
     "templates",
     "scrapers",
@@ -157,6 +158,7 @@ export default async function (
             badge,
             scriptPath: path.join(
               __dirname,
+              "..",
               "..",
               config.DIR_TASKS,
               taskName,

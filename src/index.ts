@@ -1,6 +1,6 @@
 import shell from "shelljs";
 import { log, sleep } from "./utils";
-import scraper from "./scraper";
+import scraper from "./steps/scraper";
 import Piscina from "piscina";
 import { executeTasks } from "./task";
 import { config } from "./config";

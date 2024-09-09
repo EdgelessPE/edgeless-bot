@@ -1,17 +1,17 @@
-import register from "../templates/resolvers/_register";
+import register from "../../templates/resolvers/_register";
 import { Err, Ok, Result } from "ts-results";
 import {
   ResolverParameters,
   ResolverRegister,
   ResolverReturned,
   WorkerDataResolver,
-} from "./types/class";
-import { piscina } from "./piscina";
-import { getBadge } from "./utils/badge";
+} from "../types/class";
+import { piscina } from "../piscina";
+import { getBadge } from "../utils/badge";
 import path from "path";
 import fs from "fs";
-import { log } from "./utils";
-import { config } from "./config";
+import { log } from "../utils";
+import { config } from "../config";
 
 function searchTemplate(url: string): Result<ResolverRegister, string> {
   // 匹配所有符合正则表达式的模板并选择匹配字符串长度最长的
@@ -39,6 +39,7 @@ function searchTemplate(url: string): Result<ResolverRegister, string> {
 function parsePath(entrance: string): Result<string, string> {
   const p = path.join(
     __dirname,
+    "..",
     "..",
     "templates",
     "resolvers",

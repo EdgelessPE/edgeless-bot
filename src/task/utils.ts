@@ -29,7 +29,7 @@ import rcInfo from "rcinfo";
 import scraperRegister from "../../templates/scrapers/_register";
 import producerRegister from "../../templates/producers/_register";
 import { getOS } from "../utils/platform";
-import { ResultNode } from "../scraper";
+import { ResultNode } from "../steps/scraper";
 import { getSingleTask } from "./getter";
 
 export function removeExtraBuilds(

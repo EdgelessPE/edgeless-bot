@@ -2,14 +2,7 @@ import shell from "shelljs";
 import { log, sleep } from "./utils";
 import scraper from "./scraper";
 import Piscina from "piscina";
-import {
-  executeTasks,
-  getAllTasks,
-  getSingleTask,
-  getTasksToBeExecuted,
-  removeExtraBuilds,
-  reserveTask,
-} from "./task";
+import { executeTasks } from "./task";
 import { config } from "./config";
 import { ensurePlatform } from "./utils/platform";
 import { clearWorkshop } from "./utils/workshop";
@@ -29,6 +22,12 @@ import cp from "child_process";
 import { TaskInstance } from "./types/class";
 import { DOWNLOAD_SERVE_CACHE, setMVTDayToday } from "./const";
 import { printLoadEnvNotices } from "./utils/env";
+import { getAllTasks, getSingleTask } from "./task/getter";
+import {
+  getTasksToBeExecuted,
+  removeExtraBuilds,
+  reserveTask,
+} from "./task/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("source-map-support").install();

@@ -1,60 +1,41 @@
 import fs from "fs";
 import path from "path";
 import { Err, Ok, Result } from "ts-results";
-import {
-  BuildStatus,
-  ExecuteParameter,
-  ResultReport,
-  ScraperReturned,
-  TaskInstance,
-} from "../types/class";
+import { ExecuteParameter, ResultReport, TaskInstance } from "../types/class";
 import { config } from "../config";
-import toml from "toml";
 import {
   Cmp,
-  formatVersion,
   log,
   matchVersion,
   parseBuiltInValue,
-  requiredKeysValidator,
-  schemaValidator,
   shuffle,
   versionCmp,
   tomlStringify,
   parseBuiltInValueForObject,
-  getVersionFromFileName,
   getAuthorForFileName,
   parseFileSize,
   calcMD5,
 } from "../utils";
-import { getDatabaseNode, setDatabaseNodeFailure } from "../utils/database";
-import { ResultNode } from "../scraper";
+import { getDatabaseNode } from "../utils/database";
 import resolver from "../resolver";
 import { download } from "../cli/aria2c";
 import checksum from "../utils/checksum";
-import producerRegister from "../../templates/producers/_register";
 import producer from "../producer";
 import { release } from "../cli/p7zip";
 import {
   DOWNLOAD_CACHE,
   DOWNLOAD_SERVE_CACHE,
   MISSING_VERSION_FLAG,
-  MISSING_VERSION_TRY_DAY,
   PROJECT_ROOT,
   VALID_FLAGS,
   VALID_WORKFLOW_NAMES,
 } from "../const";
-import { deleteFromRemote } from "../cli/cloud189";
-import scraperRegister from "../../templates/scrapers/_register";
 import os from "os";
-import { getOS } from "../utils/platform";
 import shell from "shelljs";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import rcInfo from "rcinfo";
 import { NepPackage } from "../types/nep";
 import { packIntoNep } from "../cli/ept";
+import { getExeVersion } from "./utils";
 
 export interface TaskConfig {
   task: {
@@ -73,335 +54,6 @@ export interface TaskConfig {
   parameter: TaskInstance["parameter"];
   producer_required: TaskInstance["producer_required"];
   extra?: TaskInstance["extra"];
-}
-
-async function getExeVersion(
-  file: string,
-  cd: string,
-): Promise<Result<string, string>> {
-  return new Promise((resolve) => {
-    if (!fs.existsSync(path.resolve(cd, file))) {
-      resolve(
-        new Err(
-          "Error:Can't find " +
-            path.resolve(cd, file) +
-            ' , please consider add "${taskName}/" before it',
-        ),
-      );
-    }
-    rcInfo(
-      path.resolve(cd, file),
-      (
-        error: unknown,
-        info: {
-          FileVersion: string;
-        },
-      ) => {
-        if (error) {
-          console.log(JSON.stringify(error, null, 2));
-          resolve(
-            new Err(
-              "Error:Can't get file version of " + path.resolve(cd, file),
-            ),
-          );
-        } else {
-          if (info.FileVersion) resolve(new Ok(info.FileVersion));
-          else {
-            resolve(
-              new Err(
-                "Error:Fetch execute file version failed : returned null",
-              ),
-            );
-          }
-        }
-      },
-    );
-  });
-}
-
-function validateConfig(task: TaskConfig): boolean {
-  // 基础校验
-  if (!schemaValidator(task, "task").unwrap()) {
-    log(`Error:Schema validation failed`);
-    return false;
-  }
-  // 检查是否能解析 min_download_size
-  if (task.parameter.min_download_size) {
-    const res = parseFileSize(task.parameter.min_download_size);
-    if (res.err) {
-      log(`Error:Schema validation failed : ${res.val}`);
-      return false;
-    }
-  }
-  let suc = false;
-  // 尝试匹配Scraper
-  if (task.template.scraper == undefined) {
-    for (const node of scraperRegister.reverse()) {
-      if (task.task.url.match(node.urlRegex) != null) {
-        // 对scraper执行requiredKeys检查
-        suc = requiredKeysValidator(task, node.requiredKeys, true);
-        if (!suc) {
-          log(
-            `Warning:Skip scraper template ${node.name} due to missing required keys`,
-          );
-        } else {
-          break;
-        }
-      }
-    }
-    if (!suc) {
-      log(`Error:Can't match scraper template for ${task.task.url}`);
-      return false;
-    }
-  } else if (task.template.scraper != "External") {
-    for (const node of scraperRegister) {
-      if (node.entrance == task.template.scraper) {
-        // 对scraper执行requiredKeys检查
-        suc = requiredKeysValidator(task, node.requiredKeys);
-        break;
-      }
-    }
-    if (!suc) {
-      log(`Error:requiredKeys for scraper not satisfied`);
-      return false;
-    }
-  }
-  // Producer模板配置正确性检查
-  if (task.template.producer != "External") {
-    suc = false;
-    for (const node of producerRegister) {
-      if (node.entrance == task.template.producer) {
-        suc = true;
-        break;
-      }
-    }
-    if (!suc) {
-      log(`Error:Producer template ${task.template.producer} not registered`);
-      return false;
-    }
-    if (
-      !fs.existsSync(
-        path.resolve(
-          "./schema",
-          "producer_templates",
-          task.template.producer + ".json",
-        ),
-      )
-    ) {
-      log(
-        `Error:Producer template schema file ${task.template.producer} not found`,
-      );
-      return false;
-    }
-    // producer_required检查
-    suc = schemaValidator(
-      task.producer_required,
-      "producer_templates/" + task.template.producer,
-      "/producer_required",
-    ).unwrap();
-  }
-  if (
-    task.template.producer == "External" &&
-    task.template.scraper == "External"
-  ) {
-    return true;
-  }
-  return suc;
-}
-
-export function getSingleTask(taskName: string): Result<TaskInstance, string> {
-  const taskConfigFile = path.resolve(
-    process.cwd(),
-    config.DIR_TASKS,
-    taskName,
-    "config.toml",
-  );
-  if (!fs.existsSync(path.resolve(taskConfigFile))) {
-    return new Err("Error:Can't find config.toml for " + taskName);
-  } else {
-    const text = fs.readFileSync(taskConfigFile).toString();
-    let json;
-    try {
-      json = toml.parse(text) as TaskConfig;
-    } catch (e) {
-      console.log(JSON.stringify(e));
-      return new Err("Error:Can't parse config.toml for " + taskName);
-    }
-    if (taskName != json.task.name) {
-      return new Err(
-        `Error:Please keep the folder name (${taskName}) same with task name (${json.task.name})`,
-      );
-    }
-    // 如果名称中有 _，检查是否合规
-    if (taskName.includes("_")) {
-      const sp = taskName.split("_");
-      // 最多只能有一个下划线
-      if (sp.length != 2) {
-        return new Err(
-          `Error:Invalid task name : ${taskName} : at most one '_' in task name`,
-        );
-      }
-      // 检查 flags 是否符合要求
-      for (const c of sp[1]) {
-        if (!VALID_FLAGS.has(c)) {
-          return new Err(
-            `Error:Invalid task name : ${taskName} : invalid flag '${c}'`,
-          );
-        }
-      }
-    }
-    if (!validateConfig(json)) {
-      return new Err("Error:Can't validate config.toml for " + taskName);
-    } else {
-      const res = json as unknown as TaskInstance;
-      res["name"] = json.task.name;
-      res["author"] = json.task.author;
-      res["scope"] = json.task.scope;
-      res["description"] = json.task.description;
-      res["language"] = json.task.language;
-      res["tags"] = json.task.tags;
-      res["category"] = json.task.category;
-      res["pageUrl"] = json.task.url;
-      res["license"] = json.task.license;
-      return new Ok(res);
-    }
-  }
-}
-
-export function getAllTasks(): Result<Array<TaskInstance>, string> {
-  const tasksDir = path.resolve(process.cwd(), config.DIR_TASKS);
-  if (!fs.existsSync(tasksDir)) {
-    return new Err("Error:Task directory not exist : " + tasksDir);
-  }
-  const dirList = fs.readdirSync(tasksDir),
-    result = [];
-  let success = true,
-    tmp;
-  log("Info:Loading tasks...");
-  for (const taskName of dirList) {
-    tmp = getSingleTask(taskName);
-    if (tmp.err) {
-      success = false;
-      log(tmp.val);
-    } else {
-      const task = tmp.unwrap();
-      if (!reserveTask(task)) {
-        continue;
-      }
-      result.push(task);
-    }
-  }
-  if (success) {
-    return new Ok(result);
-  } else {
-    return new Err("Error:Fatal error occurred when reading tasks");
-  }
-}
-
-export function getTasksToBeExecuted(results: ResultNode[]): Array<{
-  task: TaskInstance;
-  info: ScraperReturned;
-}> {
-  // 逐个判断是否需要执行制作
-  const makeList: Array<{
-    task: TaskInstance;
-    info: ScraperReturned;
-  }> = [];
-  let db, newNode: ScraperReturned, matchRes, res, onlineVersion;
-  for (const result of results) {
-    if (result == null) {
-      continue;
-    }
-    // 处理爬虫出错
-    if (result.result == null || result.result.err) {
-      setDatabaseNodeFailure(
-        result.taskName,
-        result.result?.val ?? "Error:Scraper returned null",
-      );
-      continue;
-    }
-    newNode = result.result.val;
-    if (newNode.version == null || newNode.downloadLink == null) {
-      setDatabaseNodeFailure(
-        result.taskName,
-        `Error:Scraper returned null value : ${JSON.stringify(newNode)}`,
-      );
-      continue;
-    }
-    if (
-      typeof (newNode.version as unknown) !== "string" ||
-      typeof (newNode.downloadLink as unknown) !== "string"
-    ) {
-      setDatabaseNodeFailure(
-        result.taskName,
-        `Error:Scraper returned value doesn't conform to type specification : ${JSON.stringify(
-          newNode,
-        )}`,
-      );
-      continue;
-    }
-    // 进行版本号比较
-    matchRes = matchVersion(newNode.version);
-    if (matchRes.err) {
-      setDatabaseNodeFailure(
-        result.taskName,
-        "Error:Can't parse version returned by scraper : " + newNode.version,
-      );
-      continue;
-    }
-    onlineVersion = formatVersion(matchRes.val).unwrap();
-    newNode.version = onlineVersion;
-    res = getSingleTask(result.taskName);
-    db = getDatabaseNode(result.taskName);
-    switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
-      case Cmp.L:
-        // 需要更新
-        if (res.err) {
-          log(res.val);
-          break;
-        }
-        makeList.push({
-          task: res.val,
-          info: newNode,
-        });
-        break;
-      case Cmp.G:
-        // 警告
-        if (onlineVersion != "0.0.0.0") {
-          log(
-            `Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`,
-          );
-        } else {
-          log(`Info:Ignore missing version task ` + result.taskName);
-        }
-        if (res.err) {
-          log(res.val);
-          break;
-        }
-        if (config.MODE_FORCED) {
-          log("Warning:Forced rebuild " + result.taskName);
-          makeList.push({
-            task: res.val,
-            info: newNode,
-          });
-        }
-        break;
-      default:
-        if (res.err) {
-          log(res.val);
-          break;
-        }
-        if (config.MODE_FORCED) {
-          log("Warning:Forced rebuild " + result.taskName);
-          makeList.push({
-            task: res.val,
-            info: newNode,
-          });
-        }
-        break;
-    }
-  }
-  return makeList;
 }
 
 // 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 MISSING_VERSION_FLAG
@@ -438,14 +90,14 @@ async function execute(
     : DOWNLOAD_SERVE_CACHE;
   const hash = calcMD5(dRes.val.directLink);
   if (config.ENABLE_CACHE && !fs.existsSync(downloadCache)) {
-    await shell.mkdir("-p", downloadCache);
+    shell.mkdir("-p", downloadCache);
   }
   const subCacheDir = path.resolve(downloadCache, hash);
   // 如果有则使用缓存
   if (config.ENABLE_CACHE && fs.existsSync(subCacheDir)) {
     log(`Warning:Use cache at ${subCacheDir}`);
 
-    await shell.cp("-R", subCacheDir, workshop);
+    shell.cp("-R", subCacheDir, workshop);
     absolutePath = shell.ls(path.resolve(workshop, "*.*"))[0] ?? "";
     downloadedFile = absolutePath.split("/").pop() as string;
   } else {
@@ -473,7 +125,7 @@ async function execute(
     // 缓存下载
     if (config.ENABLE_CACHE) {
       log(`Info:Caching downloads into ${subCacheDir}`);
-      await shell.cp("-R", workshop, subCacheDir);
+      shell.cp("-R", workshop, subCacheDir);
     }
   }
   if (!absolutePath) {
@@ -798,17 +450,6 @@ async function execute(
   return new Ok([fileName]);
 }
 
-// function getDefaultCompressLevel(templateName: string): number {
-//   let level = 5;
-//   for (const node of producerRegister) {
-//     if (node.entrance == templateName) {
-//       level = node.defaultCompressLevel;
-//       break;
-//     }
-//   }
-//   return level;
-// }
-
 export async function executeTasks(
   ts: Array<ExecuteParameter>,
 ): Promise<Array<ResultReport>> {
@@ -878,85 +519,4 @@ export async function executeTasks(
       }
     }
   });
-}
-
-export function removeExtraBuilds(
-  taskName: string,
-  scope: string,
-  newBuild: string,
-): Array<BuildStatus> {
-  const allBuilds = getDatabaseNode(taskName).recent.builds;
-  allBuilds.push({
-    fileName: newBuild,
-    version: getVersionFromFileName(newBuild),
-    timestamp: new Date().toString(),
-  });
-  log("Info:Trying to remove extra builds");
-  // Builds去重
-  const hashMap: Record<string, boolean> = {};
-  let buildList: Array<BuildStatus> = [];
-  for (const build of allBuilds) {
-    if (!hashMap[build.version]) {
-      hashMap[build.version] = true;
-      buildList.push(build);
-    }
-  }
-  if (buildList.length <= config.MAX_BUILDS) {
-    log("Info:No needy for removal after de-weight");
-    return buildList;
-  }
-
-  // Builds降序排列（从列尾弹出元素删除）
-  buildList.sort((a, b) => 1 - versionCmp(a.version, b.version));
-  // 删除多余的builds
-  const failure: Array<BuildStatus> = [];
-  const repo = path.resolve(PROJECT_ROOT, config.DIR_BUILDS, scope, taskName);
-  const times = buildList.length - config.MAX_BUILDS;
-  for (let i = 0; i < times; i++) {
-    const target = buildList.pop();
-    if (typeof target != "undefined") {
-      const absolutePath = path.resolve(repo, target.fileName);
-      if (!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)) {
-        log("Info:Remove local extra build " + absolutePath);
-        try {
-          shell.rm(absolutePath);
-          if (fs.existsSync(absolutePath)) {
-            log("Warning:Fail to delete local extra build " + target.fileName);
-          }
-        } catch {
-          log("Warning:Fail to delete local extra build " + target.fileName);
-        }
-      }
-
-      if (!deleteFromRemote(target.fileName, scope, taskName)) {
-        log("Warning:Fail to delete remote extra build " + target.fileName);
-        failure.push(target);
-      }
-    }
-  }
-  buildList = buildList.concat(failure);
-
-  return buildList;
-}
-
-export function reserveTask(task: TaskInstance): boolean {
-  // 排除 weekly
-  if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
-    log(`Warning:Ignore weekly task ${task.name}`);
-    return false;
-  }
-  const isPOSIX = getOS() !== "Windows";
-  // 排除需要 Windows
-  if (isPOSIX && task.extra?.require_windows) {
-    log(`Warning:Ignore require Windows task ${task.name}`);
-    return false;
-  }
-
-  // 排除 POSIX 平台但是需要读取版本号
-  if (isPOSIX && task.extra?.missing_version) {
-    log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
-    return false;
-  }
-
-  return true;
 }

@@ -394,17 +394,26 @@ export async function execute(
   if (packerRes.err) return packerRes;
   const fileNames = [packerRes.val];
 
-  // 生成可展开包
-  const expandRes = await produceExpandableReady(t, p.val, {
+  // 生成可展开包的就绪目录
+  const expandReadyRes = await produceExpandableReady(t, p.val, {
     target,
     workshop,
   });
-  if (expandRes.err) return expandRes;
-  if (expandRes.val === null) {
+  if (expandReadyRes.err) return expandReadyRes;
+  if (expandReadyRes.val === null) {
     log(`Info:Can't produce expandable package for task '${t.task.name}'`);
-  } else {
-    fileNames.push(expandRes.val);
+    return new Ok(fileNames);
   }
+
+  // 打包可展开包
+  const packerExpandableRes = await packer(t, p, {
+    target: expandReadyRes.val,
+    workshop,
+    cleanTaskName,
+    isExpandableAppend: true,
+  });
+  if (packerExpandableRes.err) return packerExpandableRes;
+  fileNames.push(packerExpandableRes.val);
 
   return new Ok(fileNames);
 }

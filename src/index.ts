@@ -134,6 +134,8 @@ async function main(): Promise<boolean> {
   writeDatabase();
   // 停止aria2c
   await stopAria2c();
+  log("Info:Aria2c exited");
+
   // 打印报告
   if (config.GITHUB_ACTIONS) {
     console.log("::endgroup::");

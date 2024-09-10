@@ -293,7 +293,9 @@ export async function download(
   try {
     return download_with_aria2c(...args);
   } catch (e) {
-    log(`Warning:Failed to download with aria2c, try using curl...`);
+    log(
+      `Warning:Failed to download with aria2c, try using curl...; Error message : ${e}`,
+    );
     return download_with_curl(...args);
   }
 }

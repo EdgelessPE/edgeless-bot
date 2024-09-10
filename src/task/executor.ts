@@ -404,6 +404,7 @@ export async function execute(
     log(`Info:Can't produce expandable package for task '${t.task.name}'`);
     return new Ok(fileNames);
   }
+  log(`Info:Producing expandable package for task '${t.task.name}'`);
 
   // 打包可展开包
   const packerExpandableRes = await packer(t, p, {

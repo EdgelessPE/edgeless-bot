@@ -121,7 +121,7 @@ async function main(): Promise<boolean> {
           task.scope,
           fileNames,
         );
-        setDatabaseNodeSuccess(node.taskName, newBuilds);
+        setDatabaseNodeSuccess(node.taskName, newBuilds, fileNames);
       } else {
         setDatabaseNodeFailure(node.taskName, "Error:Can't upload target file");
       }

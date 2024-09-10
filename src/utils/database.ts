@@ -16,6 +16,7 @@ const successList: Array<{
   taskName: string;
   from: string;
   to: string;
+  fileNames: string[];
 }> = [];
 const failedList: Array<{
   taskName: string;
@@ -89,6 +90,7 @@ export function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 export function setDatabaseNodeSuccess(
   taskName: string,
   newBuilds: Array<BuildStatus>,
+  fileNames: string[],
 ) {
   const old = getDatabaseNode(taskName),
     newVersion = newBuilds[newBuilds.length - 1].version;
@@ -104,6 +106,7 @@ export function setDatabaseNodeSuccess(
     taskName,
     from: old.recent.latestVersion,
     to: newVersion,
+    fileNames,
   });
   modified = true;
 }
@@ -113,7 +116,9 @@ export function setDatabaseNodeSuccess(
 function generateSuccessTip(): string {
   let tip = "";
   for (const i of successList) {
-    tip += `\n\t${chalk.cyan(i.taskName)} updated from ${i.from} to ${i.to}`;
+    tip += `\n\t${chalk.cyan(i.taskName)} updated from ${i.from} to ${
+      i.to
+    } (${i.fileNames.join(", ")})`;
   }
   return tip;
 }

@@ -1,7 +1,7 @@
 import { log } from "./index";
 import { ValidationType } from "../types/class";
 import path from "path";
-import blake3 from "blake3";
+import { load, createHash as blake3CreateHash } from "blake3";
 
 import checksum from "checksum";
 import { createHash } from "node:crypto";
@@ -43,16 +43,21 @@ async function getSHA256(filePath: string): Promise<string> {
   });
 }
 
+let loaded = false;
 export async function getBLAKE3(filePath: string): Promise<string> {
+  if (!loaded) {
+    await load();
+    loaded = true;
+  }
   return new Promise((resolve) => {
     const stream = createReadStream(filePath);
-    const hash = blake3.createHash();
+    const hash = blake3CreateHash();
     stream.on("data", (d) => hash.update(d));
     stream.on("error", (err) => {
       hash.dispose();
       throw err;
     });
-    stream.on("end", () => resolve(hash.digest().toString()));
+    stream.on("end", () => resolve(hash.digest("hex").toString()));
   });
 }
 

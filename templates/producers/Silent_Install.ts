@@ -79,7 +79,7 @@ export default async function (
       readyRelativePath: "_ready",
       flags: ["I"],
       expandableContext: {
-        downloadedFilePath: path.join(fileDir, downloadedFile),
+        downloadedFilePath: path.join(taskName, downloadedFile),
       },
     });
   } else {

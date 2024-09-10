@@ -35,12 +35,12 @@ import { getSingleTask } from "./getter";
 export function removeExtraBuilds(
   taskName: string,
   scope: string,
-  newBuild: string,
+  fileNames: string[],
 ): Array<BuildStatus> {
   const allBuilds = getDatabaseNode(taskName).recent.builds;
   allBuilds.push({
-    fileName: newBuild,
-    version: getVersionFromFileName(newBuild),
+    fileNames,
+    version: getVersionFromFileName(fileNames[0]),
     timestamp: new Date().toString(),
   });
   log("Info:Trying to remove extra builds");
@@ -67,22 +67,24 @@ export function removeExtraBuilds(
   for (let i = 0; i < times; i++) {
     const target = buildList.pop();
     if (typeof target != "undefined") {
-      const absolutePath = path.resolve(repo, target.fileName);
-      if (!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)) {
-        log("Info:Remove local extra build " + absolutePath);
-        try {
-          shell.rm(absolutePath);
-          if (fs.existsSync(absolutePath)) {
-            log("Warning:Fail to delete local extra build " + target.fileName);
+      for (const fileName of target.fileNames) {
+        const absolutePath = path.resolve(repo, fileName);
+        if (!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)) {
+          log("Info:Remove local extra build " + absolutePath);
+          try {
+            shell.rm(absolutePath);
+            if (fs.existsSync(absolutePath)) {
+              log("Warning:Fail to delete local extra build " + fileName);
+            }
+          } catch {
+            log("Warning:Fail to delete local extra build " + fileName);
           }
-        } catch {
-          log("Warning:Fail to delete local extra build " + target.fileName);
         }
-      }
 
-      if (!deleteFromRemote(target.fileName, scope, taskName)) {
-        log("Warning:Fail to delete remote extra build " + target.fileName);
-        failure.push(target);
+        if (!deleteFromRemote(fileName, scope, taskName)) {
+          log("Warning:Fail to delete remote extra build " + fileName);
+          failure.push(target);
+        }
       }
     }
   }

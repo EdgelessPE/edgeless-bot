@@ -89,7 +89,7 @@ export interface ProducerRegister {
 export interface BuildStatus {
   version: string;
   timestamp: string;
-  fileName: string;
+  fileNames: string[];
 }
 
 export interface DatabaseNode {

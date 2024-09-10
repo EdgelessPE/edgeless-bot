@@ -25,55 +25,57 @@ export function login(): boolean {
         password: string;
       };
     };
-    log("Info:Login to cloud189..");
+    log("Info:Login to cloud189...");
     cp.execSync(`cloud189 login -i ${name} ${password}`);
   } catch (e) {
-    log("Error:Failed to login to cloud189..");
+    log(`Error:Failed to login to cloud189 : ${e}`);
     return false;
   }
   return true;
 }
 
 export function uploadToRemote(
-  fileName: string,
+  fileNames: string[],
   scope: string,
   taskName: string,
 ): boolean {
   if (config.REMOTE_ENABLE) {
-    const localPath = path.join(config.DIR_BUILDS, scope, taskName, fileName);
-    const remotePath = path.join(config.REMOTE_PATH, scope, taskName);
-    let date = new Date();
-    const startTime = date.getTime();
+    for (const fileName of fileNames) {
+      const localPath = path.join(config.DIR_BUILDS, scope, taskName, fileName);
+      const remotePath = path.join(config.REMOTE_PATH, scope, taskName);
+      let date = new Date();
+      const startTime = date.getTime();
 
-    try {
-      log("Info:Uploading " + fileName);
-      // 先尝试移除这个文件
-      deleteFromRemote(fileName, scope, taskName, true);
-      cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
-    } catch (err: unknown) {
-      console.log((err as ExecSyncError)?.output.toString());
+      try {
+        log("Info:Uploading " + fileName);
+        // 先尝试移除这个文件
+        deleteFromRemote(fileName, scope, taskName, true);
+        cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
+      } catch (err: unknown) {
+        console.log((err as ExecSyncError)?.output.toString());
+        date = new Date();
+        log(
+          `Info:Cost ${getTimeString(
+            date.getTime() - startTime,
+          )} before error occurred`,
+        );
+        // 尝试删除传了一半的文件
+        log("Info:Trying to delete broken uploaded file");
+        if (!deleteFromRemote(fileName, scope, taskName, true)) {
+          log("Warning:Fail to delete broken uploaded file");
+        } else {
+          log("Info:Deleted broken uploaded file");
+        }
+
+        return false;
+      }
       date = new Date();
       log(
-        `Info:Cost ${getTimeString(
+        `Info:Uploaded successfully, cost ${getTimeString(
           date.getTime() - startTime,
-        )} before error occurred`,
+        )}`,
       );
-      // 尝试删除传了一半的文件
-      log("Info:Trying to delete broken uploaded file");
-      if (!deleteFromRemote(fileName, scope, taskName, true)) {
-        log("Warning:Fail to delete broken uploaded file");
-      } else {
-        log("Info:Deleted broken uploaded file");
-      }
-
-      return false;
     }
-    date = new Date();
-    log(
-      `Info:Uploaded successfully, cost ${getTimeString(
-        date.getTime() - startTime,
-      )}`,
-    );
   } else {
     log("Warning:Remote disabled, skip upload to remote");
   }

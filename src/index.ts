@@ -30,6 +30,7 @@ import {
 } from "./task/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
 
 async function main(): Promise<boolean> {

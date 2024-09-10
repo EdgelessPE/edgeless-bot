@@ -14,6 +14,7 @@ import { awaitWithTimeout, log } from "./utils";
 import { HEAVY_TIMEOUT, LIGHT_TIMEOUT, MISSING_VERSION_TRY_DAY } from "./const";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
 
 export let badge = "Worker";

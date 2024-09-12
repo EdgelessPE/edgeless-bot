@@ -15,9 +15,11 @@ export async function produceExpandableReady(
   {
     target,
     workshop,
+    cleanTaskName,
   }: {
     target: string;
     workshop: string;
+    cleanTaskName: string;
   },
 ): Promise<Result<string | null, string>> {
   // 判断是否支持可展开
@@ -44,12 +46,19 @@ export async function produceExpandableReady(
 
   // 删除此文件，写展开工作流
   shell.rm("-f", downloadedFile);
+  const at = downloadReplacePath.replace(/\\/g, "/");
+  const prefix = `${cleanTaskName}/`;
+  if (!at.startsWith(prefix)) {
+    return new Err(
+      `Error:Invalid downloaded file path '${at}' : should start with '${prefix}'`,
+    );
+  }
   const expandWorkflow: NepWorkflow = {
     download_bin: {
       step: "Download",
       url: t.info.downloadLink,
       hash_blake3,
-      at: downloadReplacePath,
+      at: at.slice(prefix.length),
     },
   };
   const expandWorkflowFilePath = path.resolve(

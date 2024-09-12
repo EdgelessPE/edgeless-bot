@@ -398,6 +398,7 @@ export async function execute(
   const expandReadyRes = await produceExpandableReady(t, p.val, {
     target,
     workshop,
+    cleanTaskName,
   });
   if (expandReadyRes.err) return expandReadyRes;
   if (expandReadyRes.val === null) {

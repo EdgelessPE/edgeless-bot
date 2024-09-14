@@ -28,7 +28,11 @@ export async function packer(
   const fileName = (() => {
     const { name } = t.task;
     if (name.includes("_")) {
-      const [stem, flags] = name.split("_");
+      const [stem, _flags] = name.split("_");
+      let flags = _flags;
+      if (isExpandableAppend && !flags.includes("E")) {
+        flags += "E";
+      }
       return `${stem}_${
         matchVersion(t.info.version).val
       }_${getAuthorForFileName(t.task.author)}.${flags}.nep`;

@@ -68,5 +68,5 @@ type NepStepDownload = {
   step: "Download";
   url: string;
   hash_blake3: string;
-  at: string;
+  to: string;
 } & NepStepHeader;

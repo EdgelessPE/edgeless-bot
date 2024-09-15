@@ -58,7 +58,7 @@ export async function produceExpandableReady(
       step: "Download",
       url: t.info.downloadLink,
       hash_blake3,
-      at: at.slice(prefix.length),
+      to: at.slice(prefix.length),
     },
   };
   const expandWorkflowFilePath = path.resolve(

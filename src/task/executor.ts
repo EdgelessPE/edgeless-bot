@@ -349,7 +349,7 @@ export async function execute(
     return interpreter(p.val.mainProgram);
   };
   const nepPackage: NepPackage = {
-    nep: "0.2",
+    nep: "0",
     package: {
       name: cleanTaskName,
       template: "Software",

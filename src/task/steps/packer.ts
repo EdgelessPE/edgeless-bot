@@ -1,6 +1,6 @@
 import { ExecuteParameter, ProducerReturned } from "../../types/class";
 import { getAuthorForFileName, matchVersion } from "../../utils";
-import { packIntoNep } from "../../cli/ept";
+import { genMeta, packIntoNep } from "../../cli/ept";
 import path from "path";
 import { Err, Ok, Result } from "ts-results";
 import { PROJECT_ROOT } from "../../const";
@@ -65,6 +65,12 @@ export async function packer(
   shell.mv(path.resolve(workshop, fileName), storagePath);
   if (!fs.existsSync(storagePath)) {
     return new Err("Error:Moving compressed file to builds folder failed");
+  }
+
+  // 生成 meta
+  const metaTarget = path.resolve(localStorageDir, fileName + ".meta");
+  if (!(await genMeta(target, metaTarget))) {
+    return new Err("Error:Generating meta failed");
   }
 
   return new Ok(fileName);

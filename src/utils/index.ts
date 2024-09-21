@@ -561,3 +561,7 @@ export function calcMD5(text: string) {
   hash.update(text);
   return hash.digest("hex");
 }
+
+export function getCleanTaskName(raw: string) {
+  return raw.includes("_") ? raw.split("_")[0] : raw;
+}

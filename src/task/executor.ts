@@ -15,6 +15,7 @@ import resolver from "../steps/resolver";
 import {
   calcMD5,
   Cmp,
+  getCleanTaskName,
   log,
   parseBuiltInValue,
   parseBuiltInValueForObject,
@@ -172,9 +173,7 @@ export async function execute(
     }
   }
   // 获得即将验收的绝对路径
-  const cleanTaskName = t.task.name.includes("_")
-    ? t.task.name.split("_")[0]
-    : t.task.name;
+  const cleanTaskName = getCleanTaskName(t.task.name);
   const parsedBuiltInValuePack = {
     taskName: cleanTaskName,
     downloadedFile,

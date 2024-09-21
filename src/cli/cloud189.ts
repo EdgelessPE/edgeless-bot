@@ -1,6 +1,6 @@
 import os from "os";
 import fs from "fs";
-import { fromGBK, getTimeString, log } from "../utils";
+import { fromGBK, getCleanTaskName, getTimeString, log } from "../utils";
 import cp from "child_process";
 import path from "path";
 import { config } from "../config";
@@ -41,13 +41,22 @@ export function uploadToRemote(
 ): boolean {
   if (config.REMOTE_ENABLE) {
     for (const fileName of fileNames) {
-      const localPath = path.join(config.DIR_BUILDS, scope, taskName, fileName);
-      const remotePath = path.join(config.REMOTE_PATH, scope, taskName);
+      const cleanTaskName = getCleanTaskName(taskName);
+      const localPath = path.join(
+        config.DIR_BUILDS,
+        scope,
+        cleanTaskName,
+        fileName,
+      );
+      const remotePath = path
+        .join(config.REMOTE_PATH, scope, cleanTaskName)
+        .replaceAll("\\", "/");
+
       let date = new Date();
       const startTime = date.getTime();
 
       try {
-        log("Info:Uploading " + fileName);
+        log(`Info:Uploading '${localPath}' to '${remotePath}'`);
         // 先尝试移除这个文件
         deleteFromRemote(fileName, scope, taskName, true);
         cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
@@ -90,8 +99,11 @@ export function deleteFromRemote(
   ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
-    const remoteDir = path.join(config.REMOTE_PATH, scope, taskName);
-    const remotePath = path.join(remoteDir, fileName);
+    const cleanTaskName = getCleanTaskName(taskName);
+    const remoteDir = path
+      .join(config.REMOTE_PATH, scope, cleanTaskName)
+      .replaceAll("\\", "/");
+    const remotePath = path.join(remoteDir, fileName).replaceAll("\\", "/");
     // 读取远程目录查看是否存在
     let buf;
     try {

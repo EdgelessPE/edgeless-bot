@@ -114,7 +114,17 @@ async function main(): Promise<boolean> {
       const task = getSingleTask(node.taskName).unwrap();
       const fileNames = node.result.val;
       // 上传
-      if (uploadToRemote(fileNames, task.scope, task.name)) {
+      if (
+        uploadToRemote(
+          fileNames.reduce((prev, cur) => {
+            prev.push(cur);
+            prev.push(cur + ".meta");
+            return prev;
+          }, [] as string[]),
+          task.scope,
+          task.name,
+        )
+      ) {
         // 去重
         const newBuilds = removeExtraBuilds(
           node.taskName,

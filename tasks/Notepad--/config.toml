@@ -37,7 +37,7 @@ recursiveUnzipList = ["/Notepad--v\d+(\.\d+)+-win10-portable/" ]
 
 
 # 额外备注
-# [extra]
+[extra]
 # require_windows = true
 # missing_version = ""
-# weekly = true
+weekly = true

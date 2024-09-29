@@ -21,7 +21,7 @@ let count = 0;
 
 export function getBadge(type: string): string {
   const res = (choices[(base + count) % choices.length] ?? chalk.bgWhiteBright)(
-    type + " " + count,
+    `${type} ${count}`,
   );
 
   count++;

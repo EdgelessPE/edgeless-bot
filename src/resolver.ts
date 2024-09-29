@@ -42,12 +42,12 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "resolvers",
-    entrance + ".js",
+    `${entrance}.js`,
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
   } else {
-    return new Err("Error:Can't find " + p);
+    return new Err(`Error:Can't find ${p}`);
   }
 }
 
@@ -112,7 +112,7 @@ export default async function (
         }
       }
     } else {
-      log("Error:Resolver resolved error : " + r.val, badge);
+      log(`Error:Resolver resolved error : ${r.val}`, badge);
     }
   }
   return r;

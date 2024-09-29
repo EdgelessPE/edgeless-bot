@@ -14,7 +14,7 @@ async function getMD5(filePath: string): Promise<string> {
     rs.on("data", hash.update.bind(hash));
     rs.on("end", () => {
       hex = hash.digest("hex");
-      log("Info:MD5 is " + hex);
+      log(`Info:MD5 is ${hex}`);
       resolve(hex);
     });
   });
@@ -36,7 +36,7 @@ async function getSHA256(filePath: string): Promise<string> {
     rs.on("data", hash.update.bind(hash));
     rs.on("end", () => {
       hex = hash.digest("hex");
-      log("Info:SHA256 is " + hex);
+      log(`Info:SHA256 is ${hex}`);
       resolve(hex);
     });
   });

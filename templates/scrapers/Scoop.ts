@@ -3,8 +3,7 @@ import { ScraperParameters, ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 import { log } from "../../src/utils";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-object-type
 interface Temp {}
 
 export default async function (

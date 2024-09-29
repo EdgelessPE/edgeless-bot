@@ -58,9 +58,10 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(path.resolve(cd, file))) {
       reject(
-        "Error:Can't find " +
-          path.resolve(cd, file) +
-          ' , please consider add "${taskName}/" before it',
+        `Error:Can't find ${path.resolve(
+          cd,
+          file,
+        )} , please consider add "\${taskName}/" before it`,
       );
     }
     rcInfo(
@@ -73,7 +74,7 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
       ) => {
         if (error) {
           console.log(JSON.stringify(error, null, 2));
-          reject("Error:Can't get file version of " + path.resolve(cd, file));
+          reject(`Error:Can't get file version of ${path.resolve(cd, file)}`);
         } else {
           resolve(info.FileVersion);
         }
@@ -139,7 +140,7 @@ function validateConfig(task: TaskConfig): boolean {
         path.resolve(
           "./schema",
           "producer_templates",
-          task.template.producer + ".json",
+          `${task.template.producer}.json`,
         ),
       )
     ) {
@@ -151,7 +152,7 @@ function validateConfig(task: TaskConfig): boolean {
     // producer_required检查
     suc = schemaValidator(
       task.producer_required,
-      "producer_templates/" + task.template.producer,
+      `producer_templates/${task.template.producer}`,
       "/producer_required",
     ).unwrap();
   }
@@ -172,7 +173,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
     "config.toml",
   );
   if (!fs.existsSync(path.resolve(taskConfigFile))) {
-    return new Err("Error:Can't find config.toml for " + taskName);
+    return new Err(`Error:Can't find config.toml for ${taskName}`);
   } else {
     const text = fs.readFileSync(taskConfigFile).toString();
     let json;
@@ -180,7 +181,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       json = toml.parse(text) as TaskConfig;
     } catch (e) {
       console.log(JSON.stringify(e));
-      return new Err("Error:Can't parse config.toml for " + taskName);
+      return new Err(`Error:Can't parse config.toml for ${taskName}`);
     }
     if (taskName != json.task.name) {
       return new Err(
@@ -188,7 +189,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
       );
     }
     if (!validateConfig(json)) {
-      return new Err("Error:Can't validate config.toml for " + taskName);
+      return new Err(`Error:Can't validate config.toml for ${taskName}`);
     } else {
       const res: any = json;
       res["name"] = json.task.name;
@@ -203,7 +204,7 @@ function getSingleTask(taskName: string): Result<TaskInstance, string> {
 function getAllTasks(): Result<Array<TaskInstance>, string> {
   const tasksDir = path.resolve(process.cwd(), config.DIR_TASKS);
   if (!fs.existsSync(tasksDir)) {
-    return new Err("Error:Task directory not exist : " + tasksDir);
+    return new Err(`Error:Task directory not exist : ${tasksDir}`);
   }
   const dirList = fs.readdirSync(tasksDir),
     result = [];
@@ -276,7 +277,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     if (matchRes.err) {
       setDatabaseNodeFailure(
         result.taskName,
-        "Error:Can't parse version returned by scraper : " + newNode.version,
+        `Error:Can't parse version returned by scraper : ${newNode.version}`,
       );
       continue;
     }
@@ -303,14 +304,14 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
             `Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`,
           );
         } else {
-          log(`Info:Ignore missing version task ` + result.taskName);
+          log(`Info:Ignore missing version task ${result.taskName}`);
         }
         if (res.err) {
           log(res.val);
           break;
         }
         if (config.MODE_FORCED) {
-          log("Warning:Forced rebuild " + result.taskName);
+          log(`Warning:Forced rebuild ${result.taskName}`);
           makeList.push({
             task: res.val,
             info: newNode,
@@ -323,7 +324,7 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
           break;
         }
         if (config.MODE_FORCED) {
-          log("Warning:Forced rebuild " + result.taskName);
+          log(`Warning:Forced rebuild ${result.taskName}`);
           makeList.push({
             task: res.val,
             info: newNode,
@@ -395,7 +396,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       else {
         console.log(JSON.stringify(e));
       }
-      return new Err("Error:Can't download link : " + dRes.val.directLink);
+      return new Err(`Error:Can't download link : ${dRes.val.directLink}`);
     }
     // 缓存下载
     if (config.ENABLE_CACHE) {
@@ -436,7 +437,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     t.task.name,
     p.val.readyRelativePath,
   );
-  if (!config.GITHUB_ACTIONS) log("Info:Receive ready directory " + target);
+  if (!config.GITHUB_ACTIONS) log(`Info:Receive ready directory ${target}`);
   // 实现delete 与 cover
   let f, v;
   if (t.task.parameter.build_delete) {
@@ -471,7 +472,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     } else {
       // 允许是文件夹或是压缩包
       if (fs.statSync(f).isDirectory()) {
-        shell.cp("-r", f + "/*", target);
+        shell.cp("-r", `${f}/*`, target);
       } else {
         if (!(await release(f, target, false))) {
           return new Err("Error:Can't cover given compressed file");
@@ -481,7 +482,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   } else {
     // 检查是否可能忘加了
     const p = path.resolve(config.DIR_TASKS, t.task.name, "cover");
-    if (fs.existsSync(p) || fs.existsSync(p + ".7z")) {
+    if (fs.existsSync(p) || fs.existsSync(`${p}.7z`)) {
       log(
         "Warning:Exist cover folder/file but parameter.build_cover not specified",
       );
@@ -544,7 +545,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
           `Info:Missing version task ${t.task.name} has no upstream updated release`,
         );
         if (config.MODE_FORCED) {
-          log("Warning:Forced rebuild " + t.task.name);
+          log(`Warning:Forced rebuild ${t.task.name}`);
         } else {
           // 阻止继续，直接返回成功
           ctn = false;
@@ -559,7 +560,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
           `Warning:Missing version task ${t.task.name}'s local version(${db.recent.latestVersion}) greater than online version(${version})`,
         );
         if (config.MODE_FORCED) {
-          log("Warning:Forced rebuild " + t.task.name);
+          log(`Warning:Forced rebuild ${t.task.name}`);
         } else {
           ctn = false;
         }
@@ -635,7 +636,7 @@ async function executeTasks(
       requireWindowsTasks: Array<ExecuteParameter> = [];
     ts.forEach((item) => {
       // 生成tip
-      r = r + ` ${item.task.name}`;
+      r = `${r} ${item.task.name}`;
       // 根据是否需要Windows分流
       if (item.task.extra?.require_windows) {
         requireWindowsTasks.push(item);
@@ -724,19 +725,19 @@ function removeExtraBuilds(
     if (typeof target != "undefined") {
       const absolutePath = path.resolve(repo, target.fileName);
       if (!config.GITHUB_ACTIONS && fs.existsSync(absolutePath)) {
-        log("Info:Remove local extra build " + absolutePath);
+        log(`Info:Remove local extra build ${absolutePath}`);
         try {
           shell.rm(absolutePath);
           if (fs.existsSync(absolutePath)) {
-            log("Warning:Fail to delete local extra build " + target.fileName);
+            log(`Warning:Fail to delete local extra build ${target.fileName}`);
           }
         } catch {
-          log("Warning:Fail to delete local extra build " + target.fileName);
+          log(`Warning:Fail to delete local extra build ${target.fileName}`);
         }
       }
 
       if (!deleteFromRemote(target.fileName, category)) {
-        log("Warning:Fail to delete remote extra build " + target.fileName);
+        log(`Warning:Fail to delete remote extra build ${target.fileName}`);
         failure.push(target);
       }
     }

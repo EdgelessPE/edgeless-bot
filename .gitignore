@@ -16,3 +16,4 @@ database.json
 env.json
 /bin
 .DS_Store
+/meta

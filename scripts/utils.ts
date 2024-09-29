@@ -67,10 +67,10 @@ async function select(
     console.log(chalk.blue(t("Question ")) + tip);
     options.forEach((item, index) => {
       console.log(
-        chalk.yellow(index + 1 + ". ") +
+        chalk.yellow(`${index + 1}. `) +
           item +
           (defaultIndex && defaultIndex - 1 == index
-            ? chalk.yellowBright("	(" + t("default") + ")")
+            ? chalk.yellowBright(`	(${t("default")})`)
             : ""),
       );
     });
@@ -94,17 +94,17 @@ async function select(
     // 校验输入
     if (r.match(/^[0-9]+$/) == null) {
       console.log(
-        chalk.red(t("Error ")) +
-          t("Invalid input, please input index") +
-          ` (1-${options.length})`,
+        `${
+          chalk.red(t("Error ")) + t("Invalid input, please input index")
+        } (1-${options.length})`,
       );
       resolve(await select(tip, options, defaultIndex));
       return;
     } else if (Number(r) < 1 || Number(r) > options.length) {
       console.log(
-        chalk.red(t("Error ")) +
-          t("Input out of range, please input index") +
-          ` (1-${options.length})`,
+        `${
+          chalk.red(t("Error ")) + t("Input out of range, please input index")
+        } (1-${options.length})`,
       );
       resolve(await select(tip, options, defaultIndex));
       return;
@@ -117,12 +117,9 @@ async function select(
 
 async function bool(tip: string, defaultVal?: boolean): Promise<boolean> {
   const r = await ask(
-    tip +
-      ` (${
-        defaultVal === true ? chalk.yellowBright(t("default") + " ") : ""
-      }y/${
-        defaultVal === false ? chalk.yellowBright(t("default") + " ") : ""
-      }n)`,
+    `${tip} (${
+      defaultVal === true ? chalk.yellowBright(`${t("default")} `) : ""
+    }y/${defaultVal === false ? chalk.yellowBright(`${t("default")} `) : ""}n)`,
   );
 
   // 处理使用默认值
@@ -156,7 +153,7 @@ async function stringArray(
     df = "";
     if (!allowEmpty) {
       for (const node of defaultVal) {
-        df = df + node + ",";
+        df = `${df + node},`;
       }
       df = df.slice(0, -1);
     }
@@ -189,9 +186,9 @@ function applyInput(
   for (const key in input) {
     val = input[key];
     if (typeof val == "object" && !(val instanceof Array)) {
-      toml = applyInput(toml, val, base + key + ".").unwrap();
+      toml = applyInput(toml, val, `${base + key}.`).unwrap();
     } else {
-      searchString = "${ " + base + key + " }";
+      searchString = `\${ ${base}${key} }`;
       if (!toml.includes(searchString)) {
         suc = false;
         reason = `Error:Can't find ${searchString} to replace with ${val}`;

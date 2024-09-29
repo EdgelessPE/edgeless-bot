@@ -28,7 +28,7 @@ import { TaskInstance } from "./class";
 import { setMVTDayToday } from "./const";
 import { printLoadEnvNotices } from "./env";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 require("source-map-support").install();
 
 async function main(): Promise<boolean> {
@@ -66,7 +66,7 @@ async function main(): Promise<boolean> {
   }
   // 重建工作目录
   if (!clearWorkshop()) {
-    log("Error:Can't keep workshop clear : " + config.DIR_WORKSHOP);
+    log(`Error:Can't keep workshop clear : ${config.DIR_WORKSHOP}`);
     return false;
   }
   // 启动aria2c

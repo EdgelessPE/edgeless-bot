@@ -25,7 +25,7 @@ export default async function (
   shell.mkdir("-p", readyDir);
   const s = await release(
     path.join(workshop, downloadedFile),
-    "_ready/" + taskName,
+    `_ready/${taskName}`,
     false,
     workshop,
   );
@@ -57,9 +57,7 @@ export default async function (
       .PortableApps.comInstaller;
     if (!fileContent) {
       return new Err(
-        "Error:Can't preprocess " +
-          taskName +
-          ":[PortableApps.comInstaller] not found in pac_installer_log.ini",
+        `Error:Can't preprocess ${taskName}:[PortableApps.comInstaller] not found in pac_installer_log.ini`,
       );
     }
     try {
@@ -70,15 +68,14 @@ export default async function (
       fileContent.InstallDate = fileContent.PackagingDate;
       fileContent.InstallTime = fileContent.PackagingTime;
 
-      const final =
-        "[PortableApps.comInstaller]\n" + ini.stringify(fileContent);
+      const final = `[PortableApps.comInstaller]\n${ini.stringify(
+        fileContent,
+      )}`;
       fs.writeFileSync(iniPath, final);
     } catch (err) {
       console.log(JSON.stringify(err));
       return new Err(
-        "Error:Can't preprocess " +
-          taskName +
-          ":can't modify pac_installer_log.ini",
+        `Error:Can't preprocess ${taskName}:can't modify pac_installer_log.ini`,
       );
     }
   }
@@ -88,7 +85,7 @@ export default async function (
   for (const file of fs.readdirSync(readyDir)) {
     if (file.includes(".exe")) {
       exe = file;
-      log("Info:Got exe file:" + file);
+      log(`Info:Got exe file:${file}`);
       break;
     }
   }
@@ -98,7 +95,7 @@ export default async function (
 
   // 检查是否包含"Portable"
   if (!exe.includes("Portable")) {
-    log("Warning:Exe file may be wrong:" + exe);
+    log(`Warning:Exe file may be wrong:${exe}`);
   }
   // 写外置批处理
   const cmd =
@@ -106,9 +103,9 @@ export default async function (
     `\nLINK X:\\Users\\Default\\Desktop\\${
       obj.shortcutName ?? taskName
     },X:\\Users\\PortableApps\\${taskName}\\${exe}${
-      obj.launchArg ? "," + obj.launchArg : ""
+      obj.launchArg ? `,${obj.launchArg}` : ""
     }`;
-  writeGBK(path.join(readyDir, "..", taskName + ".wcs"), cmd);
+  writeGBK(path.join(readyDir, "..", `${taskName}.wcs`), cmd);
 
   return new Ok({
     readyRelativePath: "_ready",

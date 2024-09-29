@@ -24,7 +24,7 @@ async function release(
     try {
       cp.execSync(`${p7zip} x "${file}" -o"${intoDir}" -y`, { cwd });
     } catch (e) {
-      log("Error:Release command failed\n" + e);
+      log(`Error:Release command failed\n${e}`);
       resolve(false);
       return;
     }
@@ -49,7 +49,7 @@ async function compress(
         cwd: path.join(cwd ?? "", choosePlainDir),
       });
     } catch (e) {
-      log("Error:Compress command failed\n" + e);
+      log(`Error:Compress command failed\n${e}`);
       resolve(false);
       return;
     }

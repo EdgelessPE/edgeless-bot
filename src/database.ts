@@ -37,8 +37,9 @@ function readDatabase() {
 function writeDatabase() {
   if (!config.DATABASE_UPDATE) {
     log(
-      "Warning:Database not updated" +
-        (modified ? ", modification would be abandoned" : ""),
+      `Warning:Database not updated${
+        modified ? ", modification would be abandoned" : ""
+      }`,
     );
     return;
   }
@@ -69,7 +70,7 @@ function getDatabaseNode(taskName: string): DatabaseNode {
 
 // 需要在read后调用
 function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
-  log(errorMessage + ` for task ${taskName}`);
+  log(`${errorMessage} for task ${taskName}`);
   const old = getDatabaseNode(taskName);
   database[taskName] = {
     recent: {

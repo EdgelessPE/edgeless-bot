@@ -41,7 +41,7 @@ export default async function (
   if (temp.version_selector != undefined) {
     const $ = cheerio.load(page);
     scope = $(temp.version_selector).html() ?? "";
-    log("Info:Narrow version match scope by selector : " + scope);
+    log(`Info:Narrow version match scope by selector : ${scope}`);
   } else {
     scope = page;
   }
@@ -50,9 +50,9 @@ export default async function (
     return new Err("Error:Given version match regex matched nothing");
   }
   log(
-    "Info:Version match result : " +
-      m.toString() +
-      (m.length > 1 ? ", use the highest one" : ""),
+    `Info:Version match result : ${m.toString()}${
+      m.length > 1 ? ", use the highest one" : ""
+    }`,
   );
   let version = "0.0.0",
     tmp;
@@ -92,7 +92,7 @@ export default async function (
     } else {
       scope = $(temp.download_selector).html() ?? "";
     }
-    log("Info:Narrow download match scope by selector : " + scope);
+    log(`Info:Narrow download match scope by selector : ${scope}`);
   } else {
     scope = page;
   }
@@ -111,7 +111,7 @@ export default async function (
   } else {
     downloadLink = scope;
   }
-  log("Info:Download link match result : " + downloadLink);
+  log(`Info:Download link match result : ${downloadLink}`);
 
   // 处理以 / 开头的下载地址
   if (downloadLink[0] == "/" && downloadLink[1] != "/") {

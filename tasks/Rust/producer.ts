@@ -14,7 +14,7 @@ export default async function (
   shell.mkdir("-p", readyDir);
   shell.mv(path.join(workshop, downloadedFile), readyDir);
   writeGBK(
-    path.join(workshop, "_ready", taskName + ".cmd"),
+    path.join(workshop, "_ready", `${taskName}.cmd`),
     `"X:\\Program Files\\Edgeless\\${taskName}\\${downloadedFile}" /qb`,
   );
   // Return ready directory

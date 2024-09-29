@@ -18,20 +18,15 @@ function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
 
 function uploadToRemote(fileName: string, category: string): boolean {
   if (config.REMOTE_ENABLE) {
-    const localPath = config.DIR_BUILDS + "/" + category + "/" + fileName;
-    const remotePath = config.REMOTE_PATH + "/" + category;
+    const localPath = `${config.DIR_BUILDS}/${category}/${fileName}`;
+    const remotePath = `${config.REMOTE_PATH}/${category}`;
     let date = new Date();
     const startTime = date.getTime();
 
     try {
-      log("Info:Uploading " + fileName);
+      log(`Info:Uploading ${fileName}`);
       cp.execSync(
-        'rclone copy "' +
-          localPath +
-          '" ' +
-          config.REMOTE_NAME +
-          ":" +
-          remotePath,
+        `rclone copy "${localPath}" ${config.REMOTE_NAME}:${remotePath}`,
         getOptions(3600000),
       );
     } catch (err: any) {
@@ -71,28 +66,18 @@ function deleteFromRemote(
   ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
-    const remotePath = config.REMOTE_PATH + "/" + category + "/" + fileName;
+    const remotePath = `${config.REMOTE_PATH}/${category}/${fileName}`;
     // 读取远程目录查看是否存在
     let buf;
     try {
       buf = cp.execSync(
-        "rclone ls " +
-          config.REMOTE_NAME +
-          ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category,
+        `rclone ls ${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}`,
         getOptions(10000),
       );
     } catch (err: any) {
       console.log(err?.output.toString());
       log(
-        "Error:Remote directory not exist:" +
-          config.REMOTE_NAME +
-          ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category,
+        `Error:Remote directory not exist:${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}`,
       );
       return false;
     }
@@ -103,24 +88,16 @@ function deleteFromRemote(
       (ignoreNotExist == undefined || !ignoreNotExist)
     ) {
       log(
-        "Warning:Remote not exist file : " +
-          config.REMOTE_NAME +
-          ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category +
-          "/" +
-          fileName +
-          " ,ignore",
+        `Warning:Remote not exist file : ${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}/${fileName} ,ignore`,
       );
       return true;
     }
 
     // 尝试删除
     try {
-      log("Info:Removing " + remotePath);
+      log(`Info:Removing ${remotePath}`);
       cp.execSync(
-        'rclone delete "' + config.REMOTE_NAME + ":" + remotePath + '"',
+        `rclone delete "${config.REMOTE_NAME}:${remotePath}"`,
         getOptions(10000),
       );
     } catch (err: any) {

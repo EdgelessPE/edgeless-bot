@@ -44,7 +44,7 @@ function uploadToRemote(fileName: string, category: string): boolean {
       log(`Info:Uploading ${fileName}`);
       // 先尝试移除这个文件
       deleteFromRemote(fileName, category, true);
-      cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
+      cp.execSync(`cloud189 up "${localPath}" "${remotePath}"`);
     } catch (err: any) {
       console.log(err?.output.toString());
       date = new Date();
@@ -86,7 +86,7 @@ function deleteFromRemote(
     // 读取远程目录查看是否存在
     let buf;
     try {
-      buf = cp.execSync(`cloud189 ls ${config.REMOTE_PATH}/${category}`);
+      buf = cp.execSync(`cloud189 ls "${config.REMOTE_PATH}/${category}"`);
     } catch (err: any) {
       console.log(err?.output.toString());
       log(

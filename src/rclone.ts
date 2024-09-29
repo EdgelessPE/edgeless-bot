@@ -26,7 +26,7 @@ function uploadToRemote(fileName: string, category: string): boolean {
     try {
       log(`Info:Uploading ${fileName}`);
       cp.execSync(
-        `rclone copy "${localPath}" ${config.REMOTE_NAME}:${remotePath}`,
+        `rclone copy "${localPath}" "${config.REMOTE_NAME}:${remotePath}"`,
         getOptions(3600000),
       );
     } catch (err: any) {
@@ -71,7 +71,7 @@ function deleteFromRemote(
     let buf;
     try {
       buf = cp.execSync(
-        `rclone ls ${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}`,
+        `rclone ls "${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}"`,
         getOptions(10000),
       );
     } catch (err: any) {

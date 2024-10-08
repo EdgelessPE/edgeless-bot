@@ -18,6 +18,8 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
       host,
       port,
     };
+  } else {
+    result["proxy"] = false;
   }
   // 增加UA
   if (result.headers == undefined) result.headers = {};

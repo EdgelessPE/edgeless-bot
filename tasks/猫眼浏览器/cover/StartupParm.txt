@@ -1,0 +1,24 @@
+--user-data-dir=./User Data
+--disk-cache-dir=./Cache
+#--dark-mode=dark
+#--disable-catsxp-extension
+--disable-catsxp-update
+#--disable-catsxp-detect-outdated-install
+#--disable-catsxp-wayback-machine-extension
+#--disable-direct-write
+#--disable-dwm-composition
+--disable-encryption-win
+--disable-machine-id
+#--disable-native-colors
+#--disable-pwas-install
+#--disable-webtorrent-extension
+#--disable-windows10-custom-titlebar
+#--disable-vertical-tabs
+#--enabled-catsxp-link-force
+#--enabled-catsxp-menu-color
+#--enabled-catsxp-redirector
+#--enabled-microsoft-brand
+#--enabled-popups-to-tabs
+#--use-google-sync
+--no-first-run
+

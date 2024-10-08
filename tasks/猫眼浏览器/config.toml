@@ -4,18 +4,18 @@
 name = "猫眼浏览器"
 category = "浏览器"
 author = "xrgzs"
-url = "https://www.catsxp.com/"
+url = "https://github.com/naderi/scoop-bucket/blob/master/bucket/catsxp.json"
 
 # 指定使用的模板
 [template]
-scraper = "External"
+scraper = "Scoop"
 # resolver = ""
 producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.exe'
+download_name = '\.zip'
 # scraper_version = ''
 
 # 通用参数
@@ -31,9 +31,9 @@ build_cover = "cover"
 
 # 自动制作模板要求的参数
 [producer_required]
-shortcutName = "猫眼浏览器"
+shortcutName = "Catsxp"
 sourceFile = "catsxp.exe"
-recursiveUnzipList = ["chrome.7z", "Chrome-bin"]
+recursiveUnzipList = [ ]
 
 
 # 额外备注

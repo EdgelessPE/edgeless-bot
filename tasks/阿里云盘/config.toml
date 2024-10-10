@@ -39,4 +39,4 @@ recursiveUnzipList = []
 # 额外备注
 [extra]
 # require_windows = false
-missing_version = "${taskName}/aDrive.exe"
+# missing_version = "${taskName}/aDrive.exe"

@@ -17,17 +17,12 @@ export default async function (
     })
   ).unwrap();
   try {
-    log(
-      `Info: downloadLink:${
-        response["architecture"]?.["64bit"]["url"] ?? response["url"]
-      }`,
-    );
-    log(`Info: Version: ${response["version"]}`);
-    return new Ok({
-      version: response["version"],
-      downloadLink:
-        response["architecture"]?.["64bit"]["url"] ?? response["url"],
-    });
+    const url = response.architecture?.["64bit"]?.url ?? response.url;
+    const downloadLink = url.split("#/")[0];
+    const version = response.version;
+    log(`Info: downloadLink:${downloadLink}`);
+    log(`Info: Version: ${version}`);
+    return new Ok({ version, downloadLink });
   } catch (e) {
     return new Err(
       `Error:Given url doesn't match standard scoop manifest schema, got : ${JSON.stringify(

@@ -1,0 +1,44 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "小小输入法"
+category = "输入法"
+author = "xrgzs"
+url = "https://yong.dgod.net/download/"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+download_link = '\/download\/yong-win-([\d\.]+)-\d+\.7z'
+download_name = '\.7z'
+scraper_version = '\/download\/yong-win-([\d\.]+)-\d+\.7z'
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0"
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "小小输入法"
+sourceFile = "w64\\yong.exe"
+recursiveUnzipList = ['yong']
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

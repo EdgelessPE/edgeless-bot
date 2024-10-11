@@ -1,0 +1,43 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "Notepad4"
+category = "办公编辑"
+author = "xrgzs"
+url = "https://github.com/zufuliu/notepad4"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'Notepad4_HD_zh-Hans_x64_v(\S+)\.zip'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/Notepad4.exe"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Notepad4"
+sourceFile = "Notepad4.exe"
+recursiveUnzipList = [ ]
+
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

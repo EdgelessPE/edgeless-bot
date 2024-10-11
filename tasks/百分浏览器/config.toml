@@ -24,7 +24,7 @@ scraper_version = '(\d+\.\d+\.\d+\.\d+)'
 # compress_level = 5
 build_manifest = ["${taskName}.wcs","${taskName}/chrome.exe"]
 # build_cover = ""
-# build_delete = []
+build_delete = [ "${latestVersion}/Installer","${latestVersion}/bookmarks_cn.html","${latestVersion}/bookmarks_en.html","${latestVersion}/bookmarks_ru.html","${latestVersion}/centbrowserupdater.exe" ]
 
 # 爬虫模板临时参数
 [scraper_temp]

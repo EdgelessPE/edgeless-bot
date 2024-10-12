@@ -64,6 +64,8 @@ return new Ok({
 interface ProducerParameters {
   taskName: string;
   version: string;
+  category: string;
+  author: string;
   workshop: string;
   downloadedFile: string;
   requiredObject: any;

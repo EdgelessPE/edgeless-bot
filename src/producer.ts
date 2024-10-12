@@ -62,6 +62,8 @@ export default async function (
     task: {
       taskName: task.name,
       version: s.version,
+      category: task.category,
+      author: task.author,
       workshop: path.resolve(PROJECT_ROOT, config.DIR_WORKSHOP, task.name),
       downloadedFile,
       requiredObject: task.producer_required,

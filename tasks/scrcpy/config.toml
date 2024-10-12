@@ -23,7 +23,7 @@ download_name = 'win64-v.*\.zip'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["${taskName}.wcs","${taskName}"]
-build_cover = "cover"
+# build_cover = ""
 # build_delete = []
 
 # 爬虫模板临时参数
@@ -34,7 +34,8 @@ build_cover = "cover"
 shortcutName = "scrcpy"
 sourceFile = "scrcpy.exe"
 recursiveUnzipList = [ '/scrcpy-win64-v[\d\.]+/' ]
-
+noDesktop = true
+addPath = true
 
 # 额外备注
 # [extra]

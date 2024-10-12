@@ -10,19 +10,19 @@ url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/curl.json"
 [template]
 # scraper = ""
 # resolver = ""
-producer = "External"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.exe'
+download_name = '\.tar\.xz'
 # scraper_version = ''
 
 # 通用参数
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.cmd","${taskName}"]
+build_manifest = ["${taskName}.wcs","${taskName}"]
 # build_cover = ""
 # build_delete = []
 
@@ -31,7 +31,11 @@ build_manifest = ["${taskName}.cmd","${taskName}"]
 
 # 自动制作模板要求的参数
 [producer_required]
-
+shortcutName = "${taskName}"
+sourceFile = "curl.exe"
+recursiveUnzipList = ['/curl-\S+-win64-mingw\.tar/','/curl-\S+-win64-mingw/','bin']
+noDesktop = true
+addPath = true
 
 # 额外备注
 # [extra]

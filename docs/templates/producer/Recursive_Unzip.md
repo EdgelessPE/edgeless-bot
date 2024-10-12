@@ -51,3 +51,39 @@ recursiveUnzipList = ['下北泽','池沼','/雷普先辈！_ver\.*\.7z/']
 - 路径：`producer_required.launchArg`
 - 类型：`string`
 - 说明：创建的快捷方式启动参数
+
+### noDesktop
+
+- 路径：`producer_required.noDesktop`
+- 类型：`boolean`
+- 说明：不创建桌面快捷方式
+
+### addStartMenu
+
+- 路径：`producer_required.addStartMenu`
+- 类型：`boolean`
+- 说明：在开始菜单中按照软件分类创建快捷方式
+
+### addPath
+
+- 路径：`producer_required.addPath`
+- 类型：`boolean`
+- 说明：添加释放后的路径到用户级别的环境变量 PATH 中
+
+### addMachinePath
+
+- 路径：`producer_required.addMachinePath`
+- 类型：`boolean`
+- 说明：添加释放后的路径到系统级别的环境变量 PATH 中
+
+### addAppPath
+
+- 路径：`producer_required.addAppPath`
+- 类型：`boolean`
+- 说明：添加快捷方式指向的可执行文件到用户级别的 AppPath 注册表中
+
+### addMachineAppPath
+
+- 路径：`producer_required.addMachineAppPath`
+- 类型：`boolean`
+- 说明：添加快捷方式指向的可执行文件到系统级别的 AppPath 注册表中

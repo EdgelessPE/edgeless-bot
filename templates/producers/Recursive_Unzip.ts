@@ -14,6 +14,12 @@ interface RequiredObject {
   sourceFile: string;
   shortcutName: string;
   launchArg?: string;
+  noDesktop?: boolean;
+  addStartMenu?: boolean;
+  addPath?: boolean;
+  addMachinePath?: boolean;
+  addAppPath?: boolean;
+  addMachineAppPath?: boolean;
 }
 
 function matchFile(cwd: string, regex: string): Result<string, string> {
@@ -116,14 +122,54 @@ export default async function (
       cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`);
     } else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`);
   }
-  writeGBK(
-    path.join(final, `${p.taskName}.wcs`),
-    `LINK X:\\Users\\Default\\Desktop\\${
+  let wcsScript: string = `// Auto produced by Edgeless Bot - Recursive_Unzip
+// taskName: ${p.taskName}
+// version: ${p.version}
+// category: ${p.category}
+// author: ${p.author}
+  `;
+  if (!obj.noDesktop) {
+    wcsScript += `
+LINK X:\\Users\\Default\\Desktop\\${
       obj.shortcutName
     },%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}${
       obj.launchArg ? `,${obj.launchArg}` : ""
-    }`,
-  );
+    }
+`;
+  }
+  if (obj.addStartMenu) {
+    wcsScript += `
+LINK X:\\Users\\Default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\${
+      p.category
+    }\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${
+      obj.sourceFile
+    }${obj.launchArg ? `,${obj.launchArg}` : ""}
+`;
+  }
+  if (obj.addPath) {
+    wcsScript += `
+REGI HKCU\\Environment\\\\Path,UserPath
+ENVI #Path=%&UserPath%;%ProgramFiles%\\Edgeless\\${p.taskName}
+`;
+  }
+  if (obj.addMachinePath) {
+    wcsScript += `
+REGI HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\\\Path,MachinePath
+ENVI $Path=%&MachinePath%;%ProgramFiles%\\Edgeless\\${p.taskName}
+`;
+  }
+  if (obj.addAppPath) {
+    wcsScript += `
+REGI $HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${obj.sourceFile}\\\\=%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}
+`;
+  }
+  if (obj.addMachineAppPath) {
+    wcsScript += `
+REGI $HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${obj.sourceFile}\\\\=%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}
+`;
+  }
+
+  writeGBK(path.join(final, `${p.taskName}.wcs`), wcsScript);
   // 自检
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(final, p));

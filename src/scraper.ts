@@ -66,7 +66,7 @@ function searchTemplate(
   }
 
   if (result == null) {
-    return new Err("Error:Can't find matched scraper template for " + url);
+    return new Err(`Error:Can't find matched scraper template for ${url}`);
   } else {
     return new Ok(result);
   }
@@ -78,12 +78,12 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "scrapers",
-    entrance + ".js",
+    `${entrance}.js`,
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
   } else {
-    return new Err("Error:Can't find " + p);
+    return new Err(`Error:Can't find ${p}`);
   }
 }
 

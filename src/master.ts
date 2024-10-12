@@ -13,7 +13,7 @@ async function master(
       __dirname,
       "templates",
       "scrapers",
-      entrance + ".js",
+      `${entrance}.js`,
     );
     // 启动Worker
     const worker = new Worker(scriptPath, { workerData: tasks });

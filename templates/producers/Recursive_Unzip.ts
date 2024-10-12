@@ -64,7 +64,7 @@ export default async function (
     }
     // 判断是文件夹还是文件
     if (fs.statSync(path.join(cwd, file)).isDirectory()) {
-      cwd = cwd + "/" + file;
+      cwd = `${cwd}/${file}`;
     } else {
       // 尝试解压
       success = await release(file, level.toString(), true, cwd);
@@ -117,18 +117,18 @@ export default async function (
     } else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`);
   }
   writeGBK(
-    path.join(final, p.taskName + ".wcs"),
+    path.join(final, `${p.taskName}.wcs`),
     `LINK X:\\Users\\Default\\Desktop\\${
       obj.shortcutName
     },%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}${
-      obj.launchArg ? "," + obj.launchArg : ""
+      obj.launchArg ? `,${obj.launchArg}` : ""
     }`,
   );
   // 自检
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(final, p));
   };
-  if (exist(p.taskName + ".wcs") && exist(p.taskName + "/" + obj.sourceFile)) {
+  if (exist(`${p.taskName}.wcs`) && exist(`${p.taskName}/${obj.sourceFile}`)) {
     return new Ok({
       readyRelativePath: "_ready",
     });

@@ -25,6 +25,7 @@ function login(): boolean {
     };
     log("Info:Login to cloud189..");
     cp.execSync(`cloud189 login -i ${name} ${password}`);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     log("Error:Failed to login to cloud189..");
     return false;
@@ -34,16 +35,16 @@ function login(): boolean {
 
 function uploadToRemote(fileName: string, category: string): boolean {
   if (config.REMOTE_ENABLE) {
-    const localPath = config.DIR_BUILDS + "/" + category + "/" + fileName;
-    const remotePath = config.REMOTE_PATH + "/" + category;
+    const localPath = `${config.DIR_BUILDS}/${category}/${fileName}`;
+    const remotePath = `${config.REMOTE_PATH}/${category}`;
     let date = new Date();
     const startTime = date.getTime();
 
     try {
-      log("Info:Uploading " + fileName);
+      log(`Info:Uploading ${fileName}`);
       // 先尝试移除这个文件
       deleteFromRemote(fileName, category, true);
-      cp.execSync(`cloud189 up "${localPath}" ${remotePath}`);
+      cp.execSync(`cloud189 up "${localPath}" "${remotePath}"`);
     } catch (err: any) {
       console.log(err?.output.toString());
       date = new Date();
@@ -81,20 +82,15 @@ function deleteFromRemote(
   ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
-    const remotePath = config.REMOTE_PATH + "/" + category + "/" + fileName;
+    const remotePath = `${config.REMOTE_PATH}/${category}/${fileName}`;
     // 读取远程目录查看是否存在
     let buf;
     try {
-      buf = cp.execSync(`cloud189 ls ${config.REMOTE_PATH}/${category}`);
+      buf = cp.execSync(`cloud189 ls "${config.REMOTE_PATH}/${category}"`);
     } catch (err: any) {
       console.log(err?.output.toString());
       log(
-        "Error:Remote directory not exist:" +
-          config.REMOTE_NAME +
-          ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category,
+        `Error:Remote directory not exist:${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}`,
       );
       return false;
     }
@@ -105,22 +101,14 @@ function deleteFromRemote(
       (ignoreNotExist == undefined || !ignoreNotExist)
     ) {
       log(
-        "Warning:Remote not exist file : " +
-          config.REMOTE_NAME +
-          ":" +
-          config.REMOTE_PATH +
-          "/" +
-          category +
-          "/" +
-          fileName +
-          " ,ignore",
+        `Warning:Remote not exist file : ${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}/${fileName} ,ignore`,
       );
       return true;
     }
 
     // 尝试删除
     try {
-      log("Info:Removing " + remotePath);
+      log(`Info:Removing ${remotePath}`);
       cp.execSync(`cloud189 rm "${remotePath}"`);
     } catch (err: any) {
       console.log(err?.output.toString());

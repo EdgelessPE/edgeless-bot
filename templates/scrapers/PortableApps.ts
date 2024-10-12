@@ -17,7 +17,7 @@ const DEBUG = false;
 function parseDownloadUrl(href: string): string {
   // 识别根目录字符“/”
   if (href[0] === "/") {
-    href = "https://portableapps.com" + href;
+    href = `https://portableapps.com${href}`;
   }
 
   // 识别downloading，替换为redirect
@@ -129,10 +129,7 @@ async function scrapePage(
 
               if (DEBUG)
                 log(
-                  "Info:Found simplified chinese version\nsha256:" +
-                    result.sha256 +
-                    "\ndownload link:" +
-                    result.href,
+                  `Info:Found simplified chinese version\nsha256:${result.sha256}\ndownload link:${result.href}`,
                 );
             } else {
               if (DEBUG) {
@@ -192,7 +189,7 @@ export default async function (
   // 处理跳转到 GitHub 备用下载的情况
   const trueUrlRes = await robustParseRedirect(href);
   const trueUrl = trueUrlRes.unwrapOr("");
-  if (trueUrl.indexOf("github.com") > -1) {
+  if (trueUrl.indexOf("github.com") > -1 && !trueUrl.endsWith(".paf.exe")) {
     // 交给 GitHub Release 爬虫处理
     log(`Info:GitHub Releases backup download detected : ${trueUrl}`);
     const res = await GitHubRelease({

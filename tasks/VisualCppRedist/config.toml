@@ -1,0 +1,41 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "VisualCppRedist"
+category = "运行环境"
+author = "xrgzs"
+url = "https://github.com/abbodi1406/vcredist"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Silent_Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = 'x64\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+argument = "/ai"
+deleteInstaller = true
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

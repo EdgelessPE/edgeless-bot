@@ -22,14 +22,14 @@ export default async function (
   shell.mkdir("-p", rD);
   shell.mv(aDF, rD);
   writeGBK(
-    path.join(ready, taskName + ".wcs"),
+    path.join(ready, `${taskName}.wcs`),
     `LINK X:\\Users\\Default\\Desktop\\${shortcutName},%ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile}`,
   );
 
   const exist = function (p: string): boolean {
     return fs.existsSync(path.join(ready, p));
   };
-  if (exist(taskName + ".wcs") && exist(taskName + "/" + downloadedFile)) {
+  if (exist(`${taskName}.wcs`) && exist(`${taskName}/${downloadedFile}`)) {
     return new Ok({
       readyRelativePath: "ready",
     });

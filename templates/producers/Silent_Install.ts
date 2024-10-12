@@ -20,10 +20,10 @@ export default async function (
     del = obj.deleteInstaller ?? false;
 
   const readyPath = path.join(workshop, "_ready"),
-    wcsPath = path.join(readyPath, taskName + ".wcs"),
+    wcsPath = path.join(readyPath, `${taskName}.wcs`),
     fileDir = path.join(readyPath, taskName);
   shell.mkdir("-p", fileDir);
-  shell.cp(path.join(workshop, downloadedFile), fileDir + "/");
+  shell.cp(path.join(workshop, downloadedFile), `${fileDir}/`);
 
   let text = `EXEC =! %ProgramFiles%\\Edgeless\\${taskName}\\${downloadedFile} ${arg}`;
   if (del) {

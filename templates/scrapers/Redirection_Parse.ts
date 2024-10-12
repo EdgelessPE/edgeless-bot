@@ -18,7 +18,7 @@ export default async function (
   // 匹配版本号
   const m = downloadLink.match(p.versionMatchRegex ?? /(\d+\.)+\d+/g);
   if (m == null) {
-    return new Err("Error:Can't match version with " + downloadLink);
+    return new Err(`Error:Can't match version with ${downloadLink}`);
   }
   if (m.length > 1) {
     log("Warning:Matched multi version string, using the last one");

@@ -13,7 +13,7 @@ export function init() {
   if (locale.slice(0, 2) == "en") {
     return;
   }
-  const dicPath = path.join(PROJECT_ROOT, "i18n", locale + ".json");
+  const dicPath = path.join(PROJECT_ROOT, "i18n", `${locale}.json`);
   if (!fs.existsSync(dicPath)) {
     log(`Warning:Dictionary for locale ${locale} not implemented yet`);
     return;

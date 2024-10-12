@@ -32,10 +32,10 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "prettier"],
   rules: {
-    "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": "error",
     "spaced-comment": "error",
-    "@typescript-eslint/no-explicit-any":"off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "prefer-template": "error",
   },
   ignorePatterns: ["*.js", "/dist", "/workshop", "/scripts/templates"],
 };

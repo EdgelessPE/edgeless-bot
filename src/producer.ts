@@ -20,12 +20,12 @@ function parsePath(entrance: string): Result<string, string> {
     "..",
     "templates",
     "producers",
-    entrance + ".js",
+    `${entrance}.js`,
   );
   if (fs.existsSync(p)) {
     return new Ok(p);
   } else {
-    return new Err("Error:Can't find " + p);
+    return new Err(`Error:Can't find ${p}`);
   }
 }
 

@@ -18,7 +18,7 @@ export default async function (
   if (!res) return new Err("Error:Can't release downloaded file");
   shell.mv(path.join(workshop, downloadedFile.split(".")[0]), readyDir);
   writeGBK(
-    path.join(workshop, "_ready", taskName + ".wcs"),
+    path.join(workshop, "_ready", `${taskName}.wcs`),
     `LINK %desktop%\\DreamScene2 X:\\Program Files\\Edgeless\\${taskName}\\DreamScene2.exe"`,
   );
   // Return ready directory

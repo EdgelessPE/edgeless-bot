@@ -18,6 +18,8 @@ function getConfig(axiosConfig?: AxiosRequestConfig): AxiosRequestConfig {
       host,
       port,
     };
+  } else {
+    result["proxy"] = false;
   }
   // 增加UA
   if (result.headers == undefined) result.headers = {};
@@ -34,9 +36,10 @@ async function singleFetch(
   let res;
   try {
     res = await axios.get(url, getConfig(axiosConfig));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     // console.log(JSON.stringify(err));
-    return new Err("Warning:Single fetch failed for " + url);
+    return new Err(`Warning:Single fetch failed for ${url}`);
   }
   return new Ok(res.data);
 }
@@ -82,10 +85,7 @@ async function fetchURL(url: string): Promise<Result<string, string>> {
         // console.log(e.response?.status)
         resolve(
           new Err(
-            "Warning:Single fetch failed for " +
-              url +
-              " :\n" +
-              JSON.stringify(e),
+            `Warning:Single fetch failed for ${url} :\n${JSON.stringify(e)}`,
           ),
         );
       }

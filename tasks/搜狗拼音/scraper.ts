@@ -18,7 +18,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
     return new Err("Error:Can't match url");
   }
   const url = m[0];
-  log("Info:Matched url " + url);
+  log(`Info:Matched url ${url}`);
 
   // 获取升级日志页面
   const versionPage = (
@@ -36,7 +36,7 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
       version = match[0];
     }
   });
-  log("Info:Matched version " + version);
+  log(`Info:Matched version ${version}`);
 
   return new Ok({
     version,

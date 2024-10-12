@@ -20,7 +20,7 @@ export default async function (
   shell.rm("-rf", path.join(readyDir, "$PLUGINSDIR"));
   shell.rm("-rf", path.join(readyDir, "Other"));
   writeGBK(
-    path.join(workshop, "_ready", taskName + ".wcs"),
+    path.join(workshop, "_ready", `${taskName}.wcs`),
     "FILE X:\\Program Files\\Edgeless\\LibreOffice->X:\\Users\\PortableApps\\LibreOffice\n" +
       "LINK X:\\Users\\Default\\Desktop\\LibreOfficeBase,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeBasePortable.exe\n" +
       "LINK X:\\Users\\Default\\Desktop\\LibreOfficeCalc,X:\\Users\\PortableApps\\LibreOffice\\LibreOfficeCalcPortable.exe\n" +

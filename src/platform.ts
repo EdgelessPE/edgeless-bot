@@ -55,7 +55,7 @@ function where(command: Commands): Result<string, string> {
         "./bin/7zzs",
         "C:/Program Files/7-Zip/7z",
         "C:/Program Files (x86)/7-Zip/7z",
-        process.env.PROGRAMFILESW6432 + "/7-Zip/7z",
+        `${process.env.PROGRAMFILESW6432}/7-Zip/7z`,
       ];
       break;
     case "aria2c":
@@ -101,6 +101,7 @@ function where(command: Commands): Result<string, string> {
       cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
       result = node;
       break;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       /* empty */
     }
@@ -111,11 +112,11 @@ function where(command: Commands): Result<string, string> {
       path.join(__dirname, node),
     ];
     if (getOS() == "Windows") {
-      possibleAbsolutePaths = possibleAbsolutePaths.map((v) => v + ".exe");
+      possibleAbsolutePaths = possibleAbsolutePaths.map((v) => `${v}.exe`);
     }
     possibleAbsolutePaths.forEach((item) => {
       if (fs.existsSync(item)) {
-        result = '"' + item + '"';
+        result = `"${item}"`;
       }
     });
   }
@@ -129,7 +130,7 @@ function where(command: Commands): Result<string, string> {
       node += ".exe";
     }
     if (fs.existsSync(node)) {
-      result = '"' + node + '"';
+      result = `"${node}"`;
       break;
     }
   }

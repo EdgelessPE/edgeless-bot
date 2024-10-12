@@ -28,7 +28,7 @@ export default async function (
     readyDir,
   );
   writeGBK(
-    path.join(workshop, "_ready", taskName + ".cmd"),
+    path.join(workshop, "_ready", `${taskName}.cmd`),
     `exec !setx Path "%PATH%;X:\\Program Files\\Edgeless\\${taskName}"`,
   );
   // Return ready directory

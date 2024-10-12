@@ -23,7 +23,7 @@ download_name = 'PowerShell-[0-9\.]+-win-x64.zip'
 # resolver_cd = []
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}\\pwsh.exe"]
-build_cover = "cover"
+# build_cover = ""
 # build_delete = []
 
 # 爬虫模板临时参数
@@ -34,7 +34,7 @@ build_cover = "cover"
 shortcutName = "PowerShell"
 sourceFile = "pwsh.exe"
 recursiveUnzipList = []
-
+addPath = true
 
 # 额外备注
 # [extra]

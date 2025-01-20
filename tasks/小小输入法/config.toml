@@ -14,9 +14,9 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = '\/download\/yong-win-([\d\.]+)-\d+\.7z'
+download_link = 'yong-win-([\d\.]+)(-\d+)?\.7z'
 download_name = '\.7z'
-scraper_version = '\/download\/yong-win-([\d\.]+)-\d+\.7z'
+scraper_version = 'yong-win-([\d\.]+)(-\d+)?\.7z'
 
 # 通用参数
 [parameter]
@@ -38,7 +38,7 @@ recursiveUnzipList = ['yong']
 
 
 # 额外备注
-# [extra]
+[extra]
 # require_windows = true
 # missing_version = ""
-# weekly = true
+weekly = true

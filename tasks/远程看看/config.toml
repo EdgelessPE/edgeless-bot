@@ -10,7 +10,7 @@ url = "https://www.anyviewer.cn/download.html"
 [template]
 scraper = "External"
 # resolver = ""
-producer = "Silent_Install"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
@@ -22,7 +22,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
+build_manifest = ["${taskName}.wcs","${taskName}/RCClient.exe"]
 # build_cover = ""
 # build_delete = []
 
@@ -31,10 +31,13 @@ build_manifest = ["${taskName}.wcs","${taskName}/${downloadedFile}"]
 
 # 自动制作模板要求的参数
 [producer_required]
-argument = "/silent"
+shortcutName = "远程看看"
+sourceFile = "RCClient.exe"
+recursiveUnzipList = ['{app}']
+innoSetup = true
 
 # 额外备注
 [extra]
 # require_windows = true
-missing_version = "${taskName}/${downloadedFile}"
+missing_version = "${taskName}/RCClient.exe"
 # weekly = true

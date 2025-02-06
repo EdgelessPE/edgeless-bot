@@ -36,6 +36,12 @@ jobs:
       - name: Install dependencies
         run: npm install -g pnpm@9 && pnpm install
 
+      - name: Install scoop (Windows)
+        uses: MinoruSekine/setup-scoop@v4
+        with:
+          buckets: main
+          apps: innounp
+
       # 以Debug模式运行构建任务
       - name: Run scripts
         run: pnpm dev -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"

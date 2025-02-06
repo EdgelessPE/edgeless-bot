@@ -4,6 +4,7 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import { log, sleep, writeGBK } from "../../src/utils";
 import { release } from "../../src/p7zip";
+import { releaseInno } from "../../src/inno";
 import os from "os";
 import cp from "child_process";
 
@@ -13,6 +14,7 @@ interface RequiredObject {
   recursiveUnzipList: Array<string>;
   sourceFile: string;
   shortcutName: string;
+  innoSetup?: boolean;
   launchArg?: string;
   noDesktop?: boolean;
   addStartMenu?: boolean;
@@ -73,7 +75,11 @@ export default async function (
       cwd = `${cwd}/${file}`;
     } else {
       // 尝试解压
-      success = await release(file, level.toString(), true, cwd);
+      if (obj.innoSetup) {
+        success = await releaseInno(file, level.toString(), true, cwd);
+      } else {
+        success = await release(file, level.toString(), true, cwd);
+      }
       if (!success) {
         reason = `Error:Can't unzip file ${file} at ${cwd} during the ${level} recursion`;
         success = false;

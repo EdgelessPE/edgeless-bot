@@ -46,6 +46,12 @@ recursiveUnzipList = ['下北泽','池沼','/雷普先辈！_ver\.*\.7z/']
 
 ## 可选的参数
 
+### innoSetup
+
+- 路径：`producer_required.innoSetup`
+- 类型：`boolean`
+- 说明：是否为Inno Setup的安装包
+
 ### launchArg
 
 - 路径：`producer_required.launchArg`

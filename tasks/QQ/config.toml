@@ -4,36 +4,36 @@
 name = "QQ"
 category = "即时通讯"
 author = "Cno"
-url = "https://im.qq.com/pcqq/index.shtml"
+url = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/qq-nt.json"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "Scoop"
 # resolver = ""
-producer = "Silent_Install"
+producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 download_link = 'https:\/\/dldir1\.qq\.com\/qqfile\/qq/QQNT\/[\w\/.]+_x64([\w_]*)\.exe'
 download_name = '\.exe'
-scraper_version = '"ntVersion":\s?[^,]+,'
+# scraper_version = ''
 
 # 通用参数
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+build_manifest = ["${taskName}.wcs", "${taskName}/QQ.exe"]
 # build_cover = ""
-# build_delete = []
+build_delete = ["Uninstall.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_page_url = "https://cdn-go.cn/qq-web/im.qq.com_new/latest/rainbow/windowsDownloadUrl.js"
-download_page_url = "https://cdn-go.cn/qq-web/im.qq.com_new/latest/rainbow/windowsDownloadUrl.js"
 
 # 自动制作模板要求的参数
 [producer_required]
-
+shortcutName = "QQ"
+sourceFile = "QQ.exe"
+recursiveUnzipList = ["Files"]
 
 # 额外备注
 # [extra]

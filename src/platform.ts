@@ -15,7 +15,8 @@ export type Commands =
   | "rclone"
   | "pecmd"
   | "cloud189"
-  | "curl";
+  | "curl"
+  | "innounp";
 
 function getOS(): OS {
   switch (os.platform()) {
@@ -85,6 +86,15 @@ function where(command: Commands): Result<string, string> {
     case "curl":
       possibleCommands = ["curl"];
       possiblePositions = ["./curl", "./bin/curl"];
+      break;
+    case "innounp":
+      possibleCommands = ["innounp"];
+      possiblePositions = [
+        "./innounp",
+        "./bin/innounp",
+        path.join(os.homedir(), "scoop/apps/innounp/current/innounp"),
+        path.join(os.homedir(), "scoop/apps/innounp-unicode/current/innounp"),
+      ];
       break;
     default:
       return new Err(`Error:Undefined command argument : ${command}`);

@@ -49,6 +49,15 @@ scoop install rclone
 brew install rclone
 ```
 
+### Innounp (选装)
+
+官方网站 https://www.rathlev-home.de/tools/prog-e.html#unpack ，如果需要解包 Inno Setup 则需要安装，可以使用如下命令安装：
+
+```shell
+# Windows
+scoop install innounp
+```
+
 ### PECMD (自带)
 
 在执行仅 Windows 平台任务时需要使用，已经预置在 GitHub 仓库的 `bin` 文件夹内。

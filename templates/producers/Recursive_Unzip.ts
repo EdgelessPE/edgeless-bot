@@ -155,13 +155,13 @@ LINK X:\\Users\\Default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Progr
   if (obj.addPath) {
     wcsScript += `
 REGI HKCU\\Environment\\\\Path,UserPath
-ENVI #Path=%&UserPath%;%ProgramFiles%\\Edgeless\\${p.taskName}
+ENVI #Path=%UserPath%;%ProgramFiles%\\Edgeless\\${p.taskName}
 `;
   }
   if (obj.addMachinePath) {
     wcsScript += `
 REGI HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\\\Path,MachinePath
-ENVI $Path=%&MachinePath%;%ProgramFiles%\\Edgeless\\${p.taskName}
+ENVI $Path=%MachinePath%;%ProgramFiles%\\Edgeless\\${p.taskName}
 `;
   }
   if (obj.addAppPath) {

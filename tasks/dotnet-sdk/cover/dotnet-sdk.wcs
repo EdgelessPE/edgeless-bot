@@ -1,0 +1,4 @@
+REGI HKCU\Environment\\Path,UserPath
+ENVI #Path=%UserPath%;%ProgramFiles%\Edgeless\dotnet-sdk
+ENVI #DOTNET_ROOT=%ProgramFiles%\Edgeless\dotnet-sdk
+ENVI #MSBuildSDKsPath=%ProgramFiles%\Edgeless\dotnet-sdk

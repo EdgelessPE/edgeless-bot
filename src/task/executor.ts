@@ -347,6 +347,7 @@ export async function execute(
   const nepPackage: NepPackage = {
     nep: "0",
     package: {
+      scope: t.task.scope,
       name: cleanTaskName,
       template: "Software",
       description: t.task.description,
@@ -355,7 +356,6 @@ export async function execute(
       license: t.task.license,
     },
     software: {
-      scope: t.task.scope,
       upstream: t.task.pageUrl,
       category: t.task.category,
       language: t.task.language,

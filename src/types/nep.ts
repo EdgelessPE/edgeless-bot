@@ -2,6 +2,7 @@
 export interface NepPackage {
   nep: string;
   package: {
+    scope: string;
     name: string;
     template: string;
     description: string;
@@ -10,7 +11,6 @@ export interface NepPackage {
     license?: string;
   };
   software: {
-    scope: string;
     upstream: string;
     category: string;
     language: string;

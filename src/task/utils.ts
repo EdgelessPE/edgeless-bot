@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import rcInfo from "rcinfo";
 import shell from "shelljs";

@@ -54,7 +54,6 @@ export async function select(
   options: string[],
   defaultIndex?: number,
 ): Promise<number> {
-  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (
       defaultIndex != undefined &&

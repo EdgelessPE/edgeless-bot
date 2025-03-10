@@ -13,8 +13,6 @@ import {
 } from "./types/class";
 import { awaitWithTimeout, log } from "./utils";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
 
 export let badge = "Worker";

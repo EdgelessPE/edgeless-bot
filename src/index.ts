@@ -33,8 +33,6 @@ import { printLoadEnvNotices } from "./utils/env";
 import { ensurePlatform } from "./utils/platform";
 import { clearWorkshop } from "./utils/workshop";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
 
 async function main(): Promise<boolean> {

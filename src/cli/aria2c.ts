@@ -93,7 +93,6 @@ export async function stopAria2c(): Promise<void> {
 
 // 由外部调用的初始化函数
 export async function initAria2c(): Promise<boolean> {
-  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     // 获得二进制配置
     const binRes = where("aria2c");
@@ -152,7 +151,6 @@ async function download_with_aria2c(
   dir: string,
   options: DownloadOptions,
 ): Promise<string> {
-  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     // 处理以 // 开头的链接
     if (url.slice(0, 2) == "//") {

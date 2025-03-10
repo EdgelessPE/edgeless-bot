@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
 import { log } from "../../src/utils";
@@ -93,7 +92,6 @@ async function scrapePage(
       break;
     case "download-info": {
       // 获取box的首个子节点
-      // eslint-disable-next-line no-case-declarations
       const dom_btn = dom_box.children("a");
 
       // 产生两个属性
@@ -182,7 +180,6 @@ export default async function (
   // 获取页面
   const page = (await robustGet(p.url)).unwrap();
   // 解析
-  // eslint-disable-next-line prefer-const
   let { text, href, sha256 } = (
     await scrapePage(page as string, p.url)
   ).unwrap();

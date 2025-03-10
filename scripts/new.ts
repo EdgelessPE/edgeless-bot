@@ -521,7 +521,6 @@ async function createTemplate() {
           ),
         ),
       } as ProducerRegister;
-      // eslint-disable-next-line no-case-declarations
       const recommendedManifest = await stringArray(
         t("Recommended manifest, ") + t("split with ,"),
         [],
@@ -541,7 +540,6 @@ async function createTemplate() {
       templatePath = `./templates/producers/${json.entrance}.ts`;
       shell.cp("./scripts/templates/producer.ts", templatePath);
       // 复制生成schema.json
-      // eslint-disable-next-line no-case-declarations
       const schemaPath = `./schema/producer_templates/${json.entrance}.json`;
       shell.cp("./scripts/templates/schema.json", schemaPath);
       // 报告

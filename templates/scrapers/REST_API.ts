@@ -9,7 +9,6 @@ interface Temp {
   referer?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function objChainReader(obj: any, chain: string[]): Result<any, string> {
   if (!(chain[0] in obj)) {
     return new Err(`Error:Key undefined`);

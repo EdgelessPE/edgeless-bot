@@ -8,7 +8,6 @@ import { execute } from "./executor";
 export async function executeTasks(
   ts: Array<ExecuteParameter>,
 ): Promise<Array<ResultReport>> {
-  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     if (ts.length == 0) {
       log("Info:No tasks to be executed");

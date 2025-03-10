@@ -302,7 +302,6 @@ export function schemaValidator(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function objChainValidator(obj: any, chain: string[]): boolean {
   if (!(chain[0] in obj)) {
     return false;
@@ -433,7 +432,6 @@ export function fromGBK(b: Buffer): string {
 }
 
 export function tomlStringify(obj: object): string {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return TOML.stringify(obj as any);
 }
 

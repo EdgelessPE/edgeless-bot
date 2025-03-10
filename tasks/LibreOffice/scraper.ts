@@ -9,7 +9,6 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
     await robustGet("https://portableapps.com/apps/office/libreoffice_portable")
   ).unwrap() as string;
   const $ = cheerio.load(page);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const version = $(
     "#node-54208 > div > div.field.field-name-field-app-header-and-download.field-type-computed.field-label-hidden > div > div > div:nth-child(3) > p",

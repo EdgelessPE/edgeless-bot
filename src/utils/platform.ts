@@ -106,8 +106,7 @@ export function where(command: Commands): Result<string, string> {
       cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
       result = node;
       break;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
+    } catch (_e) {
       /* empty */
     }
     // 生成可能的绝对路径

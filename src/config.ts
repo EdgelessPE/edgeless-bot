@@ -52,7 +52,6 @@ function configGenerator(): Result<CONFIG, string> {
     ];
     for (const coverNode of coverTable) {
       if (args[coverNode.arg] != null) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         json[coverNode.key] = args[coverNode.arg];
       }

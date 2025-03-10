@@ -22,8 +22,7 @@ export default async function (
       : /(\d+\.)+\d+/g,
     dm = p.downloadLinkRegex
       ? new RegExp(p.downloadLinkRegex, "g")
-      : // eslint-disable-next-line no-useless-escape
-        /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
+      : /(https?:)*\/?\/[\w.-/\-]+\.exe/g;
   // 生成 Axios Config
   const axiosCfg: AxiosRequestConfig | undefined = temp.ua
     ? { headers: { "User-Agent": temp.ua } }

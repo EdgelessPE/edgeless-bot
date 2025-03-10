@@ -1,9 +1,9 @@
-import os from "os";
-import fs from "fs";
-import { fromGBK, getCleanTaskName, getTimeString, log } from "../utils";
 import cp from "child_process";
+import fs from "fs";
+import os from "os";
 import path from "path";
 import { config } from "../config";
+import { fromGBK, getCleanTaskName, getTimeString, log } from "../utils";
 
 type ExecSyncError = { output: { toString: () => string } } | undefined;
 

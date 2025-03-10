@@ -1,11 +1,11 @@
-import { log } from "./index";
-import { ValidationType } from "../types/class";
 import path from "path";
-import { load, createHash as blake3CreateHash } from "blake3";
+import { createHash as blake3CreateHash, load } from "blake3";
+import { ValidationType } from "../types/class";
+import { log } from "./index";
 
-import checksum from "checksum";
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
+import checksum from "checksum";
 
 async function getMD5(filePath: string): Promise<string> {
   return new Promise((resolve) => {
@@ -52,7 +52,7 @@ export async function getBLAKE3(filePath: string): Promise<string> {
   return new Promise((resolve) => {
     const stream = createReadStream(filePath);
     const hash = blake3CreateHash();
-    stream.on("data", (d) => hash.update(d));
+    stream.on("data", (d) => hash.update(d as any));
     stream.on("error", (err) => {
       hash.dispose();
       throw err;

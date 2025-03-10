@@ -58,11 +58,7 @@
         },
         "language": {
           "type": "string",
-          "enum": [
-            "Multi",
-            "zh-CN",
-            "en-US"
-          ]
+          "enum": ["Multi", "zh-CN", "en-US"]
         }
       },
       "required": [
@@ -119,10 +115,7 @@
           "type": "array"
         },
         "main_program": {
-          "type": [
-            "string",
-            "boolean"
-          ]
+          "type": ["string", "boolean"]
         },
         "registry_entry": {
           "type": "string"
@@ -131,15 +124,10 @@
           "type": "string"
         },
         "expandable": {
-          "type": [
-            "string",
-            "boolean"
-          ]
+          "type": ["string", "boolean"]
         }
       },
-      "required": [
-        "build_manifest"
-      ],
+      "required": ["build_manifest"],
       "type": "object"
     },
     "producer_required": {
@@ -161,9 +149,7 @@
         }
       },
       "type": "object",
-      "required": [
-        "download_name"
-      ]
+      "required": ["download_name"]
     },
     "template": {
       "properties": {
@@ -177,9 +163,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "producer"
-      ],
+      "required": ["producer"],
       "type": "object"
     },
     "package_patch": {
@@ -247,12 +231,6 @@
       "$schema": "http://json-schema.org/draft-07/schema#"
     }
   },
-  "required": [
-    "parameter",
-    "producer_required",
-    "template",
-    "task",
-    "regex"
-  ],
+  "required": ["parameter", "producer_required", "template", "task", "regex"],
   "type": "object"
 }

@@ -1,4 +1,4 @@
-import { Ok, Err, Result } from "ts-results";
+import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/types/class";
 import { robustGet } from "../../src/utils/network";
 

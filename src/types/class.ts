@@ -181,12 +181,12 @@ export interface CONFIG {
 
 // 对象检验表节点
 export enum JsObjectType {
-  "numberOrEnum",
-  "string",
-  "object",
-  "boolean",
-  "function",
-  "invalid",
+  numberOrEnum,
+  string,
+  object,
+  boolean,
+  function,
+  invalid,
 }
 
 export interface ObjectValidationNode {

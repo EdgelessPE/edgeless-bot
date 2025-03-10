@@ -1,11 +1,11 @@
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
-import fs from "fs";
-import { Err, Ok, Result } from "ts-results";
-import path from "path";
-import { log, sleep, tomlStringify } from "../../src/utils";
-import { release } from "../../src/cli/p7zip";
-import os from "os";
 import cp from "child_process";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { Err, Ok, Result } from "ts-results";
+import { release } from "../../src/cli/p7zip";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
+import { log, sleep, tomlStringify } from "../../src/utils";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
@@ -109,8 +109,7 @@ export default async function (
   if (!fs.existsSync(path.join(final, p.taskName, obj.sourceFile))) {
     if (os.platform() == "win32") {
       log(
-        `Info:Try to fix move with command : ` +
-          `move /y "${cwd}" "${path.join(final, p.taskName)}"`,
+        `Info:Try to fix move with command : move /y "${cwd}" "${path.join(final, p.taskName)}"`,
       );
       await sleep(3000);
       cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`);

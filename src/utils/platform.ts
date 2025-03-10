@@ -1,11 +1,11 @@
-import os from "os";
-import { Err, Ok, Result } from "ts-results";
-import path from "path";
-import fs from "fs";
 import cp from "child_process";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { Err, Ok, Result } from "ts-results";
 import { config } from "../config";
-import { log } from "./index";
 import { PROJECT_ROOT } from "../const";
+import { log } from "./index";
 
 export type OS = "Windows" | "Linux" | "MacOS" | "Other";
 

@@ -1,6 +1,10 @@
-// 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 MISSING_VERSION_FLAG
-import { ExecuteParameter } from "../types/class";
+import fs from "fs";
+import path from "path";
+import shell from "shelljs";
 import { Err, Ok, Result } from "ts-results";
+import { download } from "../cli/aria2c";
+import { release } from "../cli/p7zip";
+import { config } from "../config";
 import {
   DOWNLOAD_CACHE,
   DOWNLOAD_SERVE_CACHE,
@@ -9,12 +13,14 @@ import {
   VALID_FLAGS,
   VALID_WORKFLOW_NAMES,
 } from "../const";
-import path from "path";
-import { config } from "../config";
+import producer from "../steps/producer";
 import resolver from "../steps/resolver";
+// 返回压缩好的文件名，如果是无需制作的缺失版本号则会返回 MISSING_VERSION_FLAG
+import { ExecuteParameter } from "../types/class";
+import { NepPackage } from "../types/nep";
 import {
-  calcMD5,
   Cmp,
+  calcMD5,
   formatUrl,
   getCleanTaskName,
   log,
@@ -24,17 +30,11 @@ import {
   tomlStringify,
   versionCmp,
 } from "../utils";
-import fs from "fs";
-import shell from "shelljs";
-import { download } from "../cli/aria2c";
 import checksum from "../utils/checksum";
-import { getExeVersion } from "./utils";
-import producer from "../steps/producer";
-import { release } from "../cli/p7zip";
 import { getDatabaseNode } from "../utils/database";
-import { NepPackage } from "../types/nep";
-import { packer } from "./steps/packer";
 import { produceExpandableReady } from "./steps/expandable";
+import { packer } from "./steps/packer";
+import { getExeVersion } from "./utils";
 
 export async function execute(
   t: ExecuteParameter,

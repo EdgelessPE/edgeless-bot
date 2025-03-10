@@ -1,8 +1,8 @@
-import { where } from "../utils/platform";
-import path from "path";
 import cp from "child_process";
-import { log } from "../utils";
 import fs from "fs";
+import path from "path";
+import { log } from "../utils";
+import { where } from "../utils/platform";
 
 export async function packIntoNep(
   sourceDir: string,

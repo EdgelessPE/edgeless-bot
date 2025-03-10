@@ -1,12 +1,12 @@
+import fs from "fs";
+import path from "path";
+import shell from "shelljs";
+import { Err, Ok, Result } from "ts-results";
+import { genMeta, packIntoNep } from "../../cli/ept";
+import { config } from "../../config";
+import { PROJECT_ROOT } from "../../const";
 import { ExecuteParameter, ProducerReturned } from "../../types/class";
 import { getAuthorForFileName, matchVersion } from "../../utils";
-import { genMeta, packIntoNep } from "../../cli/ept";
-import path from "path";
-import { Err, Ok, Result } from "ts-results";
-import { PROJECT_ROOT } from "../../const";
-import { config } from "../../config";
-import shell from "shelljs";
-import fs from "fs";
 
 // 对 ready 目录进行打包并将其复制到 builds 目录的指定位置
 export async function packer(

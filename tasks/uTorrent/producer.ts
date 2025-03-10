@@ -1,9 +1,9 @@
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
-import { Ok, Result } from "ts-results";
-import { log, pressEnter, sleep, tomlStringify } from "../../src/utils";
-import path from "path";
-import fs from "fs";
 import cp from "child_process";
+import fs from "fs";
+import path from "path";
+import { Ok, Result } from "ts-results";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
+import { log, pressEnter, sleep, tomlStringify } from "../../src/utils";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";

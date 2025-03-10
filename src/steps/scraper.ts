@@ -1,16 +1,16 @@
+import fs from "fs";
 import path from "path";
+import { Err, Ok, Result } from "ts-results";
+import scraperRegister from "../../templates/scrapers/_register";
+import { config } from "../config";
+import { piscina } from "../piscina";
 import {
   ScraperRegister,
   ScraperReturned,
   TaskInstance,
   WorkerDataScraper,
 } from "../types/class";
-import { Err, Ok, Result } from "ts-results";
-import scraperRegister from "../../templates/scrapers/_register";
 import { log } from "../utils";
-import fs from "fs";
-import { config } from "../config";
-import { piscina } from "../piscina";
 import { getBadge } from "../utils/badge";
 
 export interface ResultNode {
@@ -60,8 +60,9 @@ function searchTemplate(
     }
 
     if (results.length > 0) {
-      result = results.sort((a, b) => a.matchLength - b.matchLength).pop()!
-        .node;
+      result = results
+        .sort((a, b) => a.matchLength - b.matchLength)
+        .pop()!.node;
     }
   }
 

@@ -1,7 +1,7 @@
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
-import { Err, Ok, Result } from "ts-results";
-import path from "path";
 import fs from "fs";
+import path from "path";
+import { Err, Ok, Result } from "ts-results";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";

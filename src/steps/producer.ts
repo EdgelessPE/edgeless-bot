@@ -1,16 +1,16 @@
-import { Err, Ok, Result } from "ts-results";
-import path from "path";
 import fs from "fs";
+import path from "path";
+import { Err, Ok, Result } from "ts-results";
+import { config } from "../config";
+import { PROJECT_ROOT } from "../const";
+import { piscina } from "../piscina";
 import {
   ProducerReturned,
   TaskInstance,
   WorkerDataProducer,
 } from "../types/class";
-import { piscina } from "../piscina";
-import { config } from "../config";
-import { getBadge } from "../utils/badge";
 import { log, parseBuiltInValue } from "../utils";
-import { PROJECT_ROOT } from "../const";
+import { getBadge } from "../utils/badge";
 
 function parsePath(entrance: string): Result<string, string> {
   const p = path.resolve(

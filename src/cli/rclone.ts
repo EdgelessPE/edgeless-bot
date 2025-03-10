@@ -1,7 +1,7 @@
-import { fromGBK, getTimeString, log } from "../utils";
 import cp from "child_process";
-import { config } from "../config";
 import path from "path";
+import { config } from "../config";
+import { fromGBK, getTimeString, log } from "../utils";
 
 type ExecSyncError = { output: { toString: () => string } } | undefined;
 

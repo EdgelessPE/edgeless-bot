@@ -1,7 +1,7 @@
 import fs from "fs";
+import minimist from "minimist";
 import { ENV_JSON_PATH } from "../const";
 import { coverSecret, log } from "./index";
-import minimist from "minimist";
 
 let cache: Record<string, string> | null = null;
 const notices: string[] = [];

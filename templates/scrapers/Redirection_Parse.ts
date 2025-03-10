@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustParseRedirect } from "../../src/utils/network";
 import { log } from "../../src/utils";
+import { robustParseRedirect } from "../../src/utils/network";
 
 interface Temp {
   redirection_url: string;

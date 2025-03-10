@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/types/class";
+import { Cmp, log, versionCmp } from "../../src/utils";
 import { robustGet } from "../../src/utils/network";
-import { log, versionCmp, Cmp } from "../../src/utils";
 
 const reg =
   /https:\/\/ime-sec.gtimg.com\/[0-9]+\/\w+\/pc\/dl\/gzindex\/[0-9]+\/sogou_pinyin_[\w.]+.exe/;

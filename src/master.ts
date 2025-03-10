@@ -1,7 +1,7 @@
-import { ScraperReturned, TaskInstance } from "./types/class";
-import { Result } from "ts-results";
 import path from "path";
-import { parentPort, Worker, workerData as obj } from "worker_threads";
+import { Result } from "ts-results";
+import { Worker, workerData as obj, parentPort } from "worker_threads";
+import { ScraperReturned, TaskInstance } from "./types/class";
 
 // 输入一个同域任务数组然后同步顺次执行的Worker
 async function master(
@@ -31,5 +31,5 @@ async function main() {
   parentPort?.postMessage(res);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+// biome-ignore lint/suspicious/noEmptyBlockStatements: <explanation>
 main().then(() => {});

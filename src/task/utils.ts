@@ -1,10 +1,22 @@
+import fs from "fs";
+import path from "path";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import rcInfo from "rcinfo";
+import shell from "shelljs";
+import { Err, Ok, Result } from "ts-results";
+import producerRegister from "../../templates/producers/_register";
+import scraperRegister from "../../templates/scrapers/_register";
+import { deleteFromRemote } from "../cli/cloud189";
+import { config } from "../config";
+import { MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "../const";
+import { ResultNode } from "../steps/scraper";
 import {
   BuildStatus,
   ScraperReturned,
   TaskConfig,
   TaskInstance,
 } from "../types/class";
-import { getDatabaseNode, setDatabaseNodeFailure } from "../utils/database";
 import {
   Cmp,
   formatVersion,
@@ -16,20 +28,8 @@ import {
   schemaValidator,
   versionCmp,
 } from "../utils";
-import { config } from "../config";
-import path from "path";
-import { MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "../const";
-import fs from "fs";
-import shell from "shelljs";
-import { deleteFromRemote } from "../cli/cloud189";
-import { Err, Ok, Result } from "ts-results";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import rcInfo from "rcinfo";
-import scraperRegister from "../../templates/scrapers/_register";
-import producerRegister from "../../templates/producers/_register";
+import { getDatabaseNode, setDatabaseNodeFailure } from "../utils/database";
 import { getOS } from "../utils/platform";
-import { ResultNode } from "../steps/scraper";
 import { getSingleTask } from "./getter";
 
 export function removeExtraBuilds(

@@ -1,10 +1,10 @@
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
+import fs from "fs";
+import path from "path";
+import ini from "ini";
 import { Err, Ok, Result } from "ts-results";
 import { release } from "../../src/cli/p7zip";
-import path from "path";
-import fs from "fs";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 import { log, tomlStringify } from "../../src/utils";
-import ini from "ini";
 
 import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
@@ -69,9 +69,7 @@ export default async function (
       fileContent.InstallDate = fileContent.PackagingDate;
       fileContent.InstallTime = fileContent.PackagingTime;
 
-      const final = `[PortableApps.comInstaller]\n${ini.stringify(
-        fileContent,
-      )}`;
+      const final = `[PortableApps.comInstaller]\n${ini.stringify(fileContent)}`;
       fs.writeFileSync(iniPath, final);
     } catch (err) {
       console.log(JSON.stringify(err));

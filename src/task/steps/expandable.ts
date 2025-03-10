@@ -1,11 +1,11 @@
+import fs from "fs";
+import path from "path";
+import shell from "shelljs";
 import { Err, Ok, Result } from "ts-results";
 import { ExecuteParameter, ProducerReturned } from "../../types/class";
-import shell from "shelljs";
-import path from "path";
-import { getBLAKE3 } from "../../utils/checksum";
-import fs from "fs";
 import { NepWorkflow } from "../../types/nep";
 import { formatUrl, tomlStringify } from "../../utils";
+import { getBLAKE3 } from "../../utils/checksum";
 
 // 根据原 ready 目录生成一个可展开包版本的新 ready 目录
 // 返回新 ready 目录，如果返回 null 表示不支持生成可展开包版本

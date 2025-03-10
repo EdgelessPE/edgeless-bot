@@ -1,9 +1,9 @@
+import { AxiosRequestConfig } from "axios";
+import * as cheerio from "cheerio";
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
 import { Cmp, log, matchUrl, matchVersion, versionCmp } from "../../src/utils";
-import * as cheerio from "cheerio";
-import { AxiosRequestConfig } from "axios";
+import { robustGet } from "../../src/utils/network";
 
 interface Temp {
   version_page_url?: string;

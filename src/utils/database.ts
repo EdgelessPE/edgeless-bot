@@ -1,8 +1,8 @@
 import fs from "fs";
+import chalk from "chalk";
+import { config } from "../config";
 import { BuildStatus, DatabaseNode } from "../types/class";
 import { log } from "./index";
-import { config } from "../config";
-import chalk from "chalk";
 
 let database: {
   [key: string]: {

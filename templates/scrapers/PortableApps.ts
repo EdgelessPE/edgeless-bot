@@ -1,9 +1,9 @@
+import * as cheerio from "cheerio";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Err, Ok, Result } from "ts-results";
 import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustGet, robustParseRedirect } from "../../src/utils/network";
-import * as cheerio from "cheerio";
 import { log } from "../../src/utils";
+import { robustGet, robustParseRedirect } from "../../src/utils/network";
 import GitHubRelease from "./GitHub_Release";
 
 interface PageInfo {
@@ -91,7 +91,7 @@ async function scrapePage(
       result.text = dom_node.text();
       result.href = dom_node.attr("href") as string;
       break;
-    case "download-info":
+    case "download-info": {
       // 获取box的首个子节点
       // eslint-disable-next-line no-case-declarations
       const dom_btn = dom_box.children("a");
@@ -152,6 +152,7 @@ async function scrapePage(
       }
 
       break;
+    }
   }
 
   // 校验结果是否有效

@@ -1,7 +1,7 @@
 import { Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
 import { Cmp, matchVersion, versionCmp } from "../../src/utils";
+import { robustGet } from "../../src/utils/network";
 
 interface Data {
   code: number;

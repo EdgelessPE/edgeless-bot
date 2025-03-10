@@ -1,8 +1,8 @@
-import { Ok, Err, Result } from "ts-results";
-import { ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
-import { log } from "../../src/utils";
 import * as cheerio from "cheerio";
+import { Err, Ok, Result } from "ts-results";
+import { ScraperReturned } from "../../src/types/class";
+import { log } from "../../src/utils";
+import { robustGet } from "../../src/utils/network";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   const html = (await robustGet("http://localhost")).unwrap() as string;

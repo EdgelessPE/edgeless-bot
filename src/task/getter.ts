@@ -1,12 +1,12 @@
-import { Err, Ok, Result } from "ts-results";
-import { TaskConfig, TaskInstance } from "../types/class";
-import path from "path";
-import { config } from "../config";
 import fs from "fs";
+import path from "path";
 import toml from "toml";
+import { Err, Ok, Result } from "ts-results";
+import { config } from "../config";
 import { VALID_FLAGS } from "../const";
-import { reserveTask, validateConfig } from "./utils";
+import { TaskConfig, TaskInstance } from "../types/class";
 import { log } from "../utils";
+import { reserveTask, validateConfig } from "./utils";
 
 const taskCache = new Map<string, TaskInstance>();
 

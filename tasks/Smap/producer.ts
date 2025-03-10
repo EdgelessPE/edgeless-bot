@@ -1,10 +1,10 @@
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
-import { Err, Ok, Result } from "ts-results";
 import path from "path";
+import { Err, Ok, Result } from "ts-results";
 import { release } from "../../src/cli/p7zip";
+import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 
-import shell from "shelljs";
 import fs from "fs";
+import shell from "shelljs";
 import { NepWorkflow } from "../../src/types/nep";
 import { tomlStringify } from "../../src/utils";
 

@@ -1,8 +1,8 @@
-import { Ok, Err, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
-import { log } from "../../src/utils";
 import * as cheerio from "cheerio";
+import { Err, Ok, Result } from "ts-results";
+import { ScraperParameters, ScraperReturned } from "../../src/types/class";
+import { log } from "../../src/utils";
+import { robustGet } from "../../src/utils/network";
 
 interface Temp {}
 

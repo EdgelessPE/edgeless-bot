@@ -1,7 +1,7 @@
+import { Err, Ok, Result } from "ts-results";
 import { ResolverParameters, ResolverReturned } from "../../src/types/class";
-import { Ok, Err, Result } from "ts-results";
-import { robustGet } from "../../src/utils/network";
 import { log } from "../../src/utils";
+import { robustGet } from "../../src/utils/network";
 
 export default async function (
   p: ResolverParameters,

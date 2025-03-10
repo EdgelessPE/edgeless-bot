@@ -1,5 +1,5 @@
-import Piscina from "piscina";
 import path from "path";
+import Piscina from "piscina";
 import { getEnv } from "./utils/env";
 
 export const piscina = new Piscina({

@@ -1,17 +1,17 @@
-import register from "../../templates/resolvers/_register";
+import fs from "fs";
+import path from "path";
 import { Err, Ok, Result } from "ts-results";
+import register from "../../templates/resolvers/_register";
+import { config } from "../config";
+import { piscina } from "../piscina";
 import {
   ResolverParameters,
   ResolverRegister,
   ResolverReturned,
   WorkerDataResolver,
 } from "../types/class";
-import { piscina } from "../piscina";
-import { getBadge } from "../utils/badge";
-import path from "path";
-import fs from "fs";
 import { log } from "../utils";
-import { config } from "../config";
+import { getBadge } from "../utils/badge";
 
 function searchTemplate(url: string): Result<ResolverRegister, string> {
   // 匹配所有符合正则表达式的模板并选择匹配字符串长度最长的

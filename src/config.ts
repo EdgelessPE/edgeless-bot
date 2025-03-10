@@ -1,10 +1,10 @@
-import { CONFIG } from "./types/class";
 import fs from "fs";
+import minimist from "minimist";
 import toml from "toml";
 import { Err, Ok, Result } from "ts-results";
-import { schemaValidator } from "./utils";
 import { PATH_CONFIG } from "./const";
-import minimist from "minimist";
+import { CONFIG } from "./types/class";
+import { schemaValidator } from "./utils";
 
 function configGenerator(): Result<CONFIG, string> {
   if (!fs.existsSync(PATH_CONFIG)) {

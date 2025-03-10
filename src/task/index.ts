@@ -1,8 +1,8 @@
+import os from "os";
 import { Ok, Result } from "ts-results";
+import { MISSING_VERSION_FLAG } from "../const";
 import { ExecuteParameter, ResultReport } from "../types/class";
 import { log, shuffle } from "../utils";
-import { MISSING_VERSION_FLAG } from "../const";
-import os from "os";
 import { execute } from "./executor";
 
 export async function executeTasks(

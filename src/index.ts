@@ -1,12 +1,26 @@
-import shell from "shelljs";
-import { getCleanTaskName, log, sleep } from "./utils";
-import scraper from "./steps/scraper";
+import cp from "child_process";
+import fs from "fs";
+import { existsSync } from "node:fs";
+import { copyFile, mkdir } from "node:fs/promises";
+import path from "path";
 import Piscina from "piscina";
-import { executeTasks } from "./task";
-import { config } from "./config";
-import { ensurePlatform } from "./utils/platform";
-import { clearWorkshop } from "./utils/workshop";
+import shell from "shelljs";
 import { initAria2c, stopAria2c } from "./cli/aria2c";
+import { login, uploadToRemote } from "./cli/cloud189";
+import { uploadToRemote as rcloneUploadToRemote } from "./cli/rclone";
+import { config } from "./config";
+import { DOWNLOAD_SERVE_CACHE, setMVTDayToday } from "./const";
+import scraper from "./steps/scraper";
+import { executeTasks } from "./task";
+import { getAllTasks, getSingleTask } from "./task/getter";
+import {
+  getTasksToBeExecuted,
+  removeExtraBuilds,
+  reserveTask,
+} from "./task/utils";
+import { TaskInstance } from "./types/class";
+import { getCleanTaskName, log, sleep } from "./utils";
+import art from "./utils/art";
 import {
   modified,
   readDatabase,
@@ -15,23 +29,9 @@ import {
   setDatabaseNodeSuccess,
   writeDatabase,
 } from "./utils/database";
-import { login, uploadToRemote } from "./cli/cloud189";
-import { uploadToRemote as rcloneUploadToRemote } from "./cli/rclone";
-import art from "./utils/art";
-import fs from "fs";
-import cp from "child_process";
-import { TaskInstance } from "./types/class";
-import { DOWNLOAD_SERVE_CACHE, setMVTDayToday } from "./const";
 import { printLoadEnvNotices } from "./utils/env";
-import { getAllTasks, getSingleTask } from "./task/getter";
-import {
-  getTasksToBeExecuted,
-  removeExtraBuilds,
-  reserveTask,
-} from "./task/utils";
-import path from "path";
-import { copyFile, mkdir } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { ensurePlatform } from "./utils/platform";
+import { clearWorkshop } from "./utils/workshop";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // eslint-disable-next-line @typescript-eslint/no-require-imports

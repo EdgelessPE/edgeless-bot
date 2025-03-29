@@ -163,6 +163,7 @@ export default async function (
               "..",
               "..",
               config.DIR_TASKS,
+              poolNode.scope,
               taskName,
               "scraper.js",
             ),

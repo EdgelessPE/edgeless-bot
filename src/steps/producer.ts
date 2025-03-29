@@ -44,6 +44,7 @@ export default async function (s: {
       "..",
       "..",
       config.DIR_TASKS,
+      task.scope,
       task.name,
       "producer.js",
     );

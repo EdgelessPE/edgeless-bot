@@ -51,9 +51,10 @@ export function writeDatabase() {
 }
 
 // 需要在read后调用
-export function getDatabaseNode(taskName: string): DatabaseNode {
-  if (database[taskName] != null) {
-    const node = JSON.parse(JSON.stringify(database[taskName])) as DatabaseNode;
+export function getDatabaseNode(scope: string, taskName: string): DatabaseNode {
+  const key = `${scope}_${taskName}`;
+  if (database[key] != null) {
+    const node = JSON.parse(JSON.stringify(database[key])) as DatabaseNode;
     node["taskName"] = taskName;
     return node;
   } else {
@@ -70,10 +71,15 @@ export function getDatabaseNode(taskName: string): DatabaseNode {
 }
 
 // 需要在read后调用
-export function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
+export function setDatabaseNodeFailure(
+  scope: string,
+  taskName: string,
+  errorMessage: string,
+) {
+  const key = `${scope}_${taskName}`;
   log(`${errorMessage} for task ${taskName}`);
-  const old = getDatabaseNode(taskName);
-  database[taskName] = {
+  const old = getDatabaseNode(scope, taskName);
+  database[key] = {
     recent: {
       health: old.recent.health > 0 ? old.recent.health - 1 : 0,
       latestVersion: old.recent.latestVersion,
@@ -89,11 +95,12 @@ export function setDatabaseNodeFailure(taskName: string, errorMessage: string) {
 }
 
 export function setDatabaseNodeSuccess(
+  scope: string,
   taskName: string,
   newBuilds: Array<BuildStatus>,
   fileNames: string[],
 ) {
-  const old = getDatabaseNode(taskName),
+  const old = getDatabaseNode(scope, taskName),
     newVersion = newBuilds[newBuilds.length - 1].version;
   database[taskName] = {
     recent: {

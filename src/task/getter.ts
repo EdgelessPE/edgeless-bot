@@ -41,6 +41,11 @@ export function getSingleTask(
         `Error:Please keep the folder name (${taskName}) same with task name (${json.task.name})`,
       );
     }
+    if (scope !== json.task.scope) {
+      return new Err(
+        `Error:Please keep the scope folder name (${scope}) same with task scope (${json.task.scope})`,
+      );
+    }
     // 如果名称中有 _，检查是否合规
     if (taskName.includes("_")) {
       const sp = taskName.split("_");

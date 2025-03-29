@@ -228,6 +228,7 @@ export interface ExecuteParameter {
 
 // 状态报告
 export interface ResultReport {
+  scope: string;
   taskName: string;
   result: Result<string[], string>; // 成功时返回新构建的名称，失败返回错误消息
 }

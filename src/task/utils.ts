@@ -302,7 +302,7 @@ export function getTasksToBeExecuted(results: ResultNode[]): Array<{
     }
     onlineVersion = formatVersion(matchRes.val).unwrap();
     newNode.version = onlineVersion;
-    res = getSingleTask(result.taskName);
+    res = getSingleTask(result.scope, result.taskName);
     db = getDatabaseNode(result.taskName);
     switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
       case Cmp.L:

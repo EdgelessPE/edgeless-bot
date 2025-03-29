@@ -14,6 +14,7 @@ import { log } from "../utils";
 import { getBadge } from "../utils/badge";
 
 export interface ResultNode {
+  scope: string;
   taskName: string;
   result: Result<ScraperReturned, string>;
 }
@@ -178,11 +179,13 @@ export default async function (
                     badge,
                   );
                   collection.push({
+                    scope: poolNode.scope,
                     taskName,
                     result: res,
                   });
                 } else {
                   collection.push({
+                    scope: poolNode.scope,
                     taskName,
                     result: res.val[0],
                   });
@@ -197,6 +200,7 @@ export default async function (
         p = parsePath(node.entrance);
         if (p.err) {
           collection.push({
+            scope: node.pool[0].scope,
             taskName: node.pool[0].name,
             result: p,
           });
@@ -217,6 +221,7 @@ export default async function (
                 log(`Error:Scraper ${node.entrance} resolved error`, badge);
                 node.pool.forEach((item) => {
                   collection.push({
+                    scope: item.scope,
                     taskName: item.name,
                     result: new Err(res.val),
                   });
@@ -224,6 +229,7 @@ export default async function (
               } else {
                 node.pool.forEach((item, index) => {
                   collection.push({
+                    scope: item.scope,
                     taskName: item.name,
                     result: res.val[index],
                   });

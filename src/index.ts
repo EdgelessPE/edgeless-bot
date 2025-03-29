@@ -92,7 +92,7 @@ async function main(): Promise<boolean> {
     // 分割分别获取任务
     tasks = [];
     for (const t of config.SPECIFY_TASK.toString().split(/,/)) {
-      task = getSingleTask(t).unwrap();
+      task = getSingleTask(t.split("/")[0], t.split("/")[1]).unwrap();
       // 判断是否保留任务
       if (!reserveTask(task)) {
         continue;
@@ -113,7 +113,7 @@ async function main(): Promise<boolean> {
   const eRes = await executeTasks(toExecTasks);
   for (const node of eRes) {
     if (node.result.ok) {
-      const task = getSingleTask(node.taskName).unwrap();
+      const task = getSingleTask(node.scope, node.taskName).unwrap();
       const fileNames = node.result.val;
       const metaNames = fileNames.map((n) => `${n}.meta`);
       // 上传

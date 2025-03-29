@@ -10,7 +10,10 @@ import { reserveTask, validateConfig } from "./utils";
 
 const taskCache = new Map<string, TaskInstance>();
 
-export function getSingleTask(taskName: string): Result<TaskInstance, string> {
+export function getSingleTask(
+  scope: string,
+  taskName: string,
+): Result<TaskInstance, string> {
   const c = taskCache.get(taskName);
   if (c) {
     return new Ok(c);
@@ -18,6 +21,7 @@ export function getSingleTask(taskName: string): Result<TaskInstance, string> {
   const taskConfigFile = path.resolve(
     process.cwd(),
     config.DIR_TASKS,
+    scope,
     taskName,
     "config.toml",
   );
@@ -79,22 +83,25 @@ export function getAllTasks(): Result<Array<TaskInstance>, string> {
   if (!fs.existsSync(tasksDir)) {
     return new Err(`Error:Task directory not exist : ${tasksDir}`);
   }
-  const dirList = fs.readdirSync(tasksDir),
+  const scopeList = fs.readdirSync(tasksDir),
     result = [];
   let success = true,
     tmp;
   log("Info:Loading tasks...");
-  for (const taskName of dirList) {
-    tmp = getSingleTask(taskName);
-    if (tmp.err) {
-      success = false;
-      log(tmp.val);
-    } else {
-      const task = tmp.unwrap();
-      if (!reserveTask(task)) {
-        continue;
+  for (const scope of scopeList) {
+    const dirList = fs.readdirSync(path.resolve(tasksDir, scope));
+    for (const taskName of dirList) {
+      tmp = getSingleTask(scope, taskName);
+      if (tmp.err) {
+        success = false;
+        log(tmp.val);
+      } else {
+        const task = tmp.unwrap();
+        if (!reserveTask(task)) {
+          continue;
+        }
+        result.push(task);
       }
-      result.push(task);
     }
   }
   if (success) {

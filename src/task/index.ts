@@ -45,12 +45,14 @@ export async function executeTasks(
         if (res.err) {
           log(res.val);
           collection.push({
+            scope: t.task.scope,
             taskName: t.task.name,
             result: res,
           });
         } else {
           log(`Success:Task ${t.task.name} executed successfully`);
           collection.push({
+            scope: t.task.scope,
             taskName: t.task.name,
             result: res as Ok<string[]>,
           });

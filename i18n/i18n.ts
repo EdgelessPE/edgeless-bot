@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { PROJECT_ROOT } from "../src/const";
-import { log } from "../src/utils";
+import { PROJECT_ROOT } from "@/const";
+import { log } from "@/utils";
 
 let dictionary: Record<string, string> = {},
   loaded = false;

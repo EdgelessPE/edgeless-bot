@@ -1,4 +1,4 @@
-import { TaskConfig } from "../src/types/class";
+import { TaskConfig } from "@/types/class";
 
 export interface TaskInput {
   task: TaskConfig["task"];

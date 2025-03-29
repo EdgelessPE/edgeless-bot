@@ -401,7 +401,9 @@ export async function execute(
   });
   if (expandReadyRes.err) return expandReadyRes;
   if (expandReadyRes.val === null) {
-    log(`Info:Can't produce expandable package for task '${t.task.name}'`);
+    log(
+      `Warning:Can't produce expandable package for task '${t.task.name}' : ${expandReadyRes.val}`,
+    );
     return new Ok(fileNames);
   }
   log(`Info:Producing expandable package for task '${t.task.name}'`);

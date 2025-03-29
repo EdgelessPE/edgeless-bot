@@ -1,18 +1,18 @@
 import fs from "fs";
 import path from "path";
+import { config } from "@/config";
+import { CATEGORIES, PROJECT_ROOT } from "@/const";
+import {
+  ProducerRegister,
+  ResolverRegister,
+  ScraperRegister,
+} from "@/types/class";
+import { log, tomlStringify } from "@/utils";
 import { Biome, Distribution } from "@biomejs/js-api";
 import chalk from "chalk";
 import { JSONSchema4 } from "json-schema";
 import shell from "shelljs";
 import { init, t } from "../i18n/i18n";
-import { config } from "../src/config";
-import { CATEGORIES, PROJECT_ROOT } from "../src/const";
-import {
-  ProducerRegister,
-  ResolverRegister,
-  ScraperRegister,
-} from "../src/types/class";
-import { log, tomlStringify } from "../src/utils";
 import producerRegister from "../templates/producers/_register";
 import resolverRegister from "../templates/resolvers/_register";
 import scraperRegister from "../templates/scrapers/_register";

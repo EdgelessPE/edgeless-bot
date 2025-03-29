@@ -148,12 +148,16 @@ async function main(): Promise<boolean> {
           rcloneUploadToRemote(name, task.scope, cleanTaskName);
         }
 
-        setDatabaseNodeSuccess(node.taskName, newBuilds, fileNames);
+        setDatabaseNodeSuccess(node.scope, node.taskName, newBuilds, fileNames);
       } else {
-        setDatabaseNodeFailure(node.taskName, "Error:Can't upload target file");
+        setDatabaseNodeFailure(
+          node.scope,
+          node.taskName,
+          "Error:Can't upload target file",
+        );
       }
     } else {
-      setDatabaseNodeFailure(node.taskName, node.result.val);
+      setDatabaseNodeFailure(node.scope, node.taskName, node.result.val);
     }
   }
 

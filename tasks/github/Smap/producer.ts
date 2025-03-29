@@ -1,12 +1,12 @@
 import path from "path";
+import { release } from "@/cli/p7zip";
+import { ProducerParameters, ProducerReturned } from "@/types/class";
 import { Err, Ok, Result } from "ts-results";
-import { release } from "../../src/cli/p7zip";
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 
 import fs from "fs";
+import { NepWorkflow } from "@/types/nep";
+import { tomlStringify } from "@/utils";
 import shell from "shelljs";
-import { NepWorkflow } from "../../src/types/nep";
-import { tomlStringify } from "../../src/utils";
 
 export default async function (
   p: ProducerParameters,

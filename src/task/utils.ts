@@ -36,7 +36,7 @@ export function removeExtraBuilds(
   scope: string,
   fileNames: string[],
 ): Array<BuildStatus> {
-  const allBuilds = getDatabaseNode(taskName).recent.builds;
+  const allBuilds = getDatabaseNode(scope, taskName).recent.builds;
   allBuilds.push({
     fileNames,
     version: getVersionFromFileName(fileNames[0]),
@@ -266,6 +266,7 @@ export function getTasksToBeExecuted(results: ResultNode[]): Array<{
     // 处理爬虫出错
     if (result.result == null || result.result.err) {
       setDatabaseNodeFailure(
+        result.scope,
         result.taskName,
         result.result?.val ?? "Error:Scraper returned null",
       );
@@ -274,6 +275,7 @@ export function getTasksToBeExecuted(results: ResultNode[]): Array<{
     newNode = result.result.val;
     if (newNode.version == null || newNode.downloadLink == null) {
       setDatabaseNodeFailure(
+        result.scope,
         result.taskName,
         `Error:Scraper returned null value : ${JSON.stringify(newNode)}`,
       );
@@ -284,6 +286,7 @@ export function getTasksToBeExecuted(results: ResultNode[]): Array<{
       typeof (newNode.downloadLink as unknown) !== "string"
     ) {
       setDatabaseNodeFailure(
+        result.scope,
         result.taskName,
         `Error:Scraper returned value doesn't conform to type specification : ${JSON.stringify(
           newNode,
@@ -295,6 +298,7 @@ export function getTasksToBeExecuted(results: ResultNode[]): Array<{
     matchRes = matchVersion(newNode.version);
     if (matchRes.err) {
       setDatabaseNodeFailure(
+        result.scope,
         result.taskName,
         `Error:Can't parse version returned by scraper : ${newNode.version}`,
       );
@@ -303,7 +307,7 @@ export function getTasksToBeExecuted(results: ResultNode[]): Array<{
     onlineVersion = formatVersion(matchRes.val).unwrap();
     newNode.version = onlineVersion;
     res = getSingleTask(result.scope, result.taskName);
-    db = getDatabaseNode(result.taskName);
+    db = getDatabaseNode(result.scope, result.taskName);
     switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
       case Cmp.L:
         // 需要更新

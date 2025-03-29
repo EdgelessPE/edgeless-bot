@@ -1,7 +1,7 @@
+import { ScraperReturned } from "@/types/class";
+import { Cmp, matchVersion, versionCmp } from "@/utils";
+import { robustGet } from "@/utils/network";
 import { Ok, Result } from "ts-results";
-import { ScraperReturned } from "../../src/types/class";
-import { Cmp, matchVersion, versionCmp } from "../../src/utils";
-import { robustGet } from "../../src/utils/network";
 
 interface Data {
   code: number;

@@ -1,11 +1,11 @@
 import cp from "child_process";
 import fs from "fs";
 import path from "path";
+import { ProducerParameters, ProducerReturned } from "@/types/class";
+import { NepWorkflow } from "@/types/nep";
+import { log, pressEnter, sleep, tomlStringify } from "@/utils";
 import shell from "shelljs";
 import { Ok, Result } from "ts-results";
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
-import { NepWorkflow } from "../../src/types/nep";
-import { log, pressEnter, sleep, tomlStringify } from "../../src/utils";
 
 export default async function (
   p: ProducerParameters,

@@ -1,7 +1,7 @@
+import { ScraperReturned } from "@/types/class";
+import { robustGet } from "@/utils/network";
 import * as cheerio from "cheerio";
 import { Ok, Result } from "ts-results";
-import { ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   // 请求官网

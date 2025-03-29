@@ -1,5 +1,5 @@
+import { ScraperReturned } from "@/types/class";
 import { Ok, Result } from "ts-results";
-import { ScraperReturned } from "../../src/types/class";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   return new Ok({

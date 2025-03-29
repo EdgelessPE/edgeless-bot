@@ -100,9 +100,10 @@ export function setDatabaseNodeSuccess(
   newBuilds: Array<BuildStatus>,
   fileNames: string[],
 ) {
-  const old = getDatabaseNode(scope, taskName),
-    newVersion = newBuilds[newBuilds.length - 1].version;
-  database[taskName] = {
+  const key = `${scope}_${taskName}`;
+  const old = getDatabaseNode(scope, taskName);
+  const newVersion = newBuilds[newBuilds.length - 1].version;
+  database[key] = {
     recent: {
       health: old.recent.health == 3 ? 3 : old.recent.health + 1,
       latestVersion: newVersion,

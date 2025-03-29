@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs, { writeFileSync } from "fs";
 import chalk from "chalk";
 import { config } from "../config";
 import { BuildStatus, DatabaseNode } from "../types/class";
@@ -145,6 +145,17 @@ function generateFailureTip(): string {
 
 // 返回是否存在失败
 export function report(): boolean {
+  writeFileSync(
+    "report.json",
+    JSON.stringify(
+      {
+        success: successList,
+        failed: failedList,
+      },
+      null,
+      2,
+    ),
+  );
   if (failedList.length == 0) {
     // 全部成功
     log(

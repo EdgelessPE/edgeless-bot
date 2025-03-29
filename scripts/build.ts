@@ -33,7 +33,7 @@ async function compileFile(filePath: string, outputPath: string) {
       ],
     ],
     filename: filePath,
-    sourceMaps: true,
+    sourceMaps: "inline",
   });
 
   if (!result) {

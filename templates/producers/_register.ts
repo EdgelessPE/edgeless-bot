@@ -1,4 +1,4 @@
-import { ProducerRegister } from "../../src/types/class";
+import { ProducerRegister } from "@/types/class";
 
 const regArray: Array<ProducerRegister> = [
   {

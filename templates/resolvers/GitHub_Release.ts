@@ -1,8 +1,8 @@
+import { ResolverParameters, ResolverReturned } from "@/types/class";
+import { coverSecret, log } from "@/utils";
+import { robustGet } from "@/utils/network";
 import { AxiosRequestConfig } from "axios";
 import { Err, Ok, Result } from "ts-results";
-import { ResolverParameters, ResolverReturned } from "../../src/types/class";
-import { coverSecret, log } from "../../src/utils";
-import { robustGet } from "../../src/utils/network";
 import { GitHubRelease } from "../scrapers/GitHub_ReleaseTypes";
 
 export default async function (

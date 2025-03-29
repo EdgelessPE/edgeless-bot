@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
+import { ProducerParameters, ProducerReturned } from "@/types/class";
 import { Err, Ok, Result } from "ts-results";
-import { ProducerParameters, ProducerReturned } from "../../src/types/class";
 
+import { NepWorkflow } from "@/types/nep";
+import { tomlStringify } from "@/utils";
 import shell from "shelljs";
-import { NepWorkflow } from "../../src/types/nep";
-import { tomlStringify } from "../../src/utils";
 
 interface RequiredObject {
   shortcutName: string;

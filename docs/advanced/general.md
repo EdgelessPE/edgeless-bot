@@ -72,14 +72,14 @@ interface ProducerRegister {
 
 ```typescript
 import { Ok, Err, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
-import { log } from "../../src/utils";
+import { ScraperParameters, ScraperReturned } from "@/types/class";
+import { robustGet } from "@/utils/network";
+import { log } from "@/utils";
 
 interface Temp {}
 
 export default async function (
-  p: ScraperParameters,
+  p: ScraperParameters
 ): Promise<Result<ScraperReturned, string>> {
   const { taskName, url, downloadLinkRegex, versionMatchRegex, scraper_temp } =
     p;
@@ -126,7 +126,7 @@ Edgeless Bot 提供了一些函数来规范化一部分的常用操作。
 
 #### 网络
 
-可以从 `../../src/utils/network` 导入
+可以从 `@/utils/network` 导入
 
 **robustGet**
 
@@ -138,7 +138,7 @@ Edgeless Bot 提供了一些函数来规范化一部分的常用操作。
 
 #### 工具
 
-可以从 `../../src/utils` 导入
+可以从 `@/utils` 导入
 
 **log**
 
@@ -176,7 +176,7 @@ shell.rm("-rf", path.join(workshop, "temp"));
 Edgeless Bot 提供 7-Zip 的压缩和解压函数封装，其中解压函数 `release` 通常用于制作器模板，可以通过如下代码导入：
 
 ```typescript
-import { release } from "../../src/cli/p7zip";
+import { release } from "@/cli/p7zip";
 ```
 
 :::tip

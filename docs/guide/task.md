@@ -170,7 +170,7 @@ pnpm dev -t TASK_NAME
 
 ```ts
 import { Ok, Result } from "ts-results";
-import { ScraperReturned } from "../../src/class";
+import { ScraperReturned } from "@/class";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
   return new Ok({

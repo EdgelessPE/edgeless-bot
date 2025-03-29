@@ -1,8 +1,8 @@
+import { ScraperParameters, ScraperReturned } from "@/types/class";
+import { log } from "@/utils";
+import { robustGet, robustParseRedirect } from "@/utils/network";
 import * as cheerio from "cheerio";
 import { Err, Ok, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { log } from "../../src/utils";
-import { robustGet, robustParseRedirect } from "../../src/utils/network";
 import GitHubRelease from "./GitHub_Release";
 
 interface PageInfo {

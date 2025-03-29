@@ -1,9 +1,9 @@
 // / <reference path="Scoop.d.ts" />
 
+import { ScraperParameters, ScraperReturned } from "@/types/class";
+import { log } from "@/utils";
+import { robustGet } from "@/utils/network";
 import { Err, Ok, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { log } from "../../src/utils";
-import { robustGet } from "../../src/utils/network";
 import { ScoopAppManifestSchema } from "./ScoopTypes";
 
 interface Temp {}

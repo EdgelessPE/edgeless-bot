@@ -1,6 +1,6 @@
+import { ScraperParameters, ScraperReturned } from "@/types/class";
+import { robustGet } from "@/utils/network";
 import { Err, Ok, Result } from "ts-results";
-import { ScraperParameters, ScraperReturned } from "../../src/types/class";
-import { robustGet } from "../../src/utils/network";
 
 interface Temp {
   api_url: string;

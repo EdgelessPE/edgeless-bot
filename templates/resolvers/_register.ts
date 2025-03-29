@@ -1,4 +1,4 @@
-import { ResolverRegister } from "../../src/types/class";
+import { ResolverRegister } from "@/types/class";
 
 const regArray: Array<ResolverRegister> = [
   {

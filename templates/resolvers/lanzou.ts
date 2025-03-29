@@ -1,7 +1,7 @@
+import { ResolverParameters, ResolverReturned } from "@/types/class";
+import { log } from "@/utils";
 import { loadShareUrl } from "lanzou-api";
 import { Err, Ok, Result } from "ts-results";
-import { ResolverParameters, ResolverReturned } from "../../src/types/class";
-import { log } from "../../src/utils";
 
 export default async function (
   p: ResolverParameters,

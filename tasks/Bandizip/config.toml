@@ -14,8 +14,8 @@ producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
-download_link = '\/bandizip\/dl\.php\?web'
-download_name = '\.exe'
+download_link = '\/bandizip\/dl\.php\?\w+'
+download_name = '\.(exe|EXE)'
 # scraper_version = ''
 
 # 通用参数
@@ -30,7 +30,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 [scraper_temp]
 version_page_url = "https://www.bandisoft.com/bandizip/history/"
 version_selector = "body > div.main_content > section > div > div:nth-child(4) > div.cell1"
-download_selector = "#bandizip_main > div > a:nth-child(3)"
+download_selector = ".btnwrap"
 
 # 自动制作模板要求的参数
 [producer_required]

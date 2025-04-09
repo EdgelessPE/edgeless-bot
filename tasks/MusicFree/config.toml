@@ -33,7 +33,7 @@ build_manifest = ["${taskName}.wcs","${taskName}/MusicFree.exe"]
 [producer_required]
 shortcutName = "MusicFree"
 sourceFile = "MusicFree.exe"
-recursiveUnzipList = [ ]
+recursiveUnzipList = ['/zip/' ]
 
 
 # 额外备注

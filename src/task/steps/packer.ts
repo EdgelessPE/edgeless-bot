@@ -39,7 +39,7 @@ export async function packer(
     } else {
       let flagStr = p.val.flags?.length ? `.${p.val.flags.join("")}` : "";
       if (isExpandableAppend && !flagStr.includes("E")) {
-        flagStr += "E";
+        flagStr += flagStr === "" ? ".E" : "E";
       }
       return `${name}_${
         matchVersion(t.info.version).val

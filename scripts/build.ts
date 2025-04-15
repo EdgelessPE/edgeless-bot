@@ -72,7 +72,7 @@ async function compileDirectory(sourceDir: string, outputDir: string) {
       );
       try {
         await compileFile(file, outputPath);
-        console.log(`Successfully compiled ${file}`);
+        // console.log(`Successfully compiled ${file}`);
       } catch (error) {
         console.error(`Failed to compile ${file}:`, error);
         throw error;
@@ -82,7 +82,7 @@ async function compileDirectory(sourceDir: string, outputDir: string) {
       const outputPath = path.join(outputDir, relativePath);
       shell.mkdir("-p", path.dirname(outputPath));
       shell.cp(file, outputPath);
-      console.log(`Copied ${file}`);
+      // console.log(`Copied ${file}`);
     }
   }
 }
@@ -93,18 +93,19 @@ async function main() {
   shell.mkdir("-p", outputDir);
 
   // 编译每个目录
+  console.log("Building...");
   for (const dir of directories) {
-    console.log(`Compiling ${dir}...`);
+    // console.log(`Compiling ${dir}...`);
     try {
       await compileDirectory(dir, path.join(outputDir, dir));
-      console.log(`Successfully compiled ${dir}`);
+      // console.log(`Successfully compiled ${dir}`);
     } catch (error) {
       console.error(`Failed to compile ${dir}:`, error);
       process.exit(1);
     }
   }
 
-  console.log("Build process completed.");
+  console.log("Building completed");
 }
 
 main().catch((error) => {

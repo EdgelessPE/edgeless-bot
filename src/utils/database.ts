@@ -13,12 +13,14 @@ export let modified = false;
 
 // 记录执行成功/失败的操作列表
 const successList: Array<{
+  scope: string;
   taskName: string;
   from: string;
   to: string;
   fileNames: string[];
 }> = [];
 const failedList: Array<{
+  scope: string;
   taskName: string;
   errorMessage: string;
 }> = [];
@@ -88,6 +90,7 @@ export function setDatabaseNodeFailure(
     },
   };
   failedList.push({
+    scope,
     taskName,
     errorMessage,
   });
@@ -112,6 +115,7 @@ export function setDatabaseNodeSuccess(
     },
   };
   successList.push({
+    scope,
     taskName,
     from: old.recent.latestVersion,
     to: newVersion,

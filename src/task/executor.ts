@@ -206,6 +206,7 @@ export async function execute(
   if (t.task.parameter.build_cover) {
     f = path.resolve(
       config.DIR_TASKS,
+      t.task.scope,
       t.task.name,
       t.task.parameter.build_cover,
     );

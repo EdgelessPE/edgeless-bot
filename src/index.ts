@@ -175,13 +175,13 @@ async function main(): Promise<boolean> {
 }
 
 if (!Piscina.isWorkerThread) {
-  main().then(async (result) => {
+  main().then(async () => {
     await sleep(1000);
     if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
       // 回传数据库
       cp.execSync("rclone copy ./database.json pineapple:/hdisk/Bot/");
       log("Info:Database pushed");
     }
-    process.exit(result ? 0 : 1);
+    process.exit(0);
   });
 }

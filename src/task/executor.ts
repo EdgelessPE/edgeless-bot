@@ -97,11 +97,6 @@ export async function execute(
       }
       return new Err(`Error:Can't download link : ${downloadUrl}`);
     }
-    // 缓存下载
-    if (config.ENABLE_CACHE) {
-      log(`Info:Caching downloads into ${subCacheDir}`);
-      shell.cp("-R", workshop, subCacheDir);
-    }
   }
   if (!absolutePath) {
     absolutePath = path.resolve(workshop, downloadedFile);
@@ -128,6 +123,13 @@ export async function execute(
       }`,
     );
   }
+
+  // 缓存下载
+  if (config.ENABLE_CACHE) {
+    log(`Info:Caching downloads into ${subCacheDir}`);
+    shell.cp("-R", workshop, subCacheDir);
+  }
+
   // 对提供了 revised_version 的任务，尝试读取主程序版本号
   let revisedVersion = t.info.version;
   if (t.task.parameter.revised_version) {

@@ -125,7 +125,7 @@ export async function execute(
   }
 
   // 缓存下载
-  if (config.ENABLE_CACHE) {
+  if (config.ENABLE_CACHE && !fs.existsSync(subCacheDir)) {
     log(`Info:Caching downloads into ${subCacheDir}`);
     shell.cp("-R", workshop, subCacheDir);
   }

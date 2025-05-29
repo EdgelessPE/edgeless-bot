@@ -4,7 +4,7 @@
 name = "360极速浏览器X"
 category = "浏览器"
 author = "Cno"
-url = "https://browser.360.cn/browser_download_link.js"
+url = "https://browser.360.cn/ee/index.html"
 
 # 指定使用的模板
 [template]
@@ -14,9 +14,9 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = 'EEX:\s"([\w\\/.:]+)"'
+# download_link = 'EEX:\s"([\w\\/.:]+)"'
 download_name = '\.exe'
-scraper_version = 'EEX:\s"([\w\\/.:]+)"'
+# scraper_version = 'EEX:\s"([\w\\/.:]+)"'
 
 # 通用参数
 [parameter]
@@ -28,8 +28,8 @@ build_manifest = ["${taskName}.wcs","${taskName}/360chromex.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-# version_selector = ".main-box"
-# download_selector = ".main-box"
+version_selector = ".download-desc"
+download_selector = ".downloadBtn"
 
 # 自动制作模板要求的参数
 [producer_required]

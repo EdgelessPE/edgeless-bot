@@ -2,7 +2,7 @@ name: Serve-next
 
 on:
   push:
-    branches: [next]
+    branches: [never]
     paths:
       - "src/**"
       - "templates/**"

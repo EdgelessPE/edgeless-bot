@@ -2,14 +2,14 @@ name: Serve-next
 
 on:
   push:
-    branches: [next]
+    branches: [never]
     paths:
       - "src/**"
       - "templates/**"
       - "tasks/**"
       - ".github/**"
-  schedule:
-    - cron: "0 20 * * *"
+  # schedule:
+  #   - cron: "0 20 * * *"
 
 jobs:
   serve:

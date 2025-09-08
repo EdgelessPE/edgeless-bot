@@ -84,6 +84,10 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
 }
 
 function validateConfig(task: TaskConfig): boolean {
+  // 服务模式下跳过校验
+  if (!config.DEBUG_MODE) {
+    return true;
+  }
   // 基础校验
   if (!schemaValidator(task, "task").unwrap()) {
     log(`Error:Schema validation failed`);

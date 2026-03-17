@@ -15,6 +15,7 @@ export type Commands =
   | "rclone"
   | "pecmd"
   | "cloud189"
+  | "cloud139"
   | "curl"
   | "innounp";
 
@@ -83,6 +84,10 @@ function where(command: Commands): Result<string, string> {
     case "cloud189":
       possibleCommands = ["cloud189"];
       possiblePositions = ["./cloud189", "./bin/cloud189"];
+      break;
+    case "cloud139":
+      possibleCommands = ["cloud139"];
+      possiblePositions = ["./cloud139", "./bin/cloud139"];
       break;
     case "curl":
       possibleCommands = ["curl"];
@@ -179,7 +184,7 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   const list: Commands[] = ["aria2c", "p7zip", "curl"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
-    list.push("cloud189");
+    list.push("cloud139");
   }
   for (const cmd of list) {
     if (where(cmd).err) {

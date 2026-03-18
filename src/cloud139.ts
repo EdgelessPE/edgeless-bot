@@ -92,9 +92,19 @@ function deleteFromRemote(
     let fileExists = false;
     try {
       const content = fs.readFileSync(tempJsonFile, "utf-8");
-      const data = JSON.parse(content);
-      const files = Array.isArray(data) ? data : data.files || [];
-      fileExists = files.some((f: any) => f.name === fileName);
+      const data: {
+        path: string;
+        page: number;
+        page_size: number;
+        total: number;
+        items: {
+          name: string;
+          type: string;
+          size: number;
+          modified: string;
+        }[];
+      } = JSON.parse(content);
+      fileExists = data.items.some((f) => f.name === fileName);
     } catch {
       fileExists = false;
     } finally {

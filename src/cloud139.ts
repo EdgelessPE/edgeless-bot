@@ -68,7 +68,8 @@ function uploadToRemote(fileName: string, category: string): boolean {
 function deleteFromRemote(
   fileName: string,
   category: string,
-  ignoreNotExist?: boolean,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _ignoreNotExist?: boolean,
 ): boolean {
   if (config.REMOTE_ENABLE) {
     const remotePath = `${config.REMOTE_PATH}/${category}/${fileName}`;
@@ -113,9 +114,9 @@ function deleteFromRemote(
       }
     }
 
-    if (!fileExists && (ignoreNotExist == undefined || !ignoreNotExist)) {
+    if (!fileExists) {
       log(
-        `Warning:Remote not exist file : ${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}/${fileName} ,ignore`,
+        `Warning:Remote not exist file : ${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}/${fileName} ,ignore delete`,
       );
       return true;
     }

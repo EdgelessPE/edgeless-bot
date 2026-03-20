@@ -4,9 +4,9 @@ DATABASE_UPDATE = true
 DATABASE_PATH = "./database.json"
 
 # 是否启用远程功能
-REMOTE_ENABLE = false
+REMOTE_ENABLE = true
 # 远程存储的rclone名称
-REMOTE_NAME = "alist"
+REMOTE_NAME = "kanuo"
 # 远程存储路径
 REMOTE_PATH = "/同步盘/插件包"
 
@@ -15,7 +15,7 @@ DIR_TASKS = "./tasks"
 # 临时工作目录路径
 DIR_WORKSHOP = "./workshop"
 # 构建存储路径
-DIR_BUILDS = "C:/Users/Cno/Downloads/SyncDisk/插件包"
+DIR_BUILDS = "./builds"
 
 # 允许同时存在的最大构建数量
 MAX_BUILDS = 1

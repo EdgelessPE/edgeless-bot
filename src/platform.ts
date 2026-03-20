@@ -15,6 +15,7 @@ export type Commands =
   | "rclone"
   | "pecmd"
   | "cloud189"
+  | "cloud139"
   | "curl"
   | "innounp";
 
@@ -56,6 +57,7 @@ function where(command: Commands): Result<string, string> {
         "./bin/7zzs",
         "C:/Program Files/7-Zip/7z",
         "C:/Program Files (x86)/7-Zip/7z",
+        "C:/Program Files/7-Zip-Zstandard",
         `${process.env.PROGRAMFILESW6432}/7-Zip/7z`,
       ];
       break;
@@ -82,6 +84,10 @@ function where(command: Commands): Result<string, string> {
     case "cloud189":
       possibleCommands = ["cloud189"];
       possiblePositions = ["./cloud189", "./bin/cloud189"];
+      break;
+    case "cloud139":
+      possibleCommands = ["cloud139"];
+      possiblePositions = ["./cloud139", "./bin/cloud139"];
       break;
     case "curl":
       possibleCommands = ["curl"];
@@ -134,14 +140,37 @@ function where(command: Commands): Result<string, string> {
     return new Ok(parsePath(result));
   }
   // 根据possiblePositions查找
-  for (let i = 0; i < possiblePositions.length; i++) {
-    node = possiblePositions[i];
-    if (getOS() == "Windows") {
-      node += ".exe";
+  if (possibleCommands.length === 1) {
+    // 单个命令名，直接加 .exe
+    // const cmd =
+    //   getOS() == "Windows" ? `${possibleCommands[0]}.exe` : possibleCommands[0];
+    for (let i = 0; i < possiblePositions.length; i++) {
+      const fullPath =
+        possiblePositions[i] +
+        (getOS() == "Windows" && !possiblePositions[i].endsWith(".exe")
+          ? ".exe"
+          : "");
+      if (fs.existsSync(fullPath)) {
+        result = `"${fullPath}"`;
+        break;
+      }
     }
-    if (fs.existsSync(node)) {
-      result = `"${node}"`;
-      break;
+  } else {
+    // 多个命令名，使用 join 组合
+    for (let i = 0; i < possiblePositions.length; i++) {
+      const basePath = possiblePositions[i];
+      for (let j = 0; j < possibleCommands.length; j++) {
+        let cmd = possibleCommands[j];
+        if (getOS() == "Windows" && !cmd.endsWith(".exe")) {
+          cmd += ".exe";
+        }
+        const fullPath = path.join(basePath, cmd);
+        if (fs.existsSync(fullPath)) {
+          result = `"${fullPath}"`;
+          break;
+        }
+      }
+      if (result != "") break;
     }
   }
   if (result != "") {
@@ -155,7 +184,7 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   const list: Commands[] = ["aria2c", "p7zip", "curl"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
-    list.push("cloud189");
+    list.push("cloud139");
   }
   for (const cmd of list) {
     if (where(cmd).err) {

@@ -14,9 +14,9 @@ producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = 'http.+\.zip'
+download_link = 'https://download\.sysinternals\.com/files/ProcessMonitor\.zip'
 download_name = '\.zip'
-# scraper_version = ''
+scraper_version = 'v?(\d+\.\d+)'
 
 # 通用参数
 [parameter]
@@ -28,7 +28,7 @@ build_delete = ["Eula.txt", "procmon.chm", "Procmon.exe", "Procmon64a.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "#main > div.padding-sm.padding-top-none.padding-top-sm-tablet > div:nth-child(1) > div:nth-child(6) > p:nth-child(3) > a:nth-child(1)"
+download_selector = "a[href*=\"ProcessMonitor.zip\"]"
 version_selector = "h1"
 
 # 自动制作模板要求的参数

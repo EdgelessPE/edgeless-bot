@@ -8,7 +8,7 @@ url = "https://anydesk.com"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "External"
 # resolver = ""
 producer = "Click2Install"
 
@@ -16,28 +16,16 @@ producer = "Click2Install"
 [regex]
 download_link = 'https:\/\/download\.anydesk\.com(\.cn)?\/AnyDesk\.exe'
 download_name = '\.exe'
-# scraper_version = '"id":"win_exe","version":"[0-9.]+"'
 
 # 通用参数
 [parameter]
-# resolver_cd = []
-# compress_level = 1
 build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
-# build_cover = ""
-# build_delete = []
 
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "AnyDesk"
 
-# 爬虫模板临时参数
-[scraper_temp]
-version_page_url = "https://anydesk.com/en/downloads"
-version_selector = ".d-block"
-# download_page_url = "https://anydesk.com/zhs/downloads/thank-you?dv=win_exe"
-# download_selector = "#download-button"
-
 # 额外备注
-# [extra]
-# require_windows = false
-# missing_version = ""
+[extra]
+require_windows = false
+missing_version = "${taskName}/${downloadedFile}"

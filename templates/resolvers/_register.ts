@@ -13,6 +13,12 @@ const regArray: Array<ResolverRegister> = [
     downloadLinkRegex: "lanzou\\w\\.com",
     requiredKeys: [],
   },
+  {
+    name: "SourceForge",
+    entrance: "SourceForge",
+    downloadLinkRegex: "sourceforge.net/projects/",
+    requiredKeys: [],
+  },
 ];
 
 export default regArray;

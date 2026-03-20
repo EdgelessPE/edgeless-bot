@@ -561,6 +561,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     if (version == null) {
       return new Err("Error:Fetch execute file version failed : returned null");
     }
+    version = formatVersion(version).unwrap();
     t.info.version = version;
     // 如果版本号和数据库中一样说明没有更新
     let ctn = true;

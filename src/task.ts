@@ -64,22 +64,44 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
         )} , please consider add "\${taskName}/" before it`,
       );
     }
-    rcInfo(
-      path.resolve(cd, file),
-      (
-        error: unknown,
-        info: {
-          FileVersion: string;
-        },
-      ) => {
-        if (error) {
-          console.log(JSON.stringify(error, null, 2));
-          reject(`Error:Can't get file version of ${path.resolve(cd, file)}`);
+    const fullPath = path.resolve(cd, file);
+
+    const tryRcinfo = (): Promise<string> => {
+      return new Promise((resolveRcinfo, rejectRcinfo) => {
+        rcInfo(fullPath, (error: unknown, info: { FileVersion?: string }) => {
+          if (error || !info || !info.FileVersion) {
+            rejectRcinfo(error || "rcinfo returned empty");
+          } else {
+            resolveRcinfo(info.FileVersion);
+          }
+        });
+      });
+    };
+
+    const tryPowerShell = (): Promise<string> => {
+      return new Promise((resolvePs, rejectPs) => {
+        const psCommand = `(Get-Item '${fullPath.replace(
+          /'/g,
+          "''",
+        )}').VersionInfo.FileVersion`;
+        const result = shell.exec(`powershell -Command "${psCommand}"`, {
+          silent: true,
+        });
+        if (result.code !== 0) {
+          rejectPs(result.stderr || "PowerShell failed");
         } else {
-          resolve(info.FileVersion);
+          resolvePs(result.stdout.trim());
         }
-      },
-    );
+      });
+    };
+
+    tryRcinfo()
+      .then(resolve)
+      .catch(() => {
+        tryPowerShell()
+          .then(resolve)
+          .catch(() => reject(`Error:Can't get file version of ${fullPath}`));
+      });
   });
 }
 

@@ -28,8 +28,8 @@ build_manifest = ["${taskName}.wcs","${taskName}/AllDupPortable.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-version_selector = "#content > table:nth-child(7) > tbody > tr:nth-child(1)"
-download_selector = "#content > table:nth-child(7) > tbody > tr:nth-child(7) > td:nth-child(2) > a:nth-child(4)"
+version_selector = "table.download a[href*=\"version-history\"]"
+download_selector = "table.download a[href*=\"AllDupPortable.zip\"]"
 
 # 自动制作模板要求的参数
 [producer_required]

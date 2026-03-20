@@ -21,16 +21,15 @@ jobs:
           submodules: recursive
           ref: ${{ github.ref }}
 
-      # 获取rclone
-      - uses: actions/checkout@v4
+      # 获取并解压 cloud139
+      - name: Download and extract cloud139
+        uses: robinraju/release-downloader@v1
         with:
-          repository: Cnotech/rclone
-          token: ${{ secrets.RCLONE_TOKEN }}
-          path: rclone
-
-      # 取出rclone
-      - name: Copy rclone
-        run: mv .\rclone\* .\ && New-Item -Path "~/.config/cloud189" -ItemType Directory && mv .\config.json ~/.config/cloud189/config.json
+          repository: "Cnotech/cloud139"
+          latest: true
+          fileName: "cloud139-windows-x86_64.zip"
+          out-file-path: ./
+          extract: true
 
       # 缓存 node_modules
       - uses: actions/cache@v4
@@ -42,7 +41,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       # 安装依赖
       - name: Install dependencies

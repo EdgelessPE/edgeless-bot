@@ -38,7 +38,7 @@ recursiveUnzipList = []
 
 
 # 额外备注
-# [extra]
+[extra]
 # require_windows = true
 # missing_version = ""
-# weekly = true
+weekly = true

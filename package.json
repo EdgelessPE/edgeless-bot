@@ -60,7 +60,7 @@
     "*.ts": "eslint --fix"
   },
   "engines": {
-    "node": ">=20",
+    "node": ">=24",
     "pnpm": ">=9"
   },
   "packageManager": "pnpm@9.12.2"

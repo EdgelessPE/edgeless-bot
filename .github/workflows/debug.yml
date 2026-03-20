@@ -13,24 +13,25 @@ on:
 jobs:
   serve:
     runs-on: windows-2025
+    env: {}
     steps:
       # 获取仓库源码
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
           ref: ${{ github.ref }}
 
       # 缓存 node_modules
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       # 安装 Nodejs
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: "24.x"
 
       # 安装依赖
       - name: Install dependencies

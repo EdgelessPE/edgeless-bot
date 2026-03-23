@@ -4,7 +4,7 @@
 name = "AllDup"
 category = "资源管理"
 author = "Cno"
-url = "https://www.alldup.de/en_download_alldup.php"
+url = "https://alldup.de/en/alldup/download.php"
 
 # 指定使用的模板
 [template]

@@ -8,7 +8,7 @@ url = "https://music.163.com/#/download"
 
 # 指定使用的模板
 [template]
-scraper = "Redirection_Parse"
+scraper = "REST_API"
 # resolver = ""
 producer = "Silent_Install"
 
@@ -28,7 +28,9 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-redirection_url = "https://music.163.com/api/pc/package/download/latest"
+api_url = "https://music.163.com/api/pc/package/download/latest"
+version_path = "data.downloadUrl"
+download_path = "data.downloadUrl"
 
 # 自动制作模板要求的参数
 [producer_required]
@@ -36,6 +38,6 @@ redirection_url = "https://music.163.com/api/pc/package/download/latest"
 
 
 # 额外备注
-[extra]
+# [extra]
 # require_windows = false
-missing_version = ""
+# missing_version = ""

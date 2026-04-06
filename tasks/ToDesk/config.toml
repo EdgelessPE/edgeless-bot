@@ -8,7 +8,7 @@ url = "https://www.todesk.com/download.html"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "External"
 # resolver = ""
 producer = "Recursive_Unzip"
 
@@ -25,11 +25,6 @@ download_name = '\.exe'
 build_manifest = ["${taskName}.wcs", "${taskName}\\ToDesk.exe"]
 # build_cover = ""
 build_delete = ["$PLUGINSDIR"]
-
-# 爬虫模板临时参数
-[scraper_temp]
-version_selector = '#__layout > div > div.tddownload.wrap > div.tcont_bx > div.tab_content.tab_content0 > div.left_info.win > section > a.vinfo'
-download_selector = '#__layout > div > div.tddownload.wrap > div.tcont_bx > div.tab_content.tab_content0 > div.left_info.win > section > div.win_download > a:nth-child(2)'
 
 # 自动制作模板要求的参数
 [producer_required]

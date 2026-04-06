@@ -8,6 +8,48 @@ interface Temp {
   allow_pre_release?: boolean;
 }
 
+function selectGitHubReleaseAsset(
+  releases: any[],
+  fileMatchRegex: string,
+  allowPreRelease: boolean,
+): Result<string, string> {
+  const regex = new RegExp(fileMatchRegex);
+
+  for (const release of releases) {
+    if (release == null) {
+      continue;
+    }
+    if (!allowPreRelease && release.prerelease) {
+      continue;
+    }
+
+    const assets: any[] = Array.isArray(release.assets) ? release.assets : [];
+    let result = "";
+
+    for (const node of assets) {
+      if (node == null || typeof node.name !== "string") {
+        continue;
+      }
+      if (node.name.match(regex) != null) {
+        if (result === "") {
+          result = node.browser_download_url;
+          log(`Info:Matched ${node.name}`);
+        } else {
+          log(
+            `Warning:Ambiguous fileMatchRegex,matched more than one file : ${node.name}`,
+          );
+        }
+      }
+    }
+
+    if (result !== "") {
+      return new Ok(result);
+    }
+  }
+
+  return new Err("Error:Can't match any file with given fileMatchRegex");
+}
+
 export default async function (
   p: ResolverParameters,
 ): Promise<Result<ResolverReturned, string>> {
@@ -32,42 +74,18 @@ export default async function (
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);
   }
-  // 匹配assets数组
-  const regex = new RegExp(fileMatchRegex);
-  let i = 0;
-  // 过滤预发布
-  if (!(temp?.allow_pre_release ?? false)) {
-    while (json[i]?.prerelease && i < json.length) {
-      i++;
-    }
-    // 防止越界
-    if (i == json.length) {
-      i = 0;
-    }
+  const result = selectGitHubReleaseAsset(
+    Array.isArray(json) ? json : [],
+    fileMatchRegex,
+    temp?.allow_pre_release ?? false,
+  );
+  if (result.err) {
+    return result;
   }
-  const assets = json[i].assets;
-  let result = "",
-    node;
-  for (node of assets) {
-    if (node == null) {
-      continue;
-    }
-    if ((node.name as string).match(regex) != null) {
-      if (result == "") {
-        result = node.browser_download_url;
-        log(`Info:Matched ${node.name}`);
-      } else {
-        log(
-          `Warning:Ambiguous fileMatchRegex,matched more than one file : ${node.name}`,
-        );
-      }
-    }
-  }
-  if (result == "") {
-    return new Err("Error:Can't match any file with given fileMatchRegex");
-  } else {
-    return new Ok({
-      directLink: result,
-    });
-  }
+
+  return new Ok({
+    directLink: result.val,
+  });
 }
+
+export { selectGitHubReleaseAsset };

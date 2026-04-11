@@ -24,13 +24,13 @@ download_name = '\.exe'
 # compress_level = 5
 build_manifest = ["${taskName}.wcs", "${taskName}\\ToDesk.exe"]
 # build_cover = ""
-build_delete = ["$PLUGINSDIR"]
+# build_delete = []
 
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "ToDesk"
 sourceFile = "ToDesk.exe"
-recursiveUnzipList = []
+recursiveUnzipList = ["app64.7z"]
 
 
 # 额外备注

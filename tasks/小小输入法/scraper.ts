@@ -1,63 +1,117 @@
-import * as cheerio from "cheerio";
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
-import { robustGet } from "../../src/network";
-import { Cmp, versionCmp } from "../../src/utils";
+import { log } from "../../src/utils";
 
-const DOWNLOAD_PAGE = "https://yong.dgod.net/download/";
-const WINDOWS_ARCHIVE_REGEX = /yong-lin-(\d{4})(\d{2})(\d{2})\.7z$/i;
+const YSEPAN_API_BASE = "https://c6.ysepan.com/nkj/";
+const DLMC = "yongim";
+const WINDOWS_DIR_BH = 448795;
+const WIN_ARCHIVE_REGEX = /^yong-win-.+\.7z$/;
 
-function formatYongVersion(downloadLink: string): string {
-  const matchRes = downloadLink.match(WINDOWS_ARCHIVE_REGEX);
-  if (matchRes == null) {
-    throw new Error(`Invalid Yong archive link: ${downloadLink}`);
-  }
-  const [, year, month, day] = matchRes;
-  return `${year}.${Number(month)}.${Number(day)}`;
+function generateToken(): string {
+  return (
+    Date.now().toString() +
+    Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, "0")
+  );
 }
 
-function selectLatestArchive(page: string, pageUrl: string): string {
-  const $ = cheerio.load(page);
-  let latestLink = "",
-    latestVersion = "0.0.0";
+interface YsepanDirectory {
+  xzpz: string;
+}
 
-  $("a[href]").each((_index, node) => {
-    const href = $(node).attr("href");
-    if (href == null) {
-      return;
-    }
-    const absoluteUrl = new URL(href, pageUrl).toString();
-    if (absoluteUrl.match(WINDOWS_ARCHIVE_REGEX) == null) {
-      return;
-    }
-    const version = formatYongVersion(absoluteUrl);
-    if (versionCmp(version, latestVersion) === Cmp.G) {
-      latestVersion = version;
-      latestLink = absoluteUrl;
-    }
-  });
+interface YsepanFile {
+  wjm: string;
+  fwq: string;
+  pz: string;
+  sj: string;
+}
 
-  if (latestLink === "") {
-    throw new Error("No Windows archive link found");
+async function ysepanFetch(
+  url: string,
+  method: string,
+  token: string,
+  body?: string,
+): Promise<Result<Response, string>> {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${DLMC};${token}`,
+  };
+  const init: RequestInit = { method, headers };
+  if (body !== undefined) {
+    headers["Content-Type"] = "application/x-www-form-urlencoded";
+    init.body = body;
   }
-  return latestLink;
+  try {
+    const res = await fetch(url, init);
+    if (!res.ok) {
+      return new Err(`Error:Ysepan API returned ${res.status} for ${url}`);
+    }
+    return new Ok(res);
+  } catch (e) {
+    return new Err(
+      `Error:Ysepan fetch failed for ${url}: ${(e as Error).message}`,
+    );
+  }
+}
+
+function extractVersion(filename: string): string {
+  const match = filename.match(/^yong-win-(.+)\.7z$/);
+  if (match == null) {
+    throw new Error(`Invalid Windows archive filename: ${filename}`);
+  }
+  return match[1];
 }
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-  const pageRes = await robustGet(DOWNLOAD_PAGE);
-  if (pageRes.err || typeof pageRes.val !== "string") {
-    return new Err(`Error:Can't fetch ${DOWNLOAD_PAGE}`);
+  const token = generateToken();
+
+  const sessionRes = await ysepanFetch(
+    `${YSEPAN_API_BASE}csxx.aspx?cz=dq`,
+    "POST",
+    token,
+  );
+  if (sessionRes.err) {
+    return new Err(sessionRes.val);
   }
 
-  try {
-    const downloadLink = selectLatestArchive(pageRes.val, DOWNLOAD_PAGE);
-    return new Ok({
-      version: formatYongVersion(downloadLink),
-      downloadLink,
-    });
-  } catch (error) {
-    return new Err(`Error:${(error as Error).message}`);
+  const filesRes = await ysepanFetch(
+    `${YSEPAN_API_BASE}wj.aspx`,
+    "POST",
+    token,
+    `mlbh=${WINDOWS_DIR_BH}&kqmm=&wjbh=0&ip1=`,
+  );
+  if (filesRes.err) {
+    return new Err(filesRes.val);
   }
+
+  let data: any;
+  try {
+    data = await filesRes.val.json();
+  } catch (e) {
+    return new Err(
+      `Error:Failed to parse ysepan files response: ${(e as Error).message}`,
+    );
+  }
+
+  const dirInfo: YsepanDirectory = data.ml;
+  const files: YsepanFile[] = data.lb;
+  if (!dirInfo || !files) {
+    return new Err("Error:Invalid ysepan API response structure");
+  }
+
+  const winArchives = files.filter((f) => WIN_ARCHIVE_REGEX.test(f.wjm));
+  if (winArchives.length === 0) {
+    return new Err("Error:No Windows archive found on ysepan");
+  }
+
+  winArchives.sort((a, b) => b.sj.localeCompare(a.sj));
+  const latest = winArchives[0];
+  log(`Info:Latest ysepan Windows archive: ${latest.wjm}`);
+
+  const version = extractVersion(latest.wjm);
+  const downloadLink = `https://ys-${latest.fwq}.ysepan.com/wap/${DLMC}/${dirInfo.xzpz}/${latest.pz}/${latest.wjm}`;
+
+  return new Ok({ version, downloadLink });
 }
 
-export { formatYongVersion, selectLatestArchive };
+export { extractVersion };

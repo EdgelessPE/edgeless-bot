@@ -22,6 +22,7 @@ interface RequiredObject {
   addMachinePath?: boolean;
   addAppPath?: boolean;
   addMachineAppPath?: boolean;
+  innoSetupRename?: Record<string, string>;
 }
 
 function matchFile(cwd: string, regex: string): Result<string, string> {
@@ -108,6 +109,20 @@ export default async function (
     } else {
       log(`Info:Matched source file : ${matchRes}`);
       obj.sourceFile = matchRes;
+    }
+  }
+  // 重命名Inno Setup代码常量文件
+  if (obj.innoSetupRename && cwd) {
+    for (const [from, to] of Object.entries(obj.innoSetupRename)) {
+      const fromPath = path.join(cwd, from);
+      const toPath = path.join(cwd, to);
+      if (fs.existsSync(fromPath)) {
+        fs.renameSync(fromPath, toPath);
+        log(`Info:Renamed ${from} to ${to}`);
+        if (obj.sourceFile === from) {
+          obj.sourceFile = to;
+        }
+      }
     }
   }
   // 确认是否存在目标文件

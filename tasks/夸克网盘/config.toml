@@ -36,8 +36,12 @@ api_url = "https://pan.quark.cn/api/client_version"
 [producer_required]
 shortcutName = "夸克网盘"
 sourceFile = "QuarkCloudDrive.exe"
-recursiveUnzipList = ['{app}', '/app-.*/']
+recursiveUnzipList = ['{app}']
 innoSetup = true
+
+[producer_required.innoSetupRename]
+"{code_GetAppExeDestName}" = "QuarkCloudDrive.exe"
+"{code_GetAppProxyExeDestName}" = "QuarkCloudDrive Proxy.exe"
 
 # 额外备注
 [extra]

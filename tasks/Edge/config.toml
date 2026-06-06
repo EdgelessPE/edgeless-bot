@@ -28,7 +28,7 @@ build_manifest = ["${taskName}.wcs","${taskName}/msedge.exe"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_path = "msedge-stable-win-x64.下载链接"
+download_path = "msedge-stable-win-x64.url"
 version_path = "msedge-stable-win-x64.version"
 api_url = "https://raw.githubusercontent.com/Bush2021/edge_installer/main/data.json"
 

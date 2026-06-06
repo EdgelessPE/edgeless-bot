@@ -17,5 +17,5 @@ env.json
 /bin
 .DS_Store
 /meta
-/cloud139.toml
+/cloud139rc.toml
 /edgeless-bot-feat-nep

@@ -24,7 +24,10 @@ const EDGE_ONE_UNSBOX_MAP = [
 const EDGE_ONE_XOR_KEY = "3000176000856006061501533003690027800375";
 
 function shouldUseProtectedFallback(error: string): boolean {
-  return error.includes("Failed to find ajax block for files loading");
+  return (
+    error.includes("Failed to find ajax block for files loading") ||
+    error.includes("Failed to fetch url")
+  );
 }
 
 function solveEdgeOneCookie(arg1: string): string {
@@ -360,6 +363,66 @@ async function resolveLanzouFileRequest(
   return new Err(`Error: Failed to judge share type for '${shareUrl}'`);
 }
 
+async function resolveProtectedLanzouFolder(
+  shareUrl: string,
+  request: LanzouAjaxRequest,
+  fileMatchRegex: string,
+  cookie?: string,
+): Promise<Result<ResolverReturned, string>> {
+  const apiUrl = new URL(request.url, shareUrl).toString();
+  const jsonRes = await fetchProtectedJson(
+    apiUrl,
+    request.data,
+    shareUrl,
+    cookie,
+  );
+  if (jsonRes.err) {
+    return new Err(jsonRes.val);
+  }
+
+  const json = jsonRes.val;
+  const info = json.inf || json.info || null;
+  if (json.zt !== 1) {
+    return new Err(
+      `Error: Lanzou api returned error status '${json.zt}' : '${info}'`,
+    );
+  }
+  if (!Array.isArray(json.text)) {
+    return new Err(`Error: Failed to parse Lanzou folder list '${shareUrl}'`);
+  }
+
+  log(`Info:Matching file with regex '${fileMatchRegex}' in protected folder`);
+  const regex = new RegExp(fileMatchRegex);
+  for (const node of json.text) {
+    const name = String(node.name_all ?? "");
+    const id = String(node.id ?? "");
+    if (!regex.test(name) || id === "" || id === "-1") {
+      continue;
+    }
+
+    log(`Info:Matched file '${name}'`);
+    const fileUrl = new URL(`/${id}`, shareUrl).toString();
+    const res = await loadShareUrl(fileUrl);
+    if (res.isErr()) {
+      if (shouldUseProtectedFallback(res.unwrapErr())) {
+        return resolveProtectedLanzouFile(fileUrl);
+      }
+      return new Err(res.unwrapErr());
+    }
+    const data = res.unwrap();
+    if (data.type === "folder") {
+      return new Err(
+        `Error:Matched folder '${name}', not file; Cd param hasn't been supported yet`,
+      );
+    }
+    return new Ok({
+      directLink: data.downloadUrl,
+    });
+  }
+
+  return new Err("Error:Can't match file");
+}
+
 async function resolveProtectedLanzouFile(
   shareUrl: string,
   password?: string,
@@ -395,6 +458,33 @@ async function resolveProtectedLanzouFile(
   return resolveLanzouFileRequest(shareUrl, request, cookie);
 }
 
+async function resolveProtectedLanzouShare(
+  shareUrl: string,
+  fileMatchRegex: string,
+  password?: string,
+): Promise<Result<ResolverReturned, string>> {
+  const pageRes = await fetchProtectedPage(shareUrl);
+  if (pageRes.err) {
+    return new Err(pageRes.val);
+  }
+
+  const request = extractLanzouAjaxRequest(pageRes.val.html, password);
+  if (request == null) {
+    return new Err("Error: Failed to find ajax block for files loading");
+  }
+
+  if (request.url.includes("filemoreajax.php")) {
+    return resolveProtectedLanzouFolder(
+      shareUrl,
+      request,
+      fileMatchRegex,
+      pageRes.val.cookie,
+    );
+  }
+
+  return resolveLanzouFileRequest(shareUrl, request, pageRes.val.cookie);
+}
+
 export default async function (
   p: ResolverParameters,
 ): Promise<Result<ResolverReturned, string>> {
@@ -411,7 +501,11 @@ export default async function (
   const res = await loadShareUrl(downloadLink, password);
   if (res.isErr()) {
     if (shouldUseProtectedFallback(res.unwrapErr())) {
-      return resolveProtectedLanzouFile(downloadLink, password);
+      return resolveProtectedLanzouShare(
+        downloadLink,
+        fileMatchRegex,
+        password,
+      );
     }
     return new Err(res.unwrapErr());
   }

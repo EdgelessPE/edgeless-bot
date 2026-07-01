@@ -8,7 +8,7 @@ url = "https://developer.android.com/tools/releases/platform-tools"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "External"
 # resolver = ""
 producer = "Recursive_Unzip"
 

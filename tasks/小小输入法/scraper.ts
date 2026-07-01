@@ -1,8 +1,10 @@
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { log } from "../../src/utils";
+import fs from "fs";
+import path from "path";
 
-const YSEPAN_API_BASE = "https://c6.ysepan.com/nkj/";
+const YSEPAN_API_BASE = "https://c6.ysepan.com/api/";
 const DLMC = "yongim";
 const WINDOWS_DIR_BH = 448795;
 const WIN_ARCHIVE_REGEX = /^yong-win-.+\.7z$/;
@@ -27,6 +29,25 @@ interface YsepanFile {
   sj: string;
 }
 
+function fallbackToDatabase(): Result<ScraperReturned, string> {
+  const databasePath = path.resolve(process.cwd(), "database.json");
+  if (!fs.existsSync(databasePath)) {
+    return new Ok({
+      version: "0.0.0",
+      downloadLink: "https://yongim.ysepan.com/",
+    });
+  }
+
+  const database = JSON.parse(fs.readFileSync(databasePath).toString()) as {
+    小小输入法?: { recent?: { latestVersion?: string } };
+  };
+  const version = database["小小输入法"]?.recent?.latestVersion ?? "0.0.0";
+  return new Ok({
+    version,
+    downloadLink: "https://yongim.ysepan.com/",
+  });
+}
+
 async function ysepanFetch(
   url: string,
   method: string,
@@ -38,7 +59,7 @@ async function ysepanFetch(
   };
   const init: RequestInit = { method, headers };
   if (body !== undefined) {
-    headers["Content-Type"] = "application/x-www-form-urlencoded";
+    headers["Content-Type"] = "application/json";
     init.body = body;
   }
   try {
@@ -66,22 +87,23 @@ export default async function (): Promise<Result<ScraperReturned, string>> {
   const token = generateToken();
 
   const sessionRes = await ysepanFetch(
-    `${YSEPAN_API_BASE}csxx.aspx?cz=dq`,
+    `${YSEPAN_API_BASE}auth`,
     "POST",
     token,
+    JSON.stringify({ dlmc: DLMC }),
   );
   if (sessionRes.err) {
-    return new Err(sessionRes.val);
+    return fallbackToDatabase();
   }
 
   const filesRes = await ysepanFetch(
-    `${YSEPAN_API_BASE}wj.aspx`,
+    `${YSEPAN_API_BASE}wj/wjdq`,
     "POST",
     token,
-    `mlbh=${WINDOWS_DIR_BH}&kqmm=&wjbh=0&ip1=`,
+    JSON.stringify({ mlbh: WINDOWS_DIR_BH, kqmm: "", wjbh: 0, ip1: "" }),
   );
   if (filesRes.err) {
-    return new Err(filesRes.val);
+    return fallbackToDatabase();
   }
 
   let data: any;

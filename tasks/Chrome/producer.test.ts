@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getPeMachine, parseInstallerMetadata } from "./producer";
+import { getPeMachine, parseInstallerDownloads } from "./producer";
 
 const VALID_INSTALLER_INI = `[DownloadFiles]
 DownloadURL=https://dl.google.com/chrome_payload.exe
@@ -11,22 +11,23 @@ AdvancedExtract1Filter=*
 `;
 
 test("parses validated Chrome payload metadata", (): void => {
-  const result = parseInstallerMetadata(VALID_INSTALLER_INI);
+  const result = parseInstallerDownloads(VALID_INSTALLER_INI);
 
   assert.equal(result.ok, true);
   if (result.err) assert.fail("Expected valid Chrome installer metadata");
-  assert.deepEqual(result.unwrap(), {
-    downloadUrl: "https://dl.google.com/chrome_payload.exe",
-    downloadFilename: "chrome_payload.exe",
-    downloadSha256:
-      "17c0c4f8007a394cd5034ff7fb11ead4e3ffd2ea631c46f59df4788ca3c8c818",
-    extractTo: "App",
-    extractFilter: "*",
-  });
+  assert.deepEqual(result.unwrap(), [
+    {
+      downloadUrl: "https://dl.google.com/chrome_payload.exe",
+      downloadFilename: "chrome_payload.exe",
+      downloadSha256:
+        "17c0c4f8007a394cd5034ff7fb11ead4e3ffd2ea631c46f59df4788ca3c8c818",
+      destination: { type: "extract", to: "App", filter: "*" },
+    },
+  ]);
 });
 
 test("rejects missing Chrome payload metadata", (): void => {
-  const result = parseInstallerMetadata(`[DownloadFiles]
+  const result = parseInstallerDownloads(`[DownloadFiles]
 DownloadURL=https://dl.google.com/chrome_payload.exe
 `);
 
@@ -34,7 +35,7 @@ DownloadURL=https://dl.google.com/chrome_payload.exe
 });
 
 test("rejects extraction paths outside the PortableApps directory", (): void => {
-  const result = parseInstallerMetadata(
+  const result = parseInstallerDownloads(
     VALID_INSTALLER_INI.replace(
       "AdvancedExtract1To=App",
       "AdvancedExtract1To=../App",
@@ -42,6 +43,27 @@ test("rejects extraction paths outside the PortableApps directory", (): void => 
   );
 
   assert.equal(result.err, true);
+});
+
+test("parses multiple payloads downloaded directly into the app", (): void => {
+  const result = parseInstallerDownloads(`[DownloadFiles]
+DownloadURL=https://example.com/uTorrent.exe
+DownloadFilename=uTorrent.exe
+DownloadSHA256=a2ddaf2bffe582232faf1db05e8e376d8b65472286109034c25664627e5ebd87
+DownloadTo=App\\uTorrent
+Download2URL=https://example.com/bt_datachannel.dll
+Download2Filename=bt_datachannel.dll
+Download2SHA256=d4c4e05fade7e76f4a2d0c9c58a6b9b82b761d9951ffddd838c381549368e153
+Download2To=App\\uTorrent
+`);
+
+  assert.equal(result.ok, true);
+  if (result.err) assert.fail("Expected valid uTorrent installer metadata");
+  assert.equal(result.unwrap().length, 2);
+  assert.deepEqual(result.unwrap()[1]?.destination, {
+    type: "download",
+    to: "App\\uTorrent",
+  });
 });
 
 function createPeImage(machine: number): Buffer {

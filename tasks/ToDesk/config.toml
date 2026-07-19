@@ -35,6 +35,6 @@ recursiveUnzipList = ["app64.7z"]
 
 # 额外备注
 [extra]
-require_windows = true
+# require_windows = true
 # missing_version = ""
 weekly = true

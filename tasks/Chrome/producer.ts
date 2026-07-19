@@ -10,31 +10,35 @@ import ini from "ini";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
-interface InstallerMetadata {
+interface InstallerDownload {
   downloadUrl: string;
   downloadFilename: string;
   downloadSha256: string;
-  extractTo: string;
-  extractFilter: string;
+  destination:
+    | { type: "download"; to: string }
+    | { type: "extract"; to: string; filter: string };
 }
 
-interface ChromePortableOptions {
+interface PortableAppsOnlineOptions {
+  displayName: string;
   portableDirectory: string;
   portableLauncher: string;
+  executableRelativePath?: string;
+  requiredMachine?: number;
 }
 
 const IMAGE_FILE_MACHINE_AMD64 = 0x8664;
 
 function getPeMachine(image: Buffer): Result<number, string> {
   if (image.length < 0x40 || image.toString("ascii", 0, 2) !== "MZ") {
-    return new Err("Error:Chrome executable has an invalid DOS header");
+    return new Err("Error:Executable has an invalid DOS header");
   }
   const peOffset = image.readUInt32LE(0x3c);
   if (
     peOffset + 6 > image.length ||
     image.toString("binary", peOffset, peOffset + 4) !== "PE\0\0"
   ) {
-    return new Err("Error:Chrome executable has an invalid PE header");
+    return new Err("Error:Executable has an invalid PE header");
   }
   return new Ok(image.readUInt16LE(peOffset + 4));
 }
@@ -45,66 +49,94 @@ function isSafeRelativePath(value: string): boolean {
   return normalized !== ".." && !normalized.startsWith("../");
 }
 
-function parseInstallerMetadata(
+function parseInstallerDownloads(
   content: string,
-): Result<InstallerMetadata, string> {
+): Result<InstallerDownload[], string> {
   const parsed = ini.parse(content) as Record<string, unknown>;
   const downloadFiles = parsed.DownloadFiles;
   if (typeof downloadFiles !== "object" || downloadFiles === null) {
     return new Err(
-      "Error:Chrome installer metadata has no DownloadFiles section",
+      "Error:PortableApps installer metadata has no DownloadFiles section",
     );
   }
 
   const values = downloadFiles as Record<string, unknown>;
-  const downloadUrl = values.DownloadURL,
-    downloadFilename = values.DownloadFilename,
-    downloadSha256 = values.DownloadSHA256,
-    extractTo = values.AdvancedExtract1To,
-    extractFilter = values.AdvancedExtract1Filter;
-  if (
-    typeof downloadUrl !== "string" ||
-    typeof downloadFilename !== "string" ||
-    typeof downloadSha256 !== "string" ||
-    typeof extractTo !== "string" ||
-    typeof extractFilter !== "string"
-  ) {
-    return new Err("Error:Chrome installer metadata is incomplete");
-  }
+  const downloads: InstallerDownload[] = [];
+  for (let index = 1; index <= 10; index++) {
+    const suffix = index === 1 ? "" : String(index);
+    const downloadUrl = values[`Download${suffix}URL`];
+    if (downloadUrl === undefined) continue;
+    const downloadFilename = values[`Download${suffix}Filename`],
+      downloadSha256 = values[`Download${suffix}SHA256`],
+      downloadTo = values[`Download${suffix}To`],
+      extractTo = values[`AdvancedExtract${index}To`],
+      extractFilter = values[`AdvancedExtract${index}Filter`];
+    if (
+      typeof downloadUrl !== "string" ||
+      typeof downloadFilename !== "string" ||
+      typeof downloadSha256 !== "string"
+    ) {
+      return new Err("Error:PortableApps installer metadata is incomplete");
+    }
 
-  let payloadUrl: URL;
-  try {
-    payloadUrl = new URL(downloadUrl);
-  } catch {
-    return new Err("Error:Chrome payload URL is invalid");
-  }
-  if (payloadUrl.protocol !== "https:") {
-    return new Err("Error:Chrome payload URL must use HTTPS");
-  }
-  if (path.basename(downloadFilename) !== downloadFilename) {
-    return new Err("Error:Chrome payload filename must not contain a path");
-  }
-  if (!/^[a-fA-F0-9]{64}$/.test(downloadSha256)) {
-    return new Err("Error:Chrome payload SHA256 is invalid");
-  }
-  if (!isSafeRelativePath(extractTo)) {
-    return new Err("Error:Chrome payload extraction path is unsafe");
-  }
-  if (extractFilter !== "*") {
-    return new Err("Error:Chrome payload extraction filter is unsupported");
-  }
+    let payloadUrl: URL;
+    try {
+      payloadUrl = new URL(downloadUrl);
+    } catch {
+      return new Err("Error:PortableApps payload URL is invalid");
+    }
+    if (payloadUrl.protocol !== "https:") {
+      return new Err("Error:PortableApps payload URL must use HTTPS");
+    }
+    if (path.basename(downloadFilename) !== downloadFilename) {
+      return new Err(
+        "Error:PortableApps payload filename must not contain a path",
+      );
+    }
+    if (!/^[a-fA-F0-9]{64}$/.test(downloadSha256)) {
+      return new Err("Error:PortableApps payload SHA256 is invalid");
+    }
 
-  return new Ok({
-    downloadUrl,
-    downloadFilename,
-    downloadSha256: downloadSha256.toLowerCase(),
-    extractTo,
-    extractFilter,
-  });
+    let destination: InstallerDownload["destination"];
+    if (typeof downloadTo === "string") {
+      if (!isSafeRelativePath(downloadTo)) {
+        return new Err("Error:PortableApps payload download path is unsafe");
+      }
+      destination = { type: "download", to: downloadTo };
+    } else if (
+      typeof extractTo === "string" &&
+      typeof extractFilter === "string"
+    ) {
+      if (!isSafeRelativePath(extractTo)) {
+        return new Err("Error:PortableApps payload extraction path is unsafe");
+      }
+      if (extractFilter !== "*") {
+        return new Err(
+          "Error:PortableApps payload extraction filter is unsupported",
+        );
+      }
+      destination = { type: "extract", to: extractTo, filter: extractFilter };
+    } else {
+      return new Err(
+        "Error:PortableApps payload destination metadata is incomplete",
+      );
+    }
+
+    downloads.push({
+      downloadUrl,
+      downloadFilename,
+      downloadSha256: downloadSha256.toLowerCase(),
+      destination,
+    });
+  }
+  if (downloads.length === 0) {
+    return new Err("Error:PortableApps installer has no declared downloads");
+  }
+  return new Ok(downloads);
 }
 
 async function downloadPayload(
-  metadata: InstallerMetadata,
+  metadata: InstallerDownload,
   workshop: string,
 ): Promise<Result<string, string>> {
   const payloadPath = path.join(workshop, metadata.downloadFilename);
@@ -115,20 +147,24 @@ async function downloadPayload(
 
   const payload = response.unwrap();
   if (!(payload instanceof Readable)) {
-    return new Err("Error:Chrome payload response is not a readable stream");
+    return new Err(
+      "Error:PortableApps payload response is not a readable stream",
+    );
   }
   try {
     await pipeline(payload, fs.createWriteStream(payloadPath));
   } catch (error) {
     shell.rm("-f", payloadPath);
-    return new Err(`Error:Can't download Chrome payload: ${String(error)}`);
+    return new Err(
+      `Error:Can't download PortableApps payload: ${String(error)}`,
+    );
   }
   return new Ok(payloadPath);
 }
 
-async function produceChromePortable(
+async function producePortableAppsOnline(
   p: ProducerParameters,
-  options: ChromePortableOptions,
+  options: PortableAppsOnlineOptions,
 ): Promise<Result<ProducerReturned, string>> {
   const { downloadedFile, workshop } = p;
   const installerPath = path.join(workshop, downloadedFile);
@@ -150,36 +186,49 @@ async function produceChromePortable(
     "installer.ini",
   );
   if (!fs.existsSync(installerIniPath)) {
-    return new Err("Error:Chrome installer metadata file not found");
-  }
-  const metadataResult = parseInstallerMetadata(
-    fs.readFileSync(installerIniPath, "utf8"),
-  );
-  if (metadataResult.err) return metadataResult;
-  const metadata = metadataResult.unwrap();
-
-  // 下载并校验在线安装器声明的 Chrome 原始载荷
-  const payloadResult = await downloadPayload(metadata, workshop);
-  if (payloadResult.err) return payloadResult;
-  const payloadPath = payloadResult.unwrap();
-  if (!(await checksum(payloadPath, "SHA256", metadata.downloadSha256))) {
-    shell.rm("-f", payloadPath);
     return new Err(
-      `Error:Can't validate Chrome payload, expect ${metadata.downloadSha256}`,
+      `Error:${options.displayName} installer metadata file not found`,
     );
   }
-
-  // 将载荷解压到 installer.ini 指定的 PortableApps 子目录
-  const extracted = await release(
-    payloadPath,
-    metadata.extractTo,
-    false,
-    portableDir,
+  const downloadsResult = parseInstallerDownloads(
+    fs.readFileSync(installerIniPath, "utf8"),
   );
-  shell.rm("-f", payloadPath, installerPath);
-  if (!extracted) {
-    return new Err("Error:Can't release Chrome payload");
+  if (downloadsResult.err) return downloadsResult;
+  const downloads = downloadsResult.unwrap();
+
+  // 下载并校验在线安装器声明的全部原始载荷
+  for (const download of downloads) {
+    const payloadResult = await downloadPayload(download, workshop);
+    if (payloadResult.err) return payloadResult;
+    const payloadPath = payloadResult.unwrap();
+    if (!(await checksum(payloadPath, "SHA256", download.downloadSha256))) {
+      shell.rm("-f", payloadPath);
+      return new Err(
+        `Error:Can't validate ${options.displayName} payload, expect ${download.downloadSha256}`,
+      );
+    }
+
+    if (download.destination.type === "extract") {
+      const extracted = await release(
+        payloadPath,
+        download.destination.to,
+        false,
+        portableDir,
+      );
+      shell.rm("-f", payloadPath);
+      if (!extracted) {
+        return new Err(`Error:Can't release ${options.displayName} payload`);
+      }
+    } else {
+      const destinationDir = path.join(portableDir, download.destination.to);
+      shell.mkdir("-p", destinationDir);
+      shell.mv(
+        payloadPath,
+        path.join(destinationDir, download.downloadFilename),
+      );
+    }
   }
+  shell.rm("-f", installerPath);
 
   // 清理
   const deleteList = [
@@ -195,20 +244,26 @@ async function produceChromePortable(
     shell.rm("-rf", path.join(portableDir, f));
   }
 
-  const chromePath = path.join(portableDir, "App", "Chrome-bin", "chrome.exe");
-  const requiredFiles = [
-    path.join(portableDir, options.portableLauncher),
-    chromePath,
-  ];
+  const executablePath = options.executableRelativePath
+    ? path.join(portableDir, options.executableRelativePath)
+    : undefined;
+  const requiredFiles = [path.join(portableDir, options.portableLauncher)];
+  if (executablePath) requiredFiles.push(executablePath);
   for (const requiredFile of requiredFiles) {
     if (!fs.existsSync(requiredFile)) {
-      return new Err(`Error:Chrome produced file not found: ${requiredFile}`);
+      return new Err(
+        `Error:${options.displayName} produced file not found: ${requiredFile}`,
+      );
     }
   }
-  const machineResult = getPeMachine(fs.readFileSync(chromePath));
-  if (machineResult.err) return machineResult;
-  if (machineResult.unwrap() !== IMAGE_FILE_MACHINE_AMD64) {
-    return new Err("Error:Chrome produced executable is not AMD64");
+  if (executablePath && options.requiredMachine !== undefined) {
+    const machineResult = getPeMachine(fs.readFileSync(executablePath));
+    if (machineResult.err) return machineResult;
+    if (machineResult.unwrap() !== options.requiredMachine) {
+      return new Err(
+        `Error:${options.displayName} produced executable has an unexpected machine type`,
+      );
+    }
   }
 
   // Return ready directory
@@ -220,10 +275,18 @@ async function produceChromePortable(
 export default async function (
   p: ProducerParameters,
 ): Promise<Result<ProducerReturned, string>> {
-  return produceChromePortable(p, {
+  return producePortableAppsOnline(p, {
+    displayName: "Chrome",
     portableDirectory: "GoogleChromePortable64",
     portableLauncher: "GoogleChromePortable.exe",
+    executableRelativePath: "App/Chrome-bin/chrome.exe",
+    requiredMachine: IMAGE_FILE_MACHINE_AMD64,
   });
 }
 
-export { getPeMachine, parseInstallerMetadata, produceChromePortable };
+export {
+  getPeMachine,
+  IMAGE_FILE_MACHINE_AMD64,
+  parseInstallerDownloads,
+  producePortableAppsOnline,
+};

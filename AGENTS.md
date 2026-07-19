@@ -261,7 +261,7 @@ build_manifest = ["${taskName}.wcs", "GoogleChromePortable/GoogleChromePortable.
 build_cover = "cover"
 
 [extra]
-require_windows = true
+# require_windows = true
 ```
 
 ### 内置变量

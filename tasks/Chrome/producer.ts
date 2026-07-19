@@ -18,8 +18,11 @@ interface InstallerMetadata {
   extractFilter: string;
 }
 
-const PORTABLE_DIRECTORY = "GoogleChromePortable64";
-const PORTABLE_LAUNCHER = "GoogleChromePortable.exe";
+interface ChromePortableOptions {
+  portableDirectory: string;
+  portableLauncher: string;
+}
+
 const IMAGE_FILE_MACHINE_AMD64 = 0x8664;
 
 function getPeMachine(image: Buffer): Result<number, string> {
@@ -123,13 +126,17 @@ async function downloadPayload(
   return new Ok(payloadPath);
 }
 
-export default async function (
+async function produceChromePortable(
   p: ProducerParameters,
+  options: ChromePortableOptions,
 ): Promise<Result<ProducerReturned, string>> {
   const { downloadedFile, workshop } = p;
   const installerPath = path.join(workshop, downloadedFile);
   const readyRelativePath = "_ready";
-  const portableRelativePath = path.join(readyRelativePath, PORTABLE_DIRECTORY);
+  const portableRelativePath = path.join(
+    readyRelativePath,
+    options.portableDirectory,
+  );
   const portableDir = path.join(workshop, portableRelativePath);
 
   // 解压在线安装器，读取 PortableApps 提供的下载元数据
@@ -189,7 +196,10 @@ export default async function (
   }
 
   const chromePath = path.join(portableDir, "App", "Chrome-bin", "chrome.exe");
-  const requiredFiles = [path.join(portableDir, PORTABLE_LAUNCHER), chromePath];
+  const requiredFiles = [
+    path.join(portableDir, options.portableLauncher),
+    chromePath,
+  ];
   for (const requiredFile of requiredFiles) {
     if (!fs.existsSync(requiredFile)) {
       return new Err(`Error:Chrome produced file not found: ${requiredFile}`);
@@ -207,4 +217,13 @@ export default async function (
   });
 }
 
-export { getPeMachine, parseInstallerMetadata };
+export default async function (
+  p: ProducerParameters,
+): Promise<Result<ProducerReturned, string>> {
+  return produceChromePortable(p, {
+    portableDirectory: "GoogleChromePortable64",
+    portableLauncher: "GoogleChromePortable.exe",
+  });
+}
+
+export { getPeMachine, parseInstallerMetadata, produceChromePortable };

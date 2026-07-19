@@ -4,7 +4,7 @@
 name = "Chrome"
 category = "浏览器"
 author = "Cno"
-url = "https://portableapps.com/apps/internet/google_chrome_portable"
+url = "https://portableapps.com/apps/internet/google-chrome-portable-64"
 
 # 指定使用的模板
 [template]
@@ -22,7 +22,7 @@ download_name = '\.exe'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "GoogleChromePortable/GoogleChromePortable.exe"]
+build_manifest = ["${taskName}.wcs", "GoogleChromePortable64/GoogleChromePortable.exe"]
 build_cover = "cover"
 # build_delete = []
 

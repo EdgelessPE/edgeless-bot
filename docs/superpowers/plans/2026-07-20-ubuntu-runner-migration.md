@@ -6,14 +6,14 @@
 
 **Architecture:** Add small platform helpers for task paths and external command invocation, then adapt archive/Inno/cloud callers to pass argument arrays instead of shell strings. Migrate Debug first as the non-destructive validation path, then migrate Serve with explicit Linux tool installation, private configuration deployment, concurrency protection, and manual validation before the schedule is restored.
 
-**Tech Stack:** Node.js 24, TypeScript 5, Node test runner, pnpm 9, GitHub Actions, Ubuntu 24.04, aria2, 7-Zip, innoextract, readpe/peres, rclone, cloud139.
+**Tech Stack:** Node.js 24, TypeScript 5, Node test runner, pnpm 9, C11, GitHub Actions, Ubuntu 24.04, aria2, 7-Zip, innoextract, rclone, cloud139.
 
 ## Global Constraints
 
 - Target runner is GitHub-hosted `ubuntu-24.04` x64, never `ubuntu-latest`.
 - Node.js must remain `24.x`; pnpm must remain major version 9.
 - An omitted or commented `extra.require_windows` remains `false`; only explicit `true` skips a task.
-- `missing_version` tasks execute on Ubuntu by reading the PE fixed file version through the C-based `peres` tool; unsupported non-Windows platforms continue to skip them.
+- `missing_version` tasks execute on Ubuntu by reading the PE fixed file version through the bundled C11 reader; unsupported non-Windows platforms continue to skip them.
 - Functions must declare explicit return types; TypeScript strict mode remains enabled.
 - Business comments remain Chinese; complex implementation comments may use English.
 - Secrets and remote configuration must never be printed or uploaded as artifacts.

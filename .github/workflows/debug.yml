@@ -45,7 +45,14 @@ jobs:
 
       # 安装系统依赖
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract readpe ca-certificates
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract gcc ca-certificates
+
+      # 编译跨平台 PE 版本读取器
+      - name: Build PE version reader
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          cc -std=c11 -O2 -Wall -Wextra -Werror scripts/read_pe_version.c -o "$RUNNER_TEMP/bin/read-pe-version"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
 
       # 安装 Nodejs
       - name: Install Node.js
@@ -83,7 +90,7 @@ jobs:
           7z --help
           curl --version
           innoextract --version
-          peres -v node_modules/rcinfo/bin/ShowVer.exe | grep -Eq '^File Version:[[:space:]]+1\.0\.0\.1$'
+          read-pe-version node_modules/rcinfo/bin/ShowVer.exe | grep -Fxq '1.0.0.1'
           pnpm test
 
       # 以Debug模式运行构建任务

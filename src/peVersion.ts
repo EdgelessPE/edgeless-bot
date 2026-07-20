@@ -6,18 +6,15 @@ function getPEVersionCommand(file: string): {
   args: string[];
 } {
   return {
-    command: "peres",
-    args: ["-v", file],
+    command: "peversion",
+    args: [file],
   };
 }
 
 function parsePEVersionOutput(output: string): string {
-  const fileVersionLine = output
-    .split(/\r?\n/)
-    .find((line) => /^File Version:/i.test(line.trim()));
-  const version = fileVersionLine?.match(/\d+(?:\.\d+){1,3}/)?.[0];
-  if (!version) {
-    throw new Error(`Invalid peres file version output: ${output.trim()}`);
+  const version = output.trim();
+  if (!/^\d+(?:\.\d+){3}$/.test(version)) {
+    throw new Error(`Invalid PE file version output: ${version}`);
   }
   return version;
 }

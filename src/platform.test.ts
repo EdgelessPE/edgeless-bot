@@ -48,8 +48,14 @@ test("requires cloud139 only when remote storage is enabled", (): void => {
   assert.equal(getRequiredCommands("Linux", true).includes("cloud139"), true);
 });
 
-test("requires the C PE resource reader on Linux", (): void => {
-  assert.equal(getRequiredCommands("Windows", false).includes("peres"), false);
-  assert.equal(getRequiredCommands("Linux", false).includes("peres"), true);
-  assert.equal(getRequiredCommands("MacOS", false).includes("peres"), false);
+test("requires the bundled C PE resource reader on Linux", (): void => {
+  assert.equal(
+    getRequiredCommands("Windows", false).includes("peversion"),
+    false,
+  );
+  assert.equal(getRequiredCommands("Linux", false).includes("peversion"), true);
+  assert.equal(
+    getRequiredCommands("MacOS", false).includes("peversion"),
+    false,
+  );
 });

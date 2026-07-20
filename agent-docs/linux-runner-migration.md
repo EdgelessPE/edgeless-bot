@@ -42,9 +42,9 @@
 - 保持现有语义：缺省或注释的 `require_windows` 等于 `false`。
 - 审查真正依赖 Windows 可执行程序、PowerShell、PECMD 或 Windows API 的任务，仅为这些任务显式设置 `require_windows = true`。
 - Ubuntu 上应记录被跳过的任务名称，但不得把跳过计为构建失败。
-- 保持 `missing_version` 任务在 POSIX 平台上的现有跳过策略，并验证不会错误更新数据库。
+- Ubuntu 使用 `python3-pefile` 读取 EXE/DLL 的 PE 固定版本资源，使 `missing_version` 任务可以正常参与检查和构建；Windows 保留现有读取方式，其他未实现的平台继续跳过。
 
-验收：分别用一个普通任务、一个 `require_windows = true` 任务和一个 `missing_version` 任务验证执行/跳过行为。
+验收：分别用一个普通任务、一个 `require_windows = true` 任务和一个 `missing_version` 任务验证执行、跳过与 PE 版本读取行为。
 
 ### 5. 外部命令调用
 
@@ -144,5 +144,5 @@
 - 所有外部命令通过启动前预检，且使用 Linux x86_64 版本。
 - 规定的构建类型和特殊路径任务均完成真实构建。
 - cloud139 远程操作与 rclone 数据库拉取/回传通过验证。
-- `require_windows`、`missing_version` 和普通任务的执行策略符合预期。
+- `require_windows`、`missing_version` 和普通任务的执行策略符合预期，Ubuntu 能从 PE 固定版本资源获得版本号。
 - 至少三次连续每日运行成功，且没有数据库或远程产物异常。

@@ -25,7 +25,8 @@ export type Commands =
   | "cloud139"
   | "curl"
   | "innounp"
-  | "innoextract";
+  | "innoextract"
+  | "python3";
 
 function getOS(): OS {
   switch (os.platform()) {
@@ -47,6 +48,9 @@ function getRequiredCommands(os: OS, remoteEnable: boolean): Commands[] {
   }
   if (os !== "Windows") {
     commands.push("innoextract");
+  }
+  if (os === "Linux") {
+    commands.push("python3");
   }
   return commands;
 }
@@ -124,6 +128,10 @@ function where(command: Commands): Result<string, string> {
     case "innoextract":
       possibleCommands = ["innoextract"];
       possiblePositions = ["./innoextract", "./bin/innoextract"];
+      break;
+    case "python3":
+      possibleCommands = ["python3"];
+      possiblePositions = ["/usr/bin/python3", "/usr/local/bin/python3"];
       break;
     default:
       return new Err(`Error:Undefined command argument : ${command}`);

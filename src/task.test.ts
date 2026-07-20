@@ -22,9 +22,16 @@ test("skips explicitly Windows-only tasks on Linux", (): void => {
   );
 });
 
-test("skips missing-version tasks on Linux", (): void => {
+test("runs missing-version tasks on Linux", (): void => {
   assert.equal(
     isTaskSupportedOnOS(createTask({ missing_version: "app.exe" }), "Linux"),
+    true,
+  );
+});
+
+test("skips missing-version tasks on unsupported POSIX platforms", (): void => {
+  assert.equal(
+    isTaskSupportedOnOS(createTask({ missing_version: "app.exe" }), "MacOS"),
     false,
   );
 });

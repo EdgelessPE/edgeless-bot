@@ -47,3 +47,12 @@ test("requires cloud139 only when remote storage is enabled", (): void => {
   assert.equal(getRequiredCommands("Linux", false).includes("cloud139"), false);
   assert.equal(getRequiredCommands("Linux", true).includes("cloud139"), true);
 });
+
+test("requires Python for PE version resources on Linux", (): void => {
+  assert.equal(
+    getRequiredCommands("Windows", false).includes("python3"),
+    false,
+  );
+  assert.equal(getRequiredCommands("Linux", false).includes("python3"), true);
+  assert.equal(getRequiredCommands("MacOS", false).includes("python3"), false);
+});

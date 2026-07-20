@@ -36,6 +36,7 @@ import os from "os";
 import { getOS, normalizeTaskPath, OS } from "./platform";
 import shell from "shelljs";
 import cp from "child_process";
+import { readPEVersion } from "./peVersion";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -56,17 +57,21 @@ export interface TaskConfig {
 }
 
 async function getExeVersion(file: string, cd: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (!fs.existsSync(path.resolve(cd, file))) {
-      reject(
-        `Error:Can't find ${path.resolve(
-          cd,
-          file,
-        )} , please consider add "\${taskName}/" before it`,
-      );
-    }
-    const fullPath = path.resolve(cd, file);
+  const fullPath = path.resolve(cd, file);
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(
+      `Error:Can't find ${fullPath} , please consider add "\${taskName}/" before it`,
+    );
+  }
+  const os = getOS();
+  if (os === "Linux") {
+    return readPEVersion(fullPath);
+  }
+  if (os !== "Windows") {
+    throw new Error(`Error:Reading PE file versions is unsupported on ${os}`);
+  }
 
+  return new Promise((resolve, reject) => {
     const tryRcinfo = (): Promise<string> => {
       return new Promise((resolveRcinfo, rejectRcinfo) => {
         rcInfo(fullPath, (error: unknown, info: { FileVersion?: string }) => {
@@ -788,7 +793,9 @@ function removeExtraBuilds(
 
 function isTaskSupportedOnOS(task: TaskInstance, os: OS): boolean {
   if (os !== "Windows" && task.extra?.require_windows) return false;
-  if (os !== "Windows" && task.extra?.missing_version) return false;
+  if (os !== "Windows" && os !== "Linux" && task.extra?.missing_version) {
+    return false;
+  }
   return true;
 }
 
@@ -803,7 +810,7 @@ function reserveTask(task: TaskInstance): boolean {
     if (task.extra?.require_windows) {
       log(`Warning:Ignore require Windows task ${task.name}`);
     } else {
-      log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
+      log(`Warning:Ignore missing version task ${task.name} on ${os}`);
     }
     return false;
   }

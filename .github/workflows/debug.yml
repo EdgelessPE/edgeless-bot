@@ -12,6 +12,17 @@ on:
       - "templates/**"
       - "tasks/**"
       - ".github/**"
+  workflow_dispatch:
+    inputs:
+      task:
+        description: Comma-separated task names to build
+        required: false
+        type: string
+      force:
+        description: Force selected tasks to rebuild
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   serve:
@@ -63,11 +74,18 @@ jobs:
           node --version
           pnpm --version
           aria2c --version
-          7z --help
+          7zz --help
           curl --version
           innoextract --version
           pnpm test
 
       # 以Debug模式运行构建任务
       - name: Run scripts
-        run: pnpm dev -g
+        env:
+          TASK_INPUT: ${{ inputs.task }}
+          FORCE_INPUT: ${{ inputs.force }}
+        run: |
+          args=(-g)
+          if [[ "$FORCE_INPUT" == "true" ]]; then args+=(-f); fi
+          if [[ -n "$TASK_INPUT" ]]; then args+=(-t "$TASK_INPUT"); fi
+          pnpm dev "${args[@]}"

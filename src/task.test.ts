@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { TaskInstance } from "./class";
-import { isTaskSupportedOnOS } from "./task";
+import { isTaskSupportedOnOS, shouldSkipWeeklyTask } from "./task";
 
 function createTask(extra?: TaskInstance["extra"]): TaskInstance {
   return { extra } as TaskInstance;
@@ -44,4 +44,15 @@ test("allows platform-specific tasks on Windows", (): void => {
     ),
     true,
   );
+});
+
+test("does not weekly-filter missing-version tasks while loading", (): void => {
+  assert.equal(
+    shouldSkipWeeklyTask(
+      createTask({ weekly: true, missing_version: "app.exe" }),
+      1,
+    ),
+    false,
+  );
+  assert.equal(shouldSkipWeeklyTask(createTask({ weekly: true }), 1), true);
 });

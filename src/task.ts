@@ -799,9 +799,17 @@ function isTaskSupportedOnOS(task: TaskInstance, os: OS): boolean {
   return true;
 }
 
+function shouldSkipWeeklyTask(task: TaskInstance, currentDay: number): boolean {
+  return Boolean(
+    task.extra?.weekly &&
+      !task.extra.missing_version &&
+      MISSING_VERSION_TRY_DAY != currentDay,
+  );
+}
+
 function reserveTask(task: TaskInstance): boolean {
   // 排除 weekly
-  if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
+  if (shouldSkipWeeklyTask(task, new Date().getDay())) {
     log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }
@@ -825,5 +833,6 @@ export {
   getTasksToBeExecuted,
   removeExtraBuilds,
   isTaskSupportedOnOS,
+  shouldSkipWeeklyTask,
   reserveTask,
 };

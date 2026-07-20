@@ -42,7 +42,7 @@
 - 保持现有语义：缺省或注释的 `require_windows` 等于 `false`。
 - 审查真正依赖 Windows 可执行程序、PowerShell、PECMD 或 Windows API 的任务，仅为这些任务显式设置 `require_windows = true`。
 - Ubuntu 上应记录被跳过的任务名称，但不得把跳过计为构建失败。
-- Ubuntu 编译仓库内置的 C 读取器，从 EXE/DLL 的 PE 固定版本资源读取版本号，使 `missing_version` 任务可以正常参与检查和构建；Windows 保留现有读取方式，其他未实现的平台继续跳过。
+- Ubuntu 使用 Cargo 编译仓库内置的 Rust 读取器，从 EXE/DLL 的 PE 固定版本资源读取版本号，使 `missing_version` 任务可以正常参与检查和构建；Windows 保留现有读取方式，其他未实现的平台继续跳过。
 - `missing_version` 的例行检查仍安排在星期四；通过 `task` 显式指定或启用 `force` 时必须立即检查，且状态要由主线程显式传给 Piscina worker。
 
 验收：分别用一个普通任务、一个 `require_windows = true` 任务和一个 `missing_version` 任务验证执行、跳过与 PE 版本读取行为。

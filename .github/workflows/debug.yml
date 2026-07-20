@@ -45,13 +45,14 @@ jobs:
 
       # 安装系统依赖
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract gcc ca-certificates
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract ca-certificates
 
       # 编译跨平台 PE 版本读取器
       - name: Build PE version reader
         run: |
           mkdir -p "$RUNNER_TEMP/bin"
-          cc -std=c11 -O2 -Wall -Wextra -Werror scripts/read_pe_version.c -o "$RUNNER_TEMP/bin/read-pe-version"
+          cargo build --release --locked --manifest-path scripts/read-pe-version/Cargo.toml --target-dir "$RUNNER_TEMP/read-pe-version-target"
+          install -m 755 "$RUNNER_TEMP/read-pe-version-target/release/read-pe-version" "$RUNNER_TEMP/bin/read-pe-version"
           echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
 
       # 安装 Nodejs
@@ -86,6 +87,7 @@ jobs:
         run: |
           node --version
           pnpm --version
+          cargo --version
           aria2c --version
           7z --help
           curl --version

@@ -13,7 +13,7 @@
 - Target runner is GitHub-hosted `ubuntu-24.04` x64, never `ubuntu-latest`.
 - Node.js must remain `24.x`; pnpm must remain major version 9.
 - An omitted or commented `extra.require_windows` remains `false`; only explicit `true` skips a task.
-- `missing_version` tasks execute on Ubuntu by reading the PE fixed file version through the bundled C11 reader; unsupported non-Windows platforms continue to skip them.
+- `missing_version` tasks execute on Ubuntu by reading the PE fixed file version through the bundled Cargo-built Rust reader; unsupported non-Windows platforms continue to skip them.
 - Missing-version checks run on Thursday by default; an explicitly selected task or forced run bypasses that calendar gate, and the decision is passed into Piscina workers explicitly.
 - Functions must declare explicit return types; TypeScript strict mode remains enabled.
 - Business comments remain Chinese; complex implementation comments may use English.

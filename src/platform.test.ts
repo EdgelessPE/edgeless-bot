@@ -48,7 +48,7 @@ test("requires cloud139 only when remote storage is enabled", (): void => {
   assert.equal(getRequiredCommands("Linux", true).includes("cloud139"), true);
 });
 
-test("requires the bundled C PE resource reader on Linux", (): void => {
+test("requires the bundled Rust PE resource reader on Linux", (): void => {
   assert.equal(
     getRequiredCommands("Windows", false).includes("peversion"),
     false,

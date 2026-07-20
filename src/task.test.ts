@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { Ok } from "ts-results";
 import { TaskInstance } from "./class";
-import { isTaskSupportedOnOS } from "./task";
+import { getTasksToBeExecuted, isTaskSupportedOnOS } from "./task";
 
 function createTask(extra?: TaskInstance["extra"]): TaskInstance {
   return { extra } as TaskInstance;
@@ -22,17 +23,14 @@ test("skips explicitly Windows-only tasks on Linux", (): void => {
   );
 });
 
-test("runs missing-version tasks on Linux", (): void => {
+test("never platform-filters missing-version tasks", (): void => {
   assert.equal(
     isTaskSupportedOnOS(createTask({ missing_version: "app.exe" }), "Linux"),
     true,
   );
-});
-
-test("skips missing-version tasks on unsupported POSIX platforms", (): void => {
   assert.equal(
     isTaskSupportedOnOS(createTask({ missing_version: "app.exe" }), "MacOS"),
-    false,
+    true,
   );
 });
 
@@ -44,4 +42,19 @@ test("allows platform-specific tasks on Windows", (): void => {
     ),
     true,
   );
+});
+
+test("always schedules missing-version tasks before version comparison", (): void => {
+  const tasks = getTasksToBeExecuted([
+    {
+      taskName: "AnyDesk",
+      result: new Ok({
+        version: "0.0.0",
+        downloadLink: "https://download.anydesk.com/AnyDesk.exe",
+      }),
+    },
+  ]);
+
+  assert.equal(tasks.length, 1);
+  assert.equal(tasks[0]?.task.name, "AnyDesk");
 });

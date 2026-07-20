@@ -29,7 +29,7 @@ import checksum from "./checksum";
 import producerRegister from "../templates/producers/_register";
 import producer from "./producer";
 import { compress, release } from "./p7zip";
-import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
+import { DOWNLOAD_CACHE, PROJECT_ROOT, WEEKLY_TRY_DAY } from "./const";
 import { deleteFromRemote } from "./cloud139";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
@@ -320,16 +320,25 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
     onlineVersion = formatVersion(matchRes.val).unwrap();
     newNode.version = onlineVersion;
     res = getSingleTask(result.taskName);
+    if (res.err) {
+      log(res.val);
+      continue;
+    }
+    const task = res.unwrap();
+    // 缺失版本号任务需要先制作，再从产物中读取真实版本号
+    if (task.extra?.missing_version) {
+      makeList.push({
+        task,
+        info: newNode,
+      });
+      continue;
+    }
     db = getDatabaseNode(result.taskName);
     switch (versionCmp(db.recent.latestVersion, onlineVersion)) {
       case Cmp.L:
         // 需要更新
-        if (res.err) {
-          log(res.val);
-          break;
-        }
         makeList.push({
-          task: res.val,
+          task,
           info: newNode,
         });
         break;
@@ -339,30 +348,20 @@ function getTasksToBeExecuted(results: ResultNode[]): Array<{
           log(
             `Warning:Local version(${db.recent.latestVersion}) greater than online version(${onlineVersion})`,
           );
-        } else {
-          log(`Info:Ignore missing version task ${result.taskName}`);
-        }
-        if (res.err) {
-          log(res.val);
-          break;
         }
         if (config.MODE_FORCED) {
           log(`Warning:Forced rebuild ${result.taskName}`);
           makeList.push({
-            task: res.val,
+            task,
             info: newNode,
           });
         }
         break;
       default:
-        if (res.err) {
-          log(res.val);
-          break;
-        }
         if (config.MODE_FORCED) {
           log(`Warning:Forced rebuild ${result.taskName}`);
           makeList.push({
-            task: res.val,
+            task,
             info: newNode,
           });
         }
@@ -793,25 +792,22 @@ function removeExtraBuilds(
 
 function isTaskSupportedOnOS(task: TaskInstance, os: OS): boolean {
   if (os !== "Windows" && task.extra?.require_windows) return false;
-  if (os !== "Windows" && os !== "Linux" && task.extra?.missing_version) {
-    return false;
-  }
   return true;
 }
 
 function reserveTask(task: TaskInstance): boolean {
   // 排除 weekly
-  if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
+  if (
+    task.extra?.weekly &&
+    !config.MODE_FORCED &&
+    WEEKLY_TRY_DAY != new Date().getDay()
+  ) {
     log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }
   const os = getOS();
   if (!isTaskSupportedOnOS(task, os)) {
-    if (task.extra?.require_windows) {
-      log(`Warning:Ignore require Windows task ${task.name}`);
-    } else {
-      log(`Warning:Ignore missing version task ${task.name} on ${os}`);
-    }
+    log(`Warning:Ignore require Windows task ${task.name}`);
     return false;
   }
 

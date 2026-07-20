@@ -12,8 +12,6 @@ import fs from "fs";
 import { config } from "./config";
 import { piscina } from "./piscina";
 import { getBadge } from "./badge";
-import { MISSING_VERSION_TRY_DAY } from "./const";
-import { shouldCheckMissingVersion } from "./missingVersion";
 
 export interface ResultNode {
   taskName: string;
@@ -94,12 +92,6 @@ export default async function (
   tasks: Array<TaskInstance>,
 ): Promise<Array<ResultNode>> {
   return new Promise((resolve, reject) => {
-    const checkMissingVersion = shouldCheckMissingVersion(
-      config.MODE_FORCED,
-      Boolean(config.SPECIFY_TASK),
-      new Date().getDay(),
-      MISSING_VERSION_TRY_DAY,
-    );
     // 按同域任务分类
     const classifyHash: {
       [key: string]: {
@@ -172,7 +164,6 @@ export default async function (
             ),
             isExternal: true,
             tasks: [poolNode],
-            checkMissingVersion,
           };
           piscina
             .run(wd, { name: "scraper" })
@@ -214,7 +205,6 @@ export default async function (
           scriptPath: p.unwrap(),
           isExternal: false,
           tasks: node.pool,
-          checkMissingVersion,
         };
         piscina
           .run(wd, { name: "scraper" })

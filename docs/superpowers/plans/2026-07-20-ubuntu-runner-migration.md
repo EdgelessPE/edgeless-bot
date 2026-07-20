@@ -31,7 +31,7 @@
 - Consumes: Node.js built-in `fs.rmSync`.
 - Produces: cross-platform `prepare` and repeatable `test` scripts used by local development and both workflows.
 
-- [ ] **Step 1: Demonstrate the Windows-only prepare failure surface**
+- [x] **Step 1: Demonstrate the Windows-only prepare failure surface**
 
 Run:
 
@@ -41,7 +41,7 @@ node -e "const p=require('./package.json'); if (!p.scripts.prepare.includes('del
 
 Expected: exit 0, proving the current script still contains Windows `del` commands.
 
-- [ ] **Step 2: Replace the prepare script and define focused tests**
+- [x] **Step 2: Replace the prepare script and define focused tests**
 
 Set the scripts to:
 
@@ -52,7 +52,7 @@ Set the scripts to:
 }
 ```
 
-- [ ] **Step 3: Verify cleanup is idempotent**
+- [x] **Step 3: Verify cleanup is idempotent**
 
 Run twice:
 
@@ -63,13 +63,13 @@ pnpm run prepare
 
 Expected: both commands exit 0 when `dist` and `database.json` are absent.
 
-- [ ] **Step 4: Verify type checking**
+- [x] **Step 4: Verify type checking**
 
 Run: `pnpm check`
 
 Expected: exit 0 with no TypeScript errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add package.json
@@ -88,7 +88,7 @@ git commit -m "build: make prepare script cross-platform"
 - Consumes: task configuration strings that may contain `/` or `\` separators.
 - Produces: `normalizeTaskPath(value: string): string`, which returns a relative path using the host separator and leaves regex-like `/.../` values untouched by callers.
 
-- [ ] **Step 1: Write failing path normalization tests**
+- [x] **Step 1: Write failing path normalization tests**
 
 Add to `src/platform.test.ts`:
 
@@ -120,7 +120,7 @@ test("normalizes POSIX task paths on every host", (): void => {
 });
 ```
 
-- [ ] **Step 2: Run the focused test to verify it fails**
+- [x] **Step 2: Run the focused test to verify it fails**
 
 Run:
 
@@ -131,7 +131,7 @@ node --test dist/src/platform.test.js
 
 Expected: compilation fails because `normalizeTaskPath` is not exported.
 
-- [ ] **Step 3: Implement the helper**
+- [x] **Step 3: Implement the helper**
 
 Add to `src/platform.ts` and export it:
 
@@ -141,7 +141,7 @@ function normalizeTaskPath(value: string): string {
 }
 ```
 
-- [ ] **Step 4: Apply normalization only to path-valued fields**
+- [x] **Step 4: Apply normalization only to path-valued fields**
 
 Use `normalizeTaskPath` for:
 
@@ -151,7 +151,7 @@ Use `normalizeTaskPath` for:
 
 Keep entries whose first and last characters are `/` on the regex matching path.
 
-- [ ] **Step 5: Run path tests and existing Chrome tests**
+- [x] **Step 5: Run path tests and existing Chrome tests**
 
 Run:
 
@@ -162,7 +162,7 @@ node --test dist/src/platform.test.js dist/tasks/Chrome/producer.test.js
 
 Expected: all tests pass.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/platform.ts src/platform.test.ts src/task.ts templates/producers/Recursive_Unzip.ts
@@ -180,7 +180,7 @@ git commit -m "fix: normalize task paths across platforms"
 - Consumes: `getOS()`, `where("innounp")`, and new `where("innoextract")` lookup results.
 - Produces: `getInnoCommand(os: OS, file: string, intoDir: string): { command: Commands; args: string[] }` and unchanged `releaseInno(...)` behavior.
 
-- [ ] **Step 1: Write failing command-generation tests**
+- [x] **Step 1: Write failing command-generation tests**
 
 Add to `src/inno.test.ts`:
 
@@ -204,13 +204,13 @@ test("uses innoextract arguments on Linux", (): void => {
 });
 ```
 
-- [ ] **Step 2: Run the focused test to verify it fails**
+- [x] **Step 2: Run the focused test to verify it fails**
 
 Run: `pnpm exec tsc`
 
 Expected: compilation fails because `getInnoCommand` and `innoextract` are not defined.
 
-- [ ] **Step 3: Add command discovery and argument generation**
+- [x] **Step 3: Add command discovery and argument generation**
 
 - Export `OS` from `src/platform.ts`.
 - Add `"innoextract"` to `Commands` and search `innoextract` from PATH plus `./innoextract` and `./bin/innoextract`.
@@ -218,7 +218,7 @@ Expected: compilation fails because `getInnoCommand` and `innoextract` are not d
 - Call `execFileSync(binary, args, { cwd })` from `releaseInno`.
 - Add `innoextract` to Linux platform preflight; retain `innounp` for Windows Inno execution.
 
-- [ ] **Step 4: Run focused tests**
+- [x] **Step 4: Run focused tests**
 
 Run:
 
@@ -229,7 +229,7 @@ node --test dist/src/inno.test.js dist/src/platform.test.js
 
 Expected: all tests pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/inno.ts src/inno.test.ts src/platform.ts
@@ -252,22 +252,22 @@ git commit -m "feat: support Inno extraction on Linux"
 - Consumes: raw executable paths from `where(command)`.
 - Produces: external process calls that pass all paths, URLs, tokens, and remote names as separate arguments.
 
-- [ ] **Step 1: Make `where` return raw executable paths**
+- [x] **Step 1: Make `where` return raw executable paths**
 
 Remove embedded quote characters from filesystem results. Replace `which/where` shell strings with `execFileSync(testCmd, [node], { stdio: "ignore" })`.
 
-- [ ] **Step 2: Convert archive and download calls**
+- [x] **Step 2: Convert archive and download calls**
 
 - `p7zip.ts`: use `execFileSync(p7zip, ["x", file, `-o${intoDir}`, "-y"], { cwd })` and enumerate ready-directory entries for compression instead of passing a shell `*` wildcard.
 - `aria2c.ts`: use `execFile` for the aria2 daemon and `execFileSync("curl", ["-k", "-L", "-A", UA, "-o", finalPath, ...refererArgs, url])` for fallback downloads.
 
-- [ ] **Step 3: Convert cloud and database calls**
+- [x] **Step 3: Convert cloud and database calls**
 
 - `cloud139.ts` and `cloud189.ts`: pass login credentials, local paths, and remote paths as argument arrays.
 - `rclone.ts` and `index.ts`: pass remote specifications as arguments and retain existing timeouts/environment settings.
 - `utils.ts`: execute PECMD with `["_press.wcs"]` rather than a shell command string.
 
-- [ ] **Step 4: Verify no migration-critical shell strings remain**
+- [x] **Step 4: Verify no migration-critical shell strings remain**
 
 Run:
 
@@ -277,7 +277,7 @@ rg -n 'execSync\(`|exec\(`|shell\.exec\(' src templates
 
 Expected: only the intentionally Windows-only PowerShell version fallback and `move /y` recovery remain; both are unreachable for normal Ubuntu tasks.
 
-- [ ] **Step 5: Run the complete local verification suite**
+- [x] **Step 5: Run the complete local verification suite**
 
 Run:
 
@@ -288,7 +288,7 @@ pnpm check
 
 Expected: all tests pass and TypeScript exits 0.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/platform.ts src/p7zip.ts src/aria2c.ts src/cloud139.ts src/cloud189.ts src/rclone.ts src/index.ts src/utils.ts
@@ -304,7 +304,7 @@ git commit -m "refactor: pass external command arguments safely"
 - Consumes: Ubuntu packages and the repository `pnpm test`/`pnpm dev` commands.
 - Produces: a non-destructive Ubuntu PR workflow with no remote upload or database update.
 
-- [ ] **Step 1: Replace the runner and dependency setup**
+- [x] **Step 1: Replace the runner and dependency setup**
 
 - Set `runs-on: ubuntu-24.04` and `timeout-minutes: 30`.
 - Add `permissions: contents: read`.
@@ -312,7 +312,7 @@ git commit -m "refactor: pass external command arguments safely"
 - Enable Corepack, prepare pnpm 9.12.2, and run `pnpm install --frozen-lockfile`.
 - Configure `actions/setup-node` with `cache: pnpm` and `cache-dependency-path: pnpm-lock.yaml`.
 
-- [ ] **Step 2: Add verification before Debug execution**
+- [x] **Step 2: Add verification before Debug execution**
 
 Run tool version checks, then execute:
 
@@ -323,13 +323,13 @@ pnpm dev -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
 
 Keep Debug mode responsible for disabling remote upload and database writes.
 
-- [ ] **Step 3: Validate workflow syntax locally**
+- [x] **Step 3: Validate workflow syntax locally**
 
 Run a YAML parser available in the workspace or inspect with `npx prettier --check .github/workflows/debug.yml`.
 
 Expected: exit 0.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add .github/workflows/debug.yml
@@ -345,28 +345,28 @@ git commit -m "ci: migrate Debug workflow to Ubuntu"
 - Consumes: `RCLONE_TOKEN`, `CLOUD139_TOKEN`, `GITHUB_TOKEN`, the private `Cnotech/rclone` configuration repository, and the `Cnotech/cloud139` Linux x86_64 release asset.
 - Produces: serialized, manually triggered Ubuntu production runs with database pull/push and cloud139 upload/delete support.
 
-- [ ] **Step 1: Add runner safety controls**
+- [x] **Step 1: Add runner safety controls**
 
 - Set `runs-on: ubuntu-24.04`, `timeout-minutes: 360`, and `permissions: contents: read`.
 - Add a workflow-level concurrency group dedicated to Serve and set `cancel-in-progress: false`.
 - Temporarily remove or comment the `schedule` trigger while retaining `workflow_dispatch`.
 
-- [ ] **Step 2: Install the Ubuntu toolchain**
+- [x] **Step 2: Install the Ubuntu toolchain**
 
 - Reuse the Node/Corepack/pnpm and apt setup from Debug.
 - Install the Ubuntu `rclone` package.
 - Checkout `Cnotech/rclone` only for its private configuration; copy the exact rclone and cloud189 configuration files to their Linux default directories with mode `0600`.
 - Download exactly `cloud139-linux-x86_64.tar.gz`, read its SHA-256 digest from the GitHub release asset metadata, fail if the digest is absent or mismatched, extract it, and install the binary with mode `0755`.
 
-- [ ] **Step 3: Add a fail-fast preflight**
+- [x] **Step 3: Add a fail-fast preflight**
 
 Check paths and versions for `node`, `pnpm`, `aria2c`, `7z` or `7zz`, `curl`, `innoextract`, `rclone`, and `cloud139`. Validate `rclone listremotes` contains `kanuo:` without printing the configuration.
 
-- [ ] **Step 4: Preserve production execution**
+- [x] **Step 4: Preserve production execution**
 
 Run `pnpm test`, then execute the existing Serve command with `CLOUD139_TOKEN` supplied through workflow `env`, not interpolated into a shell command.
 
-- [ ] **Step 5: Validate formatting and commit**
+- [x] **Step 5: Validate formatting and commit**
 
 Run:
 

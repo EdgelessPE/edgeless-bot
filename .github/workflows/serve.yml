@@ -126,7 +126,7 @@ jobs:
           node --version
           pnpm --version
           aria2c --version
-          7zz --help
+          7z --help
           curl --version
           innoextract --version
           rclone version

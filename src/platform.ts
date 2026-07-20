@@ -40,7 +40,7 @@ function getOS(): OS {
   }
 }
 
-// 查找程序位置，返回值为绝对路径时会包含双引号
+// 查找程序位置
 function where(command: Commands): Result<string, string> {
   // 相对路径解析封装
   const parsePath = (p: string) => {
@@ -126,7 +126,7 @@ function where(command: Commands): Result<string, string> {
     node = possibleCommands[i];
     // 使用which/where
     try {
-      cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
+      cp.execFileSync(testCmd, [node], { stdio: "ignore" });
       result = node;
       break;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -144,7 +144,7 @@ function where(command: Commands): Result<string, string> {
     }
     possibleAbsolutePaths.forEach((item) => {
       if (fs.existsSync(item)) {
-        result = `"${item}"`;
+        result = item;
       }
     });
   }
@@ -163,7 +163,7 @@ function where(command: Commands): Result<string, string> {
           ? ".exe"
           : "");
       if (fs.existsSync(fullPath)) {
-        result = `"${fullPath}"`;
+        result = fullPath;
         break;
       }
     }
@@ -178,7 +178,7 @@ function where(command: Commands): Result<string, string> {
         }
         const fullPath = path.join(basePath, cmd);
         if (fs.existsSync(fullPath)) {
-          result = `"${fullPath}"`;
+          result = fullPath;
           break;
         }
       }

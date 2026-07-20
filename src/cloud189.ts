@@ -4,6 +4,7 @@ import { fromGBK, getTimeString, log } from "./utils";
 import cp from "child_process";
 import path from "path";
 import { config } from "./config";
+import { where } from "./platform";
 
 function login(): boolean {
   if (!config.GITHUB_ACTIONS) {
@@ -24,7 +25,12 @@ function login(): boolean {
       };
     };
     log("Info:Login to cloud189..");
-    cp.execSync(`cloud189 login -i ${name} ${password}`);
+    cp.execFileSync(where("cloud189").unwrap(), [
+      "login",
+      "-i",
+      name,
+      password,
+    ]);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     log("Error:Failed to login to cloud189..");
@@ -44,7 +50,11 @@ function uploadToRemote(fileName: string, category: string): boolean {
       log(`Info:Uploading ${fileName}`);
       // 先尝试移除这个文件
       deleteFromRemote(fileName, category, true);
-      cp.execSync(`cloud189 up "${localPath}" "${remotePath}"`);
+      cp.execFileSync(where("cloud189").unwrap(), [
+        "up",
+        localPath,
+        remotePath,
+      ]);
     } catch (err: any) {
       console.log(err?.output.toString());
       date = new Date();
@@ -86,7 +96,10 @@ function deleteFromRemote(
     // 读取远程目录查看是否存在
     let buf;
     try {
-      buf = cp.execSync(`cloud189 ls "${config.REMOTE_PATH}/${category}"`);
+      buf = cp.execFileSync(where("cloud189").unwrap(), [
+        "ls",
+        `${config.REMOTE_PATH}/${category}`,
+      ]);
     } catch (err: any) {
       console.log(err?.output.toString());
       log(
@@ -109,7 +122,7 @@ function deleteFromRemote(
     // 尝试删除
     try {
       log(`Info:Removing ${remotePath}`);
-      cp.execSync(`cloud189 rm "${remotePath}"`);
+      cp.execFileSync(where("cloud189").unwrap(), ["rm", remotePath]);
     } catch (err: any) {
       console.log(err?.output.toString());
       return false;

@@ -10,7 +10,7 @@ import {
   reserveTask,
 } from "./task";
 import { config } from "./config";
-import { ensurePlatform } from "./platform";
+import { ensurePlatform, where } from "./platform";
 import { clearWorkshop } from "./workshop";
 import { initAria2c, stopAria2c } from "./aria2c";
 import {
@@ -41,9 +41,11 @@ async function main(): Promise<boolean> {
     console.log("::group::Console Log");
     // 获取database
     if (config.DATABASE_UPDATE && config.REMOTE_ENABLE) {
-      cp.execSync(
-        "rclone copy kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json ./",
-      );
+      cp.execFileSync(where("rclone").unwrap(), [
+        "copy",
+        "kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json",
+        "./",
+      ]);
       log("Info:Database pulled");
       const loginRes = login();
       if (!loginRes) {
@@ -51,9 +53,11 @@ async function main(): Promise<boolean> {
       }
     } else {
       // 从https获得只读数据库
-      cp.execSync(
-        "curl https://cloud.edgeless.top/Bot/database.json -o database.json",
-      );
+      cp.execFileSync(where("curl").unwrap(), [
+        "https://cloud.edgeless.top/Bot/database.json",
+        "-o",
+        "database.json",
+      ]);
       log("Info:Readonly database pulled");
     }
   }
@@ -207,9 +211,11 @@ if (!Piscina.isWorkerThread) {
     await sleep(1000);
     if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
       // 回传数据库
-      cp.execSync(
-        "rclone copy ./database.json kanuo:/www/wwwroot/cloud.edgeless.top/Bot/",
-      );
+      cp.execFileSync(where("rclone").unwrap(), [
+        "copy",
+        "./database.json",
+        "kanuo:/www/wwwroot/cloud.edgeless.top/Bot/",
+      ]);
       log("Info:Database pushed");
     }
     process.exit(result ? 0 : 1);

@@ -35,6 +35,7 @@ import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
 import { getOS, normalizeTaskPath } from "./platform";
 import shell from "shelljs";
+import cp from "child_process";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -84,14 +85,18 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
           /'/g,
           "''",
         )}').VersionInfo.FileVersion`;
-        const result = shell.exec(`powershell -Command "${psCommand}"`, {
-          silent: true,
-        });
-        if (result.code !== 0) {
-          rejectPs(result.stderr || "PowerShell failed");
-        } else {
-          resolvePs(result.stdout.trim());
-        }
+        cp.execFile(
+          "powershell",
+          ["-NoProfile", "-Command", psCommand],
+          { encoding: "utf8" },
+          (error, stdout, stderr) => {
+            if (error) {
+              rejectPs(stderr || "PowerShell failed");
+            } else {
+              resolvePs(stdout.trim());
+            }
+          },
+        );
       });
     };
 

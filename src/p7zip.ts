@@ -6,6 +6,14 @@ import { log } from "./utils";
 
 import shell from "shelljs";
 
+function getCompressArguments(
+  outputPath: string,
+  compressLevel: number,
+  entries: string[],
+): string[] {
+  return ["a", `-mx${compressLevel}`, outputPath, "--", ...entries];
+}
+
 async function release(
   file: string,
   intoDir: string,
@@ -22,7 +30,7 @@ async function release(
       shell.mkdir("-p", aID);
     }
     try {
-      cp.execSync(`${p7zip} x "${file}" -o"${intoDir}" -y`, { cwd });
+      cp.execFileSync(p7zip, ["x", file, `-o${intoDir}`, "-y"], { cwd });
     } catch (e) {
       log(`Error:Release command failed\n${e}`);
       resolve(false);
@@ -40,21 +48,26 @@ async function compress(
 ): Promise<boolean> {
   return new Promise((resolve) => {
     const p7zip = where("p7zip").unwrap();
+    const archiveCwd = path.join(cwd ?? "", choosePlainDir);
+    const outputPath = path.resolve(cwd ?? "", file);
     if (cwd) {
       shell.mkdir("-p", cwd);
     }
-    shell.rm("-f", path.join(cwd ?? "", file));
+    shell.rm("-f", outputPath);
     try {
-      cp.execSync(`${p7zip} a -mx${compressLevel} ../"${file}" *`, {
-        cwd: path.join(cwd ?? "", choosePlainDir),
-      });
+      const entries = fs.readdirSync(archiveCwd);
+      cp.execFileSync(
+        p7zip,
+        getCompressArguments(outputPath, compressLevel, entries),
+        { cwd: archiveCwd },
+      );
     } catch (e) {
       log(`Error:Compress command failed\n${e}`);
       resolve(false);
       return;
     }
-    resolve(fs.existsSync(path.join(cwd ?? "", file)));
+    resolve(fs.existsSync(outputPath));
   });
 }
 
-export { release, compress };
+export { release, compress, getCompressArguments };

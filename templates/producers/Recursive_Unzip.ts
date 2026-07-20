@@ -145,7 +145,11 @@ export default async function (
           `move /y "${cwd}" "${path.join(final, p.taskName)}"`,
       );
       await sleep(3000);
-      cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`);
+      cp.execFileSync(
+        "cmd",
+        ["/c", "move", "/y", cwd, path.join(final, p.taskName)],
+        { cwd: p.workshop },
+      );
     } else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`);
   }
   let wcsScript: string = `// Auto produced by Edgeless Bot - Recursive_Unzip

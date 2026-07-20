@@ -438,7 +438,9 @@ async function pressEnter(interval: number[]) {
   const p = `${PROJECT_ROOT}/_press.wcs`;
   fs.writeFileSync(p, script);
   // 执行
-  cp.execSync(`${wherePECMD().unwrap()} _press.wcs`, { cwd: PROJECT_ROOT });
+  cp.execFileSync(wherePECMD().unwrap(), ["_press.wcs"], {
+    cwd: PROJECT_ROOT,
+  });
   // 删除脚本
   fs.unlinkSync(p);
 }

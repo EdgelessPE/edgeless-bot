@@ -33,7 +33,7 @@ import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
 import { deleteFromRemote } from "./cloud139";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
-import { getOS, normalizeTaskPath } from "./platform";
+import { getOS, normalizeTaskPath, OS } from "./platform";
 import shell from "shelljs";
 import cp from "child_process";
 
@@ -786,22 +786,25 @@ function removeExtraBuilds(
   return buildList;
 }
 
+function isTaskSupportedOnOS(task: TaskInstance, os: OS): boolean {
+  if (os !== "Windows" && task.extra?.require_windows) return false;
+  if (os !== "Windows" && task.extra?.missing_version) return false;
+  return true;
+}
+
 function reserveTask(task: TaskInstance): boolean {
   // 排除 weekly
   if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
     log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }
-  const isPOSIX = getOS() !== "Windows";
-  // 排除需要 Windows
-  if (isPOSIX && task.extra?.require_windows) {
-    log(`Warning:Ignore require Windows task ${task.name}`);
-    return false;
-  }
-
-  // 排除 POSIX 平台但是需要读取版本号
-  if (isPOSIX && task.extra?.missing_version) {
-    log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
+  const os = getOS();
+  if (!isTaskSupportedOnOS(task, os)) {
+    if (task.extra?.require_windows) {
+      log(`Warning:Ignore require Windows task ${task.name}`);
+    } else {
+      log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
+    }
     return false;
   }
 
@@ -814,5 +817,6 @@ export {
   executeTasks,
   getTasksToBeExecuted,
   removeExtraBuilds,
+  isTaskSupportedOnOS,
   reserveTask,
 };

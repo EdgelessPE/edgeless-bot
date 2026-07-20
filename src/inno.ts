@@ -23,6 +23,19 @@ function getInnoCommand(
   };
 }
 
+function normalizeInnoOutputPath(value: string, os: OS): string {
+  if (os == "Windows") {
+    return value;
+  }
+  if (value.toLowerCase() == "{app}") {
+    return "app";
+  }
+  return value.replace(
+    /^\{code[_:]([^}]+)\}$/i,
+    (_match: string, name: string): string => `code$${name}`,
+  );
+}
+
 async function releaseInno(
   file: string,
   intoDir: string,
@@ -50,4 +63,4 @@ async function releaseInno(
   });
 }
 
-export { getInnoCommand, releaseInno };
+export { getInnoCommand, normalizeInnoOutputPath, releaseInno };

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getInnoCommand } from "./inno";
+import { getInnoCommand, normalizeInnoOutputPath } from "./inno";
 
 test("uses innounp arguments on Windows", (): void => {
   assert.deepEqual(getInnoCommand("Windows", "setup.exe", "out"), {
@@ -14,4 +14,19 @@ test("uses innoextract arguments on Linux", (): void => {
     command: "innoextract",
     args: ["--extract", "--output-dir", "out", "setup.exe"],
   });
+});
+
+test("maps Inno application directory on Linux", (): void => {
+  assert.equal(normalizeInnoOutputPath("{app}", "Linux"), "app");
+});
+
+test("maps Inno code constants on Linux", (): void => {
+  assert.equal(
+    normalizeInnoOutputPath("{code_GetAppExeDestName}", "Linux"),
+    "code$GetAppExeDestName",
+  );
+});
+
+test("keeps innounp output names on Windows", (): void => {
+  assert.equal(normalizeInnoOutputPath("{app}", "Windows"), "{app}");
 });

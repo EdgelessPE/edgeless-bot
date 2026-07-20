@@ -31,7 +31,7 @@
     "gen": "ts-node ./scripts/genSchema.ts",
     "fmt": "prettier --write .",
     "lint": "eslint . --fix",
-    "test": "tsc && node --test dist/src/command.test.js dist/src/platform.test.js dist/src/inno.test.js dist/tasks/Chrome/producer.test.js",
+    "test": "tsc && node --test dist/src/command.test.js dist/src/database.test.js dist/src/platform.test.js dist/src/inno.test.js dist/src/task.test.js dist/tasks/Chrome/producer.test.js",
     "prepare": "husky && node -e \"const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.rmSync('database.json',{force:true})\"",
     "preinstall": "npx only-allow pnpm"
   },

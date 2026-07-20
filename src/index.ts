@@ -14,6 +14,7 @@ import { ensurePlatform, where } from "./platform";
 import { clearWorkshop } from "./workshop";
 import { initAria2c, stopAria2c } from "./aria2c";
 import {
+  canUploadDatabase,
   modified,
   readDatabase,
   report,
@@ -209,7 +210,14 @@ async function main(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
   main().then(async (result) => {
     await sleep(1000);
-    if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
+    if (
+      canUploadDatabase(
+        result,
+        config.GITHUB_ACTIONS,
+        config.DATABASE_UPDATE,
+        modified,
+      )
+    ) {
       // 回传数据库
       cp.execFileSync(where("rclone").unwrap(), [
         "copy",

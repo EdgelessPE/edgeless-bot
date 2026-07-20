@@ -4,10 +4,10 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import { log, sleep, writeGBK } from "../../src/utils";
 import { release } from "../../src/p7zip";
-import { releaseInno } from "../../src/inno";
+import { normalizeInnoOutputPath, releaseInno } from "../../src/inno";
 import os from "os";
 import cp from "child_process";
-import { normalizeTaskPath } from "../../src/platform";
+import { getOS, normalizeTaskPath } from "../../src/platform";
 
 import shell from "shelljs";
 
@@ -70,7 +70,9 @@ export default async function (
       }
       file = m.val;
     } else {
-      file = normalizeTaskPath(reg);
+      file = normalizeTaskPath(
+        obj.innoSetup ? normalizeInnoOutputPath(reg, getOS()) : reg,
+      );
     }
     // 判断是文件夹还是文件
     if (fs.statSync(path.join(cwd, file)).isDirectory()) {
@@ -117,7 +119,9 @@ export default async function (
   // 重命名Inno Setup代码常量文件
   if (obj.innoSetupRename && cwd) {
     for (const [from, to] of Object.entries(obj.innoSetupRename)) {
-      const normalizedFrom = normalizeTaskPath(from);
+      const normalizedFrom = normalizeTaskPath(
+        obj.innoSetup ? normalizeInnoOutputPath(from, getOS()) : from,
+      );
       const normalizedTo = normalizeTaskPath(to);
       const fromPath = path.join(cwd, normalizedFrom);
       const toPath = path.join(cwd, normalizedTo);

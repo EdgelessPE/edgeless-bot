@@ -1,5 +1,8 @@
 name: Debug
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches:
@@ -12,7 +15,8 @@ on:
 
 jobs:
   serve:
-    runs-on: windows-2025
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     env: {}
     steps:
       # 获取仓库源码
@@ -21,11 +25,9 @@ jobs:
           submodules: recursive
           ref: ${{ github.ref }}
 
-      # 缓存 node_modules
-      - uses: actions/cache@v5
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+      # 安装系统依赖
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract ca-certificates
 
       # 安装 Nodejs
       - name: Install Node.js
@@ -33,15 +35,37 @@ jobs:
         with:
           node-version: "24.x"
 
+      # 启用 pnpm
+      - name: Enable pnpm
+        run: corepack enable && corepack prepare pnpm@9.12.2 --activate
+
+      # 获取 pnpm store 路径
+      - name: Locate pnpm store
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      # 缓存 pnpm store
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-node24-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-pnpm-
+
       # 安装依赖
       - name: Install dependencies
-        run: npm install -g pnpm@9 && pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Install scoop (Windows)
-        uses: MinoruSekine/setup-scoop@v4
-        with:
-          buckets: main
-          apps: innounp
+      # 检查工具与代码
+      - name: Verify environment
+        run: |
+          node --version
+          pnpm --version
+          aria2c --version
+          7z --help
+          curl --version
+          innoextract --version
+          pnpm test
 
       # 以Debug模式运行构建任务
       - name: Run scripts

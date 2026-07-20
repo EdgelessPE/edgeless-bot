@@ -26,6 +26,7 @@ import { login, uploadToRemote } from "./cloud139";
 import art from "./art";
 import cp from "child_process";
 import { TaskInstance } from "./class";
+import { setMVTDayToday } from "./const";
 import { printLoadEnvNotices } from "./env";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
@@ -61,6 +62,8 @@ async function main(): Promise<boolean> {
       log("Info:Readonly database pulled");
     }
   }
+  // 处理无版本号任务的制作日
+  if (config.MODE_FORCED) setMVTDayToday();
   // 平台命令校验
   const platformMode = ensurePlatform();
   if (platformMode == "Unavailable") {

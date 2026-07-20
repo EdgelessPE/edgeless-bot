@@ -10,7 +10,7 @@ import {
   WorkerDataScraper,
 } from "./class";
 import { Err, Ok, Result } from "ts-results";
-import { awaitWithTimeout } from "./utils";
+import { awaitWithTimeout, log } from "./utils";
 import { HEAVY_TIMEOUT, LIGHT_TIMEOUT } from "./const";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
@@ -38,6 +38,18 @@ async function scraper(
       let res: Result<ScraperReturned, string>;
       try {
         res = await awaitWithTimeout(script, LIGHT_TIMEOUT, null);
+        // 处理无版本号任务
+        const task = workerData.tasks[0];
+        if (task.extra?.missing_version && res.ok) {
+          // 在指定的星期或强制运行时检查更新
+          if (workerData.checkMissingVersion) {
+            res.val.version = "999999.99.99";
+          } else {
+            // 其他时间将爬虫的版本号改为 0
+            log(`Info:Ignore missing version task ${task.name}`);
+            res.val.version = "0.0.0";
+          }
+        }
         return new Ok([res]);
       } catch (e) {
         return new Err(

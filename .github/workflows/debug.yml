@@ -11,7 +11,14 @@ on:
       - "src/**"
       - "templates/**"
       - "tasks/**"
+      - "i18n/**"
+      - "schema/**"
+      - "scripts/**"
       - ".github/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "tsconfig.json"
+      - "config.toml"
   workflow_dispatch:
     inputs:
       task:
@@ -28,14 +35,13 @@ jobs:
   serve:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       # 获取仓库源码
       - uses: actions/checkout@v6
         with:
           submodules: recursive
           ref: ${{ github.ref }}
+          persist-credentials: false
 
       # 安装系统依赖
       - name: Install system dependencies
@@ -82,6 +88,7 @@ jobs:
       # 以Debug模式运行构建任务
       - name: Run scripts
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TASK_INPUT: ${{ inputs.task }}
           FORCE_INPUT: ${{ inputs.force }}
         run: |

@@ -100,8 +100,14 @@
 ### 2. Debug workflow
 
 - 先将 `debug.yml` 迁移到 Ubuntu，通过 Pull Request 触发验证。
+- 同时保留 `workflow_dispatch`，可使用 `task` 指定逗号分隔的任务，并通过 `force` 强制构建；强制构建仅用于迁移验收。
 - 覆盖普通压缩包、Inno、递归解压和 PortableApps 任务。
 - 确认 `require_windows = true` 与 `missing_version` 任务按预期跳过。
+
+验证记录：
+
+- 2026-07-20：GitHub 托管的 `ubuntu-24.04` Debug Runner 已通过环境检查并可正常执行任务；期间确认 Ubuntu `7zip` 包的命令为 `7z`。
+- 尚待补充代表性任务矩阵及 Workflow Run 链接。
 
 ### 3. Serve workflow 手动验证
 
@@ -126,7 +132,7 @@
 
 - 迁移提交应保持 workflow 改动与代码适配可独立回退。
 - 若 Ubuntu Serve 构建影响远程产物或数据库，立即停用 schedule，并将 `serve.yml` 恢复为 `windows-2025`。
-- 回滚前保存失败日志和受影响任务列表；不要回传本次失败运行产生的数据库。
+- 回滚前保存失败日志和受影响任务列表；若本次运行已上传或删除远端产物，必须同步对应数据库状态，避免产物与索引错位。
 - `debug.yml` 可继续保留 Ubuntu 用于排查，也可在阻断 Pull Request 时一并恢复 Windows Runner。
 
 ## 完成标准

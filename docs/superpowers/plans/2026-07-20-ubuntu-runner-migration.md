@@ -412,6 +412,8 @@ git commit -m "ci: migrate Serve workflow to Ubuntu"
 
 Confirm type tests and representative non-remote builds pass on `ubuntu-24.04`, including standard archive, Inno, recursive unzip, PortableApps, Chinese/space path, skipped Windows-only, and skipped missing-version cases.
 
+Status: the hosted `ubuntu-24.04` environment check and a task run succeeded on 2026-07-20. The representative task matrix and workflow run link are still pending, so this step remains open.
+
 - [ ] **Step 2: Manually dispatch Serve with representative tasks**
 
 Verify cloud139 login/upload/list/delete, rclone database pull/push/read-back, build retention, and absence of secrets in logs.

@@ -32,8 +32,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     env:
-      CLOUD139_TOKEN: ${{ secrets.CLOUD139_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       # 获取仓库源码
@@ -41,6 +39,42 @@ jobs:
         with:
           submodules: recursive
           ref: ${{ github.ref }}
+          persist-credentials: false
+
+      # 安装系统依赖
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract rclone ca-certificates jq
+
+      # 安装 Nodejs
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+
+      # 启用 pnpm
+      - name: Enable pnpm
+        run: corepack enable && corepack prepare pnpm@9.12.2 --activate
+
+      # 获取 pnpm store 路径
+      - name: Locate pnpm store
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      # 缓存 pnpm store
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-node24-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-pnpm-
+
+      # 安装依赖
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 在部署生产凭据前完成代码测试
+      - name: Test code
+        run: pnpm test
 
       # 获取私有远程配置
       - uses: actions/checkout@v6
@@ -48,10 +82,7 @@ jobs:
           repository: Cnotech/rclone
           token: ${{ secrets.RCLONE_TOKEN }}
           path: rclone-config
-
-      # 安装系统依赖
-      - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract rclone ca-certificates jq
+          persist-credentials: false
 
       # 部署远程配置
       - name: Install remote configuration
@@ -63,6 +94,8 @@ jobs:
 
       # 下载并校验 cloud139
       - name: Install cloud139
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           asset_name="cloud139-linux-x86_64.tar.gz"
           release_json="$RUNNER_TEMP/cloud139-release.json"
@@ -93,33 +126,6 @@ jobs:
           install -D -m 755 "$cloud139_path" "$binary_dir/cloud139"
           echo "$binary_dir" >> "$GITHUB_PATH"
 
-      # 安装 Nodejs
-      - name: Install Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "24.x"
-
-      # 启用 pnpm
-      - name: Enable pnpm
-        run: corepack enable && corepack prepare pnpm@9.12.2 --activate
-
-      # 获取 pnpm store 路径
-      - name: Locate pnpm store
-        id: pnpm-store
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-
-      # 缓存 pnpm store
-      - uses: actions/cache@v5
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: ${{ runner.os }}-node24-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-node24-pnpm-
-
-      # 安装依赖
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       # 检查工具、远程配置与代码
       - name: Verify environment
         run: |
@@ -132,11 +138,12 @@ jobs:
           rclone version
           cloud139 --help
           rclone listremotes | grep -Fxq "kanuo:"
-          pnpm test
 
       # 运行构建任务
       - name: Run scripts
         env:
+          CLOUD139_TOKEN: ${{ secrets.CLOUD139_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TASK_INPUT: ${{ inputs.task }}
           FORCE_INPUT: ${{ inputs.force }}
         run: |

@@ -210,13 +210,9 @@ async function main(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
   main().then(async (result) => {
     await sleep(1000);
+    // 部分任务成功时产物已经上传，数据库必须同步成功与失败节点以保持一致
     if (
-      canUploadDatabase(
-        result,
-        config.GITHUB_ACTIONS,
-        config.DATABASE_UPDATE,
-        modified,
-      )
+      canUploadDatabase(config.GITHUB_ACTIONS, config.DATABASE_UPDATE, modified)
     ) {
       // 回传数据库
       cp.execFileSync(where("rclone").unwrap(), [

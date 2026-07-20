@@ -40,6 +40,17 @@ function getOS(): OS {
   }
 }
 
+function getRequiredCommands(os: OS, remoteEnable: boolean): Commands[] {
+  const commands: Commands[] = ["aria2c", "p7zip", "curl"];
+  if (remoteEnable) {
+    commands.push("cloud139");
+  }
+  if (os !== "Windows") {
+    commands.push("innoextract");
+  }
+  return commands;
+}
+
 // 查找程序位置
 function where(command: Commands): Result<string, string> {
   // 相对路径解析封装
@@ -194,14 +205,8 @@ function where(command: Commands): Result<string, string> {
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   const os = getOS();
-  const list: Commands[] = ["aria2c", "p7zip", "curl"];
+  const list = getRequiredCommands(os, config.REMOTE_ENABLE);
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
-  if (config.REMOTE_ENABLE) {
-    list.push("cloud139");
-  }
-  if (os == "Linux") {
-    list.push("innoextract");
-  }
   for (const cmd of list) {
     if (where(cmd).err) {
       suc = "Unavailable";
@@ -228,4 +233,11 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   return suc;
 }
 
-export { getOS, where, OS, ensurePlatform, normalizeTaskPath };
+export {
+  getOS,
+  where,
+  OS,
+  ensurePlatform,
+  normalizeTaskPath,
+  getRequiredCommands,
+};

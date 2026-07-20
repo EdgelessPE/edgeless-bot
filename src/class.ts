@@ -183,6 +183,7 @@ interface WorkerDataScraper {
   scriptPath: string;
   isExternal: boolean;
   tasks: Array<TaskInstance>;
+  checkMissingVersion: boolean;
 }
 
 interface WorkerDataResolver {

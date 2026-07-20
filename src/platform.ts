@@ -24,7 +24,8 @@ export type Commands =
   | "cloud189"
   | "cloud139"
   | "curl"
-  | "innounp";
+  | "innounp"
+  | "innoextract";
 
 function getOS(): OS {
   switch (os.platform()) {
@@ -109,6 +110,10 @@ function where(command: Commands): Result<string, string> {
         path.join(os.homedir(), "scoop/apps/innounp-unicode/current/innounp"),
       ];
       break;
+    case "innoextract":
+      possibleCommands = ["innoextract"];
+      possiblePositions = ["./innoextract", "./bin/innoextract"];
+      break;
     default:
       return new Err(`Error:Undefined command argument : ${command}`);
   }
@@ -188,10 +193,14 @@ function where(command: Commands): Result<string, string> {
 }
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
+  const os = getOS();
   const list: Commands[] = ["aria2c", "p7zip", "curl"];
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
   if (config.REMOTE_ENABLE) {
     list.push("cloud139");
+  }
+  if (os == "Linux") {
+    list.push("innoextract");
   }
   for (const cmd of list) {
     if (where(cmd).err) {
@@ -200,8 +209,6 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
     }
   }
   if (suc == "Unavailable") return suc;
-
-  const os = getOS();
 
   // 如果是Windows检查pecmd
   if (os == "Windows") {

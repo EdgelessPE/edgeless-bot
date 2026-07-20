@@ -24,10 +24,12 @@
 ### Task 1: Cross-platform prepare script and test command
 
 **Files:**
+
 - Modify: `package.json`
 - Test: `package.json` scripts executed from the repository root
 
 **Interfaces:**
+
 - Consumes: Node.js built-in `fs.rmSync`.
 - Produces: cross-platform `prepare` and repeatable `test` scripts used by local development and both workflows.
 
@@ -79,12 +81,14 @@ git commit -m "build: make prepare script cross-platform"
 ### Task 2: Normalize task-relative paths
 
 **Files:**
+
 - Create: `src/platform.test.ts`
 - Modify: `src/platform.ts`
 - Modify: `src/task.ts`
 - Modify: `templates/producers/Recursive_Unzip.ts`
 
 **Interfaces:**
+
 - Consumes: task configuration strings that may contain `/` or `\` separators.
 - Produces: `normalizeTaskPath(value: string): string`, which returns a relative path using the host separator and leaves regex-like `/.../` values untouched by callers.
 
@@ -137,7 +141,10 @@ Add to `src/platform.ts` and export it:
 
 ```typescript
 function normalizeTaskPath(value: string): string {
-  return value.replace(/^[\\/]+/, "").split(/[\\/]+/).join(path.sep);
+  return value
+    .replace(/^[\\/]+/, "")
+    .split(/[\\/]+/)
+    .join(path.sep);
 }
 ```
 
@@ -172,11 +179,13 @@ git commit -m "fix: normalize task paths across platforms"
 ### Task 3: Add platform-specific Inno extraction
 
 **Files:**
+
 - Create: `src/inno.test.ts`
 - Modify: `src/inno.ts`
 - Modify: `src/platform.ts`
 
 **Interfaces:**
+
 - Consumes: `getOS()`, `where("innounp")`, and new `where("innoextract")` lookup results.
 - Produces: `getInnoCommand(os: OS, file: string, intoDir: string): { command: Commands; args: string[] }` and unchanged `releaseInno(...)` behavior.
 
@@ -239,6 +248,7 @@ git commit -m "feat: support Inno extraction on Linux"
 ### Task 4: Remove shell-string command execution
 
 **Files:**
+
 - Modify: `src/platform.ts`
 - Modify: `src/p7zip.ts`
 - Modify: `src/aria2c.ts`
@@ -249,6 +259,7 @@ git commit -m "feat: support Inno extraction on Linux"
 - Modify: `src/utils.ts`
 
 **Interfaces:**
+
 - Consumes: raw executable paths from `where(command)`.
 - Produces: external process calls that pass all paths, URLs, tokens, and remote names as separate arguments.
 
@@ -298,9 +309,11 @@ git commit -m "refactor: pass external command arguments safely"
 ### Task 5: Migrate Debug workflow
 
 **Files:**
+
 - Modify: `.github/workflows/debug.yml`
 
 **Interfaces:**
+
 - Consumes: Ubuntu packages and the repository `pnpm test`/`pnpm dev` commands.
 - Produces: a non-destructive Ubuntu PR workflow with no remote upload or database update.
 
@@ -339,9 +352,11 @@ git commit -m "ci: migrate Debug workflow to Ubuntu"
 ### Task 6: Migrate Serve workflow
 
 **Files:**
+
 - Modify: `.github/workflows/serve.yml`
 
 **Interfaces:**
+
 - Consumes: `RCLONE_TOKEN`, `CLOUD139_TOKEN`, `GITHUB_TOKEN`, the private `Cnotech/rclone` configuration repository, and the `Cnotech/cloud139` Linux x86_64 release asset.
 - Produces: serialized, manually triggered Ubuntu production runs with database pull/push and cloud139 upload/delete support.
 
@@ -384,10 +399,12 @@ git commit -m "ci: migrate Serve workflow to Ubuntu"
 ### Task 7: Remote validation, schedule activation, and final audit
 
 **Files:**
+
 - Modify: `.github/workflows/serve.yml`
 - Modify: `agent-docs/linux-runner-migration.md`
 
 **Interfaces:**
+
 - Consumes: successful Debug runs and manually dispatched Serve runs.
 - Produces: restored daily schedule and recorded migration evidence.
 

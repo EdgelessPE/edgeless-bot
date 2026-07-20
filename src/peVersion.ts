@@ -1,6 +1,4 @@
 import cp from "child_process";
-import path from "path";
-import { PROJECT_ROOT } from "./const";
 import { Commands, where } from "./platform";
 
 function getPEVersionCommand(file: string): {
@@ -8,9 +6,20 @@ function getPEVersionCommand(file: string): {
   args: string[];
 } {
   return {
-    command: "python3",
-    args: [path.resolve(PROJECT_ROOT, "scripts/read_pe_version.py"), file],
+    command: "peres",
+    args: ["-v", file],
   };
+}
+
+function parsePEVersionOutput(output: string): string {
+  const fileVersionLine = output
+    .split(/\r?\n/)
+    .find((line) => /^File Version:/i.test(line.trim()));
+  const version = fileVersionLine?.match(/\d+(?:\.\d+){1,3}/)?.[0];
+  if (!version) {
+    throw new Error(`Invalid peres file version output: ${output.trim()}`);
+  }
+  return version;
 }
 
 async function readPEVersion(file: string): Promise<string> {
@@ -25,15 +34,15 @@ async function readPEVersion(file: string): Promise<string> {
           reject(stderr.trim() || error.message);
           return;
         }
-        const version = stdout.trim();
-        if (!/^\d+(?:\.\d+){3}$/.test(version)) {
-          reject(`Invalid PE file version: ${version}`);
+        try {
+          resolve(parsePEVersionOutput(stdout));
+        } catch (parseError) {
+          reject(parseError);
           return;
         }
-        resolve(version);
       },
     );
   });
 }
 
-export { getPEVersionCommand, readPEVersion };
+export { getPEVersionCommand, parsePEVersionOutput, readPEVersion };

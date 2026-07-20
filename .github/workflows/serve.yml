@@ -43,7 +43,7 @@ jobs:
 
       # 安装系统依赖
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract python3-pefile rclone ca-certificates jq
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract readpe rclone ca-certificates jq
 
       # 安装 Nodejs
       - name: Install Node.js
@@ -135,7 +135,7 @@ jobs:
           7z --help
           curl --version
           innoextract --version
-          test "$(python3 scripts/read_pe_version.py node_modules/rcinfo/bin/ShowVer.exe)" = "1.0.0.1"
+          peres -v node_modules/rcinfo/bin/ShowVer.exe | grep -Eq '^File Version:[[:space:]]+1\.0\.0\.1$'
           rclone version
           cloud139 --help
           rclone listremotes | grep -Fxq "kanuo:"

@@ -9,6 +9,13 @@ import { PROJECT_ROOT } from "./const";
 
 type OS = "Windows" | "Linux" | "MacOS" | "Other";
 
+function normalizeTaskPath(value: string): string {
+  return value
+    .replace(/^[\\/]+/, "")
+    .split(/[\\/]+/)
+    .join(path.sep);
+}
+
 export type Commands =
   | "p7zip"
   | "aria2c"
@@ -214,4 +221,4 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   return suc;
 }
 
-export { getOS, where, OS, ensurePlatform };
+export { getOS, where, OS, ensurePlatform, normalizeTaskPath };

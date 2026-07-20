@@ -33,7 +33,7 @@ import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
 import { deleteFromRemote } from "./cloud139";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
-import { getOS } from "./platform";
+import { getOS, normalizeTaskPath } from "./platform";
 import shell from "shelljs";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -469,11 +469,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   let f, v;
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
-      v = parseBuiltInValue(file, {
-        taskName: t.task.name,
-        downloadedFile,
-        latestVersion: t.info.version,
-      });
+      v = normalizeTaskPath(
+        parseBuiltInValue(file, {
+          taskName: t.task.name,
+          downloadedFile,
+          latestVersion: t.info.version,
+        }),
+      );
       f = path.resolve(target, v);
       if (!fs.existsSync(f)) {
         // 尝试增加 ${taskName}/ 前缀
@@ -492,7 +494,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     f = path.resolve(
       config.DIR_TASKS,
       t.task.name,
-      t.task.parameter.build_cover,
+      normalizeTaskPath(t.task.parameter.build_cover),
     );
     if (!fs.existsSync(f)) {
       return new Err(`Error:Given cover not exist : ${f}`);
@@ -521,11 +523,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       final: Array<string> = [];
     for (const cmd of origin) {
       final.push(
-        parseBuiltInValue(cmd, {
-          downloadedFile,
-          taskName: t.task.name,
-          latestVersion: t.info.version,
-        }).replace("\\", "/"),
+        normalizeTaskPath(
+          parseBuiltInValue(cmd, {
+            downloadedFile,
+            taskName: t.task.name,
+            latestVersion: t.info.version,
+          }),
+        ),
       );
     }
     return final;
@@ -547,11 +551,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     let version;
     try {
       version = await getExeVersion(
-        parseBuiltInValue(t.task.extra.missing_version, {
-          taskName: t.task.name,
-          downloadedFile,
-          latestVersion: t.info.version,
-        }),
+        normalizeTaskPath(
+          parseBuiltInValue(t.task.extra.missing_version, {
+            taskName: t.task.name,
+            downloadedFile,
+            latestVersion: t.info.version,
+          }),
+        ),
         target,
       );
     } catch (e) {

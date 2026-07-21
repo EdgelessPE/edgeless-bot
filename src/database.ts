@@ -14,9 +14,10 @@ export let modified = false;
 function canUploadDatabase(
   githubActions: boolean,
   databaseUpdate: boolean,
+  remoteEnable: boolean,
   hasModifications: boolean,
 ): boolean {
-  return githubActions && databaseUpdate && hasModifications;
+  return githubActions && databaseUpdate && remoteEnable && hasModifications;
 }
 
 // 记录执行成功/失败的操作列表

@@ -45,7 +45,7 @@ function getOS(): OS {
 function getRequiredCommands(os: OS, remoteEnable: boolean): Commands[] {
   const commands: Commands[] = ["aria2c", "p7zip", "curl"];
   if (remoteEnable) {
-    commands.push("cloud139");
+    commands.push("rclone", "cloud139");
   }
   if (os !== "Windows") {
     commands.push("innoextract");

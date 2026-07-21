@@ -43,9 +43,14 @@ test("requires innoextract on every non-Windows platform", (): void => {
   );
 });
 
-test("requires cloud139 only when remote storage is enabled", (): void => {
-  assert.equal(getRequiredCommands("Linux", false).includes("cloud139"), false);
-  assert.equal(getRequiredCommands("Linux", true).includes("cloud139"), true);
+test("requires remote commands only when remote storage is enabled", (): void => {
+  const localCommands = getRequiredCommands("Linux", false);
+  const remoteCommands = getRequiredCommands("Linux", true);
+
+  assert.equal(localCommands.includes("rclone"), false);
+  assert.equal(localCommands.includes("cloud139"), false);
+  assert.equal(remoteCommands.includes("rclone"), true);
+  assert.equal(remoteCommands.includes("cloud139"), true);
 });
 
 test("requires the bundled Rust PE resource reader on Linux", (): void => {

@@ -45,7 +45,7 @@ jobs:
 
       # 安装系统依赖
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract ca-certificates
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip unrar curl innoextract ca-certificates
 
       # 编译跨平台 PE 版本读取器
       - name: Build PE version reader

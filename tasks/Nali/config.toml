@@ -4,11 +4,11 @@
 name = "Nali"
 category = "实用工具"
 author = "undefined"
-url = "https://github.com/ScoopInstaller/Main/blob/master/bucket/nali.json"
+url = "https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/nali.json"
 
 # 指定使用的模板
 [template]
-# scraper = ""
+scraper = "Scoop"
 # resolver = ""
 producer = "Recursive_Unzip"
 

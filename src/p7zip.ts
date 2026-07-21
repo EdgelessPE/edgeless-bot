@@ -6,6 +6,148 @@ import { log } from "./utils";
 
 import shell from "shelljs";
 
+function normalizeExtractedPaths(root: string): void {
+  const resolvedRoot = path.resolve(root);
+  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+    const source = path.join(root, entry.name);
+    if (entry.name.includes("\\")) {
+      const segments = entry.name.split("\\");
+      if (
+        segments.some(
+          (segment) => segment === "" || segment === "." || segment === "..",
+        )
+      ) {
+        throw new Error(`Unsafe extracted path: ${entry.name}`);
+      }
+      const destination = path.resolve(resolvedRoot, ...segments);
+      if (!destination.startsWith(`${resolvedRoot}${path.sep}`)) {
+        throw new Error(`Extracted path escapes destination: ${entry.name}`);
+      }
+      let parent = resolvedRoot;
+      for (const segment of segments.slice(0, -1)) {
+        parent = path.join(parent, segment);
+        if (fs.existsSync(parent) && fs.lstatSync(parent).isSymbolicLink()) {
+          throw new Error(`Extracted path traverses symlink: ${entry.name}`);
+        }
+      }
+      if (fs.existsSync(destination)) {
+        throw new Error(`Extracted path already exists: ${destination}`);
+      }
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      fs.renameSync(source, destination);
+      if (entry.isDirectory()) normalizeExtractedPaths(destination);
+      continue;
+    }
+    if (entry.isDirectory()) normalizeExtractedPaths(source);
+  }
+}
+
+function isRarArchive(file: string, cwd?: string): boolean {
+  const archivePath = path.resolve(cwd ?? process.cwd(), file);
+  let descriptor: number | undefined;
+  try {
+    descriptor = fs.openSync(archivePath, "r");
+    const size = Math.min(fs.fstatSync(descriptor).size, 1024 * 1024);
+    const header = Buffer.alloc(size);
+    fs.readSync(descriptor, header, 0, size, 0);
+    return (
+      header.includes(Buffer.from("Rar!\x1a\x07\x00", "binary")) ||
+      header.includes(Buffer.from("Rar!\x1a\x07\x01\x00", "binary"))
+    );
+  } catch {
+    return false;
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor);
+  }
+}
+
+function mergeExtractedDirectory(source: string, destination: string): void {
+  fs.mkdirSync(destination, { recursive: true });
+  for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+    const sourcePath = path.join(source, entry.name);
+    const destinationPath = path.join(destination, entry.name);
+    if (
+      entry.isDirectory() &&
+      fs.existsSync(destinationPath) &&
+      fs.lstatSync(destinationPath).isDirectory() &&
+      !fs.lstatSync(destinationPath).isSymbolicLink()
+    ) {
+      mergeExtractedDirectory(sourcePath, destinationPath);
+      fs.rmdirSync(sourcePath);
+      continue;
+    }
+    fs.rmSync(destinationPath, { recursive: true, force: true });
+    fs.renameSync(sourcePath, destinationPath);
+  }
+}
+
+function removeTemporaryDirectory(directory: string): void {
+  try {
+    fs.rmSync(directory, { recursive: true, force: true });
+  } catch (e) {
+    log(`Warning:Can't remove temporary directory ${directory}: ${String(e)}`);
+  }
+}
+
+function replaceDirectory(source: string, destination: string): void {
+  const parent = path.dirname(destination);
+  const backup = fs.mkdtempSync(path.join(parent, ".edgeless-backup-"));
+  fs.rmdirSync(backup);
+  const hadDestination = fs.existsSync(destination);
+  try {
+    if (hadDestination) fs.renameSync(destination, backup);
+    fs.renameSync(source, destination);
+  } catch (e) {
+    if (
+      hadDestination &&
+      !fs.existsSync(destination) &&
+      fs.existsSync(backup)
+    ) {
+      fs.renameSync(backup, destination);
+    }
+    throw e;
+  }
+  if (hadDestination) {
+    try {
+      fs.rmSync(backup, { recursive: true, force: true });
+    } catch (e) {
+      log(`Warning:Can't remove extraction backup ${backup}: ${String(e)}`);
+    }
+  }
+}
+
+function commitExtractedDirectory(
+  source: string,
+  destination: string,
+  overwrite: boolean,
+): void {
+  if (
+    fs.existsSync(destination) &&
+    fs.lstatSync(destination).isSymbolicLink()
+  ) {
+    throw new Error(`Extraction destination is a symlink: ${destination}`);
+  }
+  if (overwrite || !fs.existsSync(destination)) {
+    replaceDirectory(source, destination);
+    return;
+  }
+
+  const assembled = fs.mkdtempSync(
+    path.join(path.dirname(destination), ".edgeless-assembled-"),
+  );
+  try {
+    fs.cpSync(destination, assembled, {
+      recursive: true,
+      force: true,
+      verbatimSymlinks: true,
+    });
+    mergeExtractedDirectory(source, assembled);
+    replaceDirectory(assembled, destination);
+  } finally {
+    removeTemporaryDirectory(assembled);
+  }
+}
+
 function getCompressArguments(
   outputPath: string,
   compressLevel: number,
@@ -20,24 +162,50 @@ async function release(
   overwrite?: boolean,
   cwd?: string,
 ): Promise<boolean> {
-  return new Promise((resolve) => {
+  let stagingDir: string | undefined;
+  try {
     const p7zip = where("p7zip").unwrap();
-    const aID = path.join(cwd ?? "", intoDir);
-    if (overwrite && fs.existsSync(aID)) {
-      if (fs.existsSync(aID)) {
-        shell.rm("-rf", aID);
-      }
-      shell.mkdir("-p", aID);
-    }
+    const aID = path.resolve(cwd ?? process.cwd(), intoDir);
+    fs.mkdirSync(path.dirname(aID), { recursive: true });
+    stagingDir = fs.mkdtempSync(
+      path.join(path.dirname(aID), ".edgeless-unzip-"),
+    );
     try {
-      cp.execFileSync(p7zip, ["x", file, `-o${intoDir}`, "-y"], { cwd });
+      cp.execFileSync(p7zip, ["x", file, `-o${stagingDir}`, "-y"], { cwd });
     } catch (e) {
-      log(`Error:Release command failed\n${e}`);
-      resolve(false);
-      return;
+      if (!isRarArchive(file, cwd)) {
+        throw e;
+      }
+      const unrarResult = where("unrar");
+      if (unrarResult.err) {
+        throw new Error(`${String(e)}\nUnRAR fallback is unavailable`);
+      }
+      fs.rmSync(stagingDir, { recursive: true, force: true });
+      fs.mkdirSync(stagingDir);
+      try {
+        cp.execFileSync(
+          unrarResult.unwrap(),
+          ["x", "-o+", file, `${stagingDir}${path.sep}`],
+          { cwd },
+        );
+        log(`Warning:7-Zip extraction failed, used UnRAR for ${file}`);
+      } catch (unrarError) {
+        throw new Error(
+          `${String(e)}\nUnRAR fallback failed: ${String(unrarError)}`,
+        );
+      }
     }
-    resolve(fs.existsSync(aID));
-  });
+    normalizeExtractedPaths(stagingDir);
+    commitExtractedDirectory(stagingDir, aID, overwrite ?? false);
+    return fs.existsSync(aID);
+  } catch (e) {
+    log(`Error:Release command failed\n${String(e)}`);
+    return false;
+  } finally {
+    if (stagingDir !== undefined) {
+      removeTemporaryDirectory(stagingDir);
+    }
+  }
 }
 
 async function compress(
@@ -70,4 +238,10 @@ async function compress(
   });
 }
 
-export { release, compress, getCompressArguments };
+export {
+  release,
+  compress,
+  commitExtractedDirectory,
+  getCompressArguments,
+  normalizeExtractedPaths,
+};

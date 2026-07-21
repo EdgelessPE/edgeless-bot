@@ -18,6 +18,7 @@ function normalizeTaskPath(value: string): string {
 
 export type Commands =
   | "p7zip"
+  | "unrar"
   | "aria2c"
   | "rclone"
   | "pecmd"
@@ -58,8 +59,8 @@ function getRequiredCommands(os: OS, remoteEnable: boolean): Commands[] {
 // 查找程序位置
 function where(command: Commands): Result<string, string> {
   // 相对路径解析封装
-  const parsePath = (p: string) => {
-    if (p.indexOf("./") > -1) {
+  const parsePath = (p: string): string => {
+    if (!path.isAbsolute(p) && p.match(/[\\/]/)) {
       return path.resolve(PROJECT_ROOT, p);
     } else {
       return p;
@@ -70,19 +71,20 @@ function where(command: Commands): Result<string, string> {
   let possiblePositions: Array<string> = [];
   switch (command) {
     case "p7zip":
-      possibleCommands = ["7z", "7zz", "7zzs", "p7zip", "7za"];
+      // 优先使用仍在维护的 7-Zip，旧版 p7zip 会丢失部分压缩格式兼容性
+      possibleCommands = ["7zz", "7zzs", "7z", "p7zip", "7za"];
       possiblePositions = [
-        "./7z",
-        "./bin/7z",
-        "./7zz",
-        "./bin/7zz",
-        "./7zzs",
-        "./bin/7zzs",
-        "C:/Program Files/7-Zip/7z",
-        "C:/Program Files (x86)/7-Zip/7z",
+        ".",
+        "./bin",
+        "C:/Program Files/7-Zip",
+        "C:/Program Files (x86)/7-Zip",
         "C:/Program Files/7-Zip-Zstandard",
-        `${process.env.PROGRAMFILESW6432}/7-Zip/7z`,
+        `${process.env.PROGRAMFILESW6432}/7-Zip`,
       ];
+      break;
+    case "unrar":
+      possibleCommands = ["unrar"];
+      possiblePositions = ["./unrar", "./bin/unrar"];
       break;
     case "aria2c":
       possibleCommands = ["aria2c"];

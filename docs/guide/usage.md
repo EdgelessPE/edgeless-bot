@@ -38,17 +38,6 @@ scoop install 7zip
 brew install 7zip
 ```
 
-### UnRAR（选装）
-
-官方网站 https://www.rarlab.com/ ，仅在需要解压 7-Zip 暂不支持的新版 RAR 压缩包时使用：
-
-```shell
-# Windows
-scoop install unrar
-# Ubuntu / Debian
-sudo apt install unrar
-```
-
 ### Rclone (选装)
 
 官方网站 https://rclone.org ，如果需要启用远程功能则需要安装，可以使用如下命令安装：

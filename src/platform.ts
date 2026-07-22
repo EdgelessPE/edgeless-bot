@@ -18,7 +18,6 @@ function normalizeTaskPath(value: string): string {
 
 export type Commands =
   | "p7zip"
-  | "unrar"
   | "aria2c"
   | "rclone"
   | "pecmd"
@@ -81,10 +80,6 @@ function where(command: Commands): Result<string, string> {
         "C:/Program Files/7-Zip-Zstandard",
         `${process.env.PROGRAMFILESW6432}/7-Zip`,
       ];
-      break;
-    case "unrar":
-      possibleCommands = ["unrar"];
-      possiblePositions = ["./unrar", "./bin/unrar"];
       break;
     case "aria2c":
       possibleCommands = ["aria2c"];

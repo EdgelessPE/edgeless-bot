@@ -32,7 +32,6 @@ concurrency:
 jobs:
   serve:
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -45,7 +44,7 @@ jobs:
 
       # 安装系统依赖
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip unrar curl innoextract rclone ca-certificates jq
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract rclone ca-certificates jq
 
       # 编译跨平台 PE 版本读取器
       - name: Build PE version reader
@@ -102,36 +101,22 @@ jobs:
           install -D -m 600 rclone-config/rclone.conf "$HOME/.config/rclone/rclone.conf"
           install -D -m 600 rclone-config/config.json "$HOME/.config/cloud189/config.json"
 
-      # 下载并校验 cloud139
+      # 获取并解压 cloud139
+      - name: Download and extract cloud139
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: "Cnotech/cloud139"
+          latest: true
+          fileName: "cloud139-linux-x86_64.tar.gz"
+          out-file-path: ./
+          extract: true
+
+      # 安装 cloud139
       - name: Install cloud139
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          asset_name="cloud139-linux-x86_64.tar.gz"
-          release_json="$RUNNER_TEMP/cloud139-release.json"
-          archive_path="$RUNNER_TEMP/$asset_name"
-          extract_dir="$RUNNER_TEMP/cloud139-extracted"
           binary_dir="$RUNNER_TEMP/bin"
-          curl --fail --silent --show-error \
-            --header "Authorization: Bearer $GITHUB_TOKEN" \
-            --header "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/Cnotech/cloud139/releases/latest \
-            --output "$release_json"
-          download_url=$(jq -r --arg name "$asset_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_json")
-          expected_digest=$(jq -r --arg name "$asset_name" '.assets[] | select(.name == $name) | .digest' "$release_json")
-          test -n "$download_url"
-          test "$download_url" != "null"
-          test -n "$expected_digest"
-          test "$expected_digest" != "null"
-          curl --fail --location --silent --show-error \
-            --header "Authorization: Bearer $GITHUB_TOKEN" \
-            "$download_url" \
-            --output "$archive_path"
-          actual_digest="sha256:$(sha256sum "$archive_path" | cut -d ' ' -f 1)"
-          test "$actual_digest" = "$expected_digest"
-          mkdir -p "$extract_dir"
-          tar -xzf "$archive_path" -C "$extract_dir"
-          cloud139_path=$(find "$extract_dir" -type f -name cloud139 -print -quit)
+          mkdir -p "$binary_dir"
+          cloud139_path=$(find . -maxdepth 2 -type f -name cloud139 -print -quit)
           test -n "$cloud139_path"
           install -D -m 755 "$cloud139_path" "$binary_dir/cloud139"
           echo "$binary_dir" >> "$GITHUB_PATH"

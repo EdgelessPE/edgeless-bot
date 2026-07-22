@@ -42,25 +42,6 @@ function normalizeExtractedPaths(root: string): void {
   }
 }
 
-function isRarArchive(file: string, cwd?: string): boolean {
-  const archivePath = path.resolve(cwd ?? process.cwd(), file);
-  let descriptor: number | undefined;
-  try {
-    descriptor = fs.openSync(archivePath, "r");
-    const size = Math.min(fs.fstatSync(descriptor).size, 1024 * 1024);
-    const header = Buffer.alloc(size);
-    fs.readSync(descriptor, header, 0, size, 0);
-    return (
-      header.includes(Buffer.from("Rar!\x1a\x07\x00", "binary")) ||
-      header.includes(Buffer.from("Rar!\x1a\x07\x01\x00", "binary"))
-    );
-  } catch {
-    return false;
-  } finally {
-    if (descriptor !== undefined) fs.closeSync(descriptor);
-  }
-}
-
 function mergeExtractedDirectory(source: string, destination: string): void {
   fs.mkdirSync(destination, { recursive: true });
   for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
@@ -170,31 +151,7 @@ async function release(
     stagingDir = fs.mkdtempSync(
       path.join(path.dirname(aID), ".edgeless-unzip-"),
     );
-    try {
-      cp.execFileSync(p7zip, ["x", file, `-o${stagingDir}`, "-y"], { cwd });
-    } catch (e) {
-      if (!isRarArchive(file, cwd)) {
-        throw e;
-      }
-      const unrarResult = where("unrar");
-      if (unrarResult.err) {
-        throw new Error(`${String(e)}\nUnRAR fallback is unavailable`);
-      }
-      fs.rmSync(stagingDir, { recursive: true, force: true });
-      fs.mkdirSync(stagingDir);
-      try {
-        cp.execFileSync(
-          unrarResult.unwrap(),
-          ["x", "-o+", file, `${stagingDir}${path.sep}`],
-          { cwd },
-        );
-        log(`Warning:7-Zip extraction failed, used UnRAR for ${file}`);
-      } catch (unrarError) {
-        throw new Error(
-          `${String(e)}\nUnRAR fallback failed: ${String(unrarError)}`,
-        );
-      }
-    }
+    cp.execFileSync(p7zip, ["x", file, `-o${stagingDir}`, "-y"], { cwd });
     normalizeExtractedPaths(stagingDir);
     commitExtractedDirectory(stagingDir, aID, overwrite ?? false);
     return fs.existsSync(aID);

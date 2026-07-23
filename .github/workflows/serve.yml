@@ -111,16 +111,6 @@ jobs:
           out-file-path: ./
           extract: true
 
-      # 安装 cloud139
-      - name: Install cloud139
-        run: |
-          binary_dir="$RUNNER_TEMP/bin"
-          mkdir -p "$binary_dir"
-          cloud139_path=$(find . -maxdepth 2 -type f -name cloud139 -print -quit)
-          test -n "$cloud139_path"
-          install -D -m 755 "$cloud139_path" "$binary_dir/cloud139"
-          echo "$binary_dir" >> "$GITHUB_PATH"
-
       # 检查工具、远程配置与代码
       - name: Verify environment
         run: |
@@ -133,7 +123,7 @@ jobs:
           innoextract --version
           read-pe-version node_modules/rcinfo/bin/ShowVer.exe | grep -Fxq '1.0.0.1'
           rclone version
-          cloud139 --help
+          ./cloud139 --help
           rclone listremotes | grep -Fxq "kanuo:"
 
       # 运行构建任务

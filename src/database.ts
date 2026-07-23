@@ -11,6 +11,15 @@ let database: {
 } = {};
 export let modified = false;
 
+function canUploadDatabase(
+  githubActions: boolean,
+  databaseUpdate: boolean,
+  remoteEnable: boolean,
+  hasModifications: boolean,
+): boolean {
+  return githubActions && databaseUpdate && remoteEnable && hasModifications;
+}
+
 // 记录执行成功/失败的操作列表
 const successList: Array<{
   taskName: string;
@@ -162,4 +171,5 @@ export {
   setDatabaseNodeSuccess,
   setDatabaseNodeFailure,
   report,
+  canUploadDatabase,
 };

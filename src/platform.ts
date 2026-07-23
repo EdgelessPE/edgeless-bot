@@ -9,6 +9,13 @@ import { PROJECT_ROOT } from "./const";
 
 type OS = "Windows" | "Linux" | "MacOS" | "Other";
 
+function normalizeTaskPath(value: string): string {
+  return value
+    .replace(/^[\\/]+/, "")
+    .split(/[\\/]+/)
+    .join(path.sep);
+}
+
 export type Commands =
   | "p7zip"
   | "aria2c"
@@ -17,7 +24,11 @@ export type Commands =
   | "cloud189"
   | "cloud139"
   | "curl"
-  | "innounp";
+  | "innounp"
+  | "innoextract"
+  | "peversion";
+
+const whereCache = new Map<Commands, Result<string, string>>();
 
 function getOS(): OS {
   switch (os.platform()) {
@@ -32,11 +43,37 @@ function getOS(): OS {
   }
 }
 
-// 查找程序位置，返回值为绝对路径时会包含双引号
+function getRequiredCommands(os: OS, remoteEnable: boolean): Commands[] {
+  const commands: Commands[] = ["aria2c", "p7zip", "curl"];
+  if (remoteEnable) {
+    commands.push("rclone", "cloud139");
+  }
+  if (os !== "Windows") {
+    commands.push("innoextract");
+  }
+  if (os === "Linux") {
+    commands.push("peversion");
+  }
+  return commands;
+}
+
+// 查找程序位置
 function where(command: Commands): Result<string, string> {
+  const cached = whereCache.get(command);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const cacheResult = (
+    result: Result<string, string>,
+  ): Result<string, string> => {
+    whereCache.set(command, result);
+    return result;
+  };
+
   // 相对路径解析封装
-  const parsePath = (p: string) => {
-    if (p.indexOf("./") > -1) {
+  const parsePath = (p: string): string => {
+    if (!path.isAbsolute(p) && p.match(/[\\/]/)) {
       return path.resolve(PROJECT_ROOT, p);
     } else {
       return p;
@@ -47,18 +84,15 @@ function where(command: Commands): Result<string, string> {
   let possiblePositions: Array<string> = [];
   switch (command) {
     case "p7zip":
-      possibleCommands = ["7z", "7zz", "7zzs", "p7zip", "7za"];
+      // 优先使用仍在维护的 7-Zip，旧版 p7zip 会丢失部分压缩格式兼容性
+      possibleCommands = ["7zz", "7zzs", "7z", "p7zip", "7za"];
       possiblePositions = [
-        "./7z",
-        "./bin/7z",
-        "./7zz",
-        "./bin/7zz",
-        "./7zzs",
-        "./bin/7zzs",
-        "C:/Program Files/7-Zip/7z",
-        "C:/Program Files (x86)/7-Zip/7z",
+        ".",
+        "./bin",
+        "C:/Program Files/7-Zip",
+        "C:/Program Files (x86)/7-Zip",
         "C:/Program Files/7-Zip-Zstandard",
-        `${process.env.PROGRAMFILESW6432}/7-Zip/7z`,
+        `${process.env.PROGRAMFILESW6432}/7-Zip`,
       ];
       break;
     case "aria2c":
@@ -102,8 +136,18 @@ function where(command: Commands): Result<string, string> {
         path.join(os.homedir(), "scoop/apps/innounp-unicode/current/innounp"),
       ];
       break;
+    case "innoextract":
+      possibleCommands = ["innoextract"];
+      possiblePositions = ["./innoextract", "./bin/innoextract"];
+      break;
+    case "peversion":
+      possibleCommands = ["read-pe-version"];
+      possiblePositions = ["./read-pe-version", "./bin/read-pe-version"];
+      break;
     default:
-      return new Err(`Error:Undefined command argument : ${command}`);
+      return cacheResult(
+        new Err(`Error:Undefined command argument : ${command}`),
+      );
   }
   // 查找可能的命令
   let result = "";
@@ -114,7 +158,7 @@ function where(command: Commands): Result<string, string> {
     node = possibleCommands[i];
     // 使用which/where
     try {
-      cp.execSync(`${testCmd} ${node}`, { stdio: "ignore" });
+      cp.execFileSync(testCmd, [node], { stdio: "ignore" });
       result = node;
       break;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -132,12 +176,12 @@ function where(command: Commands): Result<string, string> {
     }
     possibleAbsolutePaths.forEach((item) => {
       if (fs.existsSync(item)) {
-        result = `"${item}"`;
+        result = item;
       }
     });
   }
   if (result != "") {
-    return new Ok(parsePath(result));
+    return cacheResult(new Ok(parsePath(result)));
   }
   // 根据possiblePositions查找
   if (possibleCommands.length === 1) {
@@ -151,7 +195,7 @@ function where(command: Commands): Result<string, string> {
           ? ".exe"
           : "");
       if (fs.existsSync(fullPath)) {
-        result = `"${fullPath}"`;
+        result = fullPath;
         break;
       }
     }
@@ -166,7 +210,7 @@ function where(command: Commands): Result<string, string> {
         }
         const fullPath = path.join(basePath, cmd);
         if (fs.existsSync(fullPath)) {
-          result = `"${fullPath}"`;
+          result = fullPath;
           break;
         }
       }
@@ -174,18 +218,16 @@ function where(command: Commands): Result<string, string> {
     }
   }
   if (result != "") {
-    return new Ok(parsePath(result));
+    return cacheResult(new Ok(parsePath(result)));
   } else {
-    return new Err(`Error:Can't find command : ${command}`);
+    return cacheResult(new Err(`Error:Can't find command : ${command}`));
   }
 }
 
 function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
-  const list: Commands[] = ["aria2c", "p7zip", "curl"];
+  const os = getOS();
+  const list = getRequiredCommands(os, config.REMOTE_ENABLE);
   let suc: "Full" | "POSIX" | "Unavailable" = "Full";
-  if (config.REMOTE_ENABLE) {
-    list.push("cloud139");
-  }
   for (const cmd of list) {
     if (where(cmd).err) {
       suc = "Unavailable";
@@ -193,8 +235,6 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
     }
   }
   if (suc == "Unavailable") return suc;
-
-  const os = getOS();
 
   // 如果是Windows检查pecmd
   if (os == "Windows") {
@@ -214,4 +254,11 @@ function ensurePlatform(alert = true): "Full" | "POSIX" | "Unavailable" {
   return suc;
 }
 
-export { getOS, where, OS, ensurePlatform };
+export {
+  getOS,
+  where,
+  OS,
+  ensurePlatform,
+  normalizeTaskPath,
+  getRequiredCommands,
+};

@@ -4,9 +4,10 @@ import { Err, Ok, Result } from "ts-results";
 import path from "path";
 import { log, sleep, writeGBK } from "../../src/utils";
 import { release } from "../../src/p7zip";
-import { releaseInno } from "../../src/inno";
+import { normalizeInnoOutputPath, releaseInno } from "../../src/inno";
 import os from "os";
 import cp from "child_process";
+import { getOS, normalizeTaskPath } from "../../src/platform";
 
 import shell from "shelljs";
 
@@ -69,7 +70,9 @@ export default async function (
       }
       file = m.val;
     } else {
-      file = reg;
+      file = normalizeTaskPath(
+        obj.innoSetup ? normalizeInnoOutputPath(reg, getOS()) : reg,
+      );
     }
     // 判断是文件夹还是文件
     if (fs.statSync(path.join(cwd, file)).isDirectory()) {
@@ -110,17 +113,23 @@ export default async function (
       log(`Info:Matched source file : ${matchRes}`);
       obj.sourceFile = matchRes;
     }
+  } else {
+    obj.sourceFile = normalizeTaskPath(obj.sourceFile);
   }
   // 重命名Inno Setup代码常量文件
   if (obj.innoSetupRename && cwd) {
     for (const [from, to] of Object.entries(obj.innoSetupRename)) {
-      const fromPath = path.join(cwd, from);
-      const toPath = path.join(cwd, to);
+      const normalizedFrom = normalizeTaskPath(
+        obj.innoSetup ? normalizeInnoOutputPath(from, getOS()) : from,
+      );
+      const normalizedTo = normalizeTaskPath(to);
+      const fromPath = path.join(cwd, normalizedFrom);
+      const toPath = path.join(cwd, normalizedTo);
       if (fs.existsSync(fromPath)) {
         fs.renameSync(fromPath, toPath);
         log(`Info:Renamed ${from} to ${to}`);
-        if (obj.sourceFile === from) {
-          obj.sourceFile = to;
+        if (obj.sourceFile === normalizedFrom) {
+          obj.sourceFile = normalizedTo;
         }
       }
     }
@@ -140,7 +149,11 @@ export default async function (
           `move /y "${cwd}" "${path.join(final, p.taskName)}"`,
       );
       await sleep(3000);
-      cp.execSync(`move /y "${cwd}" "${path.join(final, p.taskName)}"`);
+      cp.execFileSync(
+        "cmd",
+        ["/c", "move", "/y", cwd, path.join(final, p.taskName)],
+        { cwd: p.workshop },
+      );
     } else log(`Error:Can't move ${cwd} to ${path.join(final, p.taskName)}`);
   }
   let wcsScript: string = `// Auto produced by Edgeless Bot - Recursive_Unzip
@@ -149,11 +162,12 @@ export default async function (
 // category: ${p.category}
 // author: ${p.author}
   `;
+  const sourceFileForWcs = obj.sourceFile.split(path.sep).join("\\");
   if (!obj.noDesktop) {
     wcsScript += `
 LINK X:\\Users\\Default\\Desktop\\${
       obj.shortcutName
-    },%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}${
+    },%ProgramFiles%\\Edgeless\\${p.taskName}\\${sourceFileForWcs}${
       obj.launchArg ? `,${obj.launchArg}` : ""
     }
 `;
@@ -162,9 +176,9 @@ LINK X:\\Users\\Default\\Desktop\\${
     wcsScript += `
 LINK X:\\Users\\Default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\${
       p.category
-    }\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${p.taskName}\\${
-      obj.sourceFile
-    }${obj.launchArg ? `,${obj.launchArg}` : ""}
+    }\\${obj.shortcutName},%ProgramFiles%\\Edgeless\\${
+      p.taskName
+    }\\${sourceFileForWcs}${obj.launchArg ? `,${obj.launchArg}` : ""}
 `;
   }
   if (obj.addPath) {
@@ -181,12 +195,12 @@ ENVI $Path=%MachinePath%;%ProgramFiles%\\Edgeless\\${p.taskName}
   }
   if (obj.addAppPath) {
     wcsScript += `
-REGI $HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${obj.sourceFile}\\\\=%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}
+REGI $HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${sourceFileForWcs}\\\\=%ProgramFiles%\\Edgeless\\${p.taskName}\\${sourceFileForWcs}
 `;
   }
   if (obj.addMachineAppPath) {
     wcsScript += `
-REGI $HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${obj.sourceFile}\\\\=%ProgramFiles%\\Edgeless\\${p.taskName}\\${obj.sourceFile}
+REGI $HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\${sourceFileForWcs}\\\\=%ProgramFiles%\\Edgeless\\${p.taskName}\\${sourceFileForWcs}
 `;
   }
 

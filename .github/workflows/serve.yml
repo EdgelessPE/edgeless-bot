@@ -1,5 +1,8 @@
 name: Serve-next
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [never]
@@ -11,12 +14,25 @@ on:
   schedule:
     - cron: "0 20 * * *"
   workflow_dispatch:
+    inputs:
+      task:
+        description: Comma-separated task names to build
+        required: false
+        type: string
+      force:
+        description: Force selected tasks to rebuild
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: serve-next-production
+  cancel-in-progress: false
 
 jobs:
   serve:
-    runs-on: windows-2025
+    runs-on: ubuntu-24.04
     env:
-      CLOUD139_TOKEN: ${{ secrets.CLOUD139_TOKEN }}
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       # 获取仓库源码
@@ -24,33 +40,19 @@ jobs:
         with:
           submodules: recursive
           ref: ${{ github.ref }}
+          persist-credentials: false
 
-      # 获取rclone
-      - uses: actions/checkout@v6
-        with:
-          repository: Cnotech/rclone
-          token: ${{ secrets.RCLONE_TOKEN }}
-          path: rclone
+      # 安装系统依赖
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract rclone ca-certificates jq
 
-      # 取出rclone
-      - name: Copy rclone
-        run: mv .\rclone\* .\ && New-Item -Path "~/.config/cloud189" -ItemType Directory && mv .\config.json ~/.config/cloud189/config.json
-
-      # 获取并解压 cloud139
-      - name: Download and extract cloud139
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: "Cnotech/cloud139"
-          latest: true
-          fileName: "cloud139-windows-x86_64.zip"
-          out-file-path: ./
-          extract: true
-
-      # 缓存 node_modules
-      - uses: actions/cache@v5
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+      # 编译 Linux 原生 PE 版本读取器，避免为 rcedit 引入 Wine 运行时
+      - name: Build PE version reader
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          cargo build --release --locked --manifest-path scripts/read-pe-version/Cargo.toml --target-dir "$RUNNER_TEMP/read-pe-version-target"
+          install -m 755 "$RUNNER_TEMP/read-pe-version-target/release/read-pe-version" "$RUNNER_TEMP/bin/read-pe-version"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
 
       # 安装 Nodejs
       - name: Install Node.js
@@ -58,16 +60,81 @@ jobs:
         with:
           node-version: "24.x"
 
+      # 启用 pnpm
+      - name: Enable pnpm
+        run: corepack enable && corepack prepare pnpm@11.16.0 --activate
+
+      # 获取 pnpm store 路径
+      - name: Locate pnpm store
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      # 缓存 pnpm store
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-node24-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-pnpm-
+
       # 安装依赖
       - name: Install dependencies
-        run: npm install -g pnpm@9 && pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Install scoop (Windows)
-        uses: MinoruSekine/setup-scoop@v4
+      # 在部署生产凭据前完成代码测试
+      - name: Test code
+        run: pnpm test
+
+      # 获取私有远程配置
+      - uses: actions/checkout@v6
         with:
-          buckets: main
-          apps: innounp
+          repository: Cnotech/rclone
+          token: ${{ secrets.RCLONE_TOKEN }}
+          path: rclone-config
+          persist-credentials: false
+
+      # 部署远程配置
+      - name: Install remote configuration
+        run: |
+          test -f rclone-config/rclone.conf
+          test -f rclone-config/config.json
+          install -D -m 600 rclone-config/rclone.conf "$HOME/.config/rclone/rclone.conf"
+          install -D -m 600 rclone-config/config.json "$HOME/.config/cloud189/config.json"
+
+      # 获取并解压 cloud139
+      - name: Download and extract cloud139
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: "Cnotech/cloud139"
+          latest: true
+          fileName: "cloud139-linux-x86_64.tar.gz"
+          out-file-path: ./
+          extract: true
+
+      # 检查工具、远程配置与代码
+      - name: Verify environment
+        run: |
+          node --version
+          pnpm --version
+          cargo --version
+          aria2c --version
+          7z --help
+          curl --version
+          innoextract --version
+          read-pe-version node_modules/rcinfo/bin/ShowVer.exe | grep -Fxq '1.0.0.1'
+          rclone version
+          ./cloud139 --help
+          rclone listremotes | grep -Fxq "kanuo:"
 
       # 运行构建任务
       - name: Run scripts
-        run: pnpm serve -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+        env:
+          CLOUD139_TOKEN: ${{ secrets.CLOUD139_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TASK_INPUT: ${{ inputs.task }}
+          FORCE_INPUT: ${{ inputs.force }}
+        run: |
+          args=(-g)
+          if [[ "$FORCE_INPUT" == "true" ]]; then args+=(-f); fi
+          if [[ -n "$TASK_INPUT" ]]; then args+=(-t "$TASK_INPUT"); fi
+          pnpm serve "${args[@]}"

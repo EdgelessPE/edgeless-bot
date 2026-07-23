@@ -71,6 +71,10 @@ Edgeless Bot 的配置文件默认为项目根目录下的 `config.toml` 文件�
 DATABASE_UPDATE = true
 # 数据库存储路径
 DATABASE_PATH = "./database.json"
+# 数据库远程存储路径
+DATABASE_REMOTE_PATH = "kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json"
+# 只读数据库 URL
+DATABASE_READONLY_URL = "https://cloud.edgeless.top/Bot/database.json"
 
 # 是否启用远程功能
 REMOTE_ENABLE = false

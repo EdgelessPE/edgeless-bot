@@ -118,6 +118,7 @@ build_manifest = ["${taskName}"]
 
 # 额外备注，对于特殊类型的任务会在此处标注
 #[extra]
+#disabled = true
 #require_windows = true
 #missing_version = ""
 #weekly = true

@@ -179,17 +179,21 @@ async function producePortableAppsOnline(
   if (!(await release(installerPath, portableRelativePath, true, workshop))) {
     return new Err(`Error:Can't release ${downloadedFile}`);
   }
-  const installerIniPath = path.join(
-    portableDir,
-    "App",
-    "AppInfo",
-    "installer.ini",
-  );
-  if (!fs.existsSync(installerIniPath)) {
+  const appInfoDir = path.join(portableDir, "App", "AppInfo");
+  if (!fs.existsSync(appInfoDir) || !fs.statSync(appInfoDir).isDirectory()) {
+    return new Err(
+      `Error:${options.displayName} installer metadata directory not found`,
+    );
+  }
+  const installerIniName = fs
+    .readdirSync(appInfoDir)
+    .find((name) => name.toLowerCase() === "installer.ini");
+  if (installerIniName === undefined) {
     return new Err(
       `Error:${options.displayName} installer metadata file not found`,
     );
   }
+  const installerIniPath = path.join(appInfoDir, installerIniName);
   const downloadsResult = parseInstallerDownloads(
     fs.readFileSync(installerIniPath, "utf8"),
   );

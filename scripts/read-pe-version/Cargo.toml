@@ -1,0 +1,10 @@
+[package]
+name = "read-pe-version"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = true

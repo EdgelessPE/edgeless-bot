@@ -1,21 +1,19 @@
-import { Ok, Result } from "ts-results";
+import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 
 export default async function (): Promise<Result<ScraperReturned, string>> {
-  const versionApi: any = (
-    await robustGet("https://www.aliyundrive.com/desktop/version/update.json", {
-      responseType: "json",
-    })
-  ).unwrap();
-  const versionUrl = `${
-    versionApi.url
-  }/win32/x64/latest.yml?noCache=${Math.random()}`;
-  const versionInfo: any = (await robustGet(versionUrl)).unwrap() as string;
-  const version = versionInfo.match(/version: (.+)/)[1];
-  const downloadLink = versionInfo.match(/url: (.+)/)[1];
+  const downloadPage = (
+    await robustGet("https://www.alipan.com/download")
+  ).unwrap() as string;
+  const linkMatch = downloadPage.match(
+    /app_windows_download_link:\s*["'](https:\/\/[^"']+\/aDrive-([\d.]+)\.exe)["']/,
+  );
+  if (linkMatch?.[1] === undefined || linkMatch[2] === undefined) {
+    return new Err("Error:Can't find Aliyun Drive Windows download link");
+  }
   return new Ok({
-    version,
-    downloadLink,
+    version: linkMatch[2],
+    downloadLink: linkMatch[1],
   });
 }

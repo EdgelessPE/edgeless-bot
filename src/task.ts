@@ -33,8 +33,10 @@ import { DOWNLOAD_CACHE, MISSING_VERSION_TRY_DAY, PROJECT_ROOT } from "./const";
 import { deleteFromRemote } from "./cloud139";
 import scraperRegister from "../templates/scrapers/_register";
 import os from "os";
-import { getOS } from "./platform";
+import { getOS, normalizeTaskPath, OS } from "./platform";
 import shell from "shelljs";
+import cp from "child_process";
+import { readPEVersion } from "./peVersion";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -55,17 +57,21 @@ export interface TaskConfig {
 }
 
 async function getExeVersion(file: string, cd: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (!fs.existsSync(path.resolve(cd, file))) {
-      reject(
-        `Error:Can't find ${path.resolve(
-          cd,
-          file,
-        )} , please consider add "\${taskName}/" before it`,
-      );
-    }
-    const fullPath = path.resolve(cd, file);
+  const fullPath = path.resolve(cd, file);
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(
+      `Error:Can't find ${fullPath} , please consider add "\${taskName}/" before it`,
+    );
+  }
+  const os = getOS();
+  if (os === "Linux") {
+    return readPEVersion(fullPath);
+  }
+  if (os !== "Windows") {
+    throw new Error(`Error:Reading PE file versions is unsupported on ${os}`);
+  }
 
+  return new Promise((resolve, reject) => {
     const tryRcinfo = (): Promise<string> => {
       return new Promise((resolveRcinfo, rejectRcinfo) => {
         rcInfo(fullPath, (error: unknown, info: { FileVersion?: string }) => {
@@ -84,14 +90,18 @@ async function getExeVersion(file: string, cd: string): Promise<string> {
           /'/g,
           "''",
         )}').VersionInfo.FileVersion`;
-        const result = shell.exec(`powershell -Command "${psCommand}"`, {
-          silent: true,
-        });
-        if (result.code !== 0) {
-          rejectPs(result.stderr || "PowerShell failed");
-        } else {
-          resolvePs(result.stdout.trim());
-        }
+        cp.execFile(
+          "powershell",
+          ["-NoProfile", "-Command", psCommand],
+          { encoding: "utf8" },
+          (error, stdout, stderr) => {
+            if (error) {
+              rejectPs(stderr || "PowerShell failed");
+            } else {
+              resolvePs(stdout.trim());
+            }
+          },
+        );
       });
     };
 
@@ -469,11 +479,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   let f, v;
   if (t.task.parameter.build_delete) {
     for (const file of t.task.parameter.build_delete) {
-      v = parseBuiltInValue(file, {
-        taskName: t.task.name,
-        downloadedFile,
-        latestVersion: t.info.version,
-      });
+      v = normalizeTaskPath(
+        parseBuiltInValue(file, {
+          taskName: t.task.name,
+          downloadedFile,
+          latestVersion: t.info.version,
+        }),
+      );
       f = path.resolve(target, v);
       if (!fs.existsSync(f)) {
         // 尝试增加 ${taskName}/ 前缀
@@ -492,7 +504,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     f = path.resolve(
       config.DIR_TASKS,
       t.task.name,
-      t.task.parameter.build_cover,
+      normalizeTaskPath(t.task.parameter.build_cover),
     );
     if (!fs.existsSync(f)) {
       return new Err(`Error:Given cover not exist : ${f}`);
@@ -521,11 +533,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
       final: Array<string> = [];
     for (const cmd of origin) {
       final.push(
-        parseBuiltInValue(cmd, {
-          downloadedFile,
-          taskName: t.task.name,
-          latestVersion: t.info.version,
-        }).replace("\\", "/"),
+        normalizeTaskPath(
+          parseBuiltInValue(cmd, {
+            downloadedFile,
+            taskName: t.task.name,
+            latestVersion: t.info.version,
+          }),
+        ),
       );
     }
     return final;
@@ -547,11 +561,13 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     let version;
     try {
       version = await getExeVersion(
-        parseBuiltInValue(t.task.extra.missing_version, {
-          taskName: t.task.name,
-          downloadedFile,
-          latestVersion: t.info.version,
-        }),
+        normalizeTaskPath(
+          parseBuiltInValue(t.task.extra.missing_version, {
+            taskName: t.task.name,
+            downloadedFile,
+            latestVersion: t.info.version,
+          }),
+        ),
         target,
       );
     } catch (e) {
@@ -775,22 +791,39 @@ function removeExtraBuilds(
   return buildList;
 }
 
+function isTaskSupportedOnOS(task: TaskInstance, os: OS): boolean {
+  if (os !== "Windows" && task.extra?.require_windows) return false;
+  if (os !== "Windows" && os !== "Linux" && task.extra?.missing_version) {
+    return false;
+  }
+  return true;
+}
+
+function shouldSkipWeeklyTask(task: TaskInstance, currentDay: number): boolean {
+  return Boolean(
+    task.extra?.weekly &&
+      !task.extra.missing_version &&
+      MISSING_VERSION_TRY_DAY != currentDay,
+  );
+}
+
 function reserveTask(task: TaskInstance): boolean {
+  if (task.extra?.disabled) {
+    log(`Warning:Ignore disabled task ${task.name}`);
+    return false;
+  }
   // 排除 weekly
-  if (task.extra?.weekly && MISSING_VERSION_TRY_DAY != new Date().getDay()) {
+  if (shouldSkipWeeklyTask(task, new Date().getDay())) {
     log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }
-  const isPOSIX = getOS() !== "Windows";
-  // 排除需要 Windows
-  if (isPOSIX && task.extra?.require_windows) {
-    log(`Warning:Ignore require Windows task ${task.name}`);
-    return false;
-  }
-
-  // 排除 POSIX 平台但是需要读取版本号
-  if (isPOSIX && task.extra?.missing_version) {
-    log(`Warning:Ignore missing version task ${task.name} in POSIX platform`);
+  const os = getOS();
+  if (!isTaskSupportedOnOS(task, os)) {
+    if (task.extra?.require_windows) {
+      log(`Warning:Ignore require Windows task ${task.name}`);
+    } else {
+      log(`Warning:Ignore missing version task ${task.name} on ${os}`);
+    }
     return false;
   }
 
@@ -803,5 +836,7 @@ export {
   executeTasks,
   getTasksToBeExecuted,
   removeExtraBuilds,
+  isTaskSupportedOnOS,
+  shouldSkipWeeklyTask,
   reserveTask,
 };

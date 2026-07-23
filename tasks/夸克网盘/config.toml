@@ -45,6 +45,7 @@ innoSetup = true
 
 # 额外备注
 [extra]
+disabled = true
 # require_windows = false
 # missing_version = ""
 weekly = true

@@ -1,6 +1,7 @@
 import { fromGBK, getTimeString, log } from "./utils";
 import cp from "child_process";
 import { config } from "./config";
+import { where } from "./platform";
 
 // FIXME:rclone自身原因，无法读取配置的http_proxy环境变量以使用代理
 function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
@@ -9,6 +10,7 @@ function getOptions(timeout: number): cp.ExecSyncOptionsWithBufferEncoding {
   };
   if (config.GLOBAL_PROXY) {
     result["env"] = {
+      ...process.env,
       http_proxy: config.GLOBAL_PROXY,
     };
   }
@@ -25,8 +27,9 @@ function uploadToRemote(fileName: string, category: string): boolean {
 
     try {
       log(`Info:Uploading ${fileName}`);
-      cp.execSync(
-        `rclone copy "${localPath}" "${config.REMOTE_NAME}:${remotePath}"`,
+      cp.execFileSync(
+        where("rclone").unwrap(),
+        ["copy", localPath, `${config.REMOTE_NAME}:${remotePath}`],
         getOptions(3600000),
       );
     } catch (err: any) {
@@ -70,8 +73,9 @@ function deleteFromRemote(
     // 读取远程目录查看是否存在
     let buf;
     try {
-      buf = cp.execSync(
-        `rclone ls "${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}"`,
+      buf = cp.execFileSync(
+        where("rclone").unwrap(),
+        ["ls", `${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}`],
         getOptions(10000),
       );
     } catch (err: any) {
@@ -96,8 +100,9 @@ function deleteFromRemote(
     // 尝试删除
     try {
       log(`Info:Removing ${remotePath}`);
-      cp.execSync(
-        `rclone delete "${config.REMOTE_NAME}:${remotePath}"`,
+      cp.execFileSync(
+        where("rclone").unwrap(),
+        ["delete", `${config.REMOTE_NAME}:${remotePath}`],
         getOptions(10000),
       );
     } catch (err: any) {

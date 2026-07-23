@@ -1,5 +1,8 @@
 name: Debug
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches:
@@ -8,24 +11,48 @@ on:
       - "src/**"
       - "templates/**"
       - "tasks/**"
+      - "i18n/**"
+      - "schema/**"
+      - "scripts/**"
       - ".github/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "tsconfig.json"
+      - "config.toml"
+  workflow_dispatch:
+    inputs:
+      task:
+        description: Comma-separated task names to build
+        required: false
+        type: string
+      force:
+        description: Force selected tasks to rebuild
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   serve:
-    runs-on: windows-2025
-    env: {}
+    runs-on: ubuntu-24.04
     steps:
       # 获取仓库源码
       - uses: actions/checkout@v6
         with:
           submodules: recursive
           ref: ${{ github.ref }}
+          persist-credentials: false
 
-      # 缓存 node_modules
-      - uses: actions/cache@v5
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+      # 安装系统依赖
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract ca-certificates
+
+      # 编译 Linux 原生 PE 版本读取器，避免为 rcedit 引入 Wine 运行时
+      - name: Build PE version reader
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          cargo build --release --locked --manifest-path scripts/read-pe-version/Cargo.toml --target-dir "$RUNNER_TEMP/read-pe-version-target"
+          install -m 755 "$RUNNER_TEMP/read-pe-version-target/release/read-pe-version" "$RUNNER_TEMP/bin/read-pe-version"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
 
       # 安装 Nodejs
       - name: Install Node.js
@@ -33,16 +60,48 @@ jobs:
         with:
           node-version: "24.x"
 
+      # 启用 pnpm
+      - name: Enable pnpm
+        run: corepack enable && corepack prepare pnpm@11.16.0 --activate
+
+      # 获取 pnpm store 路径
+      - name: Locate pnpm store
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      # 缓存 pnpm store
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-node24-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node24-pnpm-
+
       # 安装依赖
       - name: Install dependencies
-        run: npm install -g pnpm@9 && pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Install scoop (Windows)
-        uses: MinoruSekine/setup-scoop@v4
-        with:
-          buckets: main
-          apps: innounp
+      # 检查工具与代码
+      - name: Verify environment
+        run: |
+          node --version
+          pnpm --version
+          cargo --version
+          aria2c --version
+          7z --help
+          curl --version
+          innoextract --version
+          read-pe-version node_modules/rcinfo/bin/ShowVer.exe | grep -Fxq '1.0.0.1'
+          pnpm test
 
       # 以Debug模式运行构建任务
       - name: Run scripts
-        run: pnpm dev -g -e "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TASK_INPUT: ${{ inputs.task }}
+          FORCE_INPUT: ${{ inputs.force }}
+        run: |
+          args=(-g)
+          if [[ "$FORCE_INPUT" == "true" ]]; then args+=(-f); fi
+          if [[ -n "$TASK_INPUT" ]]; then args+=(-t "$TASK_INPUT"); fi
+          pnpm dev "${args[@]}"

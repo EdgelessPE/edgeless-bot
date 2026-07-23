@@ -4,6 +4,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { config } from "./config";
+import { where } from "./platform";
 
 function login(): boolean {
   if (!config.GITHUB_ACTIONS) {
@@ -16,7 +17,7 @@ function login(): boolean {
   }
   try {
     log("Info:Login to cloud139..");
-    cp.execSync(`cloud139 login -t ${token}`);
+    cp.execFileSync(where("cloud139").unwrap(), ["login", "-t", token]);
   } catch {
     log("Error:Failed to login to cloud139..");
     return false;
@@ -34,7 +35,11 @@ function uploadToRemote(fileName: string, category: string): boolean {
     try {
       log(`Info:Uploading ${fileName}`);
       deleteFromRemote(fileName, category, true);
-      cp.execSync(`cloud139 upload "${localPath}" "${remotePath}"`);
+      cp.execFileSync(where("cloud139").unwrap(), [
+        "upload",
+        localPath,
+        remotePath,
+      ]);
     } catch (err: any) {
       console.log(err?.output?.toString() || err);
       date = new Date();
@@ -79,9 +84,12 @@ function deleteFromRemote(
     );
 
     try {
-      cp.execSync(
-        `cloud139 ls "${config.REMOTE_PATH}/${category}" -o "${tempJsonFile}"`,
-      );
+      cp.execFileSync(where("cloud139").unwrap(), [
+        "ls",
+        `${config.REMOTE_PATH}/${category}`,
+        "-o",
+        tempJsonFile,
+      ]);
     } catch (err: any) {
       console.log(err?.output?.toString() || err);
       log(
@@ -123,7 +131,7 @@ function deleteFromRemote(
 
     try {
       log(`Info:Removing ${remotePath}`);
-      cp.execSync(`cloud139 rm "${remotePath}" --yes`);
+      cp.execFileSync(where("cloud139").unwrap(), ["rm", remotePath, "--yes"]);
     } catch (err: any) {
       console.log(err?.output?.toString() || err);
       return false;

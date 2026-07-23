@@ -10,10 +10,11 @@ import {
   reserveTask,
 } from "./task";
 import { config } from "./config";
-import { ensurePlatform } from "./platform";
+import { ensurePlatform, where } from "./platform";
 import { clearWorkshop } from "./workshop";
 import { initAria2c, stopAria2c } from "./aria2c";
 import {
+  canUploadDatabase,
   modified,
   readDatabase,
   report,
@@ -41,9 +42,11 @@ async function main(): Promise<boolean> {
     console.log("::group::Console Log");
     // 获取database
     if (config.DATABASE_UPDATE && config.REMOTE_ENABLE) {
-      cp.execSync(
-        "rclone copy kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json ./",
-      );
+      cp.execFileSync(where("rclone").unwrap(), [
+        "copyto",
+        config.DATABASE_REMOTE_PATH,
+        config.DATABASE_PATH,
+      ]);
       log("Info:Database pulled");
       const loginRes = login();
       if (!loginRes) {
@@ -51,9 +54,11 @@ async function main(): Promise<boolean> {
       }
     } else {
       // 从https获得只读数据库
-      cp.execSync(
-        "curl https://cloud.edgeless.top/Bot/database.json -o database.json",
-      );
+      cp.execFileSync(where("curl").unwrap(), [
+        config.DATABASE_READONLY_URL,
+        "-o",
+        config.DATABASE_PATH,
+      ]);
       log("Info:Readonly database pulled");
     }
   }
@@ -205,11 +210,21 @@ async function main(): Promise<boolean> {
 if (!Piscina.isWorkerThread) {
   main().then(async (result) => {
     await sleep(1000);
-    if (config.GITHUB_ACTIONS && config.DATABASE_UPDATE && modified) {
+    // 部分任务成功时产物已经上传，数据库必须同步成功与失败节点以保持一致
+    if (
+      canUploadDatabase(
+        config.GITHUB_ACTIONS,
+        config.DATABASE_UPDATE,
+        config.REMOTE_ENABLE,
+        modified,
+      )
+    ) {
       // 回传数据库
-      cp.execSync(
-        "rclone copy ./database.json kanuo:/www/wwwroot/cloud.edgeless.top/Bot/",
-      );
+      cp.execFileSync(where("rclone").unwrap(), [
+        "copyto",
+        config.DATABASE_PATH,
+        config.DATABASE_REMOTE_PATH,
+      ]);
       log("Info:Database pushed");
     }
     process.exit(result ? 0 : 1);

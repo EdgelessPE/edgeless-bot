@@ -38,13 +38,9 @@ async function spawnAria2c(binPath: string): Promise<boolean> {
       args.push(`--max-connection-per-server=${config.ARIA2_THREAD}`);
       args.push(`--split=${config.ARIA2_THREAD}`);
     }
-    // 生成字符串
-    let argsString = "";
-    for (const a of args) {
-      argsString += ` ${a}`;
-    }
-    aria2c_process = cp.exec(
-      binPath + argsString,
+    aria2c_process = cp.execFile(
+      binPath,
+      args,
       { cwd: PROJECT_ROOT },
       (error, stdout, stderr) => {
         aria2c_alive = false;
@@ -270,20 +266,29 @@ async function download_with_curl(
     fs.rmSync(finalPath);
   }
 
-  // 构造命令行
-  const cmd = ["curl", "-k", "-L", `-A "${UA}"`, `-o ${finalPath}`];
-
-  if (options.referer) {
-    cmd.push(`-e ${options.referer}`);
-  }
-
   // 开始下载
   try {
-    cp.execSync(`${cmd.join(" ")} "${url}"`);
+    cp.execFileSync(
+      where("curl").unwrap(),
+      getCurlArguments(url, finalPath, options),
+    );
   } catch (e) {
     throw new Error(`Error:Failed to download ${url} with curl : ${e}`);
   }
   return filename;
+}
+
+function getCurlArguments(
+  url: string,
+  finalPath: string,
+  options: DownloadOptions,
+): string[] {
+  const args = ["-k", "-L", "-A", UA, "-o", finalPath];
+  if (options.referer) {
+    args.push("-e", options.referer);
+  }
+  args.push(url);
+  return args;
 }
 
 async function download(
@@ -300,4 +305,4 @@ async function download(
   }
 }
 
-export { initAria2c, download, aria2c_alive, stopAria2c };
+export { initAria2c, download, aria2c_alive, stopAria2c, getCurlArguments };

@@ -123,6 +123,7 @@ interface TaskInstance {
   producer_required: any;
   scraper_temp?: any;
   extra?: {
+    disabled?: boolean;
     require_windows?: boolean;
     missing_version?: string;
     weekly?: boolean;
@@ -133,6 +134,8 @@ interface TaskInstance {
 interface CONFIG {
   DATABASE_UPDATE: boolean;
   DATABASE_PATH: string;
+  DATABASE_REMOTE_PATH: string;
+  DATABASE_READONLY_URL: string;
 
   REMOTE_ENABLE: boolean;
   REMOTE_NAME: string;
@@ -183,6 +186,7 @@ interface WorkerDataScraper {
   scriptPath: string;
   isExternal: boolean;
   tasks: Array<TaskInstance>;
+  checkMissingVersion: boolean;
 }
 
 interface WorkerDataResolver {

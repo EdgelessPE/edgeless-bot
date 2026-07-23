@@ -1,8 +1,6 @@
-import * as cheerio from "cheerio";
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
-import { Cmp, versionCmp } from "../../src/utils";
 
 const DOWNLOAD_PAGE = "https://www.todesk.com/solo";
 const WINDOWS_INSTALLER_REGEX =
@@ -17,32 +15,20 @@ function parseToDeskVersion(downloadLink: string): string {
 }
 
 function selectWindowsInstaller(page: string): string {
-  const $ = cheerio.load(page);
-  let latestLink = "",
-    latestVersion = "0.0.0.0";
-
-  $("a[href*='dl.todesk.com/irrigation/ToDesk_'][href$='.exe']").each(
-    (_index, node) => {
-      const href = $(node).attr("href");
-      if (href == null) {
-        return;
-      }
-      const matched = href.match(WINDOWS_INSTALLER_REGEX);
-      if (matched == null) {
-        return;
-      }
-      const version = matched[1];
-      if (versionCmp(version, latestVersion) === Cmp.G) {
-        latestVersion = version;
-        latestLink = href;
-      }
-    },
-  );
-
-  if (latestLink === "") {
-    throw new Error("No Windows installer link found");
+  // 页面会按访问来源显示灰度链接，始终读取正式通道而不是 DOM 中的可见链接
+  const matchRes = page.match(/(?:^|[,{])\s*win_link:"([^"]+)"/);
+  if (matchRes == null) {
+    throw new Error("No stable Windows installer link found");
   }
-  return latestLink;
+
+  const installer = JSON.parse(`"${matchRes[1]}"`) as unknown;
+  if (
+    typeof installer !== "string" ||
+    !WINDOWS_INSTALLER_REGEX.test(installer)
+  ) {
+    throw new Error("Invalid stable Windows installer link");
+  }
+  return installer;
 }
 
 export default async function (): Promise<Result<ScraperReturned, string>> {

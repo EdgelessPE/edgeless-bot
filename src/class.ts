@@ -133,6 +133,8 @@ interface TaskInstance {
 interface CONFIG {
   DATABASE_UPDATE: boolean;
   DATABASE_PATH: string;
+  DATABASE_REMOTE_PATH: string;
+  DATABASE_READONLY_URL: string;
 
   REMOTE_ENABLE: boolean;
   REMOTE_NAME: string;

@@ -46,7 +46,7 @@ jobs:
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract rclone ca-certificates jq
 
-      # 编译跨平台 PE 版本读取器
+      # 编译 Linux 原生 PE 版本读取器，避免为 rcedit 引入 Wine 运行时
       - name: Build PE version reader
         run: |
           mkdir -p "$RUNNER_TEMP/bin"
@@ -62,7 +62,7 @@ jobs:
 
       # 启用 pnpm
       - name: Enable pnpm
-        run: corepack enable && corepack prepare pnpm@9.12.2 --activate
+        run: corepack enable && corepack prepare pnpm@11.16.0 --activate
 
       # 获取 pnpm store 路径
       - name: Locate pnpm store

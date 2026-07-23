@@ -28,6 +28,8 @@ export type Commands =
   | "innoextract"
   | "peversion";
 
+const whereCache = new Map<Commands, Result<string, string>>();
+
 function getOS(): OS {
   switch (os.platform()) {
     case "win32":
@@ -57,6 +59,18 @@ function getRequiredCommands(os: OS, remoteEnable: boolean): Commands[] {
 
 // 查找程序位置
 function where(command: Commands): Result<string, string> {
+  const cached = whereCache.get(command);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const cacheResult = (
+    result: Result<string, string>,
+  ): Result<string, string> => {
+    whereCache.set(command, result);
+    return result;
+  };
+
   // 相对路径解析封装
   const parsePath = (p: string): string => {
     if (!path.isAbsolute(p) && p.match(/[\\/]/)) {
@@ -131,7 +145,9 @@ function where(command: Commands): Result<string, string> {
       possiblePositions = ["./read-pe-version", "./bin/read-pe-version"];
       break;
     default:
-      return new Err(`Error:Undefined command argument : ${command}`);
+      return cacheResult(
+        new Err(`Error:Undefined command argument : ${command}`),
+      );
   }
   // 查找可能的命令
   let result = "";
@@ -165,7 +181,7 @@ function where(command: Commands): Result<string, string> {
     });
   }
   if (result != "") {
-    return new Ok(parsePath(result));
+    return cacheResult(new Ok(parsePath(result)));
   }
   // 根据possiblePositions查找
   if (possibleCommands.length === 1) {
@@ -202,9 +218,9 @@ function where(command: Commands): Result<string, string> {
     }
   }
   if (result != "") {
-    return new Ok(parsePath(result));
+    return cacheResult(new Ok(parsePath(result)));
   } else {
-    return new Err(`Error:Can't find command : ${command}`);
+    return cacheResult(new Err(`Error:Can't find command : ${command}`));
   }
 }
 

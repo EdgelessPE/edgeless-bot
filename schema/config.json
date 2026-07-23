@@ -8,6 +8,12 @@
     "DATABASE_PATH": {
       "type": "string"
     },
+    "DATABASE_REMOTE_PATH": {
+      "type": "string"
+    },
+    "DATABASE_READONLY_URL": {
+      "type": "string"
+    },
     "REMOTE_ENABLE": {
       "type": "boolean"
     },
@@ -64,6 +70,8 @@
   "required": [
     "DATABASE_UPDATE",
     "DATABASE_PATH",
+    "DATABASE_REMOTE_PATH",
+    "DATABASE_READONLY_URL",
     "REMOTE_ENABLE",
     "REMOTE_NAME",
     "REMOTE_PATH",

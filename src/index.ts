@@ -43,9 +43,9 @@ async function main(): Promise<boolean> {
     // 获取database
     if (config.DATABASE_UPDATE && config.REMOTE_ENABLE) {
       cp.execFileSync(where("rclone").unwrap(), [
-        "copy",
-        "kanuo:/www/wwwroot/cloud.edgeless.top/Bot/database.json",
-        "./",
+        "copyto",
+        config.DATABASE_REMOTE_PATH,
+        config.DATABASE_PATH,
       ]);
       log("Info:Database pulled");
       const loginRes = login();
@@ -55,9 +55,9 @@ async function main(): Promise<boolean> {
     } else {
       // 从https获得只读数据库
       cp.execFileSync(where("curl").unwrap(), [
-        "https://cloud.edgeless.top/Bot/database.json",
+        config.DATABASE_READONLY_URL,
         "-o",
-        "database.json",
+        config.DATABASE_PATH,
       ]);
       log("Info:Readonly database pulled");
     }
@@ -221,9 +221,9 @@ if (!Piscina.isWorkerThread) {
     ) {
       // 回传数据库
       cp.execFileSync(where("rclone").unwrap(), [
-        "copy",
-        "./database.json",
-        "kanuo:/www/wwwroot/cloud.edgeless.top/Bot/",
+        "copyto",
+        config.DATABASE_PATH,
+        config.DATABASE_REMOTE_PATH,
       ]);
       log("Info:Database pushed");
     }

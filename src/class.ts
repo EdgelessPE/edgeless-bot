@@ -123,6 +123,7 @@ interface TaskInstance {
   producer_required: any;
   scraper_temp?: any;
   extra?: {
+    disabled?: boolean;
     require_windows?: boolean;
     missing_version?: string;
     weekly?: boolean;

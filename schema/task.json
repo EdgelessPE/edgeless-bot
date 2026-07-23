@@ -46,6 +46,9 @@
     },
     "extra": {
       "properties": {
+        "disabled": {
+          "type": "boolean"
+        },
         "missing_version": {
           "type": "string"
         },

@@ -808,6 +808,10 @@ function shouldSkipWeeklyTask(task: TaskInstance, currentDay: number): boolean {
 }
 
 function reserveTask(task: TaskInstance): boolean {
+  if (task.extra?.disabled) {
+    log(`Warning:Ignore disabled task ${task.name}`);
+    return false;
+  }
   // 排除 weekly
   if (shouldSkipWeeklyTask(task, new Date().getDay())) {
     log(`Warning:Ignore weekly task ${task.name}`);

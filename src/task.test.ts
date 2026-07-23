@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { TaskInstance } from "./class";
-import { isTaskSupportedOnOS, shouldSkipWeeklyTask } from "./task";
+import { isTaskSupportedOnOS, reserveTask, shouldSkipWeeklyTask } from "./task";
 
 function createTask(extra?: TaskInstance["extra"]): TaskInstance {
   return { extra } as TaskInstance;
@@ -55,4 +55,8 @@ test("does not weekly-filter missing-version tasks while loading", (): void => {
     false,
   );
   assert.equal(shouldSkipWeeklyTask(createTask({ weekly: true }), 1), true);
+});
+
+test("skips explicitly disabled tasks", (): void => {
+  assert.equal(reserveTask(createTask({ disabled: true })), false);
 });

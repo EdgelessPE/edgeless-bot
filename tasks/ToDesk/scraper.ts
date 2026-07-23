@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
@@ -16,16 +15,18 @@ function parseToDeskVersion(downloadLink: string): string {
 }
 
 function selectWindowsInstaller(page: string): string {
-  const $ = cheerio.load(page);
-  const installer = $(
-    "a[href*='dl.todesk.com/irrigation/ToDesk_'][href$='.exe']",
-  )
-    .filter((_index, node) => $(node).css("display") !== "none")
-    .first()
-    .attr("href");
+  // 页面会按访问来源显示灰度链接，始终读取正式通道而不是 DOM 中的可见链接
+  const matchRes = page.match(/(?:^|[,{])\s*win_link:"([^"]+)"/);
+  if (matchRes == null) {
+    throw new Error("No stable Windows installer link found");
+  }
 
-  if (installer == null || !WINDOWS_INSTALLER_REGEX.test(installer)) {
-    throw new Error("No Windows installer link found");
+  const installer = JSON.parse(`"${matchRes[1]}"`) as unknown;
+  if (
+    typeof installer !== "string" ||
+    !WINDOWS_INSTALLER_REGEX.test(installer)
+  ) {
+    throw new Error("Invalid stable Windows installer link");
   }
   return installer;
 }

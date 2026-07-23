@@ -2,7 +2,6 @@ import * as cheerio from "cheerio";
 import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
-import { Cmp, versionCmp } from "../../src/utils";
 
 const DOWNLOAD_PAGE = "https://www.todesk.com/solo";
 const WINDOWS_INSTALLER_REGEX =
@@ -18,31 +17,17 @@ function parseToDeskVersion(downloadLink: string): string {
 
 function selectWindowsInstaller(page: string): string {
   const $ = cheerio.load(page);
-  let latestLink = "",
-    latestVersion = "0.0.0.0";
+  const installer = $(
+    "a[href*='dl.todesk.com/irrigation/ToDesk_'][href$='.exe']",
+  )
+    .filter((_index, node) => $(node).css("display") !== "none")
+    .first()
+    .attr("href");
 
-  $("a[href*='dl.todesk.com/irrigation/ToDesk_'][href$='.exe']").each(
-    (_index, node) => {
-      const href = $(node).attr("href");
-      if (href == null) {
-        return;
-      }
-      const matched = href.match(WINDOWS_INSTALLER_REGEX);
-      if (matched == null) {
-        return;
-      }
-      const version = matched[1];
-      if (versionCmp(version, latestVersion) === Cmp.G) {
-        latestVersion = version;
-        latestLink = href;
-      }
-    },
-  );
-
-  if (latestLink === "") {
+  if (installer == null || !WINDOWS_INSTALLER_REGEX.test(installer)) {
     throw new Error("No Windows installer link found");
   }
-  return latestLink;
+  return installer;
 }
 
 export default async function (): Promise<Result<ScraperReturned, string>> {

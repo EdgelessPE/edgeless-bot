@@ -799,10 +799,15 @@ function isTaskSupportedOnOS(task: TaskInstance, os: OS): boolean {
   return true;
 }
 
-function shouldSkipWeeklyTask(task: TaskInstance, currentDay: number): boolean {
+function shouldSkipWeeklyTask(
+  task: TaskInstance,
+  currentDay: number,
+  weeklyMode: boolean,
+): boolean {
   return Boolean(
     task.extra?.weekly &&
       !task.extra.missing_version &&
+      !weeklyMode &&
       MISSING_VERSION_TRY_DAY != currentDay,
   );
 }
@@ -813,7 +818,7 @@ function reserveTask(task: TaskInstance): boolean {
     return false;
   }
   // 排除 weekly
-  if (shouldSkipWeeklyTask(task, new Date().getDay())) {
+  if (shouldSkipWeeklyTask(task, new Date().getDay(), config.MODE_WEEKLY)) {
     log(`Warning:Ignore weekly task ${task.name}`);
     return false;
   }

@@ -51,10 +51,17 @@ test("does not weekly-filter missing-version tasks while loading", (): void => {
     shouldSkipWeeklyTask(
       createTask({ weekly: true, missing_version: "app.exe" }),
       1,
+      false,
     ),
     false,
   );
-  assert.equal(shouldSkipWeeklyTask(createTask({ weekly: true }), 1), true);
+});
+
+test("keeps Thursday scheduling unless weekly mode overrides it", (): void => {
+  const weeklyTask = createTask({ weekly: true });
+  assert.equal(shouldSkipWeeklyTask(weeklyTask, 3, false), true);
+  assert.equal(shouldSkipWeeklyTask(weeklyTask, 4, false), false);
+  assert.equal(shouldSkipWeeklyTask(weeklyTask, 3, true), false);
 });
 
 test("skips explicitly disabled tasks", (): void => {

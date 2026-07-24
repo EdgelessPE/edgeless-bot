@@ -24,6 +24,11 @@ on:
         required: false
         default: false
         type: boolean
+      weekly:
+        description: Run weekly tasks regardless of weekday
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: serve-next-production
@@ -133,8 +138,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TASK_INPUT: ${{ inputs.task }}
           FORCE_INPUT: ${{ inputs.force }}
+          WEEKLY_INPUT: ${{ inputs.weekly }}
         run: |
           args=(-g)
           if [[ "$FORCE_INPUT" == "true" ]]; then args+=(-f); fi
+          if [[ "$WEEKLY_INPUT" == "true" ]]; then args+=(-w); fi
           if [[ -n "$TASK_INPUT" ]]; then args+=(-t "$TASK_INPUT"); fi
           pnpm serve "${args[@]}"

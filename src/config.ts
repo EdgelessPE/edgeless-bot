@@ -21,6 +21,7 @@ function configGenerator(): Result<CONFIG, string> {
     }
     // 对非必需布尔项填充缺省值
     json["MODE_FORCED"] = false;
+    json["MODE_WEEKLY"] = false;
     json["GITHUB_ACTIONS"] = false;
     json["DEBUG_MODE"] = false;
     json["ENABLE_CACHE"] = false;
@@ -38,6 +39,10 @@ function configGenerator(): Result<CONFIG, string> {
       {
         arg: "f",
         key: "MODE_FORCED",
+      },
+      {
+        arg: "w",
+        key: "MODE_WEEKLY",
       },
       {
         arg: "t",

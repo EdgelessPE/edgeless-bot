@@ -138,6 +138,10 @@ Force，忽略与本地数据库的版本号对比强制重新构建任务，通
 
 GitHub Actions，通常情况下不需要用到此模式，当 Edgeless Bot 在 GitHub Actions 运行时需要给定此参数用于改善一些行为。
 
+**-w**
+
+Weekly，立即调度 weekly 任务。不指定此参数时，weekly 任务仍按原有逻辑在周四执行。
+
 **-c**
 
 Cache，启用下载缓存，仅在 Debug 模式下可用，此时 Bot 会缓存下载的文件到根目录的 `cache` 文件夹中以减少因下载文件产生的不必要等待。

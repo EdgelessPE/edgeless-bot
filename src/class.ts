@@ -157,6 +157,7 @@ interface CONFIG {
 
   SPECIFY_TASK: string;
   MODE_FORCED: boolean;
+  MODE_WEEKLY: boolean;
   GITHUB_ACTIONS: boolean;
 
   ENABLE_CACHE: boolean;

@@ -2,7 +2,10 @@ import { Err, Ok, Result } from "ts-results";
 import { ScraperReturned } from "../../src/class";
 import { robustGet } from "../../src/network";
 
-const API_URL = "https://mobilebasedata.kuwo.cn/api/sl/web/down_pc?pack=web_1";
+const API_BASE = "https://mobilebasedata.kuwo.cn/api/sl/web/down_pc?pack=";
+const CHANNELS = ["web_1", "web_2", "web_6"];
+
+type KuwoFetcher = (url: string) => Promise<Result<unknown, string>>;
 
 function extractKuwoDownloadUrl(payload: any): string {
   const url = payload?.data?.url;
@@ -12,24 +15,44 @@ function extractKuwoDownloadUrl(payload: any): string {
   return url;
 }
 
-export default async function (): Promise<Result<ScraperReturned, string>> {
-  const payloadRes = await robustGet(API_URL, {
+function fetchKuwoPayload(url: string): Promise<Result<unknown, string>> {
+  return robustGet(url, {
     headers: {
       Referer: "https://www.kuwo.cn/down",
     },
   });
-  if (payloadRes.err) {
-    return new Err(`Error:Can't fetch ${API_URL}`);
-  }
-
-  try {
-    return new Ok({
-      downloadLink: extractKuwoDownloadUrl(payloadRes.val),
-      version: "0.0.0",
-    });
-  } catch (error) {
-    return new Err(`Error:${(error as Error).message}`);
-  }
 }
 
-export { extractKuwoDownloadUrl };
+async function fetchKuwoDownloadUrl(
+  fetcher: KuwoFetcher = fetchKuwoPayload,
+): Promise<Result<string, string>> {
+  for (const channel of CHANNELS) {
+    const payloadRes = await fetcher(`${API_BASE}${channel}`);
+    if (payloadRes.err) {
+      continue;
+    }
+    try {
+      return new Ok(extractKuwoDownloadUrl(payloadRes.val));
+    } catch {
+      continue;
+    }
+  }
+
+  return new Err(
+    `Error:Can't fetch Kuwo download URL from ${CHANNELS.join(", ")}`,
+  );
+}
+
+export default async function (): Promise<Result<ScraperReturned, string>> {
+  const downloadUrlRes = await fetchKuwoDownloadUrl();
+  if (downloadUrlRes.err) {
+    return new Err(downloadUrlRes.val);
+  }
+
+  return new Ok({
+    downloadLink: downloadUrlRes.val,
+    version: "0.0.0",
+  });
+}
+
+export { extractKuwoDownloadUrl, fetchKuwoDownloadUrl };

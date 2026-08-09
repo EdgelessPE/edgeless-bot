@@ -4,7 +4,7 @@
 name = "央视影音"
 category = "影音播放"
 author = "Cno"
-url = "https://app.cctv.com/index.shtml#page5"
+url = "https://app.cctv.com/index.shtml"
 
 # 指定使用的模板
 [template]
@@ -14,7 +14,7 @@ producer = "Silent_Install"
 
 # 使用到的正则
 [regex]
-# download_link = ''
+download_link = 'https://download\.cntv\.cn/cbox/v6/ysyy_v[\d.]+_\d+_setup_x64\.exe'
 download_name = '\.exe'
 # scraper_version = ''
 
@@ -28,8 +28,9 @@ build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_selector = "a.win"
+download_selector = ".pcDown"
 version_selector = ".pcDown"
+referer = "https://app.cctv.com/index.shtml"
 
 # 自动制作模板要求的参数
 [producer_required]

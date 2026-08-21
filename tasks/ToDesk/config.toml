@@ -32,6 +32,9 @@ shortcutName = "ToDesk"
 sourceFile = "ToDesk.exe"
 recursiveUnzipList = ["app64.7z"]
 
+[scraper_temp]
+# ToDesk CDN 会向 GitHub Actions 中的 aria2 返回截断文件，改用带浏览器 UA 的 curl
+force_curl = true
 
 # 额外备注
 [extra]

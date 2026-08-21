@@ -426,6 +426,7 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
         workshop,
         {
           referer: t.task.scraper_temp?.referer,
+          forceCurl: t.task.scraper_temp?.force_curl === true,
         },
       );
     } catch (e) {

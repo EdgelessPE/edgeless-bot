@@ -12,6 +12,7 @@ const UA =
 
 export interface DownloadOptions {
   referer?: string;
+  forceCurl?: boolean;
 }
 
 let aria2c_process: cp.ChildProcess,
@@ -295,14 +296,18 @@ async function download(
   ...args: [string, string, string, DownloadOptions]
 ): Promise<string> {
   // 先尝试使用 aria2c 下载
-  try {
-    const res = await download_with_aria2c(...args);
-    return res;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e) {
-    log(`Warning:Failed to download with aria2c, try using curl...`);
-    return download_with_curl(...args);
+  if (!args[3].forceCurl) {
+    try {
+      const res = await download_with_aria2c(...args);
+      return res;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      log(`Warning:Failed to download with aria2c, try using curl...`);
+    }
+  } else {
+    log(`Info:Skip aria2c and download with curl`);
   }
+  return download_with_curl(...args);
 }
 
 export { initAria2c, download, aria2c_alive, stopAria2c, getCurlArguments };

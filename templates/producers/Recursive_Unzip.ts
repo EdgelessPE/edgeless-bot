@@ -163,6 +163,10 @@ export default async function (
 // author: ${p.author}
   `;
   const sourceFileForWcs = obj.sourceFile.split(path.sep).join("\\");
+  const sourceDirectoryForWcs = path.win32.dirname(sourceFileForWcs);
+  const executableDirectory = `%ProgramFiles%\\Edgeless\\${p.taskName}${
+    sourceDirectoryForWcs === "." ? "" : `\\${sourceDirectoryForWcs}`
+  }`;
   if (!obj.noDesktop) {
     wcsScript += `
 LINK X:\\Users\\Default\\Desktop\\${
@@ -184,13 +188,13 @@ LINK X:\\Users\\Default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Progr
   if (obj.addPath) {
     wcsScript += `
 REGI HKCU\\Environment\\\\Path,UserPath
-ENVI #Path=%UserPath%;%ProgramFiles%\\Edgeless\\${p.taskName}
+ENVI #Path=%UserPath%;${executableDirectory}
 `;
   }
   if (obj.addMachinePath) {
     wcsScript += `
 REGI HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\\\Path,MachinePath
-ENVI $Path=%MachinePath%;%ProgramFiles%\\Edgeless\\${p.taskName}
+ENVI $Path=%MachinePath%;${executableDirectory}
 `;
   }
   if (obj.addAppPath) {

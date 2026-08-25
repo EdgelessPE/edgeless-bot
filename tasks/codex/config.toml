@@ -1,0 +1,43 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "codex"
+category = "开发辅助"
+author = "undefined"
+url = "https://github.com/openai/codex"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '^codex-package-x86_64-pc-windows-msvc\.tar\.gz$'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "codex"
+sourceFile = "bin/codex.exe"
+recursiveUnzipList = ['/codex-package-x86_64-pc-windows-msvc\.tar/']
+noDesktop = true
+addPath = true
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""

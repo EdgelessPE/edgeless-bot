@@ -20,6 +20,14 @@
         "type": "string"
       },
       "description": "Directory or compressed files chain inside downloaded file, support regex contained by // (keep it a empty array if only downloaded file is needed to unzip)"
+    },
+    "addPath": {
+      "type": "boolean",
+      "description": "Add the source file directory to the user PATH"
+    },
+    "addMachinePath": {
+      "type": "boolean",
+      "description": "Add the source file directory to the machine PATH"
     }
   },
   "required": ["shortcutName", "sourceFile", "recursiveUnzipList"]

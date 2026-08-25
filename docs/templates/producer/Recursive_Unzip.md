@@ -74,13 +74,13 @@ recursiveUnzipList = ['下北泽','池沼','/雷普先辈！_ver\.*\.7z/']
 
 - 路径：`producer_required.addPath`
 - 类型：`boolean`
-- 说明：添加释放后的路径到用户级别的环境变量 PATH 中
+- 说明：添加主程序所在目录到用户级别的环境变量 PATH 中
 
 ### addMachinePath
 
 - 路径：`producer_required.addMachinePath`
 - 类型：`boolean`
-- 说明：添加释放后的路径到系统级别的环境变量 PATH 中
+- 说明：添加主程序所在目录到系统级别的环境变量 PATH 中
 
 ### addAppPath
 

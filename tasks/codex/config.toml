@@ -3,7 +3,7 @@
 [task]
 name = "codex"
 category = "开发辅助"
-author = "undefined"
+author = "Cno"
 url = "https://github.com/openai/codex"
 
 # 指定使用的模板

@@ -1,0 +1,40 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "OpenCode"
+category = "开发辅助"
+author = "Cno"
+url = "https://opencode.ai/zh/download"
+
+# 指定使用的模板
+[template]
+scraper = "Redirection_Parse"
+# resolver = ""
+producer = "Silent_Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '^opencode-desktop-windows-x64\.exe$'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 1
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+redirection_url = "https://opencode.ai/zh/download/stable/windows-x64-nsis"
+
+# 自动制作模板要求的参数
+[producer_required]
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

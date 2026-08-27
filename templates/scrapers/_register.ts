@@ -39,7 +39,7 @@ const regArray: Array<ScraperRegister> = [
     urlRegex: "universal://",
     requiredKeys: ["scraper_temp.redirection_url"],
     description:
-      'Parse redirection url to resolve version and direct download link, specify url by "scraper_temp.redirection_url"',
+      'Parse redirection url to resolve version and direct download link, specify url by "scraper_temp.redirection_url" and optionally override the download link with "scraper_temp.download_url"',
   },
   {
     name: "Scoop",

@@ -5,6 +5,7 @@ import { log } from "../../src/utils";
 
 interface Temp {
   redirection_url: string;
+  download_url?: string;
 }
 
 export default async function (
@@ -26,6 +27,6 @@ export default async function (
 
   return new Ok({
     version: m[m.length - 1],
-    downloadLink,
+    downloadLink: temp.download_url ?? downloadLink,
   });
 }

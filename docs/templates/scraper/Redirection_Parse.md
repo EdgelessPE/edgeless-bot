@@ -16,4 +16,8 @@
 
 ## 可选的参数
 
-无
+### download_url
+
+- 路径：`scraper_temp.download_url`
+- 类型：`string`
+- 说明：指定实际下载地址。配置后，模板仍通过 `redirection_url` 解析版本号，但将此地址作为下载直链返回；适用于版本来源与下载地址不同的场景

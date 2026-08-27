@@ -1,0 +1,41 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "ZCode"
+category = "开发辅助"
+author = "Cno"
+url = "https://zcode.z.ai/cn"
+
+# 指定使用的模板
+[template]
+scraper = "Global_Page_Match"
+# resolver = ""
+producer = "Silent_Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '^ZCode-[\d.]+-win-x64\.exe$'
+scraper_version = '\d+\.\d+\.\d+'
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+[scraper_temp]
+version_selector = 'a[href*="/windows-x64/"]'
+download_selector = 'a[href*="/windows-x64/"]'
+
+# 自动制作模板要求的参数
+[producer_required]
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

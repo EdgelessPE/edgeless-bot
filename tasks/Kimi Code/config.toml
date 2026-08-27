@@ -1,0 +1,44 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "Kimi Code"
+category = "开发辅助"
+author = "Cno"
+url = "https://github.com/MoonshotAI/kimi-code"
+
+# 指定使用的模板
+[template]
+# scraper = ""
+# resolver = ""
+producer = "Recursive_Unzip"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '^kimi-code-win32-x64\.zip$'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}"]
+# build_cover = ""
+# build_delete = []
+
+# 爬虫模板临时参数
+# [scraper_temp]
+
+# 自动制作模板要求的参数
+[producer_required]
+shortcutName = "Kimi Code"
+sourceFile = "kimi.exe"
+recursiveUnzipList = []
+noDesktop = true
+addPath = true
+
+# 额外备注
+# [extra]
+# require_windows = true
+# missing_version = ""
+# weekly = true

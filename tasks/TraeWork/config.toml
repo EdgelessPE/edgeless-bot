@@ -1,0 +1,37 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "TraeWork"
+category = "办公编辑"
+author = "Cno"
+url = "https://www.trae.cn/download"
+
+# 指定使用的模板
+[template]
+scraper = "External"
+# resolver = ""
+producer = "Silent_Install"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '\.exe'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/${downloadedFile}"]
+# build_cover = ""
+# build_delete = []
+
+# 自动制作模板要求的参数
+[producer_required]
+argument = "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
+
+# 额外备注
+# [extra]
+# require_windows = false
+# missing_version = ""
+# weekly = true

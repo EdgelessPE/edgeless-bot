@@ -1,10 +1,9 @@
 import { ProducerParameters, ProducerReturned } from "../../src/class";
 import { Err, Ok, Result } from "ts-results";
+import { release } from "../../src/p7zip";
 import { writeGBK } from "../../src/utils";
 import fs from "fs";
 import path from "path";
-
-import shell from "shelljs";
 
 export default async function (
   p: ProducerParameters,
@@ -18,9 +17,12 @@ export default async function (
     return new Err(`Error:Can't find downloaded file ${sourceFile}`);
   }
 
-  // 将单文件程序放入插件目录，并在安装完成后隐藏启动监听服务
-  shell.mkdir("-p", readyDir);
-  fs.copyFileSync(sourceFile, path.join(readyDir, "lcr.exe"));
+  // 解压 Windows 构建，并在安装完成后隐藏启动监听服务
+  fs.mkdirSync(readyRoot, { recursive: true });
+  const released = await release(sourceFile, readyDir, true);
+  if (!released) {
+    return new Err(`Error:Can't release downloaded file ${sourceFile}`);
+  }
   writeGBK(
     path.join(readyRoot, `${taskName}.wcs`),
     `EXEC @!"%ProgramFiles%\\Edgeless\\${taskName}\\lcr.exe"`,

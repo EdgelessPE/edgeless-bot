@@ -1,0 +1,34 @@
+#:schema ../../schema/task.json
+# 任务基本信息
+[task]
+name = "VirtualBoxGuest"
+category = "开发辅助"
+author = "Cno"
+url = "https://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT"
+
+# 指定使用的模板
+[template]
+scraper = "External"
+# resolver = ""
+producer = "External"
+
+# 使用到的正则
+[regex]
+# download_link = ''
+download_name = '^VBoxGuestAdditions_[0-9.]+\.iso$'
+# scraper_version = ''
+
+# 通用参数
+[parameter]
+# resolver_cd = []
+# compress_level = 5
+build_manifest = ["${taskName}.wcs", "${taskName}/VBoxGuest.inf"]
+# build_cover = ""
+# build_delete = []
+
+# 自动制作模板要求的参数
+[producer_required]
+
+# 额外备注
+[extra]
+require_windows = true

@@ -40,8 +40,26 @@ export default async function (
   // 处理定义的选择器
   if (temp.version_selector != undefined) {
     const $ = cheerio.load(page);
-    scope = $(temp.version_selector).html() ?? "";
+    const selected = $(temp.version_selector);
+    scope = selected.html() ?? "";
     log(`Info:Narrow version match scope by selector : ${scope}`);
+    if (scope == "") {
+      const title = $("title").first().text().replace(/\s+/g, " ").trim(),
+        bodyPreview = $("body")
+          .text()
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 300);
+      log(
+        `Warning:Version selector diagnostics : selector=${
+          temp.version_selector
+        }, matched=${selected.length}, pageLength=${
+          page.length
+        }, title=${JSON.stringify(title)}, bodyPreview=${JSON.stringify(
+          bodyPreview,
+        )}`,
+      );
+    }
   } else {
     scope = page;
   }

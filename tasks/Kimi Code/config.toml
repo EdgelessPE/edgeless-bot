@@ -2,7 +2,7 @@
 # 任务基本信息
 [task]
 name = "Kimi Code"
-category = "开发辅助"
+category = "集成开发"
 author = "Cno"
 url = "https://github.com/MoonshotAI/kimi-code"
 

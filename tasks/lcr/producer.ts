@@ -25,7 +25,7 @@ export default async function (
   }
   writeGBK(
     path.join(readyRoot, `${taskName}.wcs`),
-    `EXEC @!"%ProgramFiles%\\Edgeless\\${taskName}\\lcr.exe"`,
+    `EXEC @!"%ProgramFiles%\\Edgeless\\${taskName}\\lcr.exe" --listen 0.0.0.0:9527`,
   );
 
   const manifest = [

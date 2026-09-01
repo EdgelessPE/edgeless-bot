@@ -2,7 +2,7 @@
 # 任务基本信息
 [task]
 name = "OpenCode"
-category = "开发辅助"
+category = "集成开发"
 author = "Cno"
 url = "https://opencode.ai/zh/download"
 

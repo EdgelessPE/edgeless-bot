@@ -16,7 +16,11 @@ function parseToDeskVersion(downloadLink: string): string {
 
 function selectWindowsInstaller(page: string): string {
   // 页面会按访问来源显示灰度链接，始终读取正式通道而不是 DOM 中的可见链接
-  const matchRes = page.match(/(?:^|[,{])\s*win_link:"([^"]+)"/);
+  const matchRes =
+    page.match(/(?:^|[,{])\s*win_link:"([^"]+)"/) ??
+    page.match(
+      /["'](https:(?:\\u002F|\/){2}dl\.todesk\.com(?:\\u002F|\/)irrigation(?:\\u002F|\/)ToDesk_\d+\.\d+\.\d+\.\d+\.exe)["']/i,
+    );
   if (matchRes == null) {
     throw new Error("No stable Windows installer link found");
   }

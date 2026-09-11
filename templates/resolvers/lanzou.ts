@@ -151,7 +151,11 @@ function extractLanzouAjaxRequest(
     /\$\.ajax\(\s*{[\s\S]*?url\s*:\s*['"]([^'"]+)['"][\s\S]*?data\s*:\s*{([\s\S]*?)}[\s\S]*?}\s*\);/g,
   )) {
     const [, url, dataBlock] = matchRes;
-    if (!url.includes("ajaxm.php") && !url.includes("filemoreajax.php")) {
+    if (
+      !url.includes("ajaxm.php") &&
+      !url.includes("ajaxfile.php") &&
+      !url.includes("filemoreajax.php")
+    ) {
       continue;
     }
 

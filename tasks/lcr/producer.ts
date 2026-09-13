@@ -17,19 +17,21 @@ export default async function (
     return new Err(`Error:Can't find downloaded file ${sourceFile}`);
   }
 
-  // 解压 Windows 构建，并在安装完成后隐藏启动监听服务
+  // 解压 Windows 构建，并生成最小化启动监听服务的 CMD 入口
   fs.mkdirSync(readyRoot, { recursive: true });
   const released = await release(sourceFile, readyDir, true);
   if (!released) {
     return new Err(`Error:Can't release downloaded file ${sourceFile}`);
   }
   writeGBK(
-    path.join(readyRoot, `${taskName}.wcs`),
-    `EXEC @!"%ProgramFiles%\\Edgeless\\${taskName}\\lcr.exe" --listen 0.0.0.0:9527`,
+    path.join(readyRoot, `${taskName}.cmd`),
+    `@echo off\r\n` +
+      `start "" /min "%ProgramFiles%\\Edgeless\\${taskName}\\lcr.exe" --listen 0.0.0.0:9527\r\n` +
+      `exit /b\r\n`,
   );
 
   const manifest = [
-    path.join(readyRoot, `${taskName}.wcs`),
+    path.join(readyRoot, `${taskName}.cmd`),
     path.join(readyDir, "lcr.exe"),
   ];
   for (const item of manifest) {

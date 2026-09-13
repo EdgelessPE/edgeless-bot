@@ -22,7 +22,7 @@ download_name = '^lcr-windows-x86_64\.zip$'
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs", "${taskName}/lcr.exe"]
+build_manifest = ["${taskName}.cmd", "${taskName}/lcr.exe"]
 # build_cover = ""
 # build_delete = []
 

@@ -466,7 +466,8 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
   });
   if (p.err) {
     log(p.val);
-    return new Err(`Error:Can't produce task ${t.task.name}`);
+    const reason = p.val.replace(/^Error:/, "");
+    return new Err(`Error:Can't produce task ${t.task.name}: ${reason}`);
   }
   // 获得即将验收的绝对路径
   const target = path.resolve(
@@ -545,16 +546,18 @@ async function execute(t: ExecuteParameter): Promise<Result<string, string>> {
     }
     return final;
   };
-  let pass = true;
+  const missingFiles: Array<string> = [];
   for (const file of getBuildManifest()) {
     if (!fs.existsSync(path.resolve(target, file))) {
-      pass = false;
+      missingFiles.push(file);
       log(`Error:Check manifest failed for ${t.task.name},missing ${file}`);
     }
   }
-  if (!pass) {
+  if (missingFiles.length > 0) {
     return new Err(
-      `Error:Can't produce task ${t.task.name} due to build missing`,
+      `Error:Can't produce task ${
+        t.task.name
+      }: Build manifest is missing ${missingFiles.join(", ")}`,
     );
   }
   // 处理无版本号任务：读取本地文件获得版本号

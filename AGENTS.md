@@ -26,6 +26,7 @@ docs/         - VitePress 文档
 # 构建并运行
 pnpm serve        # 生产模式（tsc + node）
 pnpm dev          # 调试模式（tsc + node + -d）
+pnpm dev -t       # 调试某个任务
 
 # 类型检查
 pnpm check        # TypeScript 类型检查（tsc --noEmit）
@@ -47,75 +48,9 @@ pnpm docs:build   # 构建文档
 pnpm test         # 运行测试
 ```
 
----
+### 任务改动验证
 
-## 代码风格
-
-**注意：** 必须显式声明函数返回类型，禁止隐式 any。
-
----
-
-## 命名规范
-
-### 文件命名
-
-- TypeScript 文件：`PascalCase.ts`（如 `GitHub_Release.ts`）
-- 任务文件夹：软件名称（中英文混合，如 `Chrome`、`酷我音乐`）
-
-### 类型/接口命名（PascalCase）
-
-```
-ScraperParameters / ResolverParameters / ProducerParameters
-ScraperReturned / ResolverReturned / ProducerReturned
-ScraperRegister / ResolverRegister / ProducerRegister
-WorkerDataScraper / WorkerDataResolver / WorkerDataProducer
-```
-
-### 函数命名（camelCase）
-
-使用描述性动词：`getExeVersion`、`parsePath`、`searchTemplate`、`validateConfig`
-
-### 变量命名（camelCase）
-
-`taskName`、`downloadLink`、`onlineVersion`
-
-### 常量命名
-
-参考 `src/const.ts`：`UPPER_SNAKE_CASE` 或 PascalCase（如 `CATEGORIES`）
-
----
-
-## 导入规范
-
-### 内部模块导入
-
-```typescript
-import { log, sleep } from "./utils";
-import { Err, Ok, Result } from "ts-results";
-import { TaskInstance } from "./class";
-```
-
-### 模板文件导入（从 templates/\*/ 到 src/）
-
-```typescript
-import { robustGet } from "../../src/network";
-import { ScraperParameters, ScraperReturned } from "../../src/class";
-import { coverSecret, log } from "../../src/utils";
-```
-
-### 类型导入
-
-```typescript
-import { TaskInstance } from "./class"; // 类型用普通 import
-```
-
-### 外部模块导入
-
-```typescript
-import axios from "axios";
-import chalk from "chalk";
-import shell from "shelljs";
-```
+修改 `tasks/` 下的任务后，必须使用 `pnpm dev -t "<任务名>"` 运行对应任务，验证爬取、下载、解析和制作流程能够完整成功；如果任务版本未变化导致跳过制作，则增加 `-f` 强制制作。不能只以命令退出成功作为验证结果，还必须检查 `builds/<分类>/` 中生成产物的大小是否合理，并使用 `7z l <产物路径>` 等方式核对压缩包内的目录结构、关键文件和 `build_manifest` 是否符合预期。
 
 ---
 
@@ -142,26 +77,6 @@ if (mRes.err) {
 
 // 链式调用
 const r = await robustGet(downloadLink, cfg).unwrap();
-```
-
-### try-catch 模式
-
-```typescript
-try {
-  json = (await robustGet(downloadLink, cfg)).unwrap();
-} catch (e) {
-  console.log(JSON.stringify(e));
-  return new Err(`Error:Can't fetch ${downloadLink}`);
-}
-```
-
-### 日志消息格式
-
-```
-Error:描述性错误消息
-Warning:警告消息
-Info:信息消息
-Success:成功消息
 ```
 
 ### 超时处理

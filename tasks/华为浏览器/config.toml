@@ -26,11 +26,6 @@ build_manifest = ["${taskName}.wcs","${taskName}/HuaweiBrowser.exe"]
 # build_cover = ""
 # build_delete = []
 
-# 爬虫模板临时参数
-[scraper_temp]
-version_page_url = "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/mobileservices/browser/new-version/js/nav.js"
-download_page_url = "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/mobileservices/browser/new-version/js/nav.js"
-
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "华为浏览器"

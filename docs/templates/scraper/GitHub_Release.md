@@ -22,3 +22,9 @@
 - 路径：`scraper_temp.allow_pre_release`
 - 类型：`boolean`
 - 说明：缺省状态下，模板会自动忽略预发布的 Release，设置为 `true` 则会将预发布的 Release 也纳入爬取范围
+
+### release_tag_regex
+
+- 路径：`scraper_temp.release_tag_regex`
+- 类型：`string`
+- 说明：仅选择标签匹配该正则表达式的 Release。此条件也会传递给 GitHub Release 解析器，确保版本号与下载文件来自同一个发布渠道。

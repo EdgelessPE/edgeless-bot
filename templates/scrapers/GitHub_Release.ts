@@ -6,6 +6,7 @@ import { coverSecret, log } from "../../src/utils";
 
 interface Temp {
   allow_pre_release?: boolean;
+  release_tag_regex?: string;
 }
 
 function parseRepo(url: string): { owner: string; repo: string } {
@@ -48,16 +49,32 @@ export default async function (
     return new Err(`Error:GitHub api response is not an array : ${json}`);
   }
   try {
+    const tagRegex =
+      temp?.release_tag_regex == undefined
+        ? undefined
+        : new RegExp(temp.release_tag_regex);
     let i = 0;
-    // 过滤预发布
-    if (!(temp?.allow_pre_release ?? false)) {
-      while (json[i]?.prerelease && i < json.length) {
-        i++;
+
+    while (i < json.length) {
+      const release = json[i];
+      const isPreRelease = release?.prerelease === true;
+      const tagMatched =
+        tagRegex == undefined ||
+        (typeof release?.tag_name === "string" &&
+          tagRegex.test(release.tag_name));
+      if (((temp?.allow_pre_release ?? false) || !isPreRelease) && tagMatched) {
+        break;
       }
-      // 防止越界
-      if (i == json.length) {
-        i = 0;
-      }
+      i++;
+    }
+    if (i == json.length) {
+      return new Err(
+        `Error:Can't find matched GitHub release tag${
+          temp?.release_tag_regex == undefined
+            ? ""
+            : ` with ${temp.release_tag_regex}`
+        }`,
+      );
     }
     const version = json[i].tag_name;
     return new Ok({

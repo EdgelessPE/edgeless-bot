@@ -6,20 +6,30 @@ import { AxiosRequestConfig } from "axios";
 
 interface Temp {
   allow_pre_release?: boolean;
+  release_tag_regex?: string;
 }
 
 function selectGitHubReleaseAsset(
   releases: any[],
   fileMatchRegex: string,
   allowPreRelease: boolean,
+  releaseTagRegex?: string,
 ): Result<string, string> {
   const regex = new RegExp(fileMatchRegex);
+  const tagRegex =
+    releaseTagRegex == undefined ? undefined : new RegExp(releaseTagRegex);
 
   for (const release of releases) {
     if (release == null) {
       continue;
     }
     if (!allowPreRelease && release.prerelease) {
+      continue;
+    }
+    if (
+      tagRegex != undefined &&
+      (typeof release.tag_name !== "string" || !tagRegex.test(release.tag_name))
+    ) {
       continue;
     }
 
@@ -78,6 +88,7 @@ export default async function (
     Array.isArray(json) ? json : [],
     fileMatchRegex,
     temp?.allow_pre_release ?? false,
+    temp?.release_tag_regex,
   );
   if (result.err) {
     return result;

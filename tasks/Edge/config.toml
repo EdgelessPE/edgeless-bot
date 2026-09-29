@@ -4,40 +4,38 @@
 name = "Edge"
 category = "浏览器"
 author = "xrgzs"
-url = "https://www.microsoft.com/zh-cn/edge/download"
+url = "https://github.com/bibicadotnet/edge-portable-chrome-next-mini"
 
 # 指定使用的模板
 [template]
-scraper = "REST_API"
+scraper = "GitHub_Release"
 # resolver = ""
 producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = '\.exe'
+download_name = '^edge-stable-portable-x64_.+\.zip$'
 # scraper_version = ''
 
 # 通用参数
 [parameter]
 # resolver_cd = []
 # compress_level = 5
-build_manifest = ["${taskName}.wcs","${taskName}/msedge.exe"]
+build_manifest = ["${taskName}.wcs", "${taskName}/Edge_Portable/Edge/msedge.exe"]
 # build_cover = ""
 # build_delete = []
 
 # 爬虫模板临时参数
 [scraper_temp]
-download_path = "msedge-stable-win-x64.url"
-version_path = "msedge-stable-win-x64.version"
-api_url = "https://raw.githubusercontent.com/Bush2021/edge_installer/main/data.json"
+release_tag_regex = "^edge-stable-portable-x64_"
 
 # 自动制作模板要求的参数
 [producer_required]
 shortcutName = "Microsoft Edge"
-sourceFile = "msedge.exe"
+sourceFile = "Edge_Portable/Edge/msedge.exe"
 launchArg = "--allow-run-as-system --no-first-run"
-recursiveUnzipList = ["MSEDGE.7z", "Chrome-bin", "/(\\d+.){3}\\d+/"]
+recursiveUnzipList = []
 
 
 # 额外备注

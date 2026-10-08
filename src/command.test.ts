@@ -39,51 +39,236 @@ test("keeps archive entries in separate arguments", (): void => {
   );
 });
 
-test("normalizes Windows separators preserved in extracted file names", (): void => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
-  try {
-    fs.writeFileSync(path.join(root, "win-vind\\win-vind.exe"), "test");
-    normalizeExtractedPaths(root);
-    assert.equal(
-      fs.existsSync(path.join(root, "win-vind", "win-vind.exe")),
-      true,
-    );
-  } finally {
-    fs.rmSync(root, { recursive: true, force: true });
-  }
-});
+test(
+  "normalizes Windows separators preserved in extracted file names",
+  { skip: process.platform === "win32" },
+  (): void => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+    try {
+      fs.writeFileSync(path.join(root, "win-vind\\win-vind.exe"), "test");
+      normalizeExtractedPaths(root);
+      assert.equal(
+        fs.existsSync(path.join(root, "win-vind", "win-vind.exe")),
+        true,
+      );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  },
+);
 
-test("normalizes nested directories with preserved Windows separators", (): void => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
-  try {
-    const preservedDirectory = path.join(root, "outer\\inner");
-    fs.mkdirSync(preservedDirectory);
-    fs.writeFileSync(path.join(preservedDirectory, "nested\\file.exe"), "test");
-    normalizeExtractedPaths(root);
-    assert.equal(
-      fs.existsSync(path.join(root, "outer", "inner", "nested", "file.exe")),
-      true,
-    );
-  } finally {
-    fs.rmSync(root, { recursive: true, force: true });
-  }
-});
+test(
+  "normalizes nested directories with preserved Windows separators",
+  { skip: process.platform === "win32" },
+  (): void => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+    try {
+      const preservedDirectory = path.join(root, "outer\\inner");
+      fs.mkdirSync(preservedDirectory);
+      fs.writeFileSync(
+        path.join(preservedDirectory, "nested\\file.exe"),
+        "test",
+      );
+      normalizeExtractedPaths(root);
+      assert.equal(
+        fs.existsSync(path.join(root, "outer", "inner", "nested", "file.exe")),
+        true,
+      );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  },
+);
 
-test("rejects preserved Windows paths escaping the extraction root", (): void => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
-  const escaped = path.join(
-    path.dirname(root),
-    `escaped-${path.basename(root)}`,
-  );
-  try {
-    fs.writeFileSync(path.join(root, `..\\${path.basename(escaped)}`), "test");
-    assert.throws(() => normalizeExtractedPaths(root), /Unsafe extracted path/);
-    assert.equal(fs.existsSync(escaped), false);
-  } finally {
-    fs.rmSync(root, { recursive: true, force: true });
-    fs.rmSync(escaped, { recursive: true, force: true });
-  }
-});
+test(
+  "rejects preserved Windows paths escaping the extraction root",
+  { skip: process.platform === "win32" },
+  (): void => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+    const escaped = path.join(
+      path.dirname(root),
+      `escaped-${path.basename(root)}`,
+    );
+    try {
+      fs.writeFileSync(
+        path.join(root, `..\\${path.basename(escaped)}`),
+        "test",
+      );
+      assert.throws(
+        () => normalizeExtractedPaths(root),
+        /Unsafe extracted path/,
+      );
+      assert.equal(fs.existsSync(escaped), false);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+      fs.rmSync(escaped, { recursive: true, force: true });
+    }
+  },
+);
+
+test(
+  "normalizes explicit Windows directories with trailing separators and merges their children",
+  { skip: process.platform === "win32" },
+  () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+    try {
+      fs.mkdirSync(
+        path.join(root, "Edge_Portable", "Edge", "154", "EBWebView"),
+        { recursive: true },
+      );
+      fs.writeFileSync(
+        path.join(
+          root,
+          "Edge_Portable",
+          "Edge",
+          "154",
+          "EBWebView",
+          "existing.dll",
+        ),
+        "existing",
+      );
+      const directory = path.join(
+        root,
+        "Edge_Portable\\Edge\\154\\EBWebView\\",
+      );
+      fs.mkdirSync(directory);
+      fs.writeFileSync(path.join(directory, "new.dll"), "new");
+      fs.writeFileSync(
+        path.join(root, "Edge_Portable\\Edge\\msedge.exe"),
+        "browser",
+      );
+      normalizeExtractedPaths(root);
+      assert.equal(
+        fs.readFileSync(
+          path.join(
+            root,
+            "Edge_Portable",
+            "Edge",
+            "154",
+            "EBWebView",
+            "existing.dll",
+          ),
+          "utf8",
+        ),
+        "existing",
+      );
+      assert.equal(
+        fs.readFileSync(
+          path.join(
+            root,
+            "Edge_Portable",
+            "Edge",
+            "154",
+            "EBWebView",
+            "new.dll",
+          ),
+          "utf8",
+        ),
+        "new",
+      );
+      assert.equal(
+        fs.readFileSync(
+          path.join(root, "Edge_Portable", "Edge", "msedge.exe"),
+          "utf8",
+        ),
+        "browser",
+      );
+      assert.deepEqual(fs.readdirSync(root), ["Edge_Portable"]);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  },
+);
+
+test(
+  "still rejects malformed Windows directory paths and trailing separators on files",
+  { skip: process.platform === "win32" },
+  () => {
+    for (const name of [
+      "..\\escape\\",
+      "\\absolute\\",
+      "outer\\\\inner\\",
+      "outer\\.\\inner\\",
+      "outer\\\\",
+    ]) {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+      try {
+        fs.mkdirSync(path.join(root, name));
+        assert.throws(
+          () => normalizeExtractedPaths(root),
+          /Unsafe extracted path/,
+        );
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true });
+      }
+    }
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+    try {
+      fs.writeFileSync(path.join(root, "file\\"), "invalid");
+      assert.throws(
+        () => normalizeExtractedPaths(root),
+        /Unsafe extracted path/,
+      );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  },
+);
+
+test(
+  "directory normalization rejects file collisions and symlink destinations",
+  { skip: process.platform === "win32" },
+  () => {
+    for (const kind of [
+      "collision",
+      "symlink",
+      "dangling symlink",
+      "symlink parent",
+    ]) {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-unzip-"));
+      const outside = fs.mkdtempSync(
+        path.join(os.tmpdir(), "edgeless-outside-"),
+      );
+      try {
+        fs.writeFileSync(path.join(outside, "keep.txt"), "keep");
+        const source = path.join(
+          root,
+          kind === "symlink parent" ? "App\\nested\\" : "App\\",
+        );
+        fs.mkdirSync(source);
+        fs.writeFileSync(path.join(source, "keep.txt"), "replace");
+        if (kind === "collision") {
+          fs.mkdirSync(path.join(root, "App"));
+          fs.writeFileSync(path.join(root, "App", "keep.txt"), "keep");
+        } else {
+          fs.symlinkSync(
+            kind === "dangling symlink"
+              ? path.join(outside, "missing")
+              : outside,
+            path.join(root, "App"),
+          );
+        }
+        assert.throws(
+          () => normalizeExtractedPaths(root),
+          /already exists|traverses symlink/,
+        );
+        assert.equal(
+          fs.readFileSync(path.join(outside, "keep.txt"), "utf8"),
+          "keep",
+        );
+        if (kind === "collision")
+          assert.equal(
+            fs.readFileSync(path.join(root, "App", "keep.txt"), "utf8"),
+            "keep",
+          );
+        assert.equal(fs.existsSync(path.join(outside, "nested")), false);
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true });
+        fs.rmSync(outside, { recursive: true, force: true });
+      }
+    }
+  },
+);
 
 test("keeps existing output when archive extraction fails", async (): Promise<void> => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "edgeless-release-"));

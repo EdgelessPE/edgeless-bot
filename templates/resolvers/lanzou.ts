@@ -26,6 +26,7 @@ const EDGE_ONE_XOR_KEY = "3000176000856006061501533003690027800375";
 function shouldUseProtectedFallback(error: string): boolean {
   return (
     error.includes("Failed to find ajax block for files loading") ||
+    error.includes("Invalid ajax block : no url field matched") ||
     error.includes("Failed to fetch url")
   );
 }
@@ -148,13 +149,16 @@ function extractLanzouAjaxRequest(
   };
 
   for (const matchRes of html.matchAll(
-    /\$\.ajax\(\s*{[\s\S]*?url\s*:\s*['"]([^'"]+)['"][\s\S]*?data\s*:\s*{([\s\S]*?)}[\s\S]*?}\s*\);/g,
+    /\$\.ajax\(\s*{[\s\S]*?url\s*:\s*(['"][^'"]+['"]|[_\w]+)\s*,[\s\S]*?data\s*:\s*{([\s\S]*?)}[\s\S]*?}\s*\);/g,
   )) {
-    const [, url, dataBlock] = matchRes;
+    const [, rawUrl, dataBlock] = matchRes;
+    // /fn 内页通过 dom_ajaxs 选择 domain1 主接口，domain2 是 DNS 备用接口
+    const url = normalizeValue(rawUrl === "dom_ajaxs" ? "domain1" : rawUrl);
     if (
-      !url.includes("ajaxm.php") &&
-      !url.includes("ajaxfile.php") &&
-      !url.includes("filemoreajax.php")
+      typeof url !== "string" ||
+      (!url.includes("ajaxm.php") &&
+        !url.includes("ajaxfile.php") &&
+        !url.includes("filemoreajax.php"))
     ) {
       continue;
     }
@@ -185,6 +189,7 @@ function buildAxiosConfig(
 ): AxiosRequestConfig {
   return {
     proxy: false,
+    timeout: 10000,
     headers: {
       ...getRandomIPHeader(),
       "User-Agent":
@@ -196,36 +201,45 @@ function buildAxiosConfig(
   };
 }
 
+function mergeLanzouCookies(
+  current: string | undefined,
+  setCookies: string[] = [],
+  challengeCookie?: string,
+): string {
+  const cookies = new Map<string, string>();
+  const add = (pair: string): void => {
+    const separator = pair.indexOf("=");
+    if (separator <= 0) return;
+    cookies.set(pair.slice(0, separator).trim(), pair.slice(separator + 1));
+  };
+  for (const pair of current?.split(";") ?? []) add(pair.trim());
+  for (const cookie of setCookies) add(cookie.split(";")[0]);
+  if (challengeCookie != undefined) add(challengeCookie);
+  return Array.from(cookies, ([name, value]) => `${name}=${value}`).join("; ");
+}
+
 async function fetchProtectedPage(
   url: string,
   referer?: string,
   cookie?: string,
 ): Promise<Result<ProtectedPageResult, string>> {
   try {
-    const firstRes = await axios.get(url, buildAxiosConfig(referer, cookie));
-    const firstHtml =
-      typeof firstRes.data === "string" ? firstRes.data : `${firstRes.data}`;
-    const challengeCookie = extractEdgeOneCookie(firstHtml);
-    if (challengeCookie == null) {
-      return new Ok({
-        html: firstHtml,
-        cookie,
+    const cfg = buildAxiosConfig(referer);
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const response = await axios.get(url, {
+        ...cfg,
+        headers: { ...cfg.headers, ...(cookie ? { Cookie: cookie } : {}) },
       });
+      const html = String(response.data);
+      const challengeCookie = extractEdgeOneCookie(html);
+      cookie = mergeLanzouCookies(
+        cookie,
+        response.headers["set-cookie"],
+        challengeCookie ?? undefined,
+      );
+      if (challengeCookie == null) return new Ok({ html, cookie });
     }
-
-    const finalCookie =
-      cookie == null ? challengeCookie : `${cookie}; ${challengeCookie}`;
-    const secondRes = await axios.get(
-      url,
-      buildAxiosConfig(referer, finalCookie),
-    );
-    return new Ok({
-      html:
-        typeof secondRes.data === "string"
-          ? secondRes.data
-          : `${secondRes.data}`,
-      cookie: finalCookie,
-    });
+    return new Err(`Error:Lanzou page challenge was not resolved for '${url}'`);
   } catch (error) {
     return new Err(`Error:Failed to fetch Lanzou page '${url}' : ${error}`);
   }
@@ -246,46 +260,34 @@ async function fetchProtectedJson(
       return form;
     };
 
-    const firstRes = await axios.post(url, buildForm(), {
-      proxy: false,
-      headers: {
-        ...getRandomIPHeader(),
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        Referer: referer,
-        Origin: new URL(referer).origin,
-        ...(cookie == null ? {} : { Cookie: cookie }),
-      },
-    });
-    if (typeof firstRes.data !== "string") {
-      return new Ok(firstRes.data);
+    const cfg = buildAxiosConfig(referer);
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const response = await axios.post(url, buildForm(), {
+        ...cfg,
+        headers: {
+          ...cfg.headers,
+          Origin: new URL(referer).origin,
+          ...(cookie ? { Cookie: cookie } : {}),
+        },
+      });
+      const challengeCookie =
+        typeof response.data === "string"
+          ? extractEdgeOneCookie(response.data)
+          : null;
+      cookie = mergeLanzouCookies(
+        cookie,
+        response.headers["set-cookie"],
+        challengeCookie ?? undefined,
+      );
+      if (challengeCookie == null) {
+        return new Ok(
+          typeof response.data === "string"
+            ? JSON.parse(response.data)
+            : response.data,
+        );
+      }
     }
-
-    const challengeCookie = extractEdgeOneCookie(firstRes.data);
-    if (challengeCookie == null) {
-      return new Ok(JSON.parse(firstRes.data));
-    }
-
-    const finalCookie =
-      cookie == null ? challengeCookie : `${cookie}; ${challengeCookie}`;
-    const secondRes = await axios.post(url, buildForm(), {
-      proxy: false,
-      headers: {
-        ...getRandomIPHeader(),
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        Referer: referer,
-        Origin: new URL(referer).origin,
-        Cookie: finalCookie,
-      },
-    });
-    return new Ok(
-      typeof secondRes.data === "string"
-        ? JSON.parse(secondRes.data)
-        : secondRes.data,
-    );
+    return new Err(`Error:Lanzou API challenge was not resolved for '${url}'`);
   } catch (error) {
     return new Err(`Error:Failed to fetch Lanzou api '${url}' : ${error}`);
   }
@@ -294,32 +296,48 @@ async function fetchProtectedJson(
 async function fetchDirectLinkWithCookie(
   rawDownloadUrl: string,
   referer: string,
-  cookie?: string,
-): Promise<string> {
+): Promise<Result<string, string>> {
   try {
-    const response = await axios.get(rawDownloadUrl, {
-      proxy: false,
-      maxRedirects: 0,
-      validateStatus: (status) => status === 302 || status === 301,
-      headers: {
-        ...getRandomIPHeader(),
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        Referer: referer,
-        ...(cookie == null ? {} : { Cookie: cookie }),
-      },
-    });
-    const location = response.headers.location as string | undefined;
-    if (location != null) {
-      return location;
+    // 下载域名有独立的挑战 Cookie，不能沿用分享页域名的 Cookie
+    let cookie = "down_ip=1";
+    const cfg = buildAxiosConfig(referer);
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const response = await axios.get(rawDownloadUrl, {
+        ...cfg,
+        maxRedirects: 0,
+        maxContentLength: 131072,
+        validateStatus: (status) =>
+          status === 200 || status === 302 || status === 301,
+        headers: { ...cfg.headers, Cookie: cookie },
+      });
+      const location = response.headers.location as string | undefined;
+      if ((response.status === 302 || response.status === 301) && location) {
+        const directLink = new URL(location, rawDownloadUrl);
+        if (
+          directLink.protocol !== "https:" &&
+          directLink.protocol !== "http:"
+        ) {
+          return new Err("Error:Invalid Lanzou download redirect protocol");
+        }
+        return new Ok(directLink.toString());
+      }
+      const challengeCookie =
+        typeof response.data === "string"
+          ? extractEdgeOneCookie(response.data)
+          : null;
+      if (challengeCookie == null) break;
+      cookie = mergeLanzouCookies(
+        cookie,
+        response.headers["set-cookie"],
+        challengeCookie,
+      );
     }
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.headers.location) {
-      return error.response.headers.location as string;
-    }
+    return new Err(
+      `Error:Failed to resolve Lanzou download redirect : ${error}`,
+    );
   }
-  return rawDownloadUrl;
+  return new Err("Error:Lanzou download redirect was not resolved");
 }
 
 async function resolveLanzouFileRequest(
@@ -332,7 +350,7 @@ async function resolveLanzouFileRequest(
     apiUrl,
     request.data,
     shareUrl,
-    cookie,
+    new URL(apiUrl).origin === new URL(shareUrl).origin ? cookie : undefined,
   );
   if (jsonRes.err) {
     return new Err(jsonRes.val);
@@ -350,11 +368,11 @@ async function resolveLanzouFileRequest(
     const rawDownloadUrl = `${json.dom}/file/${json.url}`;
     const directLink = await fetchDirectLinkWithCookie(
       rawDownloadUrl,
-      shareUrl,
-      cookie,
+      json.dom,
     );
+    if (directLink.err) return directLink;
     return new Ok({
-      directLink,
+      directLink: directLink.val,
     });
   }
 
@@ -554,4 +572,12 @@ export default async function (
   }
 }
 
-export { extractEdgeOneCookie, extractLanzouAjaxRequest };
+export {
+  extractEdgeOneCookie,
+  extractLanzouAjaxRequest,
+  fetchProtectedPage,
+  fetchProtectedJson,
+  fetchDirectLinkWithCookie,
+  mergeLanzouCookies,
+  shouldUseProtectedFallback,
+};

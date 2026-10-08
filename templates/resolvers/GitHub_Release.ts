@@ -62,6 +62,7 @@ function selectGitHubReleaseAsset(
 
 export default async function (
   p: ResolverParameters,
+  get: typeof robustGet = robustGet,
 ): Promise<Result<ResolverReturned, string>> {
   const { downloadLink, fileMatchRegex } = p;
   const temp: Temp | undefined = p.scraper_temp;
@@ -79,13 +80,13 @@ export default async function (
             },
           }
         : undefined;
-    json = (await robustGet(downloadLink, cfg)).unwrap();
+    json = (await get(downloadLink, cfg)).unwrap();
   } catch (e) {
     console.log(JSON.stringify(e));
     return new Err(`Error:Can't fetch ${downloadLink}`);
   }
   const result = selectGitHubReleaseAsset(
-    Array.isArray(json) ? json : [],
+    Array.isArray(json) ? json : [json],
     fileMatchRegex,
     temp?.allow_pre_release ?? false,
     temp?.release_tag_regex,

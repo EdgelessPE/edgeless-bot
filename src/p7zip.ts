@@ -6,12 +6,35 @@ import { log } from "./utils";
 
 import shell from "shelljs";
 
+function moveNormalizedEntry(source: string, destination: string): void {
+  const existing = fs.lstatSync(destination, { throwIfNoEntry: false });
+  if (existing !== undefined) {
+    if (!fs.lstatSync(source).isDirectory() || !existing.isDirectory()) {
+      throw new Error(`Extracted path already exists: ${destination}`);
+    }
+    // 显式目录项可能与文件路径创建的父目录重合，仅合并目录，不覆盖文件或链接
+    for (const name of fs.readdirSync(source)) {
+      moveNormalizedEntry(
+        path.join(source, name),
+        path.join(destination, name),
+      );
+    }
+    fs.rmdirSync(source);
+    return;
+  }
+  fs.mkdirSync(path.dirname(destination), { recursive: true });
+  fs.renameSync(source, destination);
+}
+
 function normalizeExtractedPaths(root: string): void {
   const resolvedRoot = path.resolve(root);
   for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
     const source = path.join(root, entry.name);
     if (entry.name.includes("\\")) {
       const segments = entry.name.split("\\");
+      // ZIP 中的 Windows 目录项允许一个末尾分隔符，文件名仍须严格校验
+      if (entry.isDirectory() && segments[segments.length - 1] === "")
+        segments.pop();
       if (
         segments.some(
           (segment) => segment === "" || segment === "." || segment === "..",
@@ -26,16 +49,12 @@ function normalizeExtractedPaths(root: string): void {
       let parent = resolvedRoot;
       for (const segment of segments.slice(0, -1)) {
         parent = path.join(parent, segment);
-        if (fs.existsSync(parent) && fs.lstatSync(parent).isSymbolicLink()) {
+        if (fs.lstatSync(parent, { throwIfNoEntry: false })?.isSymbolicLink()) {
           throw new Error(`Extracted path traverses symlink: ${entry.name}`);
         }
       }
-      if (fs.existsSync(destination)) {
-        throw new Error(`Extracted path already exists: ${destination}`);
-      }
-      fs.mkdirSync(path.dirname(destination), { recursive: true });
-      fs.renameSync(source, destination);
-      if (entry.isDirectory()) normalizeExtractedPaths(destination);
+      if (entry.isDirectory()) normalizeExtractedPaths(source);
+      moveNormalizedEntry(source, destination);
       continue;
     }
     if (entry.isDirectory()) normalizeExtractedPaths(source);

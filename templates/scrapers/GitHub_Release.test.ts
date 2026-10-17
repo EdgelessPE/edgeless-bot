@@ -115,3 +115,57 @@ test("keeps support for release lists supplied by other scrapers", async () => {
   );
   assert.equal(result.unwrap().directLink, "https://example.com/stable.zip");
 });
+
+test("skips releases without the target asset across pages and resolves the selected version", async () => {
+  const urls: string[] = [];
+  const result = await scrape(
+    {
+      ...parameters,
+      scraper_temp: { release_asset_regex: "-win\\.zip$" },
+    },
+    async (url) => {
+      urls.push(url);
+      return new Ok(
+        urls.length === 1
+          ? Array.from({ length: 30 }, (_, i) => ({
+              tag_name: `v2.0.${i}`,
+              prerelease: false,
+              assets: i === 0 ? [] : [{ name: "Motrix-arm64.zip" }],
+            }))
+          : [stable],
+      );
+    },
+  );
+  const selected = result.unwrap();
+  assert.equal(urls.length, 2);
+  assert.match(urls[1], /page=2$/);
+  assert.equal(selected.version, stable.tag_name);
+  const asset = await resolve(
+    {
+      downloadLink: selected.downloadLink,
+      fileMatchRegex: "-win\\.zip$",
+    },
+    async (url) => {
+      assert.match(url, /tags\/v1\.8\.19$/);
+      return new Ok(stable);
+    },
+  );
+  assert.equal(asset.unwrap().directLink, "https://example.com/stable.zip");
+});
+
+test("reports no matching release when the target asset is unavailable", async () => {
+  const result = await scrape(
+    {
+      ...parameters,
+      scraper_temp: { release_asset_regex: "-win\\.zip$" },
+    },
+    async () =>
+      new Ok([
+        { tag_name: "v3", assets: [] },
+        { tag_name: "v2", assets: [null, {}, { name: "Motrix-arm64.zip" }] },
+        { tag_name: "v1" },
+      ]),
+  );
+  assert.equal(result.err, true);
+  assert.match(String(result.val), /Can't find matched GitHub release tag/);
+});

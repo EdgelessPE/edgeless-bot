@@ -28,3 +28,9 @@
 - 路径：`scraper_temp.release_tag_regex`
 - 类型：`string`
 - 说明：仅选择标签匹配该正则表达式的 Release。此条件也会传递给 GitHub Release 解析器，确保版本号与下载文件来自同一个发布渠道。
+
+### release_asset_regex
+
+- 路径：`scraper_temp.release_asset_regex`
+- 类型：`string`
+- 说明：仅选择包含匹配附件名的 Release，跳过尚未上传目标附件的版本，并继续翻页查找。通常应与 `regex.download_name` 保持一致，确保版本号与下载文件属于同一版本。未设置时保持原有行为。

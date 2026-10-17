@@ -15,7 +15,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = 'imFile-[0-9.]+-win.zip'
+download_name = '^imFile-[0-9.]+-x64\.zip$'
 # scraper_version = ''
 
 # 通用参数
@@ -27,7 +27,8 @@ build_manifest = ["${taskName}.wcs", "${taskName}/imFile.exe"]
 # build_delete = []
 
 # 爬虫模板临时参数
-# [scraper_temp]
+[scraper_temp]
+release_asset_regex = '^imFile-[0-9.]+-x64\.zip$'
 
 # 自动制作模板要求的参数
 [producer_required]

@@ -7,6 +7,7 @@ import { coverSecret, log } from "../../src/utils";
 interface Temp {
   allow_pre_release?: boolean;
   release_tag_regex?: string;
+  release_asset_regex?: string;
 }
 
 function parseRepo(url: string): { owner: string; repo: string } {
@@ -43,6 +44,10 @@ export default async function (
       temp?.release_tag_regex == undefined
         ? undefined
         : new RegExp(temp.release_tag_regex);
+    const assetRegex =
+      temp?.release_asset_regex == undefined
+        ? undefined
+        : new RegExp(temp.release_asset_regex);
     // 预发布版可能占满整页，继续翻页查找符合原有筛选条件的版本
     for (let page = 1; ; page++) {
       const pageUrl = `${releasesUrl}?per_page=30&page=${page}`;
@@ -60,6 +65,19 @@ export default async function (
           (!(temp?.allow_pre_release ?? false) &&
             release.prerelease === true) ||
           (tagRegex != undefined && !tagRegex.test(release.tag_name))
+        ) {
+          continue;
+        }
+        // 跳过尚未上传目标附件的版本，保持版本号与下载文件一致
+        if (
+          assetRegex != undefined &&
+          (!Array.isArray(release.assets) ||
+            !release.assets.some(
+              (asset: { name?: unknown } | null) =>
+                asset != null &&
+                typeof asset.name === "string" &&
+                assetRegex.test(asset.name),
+            ))
         ) {
           continue;
         }

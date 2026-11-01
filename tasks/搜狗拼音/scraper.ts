@@ -35,7 +35,7 @@ function selectWindowsInstaller(page: string): string {
 }
 
 function parseSogouVersion(downloadLink: string): string {
-  const matchRes = downloadLink.match(/pinyin_guanwang_(\d+(?:\.\d+)+)/);
+  const matchRes = downloadLink.match(/pinyin_(?:guanwang_)?(\d+(?:\.\d+)+)/);
   if (matchRes == null) {
     throw new Error("Can't match version from url");
   }

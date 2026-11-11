@@ -55,7 +55,18 @@ jobs:
 
       # 安装系统依赖
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y aria2 7zip curl innoextract rclone ca-certificates jq
+        run: |
+          apt_options=(-o Acquire::Retries=1 -o Acquire::http::Timeout=10 -o Acquire::https::Timeout=10)
+          install_dependencies() {
+            sudo timeout --kill-after=5s 75s apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update &&
+              sudo timeout --kill-after=5s 75s apt-get "${apt_options[@]}" install -y aria2 7zip curl innoextract rclone ca-certificates jq
+          }
+          if ! install_dependencies; then
+            echo '::warning::Ubuntu runner mirror failed. Retrying with the Ubuntu archive.'
+            test -f /etc/apt/apt-mirrors.txt
+            printf '%s\n' https://archive.ubuntu.com/ubuntu/ | sudo tee /etc/apt/apt-mirrors.txt > /dev/null
+            install_dependencies
+          fi
 
       # 编译 Linux 原生 PE 版本读取器，避免为 rcedit 引入 Wine 运行时
       - name: Build PE version reader
@@ -159,6 +170,39 @@ jobs:
             echo "::warning::cloud139 session check $attempt/3 failed (exit $status)."
             if (( attempt < 3 )); then sleep "$((attempt * 5))"; fi
           done
+          if (( status != 0 )); then
+            cloud139_host=$(node -e '
+              const config = require("toml").parse(require("node:fs").readFileSync(process.argv[1], "utf8"));
+              if (!config.personal_cloud_host) process.exit();
+              const { protocol, hostname } = new URL(config.personal_cloud_host);
+              if (protocol === "https:" && hostname.endsWith(".yun.139.com")) console.log(hostname);
+            ' "$HOME/.config/cloud139/cloud139rc.toml") || cloud139_host=
+
+            if [[ -n "$cloud139_host" ]]; then
+              echo "host=$cloud139_host" >> "$GITHUB_OUTPUT"
+              # 仅在直连失败时尝试公开 DNS 的备用地址，并先验证原域名的 TLS 证书。
+              addresses=$(curl -fsS --connect-timeout 5 --max-time 10 -G https://dns.alidns.com/resolve \
+                --data-urlencode "name=$cloud139_host" --data-urlencode type=A |
+                jq -r '[.Answer[]? | select(.type == 1) | .data | select(test("^[0-9]+(\\.[0-9]+){3}$"))] | .[:3][]') || addresses=
+              for address in $addresses; do
+                if ! curl --noproxy '*' --silent --show-error --head --output /dev/null \
+                  --connect-timeout 6 --max-time 10 --resolve "$cloud139_host:443:$address" "https://$cloud139_host/"; then
+                  continue
+                fi
+
+                echo "Retrying cloud139 with the verified address $address for $cloud139_host"
+                cp /etc/hosts "$RUNNER_TEMP/cloud139-original-hosts"
+                printf '%s %s\n' "$address" "$cloud139_host" | sudo tee -a /etc/hosts > /dev/null
+                if timeout --kill-after=5s 35s ./cloud139 ls / --page-size 1 > /dev/null; then
+                  status=0
+                  break
+                else
+                  status=$?
+                  sudo cp "$RUNNER_TEMP/cloud139-original-hosts" /etc/hosts
+                fi
+              done
+            fi
+          fi
           if ! sha256sum --check --status "$RUNNER_TEMP/cloud139-config.sha256" ||
             [[ "$VERIFY_CLOUD139_WRITEBACK" == "true" && "$status" == 0 ]]; then
             echo 'writeback=true' >> "$GITHUB_OUTPUT"
@@ -167,14 +211,10 @@ jobs:
 
       - name: Diagnose cloud139 network failure
         if: ${{ !cancelled() && steps.cloud139-check.outcome == 'failure' }}
+        env:
+          CLOUD139_HOST: ${{ steps.cloud139-check.outputs.host }}
         run: |
-          cloud139_host=$(node -e '
-            const config = require("toml").parse(require("node:fs").readFileSync(process.argv[1], "utf8"));
-            if (!config.personal_cloud_host) process.exit();
-            const { protocol, hostname } = new URL(config.personal_cloud_host);
-            if (protocol === "https:" && hostname.endsWith(".yun.139.com")) console.log(hostname);
-          ' "$HOME/.config/cloud139/cloud139rc.toml") || cloud139_host=
-          for host in user-njs.yun.139.com "${cloud139_host:-personal-kd-njs.yun.139.com}"; do
+          for host in user-njs.yun.139.com "${CLOUD139_HOST:-personal-kd-njs.yun.139.com}"; do
             echo "Checking $host"
             timeout 8s getent ahosts "$host" | awk '{print $1}' | sort -u || true
             curl --silent --show-error --head --output /dev/null \

@@ -22,7 +22,7 @@ import {
   setDatabaseNodeSuccess,
   writeDatabase,
 } from "./database";
-import { login, uploadToRemote } from "./cloud139";
+import { uploadToRemote } from "./cloud139";
 import art from "./art";
 import cp from "child_process";
 import { TaskInstance } from "./class";
@@ -48,10 +48,6 @@ async function main(): Promise<boolean> {
         config.DATABASE_PATH,
       ]);
       log("Info:Database pulled");
-      const loginRes = login();
-      if (!loginRes) {
-        return false;
-      }
     } else {
       // 从https获得只读数据库
       cp.execFileSync(where("curl").unwrap(), [

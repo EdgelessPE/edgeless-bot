@@ -6,25 +6,6 @@ import path from "path";
 import { config } from "./config";
 import { where } from "./platform";
 
-function login(): boolean {
-  if (!config.GITHUB_ACTIONS) {
-    return false;
-  }
-  const token = process.env.CLOUD139_TOKEN;
-  if (!token) {
-    log("Error:Can't find CLOUD139_TOKEN environment variable");
-    return false;
-  }
-  try {
-    log("Info:Login to cloud139..");
-    cp.execFileSync(where("cloud139").unwrap(), ["login", "-t", token]);
-  } catch {
-    log("Error:Failed to login to cloud139..");
-    return false;
-  }
-  return true;
-}
-
 function uploadToRemote(fileName: string, category: string): boolean {
   if (config.REMOTE_ENABLE) {
     const localPath = `${config.DIR_BUILDS}/${category}/${fileName}`;
@@ -145,4 +126,4 @@ function deleteFromRemote(
   return true;
 }
 
-export { login, uploadToRemote, deleteFromRemote };
+export { uploadToRemote, deleteFromRemote };

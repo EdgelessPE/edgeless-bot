@@ -29,6 +29,11 @@ on:
         required: false
         default: false
         type: boolean
+      verify_cloud139_writeback:
+        description: Verify cloud139 Secret writeback even when the config has not changed
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: serve-next-production
@@ -37,6 +42,7 @@ concurrency:
 jobs:
   serve:
     runs-on: ubuntu-24.04
+    environment: production
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -90,22 +96,6 @@ jobs:
       - name: Test code
         run: pnpm test
 
-      # 获取私有远程配置
-      - uses: actions/checkout@v6
-        with:
-          repository: Cnotech/rclone
-          token: ${{ secrets.RCLONE_TOKEN }}
-          path: rclone-config
-          persist-credentials: false
-
-      # 部署远程配置
-      - name: Install remote configuration
-        run: |
-          test -f rclone-config/rclone.conf
-          test -f rclone-config/config.json
-          install -D -m 600 rclone-config/rclone.conf "$HOME/.config/rclone/rclone.conf"
-          install -D -m 600 rclone-config/config.json "$HOME/.config/cloud189/config.json"
-
       # 获取并解压 cloud139
       - name: Download and extract cloud139
         uses: robinraju/release-downloader@v1
@@ -116,7 +106,7 @@ jobs:
           out-file-path: ./
           extract: true
 
-      # 检查工具、远程配置与代码
+      # 检查构建工具
       - name: Verify environment
         run: |
           node --version
@@ -129,12 +119,70 @@ jobs:
           read-pe-version node_modules/rcinfo/bin/ShowVer.exe | grep -Fxq '1.0.0.1'
           rclone version
           ./cloud139 --help
+
+      # 部署远程配置，并记录上次持久化的 cloud139 配置校验和
+      - name: Install remote configuration
+        env:
+          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+          CLOUD139_CONFIG: ${{ secrets.CLOUD139_CONFIG }}
+        run: |
+          : "${RCLONE_CONF:?Set RCLONE_CONF in the production environment}"
+          : "${CLOUD139_CONFIG:?Set CLOUD139_CONFIG in the production environment}"
+          if [[ -e ./cloud139rc.toml || -L ./cloud139rc.toml ]]; then
+            echo '::error::A workspace cloud139rc.toml would override the production configuration.'
+            exit 1
+          fi
+
+          umask 077
+          install -d -m 700 "$HOME/.config/rclone" "$HOME/.config/cloud139"
+          rclone_config="$HOME/.config/rclone/rclone.conf"
+          cloud139_config="$HOME/.config/cloud139/cloud139rc.toml"
+          printf '%s' "$RCLONE_CONF" > "$rclone_config"
+          printf '%s' "$CLOUD139_CONFIG" > "$cloud139_config"
+          chmod 600 "$rclone_config" "$cloud139_config"
+          sha256sum "$cloud139_config" > "$RUNNER_TEMP/cloud139-config.sha256"
           rclone listremotes | grep -Fxq "kanuo:"
+
+      # 即使没有新包也检查续期。列表请求失败时，仍保存已续期的配置。
+      - name: Check cloud139 session
+        id: cloud139-check
+        env:
+          VERIFY_CLOUD139_WRITEBACK: ${{ inputs.verify_cloud139_writeback }}
+        run: |
+          status=0
+          ./cloud139 ls / --page-size 1 > /dev/null || status=$?
+          if ! sha256sum --check --status "$RUNNER_TEMP/cloud139-config.sha256" ||
+            [[ "$VERIFY_CLOUD139_WRITEBACK" == "true" && "$status" == 0 ]]; then
+            echo 'writeback=true' >> "$GITHUB_OUTPUT"
+          fi
+          exit "$status"
+
+      - name: Create token for cloud139 writeback before build
+        id: cloud139-prebuild-token
+        if: ${{ !cancelled() && steps.cloud139-check.outputs.writeback == 'true' }}
+        uses: actions/create-github-app-token@v3
+        with: &cloud139-app
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-environments: write
+
+      - name: Save cloud139 configuration before build
+        if: ${{ !cancelled() && steps.cloud139-prebuild-token.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ steps.cloud139-prebuild-token.outputs.token }}
+        run: &save-cloud139-config |
+          cloud139_config="$HOME/.config/cloud139/cloud139rc.toml"
+          if [[ ! -s "$cloud139_config" ]]; then
+            echo '::error::The cloud139 configuration is missing or empty.'
+            exit 1
+          fi
+          gh secret set CLOUD139_CONFIG --repo "$GITHUB_REPOSITORY" --env production < "$cloud139_config"
+          sha256sum "$cloud139_config" > "$RUNNER_TEMP/cloud139-config.sha256"
 
       # 运行构建任务
       - name: Run scripts
+        id: build
         env:
-          CLOUD139_TOKEN: ${{ secrets.CLOUD139_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TASK_INPUT: ${{ inputs.task }}
           FORCE_INPUT: ${{ inputs.force }}
@@ -145,3 +193,24 @@ jobs:
           if [[ "$WEEKLY_INPUT" == "true" ]]; then args+=(-w); fi
           if [[ -n "$TASK_INPUT" ]]; then args+=(-t "$TASK_INPUT"); fi
           pnpm serve "${args[@]}"
+
+      # 构建期间也可能续期，构建失败时仍检查是否需要回写。
+      - name: Check for cloud139 changes after build
+        id: cloud139-postbuild-check
+        if: ${{ !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
+        run: |
+          if ! sha256sum --check --status "$RUNNER_TEMP/cloud139-config.sha256"; then
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create token for cloud139 writeback after build
+        id: cloud139-postbuild-token
+        if: ${{ !cancelled() && steps.cloud139-postbuild-check.outputs.changed == 'true' }}
+        uses: actions/create-github-app-token@v3
+        with: *cloud139-app
+
+      - name: Save cloud139 configuration after build
+        if: ${{ !cancelled() && steps.cloud139-postbuild-token.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ steps.cloud139-postbuild-token.outputs.token }}
+        run: *save-cloud139-config

@@ -29,11 +29,6 @@ on:
         required: false
         default: false
         type: boolean
-      verify_cloud139_writeback:
-        description: Verify cloud139 Secret writeback even when the config has not changed
-        required: false
-        default: false
-        type: boolean
 
 concurrency:
   group: serve-next-production
@@ -161,8 +156,6 @@ jobs:
       # 即使没有新包也检查续期。列表请求失败时，仍保存已续期的配置。
       - name: Check cloud139 session
         id: cloud139-check
-        env:
-          VERIFY_CLOUD139_WRITEBACK: ${{ inputs.verify_cloud139_writeback }}
         run: |
           for attempt in 1 2 3; do
             if timeout --kill-after=5s 35s ./cloud139 ls / --page-size 1 > /dev/null; then
@@ -174,58 +167,10 @@ jobs:
             echo "::warning::cloud139 session check $attempt/3 failed (exit $status)."
             if (( attempt < 3 )); then sleep "$((attempt * 5))"; fi
           done
-          if (( status != 0 )); then
-            cloud139_host=$(node -e '
-              const config = require("toml").parse(require("node:fs").readFileSync(process.argv[1], "utf8"));
-              if (!config.personal_cloud_host) process.exit();
-              const { protocol, hostname } = new URL(config.personal_cloud_host);
-              if (protocol === "https:" && hostname.endsWith(".yun.139.com")) console.log(hostname);
-            ' "$HOME/.config/cloud139/cloud139rc.toml") || cloud139_host=
-
-            if [[ -n "$cloud139_host" ]]; then
-              echo "host=$cloud139_host" >> "$GITHUB_OUTPUT"
-              # 仅在直连失败时尝试公开 DNS 的备用地址，并先验证原域名的 TLS 证书。
-              addresses=$(curl -fsS --connect-timeout 5 --max-time 10 -G https://dns.alidns.com/resolve \
-                --data-urlencode "name=$cloud139_host" --data-urlencode type=A |
-                jq -r '[.Answer[]? | select(.type == 1) | .data | select(test("^[0-9]+(\\.[0-9]+){3}$"))] | .[:3][]') || addresses=
-              for address in $addresses; do
-                if ! curl --noproxy '*' --silent --show-error --head --output /dev/null \
-                  --connect-timeout 6 --max-time 10 --resolve "$cloud139_host:443:$address" "https://$cloud139_host/"; then
-                  continue
-                fi
-
-                echo "Retrying cloud139 with the verified address $address for $cloud139_host"
-                cp /etc/hosts "$RUNNER_TEMP/cloud139-original-hosts"
-                printf '%s %s\n' "$address" "$cloud139_host" | sudo tee -a /etc/hosts > /dev/null
-                if timeout --kill-after=5s 35s ./cloud139 ls / --page-size 1 > /dev/null; then
-                  status=0
-                  break
-                else
-                  status=$?
-                  sudo cp "$RUNNER_TEMP/cloud139-original-hosts" /etc/hosts
-                fi
-              done
-            fi
-          fi
-          if ! sha256sum --check --status "$RUNNER_TEMP/cloud139-config.sha256" ||
-            [[ "$VERIFY_CLOUD139_WRITEBACK" == "true" && "$status" == 0 ]]; then
+          if ! sha256sum --check --status "$RUNNER_TEMP/cloud139-config.sha256"; then
             echo 'writeback=true' >> "$GITHUB_OUTPUT"
           fi
           exit "$status"
-
-      - name: Diagnose cloud139 network failure
-        if: ${{ !cancelled() && steps.cloud139-check.outcome == 'failure' }}
-        env:
-          CLOUD139_HOST: ${{ steps.cloud139-check.outputs.host }}
-        run: |
-          for host in user-njs.yun.139.com "${CLOUD139_HOST:-personal-kd-njs.yun.139.com}"; do
-            echo "Checking $host"
-            timeout 8s getent ahosts "$host" | awk '{print $1}' | sort -u || true
-            curl --silent --show-error --head --output /dev/null \
-              --connect-timeout 6 --max-time 10 \
-              --write-out 'ip=%{remote_ip} http=%{http_code} dns=%{time_namelookup} tcp=%{time_connect} tls=%{time_appconnect}\n' \
-              "https://$host/" || true
-          done
 
       - name: Create token for cloud139 writeback before build
         id: cloud139-prebuild-token

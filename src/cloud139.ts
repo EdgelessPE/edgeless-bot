@@ -4,7 +4,14 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { config } from "./config";
+import { LIGHT_TIMEOUT } from "./const";
 import { where } from "./platform";
+
+const metadataOptions = {
+  timeout: LIGHT_TIMEOUT,
+  killSignal: "SIGKILL",
+} as const;
+const uploadOptions = { ...metadataOptions, timeout: 15 * 60_000 };
 
 function uploadToRemote(fileName: string, category: string): boolean {
   if (config.REMOTE_ENABLE) {
@@ -15,12 +22,14 @@ function uploadToRemote(fileName: string, category: string): boolean {
 
     try {
       log(`Info:Uploading ${fileName}`);
-      deleteFromRemote(fileName, category, true);
-      cp.execFileSync(where("cloud139").unwrap(), [
-        "upload",
-        localPath,
-        remotePath,
-      ]);
+      if (!deleteFromRemote(fileName, category, true)) {
+        return false;
+      }
+      cp.execFileSync(
+        where("cloud139").unwrap(),
+        ["upload", localPath, remotePath],
+        uploadOptions,
+      );
     } catch (err: any) {
       console.log(err?.output?.toString() || err);
       date = new Date();
@@ -65,16 +74,15 @@ function deleteFromRemote(
     );
 
     try {
-      cp.execFileSync(where("cloud139").unwrap(), [
-        "ls",
-        `${config.REMOTE_PATH}/${category}`,
-        "-o",
-        tempJsonFile,
-      ]);
+      cp.execFileSync(
+        where("cloud139").unwrap(),
+        ["ls", `${config.REMOTE_PATH}/${category}`, "-o", tempJsonFile],
+        metadataOptions,
+      );
     } catch (err: any) {
       console.log(err?.output?.toString() || err);
       log(
-        `Error:Remote directory not exist:${config.REMOTE_NAME}:${config.REMOTE_PATH}/${category}`,
+        `Error:Can't list cloud139 directory ${config.REMOTE_PATH}/${category}`,
       );
       return false;
     }
@@ -112,7 +120,11 @@ function deleteFromRemote(
 
     try {
       log(`Info:Removing ${remotePath}`);
-      cp.execFileSync(where("cloud139").unwrap(), ["rm", remotePath, "--yes"]);
+      cp.execFileSync(
+        where("cloud139").unwrap(),
+        ["rm", remotePath, "--yes"],
+        metadataOptions,
+      );
     } catch (err: any) {
       console.log(err?.output?.toString() || err);
       return false;

@@ -30,7 +30,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}/DrvCeo.exe"]
 [scraper_temp]
 # 官网已移除完整安装包直链；PC9 同步页的本地下载仍提供完整 Inno 安装包。
 # 只匹配完整包 CDN，避免选中“安全下载”的 360 下载器或网盘链接。
-download_page_url = "https://api.sysceo.net/pc/info-479.html"
+download_page_url = "https://soft.pc9.com/pc/info-479.html"
 download_selector = 'a.dl_add_btn[href^="https://cdn-download.soft.360.cn/softmanager-installation/"][href$=".exe"]'
 version_selector = "body > div.main > div.contentFrame > div.toolInfo.fl > div > div > div.msg.fl.cl > ol > li:nth-child(2)"
 

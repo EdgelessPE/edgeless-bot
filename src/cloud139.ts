@@ -11,7 +11,7 @@ const metadataOptions = {
   timeout: LIGHT_TIMEOUT,
   killSignal: "SIGKILL",
 } as const;
-const uploadOptions = { ...metadataOptions, timeout: 15 * 60_000 };
+const uploadOptions = { ...metadataOptions, timeout: 30 * 60_000 };
 
 function uploadToRemote(fileName: string, category: string): boolean {
   if (config.REMOTE_ENABLE) {

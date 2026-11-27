@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import { Err, Ok } from "ts-results";
+import toml from "toml";
 import scrape from "./GitHub_Release";
 import resolve from "../resolvers/GitHub_Release";
 
@@ -168,4 +170,31 @@ test("reports no matching release when the target asset is unavailable", async (
   );
   assert.equal(result.err, true);
   assert.match(String(result.val), /Can't find matched GitHub release tag/);
+});
+
+test("YesPlayMusic resolves the v3 Windows x64 portable archive instead of an installer", async () => {
+  const task = toml.parse(
+    readFileSync("tasks/YesPlayMusic/config.toml", "utf8"),
+  );
+  const portable = "YesPlayMusic-3.0.0-windows-x64-portable.zip";
+  const assets = [
+    "YesPlayMusic-3.0.0-windows-x64-setup.exe",
+    "YesPlayMusic-3.0.0-windows-arm64-portable.zip",
+    `${portable}.sha256`,
+    portable,
+  ].map((name) => ({
+    name,
+    browser_download_url: `https://example.com/${name}`,
+  }));
+
+  const result = await resolve(
+    {
+      downloadLink: "https://example.com/releases/v3.0.0",
+      fileMatchRegex: task.regex.download_name,
+    },
+    async () => new Ok({ tag_name: "v3.0.0", assets }),
+  );
+  assert.equal(result.unwrap().directLink, `https://example.com/${portable}`);
+  assert.deepEqual(task.producer_required.recursiveUnzipList, []);
+  assert.equal(task.producer_required.sourceFile, "YesPlayMusic.exe");
 });

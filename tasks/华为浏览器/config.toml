@@ -8,15 +8,13 @@ url = "https://consumer.huawei.com/cn/mobileservices/browser/"
 
 # 指定使用的模板
 [template]
-scraper = "Global_Page_Match"
+scraper = "External"
 # resolver = ""
 producer = "Recursive_Unzip"
 
 # 使用到的正则
 [regex]
-download_link = '[\/\w-]+HuaweiBrowser-[\.\w]+-signed\.exe'
 download_name = '\.exe'
-scraper_version = 'HuaweiBrowser-[\.\w]+-signed\.exe'
 
 # 通用参数
 [parameter]

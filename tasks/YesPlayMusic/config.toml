@@ -15,7 +15,7 @@ producer = "Recursive_Unzip"
 # 使用到的正则
 [regex]
 # download_link = ''
-download_name = 'Setup.*\.exe$'
+download_name = '^YesPlayMusic-[0-9]+(?:\.[0-9]+)+-windows-x64-portable\.zip$'
 # scraper_version = ''
 
 # 通用参数
@@ -33,7 +33,7 @@ build_manifest = ["${taskName}.wcs", "${taskName}/YesPlayMusic.exe"]
 [producer_required]
 shortcutName = "YesPlayMusic"
 sourceFile = "YesPlayMusic.exe"
-recursiveUnzipList = ["$PLUGINSDIR", "app-64.7z"]
+recursiveUnzipList = []
 
 
 # 额外备注
